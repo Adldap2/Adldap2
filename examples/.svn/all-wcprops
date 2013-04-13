@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svnroot/adldap/!svn/ver/147/trunk/examples
+END
+userCollection.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/adldap/!svn/ver/115/trunk/examples/userCollection.php
+END
+authenticate.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/adldap/!svn/ver/115/trunk/examples/authenticate.php
+END
+examples.php
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/adldap/!svn/ver/147/trunk/examples/examples.php
+END
+menu.php
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/adldap/!svn/ver/115/trunk/examples/menu.php
+END
+groupCollection.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/adldap/!svn/ver/115/trunk/examples/groupCollection.php
+END

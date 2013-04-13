@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/adldap/!svn/ver/176/trunk/src/classes
+END
+adLDAPContacts.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/adldap/!svn/ver/160/trunk/src/classes/adLDAPContacts.php
+END
+adLDAPFolders.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/adldap/!svn/ver/164/trunk/src/classes/adLDAPFolders.php
+END
+adLDAPGroups.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/adldap/!svn/ver/176/trunk/src/classes/adLDAPGroups.php
+END
+adLDAPUtils.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/adldap/!svn/ver/153/trunk/src/classes/adLDAPUtils.php
+END
+adLDAPComputers.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/adldap/!svn/ver/153/trunk/src/classes/adLDAPComputers.php
+END
+adLDAPUsers.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/adldap/!svn/ver/167/trunk/src/classes/adLDAPUsers.php
+END
+adLDAPExchange.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/adldap/!svn/ver/171/trunk/src/classes/adLDAPExchange.php
+END

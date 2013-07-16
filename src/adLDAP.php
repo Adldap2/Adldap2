@@ -204,6 +204,15 @@ class adLDAP {
     public function getBaseDn() {
         return $this->baseDn;   
     }
+
+    /**
+    * Set the current base DN
+    *
+    * @param string $baseDn
+    */
+    public function setBaseDn($baseDn) {
+        $this->baseDn = $baseDn;
+    }
     
     /**
     * The group class

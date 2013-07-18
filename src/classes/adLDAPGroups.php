@@ -528,7 +528,24 @@ class adLDAPGroups {
         }
         return $groupsArray;
     }
-    
+
+    /**
+    * Obtain the group's distinguished name based on their groupid
+    *
+    *
+    * @param string $groupname The groupname
+    * @return string
+    */
+    public function dn($groupname)
+    {
+        $group = $this->info($groupname, array("cn"));
+        if ($group[0]["dn"] === NULL) {
+            return false;
+        }
+        $groupDn = $group[0]["dn"];
+        return $groupDn;
+    }
+
     /**
     * Returns a complete list of all groups in AD
     * 

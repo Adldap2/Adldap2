@@ -736,6 +736,40 @@ class adLDAP {
     }
     
     /**
+    * Return a list of all found objects in AD
+    * $search has to match either cn, displayname or samaccountname
+    *
+    * @param bool $includeDescription Return a description of the user
+    * @param string $search Search parameter
+    * @param bool $sorted Sort the user accounts
+    * @return array
+    */
+    public function search($includeDescription = false, $search = "*", $sorted = true)    {
+        if (!$this->adldap->getLdapBind()) { return false; }
+        
+        // Perform the search and grab all their details
+        $filter = "(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . "))";
+        $fields = array("samaccountname","displayname","description");
+        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+
+        $objectArray = array();
+        for ($i=0; $i<$entries["count"]; $i++){
+            if ($includeDescription && strlen($entries[$i]["description"][0])>0){
+                $objectArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["description"][0];
+            } elseif ($includeDescription){
+                $objectArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["displayname"][0];
+            } else {
+                array_push($objectArray, $entries[$i]["samaccountname"][0]);
+            }
+        }
+        if ($sorted) {
+            asort($objectArray);
+        }
+        return $objectArray;
+    }
+    
+    /**
     * Find the Base DN of your domain controller
     * 
     * @return string

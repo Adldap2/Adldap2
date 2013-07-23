@@ -202,23 +202,6 @@ class adLDAPContacts {
     }          
 
     /**
-    * Determine if a contact is a group
-    *
-    * @param string $distinguisedName The full DN of a contact
-    * @return bool
-    */
-    public function isGroup($distinguisedName)
-    {
-        if ($distinguisedName === NULL) { return false; }
-        if (!$this->adldap->getLdapBind()) { return false; }
-
-        // Get a list of the groups
-        if (isset($this->infoCollection("$distinguisedName", array('grouptype'))->grouptype)) { return true; }
-        else { return false; }
-
-    }
-
-    /**
     * Modify a contact
     * 
     * @param string $distinguishedName The contact to query

@@ -737,7 +737,7 @@ class adLDAP {
 
     /**
     * Return a list of all found objects (except computer) in AD
-    * $search has to match either cn, displayname or samaccountname
+    * $search has to match either cn, displayname, samaccountname or sn
     *
     * @param bool $includeDescription Return a description,cn, displayname and distinguishedname of the user
     * @param string $search Search parameter
@@ -749,7 +749,7 @@ class adLDAP {
 
         // Perform the search and grab all their details
         //$filter = "(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . "))";
-        $filter = "(&(!(objectClass=computer))(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . ")))";
+        $filter = "(&(!(objectClass=computer))(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . ")(sn=" . $search . ")))";
         $fields = array("cn","description","displayname","distinguishedname","samaccountname");
         $sr = ldap_search($this->getLdapConnection(), $this->getBaseDn(), $filter, $fields);
         $entries = ldap_get_entries($this->getLdapConnection(), $sr);

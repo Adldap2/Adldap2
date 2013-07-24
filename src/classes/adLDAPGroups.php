@@ -427,6 +427,12 @@ class adLDAPGroups {
         $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
         $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
 
+        // 1500 entries limit. With PHP 5.4 it would be possible to show all results with ldap_control_paged_result
+        // Copy the first 1500 results to member
+        if ($entries[0]['member;range=0-1499']['count'] == 1500) {
+            $entries[0]['member'] = $entries[0]['member;range=0-1499'];
+        }
+
         return $entries;
     }
     

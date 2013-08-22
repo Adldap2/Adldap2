@@ -427,10 +427,25 @@ class adLDAPGroups {
         $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
         $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
 
-        // 1500 entries limit. With PHP 5.4 it would be possible to show all results with ldap_control_paged_result
-        // Copy the first 1500 results to member
+        // Windows 2003: Returns up to 1500 values (Windows 2000 only 1000 is not supported).
         if ($entries[0]['member;range=0-1499']['count'] == 1500) {
-            $entries[0]['member'] = $entries[0]['member;range=0-1499'];
+            $entries[0]['member']['count'] = "0";
+            $rangestep = 1499;     // Step size
+            $rangelow  = 0;        // Initial low range
+            $rangehigh = $rangelow + $rangestep;     // Initial high range
+            // do until array_keys($members[0])[0] ends with a '*', e. g. member;range=1499-*. It indicates end of the range
+            do {
+                $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, array("member;range=" . $rangelow . "-" . $rangehigh));
+                $members = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+                $membercount = $members[0][array_keys($members[0])[0]]['count'];
+                // Copy range entries to member
+                for ($i = 0; $i <= $membercount -1; $i++) {
+                    $entries[0]['member'][] = $members[0][array_keys($members[0])[0]][$i];
+                }
+                $entries[0]['member']['count'] += $membercount;
+                $rangelow  += $rangestep +1;
+                $rangehigh += $rangestep +1;
+            } while (substr(array_keys($members[0])[0], -1) != '*');
         }
 
         return $entries;

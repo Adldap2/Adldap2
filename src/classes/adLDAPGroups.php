@@ -427,6 +427,29 @@ class adLDAPGroups {
         $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
         $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
 
+        // Windows 2003: Returns up to 1500 values (Windows 2000 only 1000 is not supported).
+        if ($entries[0]['member;range=0-1499']['count'] == 1500) {
+            $entries[0]['member']['count'] = "0";
+            $rangestep = 1499;     // Step site
+            $rangelow  = 0;        // Initial low range
+            $rangehigh = $rangelow + $rangestep;     // Initial high range
+            // do until array_keys($members[0])[0] ends with a '*', e. g. member;range=1499-*. It indicates end of the range
+            do {
+                $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, array("member;range=" . $rangelow . "-" . $rangehigh));
+                $members = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+                $memberrange = array_keys($members[0]);
+                $membercount = $members[0][$memberrange[0]]['count'];
+                // Copy range entries to member
+                for ($i = 0; $i <= $membercount -1; $i++) {
+                    $entries[0]['member'][] = $members[0][$memberrange[0]][$i];
+                }
+                $entries[0]['member']['count'] += $membercount;
+                $rangelow  += $rangestep +1;
+                $rangehigh += $rangestep +1;
+            } while (substr($memberrange[0], -1) != '*');
+        }
+
+
         return $entries;
     }
     
@@ -528,7 +551,24 @@ class adLDAPGroups {
         }
         return $groupsArray;
     }
-    
+
+    /**
+    * Obtain the group's distinguished name based on their groupid
+    *
+    *
+    * @param string $groupname The groupname
+    * @return string
+    */
+    public function dn($groupname)
+    {
+        $group = $this->info($groupname, array("cn"));
+        if ($group[0]["dn"] === NULL) {
+            return false;
+        }
+        $groupDn = $group[0]["dn"];
+        return $groupDn;
+    }
+
     /**
     * Returns a complete list of all groups in AD
     * 

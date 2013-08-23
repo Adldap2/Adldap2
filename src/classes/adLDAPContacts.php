@@ -133,7 +133,7 @@ class adLDAPContacts {
         if ($distinguishedName === NULL) { return false; }
         if (!$this->adldap->getLdapBind()) { return false; }
 
-        $filter = "distinguishedName=" . $distinguishedName;
+        $filter = "distinguishedName=" . $this->adldap->utilities()->ldapSlashes($distinguishedName);
         if ($fields === NULL) { 
             $fields = array("distinguishedname", "mail", "memberof", "department", "displayname", "telephonenumber", "primarygroupid", "objectsid"); 
         }
@@ -200,7 +200,7 @@ class adLDAPContacts {
 
         return false;
     }          
-    
+
     /**
     * Modify a contact
     * 

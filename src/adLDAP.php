@@ -204,6 +204,15 @@ class adLDAP {
     public function getBaseDn() {
         return $this->baseDn;   
     }
+
+    /**
+    * Set the current base DN
+    *
+    * @param string $baseDn
+    */
+    public function setBaseDn($baseDn) {
+        $this->baseDn = $baseDn;
+    }
     
     /**
     * The group class
@@ -725,7 +734,68 @@ class adLDAP {
         
         return $ret;
     }
-    
+
+    /**
+    * Return a list of all found objects (except computer) in AD
+    * $search has to match either cn, displayname, samaccountname or sn
+    *
+    * @param bool $includeDescription Return a description,cn, displayname and distinguishedname of the user
+    * @param string $search Search parameter
+    * @param bool $sorted Sort the user accounts
+    * @return array, if $includeDescription=true then a multi-dimensional array
+    */
+    public function search($includeDescription = false, $search = "*", $sorted = true) {
+        if (!$this->getLdapBind()) { return false; }
+
+        // Perform the search and grab all their details
+        //$filter = "(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . "))";
+        $filter = "(&(!(objectClass=computer))(|(anr=" . $search . ")))";
+        $fields = array("cn","description","displayname","distinguishedname","samaccountname");
+        $sr = ldap_search($this->getLdapConnection(), $this->getBaseDn(), $filter, $fields);
+        $entries = ldap_get_entries($this->getLdapConnection(), $sr);
+
+        $objectArray = array();
+        for ($i=0; $i<$entries["count"]; $i++){
+            if ($includeDescription && strlen($entries[$i]["description"][0])>0){
+                $objectArray[$entries[$i]["samaccountname"][0]] = array($entries[$i]["cn"][0],$entries[$i]["description"][0],$entries[$i]["displayname"][0],$entries[$i]["distinguishedname"][0]);
+            } elseif ($includeDescription){
+                // description is set to displayname if no description is present
+                $objectArray[$entries[$i]["samaccountname"][0]] = array($entries[$i]["cn"][0],$entries[$i]["displayname"][0],$entries[$i]["displayname"][0],$entries[$i]["distinguishedname"][0]);
+            } else {
+                array_push($objectArray, $entries[$i]["samaccountname"][0]);
+            }
+        }
+        if ($sorted) {
+            asort($objectArray);
+        }
+        return $objectArray;
+    }
+
+    /**
+    * Returns objectClass in an array
+    *
+    * @param string $distinguisedName The full DN of a contact
+    * @return array
+    */
+    public function getObjectClass($distinguishedName)
+    {
+        if ($distinguishedName === NULL) { return false; }
+        if (!$this->getLdapBind()) { return false; }
+
+        $filter = "distinguishedName=" . $this->utilities()->ldapSlashes($distinguishedName);
+
+        $fields = array("objectclass");
+        $sr = ldap_search($this->getLdapConnection(), $this->getBaseDn(), $filter, $fields);
+        $entries = ldap_get_entries($this->getLdapConnection(), $sr);
+
+        $objects = array();
+        for ($i=0; $i<$entries[0]["objectclass"]["count"]; $i++){
+            array_push($objects, $entries[0]["objectclass"][$i]);
+        }
+        return $objects;
+
+    }
+
     /**
     * Find the Base DN of your domain controller
     * 

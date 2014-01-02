@@ -64,9 +64,8 @@ class adLDAPExchange {
     * @param bool $isGUID Is the username passed a GUID or a samAccountName
     * @return bool
     */
-    public function createMailbox($username, $storageGroup, $emailAddress, $mailNickname=NULL, $useDefaults=TRUE, $baseDn=NULL, $isGUID=false)
-    {
-        if ($username === NULL){ return "Missing compulsory field [username]"; }     
+    public function createMailbox($username, $storageGroup, $emailAddress, $mailNickname=NULL, $useDefaults=TRUE, $baseDn=NULL, $isGUID=false) {
+        if ($username === NULL){  return "Missing compulsory field [username]"; }     
         if ($storageGroup === NULL) { return "Missing compulsory array [storagegroup]"; }
         if (!is_array($storageGroup)) { return "[storagegroup] must be an array"; }
         if ($emailAddress === NULL) { return "Missing compulsory field [emailAddress]"; }
@@ -110,9 +109,8 @@ class adLDAPExchange {
     * @param bool $isGUID Is the username passed a GUID or a samAccountName
     * @return bool
     */
-    public function addX400($username, $country, $admd, $pdmd, $org, $surname, $givenName, $isGUID=false) 
-    {
-        if ($username === NULL){ return "Missing compulsory field [username]"; }     
+    public function addX400($username, $country, $admd, $pdmd, $org, $surname, $givenName, $isGUID=false) {
+        if ($username === NULL) { return "Missing compulsory field [username]"; }     
         
         $proxyValue = 'X400:';
             
@@ -136,7 +134,6 @@ class adLDAPExchange {
         if ($result == false) { 
             return false; 
         }
-        
         return true;
     }
     
@@ -149,8 +146,7 @@ class adLDAPExchange {
     * @param bool $isGUID Is the username passed a GUID or a samAccountName
     * @return bool
     */
-    public function addAddress($username, $emailAddress, $default = FALSE, $isGUID = false) 
-    {
+    public function addAddress($username, $emailAddress, $default = FALSE, $isGUID = false) {
         if ($username === NULL) { return "Missing compulsory field [username]"; }     
         if ($emailAddress === NULL) { return "Missing compulsory fields [emailAddress]"; }
         
@@ -181,7 +177,6 @@ class adLDAPExchange {
             if ($result == false) { 
                 return false; 
             }
-            
             return true;
         }
         else {
@@ -202,7 +197,6 @@ class adLDAPExchange {
             if ($result == false) { 
                 return false; 
             }
-            
             return true;
         }
     }
@@ -217,8 +211,7 @@ class adLDAPExchange {
     * @param bool $isGUID Is the username passed a GUID or a samAccountName
     * @return bool
     */
-    public function deleteAddress($username, $emailAddress, $isGUID=false) 
-    {
+    public function deleteAddress($username, $emailAddress, $isGUID=false) {
         if ($username === NULL) { return "Missing compulsory field [username]"; }     
         if ($emailAddress === NULL) { return "Missing compulsory fields [emailAddress]"; }
         
@@ -241,8 +234,7 @@ class adLDAPExchange {
             $result = @ldap_mod_del($this->adldap->getLdapConnection(), $userDn,$mod);
             if ($result == false) { 
                 return false; 
-            }
-            
+            }     
             return true;
         }
         else {
@@ -257,14 +249,13 @@ class adLDAPExchange {
     * @param bool $isGUID Is the username passed a GUID or a samAccountName
     * @return bool
     */
-    public function primaryAddress($username, $emailAddress, $isGUID = false) 
-    {
+    public function primaryAddress($username, $emailAddress, $isGUID = false) {
         if ($username === NULL) { return "Missing compulsory field [username]"; }     
         if ($emailAddress === NULL) { return "Missing compulsory fields [emailAddress]"; }
         
         // Find the dn of the user
         $user = $this->adldap->user()->info($username, array("cn","proxyaddresses"), $isGUID);
-        if ($user[0]["dn"] === NULL){ return false; }
+        if ($user[0]["dn"] === NULL) { return false; }
         $userDn = $user[0]["dn"];
         
         if (is_array($user[0]["proxyaddresses"])) {
@@ -285,10 +276,8 @@ class adLDAPExchange {
             if ($result == false) { 
                 return false; 
             }
-            
             return true;
         }
-        
     }
     
     /**
@@ -300,8 +289,7 @@ class adLDAPExchange {
     * @param string $mailNickname The mailnickname for the contact in Exchange.  If NULL this will be set to the display name
     * @return bool
     */
-    public function contactMailEnable($distinguishedName, $emailAddress, $mailNickname = NULL)
-    {
+    public function contactMailEnable($distinguishedName, $emailAddress, $mailNickname = NULL) {
         if ($distinguishedName === NULL) { return "Missing compulsory field [distinguishedName]"; }   
         if ($emailAddress === NULL) { return "Missing compulsory field [emailAddress]"; }  
         
@@ -323,7 +311,7 @@ class adLDAPExchange {
         // Do the update
         $result = ldap_modify($this->adldap->getLdapConnection(), $distinguishedName, $mod);
         if ($result == false) { return false; }
-        
+ 
         return true;
     }
     
@@ -333,9 +321,8 @@ class adLDAPExchange {
     * @param array $attributes An array of the AD attributes you wish to return
     * @return array
     */
-    public function servers($attributes = array('cn','distinguishedname','serialnumber')) 
-    {
-        if (!$this->adldap->getLdapBind()){ return false; }
+    public function servers($attributes = array('cn','distinguishedname','serialnumber')) {
+        if (!$this->adldap->getLdapBind()) { return false; }
         
         $configurationNamingContext = $this->adldap->getRootDse(array('configurationnamingcontext'));
         $sr = @ldap_search($this->adldap->getLdapConnection(), $configurationNamingContext[0]['configurationnamingcontext'][0],'(&(objectCategory=msExchExchangeServer))', $attributes);
@@ -351,9 +338,8 @@ class adLDAPExchange {
     * @param bool $recursive If enabled this will automatically query the databases within a storage group
     * @return array
     */
-    public function storageGroups($exchangeServer, $attributes = array('cn','distinguishedname'), $recursive = NULL) 
-    {
-        if (!$this->adldap->getLdapBind()){ return false; }
+    public function storageGroups($exchangeServer, $attributes = array('cn','distinguishedname'), $recursive = NULL) {
+        if (!$this->adldap->getLdapBind()) { return false; }
         if ($exchangeServer === NULL) { return "Missing compulsory field [exchangeServer]"; }
         if ($recursive === NULL) { $recursive = $this->adldap->getRecursiveGroups(); }
 
@@ -366,7 +352,6 @@ class adLDAPExchange {
                 $entries[$i]['msexchprivatemdb'] = $this->storageDatabases($entries[$i]['distinguishedname'][0]);       
             }
         }
-        
         return $entries;
     }
     
@@ -378,7 +363,7 @@ class adLDAPExchange {
     * @return array
     */
     public function storageDatabases($storageGroup, $attributes = array('cn','distinguishedname','displayname')) {
-        if (!$this->adldap->getLdapBind()){ return false; }
+        if (!$this->adldap->getLdapBind()) { return false; }
         if ($storageGroup === NULL) { return "Missing compulsory field [storageGroup]"; }
         
         $filter = '(&(objectCategory=msExchPrivateMDB))';

@@ -58,8 +58,7 @@ abstract class adLDAPCollection
     */
     protected $info;
     
-    public function __construct($info, adLDAP $adldap) 
-    {
+    public function __construct($info, adLDAP $adldap) {
         $this->setInfo($info);   
         $this->adldap = $adldap;
     }
@@ -69,8 +68,7 @@ abstract class adLDAPCollection
     * 
     * @param array $info
     */
-    public function setInfo(array $info) 
-    {
+    public function setInfo(array $info) {
         if ($this->info && sizeof($info) >= 1) {
             unset($this->info);
         }
@@ -83,8 +81,7 @@ abstract class adLDAPCollection
     * @param string $attribute
     * @return mixed
     */
-    public function __get($attribute)
-    {
+    public function __get($attribute) {
         if (isset($this->info[0]) && is_array($this->info[0])) {
             foreach ($this->info[0] as $keyAttr => $valueAttr) {
                 if (strtolower($keyAttr) == strtolower($attribute)) {

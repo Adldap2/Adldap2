@@ -1,7 +1,7 @@
 {
 	"name": "adldap/adldap",
 	"type": "library",
-	"description": "adLDAP, low-level library to query Active directory",
+	"description": "adLDAP, PHP LDAP library for manipulating Active Directory",
 	"keywords": [
 		"active directory",
 		"ldap",

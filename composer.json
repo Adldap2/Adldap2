@@ -1,15 +1,15 @@
 {
-	name: "adldap/adldap",
-	type: "library",
-	description: "adLDAP, low-level library to query Active directory",
-	keywords: [
+	"name": "adldap/adldap",
+	"type": "library",
+	"description": "adLDAP, low-level library to query Active directory",
+	"keywords": [
 		"active directory",
 		"ldap",
 		"windows"
 	],
-	homepage: "http://adldap.sourceforge.net",
-	license: "LGPL-2.1",
-	authors: [
+	"homepage": "http://adldap.sourceforge.net",
+	"license": "LGPL-2.1",
+	"authors": [
 		{
 			name: "Richard Hyland",
 			"email": "adldap@richardhyland.com",
@@ -21,13 +21,13 @@
             "role": "Developer"
 		}
 	],
-	require: {
+	"require": {
 		php: ">=5.3.0"
 	},
-	suggest: {
+	"suggest": {
 		ext-ldap: "*"
 	},
-	autoload: {
+	"autoload": {
 		psr-0: {
 			adLDAP: "lib/"
 		}

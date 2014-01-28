@@ -11,12 +11,12 @@
 	"license": "LGPL-2.1",
 	"authors": [
 		{
-			name: "Richard Hyland",
+			"name": "Richard Hyland",
 			"email": "adldap@richardhyland.com",
             "role": "Developer"
 		},
 		{
-			name: "Scott Barnett",
+			"name": "Scott Barnett",
 			"email": "scott@wiggumworld.com",
             "role": "Developer"
 		}

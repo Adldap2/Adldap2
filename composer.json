@@ -22,14 +22,14 @@
 		}
 	],
 	"require": {
-		php: ">=5.3.0"
+		"php": ">=5.3.0"
 	},
 	"suggest": {
-		ext-ldap: "*"
+		"ext-ldap": "*"
 	},
 	"autoload": {
-		psr-0: {
-			adLDAP: "lib/"
+		"psr-0": {
+			"adLDAP": "lib/"
 		}
 	}
 }

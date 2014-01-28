@@ -60,8 +60,7 @@ class adLDAPComputers {
     * @param array $fields Attributes to return
     * @return array
     */
-    public function info($computerName, $fields = NULL)
-    {
+    public function info($computerName, $fields = NULL) {
         if ($computerName === NULL) { return false; }
         if (!$this->adldap->getLdapBind()) { return false; }
 
@@ -82,8 +81,7 @@ class adLDAPComputers {
     * @param array $fields Array of parameters to query
     * @return mixed
     */
-    public function infoCollection($computerName, $fields = NULL)
-    {
+    public function infoCollection($computerName, $fields = NULL) {
         if ($computerName === NULL) { return false; }
         if (!$this->adldap->getLdapBind()) { return false; }
         
@@ -104,8 +102,7 @@ class adLDAPComputers {
     * @param bool $recursive Whether to check recursively
     * @return array
     */
-    public function inGroup($computerName, $group, $recursive = NULL)
-    {
+    public function inGroup($computerName, $group, $recursive = NULL) {
         if ($computerName === NULL) { return false; }
         if ($group === NULL) { return false; }
         if (!$this->adldap->getLdapBind()) { return false; }
@@ -115,10 +112,9 @@ class adLDAPComputers {
         $groups = $this->groups($computerName, array("memberof"), $recursive);
 
         //return true if the specified group is in the group list
-        if (in_array($group, $groups)){ 
+        if (in_array($group, $groups)) { 
             return true; 
         }
-
         return false;
     }
     
@@ -129,8 +125,7 @@ class adLDAPComputers {
     * @param bool $recursive Whether to check recursively
     * @return array
     */
-    public function groups($computerName, $recursive = NULL)
-    {
+    public function groups($computerName, $recursive = NULL) {
         if ($computerName === NULL) { return false; }
         if ($recursive === NULL) { $recursive = $this->adldap->getRecursiveGroups(); } //use the default option if they haven't set it
         if (!$this->adldap->getLdapBind()){ return false; }
@@ -145,9 +140,7 @@ class adLDAPComputers {
               $groups = array_merge($groups, $extraGroups);
             }
         }
-
         return $groups;
     }
-    
 }
 ?>

@@ -58,7 +58,7 @@ class adLDAPFolders {
     * @param string $dn The distinguished name to delete
     * @return bool
     */
-    public function delete($dn){ 
+    public function delete($dn) { 
         $result = ldap_delete($this->adldap->getLdapConnection(), $dn);
         if ($result != true) { 
             return false; 
@@ -78,8 +78,7 @@ class adLDAPFolders {
     * @param bool $type Specify a type of object to search for
     * @return array
     */
-    public function listing($folderName = NULL, $dnType = adLDAP::ADLDAP_FOLDER, $recursive = NULL, $type = NULL) 
-    {
+    public function listing($folderName = NULL, $dnType = adLDAP::ADLDAP_FOLDER, $recursive = NULL, $type = NULL) {
         if ($recursive === NULL) { $recursive = $this->adldap->getRecursiveGroups(); } //use the default option if they haven't set it
         if (!$this->adldap->getLdapBind()) { return false; }
 
@@ -138,7 +137,6 @@ class adLDAPFolders {
                 return $entries;
             }
         }
-        
         return false;
     }
 
@@ -148,9 +146,8 @@ class adLDAPFolders {
     * @param array $attributes Default attributes of the ou
     * @return bool
     */
-    public function create($attributes)
-    {
-        if (!is_array($attributes)){ return "Attributes must be an array"; }
+    public function create($attributes) {
+        if (!is_array($attributes)) { return "Attributes must be an array"; }
         if (!is_array($attributes["container"])) { return "Container attribute must be an array."; }
         if (!array_key_exists("ou_name",$attributes)) { return "Missing compulsory field [ou_name]"; }
         if (!array_key_exists("container",$attributes)) { return "Missing compulsory field [container]"; }
@@ -170,10 +167,8 @@ class adLDAPFolders {
         if ($result != true) { 
             return false; 
         }
-        
         return true;
     }
-    
 }
 
 ?>

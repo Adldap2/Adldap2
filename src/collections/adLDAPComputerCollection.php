@@ -38,8 +38,7 @@
 class adLDAPComputerCollection extends adLDAPCollection 
 {
     
-    public function __set($attribute, $value)
-    {
+    public function __set($attribute, $value) {
 
     }
 }

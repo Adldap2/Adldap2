@@ -9,16 +9,20 @@
 	],
 	"homepage": "http://adldap.sourceforge.net",
 	"license": "LGPL-2.1",
+	"support": {
+		"issues": "https://github.com/Rich2k/adLDAP/issues",
+		"source": "https://github.com/Rich2k/adLDAP"
+	},
 	"authors": [
 		{
 			"name": "Richard Hyland",
 			"email": "adldap@richardhyland.com",
-            "role": "Developer"
+			"role": "Developer"
 		},
 		{
 			"name": "Scott Barnett",
 			"email": "scott@wiggumworld.com",
-            "role": "Developer"
+			"role": "Developer"
 		}
 	],
 	"require": {
@@ -29,7 +33,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"adLDAP": "lib/"
+			"": "src/"
 		}
 	}
 }

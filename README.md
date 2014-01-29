@@ -3,7 +3,7 @@
 
 Written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com
-https://github.com/Rich2k/adLDAP/
+https://github.com/adldap/adLDAP/
 
 ## ABOUT
 
@@ -52,9 +52,9 @@ or
 
 ## DOCUMENTATION
 
-You can find our website at https://github.com/Rich2k/adLDAP/ or the class documentation at
+You can find our website at https://github.com/adldap/adLDAP/ or the class documentation at
 
-https://github.com/Rich2k/adLDAP/wiki/adLDAP-Developer-API-Reference
+https://github.com/adldap/adLDAP/wiki/adLDAP-Developer-API-Reference
 
 ## LICENSE
 

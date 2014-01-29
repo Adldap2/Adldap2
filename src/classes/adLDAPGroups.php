@@ -420,7 +420,7 @@ class adLDAPGroups {
         $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
 
         // Windows 2003: Returns up to 1500 values (Windows 2000 only 1000 is not supported).
-        if ($entries[0]['member;range=0-1499']['count'] == 1500) {
+        if (isset($entries[0]['member;range=0-1499']) && $entries[0]['member;range=0-1499']['count'] == 1500) {
             $entries[0]['member']['count'] = "0";
             $rangestep = 1499;     // Step site
             $rangelow  = 0;        // Initial low range

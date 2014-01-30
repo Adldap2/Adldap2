@@ -1,15 +1,17 @@
 <?php
+namespace adLDAP\classes;
+use adLDAP\adLDAP;
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY 
- * Version 4.0.4
+ * Version 5.0.0
  * 
  * PHP Version 5 with SSL and LDAP support
  * 
  * Written by Scott Barnett, Richard Hyland
  *   email: scott@wiggumworld.com, adldap@richardhyland.com
- *   http://adldap.sourceforge.net/
+ *   http://github.com/adldap/adLDAP
  * 
- * Copyright (c) 2006-2012 Scott Barnett, Richard Hyland
+ * Copyright (c) 2006-2014 Scott Barnett, Richard Hyland
  * 
  * We'd appreciate any improvements or additions to be submitted back
  * to benefit the entire community :)
@@ -26,13 +28,12 @@
  * 
  * @category ToolsAndUtilities
  * @package adLDAP
- * @subpackage User
+ * @subpackage Users
  * @author Scott Barnett, Richard Hyland
- * @copyright (c) 2006-2012 Scott Barnett, Richard Hyland
+ * @copyright (c) 2006-2014 Scott Barnett, Richard Hyland
  * @license http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html LGPLv2.1
- * @revision $Revision: 97 $
- * @version 4.0.4
- * @link http://adldap.sourceforge.net/
+ * @version 5.0.0
+ * @link http://github.com/adldap/adLDAP
  */
 require_once(dirname(__FILE__) . '/../adLDAP.php');
 require_once(dirname(__FILE__) . '/../collections/adLDAPUserCollection.php');
@@ -82,7 +83,7 @@ class adLDAPUsers {
         if (!is_array($attributes["container"])) { return "Container attribute must be an array."; }
 
         if (array_key_exists("password",$attributes) && (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS())) { 
-            throw new adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
+            throw new \adLDAP\adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         if (!array_key_exists("display_name", $attributes)) { 
@@ -267,7 +268,7 @@ class adLDAPUsers {
         $info = $this->info($username, $fields, $isGUID);
         
         if ($info !== false) {
-            $collection = new adLDAPUserCollection($info, $this->adldap);
+            $collection = new \adLDAP\collections\adLDAPUserCollection($info, $this->adldap);
             return $collection;
         }
         return false;
@@ -309,7 +310,7 @@ class adLDAPUsers {
     public function passwordExpiry($username, $isGUID = false) {
         if ($username === NULL) { return "Missing compulsory field [username]"; }
         if (!$this->adldap->getLdapBind()) { return false; }
-        if (!function_exists('bcmod')) { throw new adLDAPException("Missing function support [bcmod] http://www.php.net/manual/en/book.bc.php"); };
+        if (!function_exists('bcmod')) { throw new \adLDAP\adLDAPException("Missing function support [bcmod] http://www.php.net/manual/en/book.bc.php"); };
         
         $userInfo = $this->info($username, array("pwdlastset", "useraccountcontrol"), $isGUID);
         $pwdLastSet = $userInfo[0]['pwdlastset'][0];
@@ -379,7 +380,7 @@ class adLDAPUsers {
     public function modify($username, $attributes, $isGUID = false) {
         if ($username === NULL) { return "Missing compulsory field [username]"; }
         if (array_key_exists("password", $attributes) && !$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) { 
-            throw new adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
+            throw new \adLDAP\adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         // Find the dn of the user
@@ -460,7 +461,7 @@ class adLDAPUsers {
         if ($password === NULL) { return false; }
         if (!$this->adldap->getLdapBind()) { return false; }
         if (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) { 
-            throw new adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
+            throw new \adLDAP\adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
         
         $userDn = $this->dn($username, $isGUID);
@@ -479,7 +480,7 @@ class adLDAPUsers {
                 if($err == 53) {
                     $msg .= ' Your password might not match the password policy.';
                 }
-                throw new adLDAPException($msg);
+                throw new \adLDAP\adLDAPException($msg);
             }
             else {
                 return false;

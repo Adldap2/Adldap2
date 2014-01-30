@@ -22,7 +22,7 @@ if ($_POST["oldform"]) { //prevent null bind
 
 	if ($username != NULL && $password != NULL){
 		//include the class and create a connection
-		include (dirname(__FILE__) . "/../src/adLDAP.php");
+		include (dirname(__FILE__) . "/../lib/adLDAP/adLDAP.php");
         try {
 		    $adldap = new adLDAP();
         }

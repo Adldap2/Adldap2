@@ -27,7 +27,7 @@ adLDAP is not an application, but a class library designed to integrate into you
 The core of adLDAP is contained in the 'lib/adLDAP' directory.  Simply copy/rename this directory inside your own
 projects.
 
-Edit the file ``src/adLDAP.php`` and change the configuration variables near the top, specifically
+Edit the file ``lib/adldap/adLDAP.php`` and change the configuration variables near the top, specifically
 those for domain controllers, base dn and account suffix, and if you want to perform anything more complex
 than use authentication you'll also need to set the admin username and password variables too.
 

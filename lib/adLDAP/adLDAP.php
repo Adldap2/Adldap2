@@ -162,6 +162,13 @@ class adLDAP {
     * @var bool
     */
     protected $recursiveGroups = true;
+    
+    /**
+    * When a query returns a referral, follow it.
+    * 
+    * @var bool
+    */
+    protected $followReferrals = false;
 	
 	// You should not need to edit anything below this line
 	//******************************************************************************************
@@ -577,6 +584,7 @@ class adLDAP {
             if (array_key_exists("use_ssl",$options)) { $this->setUseSSL($options["use_ssl"]); }
             if (array_key_exists("use_tls",$options)) { $this->useTLS = $options["use_tls"]; }
             if (array_key_exists("recursive_groups",$options)) { $this->recursiveGroups = $options["recursive_groups"]; }
+            if (array_key_exists("follow_referrals", $options)) { $this->followReferrals = $options["follow_referrals"]; }
             if (array_key_exists("ad_port",$options)) { $this->setPort($options["ad_port"]); } 
             if (array_key_exists("sso",$options)) { 
                 $this->setUseSSO($options["sso"]);
@@ -620,7 +628,7 @@ class adLDAP {
                
         // Set some ldap options for talking to AD
         ldap_set_option($this->ldapConnection, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($this->ldapConnection, LDAP_OPT_REFERRALS, 0);
+        ldap_set_option($this->ldapConnection, LDAP_OPT_REFERRALS, $this->followReferrals);
         
         if ($this->useTLS) {
             ldap_start_tls($this->ldapConnection);

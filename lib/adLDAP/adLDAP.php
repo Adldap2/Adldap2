@@ -166,9 +166,9 @@ class adLDAP {
     /**
     * When a query returns a referral, follow it.
     * 
-    * @var bool
+    * @var int
     */
-    protected $followReferrals = false;
+    protected $followReferrals = 0;
 	
 	// You should not need to edit anything below this line
 	//******************************************************************************************

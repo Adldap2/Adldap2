@@ -80,7 +80,7 @@ class adLDAPExchange {
         if ($mailNickname === NULL) { 
             $mailNickname = $username; 
         }
-        $mdbUseDefaults = $this->adldap->utilities()->boolToString($useDefaults);
+        $mdbUseDefaults = $this->adldap->utilities()->boolToStr($useDefaults);
         
         $attributes = array(
             'exchange_homemdb'=>$container.",".$baseDn,

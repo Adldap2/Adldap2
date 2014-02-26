@@ -340,7 +340,7 @@ class adLDAP {
     * 
     * @var \adLDAP\classes\adLDAPComputers
     */
-    protected $computersClass;
+    protected $computerClass;
     
     /**
     * Get the computers class interface

@@ -264,7 +264,7 @@ class adLDAPUtils {
      * Convert DN string to array
      *
      * @param $dnStr
-     * @param bool $excludeBaseDn
+     * @param bool $excludeBaseDn exclude base DN from results
      *
      * @return array
      */

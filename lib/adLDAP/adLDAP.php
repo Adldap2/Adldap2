@@ -623,7 +623,7 @@ class adLDAP {
         if ($this->useSSL) {
             $this->ldapConnection = ldap_connect("ldaps://" . $domainController, $this->adPort);
         } else {
-            $this->ldapConnection = ldap_connect($domainController, $this->adPort);
+            $this->ldapConnection = ldap_connect("ldap://" . $domainController, $this->adPort);
         }
                
         // Set some ldap options for talking to AD

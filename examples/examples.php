@@ -1,4 +1,5 @@
 <?
+use adLDAP\adLDAP;
 /*
 Examples file
 
@@ -8,6 +9,7 @@ To test any of the functions, just change the 0 to a 1.
 //error_reporting(E_ALL ^ E_NOTICE);
 
 include (dirname(__FILE__) . "/../lib/adLDAP/adLDAP.php");
+
 try {
     $adldap = new adLDAP($options);
 }

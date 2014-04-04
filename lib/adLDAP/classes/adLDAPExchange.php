@@ -164,7 +164,7 @@ class adLDAPExchange {
         // We need to scan existing proxy addresses and demote the default one
         if (is_array($user[0]["proxyaddresses"]) && $default === true) {
             $modAddresses = array();
-            for ($i=0;$i<sizeof($user[0]['proxyaddresses']);$i++) {
+            for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
                 if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
                     $user[0]['proxyaddresses'][$i] = str_replace('SMTP:', 'smtp:', $user[0]['proxyaddresses'][$i]);
                 }
@@ -172,7 +172,7 @@ class adLDAPExchange {
                     $modAddresses['proxyAddresses'][$i] = $user[0]['proxyaddresses'][$i];
                 }
             }
-            $modAddresses['proxyAddresses'][(sizeof($user[0]['proxyaddresses'])-1)] = 'SMTP:' . $emailAddress;
+            $modAddresses['proxyAddresses'][($user[0]['proxyaddresses']['count']-1)] = 'SMTP:' . $emailAddress;
             
             $result = @ldap_mod_replace($this->adldap->getLdapConnection(), $userDn, $modAddresses);
             if ($result == false) { 
@@ -223,7 +223,7 @@ class adLDAPExchange {
         
         if (is_array($user[0]["proxyaddresses"])) {
             $mod = array();
-            for ($i=0;$i<sizeof($user[0]['proxyaddresses']);$i++) {
+            for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
                 if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false && $user[0]['proxyaddresses'][$i] == 'SMTP:' . $emailAddress) {
                     $mod['proxyAddresses'][0] = 'SMTP:' . $emailAddress;
                 }
@@ -261,7 +261,7 @@ class adLDAPExchange {
         
         if (is_array($user[0]["proxyaddresses"])) {
             $modAddresses = array();
-            for ($i=0;$i<sizeof($user[0]['proxyaddresses']);$i++) {
+            for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
                 if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
                     $user[0]['proxyaddresses'][$i] = str_replace('SMTP:', 'smtp:', $user[0]['proxyaddresses'][$i]);
                 }

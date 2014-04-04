@@ -259,6 +259,29 @@ class adLDAPUtils {
       $unixTime = round($windowsTime / 10000000) - 11644477200; 
       return $unixTime; 
     }
+
+    /**
+     * Convert DN string to array
+     *
+     * @param $dnStr
+     * @param bool $excludeBaseDn exclude base DN from results
+     *
+     * @return array
+     */
+    public function dnStrToArr($dnStr, $excludeBaseDn = true){
+        $dnArr = array();
+        if(!empty($dnStr)){
+            $tmpArr = explode(',', $dnStr);
+            $baseDnArr = explode(',', $this->adldap->getBaseDn());
+            foreach($tmpArr as $_tmpStr){
+                if($excludeBaseDn && in_array($_tmpStr, $baseDnArr)){
+                    continue;
+                }
+                $dnArr[]= substr($_tmpStr, strpos($_tmpStr, '=') + 1);
+            }
+        }
+        return $dnArr;
+    }
 }
 
 ?>

@@ -204,6 +204,36 @@ class adLDAPGroups {
     }
 
     /**
+     * Rename group with new group
+     * @param $group
+     * @param $newName
+     * @param $container
+     *
+     * @return bool
+     */
+    public function rename($group, $newName, $container) {
+        $info = $this->info($group);
+        if ($info[0]["dn"] === NULL) {
+            return false;
+        }
+        else{
+            $groupDN = $info[0]["dn"];
+        }
+        $newRDN = 'CN='.$newName;
+
+        // Determine the container
+        $container = array_reverse($container);
+        $container = "OU=" . implode(", OU=",$container);
+
+        // Do the update
+        $result = @ldap_rename($this->adldap->getLdapConnection(), $groupDN, $newRDN, $container.', '.$this->adldap->getBaseDn(), true);
+        if ($result == false) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
     * Remove a group from a group
     * 
     * @param string $parent The parent group name

@@ -256,7 +256,7 @@ class adLDAPUtils {
     * @return long $unixTime
     */
     public static function convertWindowsTimeToUnixTime($windowsTime) {
-      $unixTime = round($windowsTime / 10000000) - 11644477200; 
+      $unixTime = round($windowsTime / 10000000) - 11644473600; 
       return $unixTime; 
     }
 

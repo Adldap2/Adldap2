@@ -165,7 +165,7 @@ class adLDAPExchange {
         if (is_array($user[0]["proxyaddresses"]) && $default === true) {
             $modAddresses = array();
             for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
-                if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
+                if (strpos($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
                     $user[0]['proxyaddresses'][$i] = str_replace('SMTP:', 'smtp:', $user[0]['proxyaddresses'][$i]);
                 }
                 if ($user[0]['proxyaddresses'][$i] != '') {
@@ -224,10 +224,10 @@ class adLDAPExchange {
         if (is_array($user[0]["proxyaddresses"])) {
             $mod = array();
             for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
-                if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false && $user[0]['proxyaddresses'][$i] == 'SMTP:' . $emailAddress) {
+                if (strpos($user[0]['proxyaddresses'][$i], 'SMTP:') !== false && $user[0]['proxyaddresses'][$i] == 'SMTP:' . $emailAddress) {
                     $mod['proxyAddresses'][0] = 'SMTP:' . $emailAddress;
                 }
-                elseif (strstr($user[0]['proxyaddresses'][$i], 'smtp:') !== false && $user[0]['proxyaddresses'][$i] == 'smtp:' . $emailAddress) {
+                elseif (strpos($user[0]['proxyaddresses'][$i], 'smtp:') !== false && $user[0]['proxyaddresses'][$i] == 'smtp:' . $emailAddress) {
                     $mod['proxyAddresses'][0] = 'smtp:' . $emailAddress;
                 }
             }
@@ -262,7 +262,7 @@ class adLDAPExchange {
         if (is_array($user[0]["proxyaddresses"])) {
             $modAddresses = array();
             for ($i=0;$i<$user[0]['proxyaddresses']['count'];$i++) {
-                if (strstr($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
+                if (strpos($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
                     $user[0]['proxyaddresses'][$i] = str_replace('SMTP:', 'smtp:', $user[0]['proxyaddresses'][$i]);
                 }
                 if ($user[0]['proxyaddresses'][$i] == 'smtp:' . $emailAddress) {

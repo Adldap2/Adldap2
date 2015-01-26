@@ -1,5 +1,5 @@
 {
-	"name": "adldap/adldap",
+	"name": "stevebauman/adldap",
 	"type": "library",
 	"description": "adLDAP, PHP LDAP library for manipulating Active Directory",
 	"keywords": [

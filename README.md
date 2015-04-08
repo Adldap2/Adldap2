@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/stevebauman/adldap-fork.svg)](https://travis-ci.org/stevebauman/adldap-fork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/?branch=master)
+[![Total Downloads](https://poser.pugx.org/stevebauman/adldap-fork/downloads.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
+[![Latest Stable Version](https://poser.pugx.org/stevebauman/adldap-fork/v/stable.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
+[![License](https://poser.pugx.org/stevebauman/adldap-fork/license.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
 
 > **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
 > Looking for the main repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).

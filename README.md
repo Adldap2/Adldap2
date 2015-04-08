@@ -1,5 +1,7 @@
 # PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
 
+> **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them. [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
+
 *Current Stable Version 4.0.0 https://github.com/adldap/adLDAP/releases/tag/v4.0.4*
 
 *Next Version 5.0.0*
@@ -34,16 +36,21 @@ than use authentication you'll also need to set the admin username and password 
 From within your code simply require the adLDAP.php file and call it like so
 
     use \adLDAP;
+    
     require_once(dirname(__FILE__) . '/adLDAP.php');
+    
     $adldap = new adLDAP();
 
 It would be better to wrap it in a try/catch though
 
     use \adLDAP;
-    try {
+    
+    try
+    {
         $adldap = new adLDAP();
     }
-    catch (adLDAPException $e) {
+    catch (adLDAPException $e)
+    {
         echo $e;
         exit();   
     }

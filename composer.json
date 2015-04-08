@@ -10,8 +10,8 @@
 	"homepage": "http://adldap.sourceforge.net",
 	"license": "LGPL-2.1",
 	"support": {
-		"issues": "https://github.com/adldap/adLDAP/issues",
-		"source": "https://github.com/adldap/adLDAP"
+		"issues": "https://github.com/stevebauman/adldap-fork/issues",
+		"source": "https://github.com/stevebauman/adldap"
 	},
 	"authors": [
 		{

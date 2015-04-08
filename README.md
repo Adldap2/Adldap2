@@ -14,25 +14,25 @@ Written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com
 https://github.com/adldap/adLDAP/
 
-## TO DO
+## To do
 
 - Completely refresh all classes and improve the terrible scrutinizer score
 - Unit / Functional Testing
 - Better, and easier to understand documentation
 
-## ABOUT
+## About
 
 adLDAP is a PHP class that provides LDAP authentication and integration with Active Directory.
 
 We'd appreciate any improvements or additions to be submitted back
 to benefit the entire community :)
 
-## REQUIREMENTS
+## Requirements
 
 adLDAP requires PHP 5 and both the LDAP (http://php.net/ldap) and SSL (http://php.net/openssl) libraries
 adLDAP version 5.0.0 will require PHP 5.3+
 
-## INSTALLATION
+## Installation
 
 #### Via Composer
 
@@ -81,13 +81,13 @@ or
 
 ``$adldap->group()->members($groupName);``
 
-## DOCUMENTATION
+## Documentation
 
 You can find our website at https://github.com/adldap/adLDAP/ or the class documentation at
 
 https://github.com/adldap/adLDAP/wiki/adLDAP-Developer-API-Reference
 
-## LICENSE
+## License
 
 This library is free software; you can redistribute it and/or modify it under the terms of the 
 GNU Lesser General Public License as published by the Free Software Foundation; either

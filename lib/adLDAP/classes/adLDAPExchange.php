@@ -421,7 +421,7 @@ class adLDAPExchange
 
         return $entries;
     }
-    
+
     /**
      * Returns a list of Databases within any given storage group in Exchange for a given mail server
      *

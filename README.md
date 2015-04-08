@@ -9,11 +9,7 @@
 > **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
 > Looking for the main repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
 
-*Current Stable Version 4.0.0 https://github.com/adldap/adLDAP/releases/tag/v4.0.4*
-
-*Next Version 5.0.0*
-
-Written by Scott Barnett, Richard Hyland
+Originally written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com
 https://github.com/adldap/adLDAP/
 

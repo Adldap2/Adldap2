@@ -41,7 +41,8 @@ require_once(dirname(__FILE__) . '/../collections/adLDAPUserCollection.php');
 /**
 * USER FUNCTIONS
 */
-class adLDAPUsers {
+class adLDAPUsers
+{
     /**
     * The current adLDAP connection via dependency injection
     * 

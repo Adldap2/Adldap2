@@ -1,6 +1,10 @@
-# PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
+# PHP Ldap Library for Active Directory Manipulation
 
-> **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them. [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
+[![Build Status](https://travis-ci.org/stevebauman/adldap-fork.svg)](https://travis-ci.org/stevebauman/adldap-fork)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/?branch=master)
+
+> **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
+> Looking for the main repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
 
 *Current Stable Version 4.0.0 https://github.com/adldap/adLDAP/releases/tag/v4.0.4*
 
@@ -9,6 +13,12 @@
 Written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com
 https://github.com/adldap/adLDAP/
+
+## TO DO
+
+- Completely refresh all classes and improve the terrible scrutinizer score
+- Unit / Functional Testing
+- Better, and easier to understand documentation
 
 ## ABOUT
 
@@ -24,7 +34,15 @@ adLDAP version 5.0.0 will require PHP 5.3+
 
 ## INSTALLATION
 
-adLDAP is not an application, but a class library designed to integrate into your own applications.
+#### Via Composer
+
+Add adldap-fork to your `composer.json` file:
+
+    "stevebauman/adldap-fork": "4.0.*"
+
+Run `composer update` on your project source, and you're all set!
+
+#### Manual Installation
 
 The core of adLDAP is contained in the 'lib/adLDAP' directory.  Simply copy/rename this directory inside your own
 projects.

@@ -43,7 +43,7 @@ require_once(dirname(__FILE__) . '/../adLDAP.php');
 require_once(dirname(__FILE__) . '/../collections/adLDAPComputerCollection.php');
 
 /**
- * Computer Management Functions
+ * Ldap Computer Management
  *
  * Class adLDAPComputers
  * @package adLDAP\classes

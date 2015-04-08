@@ -42,6 +42,12 @@ use adLDAP\adLDAP;
 require_once(dirname(__FILE__) . '/../adLDAP.php');
 require_once(dirname(__FILE__) . '/../collections/adLDAPContactCollection.php');
 
+/**
+ * Ldap Contacts Management
+ *
+ * Class adLDAPContacts
+ * @package adLDAP\classes
+ */
 class adLDAPContacts
 {
     /**
@@ -205,7 +211,7 @@ class adLDAPContacts
     {
         if ($distinguishedName === NULL) return false;
 
-        if (!$this->adldap->getLdapBind()) return false;
+        if ( ! $this->adldap->getLdapBind()) return false;
         
         $info = $this->info($distinguishedName, $fields);
         
@@ -327,7 +333,7 @@ class adLDAPContacts
 
         return $usersArray;
     }
-    
+
     /**
      * Mail enable a contact. Allows email to be sent to them through Exchange.
      *

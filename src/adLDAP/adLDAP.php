@@ -731,7 +731,7 @@ class adLDAP
             $this->ldapConnection = ldap_connect("ldaps://" . $domainController, $this->getPort());
         } else
         {
-            $this->ldapConnection = ldap_connect("ldap://" . $domainController, $this->getPort);
+            $this->ldapConnection = ldap_connect("ldap://" . $domainController, $this->getPort());
         }
                
         // Set some ldap options for talking to AD

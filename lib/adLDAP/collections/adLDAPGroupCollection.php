@@ -1,6 +1,7 @@
 <?php
+
 namespace adLDAP\collections;
-use adLDAP\adLDAP;
+
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY 
  * Version 5.0.0
@@ -35,11 +36,13 @@ use adLDAP\adLDAP;
  * @version 5.0.0
  * @link http://github.com/adldap/adLDAP
  */
+
+/**
+ * Class adLDAPGroupCollection
+ * @package adLDAP\collections
+ */
 class adLDAPGroupCollection extends adLDAPCollection 
 {
-    
-    public function __set($attribute, $value) {
-
-    }
+    public function __set($attribute, $value) {}
 }
 ?>

@@ -51,10 +51,10 @@ require_once(dirname(__FILE__) . '/../collections/adLDAPComputerCollection.php')
 class adLDAPComputers
 {
     /**
-    * The current adLDAP connection via dependency injection
-    * 
-    * @var adLDAP
-    */
+     * The current adLDAP connection via dependency injection
+     *
+     * @var adLDAP
+     */
     protected $adldap;
 
     /**

@@ -205,21 +205,24 @@ class adLDAPUsers
 
         return $val;
     }
-    
+
     /**
-    * Delete a user account
-    * 
-    * @param string $username The username to delete (please be careful here!)
-    * @param bool $isGUID Is the username a GUID or a samAccountName
-    * @return array
-    */
-    public function delete($username, $isGUID = false) {      
+     * Delete a user account
+     *
+     * @param string $username The username to delete
+     * @param bool $isGUID
+     * @return bool
+     */
+    public function delete($username, $isGUID = false)
+    {
         $userinfo = $this->info($username, array("*"), $isGUID);
+
         $dn = $userinfo[0]['distinguishedname'][0];
+
         $result = $this->adldap->folder()->delete($dn);
-        if ($result != true) { 
-            return false;
-        }        
+
+        if ($result != true) return false;
+
         return true;
     }
     

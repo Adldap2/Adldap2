@@ -24,8 +24,10 @@ adLDAP2 is a PHP class library that provides LDAP authentication and Active Dire
 
 ## Requirements
 
-adLDAP requires PHP 5 and both the LDAP (http://php.net/ldap) and SSL (http://php.net/openssl) libraries
-adLDAP version 5.0.0 will require PHP 5.3+
+To use adLDAP2, your sever must support:
+
+- PHP 5.3 or greater
+- PHP SSL Libraries (http://php.net/openssl)
 
 ## Installation
 

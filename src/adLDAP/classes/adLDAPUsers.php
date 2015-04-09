@@ -1,6 +1,9 @@
 <?php
+
 namespace adLDAP\classes;
+
 use adLDAP\adLDAP;
+
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY 
  * Version 5.0.0
@@ -35,6 +38,7 @@ use adLDAP\adLDAP;
  * @version 5.0.0
  * @link http://github.com/adldap/adLDAP
  */
+
 require_once(dirname(__FILE__) . '/../adLDAP.php');
 require_once(dirname(__FILE__) . '/../collections/adLDAPUserCollection.php');
 
@@ -44,50 +48,66 @@ require_once(dirname(__FILE__) . '/../collections/adLDAPUserCollection.php');
 class adLDAPUsers
 {
     /**
-    * The current adLDAP connection via dependency injection
-    * 
-    * @var adLDAP
-    */
+     * The current adLDAP connection via dependency injection
+     *
+     * @var adLDAP
+     */
     protected $adldap;
-    
-    public function __construct(adLDAP $adldap) {
+
+    /**
+     * Constructor.
+     *
+     * @param adLDAP $adldap
+     */
+    public function __construct(adLDAP $adldap)
+    {
         $this->adldap = $adldap;
     }
-    
+
     /**
-    * Validate a user's login credentials
-    * 
-    * @param string $username A user's AD username
-    * @param string $password A user's AD password
-    * @param bool optional $prevent_rebind
-    * @return bool
-    */
-    public function authenticate($username, $password, $preventRebind = false) {
+     * Validate a user's login credentials
+     *
+     * @param string $username The users AD username
+     * @param string $password The users AD password
+     * @param bool $preventRebind
+     * @return bool
+     */
+    public function authenticate($username, $password, $preventRebind = false)
+    {
         return $this->adldap->authenticate($username, $password, $preventRebind);
     }
-    
-    /**
-    * Create a user
-    * 
-    * If you specify a password here, this can only be performed over SSL
-    * 
-    * @param array $attributes The attributes to set to the user account
-    * @return bool
-    */
-    public function create($attributes) {
-        // Check for compulsory fields
-        if (!array_key_exists("username", $attributes)) { return "Missing compulsory field [username]"; }
-        if (!array_key_exists("firstname", $attributes)) { return "Missing compulsory field [firstname]"; }
-        if (!array_key_exists("surname", $attributes)) { return "Missing compulsory field [surname]"; }
-        if (!array_key_exists("email", $attributes)) { return "Missing compulsory field [email]"; }
-        if (!array_key_exists("container", $attributes)) { return "Missing compulsory field [container]"; }
-        if (!is_array($attributes["container"])) { return "Container attribute must be an array."; }
 
-        if (array_key_exists("password",$attributes) && (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS())) { 
+    /**
+     * Create a user.
+     *
+     * If you specify a password here, this can only be performed over SSL.
+     *
+     * @param array $attributes The attributes to set to the user account
+     * @return bool
+     * @throws \adLDAP\adLDAPException
+     */
+    public function create($attributes)
+    {
+        // Check for compulsory fields
+        if ( ! array_key_exists("username", $attributes)) return "Missing compulsory field [username]";
+
+        if ( ! array_key_exists("firstname", $attributes)) return "Missing compulsory field [firstname]";
+
+        if ( ! array_key_exists("surname", $attributes)) return "Missing compulsory field [surname]";
+
+        if ( ! array_key_exists("email", $attributes)) return "Missing compulsory field [email]";
+
+        if ( ! array_key_exists("container", $attributes)) return "Missing compulsory field [container]";
+
+        if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
+
+        if (array_key_exists("password",$attributes) && ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()))
+        {
             throw new \adLDAP\adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
 
-        if (!array_key_exists("display_name", $attributes)) { 
+        if ( ! array_key_exists("display_name", $attributes))
+        {
             $attributes["display_name"] = $attributes["firstname"] . " " . $attributes["surname"]; 
         }
 
@@ -100,25 +120,28 @@ class adLDAPUsers
         $add["objectclass"][0] = "top";
         $add["objectclass"][1] = "person";
         $add["objectclass"][2] = "organizationalPerson";
-        $add["objectclass"][3] = "user"; //person?
-        //$add["name"][0]=$attributes["firstname"]." ".$attributes["surname"];
+        $add["objectclass"][3] = "user";
 
         // Set the account control attribute
         $control_options = array("NORMAL_ACCOUNT");
-        if (!$attributes["enabled"]) { 
-            $control_options[] = "ACCOUNTDISABLE"; 
+
+        if ( ! $attributes["enabled"])
+        {
+            $control_options[] = "ACCOUNTDISABLE";
         }
+
         $add["userAccountControl"][0] = $this->accountControl($control_options);
         
         // Determine the container
         $attributes["container"] = array_reverse($attributes["container"]);
+
         $container = "OU=" . implode(", OU=",$attributes["container"]);
 
         // Add the entry
         $result = @ldap_add($this->adldap->getLdapConnection(), "CN=" . $add["cn"][0] . ", " . $container . "," . $this->adldap->getBaseDn(), $add);
-        if ($result != true) { 
-            return false; 
-        }
+
+        if ($result != true) return false;
+
         return true;
     }
     

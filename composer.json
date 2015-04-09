@@ -1,7 +1,7 @@
 {
-	"name": "stevebauman/adldap",
+	"name": "adLDAP2/adLDAP2",
 	"type": "library",
-	"description": "adLDAP, PHP LDAP library for manipulating Active Directory",
+	"description": "A PHP LDAP Library for Active Directory Manipulation",
 	"keywords": [
 		"active directory",
 		"ldap",
@@ -10,8 +10,8 @@
 	"homepage": "http://adldap.sourceforge.net",
 	"license": "LGPL-2.1",
 	"support": {
-		"issues": "https://github.com/stevebauman/adldap-fork/issues",
-		"source": "https://github.com/stevebauman/adldap"
+		"issues": "https://github.com/adLDAP2/adLDAP2/issues",
+		"source": "https://github.com/adLDAP2/adLDAP2"
 	},
 	"authors": [
 		{
@@ -23,7 +23,12 @@
 			"name": "Scott Barnett",
 			"email": "scott@wiggumworld.com",
 			"role": "Developer"
-		}
+		},
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman@outlook.com",
+            "role": "Developer"
+        }
 	],
 	"require": {
 		"php": ">=5.3.0"

@@ -261,57 +261,89 @@ class adLDAPUsers
 
         return $groups;
     }
-    
-    /**
-    * Find information about the users. Returned in a raw array format from AD
-    * 
-    * @param string $username The username to query
-    * @param array $fields Array of parameters to query
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return array
-    */
-    public function info($username, $fields = NULL, $isGUID = false) {
-        if ($username === NULL) { return false; }
-        if (!$this->adldap->getLdapBind()) { return false; }
 
-        if ($isGUID === true) {
+    /**
+     * Find information about the users. Returned in a raw array format from AD
+     *
+     * @param string $username The username to query
+     * @param null $fields Array of parameters to query
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return array|bool
+     */
+    public function info($username, $fields = NULL, $isGUID = false)
+    {
+        if ($username === NULL) return false;
+
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ($isGUID === true)
+        {
             $username = $this->adldap->utilities()->strGuidToHex($username);
+
             $filter = "objectguid=" . $username;
         }
-        else if (strpos($username, "@")) {
+        else if (strpos($username, "@"))
+        {
              $filter = "userPrincipalName=" . $username;
         }
-        else {
+        else
+        {
              $filter = "samaccountname=" . $username;
         }
+
         $filter = "(&(objectCategory=person)({$filter}))";
-        if ($fields === NULL) { 
-            $fields = array("samaccountname","mail","memberof","department","displayname","telephonenumber","primarygroupid","objectsid"); 
+
+        if ($fields === NULL)
+        {
+            $fields = array(
+                "samaccountname",
+                "mail",
+                "memberof",
+                "department",
+                "displayname",
+                "telephonenumber",
+                "primarygroupid",
+                "objectsid"
+            );
         }
-        if (!in_array("objectsid", $fields)) {
+
+        if (!in_array("objectsid", $fields))
+        {
             $fields[] = "objectsid";
         }
+
         $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+
         $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
         
-        if (isset($entries[0])) {
-            if ($entries[0]['count'] >= 1) {
-                if (in_array("memberof", $fields)) {
+        if (isset($entries[0]))
+        {
+            if ($entries[0]['count'] >= 1)
+            {
+                if (in_array("memberof", $fields))
+                {
                     // AD does not return the primary group in the ldap query, we may need to fudge it
-                    if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["objectsid"][0])) {
+                    if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["objectsid"][0]))
+                    {
                         //$entries[0]["memberof"][]=$this->group_cn($entries[0]["primarygroupid"][0]);
                         $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
-                    } else {
+                    } else
+                    {
                         $entries[0]["memberof"][] = "CN=Domain Users,CN=Users," . $this->adldap->getBaseDn();
                     }
-                    if (!isset($entries[0]["memberof"]["count"])) {
+
+                    if ( ! isset($entries[0]["memberof"]["count"]))
+                    {
                         $entries[0]["memberof"]["count"] = 0;
                     }
+
                     $entries[0]["memberof"]["count"]++;
                 }
             }
+
             return $entries;
         }
+
         return false;
     }
     

@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/stevebauman/adldap-fork/v/stable.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
 [![License](https://poser.pugx.org/stevebauman/adldap-fork/license.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
 
-> **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
+> **Note:** This is a fork of the main abandoned adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
 > Looking for the original repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
 
 Originally written by Scott Barnett, Richard Hyland. Adopted by the community.

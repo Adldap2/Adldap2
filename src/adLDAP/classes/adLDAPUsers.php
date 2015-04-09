@@ -556,19 +556,24 @@ class adLDAPUsers
 
         return true;
     }
-    
+
     /**
-    * Enable a user account
-    * 
-    * @param string $username The username to enable
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return bool
-    */
-    public function enable($username, $isGUID = false) {
-        if ($username === NULL) { return "Missing compulsory field [username]"; }
+     * Enable a user account
+     *
+     * @param string $username The username to enable
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool|string
+     * @throws \adLDAP\adLDAPException
+     */
+    public function enable($username, $isGUID = false)
+    {
+        if ($username === NULL) return "Missing compulsory field [username]";
+
         $attributes = array("enabled" => 1);
+
         $result = $this->modify($username, $attributes, $isGUID);
-        if ($result == false) { return false; }
+
+        if ($result == false) return false;
         
         return true;
     }

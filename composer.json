@@ -1,5 +1,5 @@
 {
-	"name": "adLDAP2/adLDAP2",
+	"name": "adldap2/adldap2",
 	"type": "library",
 	"description": "A PHP LDAP Library for Active Directory Manipulation",
 	"keywords": [

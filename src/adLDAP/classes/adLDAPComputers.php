@@ -180,9 +180,9 @@ class adLDAPComputers
         {
             foreach ($groups as $id => $groupName)
             {
-              $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
+                $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
 
-              $groups = array_merge($groups, $extraGroups);
+                $groups = array_merge($groups, $extraGroups);
             }
         }
 

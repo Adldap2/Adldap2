@@ -834,18 +834,23 @@ class adLDAPUsers
 
         return true;
     }
-    
+
     /**
-    * Get the last logon time of any user as a Unix timestamp
-    * 
-    * @param string $username
-    * @return long $unixTimestamp
-    */
-    public function getLastLogon($username) {
-        if (!$this->adldap->getLdapBind()) { return false; }
-        if ($username === null) { return "Missing compulsory field [username]"; }
+     * Get the last logon time of any user as a Unix timestamp
+     *
+     * @param string $username
+     * @return long|bool|string
+     */
+    public function getLastLogon($username)
+    {
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ($username === null) return "Missing compulsory field [username]";
+
         $userInfo = $this->info($username, array("lastLogonTimestamp"));
+
         $lastLogon = adLDAPUtils::convertWindowsTimeToUnixTime($userInfo[0]['lastLogonTimestamp'][0]);
+
         return $lastLogon;
     }
 }

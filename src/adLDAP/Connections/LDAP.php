@@ -152,6 +152,11 @@ class LDAP implements ConnectionInterface
         return ldap_set_option($this->getConnection(), $option, $value);
     }
 
+    public function startTLS()
+    {
+
+    }
+
     /**
      * @param string $hostname
      * @param int $port
@@ -164,6 +169,16 @@ class LDAP implements ConnectionInterface
         if($this->isUsingSSL()) $protocol = $this::LDAP_PROTOCOL_SSL;
 
         return ldap_connect($protocol . $hostname, $port);
+    }
+
+    public function search($dn, $filter, array $fields)
+    {
+
+    }
+
+    public function read($dn, $filter, array $fields)
+    {
+
     }
 
     /**

@@ -92,7 +92,7 @@ interface ConnectionInterface
      *
      * @return mixed
      */
-    public function startTls();
+    public function startTLS();
 
     /**
      * Binds to the current connection using

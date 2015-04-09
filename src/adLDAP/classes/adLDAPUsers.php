@@ -370,29 +370,33 @@ class adLDAPUsers
 
         return false;
     }
-    
+
     /**
-    * Determine if a user is in a specific group
-    * 
-    * @param string $username The username to query
-    * @param string $group The name of the group to check against
-    * @param bool $recursive Check groups recursively
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return bool
-    */
-    public function inGroup($username, $group, $recursive = NULL, $isGUID = false) {
-        if ($username === NULL) { return false; }
-        if ($group === NULL) { return false; }
-        if (!$this->adldap->getLdapBind()) { return false; }
-        if ($recursive === NULL) { $recursive = $this->adldap->getRecursiveGroups(); } // Use the default option if they haven't set it
+     * Determine if the specified user is in the specified group
+     *
+     * @param string $username The username to query
+     * @param string $group The name of the group to check against
+     * @param null $recursive Check groups recursively
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool
+     */
+    public function inGroup($username, $group, $recursive = NULL, $isGUID = false)
+    {
+        if ($username === NULL) return false;
+
+        if ($group === NULL) return false;
+
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        // Use the default option if they haven't set it
+        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
         
         // Get a list of the groups
         $groups = $this->groups($username, $recursive, $isGUID);
         
         // Return true if the specified group is in the group list
-        if (in_array($group, $groups)) { 
-            return true; 
-        }
+        if (in_array($group, $groups)) return true;
+
         return false;
     }
     

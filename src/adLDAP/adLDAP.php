@@ -844,7 +844,7 @@ class adLDAP
         if (empty($username) || empty($password)) return false;
         
         // Allow binding over SSO for Kerberos
-        if ($this->getUseSSO() && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && ! $this->getAdminUsername() && $_SERVER['KRB5CCNAME'])
+        if ($this->getUseSSO() && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && $this->getAdminUsername() === NULL && $_SERVER['KRB5CCNAME'])
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
@@ -868,7 +868,7 @@ class adLDAP
         if ( ! $this->getLdapBind()) $ret = false;
         
         // Once we've checked their details, kick back into admin mode if we have it
-        if ($this->getAdminPassword() && ! $preventRebind)
+        if ($this->getAdminPassword() !== NULL && ! $preventRebind)
         {
             $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $this->getAdminUsername() . $this->getAccountSuffix() , $this->getAdminPassword()));
 

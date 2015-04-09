@@ -112,14 +112,14 @@ class adLDAP
      * Optional account with higher privileges for searching
      * This should be set to a domain admin account
      *
-     * @var null
+     * @var string
      */
     protected $adminUsername = '';
 
     /**
      * Account with higher privileges password
      *
-     * @var null
+     * @var string
      */
     protected $adminPassword = '';
 

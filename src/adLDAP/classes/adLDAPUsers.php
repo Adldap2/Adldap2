@@ -483,51 +483,56 @@ class adLDAPUsers
 
         return $status;
     }
-    
+
     /**
-    * Modify a user
-    * 
-    * @param string $username The username to query
-    * @param array $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return bool
-    */
-    public function modify($username, $attributes, $isGUID = false) {
-        if ($username === NULL) { return "Missing compulsory field [username]"; }
-        if (array_key_exists("password", $attributes) && !$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) { 
+     * Modify a user
+     *
+     * @param string $username The username to query
+     * @param array $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool|string
+     * @throws \adLDAP\adLDAPException
+     */
+    public function modify($username, $attributes, $isGUID = false)
+    {
+        if ($username === NULL) return "Missing compulsory field [username]";
+
+        if (array_key_exists("password", $attributes) && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
+        {
             throw new \adLDAP\adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         // Find the dn of the user
         $userDn = $this->dn($username, $isGUID);
-        if ($userDn === false) { 
-            return false; 
-        }
+
+        if ($userDn === false) return false;
         
         // Translate the update to the LDAP schema                
         $mod = $this->adldap->adldap_schema($attributes);
         
         // Check to see if this is an enabled status update
-        if (!$mod && !array_key_exists("enabled", $attributes)) { 
-            return false; 
-        }
+        if ( ! $mod && ! array_key_exists("enabled", $attributes)) return false;
         
         // Set the account control attribute (only if specified)
-        if (array_key_exists("enabled", $attributes)) {
-            if ($attributes["enabled"]) { 
+        if (array_key_exists("enabled", $attributes))
+        {
+            if ($attributes["enabled"])
+            {
                 $controlOptions = array("NORMAL_ACCOUNT"); 
             }
-            else { 
+            else
+            {
                 $controlOptions = array("NORMAL_ACCOUNT", "ACCOUNTDISABLE"); 
             }
+
             $mod["userAccountControl"][0] = $this->accountControl($controlOptions);
         }
 
         // Do the update
         $result = @ldap_modify($this->adldap->getLdapConnection(), $userDn, $mod);
-        if ($result == false) { 
-            return false; 
-        }
+
+        if ($result == false) return false;
+
         return true;
     }
     

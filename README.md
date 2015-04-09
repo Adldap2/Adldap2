@@ -36,9 +36,9 @@ adLDAP version 5.0.0 will require PHP 5.3+
 
 #### Via Composer
 
-Add adldap-fork to your `composer.json` file:
+Add adLDAP2 to your `composer.json` file:
 
-    "stevebauman/adldap-fork": "4.0.*"
+    "adldap2/adldap2": "4.0.*"
 
 Run `composer update` on your project source, and you're all set!
 

@@ -18,12 +18,9 @@ Originally written by Scott Barnett, Richard Hyland. Adopted by the community.
 - Better, and easier to understand documentation
 - Create LDAP encapsulation class for easier testing
 
-## About
+## Description
 
-adLDAP is a PHP class that provides LDAP authentication and integration with Active Directory.
-
-We'd appreciate any improvements or additions to be submitted back
-to benefit the entire community :)
+adLDAP2 is a PHP class library that provides LDAP authentication and integration with Active Directory.
 
 ## Requirements
 
@@ -42,16 +39,16 @@ Run `composer update` on your project source, and you're all set!
 
 #### Manual Installation
 
-The core of adLDAP is contained in the 'lib/adLDAP' directory.  Simply copy/rename this directory inside your own
+The core of adLDAP is contained in the 'src/adLDAP' directory.  Simply copy/rename this directory inside your own
 projects.
 
-Edit the file ``lib/adldap/adLDAP.php`` and change the configuration variables near the top, specifically
+Edit the file ``src/adldap/adLDAP.php`` and change the configuration variables near the top, specifically
 those for domain controllers, base dn and account suffix, and if you want to perform anything more complex
 than use authentication you'll also need to set the admin username and password variables too.
 
 From within your code simply require the adLDAP.php file and call it like so
 
-    use \adLDAP;
+    use adLDAP\adLDAP;
     
     require_once(dirname(__FILE__) . '/adLDAP.php');
     
@@ -59,7 +56,7 @@ From within your code simply require the adLDAP.php file and call it like so
 
 It would be better to wrap it in a try/catch though
 
-    use \adLDAP;
+    use adLDAP\adLDAP;
     
     try
     {

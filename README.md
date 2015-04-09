@@ -1,10 +1,10 @@
 # AdLDAP2
 
 [![Build Status](https://travis-ci.org/stevebauman/adldap-fork.svg)](https://travis-ci.org/stevebauman/adldap-fork)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/?branch=master)
-[![Total Downloads](https://poser.pugx.org/stevebauman/adldap-fork/downloads.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
-[![Latest Stable Version](https://poser.pugx.org/stevebauman/adldap-fork/v/stable.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
-[![License](https://poser.pugx.org/stevebauman/adldap-fork/license.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/?branch=master)
+[![Total Downloads](https://poser.pugx.org/adldap2/adldap2/downloads.svg)](https://packagist.org/packages/adldap2/adldap2)
+[![Latest Stable Version](https://poser.pugx.org/adldap2/adldap2/v/stable.svg)](https://packagist.org/packages/adldap2/adldap2)
+[![License](https://poser.pugx.org/adldap2/adldap2/license.svg)](https://packagist.org/packages/adldap2/adldap2)
 
 > **Note:** This is a fork of the main abandoned adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
 > Looking for the original repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
@@ -20,7 +20,7 @@ Originally written by Scott Barnett, Richard Hyland. Adopted by the community.
 
 ## Description
 
-adLDAP2 is a PHP class library that provides LDAP authentication and integration with Active Directory.
+adLDAP2 is a PHP class library that provides LDAP authentication and Active Directory management tools.
 
 ## Requirements
 

@@ -652,21 +652,22 @@ class adLDAPUsers
 
         return $encoded;
     }
-     
+
     /**
-    * Obtain the user's distinguished name based on their userid 
-    * 
-    * 
-    * @param string $username The username
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return string
-    */
-    public function dn($username, $isGUID=false) {
+     * Retrieve the user's distinguished name based on their username
+     *
+     * @param string $username The username
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool
+     */
+    public function dn($username, $isGUID = false)
+    {
         $user = $this->info($username, array("cn"), $isGUID);
-        if ($user[0]["dn"] === NULL) { 
-            return false; 
-        }
+
+        if ($user[0]["dn"] === NULL) return false;
+
         $userDn = $user[0]["dn"];
+
         return $userDn;
     }
     

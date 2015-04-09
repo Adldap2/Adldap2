@@ -27,16 +27,25 @@ class LDAP implements ConnectionInterface
     const LDAP_PROTOCOL = 'ldap://';
 
     /**
+     * Holds the bool to tell the connection
+     * whether or not to use SSL
+     *
      * @var bool
      */
     public $useSSL = false;
 
     /**
+     * Holds the bool to tell the connection
+     * whether or not to use TLS
+     *
      * @var bool
      */
     public $useTLS = false;
 
     /**
+     * Holds the bool to tell the connection
+     * whether or not to use SSO
+     *
      * @var bool
      */
     public $useSSO = false;
@@ -74,6 +83,10 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Returns true / false if the
+     * current connection instance is using
+     * TLS.
+     *
      * @return bool
      */
     public function isUsingTLS()
@@ -82,6 +95,10 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Returns true / false if the
+     * current connection instance is using
+     * SSO.
+     *
      * @return bool
      */
     public function isUsingSSO()
@@ -100,6 +117,18 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Retrieves and returns the results of an
+     * LDAP search into an array format.
+     *
+     * @param $searchResults
+     * @return array
+     */
+    public function getEntries($searchResults)
+    {
+        return ldap_get_entries($this->getConnection(), $searchResults);
+    }
+
+    /**
      * Returns the last error from
      * the current LDAP connection.
      *
@@ -108,6 +137,19 @@ class LDAP implements ConnectionInterface
     public function getLastError()
     {
         return @ldap_error($this->getConnection());
+    }
+
+    /**
+     * Sets an option and value on the current
+     * LDAP connection.
+     *
+     * @param int $option
+     * @param mixed $value
+     * @return bool
+     */
+    public function setOption($option, $value)
+    {
+        return ldap_set_option($this->getConnection(), $option, $value);
     }
 
     /**

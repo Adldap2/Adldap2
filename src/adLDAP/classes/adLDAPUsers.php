@@ -796,31 +796,42 @@ class adLDAPUsers
 
         return ($usersArray);
     }
-    
+
     /**
-    * Move a user account to a different OU
-    *
-    * @param string $username The username to move (please be careful here!)
-    * @param array $container The container or containers to move the user to (please be careful here!).
-    * accepts containers in 1. parent 2. child order
-    * @return array
-    */
-    public function move($username, $container) {
-        if (!$this->adldap->getLdapBind()) { return false; }
-        if ($username === null) { return "Missing compulsory field [username]"; }
-        if ($container === null) { return "Missing compulsory field [container]"; }
-        if (!is_array($container)) { return "Container must be an array"; }
+     * Move a user account to a different OU.
+     *
+     * When specifying containers, it accepts containers in 1. parent 2. child order
+     *
+     * @param string $username The username to move
+     * @param string $container The container or containers to move the user to
+     * @return bool|string
+     */
+    public function move($username, $container)
+    {
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ($username === null) return "Missing compulsory field [username]";
+
+        if ($container === null) return "Missing compulsory field [container]";
+
+        if ( ! is_array($container)) return "Container must be an array";
         
         $userInfo = $this->info($username, array("*"));
+
         $dn = $userInfo[0]['distinguishedname'][0];
+
         $newRDn = "cn=" . $username;
+
         $container = array_reverse($container);
+
         $newContainer = "ou=" . implode(",ou=",$container);
+
         $newBaseDn = strtolower($newContainer) . "," . $this->adldap->getBaseDn();
+
         $result = @ldap_rename($this->adldap->getLdapConnection(), $dn, $newRDn, $newBaseDn, true);
-        if ($result !== true) {
-            return false;
-        }
+
+        if ($result !== true) return false;
+
         return true;
     }
     

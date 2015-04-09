@@ -712,26 +712,36 @@ class adLDAPUsers
 
         return $usersArray;
     }
-    
+
     /**
-    * Converts a username (samAccountName) to a GUID
-    * 
-    * @param string $username The username to query
-    * @return string
-    */
-    public function usernameToGuid($username) {
-        if (!$this->adldap->getLdapBind()){ return false; }
-        if ($username === null){ return "Missing compulsory field [username]"; }
+     * Converts a username (samAccountName) to a GUID
+     *
+     * @param string $username The username to query
+     * @return bool|string
+     */
+    public function usernameToGuid($username)
+    {
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ($username === null) return "Missing compulsory field [username]";
         
-        $filter = "samaccountname=" . $username; 
-        $fields = array("objectGUID"); 
-        $sr = @ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields); 
-        if (ldap_count_entries($this->adldap->getLdapConnection(), $sr) > 0) { 
-            $entry = @ldap_first_entry($this->adldap->getLdapConnection(), $sr); 
-            $guid = @ldap_get_values_len($this->adldap->getLdapConnection(), $entry, 'objectGUID'); 
-            $strGUID = $this->adldap->utilities()->binaryToText($guid[0]);          
+        $filter = "samaccountname=" . $username;
+
+        $fields = array("objectGUID");
+
+        $sr = @ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+
+        if (ldap_count_entries($this->adldap->getLdapConnection(), $sr) > 0)
+        {
+            $entry = @ldap_first_entry($this->adldap->getLdapConnection(), $sr);
+
+            $guid = @ldap_get_values_len($this->adldap->getLdapConnection(), $entry, 'objectGUID');
+
+            $strGUID = $this->adldap->utilities()->binaryToText($guid[0]);
+
             return $strGUID; 
         }
+
         return false; 
     }
     

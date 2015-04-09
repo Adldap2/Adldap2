@@ -1,4 +1,4 @@
-# PHP Ldap Library for Active Directory Manipulation
+# AdLDAP2
 
 [![Build Status](https://travis-ci.org/stevebauman/adldap-fork.svg)](https://travis-ci.org/stevebauman/adldap-fork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/adldap-fork/?branch=master)
@@ -7,11 +7,9 @@
 [![License](https://poser.pugx.org/stevebauman/adldap-fork/license.svg)](https://packagist.org/packages/stevebauman/adldap-fork)
 
 > **Note:** This is a fork of the main adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
-> Looking for the main repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
+> Looking for the original repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
 
-Originally written by Scott Barnett, Richard Hyland
-email: scott@wiggumworld.com, adldap@richardhyland.com
-https://github.com/adldap/adLDAP/
+Originally written by Scott Barnett, Richard Hyland. Adopted by the community.
 
 ## To do
 

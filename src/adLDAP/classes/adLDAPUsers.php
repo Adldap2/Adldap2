@@ -635,17 +635,21 @@ class adLDAPUsers
 
         return true;
     }
-    
+
     /**
-    * Encode a password for transmission over LDAP
-    *
-    * @param string $password The password to encode
-    * @return string
-    */
-    public function encodePassword($password) {
-        $password="\"".$password."\"";
-        $encoded="";
-        for ($i=0; $i <strlen($password); $i++) { $encoded.="{$password{$i}}\000"; }
+     * Encode a password for transmission over LDAP
+     *
+     * @param string $password The password to encode
+     * @return string
+     */
+    public function encodePassword($password)
+    {
+        $password = "\"" . $password . "\"";
+
+        $encoded = "";
+
+        for ($i = 0; $i < strlen($password); $i++) $encoded .= "{$password{$i}}\000";
+
         return $encoded;
     }
      

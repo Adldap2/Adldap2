@@ -18,6 +18,7 @@ https://github.com/adldap/adLDAP/
 - Completely refresh all classes and improve the terrible scrutinizer score
 - Unit / Functional Testing
 - Better, and easier to understand documentation
+- Create LDAP encapsulation class for easier testing
 
 ## About
 

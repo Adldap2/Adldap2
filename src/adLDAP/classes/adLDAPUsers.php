@@ -399,74 +399,88 @@ class adLDAPUsers
 
         return false;
     }
-    
+
     /**
-    * Determine a user's password expiry date
-    * 
-    * @param string $username The username to query
-    * @param book $isGUID Is the username passed a GUID or a samAccountName
-    * @requires bcmath http://www.php.net/manual/en/book.bc.php
-    * @return array
-    */
-    public function passwordExpiry($username, $isGUID = false) {
-        if ($username === NULL) { return "Missing compulsory field [username]"; }
-        if (!$this->adldap->getLdapBind()) { return false; }
-        if (!function_exists('bcmod')) { throw new \adLDAP\adLDAPException("Missing function support [bcmod] http://www.php.net/manual/en/book.bc.php"); };
-        
+     * Determine a user's password expiry date
+     *
+     * @param string $username The username to query
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return array|bool|string
+     * @throws \adLDAP\adLDAPException
+     * @requires bcmod http://php.net/manual/en/function.bcmod.php
+     */
+    public function passwordExpiry($username, $isGUID = false)
+    {
+        if ($username === NULL) return "Missing compulsory field [username]";
+
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ( ! function_exists('bcmod'))
+        {
+            $message = "Missing function support [bcmod] http://php.net/manual/en/function.bcmod.php";
+
+            throw new \adLDAP\adLDAPException($message);
+        }
+
         $userInfo = $this->info($username, array("pwdlastset", "useraccountcontrol"), $isGUID);
+
         $pwdLastSet = $userInfo[0]['pwdlastset'][0];
+
         $status = array();
-        
-        if ($userInfo[0]['useraccountcontrol'][0] == '66048') {
-            // Password does not expire
+
+        if ($userInfo[0]['useraccountcontrol'][0] == '66048')
+        {
             return "Does not expire";
         }
-        if ($pwdLastSet === '0') {
-            // Password has already expired
+
+        if ($pwdLastSet === '0')
+        {
             return "Password has expired";
         }
-        
-         // Password expiry in AD can be calculated from TWO values:
-         //   - User's own pwdLastSet attribute: stores the last time the password was changed
-         //   - Domain's maxPwdAge attribute: how long passwords last in the domain
-         //
-         // Although Microsoft chose to use a different base and unit for time measurements.
-         // This function will convert them to Unix timestamps
-         $sr = ldap_read($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), 'objectclass=*', array('maxPwdAge'));
-         if (!$sr) {
-             return false;
-         }
-         $info = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
-         $maxPwdAge = $info[0]['maxpwdage'][0];
-         
-         // See MSDN: http://msdn.microsoft.com/en-us/library/ms974598.aspx
-         //
-         // pwdLastSet contains the number of 100 nanosecond intervals since January 1, 1601 (UTC), 
-         // stored in a 64 bit integer. 
-         //
-         // The number of seconds between this date and Unix epoch is 11644473600.
-         //
-         // maxPwdAge is stored as a large integer that represents the number of 100 nanosecond
-         // intervals from the time the password was set before the password expires.
-         //
-         // We also need to scale this to seconds but also this value is a _negative_ quantity!
-         //
-         // If the low 32 bits of maxPwdAge are equal to 0 passwords do not expire
-         //
-         // Unfortunately the maths involved are too big for PHP integers, so I've had to require
-         // BCMath functions to work with arbitrary precision numbers.
-         if (bcmod($maxPwdAge, 4294967296) === '0') {
+
+        // Password expiry in AD can be calculated from TWO values:
+        //   - User's own pwdLastSet attribute: stores the last time the password was changed
+        //   - Domain's maxPwdAge attribute: how long passwords last in the domain
+        //
+        // Although Microsoft chose to use a different base and unit for time measurements.
+        // This function will convert them to Unix timestamps
+        $sr = ldap_read($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), 'objectclass=*', array('maxPwdAge'));
+
+        if ( ! $sr) return false;
+
+        $info = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+
+        $maxPwdAge = $info[0]['maxpwdage'][0];
+
+        // See MSDN: http://msdn.microsoft.com/en-us/library/ms974598.aspx
+        //
+        // pwdLastSet contains the number of 100 nanosecond intervals since January 1, 1601 (UTC),
+        // stored in a 64 bit integer.
+        //
+        // The number of seconds between this date and Unix epoch is 11644473600.
+        //
+        // maxPwdAge is stored as a large integer that represents the number of 100 nanosecond
+        // intervals from the time the password was set before the password expires.
+        //
+        // We also need to scale this to seconds but also this value is a _negative_ quantity!
+        //
+        // If the low 32 bits of maxPwdAge are equal to 0 passwords do not expire
+        //
+        // Unfortunately the maths involved are too big for PHP integers, so I've had to require
+        // BCMath functions to work with arbitrary precision numbers.
+        if (bcmod($maxPwdAge, 4294967296) === '0')
+        {
             return "Domain does not expire passwords";
         }
-        
+
         // Add maxpwdage and pwdlastset and we get password expiration time in Microsoft's
         // time units.  Because maxpwd age is negative we need to subtract it.
         $pwdExpire = bcsub($pwdLastSet, $maxPwdAge);
-    
+
         // Convert MS's time to Unix time
         $status['expiryts'] = bcsub(bcdiv($pwdExpire, '10000000'), '11644473600');
         $status['expiryformat'] = date('Y-m-d H:i:s', bcsub(bcdiv($pwdExpire, '10000000'), '11644473600'));
-        
+
         return $status;
     }
     

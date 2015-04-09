@@ -577,45 +577,62 @@ class adLDAPUsers
         
         return true;
     }
-    
+
     /**
-    * Set the password of a user - This must be performed over SSL
-    * 
-    * @param string $username The username to modify
-    * @param string $password The new password
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return bool
-    */
-    public function password($username, $password, $isGUID = false) {
-        if ($username === NULL) { return false; }
-        if ($password === NULL) { return false; }
-        if (!$this->adldap->getLdapBind()) { return false; }
-        if (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) { 
-            throw new \adLDAP\adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
+     * Set the password of a user - This must be performed over SSL
+     *
+     * @param string $username The username to modify
+     * @param string $password The new password
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool
+     * @throws \adLDAP\adLDAPException
+     */
+    public function password($username, $password, $isGUID = false)
+    {
+        if ($username === NULL) return false;
+
+        if ($password === NULL) return false;
+
+        if ( ! $this->adldap->getLdapBind()) return false;
+
+        if ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
+        {
+            $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
+
+            throw new \adLDAP\adLDAPException($message);
         }
         
         $userDn = $this->dn($username, $isGUID);
-        if ($userDn === false) { 
-            return false; 
-        }
+
+        if ($userDn === false) return false;
                 
-        $add=array();
+        $add = array();
+
         $add["unicodePwd"][0] = $this->encodePassword($password);
         
         $result = @ldap_mod_replace($this->adldap->getLdapConnection(), $userDn, $add);
-        if ($result === false) {
+
+        if ($result === false)
+        {
             $err = ldap_errno($this->adldap->getLdapConnection());
-            if ($err) {
+
+            if ($err)
+            {
                 $msg = 'Error ' . $err . ': ' . ldap_err2str($err) . '.';
-                if($err == 53) {
+
+                if($err == 53)
+                {
                     $msg .= ' Your password might not match the password policy.';
                 }
+
                 throw new \adLDAP\adLDAPException($msg);
             }
-            else {
+            else
+            {
                 return false;
             }
         }
+
         return true;
     }
     

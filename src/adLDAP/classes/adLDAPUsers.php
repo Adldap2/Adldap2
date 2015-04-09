@@ -535,20 +535,25 @@ class adLDAPUsers
 
         return true;
     }
-    
+
     /**
-    * Disable a user account
-    * 
-    * @param string $username The username to disable
-    * @param bool $isGUID Is the username passed a GUID or a samAccountName
-    * @return bool
-    */
-    public function disable($username, $isGUID = false) {
-        if ($username === NULL) { return "Missing compulsory field [username]"; }
+     * Disable a user account
+     *
+     * @param string $username The username to disable
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool|string
+     * @throws \adLDAP\adLDAPException
+     */
+    public function disable($username, $isGUID = false)
+    {
+        if ($username === NULL) return "Missing compulsory field [username]";
+
         $attributes = array("enabled" => 0);
+
         $result = $this->modify($username, $attributes, $isGUID);
-        if ($result == false) { return false; }
-       
+
+        if ($result == false) return false;
+
         return true;
     }
     

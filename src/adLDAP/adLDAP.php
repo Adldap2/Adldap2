@@ -122,14 +122,14 @@ class adLDAP
      *
      * @var null
      */
-    protected $adminUsername = NULL;
+    protected $adminUsername = '';
 
     /**
      * Account with higher privileges password
      *
      * @var null
      */
-    protected $adminPassword = NULL;
+    protected $adminPassword = '';
 
     /**
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
@@ -208,6 +208,27 @@ class adLDAP
         if ($this->ldapConnection) return $this->ldapConnection;
 
         return false;
+    }
+
+    /**
+     * Sets the ldapConnection property
+     *
+     * @param $connection
+     * @return void
+     */
+    public function setLdapConnection($connection)
+    {
+        $this->ldapConnection = $connection;
+    }
+
+    /**
+     * Sets the current bound LDAP variables
+     *
+     * @param $bindings
+     */
+    public function setLdapBind($bindings)
+    {
+        $this->ldapBind = $bindings;
     }
 
     /**
@@ -726,62 +747,78 @@ class adLDAP
         // Connect to the AD/LDAP server as the username/password
         $domainController = $this->randomController();
 
-        if ($this->useSSL)
+        $adminUsername = $this->getAdminUsername();
+        $adminPassword = $this->getAdminPassword();
+
+        $useSSL = $this->getUseSSL();
+        $useTLS = $this->getUseTLS();
+        $useSSO = $this->getUseSSO();
+
+        $port = $this->getPort();
+
+        if ($useSSL)
         {
-            $this->ldapConnection = ldap_connect("ldaps://" . $domainController, $this->getPort());
+            $this->setLdapConnection(ldap_connect("ldaps://" . $domainController, $port));
         } else
         {
-            $this->ldapConnection = ldap_connect("ldap://" . $domainController, $this->getPort());
+            $this->setLdapConnection(ldap_connect("ldap://" . $domainController, $port));
         }
-               
+
+        $connection = $this->getLdapConnection();
+
         // Set some ldap options for talking to AD
-        ldap_set_option($this->getLdapConnection(), LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($this->getLdapConnection(), LDAP_OPT_REFERRALS, $this->followReferrals);
+        ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($connection, LDAP_OPT_REFERRALS, $this->followReferrals);
         
-        if ($this->useTLS)
+        if ($useTLS)
         {
-            ldap_start_tls($this->getLdapConnection());
+            ldap_start_tls($connection);
         }
                
         // Bind as a domain admin if they've set it up
-        if ($this->getAdminUsername() !== NULL && $this->getAdminPassword() !== NULL)
+        if ($adminUsername && $adminPassword)
         {
-            $this->ldapBind = @ldap_bind($this->getLdapConnection(), $this->getAdminUsername() . $this->getAccountSuffix(), $this->getAdminPassword());
+            $this->setLdapBind(@ldap_bind($connection, $adminUsername . $this->getAccountSuffix(), $adminPassword));
 
-            if ( ! $this->ldapBind)
+            $bindings = $this->getLdapBind();
+
+            if ( ! $bindings)
             {
-                if ($this->useSSL && ! $this->useTLS)
+                $error = $this->getLastError();
+
+                if ($useSSL && ! $useTLS)
                 {
                     // If you have problems troubleshooting, remove the @ character from the ldapldapBind command above to get the actual error message
-                    throw new adLDAPException('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $this->getLastError());
+                    $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $error;
                 }
                 else
                 {
-                    throw new adLDAPException('Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $this->getLastError());
+                    $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $error;
                 }
+
+                throw new adLDAPException($message);
             }
         }
 
-        if ($this->useSSO && $_SERVER['REMOTE_USER'] && $this->adminUsername === null && $_SERVER['KRB5CCNAME'])
+        if ($useSSO && $_SERVER['REMOTE_USER'] && ! $adminUsername && $_SERVER['KRB5CCNAME'])
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
-            $this->ldapBind = @ldap_sasl_bind($this->ldapConnection, NULL, NULL, "GSSAPI");
+            $this->setLdapBind(@ldap_sasl_bind($this->getLdapConnection(), NULL, NULL, "GSSAPI"));
 
-            if ( ! $this->ldapBind)
+            if ( ! $this->getLdapBind())
             {
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->getLastError()); 
+                $message = 'Rebind to Active Directory failed. AD said: ' . $this->getLastError();
+
+                throw new adLDAPException($message);
             } 
             else
             {
                 return true;
             }
         }
-                
-        if ($this->baseDn == NULL)
-        {
-            $this->baseDn = $this->findBaseDn();   
-        }
+
+        if ( ! $this->getBaseDn()) $this->setBaseDn($this->findBaseDn());
 
         return true;
     }

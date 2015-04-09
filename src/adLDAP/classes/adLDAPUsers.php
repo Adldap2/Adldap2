@@ -42,9 +42,13 @@ use adLDAP\adLDAP;
 require_once(dirname(__FILE__) . '/../adLDAP.php');
 require_once(dirname(__FILE__) . '/../collections/adLDAPUserCollection.php');
 
+
 /**
-* USER FUNCTIONS
-*/
+ * Ldap User management
+ *
+ * Class adLDAPUsers
+ * @package adLDAP\classes
+ */
 class adLDAPUsers
 {
     /**
@@ -144,40 +148,61 @@ class adLDAPUsers
 
         return true;
     }
-    
-    /**
-    * Account control options
-    *
-    * @param array $options The options to convert to int 
-    * @return int
-    */
-    protected function accountControl($options) {
-        $val=0;
 
-        if (is_array($options)) {
-            if (in_array("SCRIPT",$options)) { $val=$val+1; }
-            if (in_array("ACCOUNTDISABLE",$options)) { $val=$val+2; }
-            if (in_array("HOMEDIR_REQUIRED",$options)) { $val=$val+8; }
-            if (in_array("LOCKOUT",$options)) { $val=$val+16; }
-            if (in_array("PASSWD_NOTREQD",$options)) { $val=$val+32; }
+    /**
+     * Account control options
+     *
+     * @param array $options The options to convert to int
+     * @return int
+     */
+    protected function accountControl($options)
+    {
+        $val = 0;
+
+        if (is_array($options))
+        {
+            if (in_array("SCRIPT",$options)) $val = $val + 1;
+
+            if (in_array("ACCOUNTDISABLE",$options)) $val = $val + 2;
+
+            if (in_array("HOMEDIR_REQUIRED",$options)) $val = $val + 8;
+
+            if (in_array("LOCKOUT",$options)) $val = $val + 16;
+
+            if (in_array("PASSWD_NOTREQD",$options)) $val = $val + 32;
             //PASSWD_CANT_CHANGE Note You cannot assign this permission by directly modifying the UserAccountControl attribute.
             //For information about how to set the permission programmatically, see the "Property flag descriptions" section.
-            if (in_array("ENCRYPTED_TEXT_PWD_ALLOWED",$options)) { $val=$val+128; }
-            if (in_array("TEMP_DUPLICATE_ACCOUNT",$options)) { $val=$val+256; }
-            if (in_array("NORMAL_ACCOUNT",$options)) { $val=$val+512; }
-            if (in_array("INTERDOMAIN_TRUST_ACCOUNT",$options)) { $val=$val+2048; }
-            if (in_array("WORKSTATION_TRUST_ACCOUNT",$options)) { $val=$val+4096; }
-            if (in_array("SERVER_TRUST_ACCOUNT",$options)) { $val=$val+8192; }
-            if (in_array("DONT_EXPIRE_PASSWORD",$options)){ $val=$val+65536; }
-            if (in_array("MNS_LOGON_ACCOUNT",$options)) { $val=$val+131072; }
-            if (in_array("SMARTCARD_REQUIRED",$options)) { $val=$val+262144; }
-            if (in_array("TRUSTED_FOR_DELEGATION",$options)) { $val=$val+524288; }
-            if (in_array("NOT_DELEGATED",$options)) { $val=$val+1048576; }
-            if (in_array("USE_DES_KEY_ONLY",$options)) { $val=$val+2097152; }
-            if (in_array("DONT_REQ_PREAUTH",$options)) { $val=$val+4194304; } 
-            if (in_array("PASSWORD_EXPIRED",$options)) { $val=$val+8388608; }
-            if (in_array("TRUSTED_TO_AUTH_FOR_DELEGATION",$options)) { $val=$val+16777216; }
+            if (in_array("ENCRYPTED_TEXT_PWD_ALLOWED",$options)) $val = $val + 128;
+
+            if (in_array("TEMP_DUPLICATE_ACCOUNT",$options)) $val = $val + 256;
+
+            if (in_array("NORMAL_ACCOUNT",$options)) $val = $val + 512;
+
+            if (in_array("INTERDOMAIN_TRUST_ACCOUNT",$options)) $val = $val + 2048;
+
+            if (in_array("WORKSTATION_TRUST_ACCOUNT",$options)) $val = $val + 4096;
+
+            if (in_array("SERVER_TRUST_ACCOUNT",$options)) $val = $val + 8192;
+
+            if (in_array("DONT_EXPIRE_PASSWORD",$options)) $val = $val + 65536;
+
+            if (in_array("MNS_LOGON_ACCOUNT",$options)) $val = $val + 131072;
+
+            if (in_array("SMARTCARD_REQUIRED",$options)) $val = $val + 262144;
+
+            if (in_array("TRUSTED_FOR_DELEGATION",$options)) $val = $val + 524288;
+
+            if (in_array("NOT_DELEGATED",$options)) $val = $val + 1048576;
+
+            if (in_array("USE_DES_KEY_ONLY",$options)) $val = $val + 2097152;
+
+            if (in_array("DONT_REQ_PREAUTH",$options)) $val = $val + 4194304;
+
+            if (in_array("PASSWORD_EXPIRED",$options)) $val = $val + 8388608;
+
+            if (in_array("TRUSTED_TO_AUTH_FOR_DELEGATION",$options)) $val = $val + 16777216;
         }
+
         return $val;
     }
     

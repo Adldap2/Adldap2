@@ -776,7 +776,7 @@ class adLDAP
         }
                
         // Bind as a domain admin if they've set it up
-        if ($adminUsername && $adminPassword)
+        if ($adminUsername !== NULL && $adminPassword !== NULL)
         {
             $this->setLdapBind(@ldap_bind($connection, $adminUsername . $this->getAccountSuffix(), $adminPassword));
 
@@ -852,7 +852,7 @@ class adLDAP
         if (empty($username) || empty($password)) return false;
         
         // Allow binding over SSO for Kerberos
-        if ($this->getUseSSO() && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && $this->getAdminUsername() === NULL && $_SERVER['KRB5CCNAME'])
+        if ($this->getUseSSO() && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && ! $this->getAdminUsername() && $_SERVER['KRB5CCNAME'])
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
@@ -871,19 +871,16 @@ class adLDAP
         // Bind as the user        
         $ret = true;
 
-        $this->ldapBind = @ldap_bind($this->getLdapConnection(), $username . $this->getAccountSuffix(), $password);
+        $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $username . $this->getAccountSuffix(), $password));
 
-        if ( ! $this->getLdapBind())
-        {
-            $ret = false;
-        }
+        if ( ! $this->getLdapBind()) $ret = false;
         
         // Once we've checked their details, kick back into admin mode if we have it
-        if ($this->getAdminPassword() !== NULL && ! $preventRebind)
+        if ($this->getAdminPassword() && ! $preventRebind)
         {
-            $this->ldapBind = @ldap_bind($this->getLdapConnection(), $this->getAdminUsername() . $this->getAccountSuffix() , $this->getAdminPassword());
+            $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $this->getAdminUsername() . $this->getAccountSuffix() , $this->getAdminPassword()));
 
-            if ( ! $this->ldapBind)
+            if ( ! $this->getLdapBind())
             {
                 // This should never happen in theory
                 throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->getLastError());

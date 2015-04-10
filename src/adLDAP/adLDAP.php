@@ -947,7 +947,7 @@ class adLDAP
 
         $filter = 'objectClass=*';
 
-        $results = $this->ldapConnection->search(NULL, $filter, $attributes);
+        $results = $this->ldapConnection->read(NULL, $filter, $attributes);
 
         $entries = $this->ldapConnection->getEntries($results);
 

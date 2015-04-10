@@ -209,6 +209,18 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Returns the count of the returned entries
+     * from the specified search results.
+     *
+     * @param $searchResults
+     * @return int
+     */
+    public function countEntries($searchResults)
+    {
+        return @ldap_count_entries($this->getConnection(), $searchResults);
+    }
+
+    /**
      * Returns the last error from
      * the current LDAP connection.
      *

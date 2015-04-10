@@ -297,10 +297,10 @@ class LDAP implements ConnectionInterface
     {
         if($sasl)
         {
-            return ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
+            return @ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
         } else
         {
-            return ldap_bind($this->getConnection(), $username, $password);
+            return @ldap_bind($this->getConnection(), $username, $password);
         }
     }
 

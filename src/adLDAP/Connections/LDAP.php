@@ -221,6 +221,18 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Returns the first entry from the specified
+     * search results.
+     *
+     * @param $searchResults
+     * @return resource
+     */
+    public function getFirstEntry($searchResults)
+    {
+        return @ldap_first_entry($this->getConnection(), $searchResults);
+    }
+
+    /**
      * Returns the last error from
      * the current LDAP connection.
      *
@@ -229,6 +241,18 @@ class LDAP implements ConnectionInterface
     public function getLastError()
     {
         return @ldap_error($this->getConnection());
+    }
+
+    /**
+     * Get all binary values from the specified result entry
+     *
+     * @param $entry
+     * @param $attribute
+     * @return array
+     */
+    public function getValuesLen($entry, $attribute)
+    {
+        return @ldap_get_values_len($this->getConnection(), $entry, $attribute);
     }
 
     /**

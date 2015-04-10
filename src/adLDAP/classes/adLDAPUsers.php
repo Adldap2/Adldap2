@@ -731,13 +731,13 @@ class adLDAPUsers
 
         $fields = array("objectGUID");
 
-        $sr = @ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        if (ldap_count_entries($this->adldap->getLdapConnection(), $sr) > 0)
+        if ($this->adldap->getLdapConnection()->countEntries($results) > 0)
         {
-            $entry = @ldap_first_entry($this->adldap->getLdapConnection(), $sr);
+            $entry = $this->adldap->getLdapConnection()->getFirstEntry($results);
 
-            $guid = @ldap_get_values_len($this->adldap->getLdapConnection(), $entry, 'objectGUID');
+            $guid = $this->adldap->getLdapConnection()->getValuesLen($entry, 'objectGUID');
 
             $strGUID = $this->adldap->utilities()->binaryToText($guid[0]);
 

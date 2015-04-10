@@ -25,6 +25,6 @@ class AdldapTest extends FunctionalTestCase
 
         $connection->shouldReceive('isSupported')->andReturn(false);
 
-        new adLDAP([], $connection);
+        new adLDAP(array(), $connection);
     }
 }

@@ -268,7 +268,7 @@ class LDAP implements ConnectionInterface
      */
     public function search($dn, $filter, array $fields)
     {
-        return ldap_search($this->getConnection(), $dn, $filter, $fields);
+        return @ldap_search($this->getConnection(), $dn, $filter, $fields);
     }
 
     /**
@@ -297,10 +297,10 @@ class LDAP implements ConnectionInterface
     {
         if($sasl)
         {
-            return @ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
+            return $this->bound = @ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
         } else
         {
-            return @ldap_bind($this->getConnection(), $username, $password);
+            return $this->bound = @ldap_bind($this->getConnection(), $username, $password);
         }
     }
 

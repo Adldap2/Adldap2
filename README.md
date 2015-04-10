@@ -12,7 +12,7 @@
 
 Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
-## To do
+## To Do
 
 - Completely refresh all classes and improve the terrible scrutinizer score
 - Unit / Functional Testing

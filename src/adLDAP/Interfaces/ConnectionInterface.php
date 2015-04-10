@@ -32,6 +32,10 @@ interface ConnectionInterface
     public function isUsingSSL();
 
     /**
+     * Returns true / false if the
+     * current connection instance is using
+     * TLS.
+     *
      * @return bool
      */
     public function isUsingTLS();
@@ -39,7 +43,7 @@ interface ConnectionInterface
     /**
      * Returns true / false if the current
      * connection instance is using single
-     * sign on
+     * sign on.
      *
      * @return bool
      */

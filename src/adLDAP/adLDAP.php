@@ -591,7 +591,6 @@ class adLDAP
         $this->useTLS = $useTLS;
     }
 
-
     /**
      * Retrieves the current UseTLS property
      *
@@ -612,12 +611,12 @@ class adLDAP
      */
     public function setUseSSO($useSSO)
     {
-      if ($useSSO === true && ! $this->ldapSaslSupported())
-      {
-          throw new adLDAPException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
-      }
+        if ($useSSO === true && ! $this->ldapSaslSupported())
+        {
+            throw new adLDAPException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
+        }
 
-      $this->useSSO = $useSSO;
+        $this->useSSO = $useSSO;
     }
 
     /**

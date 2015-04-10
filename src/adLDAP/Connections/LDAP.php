@@ -125,7 +125,7 @@ class LDAP implements ConnectionInterface
      */
     public function getEntries($searchResults)
     {
-        return ldap_get_entries($this->getConnection(), $searchResults);
+        return @ldap_get_entries($this->getConnection(), $searchResults);
     }
 
     /**
@@ -152,9 +152,14 @@ class LDAP implements ConnectionInterface
         return ldap_set_option($this->getConnection(), $option, $value);
     }
 
+    /**
+     * Starts the LDAP connection as TLS
+     *
+     * @return bool
+     */
     public function startTLS()
     {
-
+        return ldap_start_tls($this->getConnection());
     }
 
     /**
@@ -171,14 +176,32 @@ class LDAP implements ConnectionInterface
         return ldap_connect($protocol . $hostname, $port);
     }
 
+    /**
+     * Performs a search on the current connection
+     * with the specified distinguished name, filter
+     * and fields.
+     *
+     * @param string $dn
+     * @param string $filter
+     * @param array $fields
+     * @return resource
+     */
     public function search($dn, $filter, array $fields)
     {
-
+        return ldap_search($this->getConnection(), $dn, $filter, $fields);
     }
 
+    /**
+     * Reads an entry on the current LDAP connection.
+     *
+     * @param $dn
+     * @param $filter
+     * @param array $fields
+     * @return resource
+     */
     public function read($dn, $filter, array $fields)
     {
-
+        return @ldap_read($this->getConnection(), $dn, $filter, $fields);
     }
 
     /**

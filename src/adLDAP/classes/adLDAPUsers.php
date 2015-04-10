@@ -147,7 +147,7 @@ class adLDAPUsers
         $result = $this->adldap->getLdapConnection()->add($dn, $add);
 
         if ($result != true) return false;
-        
+
         return true;
     }
 
@@ -309,14 +309,14 @@ class adLDAPUsers
             );
         }
 
-        if (!in_array("objectsid", $fields))
+        if ( ! in_array("objectsid", $fields))
         {
             $fields[] = "objectsid";
         }
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(),$filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->adldap->getLdapConnection()->getEntries($results);
         
         if (isset($entries[0]))
         {
@@ -446,11 +446,11 @@ class adLDAPUsers
         //
         // Although Microsoft chose to use a different base and unit for time measurements.
         // This function will convert them to Unix timestamps
-        $sr = ldap_read($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), 'objectclass=*', array('maxPwdAge'));
+        $results = $this->adldap->getLdapConnection()->read($this->adldap->getBaseDn(), 'objectclass=*', array('maxPwdAge'));
 
-        if ( ! $sr) return false;
+        if ( ! $results) return false;
 
-        $info = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $info = $this->adldap->getLdapConnection()->getEntries($results);
 
         $maxPwdAge = $info[0]['maxpwdage'][0];
 

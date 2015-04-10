@@ -2,6 +2,8 @@
 
 namespace adLDAP;
 
+use adLDAP\Interfaces\ConnectionInterface;
+
 require_once(dirname(__FILE__) . '/Connections/LDAP.php');
 require_once(dirname(__FILE__) . '/collections/adLDAPCollection.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPGroups.php');
@@ -209,7 +211,7 @@ class adLDAP
      * @param $connection
      * @return void
      */
-    public function setLdapConnection($connection)
+    public function setLdapConnection(ConnectionInterface $connection)
     {
         $this->ldapConnection = $connection;
     }
@@ -627,7 +629,7 @@ class adLDAP
      */
     public function getUseSSO()
     {
-        return $this->useSSO;
+        return $this->ldapConnection->isUsingSSO();
     }
 
     /**
@@ -661,7 +663,7 @@ class adLDAP
      * @param mixed $connection
      * @throws adLDAPException
      */
-    function __construct($options = array(), $connection = NULL)
+    function __construct(array $options = array(), $connection = NULL)
     {
         // Create a new LDAP Connection if one isn't set
         if( ! $connection) $connection = new Connections\LDAP;
@@ -709,11 +711,15 @@ class adLDAP
 
             if (array_key_exists("sso", $options))
             {
-                /*
-                 * Make sure we check if SSO is supported, if
-                 * so we'll bind it to the current LDAP connection.
-                 */
-                if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
+                if($options['sso'])
+                {
+                    /*
+                     * If we've set SSO to true, we'll make sure we check
+                     * if SSO is supported, if so we'll bind it to the
+                     * current LDAP connection.
+                     */
+                    if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
+                }
             }
         }
 
@@ -724,7 +730,7 @@ class adLDAP
     /**
      * Destructor.
      *
-     * Closes the current LDAP connection
+     * Closes the current LDAP connection.
      *
      * @return void
      */

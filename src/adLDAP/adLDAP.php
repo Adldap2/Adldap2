@@ -187,13 +187,6 @@ class adLDAP
     protected $ldapConnection;
 
     /**
-     * Holds the current bound variables
-     *
-     * @var mixed
-     */
-    protected $ldapBind;
-
-    /**
      * Get the active LDAP Connection
      *
      * @return bool|mixed
@@ -217,23 +210,14 @@ class adLDAP
     }
 
     /**
-     * Sets the current bound LDAP variables
+     * Get the bind status of the
+     * current connection.
      *
-     * @param $bindings
-     */
-    public function setLdapBind($bindings)
-    {
-        $this->ldapBind = $bindings;
-    }
-
-    /**
-     * Get the bind status
-     *
-     * @return mixed
+     * @return bool
      */
     public function getLdapBind()
     {
-        return $this->ldapBind;
+        return $this->ldapConnection->isBound();
     }
 
     /**
@@ -899,9 +883,9 @@ class adLDAP
 
         $fields = array("cn","description","displayname","distinguishedname","samaccountname");
 
-        $sr = ldap_search($this->getLdapConnection(), $this->getBaseDn(), $filter, $fields);
+        $sr = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->getLdapConnection(), $sr);
+        $entries = $this->ldapConnection->getEntries($sr);
 
         $objectArray = array();
 

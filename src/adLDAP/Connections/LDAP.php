@@ -317,7 +317,7 @@ class LDAP implements ConnectionInterface
     }
 
     /**
-     * Modifies the specified LDAP entry
+     * Modifies the specified LDAP entry.
      *
      * @param string $dn
      * @param array $entry
@@ -326,6 +326,39 @@ class LDAP implements ConnectionInterface
     public function modify($dn, array $entry)
     {
         return @ldap_modify($this->getConnection(), $dn, $entry);
+    }
+
+    /**
+     * Replaces attribute values with new ones.
+     *
+     * @param $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function modReplace($dn, array $entry)
+    {
+        return @ldap_mod_replace($this->getConnection(), $dn, $entry);
+    }
+
+    /**
+     * Return the LDAP error number of the last LDAP command
+     *
+     * @return int
+     */
+    public function errNo()
+    {
+        return ldap_errno($this->getConnection());
+    }
+
+    /**
+     * Convert LDAP error number into string error message
+     *
+     * @param int $number
+     * @return string
+     */
+    public function err2Str($number)
+    {
+        return ldap_err2str($number);
     }
 
     /**

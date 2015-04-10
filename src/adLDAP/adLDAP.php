@@ -113,21 +113,6 @@ class adLDAP
     protected $domainControllers = array("dc01.mydomain.local");
 
     /**
-     * Optional account with higher privileges for searching
-     * This should be set to a domain admin account
-     *
-     * @var string
-     */
-    protected $adminUsername = '';
-
-    /**
-     * Account with higher privileges password
-     *
-     * @var string
-     */
-    protected $adminPassword = '';
-
-    /**
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
      * This tweak will resolve the real primary group.
      * Setting to false will fudge "Domain Users" and is much faster. Keep in mind though that if
@@ -153,15 +138,27 @@ class adLDAP
      */
     protected $followReferrals = 0;
 
-	// You should not need to edit anything below this line
-	//******************************************************************************************
-
     /**
      * Holds the current ldap connection
      *
      * @var mixed
      */
     protected $ldapConnection;
+
+    /**
+     * Optional account with higher privileges for searching
+     * This should be set to a domain admin account
+     *
+     * @var string
+     */
+    private $adminUsername = '';
+
+    /**
+     * Account with higher privileges password
+     *
+     * @var string
+     */
+    private $adminPassword = '';
 
     /**
      * Get the active LDAP Connection

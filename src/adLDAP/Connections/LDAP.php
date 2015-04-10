@@ -71,6 +71,20 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Returns true / false if the current
+     * PHP install supports an SASL bound
+     * LDAP connection.
+     *
+     * @return bool
+     */
+    public function isSaslSupported()
+    {
+        if ( ! function_exists('ldap_sasl_bind')) return false;
+
+        return true;
+    }
+
+    /**
      * Returns true / false if the
      * current connection instance is using
      * SSL.

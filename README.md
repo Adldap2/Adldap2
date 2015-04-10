@@ -18,6 +18,10 @@ Originally written by Scott Barnett, Richard Hyland. Adopted by the community.
 - Better, and easier to understand documentation
 - Create LDAP encapsulation class for easier testing
 
+#### Primary Goal
+
+- Keep existing API for easy upgrades for existing users
+
 ## Description
 
 adLDAP2 is a PHP class library that provides LDAP authentication and Active Directory management tools.

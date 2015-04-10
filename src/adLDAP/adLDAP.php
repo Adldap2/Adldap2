@@ -658,25 +658,37 @@ class adLDAP
      * Tries to bind to the AD domain over LDAP or LDAPs
      *
      * @param array $options
+     * @param mixed $connection
      * @throws adLDAPException
      */
-    function __construct($options = array())
+    function __construct($options = array(), $connection = NULL)
     {
+        // Create a new LDAP Connection if one isn't set
+        if( ! $connection) $connection = new Connections\LDAP;
+
+        $this->setLdapConnection($connection);
+
+        // Check if LDAP is supported
+        if ($this->ldapConnection->isSupported() === false)
+        {
+            throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
+        }
+
         // You can specifically overide any of the default configuration options setup above
         if (count($options) > 0)
         {
-            if (array_key_exists("account_suffix",$options)) $this->setAccountSuffix($options["account_suffix"]);
+            if (array_key_exists("account_suffix", $options)) $this->setAccountSuffix($options["account_suffix"]);
 
-            if (array_key_exists("base_dn",$options)) $this->setBaseDn($options["base_dn"]);
+            if (array_key_exists("base_dn" ,$options)) $this->setBaseDn($options["base_dn"]);
 
-            if (array_key_exists("domain_controllers",$options))
+            if (array_key_exists("domain_controllers", $options))
             {
                 if ( ! is_array($options["domain_controllers"]))
                 {
                     throw new adLDAPException('[domain_controllers] option must be an array');
                 }
 
-                $this->domainControllers = $options["domain_controllers"]; 
+                $this->setDomainControllers($options["domain_controllers"]);
             }
 
             if (array_key_exists("admin_username", $options)) $this->setAdminUsername($options["admin_username"]);
@@ -685,36 +697,24 @@ class adLDAP
 
             if (array_key_exists("real_primarygroup", $options)) $this->setRealPrimaryGroup($options["real_primarygroup"]);
 
-            if (array_key_exists("use_ssl",$options)) $this->setUseSSL($options["use_ssl"]);
+            if (array_key_exists("use_ssl", $options)) $this->setUseSSL($options["use_ssl"]);
 
-            if (array_key_exists("use_tls",$options)) $this->setUseTLS($options["use_tls"]);
+            if (array_key_exists("use_tls", $options)) $this->setUseTLS($options["use_tls"]);
 
-            if (array_key_exists("recursive_groups",$options)) $this->setRecursiveGroups($options["recursive_groups"]);
+            if (array_key_exists("recursive_groups", $options)) $this->setRecursiveGroups($options["recursive_groups"]);
 
             if (array_key_exists("follow_referrals", $options)) $this->followReferrals = $options["follow_referrals"];
 
-            if (array_key_exists("ad_port",$options)) $this->setPort($options["ad_port"]);
+            if (array_key_exists("ad_port", $options)) $this->setPort($options["ad_port"]);
 
-            if (array_key_exists("sso",$options))
+            if (array_key_exists("sso", $options))
             {
-                if ($this->ldapSaslSupported())
-                {
-                    $this->setUseSSO($options["sso"]);
-
-                } else
-                {
-                    $this->setUseSSO(false);
-                }
+                /*
+                 * Make sure we check if SSO is supported, if
+                 * so we'll bind it to the current LDAP connection.
+                 */
+                if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
             }
-        }
-
-        // Create a new LDAP Connection
-        $this->setLdapConnection(new Connections\LDAP);
-
-        // Check if it's supported
-        if ($this->ldapConnection->isSupported() === false)
-        {
-            throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
         }
 
         // Looks like we're all set. Let's try and connect

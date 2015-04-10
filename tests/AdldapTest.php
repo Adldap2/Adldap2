@@ -16,4 +16,15 @@ class AdldapTest extends FunctionalTestCase
 
         new adLDAP($config);
     }
+
+    public function testAdldapConstructLdapNotSupportedFailure()
+    {
+        $this->setExpectedException('adLDAP\adLDAPException');
+
+        $connection = $this->mock('adLDAP\Connections\Ldap');
+
+        $connection->shouldReceive('isSupported')->andReturn(false);
+
+        new adLDAP([], $connection);
+    }
 }

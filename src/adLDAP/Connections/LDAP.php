@@ -27,7 +27,7 @@ class LDAP implements ConnectionInterface
     const LDAP_PROTOCOL = 'ldap://';
 
     /**
-     * Holds the bool to tell the connection
+     * Stores the bool to tell the connection
      * whether or not to use SSL
      *
      * @var bool
@@ -35,7 +35,7 @@ class LDAP implements ConnectionInterface
     protected $useSSL = false;
 
     /**
-     * Holds the bool to tell the connection
+     * Stores the bool to tell the connection
      * whether or not to use TLS
      *
      * @var bool
@@ -43,7 +43,7 @@ class LDAP implements ConnectionInterface
     protected $useTLS = false;
 
     /**
-     * Holds the bool to tell the connection
+     * Stores the bool to tell the connection
      * whether or not to use SSO
      *
      * @var bool
@@ -56,6 +56,14 @@ class LDAP implements ConnectionInterface
      * @var resource
      */
     protected $connection;
+
+    /**
+     * Stores the bool whether or not
+     * the current connection is bound.
+     *
+     * @var bool
+     */
+    protected $bound = false;
 
     /**
      * Returns true / false if the current
@@ -118,6 +126,18 @@ class LDAP implements ConnectionInterface
     public function isUsingSSO()
     {
         return $this->useSSO;
+    }
+
+    /**
+     * Returns true / false if the
+     * current connection instance is
+     * bound
+     *
+     * @return bool
+     */
+    public function isBound()
+    {
+        return $this->bound;
     }
 
     /**
@@ -275,7 +295,6 @@ class LDAP implements ConnectionInterface
         {
             return ldap_bind($this->getConnection(), $username, $password);
         }
-
     }
 
     /**

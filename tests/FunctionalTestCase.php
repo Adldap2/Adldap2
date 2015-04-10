@@ -4,7 +4,7 @@ namespace adLDAP\Tests;
 
 use Mockery;
 
-class FunctionalTestCase extends \PHPUnit_Framework_TestCase
+abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 {
     protected function mock($class)
     {

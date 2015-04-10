@@ -4,7 +4,7 @@ namespace adLDAP\Tests;
 
 use adLDAP\adLDAP;
 
-class AdldapTest extends FunctionalTestCase
+class AdldapConstructTest extends FunctionalTestCase
 {
     protected function newConnectionMock()
     {
@@ -16,7 +16,7 @@ class AdldapTest extends FunctionalTestCase
      * must be an array, and will fail constructing with
      * another variable type.
      */
-    public function testAdldapConfigNotArrayConstructFailure()
+    public function testAdldapConstructConfigNotArrayFailure()
     {
         try
         {

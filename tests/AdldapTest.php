@@ -52,7 +52,7 @@ class AdldapTest extends FunctionalTestCase
     /**
      * This tests that the connection function isSupported
      * returns false, and an exception is thrown when it
-     * has been checked.
+     * has been called.
      */
     public function testAdldapConstructLdapNotSupportedFailure()
     {
@@ -84,7 +84,8 @@ class AdldapTest extends FunctionalTestCase
             ->shouldReceive('connect')->andReturn(true)
             ->shouldReceive('setOption')->twice()
             ->shouldReceive('bind')->andReturn('resource')
-            ->shouldReceive('isUsingSSO')->andReturn(true);
+            ->shouldReceive('isUsingSSO')->andReturn(true)
+            ->shouldReceive('close')->andReturn(true);
 
         $ad = new adLDAP($config, $connection);
 

@@ -799,9 +799,7 @@ class adLDAP
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
-            $bindings = $this->ldapConnection->bind(NULL, NULL, true);
-
-            if ( ! $bindings)
+            if ( ! $this->ldapConnection->bind(NULL, NULL, true))
             {
                 $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
 
@@ -821,13 +819,11 @@ class adLDAP
     /**
      * Closes the LDAP connection if a current connection exists.
      *
-     * @return void
+     * @return bool
      */
     public function close()
     {
-        $connection = $this->getLdapConnection();
-
-        if ($connection) @ldap_close($connection);
+        return $this->ldapConnection->close();
     }
 
     /**
@@ -851,11 +847,9 @@ class adLDAP
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
-            $this->ldapBind = @ldap_sasl_bind($this->getLdapConnection(), NULL, NULL, "GSSAPI");
-
-            if ( ! $this->getLdapBind())
+            if ( ! $this->ldapConnection->bind(NULL, NULL, true))
             {
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->getLastError());
+                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
             }
             else
             {
@@ -863,7 +857,7 @@ class adLDAP
             }
         }
         
-        // Bind as the user        
+        // Bind as the user
         $ret = true;
 
         $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $username . $this->getAccountSuffix(), $password));

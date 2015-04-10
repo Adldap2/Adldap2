@@ -970,10 +970,12 @@ class adLDAP
     public function getRootDse($attributes = array("*", "+"))
     {
         if ( ! $this->getLdapBind()) return (false);
-        
-        $sr = @ldap_read($this->getLdapConnection(), NULL, 'objectClass=*', $attributes);
 
-        $entries = @ldap_get_entries($this->getLdapConnection(), $sr);
+        $filter = 'objectClass=*';
+
+        $results = $this->ldapConnection->search(NULL, $filter, $attributes);
+
+        $entries = $this->ldapConnection->getEntries($results);
 
         return $entries;
     }

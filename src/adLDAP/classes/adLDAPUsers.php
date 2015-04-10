@@ -283,12 +283,10 @@ class adLDAPUsers
             $username = $this->adldap->utilities()->strGuidToHex($username);
 
             $filter = "objectguid=" . $username;
-        }
-        else if (strpos($username, "@"))
+        } else if (strpos($username, "@"))
         {
              $filter = "userPrincipalName=" . $username;
-        }
-        else
+        } else
         {
              $filter = "samaccountname=" . $username;
         }
@@ -314,10 +312,10 @@ class adLDAPUsers
             $fields[] = "objectsid";
         }
 
-        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(),$filter, $fields);
+        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
 
         $entries = $this->adldap->getLdapConnection()->getEntries($results);
-        
+
         if (isset($entries[0]))
         {
             if ($entries[0]['count'] >= 1)

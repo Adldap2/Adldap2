@@ -65,6 +65,10 @@ class AdldapTest extends FunctionalTestCase
         new adLDAP(array(), $connection);
     }
 
+    /**
+     * This tests that when sso configuration property
+     * is true, the method getUseSSO must return true.
+     */
     public function testAdldapConstructUseSSO()
     {
         $connection = $this->mock('adLDAP\Connections\Ldap');

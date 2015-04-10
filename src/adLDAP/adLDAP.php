@@ -598,7 +598,7 @@ class adLDAP
      */
     public function setUseSSO($useSSO)
     {
-        if ($useSSO === true && ! $this->ldapSaslSupported())
+        if ($useSSO === true && ! $this->ldapConnection->isSaslSupported())
         {
             throw new adLDAPException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
         }
@@ -992,32 +992,6 @@ class adLDAP
     public function getLastError()
     {
         return $this->ldapConnection->getLastError();
-    }
-
-    /**
-     * Detect if LDAP is supported in PHP
-     * by checking if the ldap_connect function exists
-     *
-     * @return bool
-     */
-    protected function ldapSupported()
-    {
-        if ( ! function_exists('ldap_connect')) return false;
-
-        return true;
-    }
-
-    /**
-     * Detect is single sign on is supported in PHP
-     * by checking if the ldap_sasl_bind function exists
-     *
-     * @return bool
-     */
-    protected function ldapSaslSupported()
-    {
-        if ( ! function_exists('ldap_sasl_bind')) return false;
-
-        return true;
     }
 
     /**

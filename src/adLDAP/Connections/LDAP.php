@@ -305,6 +305,18 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Adds entries to the current LDAP directory.
+     *
+     * @param $dn
+     * @param $entry
+     * @return bool
+     */
+    public function add($dn, $entry)
+    {
+        return @ldap_add($this->getConnection(), $dn, $entry);
+    }
+
+    /**
      * Closes the current LDAP connection if
      * it exists.
      *

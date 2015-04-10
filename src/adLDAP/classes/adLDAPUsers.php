@@ -609,16 +609,18 @@ class adLDAPUsers
         $add = array();
 
         $add["unicodePwd"][0] = $this->encodePassword($password);
-        
-        $result = @ldap_mod_replace($this->adldap->getLdapConnection(), $userDn, $add);
+
+        $result = $this->adldap->getLdapConnection()->modReplace($userDn, $add);
 
         if ($result === false)
         {
-            $err = ldap_errno($this->adldap->getLdapConnection());
+            $err = $this->adldap->getLdapConnection()->errNo();
 
             if ($err)
             {
-                $msg = 'Error ' . $err . ': ' . ldap_err2str($err) . '.';
+                $error = $this->adldap->getLdapConnection()->err2Str($err);
+
+                $msg = 'Error ' . $err . ': ' . $error . '.';
 
                 if($err == 53)
                 {

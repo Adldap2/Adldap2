@@ -2,6 +2,7 @@
 
 namespace adLDAP;
 
+require_once(dirname(__FILE__) . '/Connections/LDAP.php');
 require_once(dirname(__FILE__) . '/collections/adLDAPCollection.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPGroups.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPUsers.php');
@@ -704,14 +705,19 @@ class adLDAP
                 {
                     $this->setUseSSO(false);
                 }
-            } 
+            }
         }
-        
-        if ($this->ldapSupported() === false)
+
+        // Create a new LDAP Connection
+        $this->setLdapConnection(new Connections\LDAP);
+
+        // Check if it's supported
+        if ($this->ldapConnection->isSupported() === false)
         {
             throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
         }
 
+        // Looks like we're all set. Let's try and connect
         return $this->connect();
     }
 
@@ -749,33 +755,25 @@ class adLDAP
 
         if ($useSSL)
         {
-            $this->setLdapConnection(ldap_connect("ldaps://" . $domainController, $port));
+            $this->ldapConnection->useSSL()->connect($domainController, $port);
         } else
         {
-            $this->setLdapConnection(ldap_connect("ldap://" . $domainController, $port));
+            $this->ldapConnection->connect($domainController, $port);
         }
 
-        $connection = $this->getLdapConnection();
-
-        // Set some ldap options for talking to AD
-        ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($connection, LDAP_OPT_REFERRALS, $this->followReferrals);
+        $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
+        $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
         
-        if ($useTLS)
-        {
-            ldap_start_tls($connection);
-        }
+        if ($useTLS) $this->ldapConnection->startTLS();
                
         // Bind as a domain admin if they've set it up
         if ($adminUsername !== NULL && $adminPassword !== NULL)
         {
-            $this->setLdapBind(@ldap_bind($connection, $adminUsername . $this->getAccountSuffix(), $adminPassword));
-
-            $bindings = $this->getLdapBind();
+            $bindings = $this->ldapConnection->bind($adminUsername . $this->getAccountSuffix(), $adminPassword);
 
             if ( ! $bindings)
             {
-                $error = $this->getLastError();
+                $error = $this->ldapConnection->getLastError();
 
                 if ($useSSL && ! $useTLS)
                 {
@@ -795,11 +793,11 @@ class adLDAP
         {
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
 
-            $this->setLdapBind(@ldap_sasl_bind($this->getLdapConnection(), NULL, NULL, "GSSAPI"));
+            $bindings = $this->ldapConnection->bind(NULL, NULL, true);
 
-            if ( ! $this->getLdapBind())
+            if ( ! $bindings)
             {
-                $message = 'Rebind to Active Directory failed. AD said: ' . $this->getLastError();
+                $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
 
                 throw new adLDAPException($message);
             } 

@@ -32,7 +32,7 @@ class LDAP implements ConnectionInterface
      *
      * @var bool
      */
-    public $useSSL = false;
+    protected $useSSL = false;
 
     /**
      * Holds the bool to tell the connection
@@ -40,7 +40,7 @@ class LDAP implements ConnectionInterface
      *
      * @var bool
      */
-    public $useTLS = false;
+    protected $useTLS = false;
 
     /**
      * Holds the bool to tell the connection
@@ -48,7 +48,7 @@ class LDAP implements ConnectionInterface
      *
      * @var bool
      */
-    public $useSSO = false;
+    protected $useSSO = false;
 
     /**
      * The current LDAP connection.
@@ -104,6 +104,45 @@ class LDAP implements ConnectionInterface
     public function isUsingSSO()
     {
         return $this->useSSO;
+    }
+
+    /**
+     * Set's the current connection
+     * to use SSL.
+     *
+     * @return $this
+     */
+    public function useSSL()
+    {
+        $this->useSSL = true;
+
+        return $this;
+    }
+
+    /**
+     * Set's the current connection
+     * to use TLS.
+     *
+     * @return $this
+     */
+    public function useTLS()
+    {
+        $this->useTLS = true;
+
+        return $this;
+    }
+
+    /**
+     * Set's the current connection
+     * to use SSO.
+     *
+     * @return $this
+     */
+    public function useSSO()
+    {
+        $this->useSSO = true;
+
+        return $this;
     }
 
     /**
@@ -205,6 +244,9 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Binds to the current LDAP connection. If SASL
+     * is true, we'll set up a SASL bind instead.
+     *
      * @param string $username
      * @param string $password
      * @param bool $sasl
@@ -212,7 +254,14 @@ class LDAP implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
-        return ldap_bind($this->getConnection(), $username, $password);
+        if($sasl)
+        {
+            return ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
+        } else
+        {
+            return ldap_bind($this->getConnection(), $username, $password);
+        }
+
     }
 
     /**

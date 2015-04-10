@@ -40,6 +40,10 @@
 		"ext-ldap": "*"
 	},
 	"autoload": {
+        "classmap": [
+          "src",
+          "tests"
+        ],
 		"psr-0": {
 			"adLDAP\\": "src/"
 		}

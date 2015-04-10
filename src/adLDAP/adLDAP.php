@@ -137,30 +137,6 @@ class adLDAP
     protected $realPrimaryGroup = true;
 
     /**
-     * Use SSL (LDAPS), your server needs to be setup, please see
-     * http://adldap.sourceforge.net/wiki/doku.php?id=ldap_over_ssl
-     *
-     * @var bool
-     */
-    protected $useSSL = false;
-
-    /**
-     * Use TLS
-     * If you wish to use TLS you should ensure that $useSSL is set to false and vice-versa
-     *
-     * @var bool
-     */
-    protected $useTLS = false;
-
-    /**
-     * Use SSO
-     * To indicate to adLDAP to reuse password set by the browser through NTLM or Kerberos
-     *
-     * @var bool
-     */
-    protected $useSSO = false;
-
-    /**
      * When querying group memberships, do it recursively
      * eg. User Fred is a member of Group A, which is a member of Group B, which is a member of Group C
      * user_ingroup("Fred","C") will returns true with this option turned on, false if turned off
@@ -535,19 +511,19 @@ class adLDAP
     }
 
     /**
-     * Sets the useSSL property.
-     * Set whether to use SSL.
+     * Set whether to use SSL on the
+     * current ldap connection.
      *
      * @param bool $useSSL
      * @return void
      */
     public function setUseSSL($useSSL)
     {
-        $this->useSSL = $useSSL;
-
         // Make sure we set the correct SSL port if using SSL
-        if($this->useSSL)
+        if($useSSL)
         {
+            $this->ldapConnection->useSSL();
+
             $this->setPort(self::ADLDAP_LDAPS_PORT);
         }
         else
@@ -563,7 +539,7 @@ class adLDAP
     */
     public function getUseSSL()
     {
-        return $this->useSSL;
+        return $this->ldapConnection->isUsingSSL();
     }
 
     /**
@@ -575,7 +551,7 @@ class adLDAP
      */
     public function setUseTLS($useTLS)
     {
-        $this->useTLS = $useTLS;
+        if($useTLS) $this->ldapConnection->useTLS();
     }
 
     /**
@@ -585,7 +561,7 @@ class adLDAP
      */
     public function getUseTLS()
     {
-        return $this->useTLS;
+        return $this->ldapConnection->isUsingTLS();
     }
 
     /**
@@ -603,7 +579,7 @@ class adLDAP
             throw new adLDAPException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
         }
 
-        $this->useSSO = $useSSO;
+        $this->ldapConnection->useSSO();
     }
 
     /**

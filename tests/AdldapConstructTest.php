@@ -6,9 +6,20 @@ use adLDAP\adLDAP;
 
 class AdldapConstructTest extends FunctionalTestCase
 {
-    protected function newConnectionMock()
+    /**
+     * This tests that the connection function isSupported
+     * returns false, and an exception is thrown when it
+     * has been called.
+     */
+    public function testAdldapConstructLdapNotSupportedFailure()
     {
-        return $this->mock('adLDAP\Connections\Ldap');
+        $this->setExpectedException('adLDAP\adLDAPException');
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('isSupported')->andReturn(false);
+
+        new adLDAP(array(), $connection);
     }
 
     /**
@@ -70,41 +81,31 @@ class AdldapConstructTest extends FunctionalTestCase
     }
 
     /**
-     * This tests that the connection function isSupported
-     * returns false, and an exception is thrown when it
-     * has been called.
-     */
-    public function testAdldapConstructLdapNotSupportedFailure()
-    {
-        $this->setExpectedException('adLDAP\adLDAPException');
-
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('isSupported')->andReturn(false);
-
-        new adLDAP(array(), $connection);
-    }
-
-    /**
      * This tests that when sso configuration property
      * is true, the method getUseSSO must return true.
      */
     public function testAdldapConstructUseSSO()
     {
-        $connection = $this->mock('adLDAP\Connections\Ldap');
+        $connection = $this->newConnectionMock();
 
         $config = array(
             'sso' => true,
         );
 
+        /*
+         * This demonstrates the entire walk-through of each
+         * method on the connection when SSO is enabled
+         */
         $connection
             ->shouldReceive('isSupported')->andReturn(true)
             ->shouldReceive('isSaslSupported')->andReturn(true)
             ->shouldReceive('useSSO')->andReturn(true)
+            ->shouldReceive('isUsingSSL')->andReturn(false)
+            ->shouldReceive('isUsingTLS')->andReturn(false)
+            ->shouldReceive('isUsingSSO')->andReturn(true)
             ->shouldReceive('connect')->andReturn(true)
             ->shouldReceive('setOption')->twice()
             ->shouldReceive('bind')->andReturn('resource')
-            ->shouldReceive('isUsingSSO')->andReturn(true)
             ->shouldReceive('close')->andReturn(true);
 
         $ad = new adLDAP($config, $connection);

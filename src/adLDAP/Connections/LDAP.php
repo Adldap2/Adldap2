@@ -28,7 +28,10 @@ class LDAP implements ConnectionInterface
 
     /**
      * Stores the bool to tell the connection
-     * whether or not to use SSL
+     * whether or not to use SSL.
+     *
+     * To use SSL, your server must support LDAP over SSL.
+     * http://adldap.sourceforge.net/wiki/doku.php?id=ldap_over_ssl
      *
      * @var bool
      */
@@ -36,7 +39,9 @@ class LDAP implements ConnectionInterface
 
     /**
      * Stores the bool to tell the connection
-     * whether or not to use TLS
+     * whether or not to use TLS.
+     *
+     * If you wish to use TLS you should ensure that $useSSL is set to false and vice-versa
      *
      * @var bool
      */
@@ -44,7 +49,9 @@ class LDAP implements ConnectionInterface
 
     /**
      * Stores the bool to tell the connection
-     * whether or not to use SSO
+     * whether or not to use SSO.
+     *
+     * To indicate to adLDAP to reuse password set by the browser through NTLM or Kerberos
      *
      * @var bool
      */

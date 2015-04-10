@@ -11,6 +11,11 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
         return Mockery::mock($class);
     }
 
+    protected function newConnectionMock()
+    {
+        return $this->mock('adLDAP\Connections\Ldap');
+    }
+
     public function setUp()
     {
         // Set constants for testing without LDAP support

@@ -2,8 +2,6 @@
 
 namespace adLDAP;
 
-use adLDAP\Interfaces\ConnectionInterface;
-
 require_once(dirname(__FILE__) . '/Interfaces/ConnectionInterface.php');
 require_once(dirname(__FILE__) . '/Connections/LDAP.php');
 require_once(dirname(__FILE__) . '/collections/adLDAPCollection.php');
@@ -14,6 +12,8 @@ require_once(dirname(__FILE__) . '/classes/adLDAPUtils.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPContacts.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPExchange.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPComputers.php');
+
+use adLDAP\Interfaces\ConnectionInterface;
 
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
@@ -141,7 +141,7 @@ class adLDAP
     /**
      * Holds the current ldap connection
      *
-     * @var mixed
+     * @var ConnectionInterface
      */
     protected $ldapConnection;
 

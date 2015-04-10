@@ -690,9 +690,9 @@ class adLDAPUsers
 
         $fields = array("samaccountname","displayname");
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->adldap->getLdapConnection()->getEntries($results);
 
         $usersArray = array();
 

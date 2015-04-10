@@ -253,7 +253,7 @@ class LDAP implements ConnectionInterface
 
         if($this->isUsingSSL()) $protocol = $this::LDAP_PROTOCOL_SSL;
 
-        return ldap_connect($protocol . $hostname, $port);
+        return $this->connection = ldap_connect($protocol . $hostname, $port);
     }
 
     /**

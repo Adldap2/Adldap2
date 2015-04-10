@@ -4,6 +4,7 @@ namespace adLDAP;
 
 use adLDAP\Interfaces\ConnectionInterface;
 
+require_once(dirname(__FILE__) . '/Interfaces/ConnectionInterface.php');
 require_once(dirname(__FILE__) . '/Connections/LDAP.php');
 require_once(dirname(__FILE__) . '/collections/adLDAPCollection.php');
 require_once(dirname(__FILE__) . '/classes/adLDAPGroups.php');
@@ -619,8 +620,8 @@ class adLDAP
      *
      * Tries to bind to the AD domain over LDAP or LDAPs
      *
-     * @param array $options
-     * @param mixed $connection
+     * @param array $options The adLDAP configuration options array
+     * @param mixed $connection The connection you'd like to use
      * @throws adLDAPException
      */
     function __construct(array $options = array(), $connection = NULL)
@@ -696,7 +697,7 @@ class adLDAP
      */
     function __destruct()
     {
-        $this->close(); 
+        $this->close();
     }
 
     /**

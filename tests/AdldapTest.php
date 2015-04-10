@@ -12,6 +12,26 @@ class AdldapTest extends FunctionalTestCase
     }
 
     /**
+     * This tests that the first configuration parameter
+     * must be an array, and will fail constructing with
+     * another variable type.
+     */
+    public function testAdldapConfigNotArrayConstructFailure()
+    {
+        try
+        {
+            new adLDAP('test');
+
+            $passes = false;
+        } catch(\Exception $e)
+        {
+            $passes = true;
+        }
+
+        $this->assertTrue($passes);
+    }
+
+    /**
      * This tests that a recoverable exception was thrown
      * when an invalid type hinted connection is passed into
      * the connection parameter in the adLDAP constructor.
@@ -90,25 +110,5 @@ class AdldapTest extends FunctionalTestCase
         $ad = new adLDAP($config, $connection);
 
         $this->assertTrue($ad->getUseSSO());
-    }
-
-    /**
-     * This tests that the first configuration parameter
-     * must be an array, and will fail constructing with
-     * another variable type.
-     */
-    public function testAdldapConfigNotArrayConstructFailure()
-    {
-        try
-        {
-            new adLDAP('test');
-
-            $passes = false;
-        } catch(\Exception $e)
-        {
-            $passes = true;
-        }
-
-        $this->assertTrue($passes);
     }
 }

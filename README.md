@@ -9,7 +9,7 @@
 > **Note:** This is a fork of the main abandoned adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
 > Looking for the original repository? [Main adLDAP Repository](https://github.com/adLDAP/adLDAP).
 
-Originally written by Scott Barnett, Richard Hyland. Adopted by the community.
+Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
 ## To do
 

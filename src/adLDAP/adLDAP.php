@@ -860,19 +860,20 @@ class adLDAP
         // Bind as the user
         $ret = true;
 
-        $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $username . $this->getAccountSuffix(), $password));
+        $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
 
-        if ( ! $this->getLdapBind()) $ret = false;
+        if ( ! $bindings) $ret = false;
         
         // Once we've checked their details, kick back into admin mode if we have it
         if ($this->getAdminPassword() !== NULL && ! $preventRebind)
         {
-            $this->setLdapBind(@ldap_bind($this->getLdapConnection(), $this->getAdminUsername() . $this->getAccountSuffix() , $this->getAdminPassword()));
 
-            if ( ! $this->getLdapBind())
+            $bindings = $this->ldapConnection->bind($this->getAdminUsername() . $this->getAccountSuffix(), $this->getAdminPassword());
+
+            if ( ! $bindings)
             {
                 // This should never happen in theory
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->getLastError());
+                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
             }
         }
 

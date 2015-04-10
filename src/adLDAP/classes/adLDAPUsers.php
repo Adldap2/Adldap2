@@ -531,7 +531,7 @@ class adLDAPUsers
         }
 
         // Do the update
-        $result = @ldap_modify($this->adldap->getLdapConnection(), $userDn, $mod);
+        $result = $this->adldap->getLdapConnection()->modify($userDn, $mod);
 
         if ($result == false) return false;
 

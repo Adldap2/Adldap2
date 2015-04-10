@@ -883,9 +883,9 @@ class adLDAP
 
         $fields = array("cn","description","displayname","distinguishedname","samaccountname");
 
-        $sr = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
+        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
 
-        $entries = $this->ldapConnection->getEntries($sr);
+        $entries = $this->ldapConnection->getEntries($results);
 
         $objectArray = array();
 
@@ -935,9 +935,9 @@ class adLDAP
 
         $fields = array("objectclass");
 
-        $sr = ldap_search($this->getLdapConnection(), $this->getBaseDn(), $filter, $fields);
+        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->getLdapConnection(), $sr);
+        $entries = $this->ldapConnection->getEntries($results);
 
         $objects = array();
 

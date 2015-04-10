@@ -991,7 +991,7 @@ class adLDAP
      */
     public function getLastError()
     {
-        return @ldap_error($this->getLdapConnection());
+        return $this->ldapConnection->getLastError();
     }
 
     /**

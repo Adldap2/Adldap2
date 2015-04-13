@@ -151,7 +151,8 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $config = array(
             'sso' => true,
-            'domain_controllers' => array(),
+            'domain_controllers' => array('domain'),
+            'ad_port' => '100'
         );
 
         /*

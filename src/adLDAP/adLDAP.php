@@ -504,7 +504,12 @@ class adLDAP
      */
     public function setPort($adPort)
     {
-        if( ! is_numeric($adPort)) throw new adLDAPException("The Port: $adPort is not numeric and cannot be used.");
+        if( ! is_numeric($adPort))
+        {
+            if($adPort === NULL) $adPort = 'null';
+
+            throw new adLDAPException("The Port: $adPort is not numeric and cannot be used.");
+        }
 
         $this->adPort = $adPort;
     }
@@ -800,6 +805,7 @@ class adLDAP
 
             if($adminUsername && $adminPassword)
             {
+                $bound = $this->bindUsingCredentials($adminUsername, $adminPassword);
 
                 if ( ! $bound)
                 {

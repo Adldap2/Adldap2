@@ -71,13 +71,21 @@ class AdldapConstructTest extends FunctionalTestCase
      */
     public function testAdldapConstructDomainControllerFailure()
     {
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
-
         $config = array(
             'domain_controllers' => 'test'
         );
 
-        new adLDAP($config);
+        try
+        {
+            new adLDAP($config);
+
+            $passes = false;
+        } catch (\Exception $e)
+        {
+            $passes = true;
+        }
+
+        $this->assertTrue($passes);
     }
 
     /**
@@ -143,6 +151,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $config = array(
             'sso' => true,
+            'domain_controllers' => array(),
         );
 
         /*

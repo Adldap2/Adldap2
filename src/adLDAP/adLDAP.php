@@ -4,6 +4,7 @@ namespace adLDAP;
 
 use adLDAP\Exceptions\adLDAPException;
 use adLDAP\Interfaces\ConnectionInterface;
+use adLDAP\Objects\Configuration;
 use adLDAP\Objects\LdapSchema;
 use adLDAP\Objects\Schema;
 
@@ -138,6 +139,55 @@ class adLDAP
     protected $ldapConnection;
 
     /**
+     * The group class
+     *
+     * @var \adLDAP\classes\adLDAPGroups
+     */
+    protected $groupClass;
+
+    /**
+     * The user class
+     *
+     * @var \adLDAP\classes\adLDAPUsers
+     */
+    protected $userClass;
+
+    /**
+     * The folders class
+     *
+     * @var \adLDAP\classes\adLDAPFolders
+     */
+    protected $folderClass;
+
+    /**
+     * The utils class
+     *
+     * @var \adLDAP\classes\adLDAPUtils
+     */
+    protected $utilClass;
+
+    /**
+     * The contacts class
+     *
+     * @var \adLDAP\classes\adLDAPContacts
+     */
+    protected $contactClass;
+
+    /**
+     * The exchange class
+     *
+     * @var \adLDAP\classes\adLDAPExchange
+     */
+    protected $exchangeClass;
+
+    /**
+     * The computers class
+     *
+     * @var \adLDAP\classes\adLDAPComputers
+     */
+    protected $computerClass;
+
+    /**
      * Optional account with higher privileges for searching
      * This should be set to a domain admin account
      *
@@ -151,6 +201,84 @@ class adLDAP
      * @var string
      */
     private $adminPassword = '';
+
+    /**
+     * Constructor.
+     *
+     * Tries to bind to the AD domain over LDAP or LDAPs
+     *
+     * @param array $options The adLDAP configuration options array
+     * @param mixed $connection The connection you'd like to use
+     * @throws adLDAPException
+     */
+    public function __construct(array $options = array(), $connection = NULL)
+    {
+        // Create a new LDAP Connection if one isn't set
+        if( ! $connection) $connection = new Connections\LDAP;
+
+        $this->setLdapConnection($connection);
+
+        // Check if LDAP is supported
+        if ($this->ldapConnection->isSupported() === false)
+        {
+            throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
+        }
+
+        $configuration = new Configuration($options);
+
+        // You can specifically overide any of the default configuration options setup above
+        if ($configuration->countAttributes() > 0)
+        {
+            $this->setAccountSuffix($configuration->{'account_suffix'});
+
+            $this->setBaseDn($configuration->{'base_dn'});
+
+            $this->setDomainControllers($configuration->{"domain_controllers"});
+
+            $this->setAdminUsername($configuration->{'admin_username'});
+
+            $this->setAdminPassword($configuration->{'admin_password'});
+
+            $this->setRealPrimaryGroup($configuration->{'real_primarygroup'});
+
+            $this->setUseSSL($configuration->{'use_ssl'});
+
+            $this->setUseTLS($configuration->{'use_tls'});
+
+            $this->setRecursiveGroups($configuration->{'recursive_groups'});
+
+            $this->setFollowReferrals($configuration->{'follow_referrals'});
+
+            $this->setPort($configuration->{'ad_port'});
+
+            $sso = $configuration->{'sso'};
+
+            /*
+             * If we've set SSO to true, we'll make sure we check
+             * if SSO is supported, if so we'll bind it to the
+             * current LDAP connection.
+             */
+            if ($sso)
+            {
+                if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
+            }
+        }
+
+        // Looks like we're all set. Let's try and connect
+        $this->connect();
+    }
+
+    /**
+     * Destructor.
+     *
+     * Closes the current LDAP connection.
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->close();
+    }
 
     /**
      * Get the active LDAP Connection
@@ -204,15 +332,8 @@ class adLDAP
      */
     public function setBaseDn($baseDn)
     {
-        $this->baseDn = $baseDn;
+        if ($baseDn !== NULL) $this->baseDn = $baseDn;
     }
-
-    /**
-     * The group class
-     *
-     * @var \adLDAP\classes\adLDAPGroups
-     */
-    protected $groupClass;
 
     /**
      * Retrieve the group class with the current LDAP connection.
@@ -232,13 +353,6 @@ class adLDAP
     }
 
     /**
-     * The user class
-     *
-     * @var \adLDAP\classes\adLDAPUsers
-     */
-    protected $userClass;
-
-    /**
      * Retrieve the current user class with the current LDAP connection.
      * This will set the userClass property with a new user class instance
      * if it has not been set.
@@ -254,13 +368,6 @@ class adLDAP
 
         return $this->userClass;
     }
-
-    /**
-     * The folders class
-     *
-     * @var \adLDAP\classes\adLDAPFolders
-     */
-    protected $folderClass;
 
     /**
      * Retrieve the current folder class with the current LDAP connection.
@@ -280,13 +387,6 @@ class adLDAP
     }
 
     /**
-     * The utils class
-     *
-     * @var \adLDAP\classes\adLDAPUtils
-     */
-    protected $utilClass;
-
-    /**
      * Retrieves the current utility class with the current LDAP connection.
      * This will set the utilClass property with a new utility class instance
      * if it has not been set.
@@ -302,13 +402,6 @@ class adLDAP
 
         return $this->utilClass;
     }
-
-    /**
-     * The contacts class
-     *
-     * @var \adLDAP\classes\adLDAPContacts
-     */
-    protected $contactClass;
 
     /**
      * Retrieves the current contact class with the current LDAP connection.
@@ -328,13 +421,6 @@ class adLDAP
     }
 
     /**
-     * The exchange class
-     *
-     * @var \adLDAP\classes\adLDAPExchange
-     */
-    protected $exchangeClass;
-
-    /**
      * Get the exchange class interface
      *
      * @return \adLDAP\classes\adLDAPExchange
@@ -348,13 +434,6 @@ class adLDAP
 
         return $this->exchangeClass;
     }
-
-    /**
-     * The computers class
-     *
-     * @var \adLDAP\classes\adLDAPComputers
-     */
-    protected $computerClass;
 
     /**
      * Get the computers class interface
@@ -379,7 +458,7 @@ class adLDAP
      */
     public function setAccountSuffix($accountSuffix)
     {
-        $this->accountSuffix = $accountSuffix;
+        if ($accountSuffix !== NULL) $this->accountSuffix = $accountSuffix;
     }
 
     /**
@@ -398,9 +477,12 @@ class adLDAP
      *
      * @param array $domainControllers
      * @return void
+     * @throws adLDAPException
      */
-    public function setDomainControllers(array $domainControllers)
+    public function setDomainControllers(array $domainControllers = array())
     {
+        if(count($domainControllers) === 0) throw new adLDAPException("You must specify at least one domain controller.");
+
         $this->domainControllers = $domainControllers;
     }
 
@@ -418,9 +500,12 @@ class adLDAP
      * Sets the port number your domain controller communicates over
      *
      * @param int|string $adPort
+     * @throws adLDAPException
      */
     public function setPort($adPort)
     {
+        if( ! is_numeric($adPort)) throw new adLDAPException("The Port: $adPort is not numeric and cannot be used.");
+
         $this->adPort = $adPort;
     }
 
@@ -591,7 +676,13 @@ class adLDAP
      */
     public function setRecursiveGroups($recursiveGroups)
     {
-        $this->recursiveGroups = $recursiveGroups;
+        if($recursiveGroups)
+        {
+            $this->recursiveGroups = true;
+        } else
+        {
+            $this->recursiveGroups = false;
+        }
     }
 
     /**
@@ -605,88 +696,13 @@ class adLDAP
     }
 
     /**
-     * Constructor.
+     * Sets the followReferrals property.
      *
-     * Tries to bind to the AD domain over LDAP or LDAPs
-     *
-     * @param array $options The adLDAP configuration options array
-     * @param mixed $connection The connection you'd like to use
-     * @throws adLDAPException
+     * @param int $referrals
      */
-    public function __construct(array $options = array(), $connection = NULL)
+    public function setFollowReferrals($referrals)
     {
-        // Create a new LDAP Connection if one isn't set
-        if( ! $connection) $connection = new Connections\LDAP;
-
-        $this->setLdapConnection($connection);
-
-        // Check if LDAP is supported
-        if ($this->ldapConnection->isSupported() === false)
-        {
-            throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
-        }
-
-        // You can specifically overide any of the default configuration options setup above
-        if (count($options) > 0)
-        {
-            if (array_key_exists("account_suffix", $options)) $this->setAccountSuffix($options["account_suffix"]);
-
-            if (array_key_exists("base_dn" ,$options)) $this->setBaseDn($options["base_dn"]);
-
-            if (array_key_exists("domain_controllers", $options))
-            {
-                if ( ! is_array($options["domain_controllers"]))
-                {
-                    throw new adLDAPException('[domain_controllers] option must be an array');
-                }
-
-                $this->setDomainControllers($options["domain_controllers"]);
-            }
-
-            if (array_key_exists("admin_username", $options)) $this->setAdminUsername($options["admin_username"]);
-
-            if (array_key_exists("admin_password", $options)) $this->setAdminPassword($options["admin_password"]);
-
-            if (array_key_exists("real_primarygroup", $options)) $this->setRealPrimaryGroup($options["real_primarygroup"]);
-
-            if (array_key_exists("use_ssl", $options)) $this->setUseSSL($options["use_ssl"]);
-
-            if (array_key_exists("use_tls", $options)) $this->setUseTLS($options["use_tls"]);
-
-            if (array_key_exists("recursive_groups", $options)) $this->setRecursiveGroups($options["recursive_groups"]);
-
-            if (array_key_exists("follow_referrals", $options)) $this->followReferrals = $options["follow_referrals"];
-
-            if (array_key_exists("ad_port", $options)) $this->setPort($options["ad_port"]);
-
-            if (array_key_exists("sso", $options))
-            {
-                if($options['sso'])
-                {
-                    /*
-                     * If we've set SSO to true, we'll make sure we check
-                     * if SSO is supported, if so we'll bind it to the
-                     * current LDAP connection.
-                     */
-                    if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
-                }
-            }
-        }
-
-        // Looks like we're all set. Let's try and connect
-        $this->connect();
-    }
-
-    /**
-     * Destructor.
-     *
-     * Closes the current LDAP connection.
-     *
-     * @return void
-     */
-    public function __destruct()
-    {
-        $this->close();
+        $this->followReferrals = $referrals;
     }
 
     /**

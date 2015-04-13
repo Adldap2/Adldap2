@@ -47,10 +47,10 @@ class adLDAPComputers extends adLDAPBase
      * Get information about a specific computer. Returned in a raw array format from AD
      *
      * @param string $computerName The name of the computer
-     * @param null $fields Attributes to return
+     * @param array $fields Attributes to return
      * @return array|bool
      */
-    public function info($computerName, $fields = NULL)
+    public function info($computerName, array $fields = array())
     {
         if ($computerName === NULL) return false;
 
@@ -58,7 +58,7 @@ class adLDAPComputers extends adLDAPBase
 
         $filter = "(&(objectClass=computer)(cn=" . $computerName . "))";
 
-        if ($fields === NULL)
+        if (count($fields) === 0)
         {
             $fields = array(
                 "memberof",

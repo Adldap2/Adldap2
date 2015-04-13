@@ -773,16 +773,16 @@ class adLDAP
         // Bind as the user
         $ret = true;
 
-        $bindings = $this->bindUsingCredentials($username, $password);
+        $bound = $this->bindUsingCredentials($username, $password);
 
-        if ( ! $bindings) $ret = false;
+        if ( ! $bound) $ret = false;
         
         // Once we've checked their details, kick back into admin mode if we have it
         if ($this->getAdminPassword() !== NULL && ! $preventRebind)
         {
-            $bindings = $this->bindUsingCredentials($this->getAdminUsername(), $this->getAdminPassword());
+            $bound = $this->bindUsingCredentials($this->getAdminUsername(), $this->getAdminPassword());
 
-            if ( ! $bindings)
+            if ( ! $bound)
             {
                 // This should never happen in theory
                 throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
@@ -1094,7 +1094,7 @@ class adLDAP
         putenv("KRB5CCNAME=" . $kerberosCredentials);
 
         $bound = $this->ldapConnection->bind(NULL, NULL, true);
-        
+
         if ( ! $bound)
         {
             $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();

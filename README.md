@@ -52,9 +52,10 @@ https://github.com/adldap/adLDAP/wiki/adLDAP-Developer-API-Reference
 
 Breaking changes:
 
-- Requires have been removed from all classes, and if using without composer or auto-loader you must require
+- Requires have been removed from all classes, and if using without an auto-loader (such as composer) you must require all
 necessary files yourself
 - `adLDAP\adLDAPException` now has a new namespace: `adLDAP\Exceptions\adLDAPException`
+- `$adldap->user()->modify()` now throws an `adLDAPException` when the username parameter is null
 
 ## License
 

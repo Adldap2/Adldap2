@@ -900,9 +900,7 @@ class adLDAP
 
         $filter = "distinguishedName=" . $this->utilities()->ldapSlashes($distinguishedName);
 
-        $fields = array("objectclass");
-
-        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
+        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, array("objectclass"));
 
         $entries = $this->ldapConnection->getEntries($results);
 
@@ -981,7 +979,6 @@ class adLDAP
 
         if (isset($attributes["address_code"])) $mod["postalCode"][0] = $attributes["address_code"];
 
-        //if ($attributes["address_country"]){ $mod["countryCode"][0]=$attributes["address_country"]; } // use country codes?
         if (isset($attributes["address_country"])) $mod["c"][0] = $attributes["address_country"];
 
         if (isset($attributes["address_pobox"])) $mod["postOfficeBox"][0] = $attributes["address_pobox"];

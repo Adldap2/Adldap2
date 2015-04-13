@@ -475,7 +475,7 @@ class adLDAPUsers extends adLDAPBase
      */
     public function modify($username, $attributes, $isGUID = false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
+        if ($username === NULL) throw new adLDAPException("Missing compulsory field [username]");
 
         if (array_key_exists("password", $attributes) && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
         {

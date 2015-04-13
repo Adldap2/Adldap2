@@ -190,6 +190,18 @@ interface ConnectionInterface
     public function add($dn, array $entry);
 
     /**
+     * Modify the name of an entry on the current
+     * connection.
+     *
+     * @param string $dn
+     * @param string $newRdn
+     * @param string $newParent
+     * @param bool $deleteOldRdn
+     * @return mixed
+     */
+    public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false);
+
+    /**
      * Modifies an existing entry on the
      * current connection.
      *

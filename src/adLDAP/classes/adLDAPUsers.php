@@ -121,7 +121,7 @@ class adLDAPUsers extends adLDAPBase
         $dn = "CN=" . $add["cn"][0] . ", " . $container . "," . $this->adldap->getBaseDn();
 
         // Add the entry
-        $result = $this->adldap->getLdapConnection()->add($dn, $add);
+        $result = $this->connection->add($dn, $add);
 
         if ($result != true) return false;
 
@@ -289,9 +289,9 @@ class adLDAPUsers extends adLDAPBase
             $fields[] = "objectsid";
         }
 
-        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = $this->adldap->getLdapConnection()->getEntries($results);
+        $entries = $this->connection->getEntries($results);
 
         if (isset($entries[0]))
         {
@@ -421,11 +421,13 @@ class adLDAPUsers extends adLDAPBase
         //
         // Although Microsoft chose to use a different base and unit for time measurements.
         // This function will convert them to Unix timestamps
-        $results = $this->adldap->getLdapConnection()->read($this->adldap->getBaseDn(), 'objectclass=*', array('maxPwdAge'));
+        $filter = 'objectclass=*';
+
+        $results = $this->connection->read($this->adldap->getBaseDn(), $filter, array('maxPwdAge'));
 
         if ( ! $results) return false;
 
-        $info = $this->adldap->getLdapConnection()->getEntries($results);
+        $info = $this->connection->getEntries($results);
 
         $maxPwdAge = $info[0]['maxpwdage'][0];
 
@@ -506,7 +508,7 @@ class adLDAPUsers extends adLDAPBase
         }
 
         // Do the update
-        $result = $this->adldap->getLdapConnection()->modify($userDn, $mod);
+        $result = $this->connection->modify($userDn, $mod);
 
         if ($result == false) return false;
 
@@ -587,15 +589,15 @@ class adLDAPUsers extends adLDAPBase
 
         $add["unicodePwd"][0] = $this->encodePassword($password);
 
-        $result = $this->adldap->getLdapConnection()->modReplace($userDn, $add);
+        $result = $this->connection->modReplace($userDn, $add);
 
         if ($result === false)
         {
-            $err = $this->adldap->getLdapConnection()->errNo();
+            $err = $this->connection->errNo();
 
             if ($err)
             {
-                $error = $this->adldap->getLdapConnection()->err2Str($err);
+                $error = $this->connection->err2Str($err);
 
                 $msg = 'Error ' . $err . ': ' . $error . '.';
 
@@ -667,9 +669,9 @@ class adLDAPUsers extends adLDAPBase
 
         $fields = array("samaccountname","displayname");
 
-        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = $this->adldap->getLdapConnection()->getEntries($results);
+        $entries = $this->connection->getEntries($results);
 
         $usersArray = array();
 
@@ -708,13 +710,15 @@ class adLDAPUsers extends adLDAPBase
 
         $fields = array("objectGUID");
 
-        $results = $this->adldap->getLdapConnection()->search($this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        if ($this->adldap->getLdapConnection()->countEntries($results) > 0)
+        $numEntries = $this->connection->countEntries($results);
+
+        if ($numEntries > 0)
         {
-            $entry = $this->adldap->getLdapConnection()->getFirstEntry($results);
+            $entry = $this->connection->getFirstEntry($results);
 
-            $guid = $this->adldap->getLdapConnection()->getValuesLen($entry, 'objectGUID');
+            $guid = $this->connection->getValuesLen($entry, 'objectGUID');
 
             $strGUID = $this->adldap->utilities()->binaryToText($guid[0]);
 
@@ -749,9 +753,9 @@ class adLDAPUsers extends adLDAPBase
 
         $fields = array("samaccountname","displayname");
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
 
         $usersArray = array();
 
@@ -807,7 +811,7 @@ class adLDAPUsers extends adLDAPBase
 
         $newBaseDn = strtolower($newContainer) . "," . $this->adldap->getBaseDn();
 
-        $result = @ldap_rename($this->adldap->getLdapConnection(), $dn, $newRDn, $newBaseDn, true);
+        $result = $this->connection->rename($dn, $newRDn, $newBaseDn, true);
 
         if ($result !== true) return false;
 

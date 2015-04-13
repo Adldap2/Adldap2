@@ -353,6 +353,20 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Modify the name of an LDAP entry.
+     *
+     * @param string $dn
+     * @param string $newRdn
+     * @param string $newParent
+     * @param bool $deleteOldRdn
+     * @return bool
+     */
+    public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false)
+    {
+        return @ldap_rename($this->getConnection(), $dn, $newRdn, $newParent, $deleteOldRdn);
+    }
+
+    /**
      * Modifies the specified LDAP entry.
      *
      * @param string $dn

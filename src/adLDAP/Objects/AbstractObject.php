@@ -62,6 +62,16 @@ abstract class AbstractObject
     }
 
     /**
+     * Retrieves the attributes array property
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
      * Sets the key on the objects attribute array.
      *
      * @param int|string $key
@@ -120,12 +130,4 @@ abstract class AbstractObject
 
         return true;
     }
-
-    /**
-     * Returns the objects attributes to a adLDAP compatible
-     * array. Array key checking is done here before returning.
-     *
-     * @return array
-     */
-    abstract public function toSchema();
 }

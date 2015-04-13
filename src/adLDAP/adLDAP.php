@@ -4,6 +4,8 @@ namespace adLDAP;
 
 use adLDAP\Exceptions\adLDAPException;
 use adLDAP\Interfaces\ConnectionInterface;
+use adLDAP\Objects\LdapSchema;
+use adLDAP\Objects\Schema;
 
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
@@ -935,104 +937,112 @@ class adLDAP
         // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
         array_walk($attributes, array($this->utilities(), 'encode8bit'));
 
-        if (isset($attributes["address_city"])) $mod["l"][0] = $attributes["address_city"];
+        $schema = new Schema($attributes);
 
-        if (isset($attributes["address_code"])) $mod["postalCode"][0] = $attributes["address_code"];
+        $ldapSchema = new LdapSchema();
 
-        if (isset($attributes["address_country"])) $mod["c"][0] = $attributes["address_country"];
+        // Set all the LDAP attributes
+        $ldapSchema->setAttribute('l', $schema->getAttribute('address_city'));
 
-        if (isset($attributes["address_pobox"])) $mod["postOfficeBox"][0] = $attributes["address_pobox"];
+        $ldapSchema->setAttribute('postalCode', $schema->getAttribute('address_code'));
 
-        if (isset($attributes["address_state"])) $mod["st"][0] = $attributes["address_state"];
+        $ldapSchema->setAttribute('c', $schema->getAttribute('address_country'));
 
-        if (isset($attributes["address_street"])) $mod["streetAddress"][0] = $attributes["address_street"];
+        $ldapSchema->setAttribute('postOfficeBox', $schema->getAttribute('address_pobox'));
 
-        if (isset($attributes["company"])) $mod["company"][0] = $attributes["company"];
+        $ldapSchema->setAttribute('st', $schema->getAttribute('address_state'));
 
-        if (isset($attributes["change_password"])) $mod["pwdLastSet"][0] = 0;
+        $ldapSchema->setAttribute('streetAddress', $schema->getAttribute('address_street'));
 
-        if (isset($attributes["department"])) $mod["department"][0] = $attributes["department"];
+        $ldapSchema->setAttribute('company', $schema->getAttribute('company'));
 
-        if (isset($attributes["description"])) $mod["description"][0] = $attributes["description"];
+        $ldapSchema->setAttribute('pwdLastSet', $schema->getAttribute('change_password'));
 
-        if (isset($attributes["display_name"])) $mod["displayName"][0] = $attributes["display_name"];
+        $ldapSchema->setAttribute('department', $schema->getAttribute('department'));
 
-        if (isset($attributes["email"])) $mod["mail"][0] = $attributes["email"];
+        $ldapSchema->setAttribute('description', $schema->getAttribute('description'));
 
-        if (isset($attributes["expires"])) $mod["accountExpires"][0] = $attributes["expires"]; //unix epoch format?
+        $ldapSchema->setAttribute('displayName', $schema->getAttribute('display_name'));
 
-        if (isset($attributes["firstname"])) $mod["givenName"][0] = $attributes["firstname"];
+        $ldapSchema->setAttribute('mail', $schema->getAttribute('email'));
 
-        if (isset($attributes["home_directory"])) $mod["homeDirectory"][0] = $attributes["home_directory"];
+        $ldapSchema->setAttribute('accountExpires', $schema->getAttribute('expires'));
 
-        if (isset($attributes["home_drive"])) $mod["homeDrive"][0] = $attributes["home_drive"];
+        $ldapSchema->setAttribute('givenName', $schema->getAttribute('firstname'));
 
-        if (isset($attributes["initials"])) $mod["initials"][0] = $attributes["initials"];
+        $ldapSchema->setAttribute('homeDirectory', $schema->getAttribute('home_directory'));
 
-        if (isset($attributes["logon_name"])) $mod["userPrincipalName"][0] = $attributes["logon_name"];
+        $ldapSchema->setAttribute('homeDrive', $schema->getAttribute('home_drive'));
 
-        if (isset($attributes["manager"])) $mod["manager"][0] = $attributes["manager"]; //UNTESTED ***Use DistinguishedName***
+        $ldapSchema->setAttribute('initials', $schema->getAttribute('initials'));
 
-        if (isset($attributes["office"])) $mod["physicalDeliveryOfficeName"][0] = $attributes["office"];
+        $ldapSchema->setAttribute('userPrincipalName', $schema->getAttribute('logon_name'));
 
-        if (isset($attributes["password"])) $mod["unicodePwd"][0] = $this->user()->encodePassword($attributes["password"]);
+        $ldapSchema->setAttribute('manager', $schema->getAttribute('manager'));
 
-        if (isset($attributes["profile_path"])) $mod["profilepath"][0] = $attributes["profile_path"];
+        $ldapSchema->setAttribute('physicalDeliveryOfficeName', $schema->getAttribute('office'));
 
-        if (isset($attributes["script_path"])) $mod["scriptPath"][0] = $attributes["script_path"];
+        $ldapSchema->setAttribute('unicodePwd', $schema->getAttribute('password'));
 
-        if (isset($attributes["surname"])) $mod["sn"][0] = $attributes["surname"];
+        $ldapSchema->setAttribute('profilepath', $schema->getAttribute('profile_path'));
 
-        if (isset($attributes["title"])) $mod["title"][0] = $attributes["title"];
+        $ldapSchema->setAttribute('scriptPath', $schema->getAttribute('script_path'));
 
-        if (isset($attributes["telephone"])) $mod["telephoneNumber"][0] = $attributes["telephone"];
+        $ldapSchema->setAttribute('sn', $schema->getAttribute('surname'));
 
-        if (isset($attributes["mobile"])) $mod["mobile"][0] = $attributes["mobile"];
+        $ldapSchema->setAttribute('title', $schema->getAttribute('title'));
 
-        if (isset($attributes["pager"])) $mod["pager"][0] = $attributes["pager"];
+        $ldapSchema->setAttribute('telephoneNumber', $schema->getAttribute('telephone'));
 
-        if (isset($attributes["ipphone"])) $mod["ipphone"][0] = $attributes["ipphone"];
+        $ldapSchema->setAttribute('mobile', $schema->getAttribute('mobile'));
 
-        if (isset($attributes["web_page"])) $mod["wWWHomePage"][0] = $attributes["web_page"];
+        $ldapSchema->setAttribute('pager', $schema->getAttribute('pager'));
 
-        if (isset($attributes["fax"])) $mod["facsimileTelephoneNumber"][0] = $attributes["fax"];
+        $ldapSchema->setAttribute('ipphone', $schema->getAttribute('ipphone'));
 
-        if (isset($attributes["enabled"])) $mod["userAccountControl"][0] = $attributes["enabled"];
+        $ldapSchema->setAttribute('wWWHomePage', $schema->getAttribute('web_page'));
 
-        if (isset($attributes["homephone"])) $mod["homephone"][0] = $attributes["homephone"];
+        $ldapSchema->setAttribute('facsimileTelephoneNumber', $schema->getAttribute('fax'));
+
+        $ldapSchema->setAttribute('userAccountControl', $schema->getAttribute('enabled'));
+
+        $ldapSchema->setAttribute('homephone', $schema->getAttribute('homephone'));
 
         // Distribution List specific schema
-        if (isset($attributes["group_sendpermission"])) $mod["dlMemSubmitPerms"][0] = $attributes["group_sendpermission"];
+        $ldapSchema->setAttribute('dlMemSubmitPerms', $schema->getAttribute('group_sendpermission'));
 
-        if (isset($attributes["group_rejectpermission"])) $mod["dlMemRejectPerms"][0] = $attributes["group_rejectpermission"];
+        $ldapSchema->setAttribute('dlMemRejectPerms', $schema->getAttribute('group_rejectpermission'));
 
         // Exchange Schema
-        if (isset($attributes["exchange_homemdb"])) $mod["homeMDB"][0] = $attributes["exchange_homemdb"];
+        $ldapSchema->setAttribute('homeMDB', $schema->getAttribute('exchange_homemdb'));
 
-        if (isset($attributes["exchange_mailnickname"])) $mod["mailNickname"][0] = $attributes["exchange_mailnickname"];
+        $ldapSchema->setAttribute('mailNickname', $schema->getAttribute('exchange_mailnickname'));
 
-        if (isset($attributes["exchange_proxyaddress"])) $mod["proxyAddresses"][0] = $attributes["exchange_proxyaddress"];
+        $ldapSchema->setAttribute('proxyAddresses', $schema->getAttribute('exchange_proxyaddress'));
 
-        if (isset($attributes["exchange_usedefaults"])) $mod["mDBUseDefaults"][0] = $attributes["exchange_usedefaults"];
+        $ldapSchema->setAttribute('mDBUseDefaults', $schema->getAttribute('exchange_usedefaults'));
 
-        if (isset($attributes["exchange_policyexclude"])) $mod["msExchPoliciesExcluded"][0] = $attributes["exchange_policyexclude"];
+        $ldapSchema->setAttribute('msExchPoliciesExcluded', $schema->getAttribute('exchange_policyexclude'));
 
-        if (isset($attributes["exchange_policyinclude"])) $mod["msExchPoliciesIncluded"][0] = $attributes["exchange_policyinclude"];
+        $ldapSchema->setAttribute('msExchPoliciesIncluded', $schema->getAttribute('exchange_policyinclude'));
 
-        if (isset($attributes["exchange_addressbook"])) $mod["showInAddressBook"][0] = $attributes["exchange_addressbook"];
+        $ldapSchema->setAttribute('showInAddressBook', $schema->getAttribute('exchange_addressbook'));
 
-        if (isset($attributes["exchange_altrecipient"])) $mod["altRecipient"][0] = $attributes["exchange_altrecipient"];
+        $ldapSchema->setAttribute('altRecipient', $schema->getAttribute('exchange_altrecipient'));
 
-        if (isset($attributes["exchange_deliverandredirect"])) $mod["deliverAndRedirect"][0] = $attributes["exchange_deliverandredirect"];
+        $ldapSchema->setAttribute('deliverAndRedirect', $schema->getAttribute('exchange_deliverandredirect'));
 
         // This schema is designed for contacts
-        if (isset($attributes["exchange_hidefromlists"])) $mod["msExchHideFromAddressLists"][0] = $attributes["exchange_hidefromlists"];
+        $ldapSchema->setAttribute('msExchHideFromAddressLists', $schema->getAttribute('exchange_hidefromlists'));
 
-        if (isset($attributes["contact_email"])) $mod["targetAddress"][0] = $attributes["contact_email"];
+        $ldapSchema->setAttribute('targetAddress', $schema->getAttribute('contact_email'));
 
-        if (count($mod) == 0) return (false);
+        $ldapAttributes = $ldapSchema->getAttributes();
 
-        return ($mod);
+        if (count($ldapAttributes) === 0) return false;
+
+        // Return a filtered array to remove NULL attributes
+        return array_filter($ldapAttributes);
     }
 
     /**

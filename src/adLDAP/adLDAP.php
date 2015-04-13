@@ -719,7 +719,7 @@ class adLDAP
         // Bind as a domain admin if they've set it up
         if ($adminUsername !== NULL && $adminPassword !== NULL)
         {
-            $this->bindUsingAdmin($adminUsername, $adminPassword);
+            $this->bindUsingCredentials($adminUsername, $adminPassword);
         }
 
         $remoteUser = $this->getRemoteUserInput();
@@ -767,30 +767,20 @@ class adLDAP
         // Allow binding over SSO for Kerberos
         if ($this->getUseSSO() && $remoteUser && $remoteUser == $username && $this->getAdminUsername() === NULL && $kerberos)
         {
-            putenv("KRB5CCNAME=" . $kerberos);
-
-            if ( ! $this->ldapConnection->bind(NULL, NULL, true))
-            {
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
-            }
-            else
-            {
-                return true;
-            }
+            return $this->bindUsingKerberos($kerberos);
         }
         
         // Bind as the user
         $ret = true;
 
-        $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
+        $bindings = $this->bindUsingCredentials($username, $password);
 
         if ( ! $bindings) $ret = false;
         
         // Once we've checked their details, kick back into admin mode if we have it
         if ($this->getAdminPassword() !== NULL && ! $preventRebind)
         {
-
-            $bindings = $this->ldapConnection->bind($this->getAdminUsername() . $this->getAccountSuffix(), $this->getAdminPassword());
+            $bindings = $this->bindUsingCredentials($this->getAdminUsername(), $this->getAdminPassword());
 
             if ( ! $bindings)
             {
@@ -1121,7 +1111,7 @@ class adLDAP
      * @returns bool
      * @throws adLDAPException
      */
-    private function bindUsingAdmin($username, $password)
+    private function bindUsingCredentials($username, $password)
     {
         $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
 

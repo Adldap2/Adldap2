@@ -36,52 +36,11 @@ To use adLDAP2, your sever must support:
 
 ## Installation
 
-#### Via Composer
-
 Add adLDAP2 to your `composer.json` file:
 
     "adldap2/adldap2": "4.0.*"
 
 Run `composer update` on your project source, and you're all set!
-
-#### Manual Installation
-
-The core of adLDAP is contained in the 'src/adLDAP' directory.  Simply copy/rename this directory inside your own
-projects.
-
-Edit the file ``src/adldap/adLDAP.php`` and change the configuration variables near the top, specifically
-those for domain controllers, base dn and account suffix, and if you want to perform anything more complex
-than use authentication you'll also need to set the admin username and password variables too.
-
-From within your code simply require the adLDAP.php file and call it like so
-
-    use adLDAP\adLDAP;
-    
-    require_once(dirname(__FILE__) . '/adLDAP.php');
-    
-    $adldap = new adLDAP();
-
-It would be better to wrap it in a try/catch though
-
-    use adLDAP\adLDAP;
-    
-    try
-    {
-        $adldap = new adLDAP();
-    }
-    catch (adLDAPException $e)
-    {
-        echo $e;
-        exit();   
-    }
-
-Then simply call commands against it e.g.
-
-``$adldap->authenticate($username, $password);``
-
-or 
-
-``$adldap->group()->members($groupName);``
 
 ## Documentation
 

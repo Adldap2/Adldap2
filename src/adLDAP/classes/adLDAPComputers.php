@@ -87,7 +87,7 @@ class adLDAPComputers extends adLDAPBase
      * @param array $fields Array of parameters to query
      * @return \adLDAP\collections\adLDAPComputerCollection|bool
      */
-    public function infoCollection($computerName, $fields = NULL)
+    public function infoCollection($computerName, array $fields = array())
     {
         if ($computerName === NULL) return false;
 

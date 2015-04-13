@@ -44,6 +44,6 @@ class User extends AbstractObject
             $this->setAttribute('display_name', $displayName);
         }
 
-        return $this->attributes;
+        return $this->getAttributes();
     }
 }

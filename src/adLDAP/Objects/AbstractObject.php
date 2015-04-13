@@ -2,12 +2,21 @@
 
 namespace adLDAP\Objects;
 
+use adLDAP\Exceptions\adLDAPException;
+
 /**
  * Class AbstractObject
  * @package adLDAP\Objects
  */
 abstract class AbstractObject
 {
+    /**
+     * The required attributes for the toSchema method
+     *
+     * @var array
+     */
+    protected $required = array();
+
     /**
      * Holds the current objects attributes.
      *
@@ -77,6 +86,39 @@ abstract class AbstractObject
         $this->attributes = $attributes;
 
         return $this;
+    }
+
+    /**
+     * Validates the required attributes for preventing null keys
+     *
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateRequired()
+    {
+        $errors = array();
+
+        $message = 'Missing compulsory field [%s]';
+
+        /*
+         * Go through each required attribute
+         * and make sure they're not null
+         */
+        foreach($this->required as $required)
+        {
+            if($this->getAttribute($required) === null)
+            {
+                $errors[] = sprintf($message, $required);
+            }
+        }
+
+        if(count($errors) > 0)
+        {
+            // Throw an exception with the first error message
+            throw new adLDAPException($errors[0]);
+        }
+
+        return true;
     }
 
     /**

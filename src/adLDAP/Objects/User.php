@@ -11,6 +11,19 @@ use adLDAP\Exceptions\adLDAPException;
 class User extends AbstractObject
 {
     /**
+     * The required attributes for the toSchema method
+     *
+     * @var array
+     */
+    protected $required = array(
+        'username',
+        'firstname',
+        'surname',
+        'email',
+        'container',
+    );
+
+    /**
      * Checks the attributes for errors and returns the attributes array.
      *
      * @return array
@@ -18,20 +31,10 @@ class User extends AbstractObject
      */
     public function toSchema()
     {
-        // Holds errors with the current attributes
-        $errors = array();
+        $this->validateRequired();
 
-        if ($this->getAttribute('username') === null) $errors[] = 'Missing compulsory field [username]';
-
-        if ($this->getAttribute('firstname') === null) $errors[] = 'Missing compulsory field [firstname]';
-
-        if ($this->getAttribute('surname') === null) $errors[] = 'Missing compulsory field [surname]';
-
-        if ($this->getAttribute('email') === null) $errors[] = 'Missing compulsory field [email]';
-
-        if ($this->getAttribute('container') === null) $errors[] = 'Missing compulsory field [container]';
-
-        if ( ! is_array($this->getAttribute('container'))) $errors[] = 'Container attribute must be an array';
+        // Make sure the container attribute is an array
+        if ( ! is_array($this->getAttribute('container'))) throw new adLDAPException('Container attribute must be an array');
 
         // Set the display name if it's not set
         if ($this->getAttribute('display_name') === null)
@@ -40,9 +43,6 @@ class User extends AbstractObject
 
             $this->setAttribute('display_name', $displayName);
         }
-
-        // Throw the first error in the array
-        if (count($errors) > 0) throw new adLDAPException($errors[0]);
 
         return $this->attributes;
     }

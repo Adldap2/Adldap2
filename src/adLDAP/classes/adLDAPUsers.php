@@ -3,6 +3,7 @@
 namespace adLDAP\classes;
 
 use adLDAP\Exceptions\adLDAPException;
+use adLDAP\Objects\User;
 use adLDAP\adLDAP;
 
 /**
@@ -70,31 +71,15 @@ class adLDAPUsers extends adLDAPBase
      */
     public function create(array $attributes)
     {
-        // Check for compulsory fields
-        if ( ! array_key_exists("username", $attributes)) return "Missing compulsory field [username]";
+        $user = new User($attributes);
 
-        if ( ! array_key_exists("firstname", $attributes)) return "Missing compulsory field [firstname]";
-
-        if ( ! array_key_exists("surname", $attributes)) return "Missing compulsory field [surname]";
-
-        if ( ! array_key_exists("email", $attributes)) return "Missing compulsory field [email]";
-
-        if ( ! array_key_exists("container", $attributes)) return "Missing compulsory field [container]";
-
-        if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
-
-        if (array_key_exists("password",$attributes) && ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()))
+        if ($user->getAttribute('password') && ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()))
         {
             throw new adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
 
-        if ( ! array_key_exists("display_name", $attributes))
-        {
-            $attributes["display_name"] = $attributes["firstname"] . " " . $attributes["surname"]; 
-        }
-
         // Translate the schema
-        $add = $this->adldap->adldap_schema($attributes);
+        $add = $this->adldap->adldap_schema($user->toSchema());
         
         // Additional stuff only used for adding accounts
         $add["cn"][0] = $attributes["display_name"];
@@ -107,10 +92,7 @@ class adLDAPUsers extends adLDAPBase
         // Set the account control attribute
         $control_options = array("NORMAL_ACCOUNT");
 
-        if ( ! $attributes["enabled"])
-        {
-            $control_options[] = "ACCOUNTDISABLE";
-        }
+        if ( ! $attributes["enabled"]) $control_options[] = "ACCOUNTDISABLE";
 
         $add["userAccountControl"][0] = $this->accountControl($control_options);
         

@@ -120,6 +120,8 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $ad = new adLDAP($config, $connection);
 
+        $this->assertInstanceOf('adLDAP\Interfaces\ConnectionInterface', $ad->getLdapConnection());
+
         $this->assertEquals(500, $ad->getPort());
         $this->assertEquals(array('dc1', 'dc2'), $ad->getDomainControllers());
         $this->assertEquals('Base DN', $ad->getBaseDn());

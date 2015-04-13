@@ -456,9 +456,11 @@ class adLDAPUsers extends adLDAPBase
      */
     public function modify($username, $attributes, $isGUID = false)
     {
+        $user = new User($attributes);
+
         if ($username === NULL) throw new adLDAPException("Missing compulsory field [username]");
 
-        if (array_key_exists("password", $attributes) && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
+        if ($user->getAttribute('password') && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
         {
             throw new adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
@@ -469,25 +471,22 @@ class adLDAPUsers extends adLDAPBase
         if ($userDn === false) return false;
         
         // Translate the update to the LDAP schema                
-        $mod = $this->adldap->adldap_schema($attributes);
-        
-        // Check to see if this is an enabled status update
-        if ( ! $mod && ! array_key_exists("enabled", $attributes)) return false;
-        
-        // Set the account control attribute (only if specified)
-        if (array_key_exists("enabled", $attributes))
-        {
-            if ($attributes["enabled"])
-            {
-                $controlOptions = array("NORMAL_ACCOUNT"); 
-            }
-            else
-            {
-                $controlOptions = array("NORMAL_ACCOUNT", "ACCOUNTDISABLE"); 
-            }
+        $mod = $this->adldap->adldap_schema($user->toSchema());
 
-            $mod["userAccountControl"][0] = $this->accountControl($controlOptions);
+        $enabled = $user->getAttribute('enabled');
+
+        // Check to see if this is an enabled status update
+        if ( ! $mod && ! $enabled) return false;
+
+        if ($enabled)
+        {
+            $controlOptions = array("NORMAL_ACCOUNT");
+        } else
+        {
+            $controlOptions = array("NORMAL_ACCOUNT", "ACCOUNTDISABLE");
         }
+
+        $mod["userAccountControl"][0] = $this->accountControl($controlOptions);
 
         // Do the update
         $result = $this->connection->modify($userDn, $mod);

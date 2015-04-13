@@ -845,7 +845,6 @@ class adLDAP
         if ( ! $this->getLdapBind()) return false;
 
         // Perform the search and grab all their details
-        //$filter = "(|(cn=" . $search . ")(displayname=" . $search . ")(samaccountname=" . $search . "))";
         $filter = "(&(!(objectClass=computer))(|(anr=" . $search . ")))";
 
         $fields = array("cn","description","displayname","distinguishedname","samaccountname");

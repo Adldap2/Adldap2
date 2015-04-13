@@ -922,7 +922,7 @@ class adLDAP
     }
 
     /**
-     * Schema
+     * Returns an LDAP compatible schema array for modifications.
      *
      * @param array $attributes Attributes to be queried
      * @return array|bool

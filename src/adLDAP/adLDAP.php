@@ -774,11 +774,6 @@ class adLDAP
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
-        // Prevent null binding
-        if ($username === NULL || $password === NULL) return false;
-
-        if (empty($username) || empty($password)) return false;
-
         $remoteUser = $this->getRemoteUserInput();
         $kerberos = $this->getKerberosAuthInput();
 
@@ -794,16 +789,23 @@ class adLDAP
         $bound = $this->bindUsingCredentials($username, $password);
 
         if ( ! $bound) $ret = false;
-        
-        // Once we've checked their details, kick back into admin mode if we have it
-        if ($this->getAdminPassword() !== NULL && ! $preventRebind)
-        {
-            $bound = $this->bindUsingCredentials($this->getAdminUsername(), $this->getAdminPassword());
 
-            if ( ! $bound)
+        if($preventRebind)
+        {
+            return $ret;
+        } else
+        {
+            $adminUsername = $this->getAdminUsername();
+            $adminPassword = $this->getAdminPassword();
+
+            if($adminUsername && $adminPassword)
             {
-                // This should never happen in theory
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
+
+                if ( ! $bound)
+                {
+                    // This should never happen in theory
+                    throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
+                }
             }
         }
 
@@ -1129,13 +1131,17 @@ class adLDAP
     /**
      * Binds to the current connection using administrator credentials
      *
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      * @returns bool
      * @throws adLDAPException
      */
     private function bindUsingCredentials($username, $password)
     {
+        if ($username === NULL || $password === NULL) return false;
+
+        if (empty($username) || empty($password)) return false;
+
         $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
 
         if ( ! $bindings)

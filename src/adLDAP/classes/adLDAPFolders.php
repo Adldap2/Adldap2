@@ -84,30 +84,7 @@ class adLDAPFolders extends adLDAPBase
 
         if ($type !== NULL)
         {
-            switch ($type)
-            {
-                case 'contact':
-                    $filter .= '(objectClass=contact)';
-                    break;
-                case 'computer':
-                    $filter .= '(objectClass=computer)';
-                    break;
-                case 'group':
-                    $filter .= '(objectClass=group)';
-                    break;
-                case 'folder':
-                    $filter .= '(objectClass=organizationalUnit)';
-                    break;
-                case 'container':
-                    $filter .= '(objectClass=container)';
-                    break;
-                case 'domain':
-                    $filter .= '(objectClass=builtinDomain)';
-                    break;
-                default:
-                    $filter .= '(objectClass=user)';
-                    break;   
-            }
+            $filter .= $this->typeToObjectClassString($type);
         }
         else
         {
@@ -181,5 +158,44 @@ class adLDAPFolders extends adLDAPBase
         if ($result != true) return false;
 
         return true;
+    }
+
+    /**
+     * Converts a folder type string into a object class
+     * filter string compatible with LDAP.
+     *
+     * @param string$type
+     * @return string
+     */
+    private function typeToObjectClassString($type)
+    {
+        $filter = '';
+
+        switch ($type)
+        {
+            case 'contact':
+                $filter .= '(objectClass=contact)';
+                break;
+            case 'computer':
+                $filter .= '(objectClass=computer)';
+                break;
+            case 'group':
+                $filter .= '(objectClass=group)';
+                break;
+            case 'folder':
+                $filter .= '(objectClass=organizationalUnit)';
+                break;
+            case 'container':
+                $filter .= '(objectClass=container)';
+                break;
+            case 'domain':
+                $filter .= '(objectClass=builtinDomain)';
+                break;
+            default:
+                $filter .= '(objectClass=user)';
+                break;
+        }
+
+        return $filter;
     }
 }

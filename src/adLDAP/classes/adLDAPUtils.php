@@ -2,8 +2,6 @@
 
 namespace adLDAP\classes;
 
-use adLDAP\adLDAP;
-
 /**
  * AdLDAP Utility Functions
  *

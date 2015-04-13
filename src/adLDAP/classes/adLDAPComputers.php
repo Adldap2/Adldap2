@@ -84,7 +84,7 @@ class adLDAPComputers extends adLDAPBase
      * Find information about the computers. Returned in a raw array format from AD
      *
      * @param string $computerName The name of the computer
-     * @param null $fields Array of parameters to query
+     * @param array $fields Array of parameters to query
      * @return \adLDAP\collections\adLDAPComputerCollection|bool
      */
     public function infoCollection($computerName, $fields = NULL)

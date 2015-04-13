@@ -63,12 +63,12 @@ class adLDAP
     /**
      * The default port for LDAP non-SSL connections
      */
-    const ADLDAP_LDAP_PORT = 389;
+    const ADLDAP_LDAP_PORT = '389';
 
     /**
      * The default port for LDAPS SSL connections
      */
-    const ADLDAP_LDAPS_PORT = 636;
+    const ADLDAP_LDAPS_PORT = '636';
 
     /**
      * The account suffix for your domain, can be set when the class is invoked
@@ -414,7 +414,7 @@ class adLDAP
     /**
      * Sets the port number your domain controller communicates over
      *
-     * @param int $adPort
+     * @param int|string $adPort
      */
     public function setPort($adPort)
     {

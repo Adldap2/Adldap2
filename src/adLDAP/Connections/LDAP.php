@@ -279,11 +279,14 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Connects to the specified hostname
+     * using the PHP ldap protocol.
+     *
      * @param string $hostname
-     * @param int $port
+     * @param string $port
      * @return resource
      */
-    public function connect($hostname, $port = 389)
+    public function connect($hostname, $port = '389')
     {
         $protocol = $this::PROTOCOL;
 

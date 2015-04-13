@@ -739,8 +739,8 @@ class adLDAP
             }
         }
 
-        $remoteUser = filter_input(INPUT_SERVER, 'REMOTE_USER');
-        $kerberosAuth = filter_input(INPUT_SERVER, 'KRB5CCNAME');
+        $remoteUser = $this->getRemoteUserInput();
+        $kerberosAuth = $this->getKerberosAuthInput();
 
         if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth)
         {
@@ -786,11 +786,14 @@ class adLDAP
         if ($username === NULL || $password === NULL) return false;
 
         if (empty($username) || empty($password)) return false;
-        
+
+        $remoteUser = $this->getRemoteUserInput();
+        $kerberos = $this->getKerberosAuthInput();
+
         // Allow binding over SSO for Kerberos
-        if ($this->getUseSSO() && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && $this->getAdminUsername() === NULL && $_SERVER['KRB5CCNAME'])
+        if ($this->getUseSSO() && $remoteUser && $remoteUser == $username && $this->getAdminUsername() === NULL && $kerberos)
         {
-            putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
+            putenv("KRB5CCNAME=" . $kerberos);
 
             if ( ! $this->ldapConnection->bind(NULL, NULL, true))
             {
@@ -1066,6 +1069,26 @@ class adLDAP
         if (count($mod) == 0) return (false);
 
         return ($mod);
+    }
+
+    /**
+     * Returns the filtered REMOTE_USER server variable.
+     *
+     * @return mixed
+     */
+    public function getRemoteUserInput()
+    {
+        return filter_input(INPUT_SERVER, 'REMOTE_USER');
+    }
+
+    /**
+     * Returns the filtered KRB5CCNAME server variable.
+     *
+     * @return mixed
+     */
+    public function getKerberosAuthInput()
+    {
+        return filter_input(INPUT_SERVER, 'KRB5CCNAME');
     }
 
     /**

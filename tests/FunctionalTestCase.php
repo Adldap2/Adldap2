@@ -13,7 +13,7 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 
     protected function newConnectionMock()
     {
-        return $this->mock('adLDAP\Connections\Ldap');
+        return $this->mock('adLDAP\Interfaces\ConnectionInterface');
     }
 
     public function setUp()

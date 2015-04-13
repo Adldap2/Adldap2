@@ -99,6 +99,20 @@ abstract class AbstractObject
     }
 
     /**
+     * Returns true / false if the specified attribute
+     * exists in the attributes array.
+     *
+     * @param $attribute
+     * @return bool
+     */
+    public function hasAttribute($attribute)
+    {
+        if($this->getAttribute($attribute)) return true;
+
+        return false;
+    }
+
+    /**
      * Returns the number of attributes inside
      * the attributes property.
      *

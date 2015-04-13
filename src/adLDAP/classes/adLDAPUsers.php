@@ -3,6 +3,7 @@
 namespace adLDAP\classes;
 
 use adLDAP\Exceptions\adLDAPException;
+use adLDAP\Objects\AccountControl;
 use adLDAP\Objects\User;
 use adLDAP\adLDAP;
 
@@ -112,60 +113,58 @@ class adLDAPUsers extends adLDAPBase
     }
 
     /**
-     * Account control options
+     * Account control options.
      *
      * @param array $options The options to convert to int
      * @return int
      */
     protected function accountControl($options)
     {
-        $val = 0;
+        $accountControl = new AccountControl($options);
 
-        if (is_array($options))
-        {
-            if (in_array("SCRIPT",$options)) $val = $val + 1;
+        $accountControl->setValueIfAttributeExists('SCRIPT', 1);
 
-            if (in_array("ACCOUNTDISABLE",$options)) $val = $val + 2;
+        $accountControl->setValueIfAttributeExists('ACCOUNTDISABLE', 2);
 
-            if (in_array("HOMEDIR_REQUIRED",$options)) $val = $val + 8;
+        $accountControl->setValueIfAttributeExists('HOMEDIR_REQUIRED', 8);
 
-            if (in_array("LOCKOUT",$options)) $val = $val + 16;
+        $accountControl->setValueIfAttributeExists('LOCKOUT', 16);
 
-            if (in_array("PASSWD_NOTREQD",$options)) $val = $val + 32;
-            //PASSWD_CANT_CHANGE Note You cannot assign this permission by directly modifying the UserAccountControl attribute.
-            //For information about how to set the permission programmatically, see the "Property flag descriptions" section.
-            if (in_array("ENCRYPTED_TEXT_PWD_ALLOWED",$options)) $val = $val + 128;
+        $accountControl->setValueIfAttributeExists('PASSWD_NOTREQD', 32);
 
-            if (in_array("TEMP_DUPLICATE_ACCOUNT",$options)) $val = $val + 256;
+        //PASSWD_CANT_CHANGE Note You cannot assign this permission by directly modifying the UserAccountControl attribute.
+        //For information about how to set the permission programmatically, see the "Property flag descriptions" section.
+        $accountControl->setValueIfAttributeExists('ENCRYPTED_TEXT_PWD_ALLOWED', 128);
 
-            if (in_array("NORMAL_ACCOUNT",$options)) $val = $val + 512;
+        $accountControl->setValueIfAttributeExists('TEMP_DUPLICATE_ACCOUNT', 256);
 
-            if (in_array("INTERDOMAIN_TRUST_ACCOUNT",$options)) $val = $val + 2048;
+        $accountControl->setValueIfAttributeExists('NORMAL_ACCOUNT', 512);
 
-            if (in_array("WORKSTATION_TRUST_ACCOUNT",$options)) $val = $val + 4096;
+        $accountControl->setValueIfAttributeExists('INTERDOMAIN_TRUST_ACCOUNT', 2048);
 
-            if (in_array("SERVER_TRUST_ACCOUNT",$options)) $val = $val + 8192;
+        $accountControl->setValueIfAttributeExists('WORKSTATION_TRUST_ACCOUNT', 4096);
 
-            if (in_array("DONT_EXPIRE_PASSWORD",$options)) $val = $val + 65536;
+        $accountControl->setValueIfAttributeExists('SERVER_TRUST_ACCOUNT', 8192);
 
-            if (in_array("MNS_LOGON_ACCOUNT",$options)) $val = $val + 131072;
+        $accountControl->setValueIfAttributeExists('DONT_EXPIRE_PASSWORD', 65536);
 
-            if (in_array("SMARTCARD_REQUIRED",$options)) $val = $val + 262144;
+        $accountControl->setValueIfAttributeExists('MNS_LOGON_ACCOUNT', 131072);
 
-            if (in_array("TRUSTED_FOR_DELEGATION",$options)) $val = $val + 524288;
+        $accountControl->setValueIfAttributeExists('SMARTCARD_REQUIRED', 262144);
 
-            if (in_array("NOT_DELEGATED",$options)) $val = $val + 1048576;
+        $accountControl->setValueIfAttributeExists('TRUSTED_FOR_DELEGATION', 524288);
 
-            if (in_array("USE_DES_KEY_ONLY",$options)) $val = $val + 2097152;
+        $accountControl->setValueIfAttributeExists('NOT_DELEGATED', 1048576);
 
-            if (in_array("DONT_REQ_PREAUTH",$options)) $val = $val + 4194304;
+        $accountControl->setValueIfAttributeExists('USE_DES_KEY_ONLY', 2097152);
 
-            if (in_array("PASSWORD_EXPIRED",$options)) $val = $val + 8388608;
+        $accountControl->setValueIfAttributeExists('DONT_REQ_PREAUTH', 4194304);
 
-            if (in_array("TRUSTED_TO_AUTH_FOR_DELEGATION",$options)) $val = $val + 16777216;
-        }
+        $accountControl->setValueIfAttributeExists('PASSWORD_EXPIRED', 8388608);
 
-        return $val;
+        $accountControl->setValueIfAttributeExists('TRUSTED_TO_AUTH_FOR_DELEGATION', 16777216);
+
+        return intval($accountControl->getAttribute('value'));
     }
 
     /**

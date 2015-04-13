@@ -138,13 +138,27 @@ class LDAP implements ConnectionInterface
     /**
      * Returns true / false if the
      * current connection instance is
-     * bound
+     * bound.
      *
      * @return bool
      */
     public function isBound()
     {
         return $this->bound;
+    }
+
+    /**
+     * Returns true / false if the current
+     * LDAP connection has the ability to
+     * change passwords.
+     *
+     * @return bool
+     */
+    public function canChangePasswords()
+    {
+        if ( ! $this->isUsingSSL() && ! $this->isUsingTLS()) return false;
+
+        return true;
     }
 
     /**

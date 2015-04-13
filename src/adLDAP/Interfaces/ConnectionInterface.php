@@ -61,6 +61,14 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the current
+     * connection is able to modify passwords
+     *
+     * @return bool
+     */
+    public function canChangePasswords();
+
+    /**
+     * Returns true / false if the current
      * connection is bound.
      *
      * @return bool

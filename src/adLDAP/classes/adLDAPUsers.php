@@ -73,7 +73,7 @@ class adLDAPUsers extends adLDAPBase
     {
         $user = new User($attributes);
 
-        if ($user->getAttribute('password') && ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()))
+        if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
         {
             throw new adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
@@ -460,7 +460,7 @@ class adLDAPUsers extends adLDAPBase
 
         if ($username === NULL) throw new adLDAPException("Missing compulsory field [username]");
 
-        if ($user->getAttribute('password') && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
+        if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
         {
             throw new adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }

@@ -29,4 +29,9 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 
         parent::setUp();
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

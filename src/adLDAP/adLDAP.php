@@ -929,11 +929,6 @@ class adLDAP
      */
     public function adldap_schema(array $attributes)
     {
-        // LDAP doesn't like NULL attributes, only set them if they have values
-        // If you wish to remove an attribute you should set it to a space
-        // TO DO: Adapt user_modify to use ldap_mod_delete to remove a NULL attribute
-        $mod = array();
-        
         // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
         array_walk($attributes, array($this->utilities(), 'encode8bit'));
 

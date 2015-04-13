@@ -68,6 +68,27 @@ interface ConnectionInterface
     public function isBound();
 
     /**
+     * Sets the current connection to use TLS
+     *
+     * @return $this
+     */
+    public function useTLS();
+
+    /**
+     * Sets the current connection to use SSL
+     *
+     * @return $this
+     */
+    public function useSSL();
+
+    /**
+     * Sets the current connection to use SSO
+     *
+     * @return $this
+     */
+    public function useSSO();
+
+    /**
      * Get the current connection.
      *
      * @return mixed

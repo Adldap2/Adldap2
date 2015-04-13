@@ -511,7 +511,7 @@ class adLDAPUsers extends adLDAPBase
         // Do the update
         $result = $this->connection->modify($userDn, $mod);
 
-        if ($result == false) return false;
+        if ($result === false) return false;
 
         return true;
     }
@@ -522,7 +522,7 @@ class adLDAPUsers extends adLDAPBase
      * @param string $username The username to disable
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return bool|string
-     * @throws \adLDAP\adLDAPException
+     * @throws adLDAPException
      */
     public function disable($username, $isGUID = false)
     {

@@ -85,7 +85,7 @@ class adLDAPExchange extends adLDAPBase
 
         $result = $this->adldap->user()->modify($username, $attributes, $isGUID);
 
-        if ($result == false) return false;
+        if ($result === false) return false;
 
         return true;
     }

@@ -73,9 +73,9 @@ class adLDAPComputers extends adLDAPBase
             );
         }
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
         
         return $entries;
     }

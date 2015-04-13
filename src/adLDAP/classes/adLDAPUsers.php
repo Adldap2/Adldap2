@@ -246,11 +246,11 @@ class adLDAPUsers extends adLDAPBase
      * Find information about the users. Returned in a raw array format from AD
      *
      * @param string $username The username to query
-     * @param null $fields Array of parameters to query
+     * @param array $fields Array of parameters to query
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return array|bool
      */
-    public function info($username, $fields = NULL, $isGUID = false)
+    public function info($username, array $fields = array(), $isGUID = false)
     {
         if ($username === NULL) return false;
 
@@ -271,7 +271,7 @@ class adLDAPUsers extends adLDAPBase
 
         $filter = "(&(objectCategory=person)({$filter}))";
 
-        if ($fields === NULL)
+        if (count($fields) === 0)
         {
             $fields = array(
                 "samaccountname",
@@ -303,7 +303,6 @@ class adLDAPUsers extends adLDAPBase
                     // AD does not return the primary group in the ldap query, we may need to fudge it
                     if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["objectsid"][0]))
                     {
-                        //$entries[0]["memberof"][]=$this->group_cn($entries[0]["primarygroupid"][0]);
                         $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
                     } else
                     {
@@ -329,11 +328,11 @@ class adLDAPUsers extends adLDAPBase
      * Find information about the users. Returned in a raw array format from AD
      *
      * @param string $username The username to query
-     * @param null $fields Array of parameters to query
+     * @param array $fields Array of parameters to query
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return \adLDAP\collections\adLDAPUserCollection|bool
      */
-    public function infoCollection($username, $fields = NULL, $isGUID = false)
+    public function infoCollection($username, array $fields = array(), $isGUID = false)
     {
         if ($username === NULL) return false;
 
@@ -381,10 +380,10 @@ class adLDAPUsers extends adLDAPBase
     /**
      * Determine a user's password expiry date
      *
-     * @param string $username The username to query
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param $username
+     * @param bool $isGUID
      * @return array|bool|string
-     * @throws \adLDAP\adLDAPException
+     * @throws adLDAPException
      * @requires bcmod http://php.net/manual/en/function.bcmod.php
      */
     public function passwordExpiry($username, $isGUID = false)

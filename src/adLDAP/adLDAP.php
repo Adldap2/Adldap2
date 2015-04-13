@@ -611,7 +611,7 @@ class adLDAP
      * @param mixed $connection The connection you'd like to use
      * @throws adLDAPException
      */
-    function __construct(array $options = array(), $connection = NULL)
+    public function __construct(array $options = array(), $connection = NULL)
     {
         // Create a new LDAP Connection if one isn't set
         if( ! $connection) $connection = new Connections\LDAP;
@@ -682,7 +682,7 @@ class adLDAP
      *
      * @return void
      */
-    function __destruct()
+    public function __destruct()
     {
         $this->close();
     }

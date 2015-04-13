@@ -48,7 +48,9 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->assertEquals('John Doe', $user->toSchema()['display_name']);
+        $schema = $user->toSchema();
+
+        $this->assertEquals('John Doe', $schema['display_name']);
     }
 
     public function testUserToSchemaContainerFailure()

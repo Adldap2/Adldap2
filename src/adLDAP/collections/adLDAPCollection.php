@@ -87,7 +87,7 @@ abstract class adLDAPCollection
     public function setInfo(array $info)
     {
         if (isset($this->info) && sizeof($info) >= 1) unset($this->info);
-        
+
         $this->info = $info;   
     }
 

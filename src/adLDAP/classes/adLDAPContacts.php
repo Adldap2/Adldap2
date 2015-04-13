@@ -181,10 +181,10 @@ class adLDAPContacts extends adLDAPBase
      * Find information about the contacts. Returned in a raw array format from AD
      *
      * @param string $distinguishedName
-     * @param null $fields Array of parameters to query
+     * @param array $fields Array of parameters to query
      * @return \adLDAP\collections\adLDAPContactCollection|bool
      */
-    public function infoCollection($distinguishedName, $fields = NULL)
+    public function infoCollection($distinguishedName, array $fields = array())
     {
         if ($distinguishedName === NULL) return false;
 

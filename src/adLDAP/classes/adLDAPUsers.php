@@ -639,7 +639,7 @@ class adLDAPUsers extends adLDAPBase
      *
      * @param string $username The username
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
-     * @return bool
+     * @return string|bool
      */
     public function dn($username, $isGUID = false)
     {

@@ -1093,7 +1093,9 @@ class adLDAP
     {
         putenv("KRB5CCNAME=" . $kerberosCredentials);
 
-        if ( ! $this->ldapConnection->bind(NULL, NULL, true))
+        $bound = $this->ldapConnection->bind(NULL, NULL, true);
+        
+        if ( ! $bound)
         {
             $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
 

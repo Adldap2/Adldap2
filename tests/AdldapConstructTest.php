@@ -17,7 +17,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('isSupported')->andReturn(false);
+        $connection->shouldReceive('isSupported')->once()->andReturn(false);
 
         new adLDAP(array(), $connection);
     }
@@ -78,6 +78,57 @@ class AdldapConstructTest extends FunctionalTestCase
         );
 
         new adLDAP($config);
+    }
+
+    /**
+     * This test demonstrates that all attributes are set
+     * properly on construct.
+     */
+    public function testAdldapConstructConfig()
+    {
+        $connection = $this->newConnectionMock();
+
+        $config = array(
+            'account_suffix' => 'Account Suffix',
+            'base_dn' => 'Base DN',
+            'domain_controllers' => array('dc1', 'dc2'),
+            'admin_username' => 'Admin Username',
+            'admin_password' => 'Admin Password',
+            'real_primarygroup' => 'Primary Group',
+            'use_ssl' => true,
+            'use_tls' => true,
+            'sso' => true,
+            'recursive_groups' => true,
+            'follow_referrals' => true,
+            'ad_port' => 500,
+        );
+
+        $connection
+            ->shouldReceive('isSupported')->andReturn(true)
+            ->shouldReceive('isSaslSupported')->andReturn(true)
+            ->shouldReceive('useSSO')->andReturn(true)
+            ->shouldReceive('useSSL')->andReturn(true)
+            ->shouldReceive('useTLS')->andReturn(true)
+            ->shouldReceive('startTLS')->andReturn(true)
+            ->shouldReceive('isUsingSSL')->andReturn(true)
+            ->shouldReceive('isUsingTLS')->andReturn(true)
+            ->shouldReceive('isUsingSSO')->andReturn(true)
+            ->shouldReceive('connect')->andReturn(true)
+            ->shouldReceive('setOption')->twice()
+            ->shouldReceive('bind')->andReturn('resource')
+            ->shouldReceive('close')->andReturn(true);
+
+        $ad = new adLDAP($config, $connection);
+
+        $this->assertEquals(500, $ad->getPort());
+        $this->assertEquals(array('dc1', 'dc2'), $ad->getDomainControllers());
+        $this->assertEquals('Base DN', $ad->getBaseDn());
+        $this->assertEquals('Account Suffix', $ad->getAccountSuffix());
+
+        $this->assertTrue($ad->getRecursiveGroups());
+        $this->assertTrue($ad->getUseSSL());
+        $this->assertTrue($ad->getUseTLS());
+        $this->assertTrue($ad->getUseSSO());
     }
 
     /**

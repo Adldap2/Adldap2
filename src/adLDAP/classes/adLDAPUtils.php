@@ -159,6 +159,8 @@ class adLDAPUtils extends adLDAPBase
 
         $result = "$rev-$auth";
 
+        $subauth = array();
+
         for ($x=0;$x < $subcount; $x++)
         {
             $subauth[$x] =

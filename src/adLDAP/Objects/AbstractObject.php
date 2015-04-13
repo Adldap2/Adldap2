@@ -99,6 +99,17 @@ abstract class AbstractObject
     }
 
     /**
+     * Returns the number of attributes inside
+     * the attributes property.
+     *
+     * @return int
+     */
+    public function countAttributes()
+    {
+        return count($this->getAttributes());
+    }
+
+    /**
      * Validates the required attributes for preventing null keys
      *
      * @return bool

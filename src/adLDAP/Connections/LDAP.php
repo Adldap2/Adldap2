@@ -209,18 +209,6 @@ class LDAP implements ConnectionInterface
     }
 
     /**
-     * Returns the count of the returned entries
-     * from the specified search results.
-     *
-     * @param $searchResults
-     * @return int
-     */
-    public function countEntries($searchResults)
-    {
-        return @ldap_count_entries($this->getConnection(), $searchResults);
-    }
-
-    /**
      * Returns the first entry from the specified
      * search results.
      *
@@ -230,6 +218,18 @@ class LDAP implements ConnectionInterface
     public function getFirstEntry($searchResults)
     {
         return @ldap_first_entry($this->getConnection(), $searchResults);
+    }
+
+    /**
+     * Returns the count of the returned entries
+     * from the specified search results.
+     *
+     * @param $searchResults
+     * @return int
+     */
+    public function countEntries($searchResults)
+    {
+        return @ldap_count_entries($this->getConnection(), $searchResults);
     }
 
     /**
@@ -365,6 +365,18 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Add attribute values to current attributes.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function modAdd($dn, array $entry)
+    {
+        return @ldap_mod_add($this->getConnection(), $dn, $entry);
+    }
+
+    /**
      * Replaces attribute values with new ones.
      *
      * @param $dn
@@ -374,6 +386,18 @@ class LDAP implements ConnectionInterface
     public function modReplace($dn, array $entry)
     {
         return @ldap_mod_replace($this->getConnection(), $dn, $entry);
+    }
+
+    /**
+     * Delete attribute values from current attributes.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function modDelete($dn, array $entry)
+    {
+        return @ldap_mod_del($this->getConnection(), $dn, $entry);
     }
 
     /**

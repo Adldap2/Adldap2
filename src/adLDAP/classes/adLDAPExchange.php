@@ -105,7 +105,7 @@ class adLDAPExchange extends adLDAPBase
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return bool|string
      */
-    public function addX400($username, $country, $admd, $pdmd, $org, $surname, $givenName, $isGUID=false)
+    public function addX400($username, $country, $admd, $pdmd, $org, $surname, $givenName, $isGUID = false)
     {
         if ($username === NULL) return "Missing compulsory field [username]";
         
@@ -131,7 +131,7 @@ class adLDAPExchange extends adLDAPBase
          * usually this error might occur because the address already
          * exists in the list of proxyAddresses
          */
-        $result = @ldap_mod_add($this->adldap->getLdapConnection(), $userDn, $add);
+        $result = $this->connection->add($userDn, $add);
 
         if ($result == false) return false;
 
@@ -181,8 +181,8 @@ class adLDAPExchange extends adLDAPBase
             }
 
             $modAddresses['proxyAddresses'][($user[0]['proxyaddresses']['count']-1)] = 'SMTP:' . $emailAddress;
-            
-            $result = @ldap_mod_replace($this->adldap->getLdapConnection(), $userDn, $modAddresses);
+
+            $result = $this->connection->modReplace($userDn, $modAddresses);
         }
         else
         {
@@ -199,7 +199,7 @@ class adLDAPExchange extends adLDAPBase
              * usually this error might occur because the address already
              * exists in the list of proxyAddresses
              */
-            $result = @ldap_mod_add($this->adldap->getLdapConnection(), $userDn,$add);
+            $result = $this->connection->modAdd($userDn, $add);
         }
 
         if ($result == false) return false;
@@ -245,8 +245,8 @@ class adLDAPExchange extends adLDAPBase
                     $mod['proxyAddresses'][0] = 'smtp:' . $emailAddress;
                 }
             }
-            
-            $result = @ldap_mod_del($this->adldap->getLdapConnection(), $userDn,$mod);
+
+            $result = $this->connection->modDelete($userDn, $mod);
 
             if ($result == false) return false;
 
@@ -299,7 +299,7 @@ class adLDAPExchange extends adLDAPBase
                 }
             }
             
-            $result = @ldap_mod_replace($this->adldap->getLdapConnection(), $userDn, $modAddresses);
+            $result = $this->connection->modReplace($userDn, $modAddresses);
 
             if ($result == false) return false;
 
@@ -343,7 +343,7 @@ class adLDAPExchange extends adLDAPBase
         if ( ! $mod) return false;
         
         // Do the update
-        $result = ldap_modify($this->adldap->getLdapConnection(), $distinguishedName, $mod);
+        $result = $this->connection->modify($distinguishedName, $mod);
 
         if ($result == false) return false;
  
@@ -362,9 +362,11 @@ class adLDAPExchange extends adLDAPBase
         
         $configurationNamingContext = $this->adldap->getRootDse(array('configurationnamingcontext'));
 
-        $sr = @ldap_search($this->adldap->getLdapConnection(), $configurationNamingContext[0]['configurationnamingcontext'][0],'(&(objectCategory=msExchExchangeServer))', $attributes);
+        $filter = '(&(objectCategory=msExchExchangeServer))';
 
-        $entries = @ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $results = $this->connection->search($configurationNamingContext[0]['configurationnamingcontext'][0], $filter, $attributes);
+
+        $entries = $this->connection->getEntries($results);
 
         return $entries;
     }
@@ -387,9 +389,9 @@ class adLDAPExchange extends adLDAPBase
 
         $filter = '(&(objectCategory=msExchStorageGroup))';
 
-        $sr = @ldap_search($this->adldap->getLdapConnection(), $exchangeServer, $filter, $attributes);
+        $results = $this->connection->search($exchangeServer, $filter, $attributes);
 
-        $entries = @ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
 
         if ($recursive === true)
         {
@@ -417,9 +419,9 @@ class adLDAPExchange extends adLDAPBase
         
         $filter = '(&(objectCategory=msExchPrivateMDB))';
 
-        $sr = @ldap_search($this->adldap->getLdapConnection(), $storageGroup, $filter, $attributes);
+        $results = $this->connection->search($storageGroup, $filter, $attributes);
 
-        $entries = @ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
 
         return $entries;
     }

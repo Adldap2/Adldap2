@@ -24,6 +24,16 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the
+     * current connection supports
+     * SASL for single sign on
+     * capability.
+     *
+     * @return bool
+     */
+    public function isSaslSupported();
+
+    /**
+     * Returns true / false if the
      * current connection instance is using
      * SSL.
      *
@@ -50,6 +60,14 @@ interface ConnectionInterface
     public function isUsingSSO();
 
     /**
+     * Returns true / false if the current
+     * connection is bound.
+     *
+     * @return bool
+     */
+    public function isBound();
+
+    /**
      * Get the current connection.
      *
      * @return mixed
@@ -65,12 +83,38 @@ interface ConnectionInterface
     public function getEntries($searchResult);
 
     /**
+     * Returns the number of entries from a search
+     * result.
+     *
+     * @param $searchResult
+     * @return int
+     */
+    public function countEntries($searchResult);
+
+    /**
+     * Retrieves the first entry from a search result.
+     *
+     * @param $searchResult
+     * @return mixed
+     */
+    public function getFirstEntry($searchResult);
+
+    /**
      * Retrieve the last error on the current
      * connection.
      *
-     * @return mixed
+     * @return string
      */
     public function getLastError();
+
+    /**
+     * Get all binary values from the specified result entry
+     *
+     * @param $entry
+     * @param $attribute
+     * @return array
+     */
+    public function getValuesLen($entry, $attribute);
 
     /**
      * Sets an option on the current connection.
@@ -127,10 +171,75 @@ interface ConnectionInterface
     public function search($dn, $filter, array $fields);
 
     /**
+     * Reads an entry on the current connection
+     *
      * @param $dn
      * @param $filter
      * @param array $fields
      * @return mixed
      */
     public function read($dn, $filter, array $fields);
+
+    /**
+     * Adds an entry to the current connection.
+     *
+     * @param $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function add($dn, array $entry);
+
+    /**
+     * Modifies an existing entry on the
+     * current connection.
+     *
+     * @param $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modify($dn, array $entry);
+
+    /**
+     * Add attribute values to current attributes.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modAdd($dn, array $entry);
+
+    /**
+     * Replaces attribute values with new ones.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modReplace($dn, array $entry);
+
+    /**
+     * Delete attribute values from current attributes
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modDelete($dn, array $entry);
+
+    /**
+     * Returns the error number of the last command
+     * executed on the current connection.
+     *
+     * @return mixed
+     */
+    public function errNo();
+
+    /**
+     * Returns the error string of the specified
+     * error number.
+     *
+     * @param int $number
+     * @return mixed
+     */
+    public function err2Str($number);
 }

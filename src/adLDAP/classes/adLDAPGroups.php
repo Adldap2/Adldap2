@@ -471,10 +471,10 @@ class adLDAPGroups extends adLDAPBase
      * The group name is case sensitive
      *
      * @param string $groupName The group name to retrieve info about
-     * @param null $fields Fields to retrieve
+     * @param array $fields Fields to retrieve
      * @return array|bool
      */
-    public function info($groupName, $fields = NULL)
+    public function info($groupName, array $fields = array())
     {
         if ($groupName === NULL) return false;
 
@@ -487,9 +487,17 @@ class adLDAPGroups extends adLDAPBase
 
         $filter = "(&(objectCategory=group)(name=" . $this->adldap->utilities()->ldapSlashes($groupName) . "))";
 
-        if ($fields === NULL)
+        if (count($fields) === 0)
         {
-            $fields = array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname");
+            $fields = array(
+                "member",
+                "memberof",
+                "cn",
+                "description",
+                "distinguishedname",
+                "objectcategory",
+                "samaccountname"
+            );
         }
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);

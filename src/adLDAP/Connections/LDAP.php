@@ -17,14 +17,14 @@ class LDAP implements ConnectionInterface
      *
      * @var string
      */
-    const LDAP_PROTOCOL_SSL = 'ldaps://';
+    const PROTOCOL_SSL = 'ldaps://';
 
     /**
      * The non-SSL LDAP protocol string
      *
      * @var string
      */
-    const LDAP_PROTOCOL = 'ldap://';
+    const PROTOCOL = 'ldap://';
 
     /**
      * Stores the bool to tell the connection
@@ -285,9 +285,9 @@ class LDAP implements ConnectionInterface
      */
     public function connect($hostname, $port = 389)
     {
-        $protocol = $this::LDAP_PROTOCOL;
+        $protocol = $this::PROTOCOL;
 
-        if($this->isUsingSSL()) $protocol = $this::LDAP_PROTOCOL_SSL;
+        if($this->isUsingSSL()) $protocol = $this::PROTOCOL_SSL;
 
         return $this->connection = ldap_connect($protocol . $hostname, $port);
     }

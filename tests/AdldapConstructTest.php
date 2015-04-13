@@ -13,7 +13,7 @@ class AdldapConstructTest extends FunctionalTestCase
      */
     public function testAdldapConstructLdapNotSupportedFailure()
     {
-        $this->setExpectedException('adLDAP\adLDAPException');
+        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
 
         $connection = $this->newConnectionMock();
 
@@ -71,7 +71,7 @@ class AdldapConstructTest extends FunctionalTestCase
      */
     public function testAdldapConstructDomainControllerFailure()
     {
-        $this->setExpectedException('adLDAP\adLDAPException');
+        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
 
         $config = array(
             'domain_controllers' => 'test'

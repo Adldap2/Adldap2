@@ -336,5 +336,3 @@ class adLDAPUtils extends adLDAPBase
         return $dnArr;
     }
 }
-
-?>

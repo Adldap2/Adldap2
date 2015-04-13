@@ -2,6 +2,7 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Exceptions\adLDAPException;
 use adLDAP\adLDAP;
 
 /**
@@ -84,7 +85,7 @@ class adLDAPUsers extends adLDAPBase
 
         if (array_key_exists("password",$attributes) && ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()))
         {
-            throw new \adLDAP\adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
+            throw new adLDAPException('SSL must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         if ( ! array_key_exists("display_name", $attributes))
@@ -396,7 +397,7 @@ class adLDAPUsers extends adLDAPBase
         {
             $message = "Missing function support [bcmod] http://php.net/manual/en/function.bcmod.php";
 
-            throw new \adLDAP\adLDAPException($message);
+            throw new adLDAPException($message);
         }
 
         $userInfo = $this->info($username, array("pwdlastset", "useraccountcontrol"), $isGUID);
@@ -478,7 +479,7 @@ class adLDAPUsers extends adLDAPBase
 
         if (array_key_exists("password", $attributes) && ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
         {
-            throw new \adLDAP\adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
+            throw new adLDAPException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         // Find the dn of the user
@@ -578,7 +579,7 @@ class adLDAPUsers extends adLDAPBase
         {
             $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
 
-            throw new \adLDAP\adLDAPException($message);
+            throw new adLDAPException($message);
         }
         
         $userDn = $this->dn($username, $isGUID);
@@ -606,7 +607,7 @@ class adLDAPUsers extends adLDAPBase
                     $msg .= ' Your password might not match the password policy.';
                 }
 
-                throw new \adLDAP\adLDAPException($msg);
+                throw new adLDAPException($msg);
             }
             else
             {
@@ -837,4 +838,3 @@ class adLDAPUsers extends adLDAPBase
         return $lastLogon;
     }
 }
-?>

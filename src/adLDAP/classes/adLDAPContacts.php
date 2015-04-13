@@ -2,8 +2,6 @@
 
 namespace adLDAP\classes;
 
-use adLDAP\adLDAP;
-
 /**
  * Ldap Contacts Management
  *
@@ -325,4 +323,3 @@ class adLDAPContacts extends adLDAPBase
         return $this->adldap->exchange()->contactMailEnable($distinguishedName, $emailAddress, $mailNickname);
     }
 }
-?>

@@ -183,5 +183,3 @@ class adLDAPFolders extends adLDAPBase
         return true;
     }
 }
-
-?>

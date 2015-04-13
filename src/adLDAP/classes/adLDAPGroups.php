@@ -803,4 +803,3 @@ class adLDAPGroups extends adLDAPBase
         return $r;
     }
 }
-?>

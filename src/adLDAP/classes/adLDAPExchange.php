@@ -426,4 +426,3 @@ class adLDAPExchange extends adLDAPBase
         return $entries;
     }
 }
-?>

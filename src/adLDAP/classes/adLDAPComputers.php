@@ -165,4 +165,3 @@ class adLDAPComputers extends adLDAPBase
         return $groups;
     }
 }
-?>

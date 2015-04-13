@@ -80,14 +80,13 @@ class adLDAPContacts extends adLDAPBase
 
         // Determine the container
         $attributes["container"] = array_reverse($attributes["container"]);
+
         $container= "OU=" . implode(",OU=", $attributes["container"]);
 
+        $dn = "CN=" . $this->adldap->utilities()->escapeCharacters($add["cn"][0]) . ", " . $container . "," . $this->adldap->getBaseDn();
+
         // Add the entry
-        $result = @ldap_add(
-            $this->adldap->getLdapConnection(),
-            "CN=" . $this->adldap->utilities()->escapeCharacters($add["cn"][0]) . ", " . $container . "," . $this->adldap->getBaseDn(),
-            $add
-        );
+        $result = $this->connection->add($dn, $add);
 
         if ($result != true) return false;
 
@@ -156,9 +155,9 @@ class adLDAPContacts extends adLDAPBase
             );
         }
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
         
         if ($entries[0]['count'] >= 1)
         {
@@ -235,7 +234,7 @@ class adLDAPContacts extends adLDAPBase
      * attribute you must not specify any other attributes
      *
      * @param string $distinguishedName The contact to query
-     * @param $attributes The attributes to modify
+     * @param array $attributes The attributes to modify
      * @return bool|string
      */
     public function modify($distinguishedName, $attributes)
@@ -249,7 +248,7 @@ class adLDAPContacts extends adLDAPBase
         if ( ! $mod) return false;
         
         // Do the update
-        $result = ldap_modify($this->adldap->getLdapConnection(), $distinguishedName, $mod);
+        $result = $this->connection->modify($distinguishedName, $mod);
 
         if ($result == false) return false;
 
@@ -259,12 +258,12 @@ class adLDAPContacts extends adLDAPBase
     /**
      * Delete a contact
      *
-     * @param $distinguishedName The contact dn to delete (please be careful here!)
+     * @param string $distinguishedName The contact dn to delete (please be careful here!)
      * @return bool
      */
     public function delete($distinguishedName)
     {
-        $result = $this->folder()->delete($distinguishedName);
+        $result = $this->adldap->folder()->delete($distinguishedName);
 
         if ($result != true) return false;
 
@@ -288,9 +287,9 @@ class adLDAPContacts extends adLDAPBase
 
         $fields = array("displayname","distinguishedname");
 
-        $sr = ldap_search($this->adldap->getLdapConnection(), $this->adldap->getBaseDn(), $filter, $fields);
+        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+        $entries = $this->connection->getEntries($results);
 
         $usersArray = array();
 
@@ -307,6 +306,7 @@ class adLDAPContacts extends adLDAPBase
                 array_push($usersArray, $entries[$i]["distinguishedname"][0]);
             }
         }
+
         if ($sorted) asort($usersArray);
 
         return $usersArray;

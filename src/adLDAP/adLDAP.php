@@ -673,9 +673,6 @@ class adLDAP
 
         // Looks like we're all set. Let's try and connect
         $this->connect();
-
-        // We'll return the current class instance so it's chain-able
-        return $this;
     }
 
     /**
@@ -710,13 +707,9 @@ class adLDAP
 
         $port = $this->getPort();
 
-        if ($useSSL)
-        {
-            $this->ldapConnection->useSSL()->connect($domainController, $port);
-        } else
-        {
-            $this->ldapConnection->connect($domainController, $port);
-        }
+        if ($useSSL) $this->ldapConnection->useSSL();
+
+        $this->ldapConnection->connect($domainController, $port);
 
         $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
@@ -746,9 +739,12 @@ class adLDAP
             }
         }
 
-        if ($useSSO && $_SERVER['REMOTE_USER'] && ! $adminUsername && $_SERVER['KRB5CCNAME'])
+        $remoteUser = filter_input(INPUT_SERVER, 'REMOTE_USER');
+        $kerberosAuth = filter_input(INPUT_SERVER, 'KRB5CCNAME');
+
+        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth)
         {
-            putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
+            putenv("KRB5CCNAME=" . $kerberosAuth);
 
             if ( ! $this->ldapConnection->bind(NULL, NULL, true))
             {
@@ -756,10 +752,8 @@ class adLDAP
 
                 throw new adLDAPException($message);
             } 
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         if ( ! $this->getBaseDn()) $this->setBaseDn($this->findBaseDn());

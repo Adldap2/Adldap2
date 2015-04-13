@@ -744,7 +744,7 @@ class adLDAPGroups extends adLDAPBase
         $filter = '(objectsid=' . $this->adldap->utilities()->getTextSID($groupId).')';
 
         $fields = array("samaccountname","distinguishedname");
-        
+
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
         $entries = $this->connection->getEntries($results);

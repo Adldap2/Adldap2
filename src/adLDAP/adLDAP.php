@@ -671,7 +671,10 @@ class adLDAP
         }
 
         // Looks like we're all set. Let's try and connect
-        return $this->connect();
+        $this->connect();
+
+        // We'll return the current class instance so it's chain-able
+        return $this;
     }
 
     /**
@@ -770,7 +773,7 @@ class adLDAP
      */
     public function close()
     {
-        return $this->ldapConnection->close();
+        if($this->ldapConnection) $this->ldapConnection->close();
     }
 
     /**

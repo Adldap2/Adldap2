@@ -966,7 +966,7 @@ class adLDAP
      * @param array $attributes Attributes to be queried
      * @return array|bool
      */
-    public function adldap_schema($attributes)
+    public function adldap_schema(array $attributes)
     {
         // LDAP doesn't like NULL attributes, only set them if they have values
         // If you wish to remove an attribute you should set it to a space

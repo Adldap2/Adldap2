@@ -130,10 +130,10 @@ class adLDAPContacts extends adLDAPBase
      * Get contact information. Returned in a raw array format from AD
      *
      * @param string $distinguishedName The full DN of a contact
-     * @param null $fields Array of parameters to query
+     * @param array $fields Array of parameters to query
      * @return array|bool
      */
-    public function info($distinguishedName, $fields = NULL)
+    public function info($distinguishedName, array $fields = array())
     {
         if ($distinguishedName === NULL) return false;
 
@@ -141,7 +141,7 @@ class adLDAPContacts extends adLDAPBase
 
         $filter = "distinguishedName=" . $this->adldap->utilities()->ldapSlashes($distinguishedName);
 
-        if ($fields === NULL)
+        if (count($fields) === 0)
         {
             $fields = array(
                 "distinguishedname",

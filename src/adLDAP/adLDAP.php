@@ -719,24 +719,7 @@ class adLDAP
         // Bind as a domain admin if they've set it up
         if ($adminUsername !== NULL && $adminPassword !== NULL)
         {
-            $bindings = $this->ldapConnection->bind($adminUsername . $this->getAccountSuffix(), $adminPassword);
-
-            if ( ! $bindings)
-            {
-                $error = $this->ldapConnection->getLastError();
-
-                if ($useSSL && ! $useTLS)
-                {
-                    // If you have problems troubleshooting, remove the @ character from the ldapldapBind command above to get the actual error message
-                    $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $error;
-                }
-                else
-                {
-                    $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $error;
-                }
-
-                throw new adLDAPException($message);
-            }
+            $this->bindUsingAdmin($adminUsername, $adminPassword);
         }
 
         $remoteUser = $this->getRemoteUserInput();
@@ -744,16 +727,7 @@ class adLDAP
 
         if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth)
         {
-            putenv("KRB5CCNAME=" . $kerberosAuth);
-
-            if ( ! $this->ldapConnection->bind(NULL, NULL, true))
-            {
-                $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
-
-                throw new adLDAPException($message);
-            } 
-
-            return true;
+            return $this->bindUsingKerberos($kerberosAuth);
         }
 
         if ( ! $this->getBaseDn()) $this->setBaseDn($this->findBaseDn());
@@ -1114,6 +1088,59 @@ class adLDAP
         fsockopen($host, $port, $errno, $errstr, 10);
 
         if ($errno > 0) return false;
+
+        return true;
+    }
+
+    /**
+     * Binds to the current connection using kerberos
+     *
+     * @param $kerberosCredentials
+     * @returns bool
+     * @throws adLDAPException
+     */
+    private function bindUsingKerberos($kerberosCredentials)
+    {
+        putenv("KRB5CCNAME=" . $kerberosCredentials);
+
+        if ( ! $this->ldapConnection->bind(NULL, NULL, true))
+        {
+            $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
+
+            throw new adLDAPException($message);
+        }
+
+        return true;
+    }
+
+    /**
+     * Binds to the current connection using administrator credentials
+     *
+     * @param $username
+     * @param $password
+     * @returns bool
+     * @throws adLDAPException
+     */
+    private function bindUsingAdmin($username, $password)
+    {
+        $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
+
+        if ( ! $bindings)
+        {
+            $error = $this->ldapConnection->getLastError();
+
+            if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS())
+            {
+                // If you have problems troubleshooting, remove the @ character from the ldapBind command above to get the actual error message
+                $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $error;
+            }
+            else
+            {
+                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $error;
+            }
+
+            throw new adLDAPException($message);
+        }
 
         return true;
     }

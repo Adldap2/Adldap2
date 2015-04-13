@@ -58,15 +58,15 @@ class adLDAPUsers extends adLDAPBase
     {
         return $this->adldap->authenticate($username, $password, $preventRebind);
     }
-
+    
     /**
      * Create a user.
      *
      * If you specify a password here, this can only be performed over SSL.
      *
      * @param array $attributes The attributes to set to the user account
-     * @return bool
-     * @throws \adLDAP\adLDAPException
+     * @return bool|string
+     * @throws adLDAPException
      */
     public function create(array $attributes)
     {

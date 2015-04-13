@@ -66,9 +66,9 @@ class adLDAPUtils extends adLDAPBase
                  * so we ditch the first three characters and the group
                  * name goes up to the first comma
                  */
-                $bits=explode(",", $line);
+                $bits = explode(",", $line);
 
-                $groupArray[] = substr($bits[0], 3, (strlen($bits[0])-3));
+                $groupArray[] = substr($bits[0], 3, (strlen($bits[0]) - 3));
             }
         }
 
@@ -101,7 +101,7 @@ class adLDAPUtils extends adLDAPBase
     {
         return preg_replace_callback(
       		'/([\x00-\x1F\*\(\)\\\\])/',
-        	function ($matches)
+        	function($matches)
             {
             	return "\\" . join("", unpack("H2", $matches[1]));
         	},

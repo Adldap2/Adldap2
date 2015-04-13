@@ -43,25 +43,8 @@ use adLDAP\adLDAP;
  * Class adLDAPFolders
  * @package adLDAP\classes
  */
-class adLDAPFolders
+class adLDAPFolders extends adLDAPBase
 {
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
-
     /**
      * Delete a distinguished name from Active Directory.
      * You should never need to call this yourself, just use the wrapper functions user_delete and contact_delete

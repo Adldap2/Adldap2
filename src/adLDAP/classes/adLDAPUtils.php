@@ -43,26 +43,9 @@ use adLDAP\adLDAP;
  * Class adLDAPUtils
  * @package adLDAP\classes
  */
-class adLDAPUtils
+class adLDAPUtils extends adLDAPBase
 {
     const ADLDAP_VERSION = '4.1.0';
-
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
 
     /**
      * Take an LDAP query and return the nice names, without all the LDAP prefixes (eg. CN, DN)

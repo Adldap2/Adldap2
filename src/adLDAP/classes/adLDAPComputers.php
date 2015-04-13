@@ -2,8 +2,6 @@
 
 namespace adLDAP\classes;
 
-use adLDAP\adLDAP;
-
 /**
  * Ldap Computer Management
  *
@@ -43,25 +41,8 @@ use adLDAP\adLDAP;
  * Class adLDAPComputers
  * @package adLDAP\classes
  */
-class adLDAPComputers
+class adLDAPComputers extends adLDAPBase
 {
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
-
     /**
      * Get information about a specific computer. Returned in a raw array format from AD
      *

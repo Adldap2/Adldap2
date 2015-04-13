@@ -43,25 +43,8 @@ use adLDAP\adLDAP;
  * Class adLDAPContacts
  * @package adLDAP\classes
  */
-class adLDAPContacts
+class adLDAPContacts extends adLDAPBase
 {
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
-
     /**
      * Create a contact
      *

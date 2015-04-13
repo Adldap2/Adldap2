@@ -43,25 +43,8 @@ use adLDAP\adLDAP;
  * Class adLDAPGroups
  * @package adLDAP\classes
  */
-class adLDAPGroups
+class adLDAPGroups extends adLDAPBase
 {
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
-
     /**
      * Add a group to a group
      *

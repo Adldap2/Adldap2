@@ -43,25 +43,8 @@ use adLDAP\adLDAP;
  * Class adLDAPUsers
  * @package adLDAP\classes
  */
-class adLDAPUsers
+class adLDAPUsers extends adLDAPBase
 {
-    /**
-     * The current adLDAP connection via dependency injection
-     *
-     * @var adLDAP
-     */
-    protected $adldap;
-
-    /**
-     * Constructor.
-     *
-     * @param adLDAP $adldap
-     */
-    public function __construct(adLDAP $adldap)
-    {
-        $this->adldap = $adldap;
-    }
-
     /**
      * Validate a user's login credentials
      *

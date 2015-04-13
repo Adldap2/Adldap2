@@ -157,10 +157,8 @@ class adLDAPFolders extends adLDAPBase
      * @param array $attributes Default attributes of the ou
      * @return bool|string
      */
-    public function create($attributes)
+    public function create(array $attributes)
     {
-        if ( ! is_array($attributes)) return "Attributes must be an array";
-
         if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
 
         if ( ! array_key_exists("ou_name",$attributes)) return "Missing compulsory field [ou_name]";

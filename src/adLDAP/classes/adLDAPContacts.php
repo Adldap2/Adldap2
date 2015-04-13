@@ -51,7 +51,7 @@ class adLDAPContacts extends adLDAPBase
      * @param array $attributes The attributes to set to the contact
      * @return bool|string
      */
-    public function create($attributes)
+    public function create(array $attributes)
     {
         // Check for compulsory fields
         if ( ! array_key_exists("display_name", $attributes)) return "Missing compulsory field [display_name]";

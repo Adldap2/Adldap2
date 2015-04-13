@@ -950,8 +950,20 @@ class adLDAP
      *
      * @param array $attributes Attributes to be queried
      * @return array|bool
+     * @depreciated Depreciated as of 5.0 in favor of ldapSchema function
      */
     public function adldap_schema(array $attributes)
+    {
+        return $this->ldapSchema($attributes);
+    }
+
+    /**
+     * Returns an LDAP compatible schema array for modifications.
+     *
+     * @param array $attributes Attributes to be queried
+     * @return array|bool
+     */
+    public function ldapSchema(array $attributes)
     {
         // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
         array_walk($attributes, array($this->utilities(), 'encode8bit'));

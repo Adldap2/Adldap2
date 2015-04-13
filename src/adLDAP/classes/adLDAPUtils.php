@@ -266,7 +266,7 @@ class adLDAPUtils extends adLDAPBase
 
         if (is_string($item))
         {
-            for ($i=0; $i<strlen($item); $i++)
+            for ($i = 0; $i < strlen($item); $i++)
             {
                 if (ord($item[$i]) >> 7) $encode = true;
             }

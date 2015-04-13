@@ -308,6 +308,19 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Performs a single level search on the current connection.
+     *
+     * @param string $dn
+     * @param string $filter
+     * @param array $attributes
+     * @return mixed
+     */
+    public function listing($dn, $filter, array $attributes)
+    {
+        return @ldap_list($this->getConnection(), $dn, $filter, $attributes);
+    }
+
+    /**
      * Reads an entry on the current LDAP connection.
      *
      * @param $dn
@@ -350,6 +363,17 @@ class LDAP implements ConnectionInterface
     public function add($dn, array $entry)
     {
         return @ldap_add($this->getConnection(), $dn, $entry);
+    }
+
+    /**
+     * Deletes an entry on the current LDAP directory.
+     *
+     * @param string $dn
+     * @return bool
+     */
+    public function delete($dn)
+    {
+        return @ldap_delete($this->getConnection(), $dn);
     }
 
     /**

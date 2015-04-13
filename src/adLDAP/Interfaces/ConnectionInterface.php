@@ -129,7 +129,7 @@ interface ConnectionInterface
      * Connects to the specified hostname using the
      * specified port.
      *
-     * @param $hostname
+     * @param string $hostname
      * @param int $port
      * @return mixed
      */
@@ -173,7 +173,7 @@ interface ConnectionInterface
     /**
      * Reads an entry on the current connection
      *
-     * @param $dn
+     * @param string $dn
      * @param $filter
      * @param array $fields
      * @return mixed
@@ -181,13 +181,31 @@ interface ConnectionInterface
     public function read($dn, $filter, array $fields);
 
     /**
+     * Performs a single level search on the current connection.
+     *
+     * @param string $dn
+     * @param string $filter
+     * @param array $attributes
+     * @return mixed
+     */
+    public function listing($dn, $filter, array $attributes);
+
+    /**
      * Adds an entry to the current connection.
      *
-     * @param $dn
+     * @param string $dn
      * @param array $entry
      * @return bool
      */
     public function add($dn, array $entry);
+
+    /**
+     * Deletes an entry on the current connection.
+     *
+     * @param string $dn
+     * @return bool
+     */
+    public function delete($dn);
 
     /**
      * Modify the name of an entry on the current
@@ -205,7 +223,7 @@ interface ConnectionInterface
      * Modifies an existing entry on the
      * current connection.
      *
-     * @param $dn
+     * @param string $dn
      * @param array $entry
      * @return mixed
      */

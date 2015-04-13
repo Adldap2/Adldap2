@@ -49,12 +49,12 @@ class adLDAPFolders extends adLDAPBase
      * Delete a distinguished name from Active Directory.
      * You should never need to call this yourself, just use the wrapper functions user_delete and contact_delete
      *
-     * @param $dn The distinguished name to delete
+     * @param string $dn The distinguished name to delete
      * @return bool
      */
     public function delete($dn)
     {
-        $result = ldap_delete($this->adldap->getLdapConnection(), $dn);
+        $result = $this->connection->delete($dn);
 
         if ($result != true)return false;
 
@@ -133,18 +133,18 @@ class adLDAPFolders extends adLDAPBase
             $filter .= '(!(distinguishedname=' . $this->adldap->getBaseDn() . ')))';
         }
 
+        $fields = array('objectclass', 'distinguishedname', 'samaccountname');
+
         if ($recursive === true)
         {
-            $sr = ldap_search($this->adldap->getLdapConnection(), $searchOu, $filter, array('objectclass', 'distinguishedname', 'samaccountname'));
-
-            $entries = @ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+            $results = $this->connection->search($searchOu, $filter, $fields);
         }
         else
         {
-            $sr = ldap_list($this->adldap->getLdapConnection(), $searchOu, $filter, array('objectclass', 'distinguishedname', 'samaccountname'));
-
-            $entries = @ldap_get_entries($this->adldap->getLdapConnection(), $sr);
+            $results = $this->connection->listing($searchOu, $filter, $fields);
         }
+
+        $entries = $this->connection->getEntries($results);
 
         if (is_array($entries)) return $entries;
 
@@ -176,7 +176,9 @@ class adLDAPFolders extends adLDAPBase
 
         $containers = "OU=" . implode(",OU=", $attributes["container"]);
 
-        $result = ldap_add($this->adldap->getLdapConnection(), "OU=" . $add["OU"] . ", " . $containers . $this->adldap->getBaseDn(), $add);
+        $dn = "OU=" . $add["OU"] . ", " . $containers . $this->adldap->getBaseDn();
+
+        $result = $this->connection->add($dn, $add);
 
         if ($result != true) return false;
 

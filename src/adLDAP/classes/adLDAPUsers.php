@@ -67,7 +67,7 @@ class adLDAPUsers extends adLDAPBase
      * @return bool
      * @throws \adLDAP\adLDAPException
      */
-    public function create($attributes)
+    public function create(array $attributes)
     {
         // Check for compulsory fields
         if ( ! array_key_exists("username", $attributes)) return "Missing compulsory field [username]";

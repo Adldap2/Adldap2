@@ -48,6 +48,14 @@ You can find our website at https://github.com/adldap/adLDAP/ or the class docum
 
 https://github.com/adldap/adLDAP/wiki/adLDAP-Developer-API-Reference
 
+## Upgrading to 5.0.0
+
+Breaking changes:
+
+- Requires have been removed from all classes, and if using without composer or auto-loader you must require
+necessary files yourself
+- `adLDAP\adLDAPException` now has a new namespace: `adLDAP\Exceptions\adLDAPException`
+
 ## License
 
 This library is free software; you can redistribute it and/or modify it under the terms of the 

@@ -58,7 +58,7 @@ class adLDAPUsers extends adLDAPBase
     {
         return $this->adldap->authenticate($username, $password, $preventRebind);
     }
-    
+
     /**
      * Create a user.
      *
@@ -471,7 +471,7 @@ class adLDAPUsers extends adLDAPBase
      * @param array $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return bool|string
-     * @throws \adLDAP\adLDAPException
+     * @throws adLDAPException
      */
     public function modify($username, $attributes, $isGUID = false)
     {

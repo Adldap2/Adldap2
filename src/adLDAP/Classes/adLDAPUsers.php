@@ -97,7 +97,7 @@ class adLDAPUsers extends adLDAPBase
         }
 
         // Translate the schema
-        $add = $this->adldap->adldap_schema($user->toSchema());
+        $add = $this->adldap->ldapSchema($user->toSchema());
         
         // Additional stuff only used for adding accounts
         $add["cn"][0] = $attributes["display_name"];
@@ -476,7 +476,7 @@ class adLDAPUsers extends adLDAPBase
         if ($userDn === false) return false;
         
         // Translate the update to the LDAP schema                
-        $mod = $this->adldap->adldap_schema($user->toSchema());
+        $mod = $this->adldap->ldapSchema($user->toSchema());
 
         $enabled = $user->getAttribute('enabled');
 

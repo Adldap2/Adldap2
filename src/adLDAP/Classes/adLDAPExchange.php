@@ -121,7 +121,7 @@ class adLDAPExchange extends adLDAPBase
         $attributes['exchange_proxyaddress'] = $proxyValue . 'c=' . $country . ';a=' . $admd . ';p=' . $pdmd . ';o=' . $org . ';s=' . $surname . ';g=' . $givenName . ';';
        
         // Translate the update to the LDAP schema                
-        $add = $this->adldap->adldap_schema($attributes);
+        $add = $this->adldap->ldapSchema($attributes);
         
         if ( ! $add) return false;
 
@@ -189,7 +189,7 @@ class adLDAPExchange extends adLDAPBase
             $attributes['exchange_proxyaddress'] = $proxyValue . $emailAddress;
             
             // Translate the update to the LDAP schema                
-            $add = $this->adldap->adldap_schema($attributes);
+            $add = $this->adldap->ldapSchema($attributes);
             
             if ( ! $add) return false;
 
@@ -336,7 +336,7 @@ class adLDAPExchange extends adLDAPBase
         $attributes = array("email"=>$emailAddress,"contact_email"=>"SMTP:" . $emailAddress,"exchange_proxyaddress"=>"SMTP:" . $emailAddress,"exchange_mailnickname" => $mailNickname);
          
         // Translate the update to the LDAP schema                
-        $mod = $this->adldap->adldap_schema($attributes);
+        $mod = $this->adldap->ldapSchema($attributes);
         
         // Check to see if this is an enabled status update
         if ( ! $mod) return false;

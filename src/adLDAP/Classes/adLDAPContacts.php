@@ -58,7 +58,7 @@ class adLDAPContacts extends adLDAPBase
         $contact->validateRequired();
 
         // Translate the schema
-        $add = $this->adldap->adldap_schema($attributes);
+        $add = $this->adldap->ldapSchema($attributes);
         
         // Additional stuff only used for adding contacts
         $add["cn"][0] = $contact->{"display_name"};
@@ -237,7 +237,7 @@ class adLDAPContacts extends adLDAPBase
         if ($distinguishedName === NULL) return "Missing compulsory field [distinguishedname]";
         
         // Translate the update to the LDAP schema                
-        $mod = $this->adldap->adldap_schema($attributes);
+        $mod = $this->adldap->ldapSchema($attributes);
         
         // Check to see if this is an enabled status update
         if ( ! $mod) return false;

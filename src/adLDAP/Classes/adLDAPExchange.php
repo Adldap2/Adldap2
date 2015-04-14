@@ -106,12 +106,12 @@ class adLDAPExchange extends adLDAPBase
      */
     public function addX400($username, $country, $admd, $pdmd, $org, $surname, $givenName, $isGUID = false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
+        $this->adldap->utilities()->validateNotNull('Username', $username);
         
         $proxyValue = 'X400:';
             
         // Find the dn of the user
-        $user = $this->adldap->user()->info($username, array("cn","proxyaddresses"), $isGUID);
+        $user = $this->adldap->user()->info($username, array("cn", "proxyaddresses"), $isGUID);
 
         if ($user[0]["dn"] === NULL) return false;
 
@@ -130,11 +130,7 @@ class adLDAPExchange extends adLDAPBase
          * usually this error might occur because the address already
          * exists in the list of proxyAddresses
          */
-        $result = $this->connection->add($userDn, $add);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->add($userDn, $add);
     }
 
     /**

@@ -7,9 +7,6 @@
 [![Latest Stable Version](https://poser.pugx.org/adldap2/adldap2/v/stable.svg)](https://packagist.org/packages/adldap2/adldap2)
 [![License](https://poser.pugx.org/adldap2/adldap2/license.svg)](https://packagist.org/packages/adldap2/adldap2)
 
-> **Note:** This is a fork of the main abandoned adLDAP repository. You can file issues and pull-requests here and I will address / merge them.
-> Looking for the original repository? [Click here](https://github.com/adLDAP/adLDAP).
-
 Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
 ## To Do

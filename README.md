@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/adLDAP2/adLDAP2.svg)](https://travis-ci.org/adLDAP2/adLDAP2)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/?branch=master)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/45a86fc2-b202-4f1b-9549-679900e5807c/mini.png)](https://insight.sensiolabs.com/projects/45a86fc2-b202-4f1b-9549-679900e5807c)
 [![Total Downloads](https://poser.pugx.org/adldap2/adldap2/downloads.svg)](https://packagist.org/packages/adldap2/adldap2)
 [![Latest Stable Version](https://poser.pugx.org/adldap2/adldap2/v/stable.svg)](https://packagist.org/packages/adldap2/adldap2)
 [![License](https://poser.pugx.org/adldap2/adldap2/license.svg)](https://packagist.org/packages/adldap2/adldap2)

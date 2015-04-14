@@ -349,7 +349,7 @@ class adLDAPUtils extends adLDAPBase
 
         $message = 'No LDAP connection is currently bound.';
 
-        throw new adLDAPException();
+        throw new adLDAPException($message);
     }
 
     /**

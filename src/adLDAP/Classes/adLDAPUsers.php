@@ -49,6 +49,23 @@ use adLDAP\adLDAP;
 class adLDAPUsers extends adLDAPBase
 {
     /**
+     * The default query fields to use
+     * when requesting user information.
+     *
+     * @var array
+     */
+    public $defaultQueryFields = array(
+        "samaccountname",
+        "mail",
+        "memberof",
+        "department",
+        "displayname",
+        "telephonenumber",
+        "primarygroupid",
+        "objectsid"
+    );
+
+    /**
      * Validate a user's login credentials
      *
      * @param string $username The users AD username
@@ -254,16 +271,7 @@ class adLDAPUsers extends adLDAPBase
 
         if (count($fields) === 0)
         {
-            $fields = array(
-                "samaccountname",
-                "mail",
-                "memberof",
-                "department",
-                "displayname",
-                "telephonenumber",
-                "primarygroupid",
-                "objectsid"
-            );
+            $fields = $this->defaultQueryFields;
         }
 
         if ( ! in_array("objectsid", $fields))

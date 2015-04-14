@@ -2,6 +2,7 @@
 
 namespace adLDAP\Connections;
 
+use Exception;
 use adLDAP\Interfaces\ConnectionInterface;
 
 /**
@@ -71,6 +72,43 @@ class LDAP implements ConnectionInterface
      * @var bool
      */
     protected $bound = false;
+
+    /**
+     * Stores the bool whether or not
+     * to suppress errors when calling
+     * LDAP methods.
+     *
+     * @var bool
+     */
+    protected $suppressErrors = true;
+
+    /**
+     * Magic method to suppress LDAP errors if the
+     * suppressErrors attribute is true.
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return bool|mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if($this->suppressErrors)
+        {
+            try
+            {
+                // Try to call the specified method
+                return call_user_func_array(array($this, $method), $parameters);
+            } catch(Exception $e)
+            {
+                // Always return false on failure
+                return false;
+            }
+        } else
+        {
+            // Call the method without covering it by a try / catch
+            return call_user_func_array(array($this, $method), $parameters);
+        }
+    }
 
     /**
      * Returns true / false if the current
@@ -162,6 +200,28 @@ class LDAP implements ConnectionInterface
     }
 
     /**
+     * Sets the suppressErrors property to true
+     * so any recoverable errors thrown will be suppressed.
+     *
+     * @return void
+     */
+    public function suppressErrors()
+    {
+        $this->suppressErrors = true;
+    }
+
+    /**
+     * Sets the suppressErrors property to true
+     * so any errors thrown will be shown.
+     *
+     * @return void
+     */
+    public function showErrors()
+    {
+        $this->suppressErrors = false;
+    }
+
+    /**
      * Set's the current connection
      * to use SSL.
      *
@@ -219,7 +279,7 @@ class LDAP implements ConnectionInterface
      */
     public function getEntries($searchResults)
     {
-        return @ldap_get_entries($this->getConnection(), $searchResults);
+        return ldap_get_entries($this->getConnection(), $searchResults);
     }
 
     /**
@@ -231,7 +291,7 @@ class LDAP implements ConnectionInterface
      */
     public function getFirstEntry($searchResults)
     {
-        return @ldap_first_entry($this->getConnection(), $searchResults);
+        return ldap_first_entry($this->getConnection(), $searchResults);
     }
 
     /**
@@ -243,7 +303,7 @@ class LDAP implements ConnectionInterface
      */
     public function countEntries($searchResults)
     {
-        return @ldap_count_entries($this->getConnection(), $searchResults);
+        return ldap_count_entries($this->getConnection(), $searchResults);
     }
 
     /**
@@ -254,7 +314,7 @@ class LDAP implements ConnectionInterface
      */
     public function getLastError()
     {
-        return @ldap_error($this->getConnection());
+        return ldap_error($this->getConnection());
     }
 
     /**
@@ -266,7 +326,7 @@ class LDAP implements ConnectionInterface
      */
     public function getValuesLen($entry, $attribute)
     {
-        return @ldap_get_values_len($this->getConnection(), $entry, $attribute);
+        return ldap_get_values_len($this->getConnection(), $entry, $attribute);
     }
 
     /**
@@ -321,7 +381,7 @@ class LDAP implements ConnectionInterface
      */
     public function search($dn, $filter, array $fields)
     {
-        return @ldap_search($this->getConnection(), $dn, $filter, $fields);
+        return ldap_search($this->getConnection(), $dn, $filter, $fields);
     }
 
     /**
@@ -334,7 +394,7 @@ class LDAP implements ConnectionInterface
      */
     public function listing($dn, $filter, array $attributes)
     {
-        return @ldap_list($this->getConnection(), $dn, $filter, $attributes);
+        return ldap_list($this->getConnection(), $dn, $filter, $attributes);
     }
 
     /**
@@ -347,7 +407,7 @@ class LDAP implements ConnectionInterface
      */
     public function read($dn, $filter, array $fields)
     {
-        return @ldap_read($this->getConnection(), $dn, $filter, $fields);
+        return ldap_read($this->getConnection(), $dn, $filter, $fields);
     }
 
     /**
@@ -363,10 +423,10 @@ class LDAP implements ConnectionInterface
     {
         if($sasl)
         {
-            return $this->bound = @ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
+            return $this->bound = ldap_sasl_bind($this->getConnection(), NULL, NULL, "GSSAPI");
         } else
         {
-            return $this->bound = @ldap_bind($this->getConnection(), $username, $password);
+            return $this->bound = ldap_bind($this->getConnection(), $username, $password);
         }
     }
 
@@ -379,7 +439,7 @@ class LDAP implements ConnectionInterface
      */
     public function add($dn, array $entry)
     {
-        return @ldap_add($this->getConnection(), $dn, $entry);
+        return ldap_add($this->getConnection(), $dn, $entry);
     }
 
     /**
@@ -390,7 +450,7 @@ class LDAP implements ConnectionInterface
      */
     public function delete($dn)
     {
-        return @ldap_delete($this->getConnection(), $dn);
+        return ldap_delete($this->getConnection(), $dn);
     }
 
     /**
@@ -404,7 +464,7 @@ class LDAP implements ConnectionInterface
      */
     public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false)
     {
-        return @ldap_rename($this->getConnection(), $dn, $newRdn, $newParent, $deleteOldRdn);
+        return ldap_rename($this->getConnection(), $dn, $newRdn, $newParent, $deleteOldRdn);
     }
 
     /**
@@ -416,7 +476,7 @@ class LDAP implements ConnectionInterface
      */
     public function modify($dn, array $entry)
     {
-        return @ldap_modify($this->getConnection(), $dn, $entry);
+        return ldap_modify($this->getConnection(), $dn, $entry);
     }
 
     /**
@@ -428,7 +488,7 @@ class LDAP implements ConnectionInterface
      */
     public function modAdd($dn, array $entry)
     {
-        return @ldap_mod_add($this->getConnection(), $dn, $entry);
+        return ldap_mod_add($this->getConnection(), $dn, $entry);
     }
 
     /**
@@ -440,7 +500,7 @@ class LDAP implements ConnectionInterface
      */
     public function modReplace($dn, array $entry)
     {
-        return @ldap_mod_replace($this->getConnection(), $dn, $entry);
+        return ldap_mod_replace($this->getConnection(), $dn, $entry);
     }
 
     /**
@@ -452,7 +512,7 @@ class LDAP implements ConnectionInterface
      */
     public function modDelete($dn, array $entry)
     {
-        return @ldap_mod_del($this->getConnection(), $dn, $entry);
+        return ldap_mod_del($this->getConnection(), $dn, $entry);
     }
 
     /**
@@ -486,7 +546,7 @@ class LDAP implements ConnectionInterface
     {
         $connection = $this->getConnection();
 
-        if($connection) @ldap_close($connection);
+        if($connection) ldap_close($connection);
 
         return true;
     }

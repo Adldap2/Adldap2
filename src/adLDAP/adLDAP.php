@@ -1076,6 +1076,7 @@ class adLDAP
         // Return a filtered array to remove NULL attributes
         return array_filter($ldapSchema->getAttributes(), function($attribute)
         {
+            // Only return the attribute if it is not null
             if ($attribute[0] !== null) return $attribute;
         });
     }

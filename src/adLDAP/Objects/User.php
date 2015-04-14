@@ -33,9 +33,6 @@ class User extends AbstractObject
     {
         $this->validateRequired();
 
-        // Make sure the container attribute is an array
-        if ( ! is_array($this->getAttribute('container'))) throw new adLDAPException('Container attribute must be an array');
-
         // Set the display name if it's not set
         if ($this->getAttribute('display_name') === null)
         {
@@ -45,5 +42,21 @@ class User extends AbstractObject
         }
 
         return $this->getAttributes();
+    }
+
+    /**
+     * Validates the the required or specified attributes.
+     *
+     * @param array $only
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateRequired($only = array())
+    {
+        parent::validateRequired($only);
+
+        if ( ! is_array($this->getAttribute('container'))) throw new adLDAPException('Container attribute must be an array');
+
+        return true;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Objects\Contact;
+
 /**
  * Ldap Contacts Management
  *
@@ -51,27 +53,22 @@ class adLDAPContacts extends adLDAPBase
      */
     public function create(array $attributes)
     {
-        // Check for compulsory fields
-        if ( ! array_key_exists("display_name", $attributes)) return "Missing compulsory field [display_name]";
+        $contact = new Contact($attributes);
 
-        if ( ! array_key_exists("email", $attributes)) return "Missing compulsory field [email]";
-
-        if ( ! array_key_exists("container", $attributes)) return "Missing compulsory field [container]";
-
-        if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
+        $contact->validateRequired();
 
         // Translate the schema
         $add = $this->adldap->adldap_schema($attributes);
         
         // Additional stuff only used for adding contacts
-        $add["cn"][0] = $attributes["display_name"];
+        $add["cn"][0] = $contact->{"display_name"};
 
         $add["objectclass"][0] = "top";
         $add["objectclass"][1] = "person";
         $add["objectclass"][2] = "organizationalPerson";
         $add["objectclass"][3] = "contact";
 
-        if ( ! isset($attributes['exchange_hidefromlists']))
+        if ( ! $contact->hasAttribute('exchange_hidefromlists'))
         {
             $add["msExchHideFromAddressLists"][0] = "TRUE";
         }

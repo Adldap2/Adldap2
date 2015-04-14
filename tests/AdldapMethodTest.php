@@ -61,6 +61,38 @@ class AdldapMethodTest extends FunctionalTestCase
         $this->assertTrue($passes);
     }
 
+    public function testAdldapSetLdapConnection()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('close')->andReturn(true);
+
+        $ad->setLdapConnection($connection);
+
+        $this->assertEquals($connection, $ad->getLdapConnection());
+    }
+
+    public function testAdldapSetLdapConnectionFailure()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $connection = 'Invalid Connection';
+
+        try
+        {
+            $ad->setLdapConnection($connection);
+
+            $passes = false;
+        } catch (\Exception $e)
+        {
+            $passes = true;
+        }
+
+        $this->assertTrue($passes);
+    }
+
     /**
      * This tests that all the inserted schema attributes are
      * correctly applied and returned using the ldapSchema($attributes)

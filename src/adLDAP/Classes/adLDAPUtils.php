@@ -337,7 +337,8 @@ class adLDAPUtils extends adLDAPBase
     }
 
     /**
-     * Validates that the inserted value is not null or empty.
+     * Validates that the inserted value is not null or empty. This
+     * will thrown an adLDAPException otherwise.
      *
      * @param string $parameter
      * @param string $value
@@ -346,19 +347,45 @@ class adLDAPUtils extends adLDAPBase
      */
     public function validateNotNullOrEmpty($parameter, $value)
     {
-        // If the value does not equal null or empty we'll return true
-        if ($value !== null && ! empty($value)) return true;
+        $this->validateNotNull($parameter, $value);
 
-        /*
-         * We'll convert the value to a string to
-         * make sure we give the devs an explanation
-         * of what the value inserted was.
-         */
-        if ($value === null) $value = 'NULL';
+        $this->validateNotEmpty($parameter, $value);
 
-        if (empty($value)) $value = 'Empty';
+        return true;
+    }
 
-        $message = sprintf('Parameter: %s cannot be null or empty. You inserted: %s', $parameter, $value);
+    /**
+     * Validates that the inserted value of the specified parameter
+     * is not null. This will throw an adLDAPException otherwise.
+     *
+     * @param $parameter
+     * @param $value
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateNotNull($parameter, $value)
+    {
+        if($value !== null) return true;
+
+        $message = sprintf('Parameter: %s cannot be null.', $parameter);
+
+        throw new adLDAPException($message);
+    }
+
+    /**
+     * Validates that the inserted value of the specified parameter
+     * is not empty. This will throw an adLDAPException otherwise.
+     *
+     * @param $parameter
+     * @param $value
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateNotEmpty($parameter, $value)
+    {
+        if ( ! empty($value)) return true;
+
+        $message = sprintf('Parameter: %s cannot be empty.', $parameter);
 
         throw new adLDAPException($message);
     }

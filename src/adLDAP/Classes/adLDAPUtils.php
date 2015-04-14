@@ -2,6 +2,8 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Exceptions\adLDAPException;
+
 /**
  * AdLDAP Utility Functions
  *
@@ -332,5 +334,31 @@ class adLDAPUtils extends adLDAPBase
         }
 
         return $dnArr;
+    }
+
+    /**
+     * Validates that the inserted value is not null or empty.
+     *
+     * @param string $parameter
+     * @param string $value
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateNotNullOrEmpty($parameter, $value)
+    {
+        if($value !== null && ! empty($value)) return true;
+
+        /*
+         * We'll convert the value to a string to
+         * make sure we give the devs an explanation
+         * of what the value inserted was.
+         */
+        if($value === null) $value = 'NULL';
+
+        if(empty($value)) $value = 'Empty';
+
+        $message = sprintf('Parameter: %s cannot be null or empty. You inserted: %s', $parameter, $value);
+
+        throw new adLDAPException($message);
     }
 }

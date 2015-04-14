@@ -779,9 +779,8 @@ class adLDAP
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
-        if ($username === NULL || $password === NULL) return false;
-
-        if (empty($username) || empty($password)) return false;
+        $this->utilities()->validateNotNullOrEmpty('Username', $username);
+        $this->utilities()->validateNotNullOrEmpty('Password', $password);
 
         $remoteUser = $this->getRemoteUserInput();
         $kerberos = $this->getKerberosAuthInput();

@@ -96,21 +96,6 @@ class AdldapConstructTest extends FunctionalTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $config = array(
-            'account_suffix' => 'Account Suffix',
-            'base_dn' => 'Base DN',
-            'domain_controllers' => array('dc1', 'dc2'),
-            'admin_username' => 'Admin Username',
-            'admin_password' => 'Admin Password',
-            'real_primarygroup' => 'Primary Group',
-            'use_ssl' => true,
-            'use_tls' => true,
-            'sso' => true,
-            'recursive_groups' => true,
-            'follow_referrals' => true,
-            'ad_port' => 500,
-        );
-
         $connection
             ->shouldReceive('isSupported')->andReturn(true)
             ->shouldReceive('isSaslSupported')->andReturn(true)
@@ -126,7 +111,7 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('bind')->andReturn('resource')
             ->shouldReceive('close')->andReturn(true);
 
-        $ad = new adLDAP($config, $connection);
+        $ad = new adLDAP($this->configStub, $connection);
 
         $this->assertInstanceOf('adLDAP\Interfaces\ConnectionInterface', $ad->getLdapConnection());
 

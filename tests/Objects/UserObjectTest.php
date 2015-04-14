@@ -1,8 +1,9 @@
 <?php
 
-namespace adLDAP\Tests;
+namespace adLDAP\Tests\Objects;
 
 use adLDAP\Objects\User;
+use adLDAP\Tests\FunctionalTestCase;
 
 class UserObjectTest extends FunctionalTestCase
 {

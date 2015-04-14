@@ -11,6 +11,15 @@ use adLDAP\Exceptions\adLDAPException;
 abstract class AbstractObject
 {
     /**
+     * The validation messages of the object.
+     *
+     * @var array
+     */
+    public $messages = array(
+        'required' => 'Missing compulsory field [%s]',
+    );
+
+    /**
      * The required attributes for the toSchema method
      *
      * @var array
@@ -26,6 +35,8 @@ abstract class AbstractObject
 
     /**
      * Constructor.
+     *
+     * Sets the object's attributes property.
      *
      * @param array $attributes
      */
@@ -124,16 +135,31 @@ abstract class AbstractObject
     }
 
     /**
-     * Validates the required attributes for preventing null keys
+     * Sets the required attributes for validation.
      *
+     * @param array $required
+     * @return $this
+     */
+    public function setRequired(array $required = array())
+    {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Validates the required attributes for preventing null keys.
+     *
+     * If an array is provided, then the specified required attributes
+     * are only validated.
+     *
+     * @param array $only
      * @return bool
      * @throws adLDAPException
      */
-    public function validateRequired()
+    public function validateRequired($only = array())
     {
-        $errors = array();
-
-        $message = 'Missing compulsory field [%s]';
+        if(count($only) > 0 ) return $this->validateSpecific($only);
 
         /*
          * Go through each required attribute
@@ -143,14 +169,35 @@ abstract class AbstractObject
         {
             if($this->getAttribute($required) === null)
             {
-                $errors[] = sprintf($message, $required);
+                throw new adLDAPException(sprintf($this->messages['required'], $required));
             }
         }
 
-        if(count($errors) > 0)
+        return true;
+    }
+
+    /**
+     * Validates the specified attributes inside the required array.
+     *
+     * The attributes inside the required array must also exist inside the
+     * required property.
+     *
+     * @param array $required
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateSpecific(array $required = array())
+    {
+        foreach($required as $field)
         {
-            // Throw an exception with the first error message
-            throw new adLDAPException($errors[0]);
+            /*
+             * If the field is in the required array, and the
+             * object attribute equals null, we'll throw an exception.
+             */
+            if(in_array($field, $this->required) && $this->getAttribute($field) === null)
+            {
+                throw new adLDAPException(sprintf($this->messages['required'], $field));
+            }
         }
 
         return true;

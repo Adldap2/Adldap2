@@ -44,6 +44,24 @@ namespace adLDAP\classes;
 class adLDAPComputers extends adLDAPBase
 {
     /**
+     * The default query attributes to use when querying
+     * computer information.
+     *
+     * @var array
+     */
+    public $defaultQueryAttributes = array(
+        "memberof",
+        "cn",
+        "displayname",
+        "dnshostname",
+        "distinguishedname",
+        "objectcategory",
+        "operatingsystem",
+        "operatingsystemservicepack",
+        "operatingsystemversion"
+    );
+
+    /**
      * Get information about a specific computer. Returned in a raw array format from AD
      *
      * @param string $computerName The name of the computer
@@ -52,25 +70,15 @@ class adLDAPComputers extends adLDAPBase
      */
     public function info($computerName, array $fields = array())
     {
-        if ($computerName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Computer Name', $computerName);
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
         $filter = "(&(objectClass=computer)(cn=" . $computerName . "))";
 
         if (count($fields) === 0)
         {
-            $fields = array(
-                "memberof",
-                "cn",
-                "displayname",
-                "dnshostname",
-                "distinguishedname",
-                "objectcategory",
-                "operatingsystem",
-                "operatingsystemservicepack",
-                "operatingsystemversion"
-            );
+            $fields = $this->defaultQueryAttributes;
         }
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
@@ -89,10 +97,6 @@ class adLDAPComputers extends adLDAPBase
      */
     public function infoCollection($computerName, array $fields = array())
     {
-        if ($computerName === NULL) return false;
-
-        if ( ! $this->adldap->getLdapBind()) return false;
-        
         $info = $this->info($computerName, $fields);
         
         if ($info !== false)
@@ -106,7 +110,7 @@ class adLDAPComputers extends adLDAPBase
     }
 
     /**
-     * Check if a computer is in a group
+     * Check if a computer is in a group.
      *
      * @param string $computerName The name of the computer
      * @param string $group The group to check
@@ -115,12 +119,6 @@ class adLDAPComputers extends adLDAPBase
      */
     public function inGroup($computerName, $group, $recursive = NULL)
     {
-        if ($computerName === NULL) return false;
-
-        if ($group === NULL) return false;
-
-        if ( ! $this->adldap->getLdapBind()) return false;
-
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); // Use the default option if they haven't set it
 
         // Get a list of the groups
@@ -133,7 +131,7 @@ class adLDAPComputers extends adLDAPBase
     }
 
     /**
-     * Get the groups a computer is in
+     * Get the groups a computer is in.
      *
      * @param string $computerName The name of the computer
      * @param null $recursive Whether to check recursively
@@ -141,16 +139,18 @@ class adLDAPComputers extends adLDAPBase
      */
     public function groups($computerName, $recursive = NULL)
     {
-        if ($computerName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Computer Name', $computerName);
 
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
+        $this->adldap->utilities()->validateLdapIsBound();
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        // Use the default option if they haven't set it
+        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
 
-        //search the directory for their information
-        $info = @$this->info($computerName, array("memberof", "primarygroupid"));
+        // Search the directory for their information
+        $info = $this->info($computerName, array("memberof", "primarygroupid"));
 
-        $groups = $this->adldap->utilities()->niceNames($info[0]["memberof"]); //presuming the entry returned is our guy (unique usernames)
+        // Presuming the entry returned is our guy (unique usernames)
+        $groups = $this->adldap->utilities()->niceNames($info[0]["memberof"]);
 
         if ($recursive === true)
         {

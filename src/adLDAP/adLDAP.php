@@ -883,9 +883,9 @@ class adLDAP
      */
     public function getObjectClass($distinguishedName)
     {
-        if ($distinguishedName === NULL) return false;
+        $this->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
 
-        if ( ! $this->getLdapBind()) return false;
+        $this->utilities()->validateLdapIsBound();
 
         $filter = "distinguishedName=" . $this->utilities()->ldapSlashes($distinguishedName);
 
@@ -923,15 +923,13 @@ class adLDAP
      */
     public function getRootDse($attributes = array("*", "+"))
     {
-        if ( ! $this->getLdapBind()) return (false);
+        $this->utilities()->validateLdapIsBound();
 
         $filter = 'objectClass=*';
 
         $results = $this->ldapConnection->read(NULL, $filter, $attributes);
 
-        $entries = $this->ldapConnection->getEntries($results);
-
-        return $entries;
+        return $this->ldapConnection->getEntries($results);
     }
 
     /**

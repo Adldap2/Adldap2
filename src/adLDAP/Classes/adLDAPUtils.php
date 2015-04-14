@@ -347,16 +347,16 @@ class adLDAPUtils extends adLDAPBase
     public function validateNotNullOrEmpty($parameter, $value)
     {
         // If the value does not equal null or empty we'll return true
-        if($value !== null && ! empty($value)) return true;
+        if ($value !== null && ! empty($value)) return true;
 
         /*
          * We'll convert the value to a string to
          * make sure we give the devs an explanation
          * of what the value inserted was.
          */
-        if($value === null) $value = 'NULL';
+        if ($value === null) $value = 'NULL';
 
-        if(empty($value)) $value = 'Empty';
+        if (empty($value)) $value = 'Empty';
 
         $message = sprintf('Parameter: %s cannot be null or empty. You inserted: %s', $parameter, $value);
 

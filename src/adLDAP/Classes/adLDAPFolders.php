@@ -2,6 +2,7 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Objects\Folder;
 use adLDAP\adLDAP;
 
 /**
@@ -54,11 +55,7 @@ class adLDAPFolders extends adLDAPBase
      */
     public function delete($dn)
     {
-        $result = $this->connection->delete($dn);
-
-        if ($result != true)return false;
-
-        return true;
+        return $this->connection->delete($dn);
     }
 
     /**
@@ -76,17 +73,16 @@ class adLDAPFolders extends adLDAPBase
      */
     public function listing($folderName = NULL, $dnType = adLDAP::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
     {
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
+        $this->adldap->utilities()->validateLdapIsBound();
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
 
         $filter = '(&';
 
         if ($type !== NULL)
         {
             $filter .= $this->typeToObjectClassString($type);
-        }
-        else
+        } else
         {
             $filter .= '(objectClass=*)';   
         }
@@ -129,35 +125,29 @@ class adLDAPFolders extends adLDAPBase
     }
 
     /**
-     * Create an organizational unit
+     * Create an organizational unit.
      *
      * @param array $attributes Default attributes of the ou
      * @return bool|string
      */
     public function create(array $attributes)
     {
-        if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
+        $folder = new Folder($attributes);
 
-        if ( ! array_key_exists("ou_name",$attributes)) return "Missing compulsory field [ou_name]";
+        $folder->validateRequired();
 
-        if ( ! array_key_exists("container",$attributes)) return "Missing compulsory field [container]";
-        
-        $attributes["container"] = array_reverse($attributes["container"]);
+        $folder->setAttribute('container', array_reverse($folder->getAttribute('container')));
 
         $add = array();
 
         $add["objectClass"] = "organizationalUnit";
-        $add["OU"] = $attributes['ou_name'];
+        $add["OU"] = $folder->getAttribute('ou_name');
 
-        $containers = "OU=" . implode(",OU=", $attributes["container"]);
+        $containers = "OU=" . implode(",OU=", $folder->getAttribute("container"));
 
         $dn = "OU=" . $add["OU"] . ", " . $containers . $this->adldap->getBaseDn();
 
-        $result = $this->connection->add($dn, $add);
-
-        if ($result != true) return false;
-
-        return true;
+        return $this->connection->add($dn, $add);
     }
 
     /**

@@ -246,11 +246,7 @@ class adLDAPContacts extends adLDAPBase
      */
     public function delete($distinguishedName)
     {
-        $result = $this->adldap->folder()->delete($distinguishedName);
-
-        if ($result != true) return false;
-
-        return true;
+        return $this->adldap->folder()->delete($distinguishedName);
     }
 
     /**

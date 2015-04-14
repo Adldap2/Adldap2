@@ -439,6 +439,7 @@ class adLDAPUsers extends adLDAPBase
     {
         $user = new User($attributes);
 
+        $user->validateSpecific(array('username'));
 
         if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
         {

@@ -45,8 +45,7 @@
     },
     "autoload": {
         "classmap": [
-            "src",
-            "tests"
+            "src"
         ],
         "psr-0": {
             "adLDAP\\": "src/"

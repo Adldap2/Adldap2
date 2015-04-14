@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\collections;
+namespace adLDAP\Collections;
 
 use adLDAP\adLDAP;
 

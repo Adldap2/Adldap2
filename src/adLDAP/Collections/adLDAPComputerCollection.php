@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\collections;
+namespace adLDAP\Collections;
 
 /**
  * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY 

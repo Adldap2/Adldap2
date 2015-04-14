@@ -45,7 +45,7 @@ use adLDAP\Exceptions\adLDAPException;
  */
 class adLDAPUtils extends adLDAPBase
 {
-    const ADLDAP_VERSION = '4.1.0';
+    const ADLDAP_VERSION = '5.0.0';
 
     /**
      * Take an LDAP query and return the nice names, without all the LDAP prefixes (eg. CN, DN)

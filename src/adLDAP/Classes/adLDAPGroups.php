@@ -488,7 +488,7 @@ class adLDAPGroups extends adLDAPBase
     {
         $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
         // We'll assign the default query fields if none are given
         if (count($fields) === 0) $fields = $this->defaultQueryFields;

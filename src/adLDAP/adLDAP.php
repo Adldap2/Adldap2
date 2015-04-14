@@ -256,7 +256,10 @@ class adLDAP
 
             $this->setFollowReferrals($configuration->{'follow_referrals'});
 
-            $this->setPort($configuration->{'ad_port'});
+            if($configuration->hasAttribute('ad_port'))
+            {
+                $this->setPort($configuration->{'ad_port'});
+            }
 
             $sso = $configuration->{'sso'};
 

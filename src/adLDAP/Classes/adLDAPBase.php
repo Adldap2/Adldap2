@@ -36,7 +36,7 @@ class adLDAPBase
         $this->adldap = $adldap;
 
         $connection = $adldap->getLdapConnection();
-        
+
         if($connection) $this->connection = $connection;
     }
 }

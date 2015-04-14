@@ -4,6 +4,13 @@ namespace adLDAP;
 
 use adLDAP\Exceptions\adLDAPException;
 use adLDAP\Interfaces\ConnectionInterface;
+use adLDAP\Classes\adLDAPUtils;
+use adLDAP\Classes\adLDAPFolders;
+use adLDAP\Classes\adLDAPExchange;
+use adLDAP\Classes\adLDAPComputers;
+use adLDAP\Classes\adLDAPContacts;
+use adLDAP\Classes\adLDAPUsers;
+use adLDAP\Classes\adLDAPGroups;
 use adLDAP\Objects\Configuration;
 use adLDAP\Objects\LdapSchema;
 use adLDAP\Objects\Schema;
@@ -141,49 +148,49 @@ class adLDAP
     /**
      * The group class
      *
-     * @var \adLDAP\classes\adLDAPGroups
+     * @var adLDAPGroups
      */
     protected $groupClass;
 
     /**
      * The user class
      *
-     * @var \adLDAP\classes\adLDAPUsers
+     * @var adLDAPUsers
      */
     protected $userClass;
 
     /**
      * The folders class
      *
-     * @var \adLDAP\classes\adLDAPFolders
+     * @var adLDAPFolders
      */
     protected $folderClass;
 
     /**
      * The utils class
      *
-     * @var \adLDAP\classes\adLDAPUtils
+     * @var adLDAPUtils
      */
     protected $utilClass;
 
     /**
      * The contacts class
      *
-     * @var \adLDAP\classes\adLDAPContacts
+     * @var adLDAPContacts
      */
     protected $contactClass;
 
     /**
      * The exchange class
      *
-     * @var \adLDAP\classes\adLDAPExchange
+     * @var adLDAPExchange
      */
     protected $exchangeClass;
 
     /**
      * The computers class
      *
-     * @var \adLDAP\classes\adLDAPComputers
+     * @var adLDAPComputers
      */
     protected $computerClass;
 
@@ -600,13 +607,13 @@ class adLDAP
      * This will set the groupClass property with a new group class
      * instance if it has not been set.
      *
-     * @return \adLDAP\classes\adLDAPGroups
+     * @return adLDAPGroups
      */
     public function group()
     {
         if ( ! $this->groupClass)
         {
-            $this->groupClass = new \adLDAP\classes\adLDAPGroups($this);
+            $this->groupClass = new adLDAPGroups($this);
         }
 
         return $this->groupClass;
@@ -617,13 +624,13 @@ class adLDAP
      * This will set the userClass property with a new user class instance
      * if it has not been set.
      *
-     * @return \adLDAP\classes\adLDAPUsers
+     * @return adLDAPUsers
      */
     public function user()
     {
         if ( ! $this->userClass)
         {
-            $this->userClass = new \adLDAP\classes\adLDAPUsers($this);
+            $this->userClass = new adLDAPUsers($this);
         }
 
         return $this->userClass;
@@ -634,13 +641,13 @@ class adLDAP
      * This will set the folderClass property with a new folder class instance
      * if it has not been set.
      *
-     * @return \adLDAP\classes\adLDAPFolders
+     * @return adLDAPFolders
      */
     public function folder()
     {
         if ( ! $this->folderClass)
         {
-            $this->folderClass = new \adLDAP\classes\adLDAPFolders($this);
+            $this->folderClass = new adLDAPFolders($this);
         }
 
         return $this->folderClass;
@@ -651,13 +658,13 @@ class adLDAP
      * This will set the utilClass property with a new utility class instance
      * if it has not been set.
      *
-     * @return \adLDAP\classes\adLDAPUtils
+     * @return adLDAPUtils
      */
     public function utilities()
     {
         if ( ! $this->utilClass)
         {
-            $this->utilClass = new \adLDAP\classes\adLDAPUtils($this);
+            $this->utilClass = new adLDAPUtils($this);
         }
 
         return $this->utilClass;
@@ -668,13 +675,13 @@ class adLDAP
      * This will set the contactClass property with a new contacts class instance
      * if it has not been set.
      *
-     * @return \adLDAP\classes\adLDAPContacts
+     * @return adLDAPContacts
      */
     public function contact()
     {
         if ( ! $this->contactClass)
         {
-            $this->contactClass = new \adLDAP\classes\adLDAPContacts($this);
+            $this->contactClass = new adLDAPContacts($this);
         }
 
         return $this->contactClass;
@@ -683,13 +690,13 @@ class adLDAP
     /**
      * Get the exchange class interface
      *
-     * @return \adLDAP\classes\adLDAPExchange
+     * @return adLDAPExchange
      */
     public function exchange()
     {
         if ( ! $this->exchangeClass)
         {
-            $this->exchangeClass = new \adLDAP\classes\adLDAPExchange($this);
+            $this->exchangeClass = new adLDAPExchange($this);
         }
 
         return $this->exchangeClass;
@@ -698,13 +705,13 @@ class adLDAP
     /**
      * Get the computers class interface
      *
-     * @return \adLDAP\classes\adLDAPComputers
+     * @return adLDAPComputers
      */
     public function computer()
     {
         if ( ! $this->computerClass)
         {
-            $this->computerClass = new \adLDAP\classes\adLDAPComputers($this);
+            $this->computerClass = new adLDAPComputers($this);
         }
 
         return $this->computerClass;

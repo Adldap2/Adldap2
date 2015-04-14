@@ -57,7 +57,9 @@ necessary files yourself
 - `adLDAP\adLDAPException` now has a new namespace: `adLDAP\Exceptions\adLDAPException`
 - `$adldap->user()->modify()` now throws an `adLDAPException` when the username parameter is null
 - Inserting null/empty values into the username and/or password inside the `authenticate($username, $password)` function will now
-result in an `adLDAPException`
+result in an `adLDAPException`, instead of returning false
+- Inserting null into the group name parameter inside the method adLDAP::info($groupName) now throws an adLDAP exception
+instead of return false
 
 ## License
 

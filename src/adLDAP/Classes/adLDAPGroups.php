@@ -486,7 +486,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function info($groupName, array $fields = array())
     {
-        if ($groupName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
 
         if ( ! $this->adldap->getLdapBind()) return false;
 

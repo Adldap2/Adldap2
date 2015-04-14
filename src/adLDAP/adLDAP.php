@@ -336,121 +336,6 @@ class adLDAP
     }
 
     /**
-     * Retrieve the group class with the current LDAP connection.
-     * This will set the groupClass property with a new group class
-     * instance if it has not been set.
-     *
-     * @return \adLDAP\classes\adLDAPGroups
-     */
-    public function group()
-    {
-        if ( ! $this->groupClass)
-        {
-            $this->groupClass = new \adLDAP\classes\adLDAPGroups($this);
-        }
-
-        return $this->groupClass;
-    }
-
-    /**
-     * Retrieve the current user class with the current LDAP connection.
-     * This will set the userClass property with a new user class instance
-     * if it has not been set.
-     *
-     * @return \adLDAP\classes\adLDAPUsers
-     */
-    public function user()
-    {
-        if ( ! $this->userClass)
-        {
-            $this->userClass = new \adLDAP\classes\adLDAPUsers($this);
-        }
-
-        return $this->userClass;
-    }
-
-    /**
-     * Retrieve the current folder class with the current LDAP connection.
-     * This will set the folderClass property with a new folder class instance
-     * if it has not been set.
-     *
-     * @return \adLDAP\classes\adLDAPFolders
-     */
-    public function folder()
-    {
-        if ( ! $this->folderClass)
-        {
-            $this->folderClass = new \adLDAP\classes\adLDAPFolders($this);
-        }
-
-        return $this->folderClass;
-    }
-
-    /**
-     * Retrieves the current utility class with the current LDAP connection.
-     * This will set the utilClass property with a new utility class instance
-     * if it has not been set.
-     *
-     * @return \adLDAP\classes\adLDAPUtils
-     */
-    public function utilities()
-    {
-        if ( ! $this->utilClass)
-        {
-            $this->utilClass = new \adLDAP\classes\adLDAPUtils($this);
-        }
-
-        return $this->utilClass;
-    }
-
-    /**
-     * Retrieves the current contact class with the current LDAP connection.
-     * This will set the contactClass property with a new contacts class instance
-     * if it has not been set.
-     *
-     * @return \adLDAP\classes\adLDAPContacts
-     */
-    public function contact()
-    {
-        if ( ! $this->contactClass)
-        {
-            $this->contactClass = new \adLDAP\classes\adLDAPContacts($this);
-        }
-
-        return $this->contactClass;
-    }
-
-    /**
-     * Get the exchange class interface
-     *
-     * @return \adLDAP\classes\adLDAPExchange
-     */
-    public function exchange()
-    {
-        if ( ! $this->exchangeClass)
-        {
-            $this->exchangeClass = new \adLDAP\classes\adLDAPExchange($this);
-        }
-
-        return $this->exchangeClass;
-    }
-
-    /**
-     * Get the computers class interface
-     *
-     * @return \adLDAP\classes\adLDAPComputers
-     */
-    public function computer()
-    {
-        if ( ! $this->computerClass)
-        {
-            $this->computerClass = new \adLDAP\classes\adLDAPComputers($this);
-        }
-
-        return $this->computerClass;
-    }
-
-    /**
      * Set the account suffix property
      *
      * @param string $accountSuffix
@@ -708,6 +593,121 @@ class adLDAP
     public function setFollowReferrals($referrals)
     {
         $this->followReferrals = $referrals;
+    }
+
+    /**
+     * Retrieve the group class with the current LDAP connection.
+     * This will set the groupClass property with a new group class
+     * instance if it has not been set.
+     *
+     * @return \adLDAP\classes\adLDAPGroups
+     */
+    public function group()
+    {
+        if ( ! $this->groupClass)
+        {
+            $this->groupClass = new \adLDAP\classes\adLDAPGroups($this);
+        }
+
+        return $this->groupClass;
+    }
+
+    /**
+     * Retrieve the current user class with the current LDAP connection.
+     * This will set the userClass property with a new user class instance
+     * if it has not been set.
+     *
+     * @return \adLDAP\classes\adLDAPUsers
+     */
+    public function user()
+    {
+        if ( ! $this->userClass)
+        {
+            $this->userClass = new \adLDAP\classes\adLDAPUsers($this);
+        }
+
+        return $this->userClass;
+    }
+
+    /**
+     * Retrieve the current folder class with the current LDAP connection.
+     * This will set the folderClass property with a new folder class instance
+     * if it has not been set.
+     *
+     * @return \adLDAP\classes\adLDAPFolders
+     */
+    public function folder()
+    {
+        if ( ! $this->folderClass)
+        {
+            $this->folderClass = new \adLDAP\classes\adLDAPFolders($this);
+        }
+
+        return $this->folderClass;
+    }
+
+    /**
+     * Retrieves the current utility class with the current LDAP connection.
+     * This will set the utilClass property with a new utility class instance
+     * if it has not been set.
+     *
+     * @return \adLDAP\classes\adLDAPUtils
+     */
+    public function utilities()
+    {
+        if ( ! $this->utilClass)
+        {
+            $this->utilClass = new \adLDAP\classes\adLDAPUtils($this);
+        }
+
+        return $this->utilClass;
+    }
+
+    /**
+     * Retrieves the current contact class with the current LDAP connection.
+     * This will set the contactClass property with a new contacts class instance
+     * if it has not been set.
+     *
+     * @return \adLDAP\classes\adLDAPContacts
+     */
+    public function contact()
+    {
+        if ( ! $this->contactClass)
+        {
+            $this->contactClass = new \adLDAP\classes\adLDAPContacts($this);
+        }
+
+        return $this->contactClass;
+    }
+
+    /**
+     * Get the exchange class interface
+     *
+     * @return \adLDAP\classes\adLDAPExchange
+     */
+    public function exchange()
+    {
+        if ( ! $this->exchangeClass)
+        {
+            $this->exchangeClass = new \adLDAP\classes\adLDAPExchange($this);
+        }
+
+        return $this->exchangeClass;
+    }
+
+    /**
+     * Get the computers class interface
+     *
+     * @return \adLDAP\classes\adLDAPComputers
+     */
+    public function computer()
+    {
+        if ( ! $this->computerClass)
+        {
+            $this->computerClass = new \adLDAP\classes\adLDAPComputers($this);
+        }
+
+        return $this->computerClass;
     }
 
     /**

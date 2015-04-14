@@ -45,7 +45,13 @@ use adLDAP\adLDAP;
  */
 class adLDAPGroups extends adLDAPBase
 {
-    protected $defaultQueryFields = array(
+    /**
+     * The default query fields to use when
+     * request group information.
+     *
+     * @var array
+     */
+    public $defaultQueryFields = array(
         "member",
         "memberof",
         "cn",

@@ -779,6 +779,10 @@ class adLDAP
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
+        if ($username === NULL || $password === NULL) return false;
+
+        if (empty($username) || empty($password)) return false;
+
         $remoteUser = $this->getRemoteUserInput();
         $kerberos = $this->getKerberosAuthInput();
 
@@ -942,7 +946,7 @@ class adLDAP
      */
     public function getLastError()
     {
-        return $this->ldapConnection->getLastError();
+        if($this->ldapConnection) return $this->ldapConnection->getLastError();
     }
 
     /**
@@ -1068,12 +1072,13 @@ class adLDAP
 
         $ldapSchema->setAttribute('targetAddress', $schema->getAttribute('contact_email'));
 
-        $ldapAttributes = $ldapSchema->getAttributes();
-
-        if (count($ldapAttributes) === 0) return false;
+        if ($ldapSchema->countAttributes() === 0) return false;
 
         // Return a filtered array to remove NULL attributes
-        return array_filter($ldapAttributes);
+        return array_filter($ldapSchema->getAttributes(), function($attribute)
+        {
+            if ($attribute[0] !== null) return $attribute;
+        });
     }
 
     /**
@@ -1156,10 +1161,6 @@ class adLDAP
      */
     private function bindUsingCredentials($username, $password)
     {
-        if ($username === NULL || $password === NULL) return false;
-
-        if (empty($username) || empty($password)) return false;
-
         $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
 
         if ( ! $bindings)

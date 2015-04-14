@@ -340,7 +340,7 @@ class adLDAPGroups extends adLDAPBase
             $entries = $this->connection->getEntries($results);
 
             // not a person, look for a group
-            if ($entries['count'] == 0 && $recursive == true)
+            if ($entries['count'] === 0 && $recursive == true)
             {
                 $filter = "(&(objectCategory=group)(distinguishedName=" . $this->adldap->utilities()->ldapSlashes($groups[$i]) . "))";
 
@@ -408,7 +408,7 @@ class adLDAPGroups extends adLDAPBase
             $entries = $this->connection->getEntries($results);
 
             // not a person, look for a group
-            if ($entries['count'] == 0 && $recursive == true)
+            if ($entries['count'] === 0 && $recursive == true)
             {
                 $filter = "(&(objectCategory=group)(distinguishedName=" . $this->adldap->utilities()->ldapSlashes($users[$i]) . "))";
 

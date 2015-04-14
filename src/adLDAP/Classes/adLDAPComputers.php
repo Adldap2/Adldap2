@@ -2,6 +2,8 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\collections\adLDAPComputerCollection;
+
 /**
  * Ldap Computer Management
  *
@@ -74,12 +76,10 @@ class adLDAPComputers extends adLDAPBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        $filter = "(&(objectClass=computer)(cn=" . $computerName . "))";
+        // Make sure we assign the default fields if none are given
+        if (count($fields) === 0) $fields = $this->defaultQueryAttributes;
 
-        if (count($fields) === 0)
-        {
-            $fields = $this->defaultQueryAttributes;
-        }
+        $filter = "(&(objectClass=computer)(cn=" . $computerName . "))";
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
@@ -93,18 +93,13 @@ class adLDAPComputers extends adLDAPBase
      *
      * @param string $computerName The name of the computer
      * @param array $fields Array of parameters to query
-     * @return \adLDAP\collections\adLDAPComputerCollection|bool
+     * @return adLDAPComputerCollection|bool
      */
     public function infoCollection($computerName, array $fields = array())
     {
         $info = $this->info($computerName, $fields);
         
-        if ($info !== false)
-        {
-            $collection = new \adLDAP\collections\adLDAPComputerCollection($info, $this->adldap);
-
-            return $collection;
-        }
+        if ($info) return new adLDAPComputerCollection($info, $this->adldap);
 
         return false;
     }

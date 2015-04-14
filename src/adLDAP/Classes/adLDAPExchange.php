@@ -142,9 +142,8 @@ class adLDAPExchange extends adLDAPBase
      */
     public function addAddress($username, $emailAddress, $default = FALSE, $isGUID = false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
-
-        if ($emailAddress === NULL) return "Missing compulsory fields [emailAddress]";
+        $this->adldap->utilities()->validateNotNull('Username', $username);
+        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
         
         $proxyValue = 'smtp:';
 
@@ -178,8 +177,7 @@ class adLDAPExchange extends adLDAPBase
             $modAddresses['proxyAddresses'][($user[0]['proxyaddresses']['count']-1)] = 'SMTP:' . $emailAddress;
 
             $result = $this->connection->modReplace($userDn, $modAddresses);
-        }
-        else
+        } else
         {
             // We do not have to demote an email address from the default so we can just add the new proxy address
             $attributes['exchange_proxyaddress'] = $proxyValue . $emailAddress;
@@ -197,9 +195,7 @@ class adLDAPExchange extends adLDAPBase
             $result = $this->connection->modAdd($userDn, $add);
         }
 
-        if ($result == false) return false;
-
-        return true;
+        return $result;
     }
 
     /**

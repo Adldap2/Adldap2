@@ -210,9 +210,8 @@ class adLDAPExchange extends adLDAPBase
      */
     public function deleteAddress($username, $emailAddress, $isGUID=false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
-
-        if ($emailAddress === NULL) return "Missing compulsory fields [emailAddress]";
+        $this->adldap->utilities()->validateNotNull('Username', $username);
+        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
         
         // Find the dn of the user
         $user = $this->adldap->user()->info($username, array("cn","proxyaddresses"), $isGUID);
@@ -237,11 +236,7 @@ class adLDAPExchange extends adLDAPBase
                 }
             }
 
-            $result = $this->connection->modDelete($userDn, $mod);
-
-            if ($result == false) return false;
-
-            return true;
+            return $this->connection->modDelete($userDn, $mod);
         }
 
         return false;

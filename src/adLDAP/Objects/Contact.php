@@ -31,5 +31,7 @@ class Contact extends AbstractObject
         parent::validateRequired();
 
         if ( ! is_array($this->getAttribute("container"))) throw new adLDAPException("Container attribute must be an array.");
+
+        return true;
     }
 }

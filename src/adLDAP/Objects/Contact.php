@@ -24,11 +24,13 @@ class Contact extends AbstractObject
     /**
      * Validates the required attributes.
      *
+     * @param array $only
+     * @return bool
      * @throws adLDAPException
      */
-    public function validateRequired()
+    public function validateRequired($only = array())
     {
-        parent::validateRequired();
+        parent::validateRequired($only);
 
         if ( ! is_array($this->getAttribute("container"))) throw new adLDAPException("Container attribute must be an array.");
 

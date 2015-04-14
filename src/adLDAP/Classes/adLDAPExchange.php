@@ -252,9 +252,8 @@ class adLDAPExchange extends adLDAPBase
      */
     public function primaryAddress($username, $emailAddress, $isGUID = false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
-
-        if ($emailAddress === NULL) return "Missing compulsory fields [emailAddress]";
+        $this->adldap->utilities()->validateNotNull('Username', $username);
+        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
         
         // Find the dn of the user
         $user = $this->adldap->user()->info($username, array("cn","proxyaddresses"), $isGUID);
@@ -285,11 +284,7 @@ class adLDAPExchange extends adLDAPBase
                 }
             }
             
-            $result = $this->connection->modReplace($userDn, $modAddresses);
-
-            if ($result == false) return false;
-
-            return true;
+            return $this->connection->modReplace($userDn, $modAddresses);
         }
 
         return false;
@@ -306,9 +301,8 @@ class adLDAPExchange extends adLDAPBase
     */
     public function contactMailEnable($distinguishedName, $emailAddress, $mailNickname = NULL)
     {
-        if ($distinguishedName === NULL) return "Missing compulsory field [distinguishedName]";
-
-        if ($emailAddress === NULL) return "Missing compulsory field [emailAddress]";
+        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
+        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
         
         if ($mailNickname !== NULL)
         {
@@ -329,11 +323,7 @@ class adLDAPExchange extends adLDAPBase
         if ( ! $mod) return false;
         
         // Do the update
-        $result = $this->connection->modify($distinguishedName, $mod);
-
-        if ($result == false) return false;
- 
-        return true;
+        return $this->connection->modify($distinguishedName, $mod);
     }
 
     /**
@@ -344,7 +334,7 @@ class adLDAPExchange extends adLDAPBase
      */
     public function servers($attributes = array('cn','distinguishedname','serialnumber'))
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
         
         $configurationNamingContext = $this->adldap->getRootDse(array('configurationnamingcontext'));
 
@@ -367,9 +357,9 @@ class adLDAPExchange extends adLDAPBase
      */
     public function storageGroups($exchangeServer, $attributes = array('cn','distinguishedname'), $recursive = NULL)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateNotNull('Exchange Server', $exchangeServer);
 
-        if ($exchangeServer === NULL) return "Missing compulsory field [exchangeServer]";
+        $this->adldap->utilities()->validateLdapIsBound();
 
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
 
@@ -399,9 +389,9 @@ class adLDAPExchange extends adLDAPBase
      */
     public function storageDatabases($storageGroup, $attributes = array('cn','distinguishedname','displayname'))
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateNotNull('Storage Group', $storageGroup);
 
-        if ($storageGroup === NULL) return "Missing compulsory field [storageGroup]";
+        $this->adldap->utilities()->validateLdapIsBound();
         
         $filter = '(&(objectCategory=msExchPrivateMDB))';
 

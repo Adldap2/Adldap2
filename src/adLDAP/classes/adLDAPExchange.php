@@ -2,7 +2,8 @@
 
 namespace adLDAP\classes;
 
-use adLDAP\adLDAP;
+use adLDAP\Exceptions\adLDAPException;
+use adLDAP\Objects\Mailbox;
 
 /**
  * Ldap Microsoft Exchange Management
@@ -56,35 +57,33 @@ class adLDAPExchange extends adLDAPBase
      * @param null $baseDn Specify an alternative base_dn for the Exchange storage group
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return bool|string
-     * @throws \adLDAP\adLDAPException
+     * @throws adLDAPException
      */
     public function createMailbox($username, $storageGroup, $emailAddress, $mailNickname = NULL, $useDefaults = TRUE, $baseDn = NULL, $isGUID = false)
     {
-        if ($username === NULL) return "Missing compulsory field [username]";
+        $mailbox = new Mailbox(array(
+            'username' => $username,
+            'storageGroup' => $storageGroup,
+            'emailAddress' =>  $emailAddress,
+            'mailNickname' => $mailNickname,
+            'baseDn' => ($baseDn ? $baseDn : $this->adldap->getBaseDn()),
+            'mdbUseDefaults' => $this->adldap->utilities()->boolToStr($useDefaults),
+            'container' => "CN=" . implode(",CN=", $storageGroup),
+        ));
 
-        if ($storageGroup === NULL) return "Missing compulsory array [storagegroup]";
+        // Throw an exception if the storageGroup is not an array
+        if ( ! is_array($mailbox->getAttribute('storageGroup'))) throw new adLDAPException("Attribute [storageGroup] must be an array");
 
-        if ( ! is_array($storageGroup)) return "[storagegroup] must be an array";
+        // Validate the other required field
+        $mailbox->validateRequired();
 
-        if ($emailAddress === NULL) return "Missing compulsory field [emailAddress]";
-        
-        if ($baseDn === NULL) $baseDn = $this->adldap->getBaseDn();
-        
-        $container = "CN=" . implode(",CN=", $storageGroup);
-        
-        if ($mailNickname === NULL) $mailNickname = $username;
+        // Set the mail nickname to the username if it isn't provided
+        if($mailbox->{'mailNickname'} === null) $mailbox->setAttribute('mailNickname', $mailbox->{'username'});
 
-        $mdbUseDefaults = $this->adldap->utilities()->boolToStr($useDefaults);
-        
-        $attributes = array(
-            'exchange_homemdb'=>$container.",".$baseDn,
-            'exchange_proxyaddress'=>'SMTP:' . $emailAddress,
-            'exchange_mailnickname'=>$mailNickname,
-            'exchange_usedefaults'=>$mdbUseDefaults
-        );
+        // Perform the creation on the current connection
+        $result = $this->adldap->user()->modify($username, $mailbox->toLdapArray(), $isGUID);
 
-        $result = $this->adldap->user()->modify($username, $attributes, $isGUID);
-
+        // Return the result
         if ($result === false) return false;
 
         return true;

@@ -552,7 +552,9 @@ class adLDAPUsers extends adLDAPBase
 
         $encoded = "";
 
-        for ($i = 0; $i < strlen($password); $i++) $encoded .= "{$password{$i}}\000";
+        $length = strlen($password);
+
+        for ($i = 0; $i < $length; $i++) $encoded .= "{$password{$i}}\000";
 
         return $encoded;
     }

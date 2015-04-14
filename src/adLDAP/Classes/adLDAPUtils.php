@@ -358,8 +358,7 @@ class adLDAPUtils extends adLDAPBase
      * Validates that the inserted value of the specified parameter
      * is not null. This will throw an adLDAPException otherwise.
      *
-     * @param $parameter
-     * @param $value
+     * @param mixed $value
      * @return bool
      * @throws adLDAPException
      */
@@ -376,8 +375,8 @@ class adLDAPUtils extends adLDAPBase
      * Validates that the inserted value of the specified parameter
      * is not empty. This will throw an adLDAPException otherwise.
      *
-     * @param $parameter
-     * @param $value
+     * @param string $parameter
+     * @param mixed $value
      * @return bool
      * @throws adLDAPException
      */

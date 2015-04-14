@@ -254,6 +254,9 @@ class adLDAPUsers extends adLDAPBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
+        // Make sure we assign the default fields if none are given
+        if (count($fields) === 0) $fields = $this->defaultQueryFields;
+
         if ($isGUID === true)
         {
             $username = $this->adldap->utilities()->strGuidToHex($username);
@@ -268,11 +271,6 @@ class adLDAPUsers extends adLDAPBase
         }
 
         $filter = "(&(objectCategory=person)({$filter}))";
-
-        if (count($fields) === 0)
-        {
-            $fields = $this->defaultQueryFields;
-        }
 
         if ( ! in_array("objectsid", $fields))
         {

@@ -62,6 +62,8 @@ result in an `adLDAPException`, instead of returning false
 instead of returning false
 - Inserting null into the username parameter inside the method adLDAP::user()->info($username) now throws an adLDAP exception
 instead of returning false
+- If LDAP is not bound when running query methods (such as `$adLDAP->search()`) then an `adLDAPException` will be thrown instead
+of previously returning false.
 
 ## License
 

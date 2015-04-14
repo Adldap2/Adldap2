@@ -109,7 +109,7 @@ class adLDAP
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
      * This tweak will resolve the real primary group.
      * Setting to false will fudge "Domain Users" and is much faster. Keep in mind though that if
-     * someone's primary group is NOT domain users, this is obviously going to mess up the results
+     * someone's primary group is NOT domain users, this is obviously going to mess up the results.
      *
      * @var bool
      */
@@ -832,7 +832,7 @@ class adLDAP
      */
     public function search($includeDescription = false, $search = "*", $sorted = true)
     {
-        if ( ! $this->getLdapBind()) return false;
+        $this->utilities()->validateLdapIsBound();
 
         // Perform the search and grab all their details
         $filter = "(&(!(objectClass=computer))(|(anr=" . $search . ")))";

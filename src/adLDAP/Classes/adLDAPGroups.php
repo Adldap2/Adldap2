@@ -45,6 +45,16 @@ use adLDAP\adLDAP;
  */
 class adLDAPGroups extends adLDAPBase
 {
+    protected $defaultQueryFields = array(
+        "member",
+        "memberof",
+        "cn",
+        "description",
+        "distinguishedname",
+        "objectcategory",
+        "samaccountname"
+    );
+
     /**
      * Add a group to a group
      *
@@ -480,25 +490,12 @@ class adLDAPGroups extends adLDAPBase
 
         if ( ! $this->adldap->getLdapBind()) return false;
 
-        if (stristr($groupName, '+'))
-        {
-            $groupName = stripslashes($groupName);
-        }
+        // We'll assign the default query fields if none are given
+        if (count($fields) === 0) $fields = $this->defaultQueryFields;
+
+        if (stristr($groupName, '+')) $groupName = stripslashes($groupName);
 
         $filter = "(&(objectCategory=group)(name=" . $this->adldap->utilities()->ldapSlashes($groupName) . "))";
-
-        if (count($fields) === 0)
-        {
-            $fields = array(
-                "member",
-                "memberof",
-                "cn",
-                "description",
-                "distinguishedname",
-                "objectcategory",
-                "samaccountname"
-            );
-        }
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 

@@ -106,7 +106,11 @@ class adLDAPFolders extends adLDAPBase
             $filter .= '(!(distinguishedname=' . $this->adldap->getBaseDn() . ')))';
         }
 
-        $fields = array('objectclass', 'distinguishedname', 'samaccountname');
+        $fields = array(
+            'objectclass',
+            'distinguishedname',
+            'samaccountname'
+        );
 
         if ($recursive === true)
         {

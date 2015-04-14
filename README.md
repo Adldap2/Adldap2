@@ -35,7 +35,7 @@ To use adLDAP2, your sever must support:
 
 Add adLDAP2 to your `composer.json` file:
 
-    "adldap2/adldap2": "4.0.*"
+    "adldap2/adldap2": "5.0.*"
 
 Run `composer update` on your project source, and you're all set!
 
@@ -61,14 +61,3 @@ instead of returning false
 instead of returning false
 - If LDAP is not bound when running query methods (such as `$adLDAP->search()`) then an `adLDAPException` will be thrown instead
 of previously returning false.
-
-## License
-
-This library is free software; you can redistribute it and/or modify it under the terms of the 
-GNU Lesser General Public License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-See the GNU Lesser General Public License for more details or LICENSE.txt distributed with
-this class.

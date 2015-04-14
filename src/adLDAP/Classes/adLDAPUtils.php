@@ -337,8 +337,24 @@ class adLDAPUtils extends adLDAPBase
     }
 
     /**
+     * Validates that the current LDAP connection is bound. This
+     * will throw an adLDAPException otherwise.
+     *
+     * @return bool
+     * @throws adLDAPException
+     */
+    public function validateLdapIsBound()
+    {
+        if($this->adldap->getLdapBind()) return true;
+
+        $message = 'No LDAP connection is currently bound.';
+
+        throw new adLDAPException();
+    }
+
+    /**
      * Validates that the inserted value is not null or empty. This
-     * will thrown an adLDAPException otherwise.
+     * will throw an adLDAPException otherwise.
      *
      * @param string $parameter
      * @param string $value

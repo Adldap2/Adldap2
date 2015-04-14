@@ -15,7 +15,6 @@ Originally written by Scott Barnett and Richard Hyland. Adopted by the community
 - Completely refresh all classes and improve the terrible scrutinizer score
 - Unit / Functional Testing
 - Better, and easier to understand documentation
-- Create LDAP encapsulation class for easier testing and possible support for other connections
 
 #### Primary Goal
 

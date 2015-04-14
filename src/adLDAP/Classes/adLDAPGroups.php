@@ -2,6 +2,8 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Collections\adLDAPGroupCollection;
+use adLDAP\Objects\Group;
 use adLDAP\adLDAP;
 
 /**
@@ -87,11 +89,7 @@ class adLDAPGroups extends adLDAPBase
         $add = array();
         $add["member"] = $childDn;
 
-        $result = $this->connection->modAdd($parentDn, $add);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modAdd($parentDn, $add);
     }
 
     /**
@@ -122,11 +120,7 @@ class adLDAPGroups extends adLDAPBase
         $add = array();
         $add["member"] = $userDn;
 
-        $result = $this->connection->modAdd($groupDn, $add);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modAdd($groupDn, $add);
     }
 
     /**
@@ -151,11 +145,7 @@ class adLDAPGroups extends adLDAPBase
         $add = array();
         $add["member"] = $contactDn;
 
-        $result = $this->connection->modAdd($groupDn, $add);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modAdd($groupDn, $add);
     }
 
     /**
@@ -166,32 +156,24 @@ class adLDAPGroups extends adLDAPBase
      */
     public function create(array $attributes)
     {
-        if ( ! array_key_exists("group_name", $attributes)) return "Missing compulsory field [group_name]";
+        $group = new Group($attributes);
 
-        if ( ! array_key_exists("container", $attributes)) return "Missing compulsory field [container]";
+        $group->validateRequired();
 
-        if ( ! array_key_exists("description", $attributes)) return "Missing compulsory field [description]";
-
-        if ( ! is_array($attributes["container"])) return "Container attribute must be an array.";
-
-        $attributes["container"] = array_reverse($attributes["container"]);
+        $group->setAttribute('container', array_reverse($group->getAttribute('container')));
 
         $add = array();
 
-        $add["cn"] = $attributes["group_name"];
-        $add["samaccountname"] = $attributes["group_name"];
+        $add["cn"] = $group->getAttribute("group_name");
+        $add["samaccountname"] = $group->getAttribute("group_name");
         $add["objectClass"] = "Group";
-        $add["description"] = $attributes["description"];
+        $add["description"] = $group->getAttribute("description");
 
-        $container = "OU=" . implode(",OU=", $attributes["container"]);
+        $container = "OU=" . implode(",OU=", $group->getAttribute("container"));
 
         $dn = "CN=" . $add["cn"] . ", " . $container . "," . $this->adldap->getBaseDn();
 
-        $result = $this->connection->add($dn, $add);
-
-        if ($result != true) return false;
-
-        return true;
+        return $this->connection->add($dn, $add);
     }
 
     /**
@@ -202,19 +184,15 @@ class adLDAPGroups extends adLDAPBase
      */
     public function delete($group)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateNotNull('Group', $group);
 
-        if ($group === null) return "Missing compulsory field [group]";
+        $this->adldap->utilities()->validateLdapIsBound();
 
         $groupInfo = $this->info($group, array("*"));
 
         $dn = $groupInfo[0]['distinguishedname'][0];
 
-        $result = $this->adldap->folder()->delete($dn);
-
-        if ($result !== true) return false;
-
-        return true;
+        return $this->adldap->folder()->delete($dn);
     }
 
     /**
@@ -232,8 +210,7 @@ class adLDAPGroups extends adLDAPBase
         if ($info[0]["dn"] === NULL)
         {
             return false;
-        }
-        else
+        } else
         {
             $groupDN = $info[0]["dn"];
         }
@@ -247,11 +224,7 @@ class adLDAPGroups extends adLDAPBase
         // Do the update
         $dn = $container.', '.$this->adldap->getBaseDn();
 
-        $result = $this->connection->rename($groupDN, $newRDN, $dn, true);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->rename($groupDN, $newRDN, $dn, true);
     }
 
     /**
@@ -280,11 +253,7 @@ class adLDAPGroups extends adLDAPBase
         $del = array();
         $del["member"] = $childDn;
 
-        $result = $this->connection->modDelete($parentDn, $del);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modDelete($parentDn, $del);
     }
 
     /**
@@ -312,11 +281,7 @@ class adLDAPGroups extends adLDAPBase
         $del = array();
         $del["member"] = $userDn;
 
-        $result = $this->connection->modDelete($groupDn, $del);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modDelete($groupDn, $del);
     }
 
     /**
@@ -338,11 +303,7 @@ class adLDAPGroups extends adLDAPBase
         $del = array();
         $del["member"] = $contactDn;
 
-        $result = $this->connection->modDelete($groupDn, $del);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modDelete($groupDn, $del);
     }
 
     /**
@@ -354,9 +315,10 @@ class adLDAPGroups extends adLDAPBase
      */
     public function inGroup($group, $recursive = NULL)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); // Use the default option if they haven't set it
+        // Use the default option if they haven't set it
+        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
 
         // Search the directory for the members of a group
         $info = $this->info($group, array("member","cn"));
@@ -416,7 +378,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function members($group, $recursive = NULL)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); // Use the default option if they haven't set it
 
@@ -516,7 +478,7 @@ class adLDAPGroups extends adLDAPBase
             $rangelow  = 0;        // Initial low range
             $rangehigh = $rangelow + $rangestep;     // Initial high range
 
-            // do until array_keys($members[0])[0] ends with a '*', e. g. member;range=1499-*. It indicates end of the range
+            // Do until array_keys($members[0])[0] ends with a '*', e. g. member;range=1499-*. It indicates end of the range
             do
             {
                 $fields = array("member;range=" . $rangelow . "-" . $rangehigh);
@@ -563,12 +525,7 @@ class adLDAPGroups extends adLDAPBase
 
         $info = $this->info($groupName, $fields);
 
-        if ($info !== false)
-        {
-            $collection = new \adLDAP\collections\adLDAPGroupCollection($info, $this->adldap);
-
-            return $collection;
-        }
+        if ($info) return new adLDAPGroupCollection($info, $this->adldap);
 
         return false;
     }
@@ -581,7 +538,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function recursiveGroups($group)
     {
-        if ($group === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Group', $group);
 
         $stack = array();
         $processed = array();
@@ -632,7 +589,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function search($sAMAaccountType = adLDAP::ADLDAP_SECURITY_GLOBAL_GROUP, $includeDescription = false, $search = "*", $sorted = true)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
         $filter = '(&(objectCategory=group)';
 
@@ -700,9 +657,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function all($includeDescription = false, $search = "*", $sorted = true)
     {
-        $groupsArray = $this->search(null, $includeDescription, $search, $sorted);
-
-        return $groupsArray;
+        return $this->search(null, $includeDescription, $search, $sorted);
     }
 
     /**
@@ -715,9 +670,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function allSecurity($includeDescription = false, $search = "*", $sorted = true)
     {
-        $groupsArray = $this->search(adLDAP::ADLDAP_SECURITY_GLOBAL_GROUP, $includeDescription, $search, $sorted);
-
-        return $groupsArray;
+        return $this->search(adLDAP::ADLDAP_SECURITY_GLOBAL_GROUP, $includeDescription, $search, $sorted);
     }
 
     /**
@@ -730,9 +683,7 @@ class adLDAPGroups extends adLDAPBase
      */
     public function allDistribution($includeDescription = false, $search = "*", $sorted = true)
     {
-        $groupsArray = $this->search(adLDAP::ADLDAP_DISTRIBUTION_GROUP, $includeDescription, $search, $sorted);
-
-        return $groupsArray;
+        return $this->search(adLDAP::ADLDAP_DISTRIBUTION_GROUP, $includeDescription, $search, $sorted);
     }
 
     /**
@@ -748,7 +699,8 @@ class adLDAPGroups extends adLDAPBase
      */
     public function getPrimaryGroup($groupId, $userId)
     {
-        if ($groupId === NULL || $userId === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Group ID', $groupId);
+        $this->adldap->utilities()->validateNotNull('User ID', $userId);
 
         $groupId = substr_replace($userId, pack('V', $groupId), strlen($userId) - 4,4);
 
@@ -777,12 +729,12 @@ class adLDAPGroups extends adLDAPBase
      * this way is resource intensive and generally a pain in the @#%^
      *
      * @deprecated deprecated since version 3.1, see get get_primary_group
-     * @param string $gid Group ID
+     * @param string $groupId Group ID
      * @return bool|string
      */
-    public function cn($gid)
+    public function cn($groupId)
     {
-        if ($gid === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Group ID', $groupId);
 
         $r = '';
 
@@ -796,7 +748,7 @@ class adLDAPGroups extends adLDAPBase
 
         for ($i = 0; $i < $entries["count"]; $i++)
         {
-            if ($entries[$i]["primarygrouptoken"][0] == $gid)
+            if ($entries[$i]["primarygrouptoken"][0] == $groupId)
             {
                 $r = $entries[$i]["distinguishedname"][0];
                 $i = $entries["count"];

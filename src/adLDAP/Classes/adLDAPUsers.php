@@ -233,9 +233,9 @@ class adLDAPUsers extends adLDAPBase
      */
     public function info($username, array $fields = array(), $isGUID = false)
     {
-        if ($username === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
 
         if ($isGUID === true)
         {

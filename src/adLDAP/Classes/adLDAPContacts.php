@@ -2,6 +2,7 @@
 
 namespace adLDAP\classes;
 
+use adLDAP\Collections\adLDAPContactCollection;
 use adLDAP\Objects\Contact;
 
 /**
@@ -46,6 +47,23 @@ use adLDAP\Objects\Contact;
 class adLDAPContacts extends adLDAPBase
 {
     /**
+     * The default fields to query when requesting
+     * user information.
+     *
+     * @var array
+     */
+    public $defaultQueryFields = array(
+        "distinguishedname",
+        "mail",
+        "memberof",
+        "department",
+        "displayname",
+        "telephonenumber",
+        "primarygroupid",
+        "objectsid"
+    );
+
+    /**
      * Create a contact
      *
      * @param array $attributes The attributes to set to the contact
@@ -59,7 +77,7 @@ class adLDAPContacts extends adLDAPBase
 
         // Translate the schema
         $add = $this->adldap->ldapSchema($attributes);
-        
+
         // Additional stuff only used for adding contacts
         $add["cn"][0] = $contact->{"display_name"};
 
@@ -76,17 +94,13 @@ class adLDAPContacts extends adLDAPBase
         // Determine the container
         $attributes["container"] = array_reverse($attributes["container"]);
 
-        $container= "OU=" . implode(",OU=", $attributes["container"]);
+        $container = "OU=" . implode(",OU=", $attributes["container"]);
 
         $dn = "CN=" . $this->adldap->utilities()->escapeCharacters($add["cn"][0]) . ", " . $container . "," . $this->adldap->getBaseDn();
 
         // Add the entry
-        $result = $this->connection->add($dn, $add);
-
-        if ($result != true) return false;
-
-        return true;
-    }  
+        return $this->connection->add($dn, $add);
+    }
 
     /**
      * Determine the list of groups a contact is a member of
@@ -97,14 +111,14 @@ class adLDAPContacts extends adLDAPBase
      */
     public function groups($distinguishedName, $recursive = NULL)
     {
-        if ($distinguishedName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
+
+        $this->adldap->utilities()->validateLdapIsBound();
 
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
-
-        if ( ! $this->adldap->getLdapBind()) return false;
         
         // Search the directory for their information
-        $info = @$this->info($distinguishedName, array("memberof", "primarygroupid"));
+        $info = $this->info($distinguishedName, array("memberof", "primarygroupid"));
 
         $groups = $this->adldap->utilities()->niceNames($info[0]["memberof"]); //presuming the entry returned is our contact
 
@@ -130,25 +144,14 @@ class adLDAPContacts extends adLDAPBase
      */
     public function info($distinguishedName, array $fields = array())
     {
-        if ($distinguishedName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
 
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
+
+        // Make sure we set the default fields if none are given
+        if (count($fields) === 0) $fields = $this->defaultQueryFields;
 
         $filter = "distinguishedName=" . $this->adldap->utilities()->ldapSlashes($distinguishedName);
-
-        if (count($fields) === 0)
-        {
-            $fields = array(
-                "distinguishedname",
-                "mail",
-                "memberof",
-                "department",
-                "displayname",
-                "telephonenumber",
-                "primarygroupid",
-                "objectsid"
-            );
-        }
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
@@ -177,22 +180,13 @@ class adLDAPContacts extends adLDAPBase
      *
      * @param string $distinguishedName
      * @param array $fields Array of parameters to query
-     * @return \adLDAP\collections\adLDAPContactCollection|bool
+     * @return adLDAPContactCollection|bool
      */
     public function infoCollection($distinguishedName, array $fields = array())
     {
-        if ($distinguishedName === NULL) return false;
-
-        if ( ! $this->adldap->getLdapBind()) return false;
-        
         $info = $this->info($distinguishedName, $fields);
         
-        if ($info !== false)
-        {
-            $collection = new \adLDAP\collections\adLDAPContactCollection($info, $this->adldap);
-
-            return $collection;
-        }
+        if ($info) return new adLDAPContactCollection($info, $this->adldap);
 
         return false;
     }
@@ -207,13 +201,10 @@ class adLDAPContacts extends adLDAPBase
      */
     public function inGroup($distinguishedName, $group, $recursive = NULL)
     {
-        if ($distinguishedName === NULL) return false;
+        $this->adldap->utilities()->validateNotNull('Group', $group);
 
-        if ($group === NULL) return false;
-
-        if ( ! $this->adldap->getLdapBind()) return false;
-
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
+        // Use the default option if they haven't set it
+        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
         
         // Get a list of the groups
         $groups = $this->groups($distinguishedName, array("memberof"), $recursive);
@@ -234,7 +225,9 @@ class adLDAPContacts extends adLDAPBase
      */
     public function modify($distinguishedName, $attributes)
     {
-        if ($distinguishedName === NULL) return "Missing compulsory field [distinguishedname]";
+        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
+
+        $this->adldap->utilities()->validateLdapIsBound();
         
         // Translate the update to the LDAP schema                
         $mod = $this->adldap->ldapSchema($attributes);
@@ -243,11 +236,7 @@ class adLDAPContacts extends adLDAPBase
         if ( ! $mod) return false;
         
         // Do the update
-        $result = $this->connection->modify($distinguishedName, $mod);
-
-        if ($result == false) return false;
-
-        return true;
+        return $this->connection->modify($distinguishedName, $mod);
     }
 
     /**
@@ -275,7 +264,7 @@ class adLDAPContacts extends adLDAPBase
      */
     public function all($includeDescription = false, $search = "*", $sorted = true)
     {
-        if ( ! $this->adldap->getLdapBind()) return false;
+        $this->adldap->utilities()->validateLdapIsBound();
         
         // Perform the search and grab all their details
         $filter = "(&(objectClass=contact)(cn=" . $search . "))";

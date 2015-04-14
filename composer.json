@@ -50,5 +50,10 @@
         "psr-0": {
             "adLDAP\\": "src/"
         }
+    },
+    "autoload-dev": {
+      "classmap": [
+          "tests"
+      ]
     }
 }

@@ -396,7 +396,7 @@ class adLDAP
             throw new adLDAPException("The Port: $adPort is not numeric and cannot be used.");
         }
 
-        $this->adPort = $adPort;
+        $this->adPort = (string) $adPort;
     }
 
     /**

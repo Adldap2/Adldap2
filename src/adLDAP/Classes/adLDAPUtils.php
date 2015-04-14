@@ -346,6 +346,7 @@ class adLDAPUtils extends adLDAPBase
      */
     public function validateNotNullOrEmpty($parameter, $value)
     {
+        // If the value does not equal null or empty we'll return true
         if($value !== null && ! empty($value)) return true;
 
         /*

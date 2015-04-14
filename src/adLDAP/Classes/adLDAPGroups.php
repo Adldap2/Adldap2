@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\classes;
+namespace adLDAP\Classes;
 
 use adLDAP\Collections\adLDAPGroupCollection;
 use adLDAP\Objects\Group;

@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\classes;
+namespace adLDAP\Classes;
 
 use adLDAP\Objects\Folder;
 use adLDAP\adLDAP;

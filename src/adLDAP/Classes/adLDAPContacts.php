@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\classes;
+namespace adLDAP\Classes;
 
 use adLDAP\Collections\adLDAPContactCollection;
 use adLDAP\Objects\Contact;
@@ -276,7 +276,7 @@ class adLDAPContacts extends adLDAPBase
 
         $usersArray = array();
 
-        for ($i=0; $i<$entries["count"]; $i++)
+        for ($i = 0; $i < $entries["count"]; $i++)
         {
             if ($includeDescription && strlen($entries[$i]["displayname"][0])>0)
             {

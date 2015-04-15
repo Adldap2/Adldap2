@@ -275,9 +275,7 @@ class AdldapUtils extends AdldapBase
      */
     public static function convertWindowsTimeToUnixTime($windowsTime)
     {
-        $unixTime = round($windowsTime / 10000000) - 11644473600;
-
-        return $unixTime;
+        return round($windowsTime / 10000000) - 11644473600;
     }
 
     /**

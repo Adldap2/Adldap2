@@ -63,7 +63,6 @@ instead of returning false
 of previously returning false.
 
 
-
 The arguments for finding a user has been changed from:
 
     $adldap->user()->find($includeDescription = false, $searchField = false, $searchFilter = false, $sorted = true)
@@ -73,3 +72,9 @@ To:
     $adldap->user()->find($includeDescription = false, $searchArray = array(), $sorted = true))
     
 This allows you to search for multiple parameters when looking for a user. [Thanks To](https://github.com/adldap/adLDAP/pull/17)
+
+All namespaces and files have been cased correctly to adhere to PSR-4 standards. For example:
+
+Namespace: `namespace adLDAP\adLDAP` has changed to `namespace Adldap\Adldap`
+
+File: `require('adLDAP/adLDAP.php')`has changed to `require('Adldap/Adldap.php')`

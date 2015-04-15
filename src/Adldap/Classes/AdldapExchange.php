@@ -320,7 +320,7 @@ class AdldapExchange extends AdldapBase
      * @param string $exchangeServer The full DN of an Exchange server.  You can use exchange_servers() to find the DN for your server
      * @param array $attributes An array of the AD attributes you wish to return
      * @param null $recursive If enabled this will automatically query the databases within a storage group
-     * @return array|bool|string
+     * @return bool|array
      */
     public function storageGroups($exchangeServer, $attributes = array('cn','distinguishedname'), $recursive = NULL)
     {
@@ -334,17 +334,22 @@ class AdldapExchange extends AdldapBase
 
         $results = $this->connection->search($exchangeServer, $filter, $attributes);
 
-        $entries = $this->connection->getEntries($results);
-
-        if ($recursive === true)
+        if($results)
         {
-            for ($i = 0; $i < $entries['count']; $i++)
+            $entries = $this->connection->getEntries($results);
+            
+            if ($recursive === true)
             {
-                $entries[$i]['msexchprivatemdb'] = $this->storageDatabases($entries[$i]['distinguishedname'][0]);       
+                for ($i = 0; $i < $entries['count']; $i++)
+                {
+                    $entries[$i]['msexchprivatemdb'] = $this->storageDatabases($entries[$i]['distinguishedname'][0]);
+                }
             }
+
+            return $entries;
         }
 
-        return $entries;
+        return false;
     }
 
     /**

@@ -16,45 +16,8 @@ use Adldap\Objects\LdapSchema;
 use Adldap\Objects\Schema;
 
 /**
- * PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
- * Version 5.0.0
- *
- * PHP Version 5 with SSL and LDAP support
- *
- * Written by Scott Barnett, Richard Hyland
- *   email: scott@wiggumworld.com, adldap@richardhyland.com
- *   http://github.com/adldap/Adldap
- *
- * Copyright (c) 2006-2014 Scott Barnett, Richard Hyland
- *
- * We'd appreciate any improvements or additions to be submitted back
- * to benefit the entire community :)
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * Main Adldap class
- *
- * Can be initialised using $adldap = new Adldap();
- *
- * Something to keep in mind is that Active Directory is a permissions
- * based directory. If you bind as a domain user, you can't fetch as
- * much information on other users as you could as a domain admin.
- *
- * Before asking questions, please read the Documentation at
- * http://adldap.sourceforge.net/wiki/doku.php?id=api
- *
  * Class Adldap
  * @package Adldap
- * @author Scott Barnett, Richard Hyland
- * @copyright (c) 2006-2014 Scott Barnett, Richard Hyland
  */
 class Adldap
 {

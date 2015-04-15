@@ -12,7 +12,7 @@ Originally written by Scott Barnett and Richard Hyland. Adopted by the community
 
 ## To Do
 
-- Completely refresh all classes and improve the terrible scrutinizer score
+- Improve / tweak refactored classes
 - Unit / Functional Testing
 - Better, and easier to understand documentation
 

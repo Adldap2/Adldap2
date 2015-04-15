@@ -65,7 +65,7 @@ class AdldapUsers extends AdldapBase
         }
 
         // Translate the schema
-        $add = $this->adldap->ldapSchema($user->toSchema());
+        $add = $this->adldap->ldapSchema($user->toCreateSchema());
         
         // Additional stuff only used for adding accounts
         $add["cn"][0] = $user->getAttribute("display_name");
@@ -380,8 +380,6 @@ class AdldapUsers extends AdldapBase
     {
         $user = new User($attributes);
 
-        $user->validateSpecific(array('username'));
-
         if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
         {
             throw new AdldapException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
@@ -393,7 +391,7 @@ class AdldapUsers extends AdldapBase
         if ($userDn === false) return false;
         
         // Translate the update to the LDAP schema                
-        $mod = $this->adldap->ldapSchema($user->toSchema());
+        $mod = $this->adldap->ldapSchema($user->toModifySchema());
 
         $enabled = $user->getAttribute('enabled');
 

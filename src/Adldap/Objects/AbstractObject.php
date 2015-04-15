@@ -118,7 +118,7 @@ abstract class AbstractObject
      */
     public function hasAttribute($attribute)
     {
-        if($this->getAttribute($attribute)) return true;
+        if(array_key_exists($attribute, $this->attributes)) return true;
 
         return false;
     }

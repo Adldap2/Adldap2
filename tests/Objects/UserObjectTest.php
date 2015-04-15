@@ -32,13 +32,35 @@ class UserObjectTest extends FunctionalTestCase
         $this->assertEquals('New Password', $user->password);
     }
 
-    public function testUserToSchema()
+    public function testUserToCreateSchema()
     {
         $attributes = $this->stubbedUserAttributes();
 
         $user = new User($attributes);
 
-        $this->assertEquals($attributes, $user->toSchema());
+        $this->assertEquals($attributes, $user->toCreateSchema());
+    }
+
+    public function testUserToModifySchema()
+    {
+        $attributes = $this->stubbedUserAttributes();
+
+        $user = new User($attributes);
+
+        $this->assertEquals($attributes, $user->toModifySchema());
+    }
+
+    public function testUserToModifySchemaContainerFailure()
+    {
+        $attributes = $this->stubbedUserAttributes();
+
+        $user = new User($attributes);
+
+        $user->setAttribute('container', '');
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $user->toModifySchema();
     }
 
     public function testUserToSchemaDisplayNameAutoSet()
@@ -49,7 +71,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $schema = $user->toSchema();
+        $schema = $user->toCreateSchema();
 
         $this->assertEquals('John Doe', $schema['display_name']);
     }
@@ -64,7 +86,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $user->toSchema();
+        $user->toCreateSchema();
     }
 
     public function testUserToSchemaUsernameFailure()
@@ -77,7 +99,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $user->toSchema();
+        $user->toCreateSchema();
     }
 
     public function testUserToSchemaFirstnameFailure()
@@ -90,7 +112,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $user->toSchema();
+        $user->toCreateSchema();
     }
 
     public function testUserToSchemaSurnameFailure()
@@ -103,7 +125,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $user->toSchema();
+        $user->toCreateSchema();
     }
 
     public function testUserToSchemaEmailFailure()
@@ -116,6 +138,6 @@ class UserObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $user->toSchema();
+        $user->toCreateSchema();
     }
 }

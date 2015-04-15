@@ -24,14 +24,16 @@ class User extends AbstractObject
     );
 
     /**
-     * Checks the attributes for errors and returns the attributes array.
+     * Checks the attributes for existence and returns the attributes array.
      *
      * @return array
      * @throws AdldapException
      */
-    public function toSchema()
+    public function toCreateSchema()
     {
         $this->validateRequired();
+
+        if ( ! is_array($this->getAttribute('container'))) throw new AdldapException('Container attribute must be an array');
 
         // Set the display name if it's not set
         if ($this->getAttribute('display_name') === null)
@@ -45,18 +47,20 @@ class User extends AbstractObject
     }
 
     /**
-     * Validates the the required or specified attributes.
+     * Checks the username attribute for existence and returns the attributes array.
      *
-     * @param array $only
-     * @return bool
+     * @return array
      * @throws AdldapException
      */
-    public function validateRequired($only = array())
+    public function toModifySchema()
     {
-        parent::validateRequired($only);
+        $this->validateRequired(array('username'));
 
-        if ( ! is_array($this->getAttribute('container'))) throw new AdldapException('Container attribute must be an array');
+        if($this->hasAttribute('container'))
+        {
+            if ( ! is_array($this->getAttribute('container'))) throw new AdldapException('Container attribute must be an array');
+        }
 
-        return true;
+        return $this->getAttributes();
     }
 }

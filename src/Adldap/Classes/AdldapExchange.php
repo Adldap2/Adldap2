@@ -337,7 +337,7 @@ class AdldapExchange extends AdldapBase
         if($results)
         {
             $entries = $this->connection->getEntries($results);
-            
+
             if ($recursive === true)
             {
                 for ($i = 0; $i < $entries['count']; $i++)

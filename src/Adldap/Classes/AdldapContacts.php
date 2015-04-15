@@ -122,23 +122,28 @@ class AdldapContacts extends AdldapBase
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
-        $entries = $this->connection->getEntries($results);
-        
-        if ($entries[0]['count'] >= 1)
+        if($results)
         {
-            // AD does not return the primary group in the ldap query, we may need to fudge it
-            if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["primarygroupid"][0]))
-            {
-                $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
-            } else
-            {
-                $entries[0]["memberof"][] = "CN=Domain Users,CN=Users," . $this->adldap->getBaseDn();
-            }
-        }
-        
-        $entries[0]["memberof"]["count"]++;
+            $entries = $this->connection->getEntries($results);
 
-        return $entries;
+            if ($entries[0]['count'] >= 1)
+            {
+                // AD does not return the primary group in the ldap query, we may need to fudge it
+                if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["primarygroupid"][0]))
+                {
+                    $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
+                } else
+                {
+                    $entries[0]["memberof"][] = "CN=Domain Users,CN=Users," . $this->adldap->getBaseDn();
+                }
+            }
+
+            $entries[0]["memberof"]["count"]++;
+
+            return $entries;
+        }
+
+        return false;
     }
 
     /**

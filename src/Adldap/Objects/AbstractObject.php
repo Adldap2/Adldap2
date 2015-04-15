@@ -20,7 +20,7 @@ abstract class AbstractObject
     );
 
     /**
-     * The required attributes for the toSchema method
+     * The required attributes for the toSchema methods
      *
      * @var array
      */

@@ -11,7 +11,7 @@ use Adldap\Exceptions\AdldapException;
 class User extends AbstractObject
 {
     /**
-     * The required attributes for the toSchema method
+     * The required attributes for the toSchema methods
      *
      * @var array
      */

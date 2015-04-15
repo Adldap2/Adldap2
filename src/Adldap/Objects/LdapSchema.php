@@ -53,7 +53,7 @@ class LdapSchema extends AbstractObject
 
         $this->setAttribute('company', $schema->getAttribute('company'));
 
-        $this->setAttribute('pwdLastSet', $schema->getAttribute('change_password'));
+        $this->setAttribute('pwdLastSet', ($schema->getAttribute('change_password') == 0) ? -1 : 0);
 
         $this->setAttribute('department', $schema->getAttribute('department'));
 

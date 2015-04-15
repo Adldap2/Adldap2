@@ -624,21 +624,23 @@ class AdldapUsers extends AdldapBase
      * Return a list of all users in AD that have a specific value in a field
      *
      * @param bool $includeDescription Return a description of the user
-     * @param bool $searchField Field to search search for
-     * @param bool $searchFilter Value to search for in the specified field
+     * @param array $searchArray Fields to search for
      * @param bool $sorted Sort the user accounts
      * @return array|bool
      */
-    public function find($includeDescription = false, $searchField = false, $searchFilter = false, $sorted = true)
+    public function find($includeDescription = false, $searchArray = array(), $sorted = true)
     {
         $this->adldap->utilities()->validateLdapIsBound();
           
         // Perform the search and grab all their details
         $searchParams = "";
 
-        if ($searchField)
+        if (is_array($searchArray) && count($searchArray) > 0)
         {
-            $searchParams = "(" . $searchField . "=" . $searchFilter . ")";
+            foreach($searchArray as $field => $filter)
+            {
+                $searchParams .= "(" . $field . "=" . $filter . ")";
+            }
         }
 
         $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)" . $searchParams . ")";

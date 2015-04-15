@@ -61,3 +61,15 @@ instead of returning false
 instead of returning false
 - If LDAP is not bound when running query methods (such as `$adLDAP->search()`) then an `adLDAPException` will be thrown instead
 of previously returning false.
+
+
+
+The arguments for finding a user has been changed from:
+
+    $adldap->user()->find($includeDescription = false, $searchField = false, $searchFilter = false, $sorted = true)
+
+To:
+
+    $adldap->user()->find($includeDescription = false, $searchArray = array(), $sorted = true))
+    
+This allows you to search for multiple parameters when looking for a user. [Thanks To](https://github.com/adldap/adLDAP/pull/17)

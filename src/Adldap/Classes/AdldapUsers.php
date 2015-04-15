@@ -380,6 +380,12 @@ class AdldapUsers extends AdldapBase
     {
         $user = new User($attributes);
 
+        /*
+         * Set the username attribute manually so it's properly
+         * validated using toModifySchema method
+         */
+        $user->setAttribute('username', $username);
+
         if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
         {
             throw new AdldapException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');

@@ -36,6 +36,12 @@ class LdapSchema extends AbstractObject
         return $this;
     }
 
+    /**
+     * Constructs a schema compatible with the LDAP protocol.
+     *
+     * @param Schema $schema
+     * @return $this
+     */
     private function constructLdapSchema(Schema $schema)
     {
         // Set all the LDAP attributes
@@ -62,6 +68,8 @@ class LdapSchema extends AbstractObject
         $this->setAttribute('displayName', $schema->getAttribute('display_name'));
 
         $this->setAttribute('mail', $schema->getAttribute('email'));
+
+        $this->setAttribute('employeeId', $schema->getAttribute('employee_id'));
 
         $this->setAttribute('accountExpires', $schema->getAttribute('expires'));
 

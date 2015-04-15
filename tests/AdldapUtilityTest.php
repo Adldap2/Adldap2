@@ -2,11 +2,43 @@
 
 namespace Adldap\Tests;
 
+use Adldap\Classes\AdldapUtils;
+
 class AdldapUtilityTest extends FunctionalTestCase
 {
     protected function newUtilityMock()
     {
         return $this->mock('Adldap\Classes\AdldapUtils');
+    }
+
+    public function testUtilityValidateLdapIsBoundPasses()
+    {
+        $adldap = $this->mock('Adldap\Adldap');
+
+        $adldap
+            ->shouldReceive('getLdapConnection')->andReturn(true)
+            ->shouldReceive('getLdapBind')->andReturn(true)
+            ->shouldReceive('close')->andReturn(true);
+
+        $utility = new AdldapUtils($adldap);
+
+        $this->assertTrue($utility->validateLdapIsBound());
+    }
+
+    public function testUtilityValidateLdapIsBoundFailure()
+    {
+        $adldap = $this->mock('Adldap\Adldap');
+
+        $adldap
+            ->shouldReceive('getLdapConnection')->andReturn(true)
+            ->shouldReceive('getLdapBind')->andReturn(false)
+            ->shouldReceive('close')->andReturn(true);
+
+        $utility = new AdldapUtils($adldap);
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $utility->validateLdapIsBound();
     }
 
     public function testUtilityLdapSlashes()

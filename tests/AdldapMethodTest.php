@@ -207,4 +207,53 @@ class AdldapMethodTest extends FunctionalTestCase
 
         $this->assertEquals($expectedSchema, $ldapSchema);
     }
+
+    public function testAdldapNewComputersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapComputers', get_class($ad->computer()));
+    }
+
+    public function testAdldapNewContactsClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapContacts', get_class($ad->contact()));
+    }
+
+    public function testAdldapNewExchangeClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapExchange', get_class($ad->exchange()));
+    }
+
+    public function testAdldapNewFoldersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapFolders', get_class($ad->folder()));
+    }
+
+    public function testAdldapNewGroupsClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapGroups', get_class($ad->group()));
+    }
+
+    public function testAdldapNewUsersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapUsers', get_class($ad->user()));
+    }
+
+    public function testAdldapNewUtilityClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapUtils', get_class($ad->utilities()));
+    }
 }

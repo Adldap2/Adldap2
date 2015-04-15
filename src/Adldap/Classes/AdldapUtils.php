@@ -12,6 +12,11 @@ use Adldap\Exceptions\AdldapException;
  */
 class AdldapUtils extends AdldapBase
 {
+    /**
+     * The current Adldap Version
+     *
+     * @var string
+     */
     const ADLDAP_VERSION = '5.0.0';
 
     /**
@@ -97,7 +102,9 @@ class AdldapUtils extends AdldapBase
         $octet_str .= '\\' . substr($strGUID, 14, 2);
         $octet_str .= '\\' . substr($strGUID, 12, 2);
 
-        for ($i=16; $i<=(strlen($strGUID)-2); $i++)
+        $length = (strlen($strGUID)-2);
+
+        for ($i=16; $i <= $length; $i++)
         {
             if (($i % 2) == 0)
             {
@@ -203,7 +210,7 @@ class AdldapUtils extends AdldapBase
      */
     public function decodeGuid($binaryGuid)
     {
-        if ($binaryGuid === null) return "Missing compulsory field [binaryGuid]";
+        $this->validateNotNull('Binary GUID', $binaryGuid);
 
         $strGUID = $this->binaryToText($binaryGuid);
 
@@ -281,28 +288,15 @@ class AdldapUtils extends AdldapBase
      *
      * @return array
      */
-    public function dnStrToArr($dnStr, $excludeBaseDn = true)
+    public function dnStrToArr($dnStr, $excludeBaseDn = true, $includeAttributes = false)
     {
-        $dnArr = array();
-
-        if( ! empty($dnStr))
+        if($excludeBaseDn)
         {
-            $tmpArr = explode(',', $dnStr);
-
-            $baseDnArr = explode(',', $this->adldap->getBaseDn());
-
-            foreach($tmpArr as $_tmpStr)
-            {
-                if($excludeBaseDn && in_array($_tmpStr, $baseDnArr))
-                {
-                    continue;
-                }
-
-                $dnArr[]= substr($_tmpStr, strpos($_tmpStr, '=') + 1);
-            }
+            return ldap_explode_dn($dnStr, ($includeAttributes ? 0 : 1));
+        } else
+        {
+            return ldap_explode_dn($this->adldap->getBaseDn() . $dnStr, ($includeAttributes ? 0 : 1));
         }
-
-        return $dnArr;
     }
 
     /**

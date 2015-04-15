@@ -76,7 +76,8 @@ class AdldapFolders extends AdldapBase
         $fields = array(
             'objectclass',
             'distinguishedname',
-            'samaccountname'
+            'samaccountname',
+            'description',
         );
 
         if ($recursive === true)

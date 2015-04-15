@@ -439,7 +439,7 @@ class AdldapGroups extends AdldapBase
 
             $filter = "name=" . $this->adldap->utilities()->ldapSlashes($groupName);
         }
-        
+
         $filter = "(&(objectCategory=group)(name=$filter))";
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);

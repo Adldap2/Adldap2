@@ -1,9 +1,9 @@
 <?php
 
-namespace adLDAP\Tests\Objects;
+namespace Adldap\Tests\Objects;
 
-use adLDAP\Objects\User;
-use adLDAP\Tests\FunctionalTestCase;
+use Adldap\Objects\User;
+use Adldap\Tests\FunctionalTestCase;
 
 class UserObjectTest extends FunctionalTestCase
 {
@@ -62,7 +62,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $user->toSchema();
     }
@@ -75,7 +75,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $user->toSchema();
     }
@@ -88,7 +88,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $user->toSchema();
     }
@@ -101,7 +101,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $user->toSchema();
     }
@@ -114,7 +114,7 @@ class UserObjectTest extends FunctionalTestCase
 
         $user = new User($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $user->toSchema();
     }

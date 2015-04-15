@@ -1,9 +1,9 @@
 <?php
 
-namespace adLDAP\Tests\Objects;
+namespace Adldap\Tests\Objects;
 
-use adLDAP\Objects\Contact;
-use adLDAP\Tests\FunctionalTestCase;
+use Adldap\Objects\Contact;
+use Adldap\Tests\FunctionalTestCase;
 
 class ContactObjectTest extends FunctionalTestCase
 {
@@ -30,7 +30,7 @@ class ContactObjectTest extends FunctionalTestCase
 
         $contact = new Contact($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $contact->validateRequired();
     }
@@ -43,7 +43,7 @@ class ContactObjectTest extends FunctionalTestCase
 
         $contact = new Contact($attributes);
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $contact->validateRequired();
     }

@@ -1,4 +1,4 @@
-adLDAP - PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
+Adldap - PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
 
 Written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com

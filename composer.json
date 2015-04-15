@@ -10,8 +10,8 @@
     "homepage": "http://adldap.sourceforge.net",
     "license": "LGPL-2.1",
     "support": {
-        "issues": "https://github.com/adLDAP2/adLDAP2/issues",
-        "source": "https://github.com/adLDAP2/adLDAP2"
+        "issues": "https://github.com/Adldap2/Adldap2/issues",
+        "source": "https://github.com/Adldap2/Adldap2"
     },
     "authors": [
         {
@@ -44,16 +44,13 @@
         "ext-ldap": "*"
     },
     "autoload": {
-        "classmap": [
-            "src"
-        ],
-        "psr-0": {
-            "adLDAP\\": "src/"
+        "psr-4": {
+            "Adldap\\": "src/Adldap/"
         }
     },
     "autoload-dev": {
-      "classmap": [
-          "tests"
-      ]
+        "psr-4": {
+            "Adldap\\Tests\\": "tests/"
+        }
     }
 }

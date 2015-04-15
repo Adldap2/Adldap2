@@ -1,8 +1,8 @@
 <?php
 
-namespace adLDAP\Tests;
+namespace Adldap\Tests;
 
-use adLDAP\adLDAP;
+use Adldap\Adldap;
 
 class AdldapConstructTest extends FunctionalTestCase
 {
@@ -13,13 +13,13 @@ class AdldapConstructTest extends FunctionalTestCase
      */
     public function testAdldapConstructLdapNotSupportedFailure()
     {
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('isSupported')->once()->andReturn(false);
 
-        new adLDAP(array(), $connection);
+        new Adldap(array(), $connection);
     }
 
     /**
@@ -31,7 +31,7 @@ class AdldapConstructTest extends FunctionalTestCase
     {
         try
         {
-            new adLDAP('test');
+            new Adldap('test');
 
             $passes = false;
         } catch(\Exception $e)
@@ -45,7 +45,7 @@ class AdldapConstructTest extends FunctionalTestCase
     /**
      * This tests that a recoverable exception was thrown
      * when an invalid type hinted connection is passed into
-     * the connection parameter in the adLDAP constructor.
+     * the connection parameter in the Adldap constructor.
      */
     public function testAdlapConstructInvalidConnectionTypeHint()
     {
@@ -53,7 +53,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         try
         {
-            new adLDAP(array(), $connection);
+            new Adldap(array(), $connection);
 
             $passes = false;
         } catch(\Exception $e)
@@ -77,7 +77,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         try
         {
-            new adLDAP($config);
+            new Adldap($config);
 
             $passes = false;
         } catch (\Exception $e)
@@ -111,9 +111,9 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('bind')->andReturn('resource')
             ->shouldReceive('close')->andReturn(true);
 
-        $ad = new adLDAP($this->configStub, $connection);
+        $ad = new Adldap($this->configStub, $connection);
 
-        $this->assertInstanceOf('adLDAP\Interfaces\ConnectionInterface', $ad->getLdapConnection());
+        $this->assertInstanceOf('Adldap\Interfaces\ConnectionInterface', $ad->getLdapConnection());
 
         $this->assertEquals(500, $ad->getPort());
         $this->assertEquals(array('dc1', 'dc2'), $ad->getDomainControllers());
@@ -156,7 +156,7 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('bind')->andReturn('resource')
             ->shouldReceive('close')->andReturn(true);
 
-        $ad = new adLDAP($config, $connection);
+        $ad = new Adldap($config, $connection);
 
         $this->assertTrue($ad->getUseSSO());
     }

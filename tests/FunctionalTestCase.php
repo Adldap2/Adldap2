@@ -1,6 +1,6 @@
 <?php
 
-namespace adLDAP\Tests;
+namespace Adldap\Tests;
 
 use Mockery;
 
@@ -39,7 +39,7 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function newConnectionMock()
     {
-        return $this->mock('adLDAP\Interfaces\ConnectionInterface');
+        return $this->mock('Adldap\Interfaces\ConnectionInterface');
     }
 
     public function setUp()

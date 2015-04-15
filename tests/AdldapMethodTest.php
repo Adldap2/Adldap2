@@ -1,12 +1,12 @@
 <?php
 
-namespace adLDAP\Tests;
+namespace Adldap\Tests;
 
 class AdldapMethodTest extends FunctionalTestCase
 {
     protected function newAdldapMock()
     {
-        return $this->mock('adLDAP\adLDAP');
+        return $this->mock('Adldap\Adldap');
     }
 
     public function testAdldapSetPort()
@@ -22,7 +22,7 @@ class AdldapMethodTest extends FunctionalTestCase
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->setExpectedException('adLDAP\Exceptions\adLDAPException');
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $ad->setPort('Test');
     }

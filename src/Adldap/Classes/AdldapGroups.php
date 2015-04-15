@@ -417,9 +417,10 @@ class AdldapGroups extends AdldapBase
      *
      * @param string $groupName The group name to retrieve info about
      * @param array $fields Fields to retrieve
+     * @param bool $isGUID Is the groupName passed a GUID or a name
      * @return array|bool
      */
-    public function info($groupName, array $fields = array())
+    public function info($groupName, array $fields = array(), $isGUID = false)
     {
         $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
 
@@ -428,9 +429,18 @@ class AdldapGroups extends AdldapBase
         // We'll assign the default query fields if none are given
         if (count($fields) === 0) $fields = $this->defaultQueryFields;
 
-        if (stristr($groupName, '+')) $groupName = stripslashes($groupName);
+        if ($isGUID === true)
+        {
+            $filter = "objectguid=" . $this->adldap->utilities()->strGuidToHex($groupName);
 
-        $filter = "(&(objectCategory=group)(name=" . $this->adldap->utilities()->ldapSlashes($groupName) . "))";
+        } else
+        {
+            if (stristr($groupName, '+')) $groupName = stripslashes($groupName);
+
+            $filter = "name=" . $this->adldap->utilities()->ldapSlashes($groupName);
+        }
+        
+        $filter = "(&(objectCategory=group)(name=$filter))";
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
@@ -482,15 +492,12 @@ class AdldapGroups extends AdldapBase
      *
      * @param string $groupName The group name to retrieve info about
      * @param null $fields Fields to retrieve
+     * @param bool $isGUID Is the groupName passed a GUID or a name
      * @return \Adldap\collections\AdldapGroupCollection|bool
      */
-    public function infoCollection($groupName, $fields = NULL)
+    public function infoCollection($groupName, $fields = NULL, $isGUID = false)
     {
-        if ($groupName === NULL) return false;
-
-        if ( ! $this->adldap->getLdapBind()) return false;
-
-        $info = $this->info($groupName, $fields);
+        $info = $this->info($groupName, $fields, $isGUID);
 
         if ($info) return new AdldapGroupCollection($info, $this->adldap);
 

@@ -11,7 +11,7 @@ class AdldapUtilityTest extends FunctionalTestCase
         return $this->mock('Adldap\Classes\AdldapUtils');
     }
 
-    public function testUtilityValidateLdapIsBoundPasses()
+    public function testUtilityValidateLdapIsBoundPass()
     {
         $adldap = $this->mock('Adldap\Adldap');
 
@@ -39,6 +39,46 @@ class AdldapUtilityTest extends FunctionalTestCase
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
         $utility->validateLdapIsBound();
+    }
+
+    public function testUtilityValidateNotNullPass()
+    {
+        $utility = $this->newUtilityMock()->makePartial();
+
+        $null = null;
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $utility->validateNotNull('Null', $null);
+    }
+
+    public function testUtilityValidateNotNullFailure()
+    {
+        $utility = $this->newUtilityMock()->makePartial();
+
+        $notNull = 'Not Null';
+
+        $this->assertTrue($utility->validateNotNull('Not Null', $notNull));
+    }
+
+    public function testUtilityValidateNotEmptyPass()
+    {
+        $utility = $this->newUtilityMock()->makePartial();
+
+        $empty = '';
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $utility->validateNotEmpty('Empty', $empty);
+    }
+
+    public function testUtilityValidateNotEmptyFailure()
+    {
+        $utility = $this->newUtilityMock()->makePartial();
+
+        $notEmpty = 'Not Empty';
+
+        $this->assertTrue($utility->validateNotEmpty('Not Empty', $notEmpty));
     }
 
     public function testUtilityLdapSlashes()

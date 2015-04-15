@@ -83,9 +83,9 @@ class AdldapUsers extends AdldapBase
         $add["userAccountControl"][0] = $this->accountControl($control_options);
         
         // Determine the container
-        $attributes["container"] = array_reverse($attributes["container"]);
+        $attributes["container"] = array_reverse($user->getAttribute("container"));
 
-        $container = "OU=" . implode(", OU=",$attributes["container"]);
+        $container = "OU=" . implode(", OU=",$user->getAttribute("container"));
 
         $dn = "CN=" . $add["cn"][0] . ", " . $container . "," . $this->adldap->getBaseDn();
 

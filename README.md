@@ -78,3 +78,5 @@ All namespaces and files have been cased correctly to adhere to PSR-4 standards.
 Namespace: `namespace adLDAP\adLDAP` has changed to `namespace Adldap\Adldap`
 
 File: `require('adLDAP/adLDAP.php')`has changed to `require('Adldap/Adldap.php')`
+
+The search function (`$adldap->seach()`) has been redone. More on this when documentation arrives.

@@ -13,7 +13,7 @@ Originally written by Scott Barnett and Richard Hyland. Adopted by the community
 ## Index
 
 - [Installation](#installation)
-- [Upgrading to v5](docs/UPGRADING.md)
+- [Upgrading to v5 from v4](docs/UPGRADING.md)
 - [Getting Started](docs/GETTING-STARTED.md)
  - [Usage]()
 

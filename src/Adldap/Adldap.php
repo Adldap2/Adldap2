@@ -12,6 +12,7 @@ use Adldap\Classes\AdldapContacts;
 use Adldap\Classes\AdldapUsers;
 use Adldap\Classes\AdldapGroups;
 use Adldap\Objects\Configuration;
+use Adldap\Objects\LdapEntry;
 use Adldap\Objects\LdapSchema;
 use Adldap\Objects\Schema;
 
@@ -835,45 +836,9 @@ class Adldap
         // Lets go through each entry and start assembling the array
         for ($i = 0; $i < $entries["count"]; $i++)
         {
-            $entry = array();
+            $entry = new LdapEntry($entries[$i], $this->getLdapConnection());
 
-            // Does the entry contain a common name?
-            if(is_array($entries[$i]['cn']))
-            {
-                $entry['cn'] = $entries[$i]['cn'][0];
-            }
-
-            // Does the entry contain a description?
-            if(is_array($entries[$i]['description']))
-            {
-                $entry['description'] = $entries[$i]['description'][0];
-            }
-
-            // Does the entry contain a display name?
-            if(is_array($entries[$i]['displayname']))
-            {
-                $entry['displayname'] = $entries[$i]['displayname'][0];
-            }
-
-            // Does the entry contain a logon name?
-            if(is_array($entries[$i]['samaccountname']))
-            {
-                $entry['samaccountname'] = $entries[$i]['samaccountname'][0];
-            }
-
-            // Does the entry contain a distinguished name?
-            if(is_array($entries[$i]['distinguishedname']))
-            {
-                $dn = $entries[$i]['distinguishedname'][0];
-
-                // We'll assign the string distinguished name
-                $entry['dn'] = $dn;
-
-                // As well as parse it into a array
-                $entry['dn_array'] = $this->ldapConnection->explodeDn($dn, true);
-            }
-
-            $objects[] = $entry;
+            $objects[] = $entry->getAttributes();
         }
 
         return $objects;

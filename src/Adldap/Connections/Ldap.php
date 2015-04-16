@@ -537,6 +537,29 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Converts a distinguished name string into an array.
+     *
+     * If removeAttributePrefixes is true, then prefixes from the distinguished
+     * name attributes are removed. For example:
+     *
+     * [0] => 'CN=Steve'
+     *
+     * Becomes:
+     *
+     * [0] => 'Steve'
+     *
+     * This occurs for ALL attribute prefixes.
+     *
+     * @param string $dn
+     * @param bool $removeAttributePrefixes
+     * @return array
+     */
+    public function explodeDn($dn, $removeAttributePrefixes = true)
+    {
+        return ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
+    }
+
+    /**
      * Closes the current LDAP connection if
      * it exists.
      *

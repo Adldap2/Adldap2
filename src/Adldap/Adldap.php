@@ -45,6 +45,20 @@ class Adldap
     const ADLDAP_LDAPS_PORT = '636';
 
     /**
+     * The default query fields to use when
+     * performing a global search.
+     *
+     * @var array
+     */
+    public $defaultQueryFields = array(
+        'cn',
+        'description',
+        'displayname',
+        'distinguishedname',
+        'samaccountname',
+    );
+
+    /**
      * The account suffix for your domain, can be set when the class is invoked
      *
      * @var string
@@ -795,57 +809,74 @@ class Adldap
     }
 
     /**
-     * Return a list of all found objects (except computer) in AD
-     * $search has to match either cn, displayname, samaccountname or sn
+     * Return a list of all found objects (including computers) in AD
      *
-     * @param bool $includeDescription Return a description,cn, displayname and distinguishedname of the user
      * @param string $search Search parameter
-     * @param bool $sorted Sort the user accounts
+     * @param array $fields Specific fields you'd like to query
      * @return array|bool
      */
-    public function search($includeDescription = false, $search = "*", $sorted = true)
+    public function search($search = "*", array $fields = array())
     {
         $this->utilities()->validateLdapIsBound();
 
-        // Perform the search and grab all their details
-        $filter = "(&(!(objectClass=computer))(|(anr=" . $search . ")))";
+        $filter = "(anr=" . $search . ")";
 
-        $fields = array("cn","description","displayname","distinguishedname","samaccountname");
+        // Get the default query fields if none are present
+        if(count($fields) === 0) $fields = $this->defaultQueryFields;
 
+        // Search LDAP
         $results = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
 
+        // Retrieve the entries from the resource
         $entries = $this->ldapConnection->getEntries($results);
 
-        $objectArray = array();
+        $objects = array();
 
+        // Lets go through each entry and start assembling the array
         for ($i = 0; $i < $entries["count"]; $i++)
         {
-            if ($includeDescription && strlen($entries[$i]["description"][0]) > 0)
+            $entry = array();
+
+            // Does the entry contain a common name?
+            if(is_array($entries[$i]['cn']))
             {
-                $objectArray[$entries[$i]["samaccountname"][0]] = array(
-                    $entries[$i]["cn"][0],
-                    $entries[$i]["description"][0],
-                    $entries[$i]["displayname"][0],
-                    $entries[$i]["distinguishedname"][0]
-                );
-            } elseif ($includeDescription)
-            {
-                // description is set to displayname if no description is present
-                $objectArray[$entries[$i]["samaccountname"][0]] = array(
-                    $entries[$i]["cn"][0],
-                    $entries[$i]["displayname"][0],
-                    $entries[$i]["displayname"][0],
-                    $entries[$i]["distinguishedname"][0]
-                );
-            } else
-            {
-                array_push($objectArray, $entries[$i]["samaccountname"][0]);
+                $entry['cn'] = $entries[$i]['cn'][0];
             }
+
+            // Does the entry contain a description?
+            if(is_array($entries[$i]['description']))
+            {
+                $entry['description'] = $entries[$i]['description'][0];
+            }
+
+            // Does the entry contain a display name?
+            if(is_array($entries[$i]['displayname']))
+            {
+                $entry['displayname'] = $entries[$i]['displayname'][0];
+            }
+
+            // Does the entry contain a logon name?
+            if(is_array($entries[$i]['samaccountname']))
+            {
+                $entry['samaccountname'] = $entries[$i]['samaccountname'][0];
+            }
+
+            // Does the entry contain a distinguished name?
+            if(is_array($entries[$i]['distinguishedname']))
+            {
+                $dn = $entries[$i]['distinguishedname'][0];
+
+                // We'll assign the string distinguished name
+                $entry['dn'] = $dn;
+
+                // As well as parse it into a array
+                $entry['dn_array'] = $this->ldapConnection->explodeDn($dn, true);
+            }
+
+            $objects[] = $entry;
         }
 
-        if ($sorted) asort($objectArray);
-
-        return $objectArray;
+        return $objects;
     }
 
     /**

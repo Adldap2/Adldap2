@@ -93,6 +93,55 @@ class AdldapMethodTest extends FunctionalTestCase
         $this->assertTrue($passes);
     }
 
+    public function testAdldapNewComputersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapComputers', get_class($ad->computer()));
+    }
+
+    public function testAdldapNewContactsClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapContacts', get_class($ad->contact()));
+    }
+
+    public function testAdldapNewExchangeClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapExchange', get_class($ad->exchange()));
+    }
+
+    public function testAdldapNewFoldersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapFolders', get_class($ad->folder()));
+    }
+
+    public function testAdldapNewGroupsClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapGroups', get_class($ad->group()));
+    }
+
+    public function testAdldapNewUsersClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapUsers', get_class($ad->user()));
+    }
+
+    public function testAdldapNewUtilityClass()
+    {
+        $ad = $this->newAdldapMock()->makePartial();
+
+        $this->assertEquals('Adldap\Classes\AdldapUtils', get_class($ad->utilities()));
+    }
+
     /**
      * This tests that all the inserted schema attributes are
      * correctly applied and returned using the ldapSchema($attributes)
@@ -208,52 +257,117 @@ class AdldapMethodTest extends FunctionalTestCase
         $this->assertEquals($expectedSchema, $ldapSchema);
     }
 
-    public function testAdldapNewComputersClass()
+    public function testAdldapSearch()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapComputers', get_class($ad->computer()));
-    }
+        $connection = $this->newConnectionMock();
 
-    public function testAdldapNewContactsClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
+        $ad->setLdapConnection($connection);
 
-        $this->assertEquals('Adldap\Classes\AdldapContacts', get_class($ad->contact()));
-    }
+        $returnedLdapEntries = array(
+            'count' => 3,
+            0 => array(
+                0 => 'distinguishedname',
+                'count' => 1,
+                'dn' => 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                'distinguishedname' => array(
+                    'count' => 1,
+                    'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                ),
+            ),
+            1 => array(
+                0 => 'distinguishedname',
+                'count' => 1,
+                'dn' => 'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                'distinguishedname' => array(
+                    'count' => 1,
+                    'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                ),
+            ),
+            2 => array(
+                0 => 'cn',
+                'cn' => array(
+                    'count' => 1,
+                    0 => 'Test',
+                ),
+                'distinguishedname' => array(
+                    'count' => 1,
+                    0 => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM',
+                ),
+                1 => 'distinguishedname',
+                'displayname' => array(
+                    'count' => 1,
+                    0 => 'Bauman, Steve'
+                ),
+                2 => 'displayname',
+                'samaccountname' => array(
+                    'count' => 1,
+                    0 => 'stevebauman',
+                ),
+                3 => 'samaccountname',
+                'count' => 4,
+                'dn' => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM'
+            )
+        );
 
-    public function testAdldapNewExchangeClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
+        $explodedDnsToReturn = array(
+            ldap_explode_dn($returnedLdapEntries[0]['dn'], 1),
+            ldap_explode_dn($returnedLdapEntries[1]['dn'], 1),
+            ldap_explode_dn($returnedLdapEntries[2]['dn'], 1)
+        );
 
-        $this->assertEquals('Adldap\Classes\AdldapExchange', get_class($ad->exchange()));
-    }
+        $connection
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('search')->once()->andReturn('resource')
+            ->shouldReceive('getEntries')->once()->andReturn($returnedLdapEntries)
+            ->shouldReceive('explodeDn')->times(3)->andReturnValues($explodedDnsToReturn)
+            ->shouldReceive('close')->andReturn(true);
 
-    public function testAdldapNewFoldersClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
+        $expectedResults = array(
+            array(
+                'dn' => 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                'dn_array' => array(
+                    'count' => 5,
+                    0 => 'Karen Berge',
+                    1 => 'admin',
+                    2 => 'corp',
+                    3 => 'Fabrikam',
+                    4 => 'COM',
+                ),
+            ),
+            array(
+                'dn' => 'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
+                'dn_array' => array(
+                    'count' => 5,
+                    0 => 'Doe\2C John',
+                    1 => 'admin',
+                    2 => 'corp',
+                    3 => 'Fabrikam',
+                    4 => 'COM',
+                ),
+            ),
+            array(
+                'cn' => 'Test',
+                'displayname' => 'Bauman, Steve',
+                'samaccountname' => 'stevebauman',
+                'dn' => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM',
+                'dn_array' => array(
+                    'count' => 8,
+                    0 => 'Bauman\2C Steve',
+                    1 => 'Users',
+                    2 => 'Developers',
+                    3 => 'User Accounts',
+                    4 => 'Canada',
+                    5 => 'corp',
+                    6 => 'Fabrikam',
+                    7 => 'COM',
+                ),
+            ),
+        );
 
-        $this->assertEquals('Adldap\Classes\AdldapFolders', get_class($ad->folder()));
-    }
+        $actualResults = $ad->search();
 
-    public function testAdldapNewGroupsClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
-
-        $this->assertEquals('Adldap\Classes\AdldapGroups', get_class($ad->group()));
-    }
-
-    public function testAdldapNewUsersClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
-
-        $this->assertEquals('Adldap\Classes\AdldapUsers', get_class($ad->user()));
-    }
-
-    public function testAdldapNewUtilityClass()
-    {
-        $ad = $this->newAdldapMock()->makePartial();
-
-        $this->assertEquals('Adldap\Classes\AdldapUtils', get_class($ad->utilities()));
+        $this->assertEquals($expectedResults, $actualResults);
     }
 }

@@ -51,15 +51,15 @@ Breaking changes:
 
 - Requires have been removed from all classes, and if using without an auto-loader (such as composer) you must require all
 necessary files yourself
-- `adLDAP\adLDAPException` now has a new namespace: `adLDAP\Exceptions\adLDAPException`
-- `$adldap->user()->modify()` now throws an `adLDAPException` when the username parameter is null
+- `adLDAP\adLDAPException` now has a new namespace: `Adldap\Exceptions\AdldapException`
+- `$adldap->user()->modify()` now throws an `AdldapException` when the username parameter is null
 - Inserting null/empty values into the username and/or password inside the `authenticate($username, $password)` function will now
-result in an `adLDAPException`, instead of returning false
-- Inserting null into the group name parameter inside the method `$adLDAP->group()->info($groupName)` now throws an adLDAP exception
+result in an `AdldapException`, instead of returning false
+- Inserting null into the group name parameter inside the method `$adldap->group()->info($groupName)` now throws an Adldap exception
 instead of returning false
-- Inserting null into the username parameter inside the method `$adLDAP->user()->info($username)` now throws an adLDAP exception
+- Inserting null into the username parameter inside the method `$adldap->user()->info($username)` now throws an Adldap exception
 instead of returning false
-- If LDAP is not bound when running query methods (such as `$adLDAP->search()`) then an `adLDAPException` will be thrown instead
+- If LDAP is not bound when running query methods (such as `$adldap->search()`) then an `AdldapException` will be thrown instead
 of previously returning false.
 
 

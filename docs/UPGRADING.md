@@ -14,7 +14,7 @@ instead of returning false
 instead of returning false
 - If LDAP is not bound when running query methods (such as `$adLDAP->search()`) then an `adLDAPException` will be thrown instead
 of previously returning false.
-
+- `pingController()` method removed
 
 
 The arguments for finding a user has been changed from:

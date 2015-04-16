@@ -34,6 +34,8 @@ When creating a new Adldap instance, it will automatically try and connect to yo
 is completely configurable, and you can supply your own connection class to run LDAP queries off of if you wish.
 We'll discuss this later.
 
+### Basic Functionality
+
 #### Authentication
 
 Authenticating a user is easy, just call the `authenticate()` method like so:
@@ -97,3 +99,10 @@ Then, you can loop through your results:
         }
     }
    
+#### Retrieving the last message / error from LDAP:
+
+To retrieve the last message or error from LDAP, call the `getLastError()` method like so:
+
+    echo $ad->getLastError();
+    
+    

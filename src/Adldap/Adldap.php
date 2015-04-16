@@ -194,66 +194,64 @@ class Adldap
      *
      * @param array $options The Adldap configuration options array
      * @param mixed $connection The connection you'd like to use
+     * @param bool $autoConnect Whether or not you want to connect on construct
      * @throws AdldapException
      */
-    public function __construct(array $options = array(), $connection = NULL)
+    public function __construct(array $options = array(), $connection = NULL, $autoConnect = true)
     {
         // Create a new LDAP Connection if one isn't set
         if( ! $connection) $connection = new Connections\Ldap;
 
-        $this->setLdapConnection($connection);
-
-        // Check if LDAP is supported
-        if ($this->ldapConnection->isSupported() === false)
+        // If we dev wants to connect automatically, we'll construct the
+        if($autoConnect)
         {
-            throw new AdldapException('No LDAP support for PHP.  See: http://www.php.net/ldap');
-        }
+            $this->setLdapConnection($connection);
 
-        $configuration = new Configuration($options);
+            $configuration = new Configuration($options);
 
-        // You can specifically overide any of the default configuration options setup above
-        if ($configuration->countAttributes() > 0)
-        {
-            $this->setAccountSuffix($configuration->{'account_suffix'});
-
-            $this->setBaseDn($configuration->{'base_dn'});
-
-            $this->setDomainControllers($configuration->{"domain_controllers"});
-
-            $this->setAdminUsername($configuration->{'admin_username'});
-
-            $this->setAdminPassword($configuration->{'admin_password'});
-
-            $this->setRealPrimaryGroup($configuration->{'real_primarygroup'});
-
-            $this->setUseSSL($configuration->{'use_ssl'});
-
-            $this->setUseTLS($configuration->{'use_tls'});
-
-            $this->setRecursiveGroups($configuration->{'recursive_groups'});
-
-            $this->setFollowReferrals($configuration->{'follow_referrals'});
-
-            if($configuration->hasAttribute('ad_port'))
+            if ($configuration->countAttributes() > 0)
             {
-                $this->setPort($configuration->{'ad_port'});
+                $this->setAccountSuffix($configuration->{'account_suffix'});
+
+                $this->setBaseDn($configuration->{'base_dn'});
+
+                $this->setDomainControllers($configuration->{"domain_controllers"});
+
+                $this->setAdminUsername($configuration->{'admin_username'});
+
+                $this->setAdminPassword($configuration->{'admin_password'});
+
+                $this->setRealPrimaryGroup($configuration->{'real_primarygroup'});
+
+                $this->setUseSSL($configuration->{'use_ssl'});
+
+                $this->setUseTLS($configuration->{'use_tls'});
+
+                $this->setRecursiveGroups($configuration->{'recursive_groups'});
+
+                $this->setFollowReferrals($configuration->{'follow_referrals'});
+
+                if($configuration->hasAttribute('ad_port'))
+                {
+                    $this->setPort($configuration->{'ad_port'});
+                }
+
+                $sso = $configuration->{'sso'};
+
+                /*
+                 * If we've set SSO to true, we'll make sure we check
+                 * if SSO is supported, if so we'll bind it to the
+                 * current LDAP connection.
+                 */
+                if ($sso)
+                {
+                    if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
+                }
             }
 
-            $sso = $configuration->{'sso'};
-
-            /*
-             * If we've set SSO to true, we'll make sure we check
-             * if SSO is supported, if so we'll bind it to the
-             * current LDAP connection.
-             */
-            if ($sso)
-            {
-                if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
-            }
+            // Looks like we're all set. Let's try and connect
+            $this->connect();
         }
-
-        // Looks like we're all set. Let's try and connect
-        $this->connect();
     }
 
     /**

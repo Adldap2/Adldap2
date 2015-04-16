@@ -107,3 +107,33 @@ To retrieve the last message or error from LDAP, call the `getLastError()` metho
     
 ### Advanced Usage
 
+#### Using a different LDAP Connection
+
+If you'd like to supply your own LDAP connection class, supply your own by inserting it into the second parameter in
+the Adldap constructor. The custom class will need to implement the `Adldap\Interfaces\ConnectionInterface` OR extend
+the main Connection class (`Adldap\Connections\Ldap`).
+
+    use Adldap\Connections\Ldap;
+    
+    class CustomLdapConnection extends Ldap
+    {
+        public function connect($hostname, $port = '389')
+        {
+            // Connect to LDAP my own way
+        }
+    }
+
+Then using your new class:
+
+    $connection = new CustomLdapConnection;
+    
+    $ad = new Adldap($configuration, $connection);
+
+#### Disabling auto-connect on construct
+
+By default, when Adldap is constructed, it automatically tries to connect to your server, though you can disable this
+by passing in `false` in the last construct parameter. You will have to manually call the connect method by doing this.
+
+    $ad = new Adldap($configuration, null, false);
+    
+    $ad->connect();

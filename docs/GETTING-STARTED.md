@@ -36,7 +36,7 @@ We'll discuss this later.
 
 #### Authentication
 
-Authenticating a user is easy, just all the `authenticate()` method like so:
+Authenticating a user is easy, just call the `authenticate()` method like so:
 
     $authenticated = $ad->authenticate('johndoe', 'password');
     
@@ -48,3 +48,52 @@ However, if you'd like to stay authenticated as this user, you'll have to pass i
     
     $authenticated = $ad->authenticate('johndoe', 'password', $preventRebind);
     
+Now, when you call methods on the Adldap object, you're authenticated as John Doe, instead of the administrator.
+
+#### Global Searching
+
+To search LDAP for any object, call the `search()` method like so:
+
+    $results = $ad->search('john');
+
+Then, you can loop through your results:    
+    
+    foreach($results as $result)
+    {
+        if(array_key_exists('cn', $result))
+        {
+            echo $result['cn']; // Returns 'John Doe'
+        }
+        
+        if(array_key_exists('displayname', $result))
+        {
+            echo $result['displayname']; // Returns 'Doe, John'
+        }
+        
+        // The users login name
+        if(array_key_exists('samaccountname', $result))
+        {
+            echo $result['samaccountname']; // Returns 'djohn'
+        }
+    
+        if(array_key_exists('dn', $result))
+        {
+            echo $result['dn']; // Returns 'CN=John Doe,CN=admin,DC=corp,DC=Fabrikam,DC=COM'
+        }
+        
+        if(array_key_exists('dn_array', $result))
+        {
+            var_dump($result['dn_array']);
+            
+            //Results in
+            
+            array(
+                0 => 'John Doe',
+                1 => 'admin',
+                2 => 'corp',
+                3 => 'Fabrikam',
+                4 => 'COM',
+            );
+        }
+    }
+   

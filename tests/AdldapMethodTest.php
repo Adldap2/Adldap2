@@ -257,6 +257,10 @@ class AdldapMethodTest extends FunctionalTestCase
         $this->assertEquals($expectedSchema, $ldapSchema);
     }
 
+    /**
+     * This tests that the adldap global search
+     * method properly parses returned ldap results.
+     */
     public function testAdldapSearch()
     {
         $ad = $this->newAdldapMock()->makePartial();

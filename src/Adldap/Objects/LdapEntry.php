@@ -25,8 +25,10 @@ class LdapEntry extends AbstractObject
      */
     public function __construct(array $attributes = array(), ConnectionInterface $connection)
     {
+        // Set the connection
         $this->connection = $connection;
 
+        // Construct the entry
         $this->constructEntry($attributes);
     }
 

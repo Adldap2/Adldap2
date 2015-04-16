@@ -34,7 +34,7 @@ This can be done like so:
    
 When creating a new Adldap instance, it will automatically try and connect to your server, however this behavior
 is completely configurable, and you can supply your own connection class to run LDAP queries off of if you wish.
-We'll discuss this later.
+We'll discuss this [later](#advanced-usage).
 
 #### Authentication
 

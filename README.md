@@ -10,16 +10,22 @@
 
 Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
+## Description
+
+Adldap2 is a PHP class library that provides LDAP authentication and Active Directory management tools.
+
 ## Index
 
 - [Installation](#installation)
 - [Upgrading to v5 from v4](docs/UPGRADING.md)
 - [Getting Started](docs/GETTING-STARTED.md)
- - [Usage]()
-
-## Description
-
-Adldap2 is a PHP class library that provides LDAP authentication and Active Directory management tools.
+- Usage 
+ - [Computer Functions](docs/COMPUTER-FUNCTIONS.md)
+ - [Contact Functions](docs/CONTACT-FUNCTIONS.md)
+ - [Exchange Functions](docs/EXCHANGE-FUNCTIONS.md)
+ - [Folder Functions](docs/FOLDER-FUNCTIONS.md)
+ - [Group Functions](docs/GROUP-FUNCTIONS.md)
+ - [User Functions](docs/USER-FUNCTIONS.md)
 
 ## Requirements
 

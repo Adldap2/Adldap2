@@ -981,23 +981,6 @@ class Adldap
     }
 
     /**
-     * Test basic connectivity to the domain controller
-     *
-     * @param string $host
-     * @return bool
-     */
-    protected function pingController($host)
-    {
-        $port = $this->getPort();
-
-        fsockopen($host, $port, $errno, $errstr, 10);
-
-        if ($errno > 0) return false;
-
-        return true;
-    }
-
-    /**
      * Binds to the current connection using kerberos
      *
      * @param $kerberosCredentials

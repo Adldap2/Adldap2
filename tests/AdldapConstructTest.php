@@ -144,4 +144,22 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $this->assertTrue($ad->getUseSSO());
     }
+
+    /**
+     * This tests that when auto-connect is false,
+     * the connect method is not called on the current
+     * connection until manually called.
+     */
+    public function testAdldapConstructNoAutoConnect()
+    {
+        $connection = $this->newConnectionMock();
+
+        $differentConnection = $this->newConnectionMock();
+
+        $ad = new Adldap(array(), $connection, false);
+
+        $differentConnection->shouldReceive('close')->once()->andReturn(true);
+
+        $ad->setLdapConnection($differentConnection);
+    }
 }

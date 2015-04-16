@@ -1,5 +1,7 @@
 ## Getting Started
 
+### Basic Functionality
+
 To connect to your Active Directory server, you'll have to provide a configuration array to a new Adldap instance.
 
 This can be done like so:
@@ -33,8 +35,6 @@ This can be done like so:
 When creating a new Adldap instance, it will automatically try and connect to your server, however this behavior
 is completely configurable, and you can supply your own connection class to run LDAP queries off of if you wish.
 We'll discuss this later.
-
-### Basic Functionality
 
 #### Authentication
 
@@ -105,4 +105,5 @@ To retrieve the last message or error from LDAP, call the `getLastError()` metho
 
     echo $ad->getLastError();
     
-    
+### Advanced Usage
+

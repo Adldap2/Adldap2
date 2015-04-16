@@ -202,11 +202,11 @@ class Adldap
         // Create a new LDAP Connection if one isn't set
         if( ! $connection) $connection = new Connections\Ldap;
 
+        $this->setLdapConnection($connection);
+
         // If we dev wants to connect automatically, we'll construct the
         if($autoConnect)
         {
-            $this->setLdapConnection($connection);
-
             $configuration = new Configuration($options);
 
             if ($configuration->countAttributes() > 0)

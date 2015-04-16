@@ -7,22 +7,6 @@ use Adldap\Adldap;
 class AdldapConstructTest extends FunctionalTestCase
 {
     /**
-     * This tests that the connection function isSupported
-     * returns false, and an exception is thrown when it
-     * has been called.
-     */
-    public function testAdldapConstructLdapNotSupportedFailure()
-    {
-        $this->setExpectedException('Adldap\Exceptions\AdldapException');
-
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('isSupported')->once()->andReturn(false);
-
-        new Adldap(array(), $connection);
-    }
-
-    /**
      * This tests that the first configuration parameter
      * must be an array, and will fail constructing with
      * another variable type.

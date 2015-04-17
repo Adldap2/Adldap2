@@ -20,6 +20,7 @@ Adldap2 is a PHP class library that provides LDAP authentication and Active Dire
 - [Upgrading to v5 from v4](docs/UPGRADING.md)
 - [Getting Started](docs/GETTING-STARTED.md)
 - Usage 
+ - [Search Functions](docs/SEARCH-FUNCTIONS.md)
  - [Computer Functions](docs/COMPUTER-FUNCTIONS.md)
  - [Contact Functions](docs/CONTACT-FUNCTIONS.md)
  - [Exchange Functions](docs/EXCHANGE-FUNCTIONS.md)

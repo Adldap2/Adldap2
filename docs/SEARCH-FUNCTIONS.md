@@ -18,15 +18,15 @@ This will retrieve all entries from LDAP. However, be careful. AD has a limit of
 more records than this, you will only see the 1000 records AD has retrieved. LDAP will throw the following warning if
 this occurs:
 
-   Warning: ldap_search(): Partial search results returned: Sizelimit exceeded
+    Warning: ldap_search(): Partial search results returned: Sizelimit exceeded
    
-However, ldap functions are suppressed by default. If you'd like to show errors and warnings, call the `showErrors()` method
-on the AD connection like so:
+However, LDAP functions are suppressed by default, so you won't see this message. If you'd like to show errors and warnings, call the `showErrors()` method
+on the AD connection before performing the search like so:
 
     $ad->getLdapConnection()->showErrors();
     
     $results = $ad->search()->all();
-    
+
 #### Where
 
 To perform a where clause on the search object, use the `where()` function:
@@ -34,6 +34,10 @@ To perform a where clause on the search object, use the `where()` function:
     $results = $ad->search()->where('cn', '=', 'John Doe')->get();
     
 This query would look for an object with the common name of 'John Doe' and return the results.
+
+We could also perform a search for all objects beginning with the common name of 'John' using the asterisk (*) wildcard:
+
+    $results = $ad->search()->where('cn', '=', 'John*')->get();
 
 #### Or Where
 

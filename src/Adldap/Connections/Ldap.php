@@ -564,10 +564,10 @@ class Ldap implements ConnectionInterface
      * Returns an escaped string for use in an LDAP filter.
      *
      * @param string $value
-     * @param string$ignore
+     * @param string $ignore
      * @return string
      */
-    public function escape($value, $ignore)
+    public function escape($value, $ignore = '*')
     {
         return ldap_escape($value, $ignore);
     }

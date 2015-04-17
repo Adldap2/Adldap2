@@ -29,16 +29,16 @@ class LdapEntry extends AbstractObject
         $this->connection = $connection;
 
         // Construct the entry
-        $this->constructEntry($attributes);
+        $this->applyAttributes($attributes);
     }
 
     /**
-     * Assigns the proper object attributes if they exist
+     * Applies the proper object attributes if they exist
      * inside the specified attributes array.
      *
      * @param array $attributes
      */
-    public function constructEntry($attributes)
+    public function applyAttributes($attributes)
     {
         // Does the entry contain a common name?
         if(array_key_exists('cn', $attributes))
@@ -64,6 +64,12 @@ class LdapEntry extends AbstractObject
             $this->setAttribute('samaccountname', $attributes['samaccountname'][0]);
         }
 
+        // Does the entry contain an object category?
+        if(array_key_exists('objectcategory', $attributes))
+        {
+            $this->setAttribute('objectcategory', $attributes['objectcategory'][0]);
+        }
+
         // Does the entry contain a distinguished name?
         if(array_key_exists('distinguishedname', $attributes))
         {
@@ -74,6 +80,35 @@ class LdapEntry extends AbstractObject
 
             // As well as parse it into a array
             $this->setAttribute('dn_array', $this->connection->explodeDn($dn, true));
+        }
+
+        // Apply the extra attributes
+        $this->applyComputerAttributes($attributes);
+    }
+
+    /**
+     * Applies the objects attributes from the specified array.
+     *
+     * @param array $attributes
+     */
+    public function applyComputerAttributes(array $attributes = array())
+    {
+        // Does the entry contain an operating system?
+        if(array_key_exists('operatingsystem', $attributes))
+        {
+            $this->setAttribute('operatingsystem', $attributes['operatingsystem'][0]);
+        }
+
+        // Does the entry contain an operating system version?
+        if(array_key_exists('operatingsystemversion', $attributes))
+        {
+            $this->setAttribute('operatingsystemversion', $attributes['operatingsystemversion'][0]);
+        }
+
+        // Does the entry contain an operating system service pack?
+        if(array_key_exists('operatingsystemservicepack', $attributes))
+        {
+            $this->setAttribute('operatingsystemservicepack', $attributes['operatingsystemservicepack'][0]);
         }
     }
 }

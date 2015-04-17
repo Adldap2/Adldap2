@@ -73,14 +73,14 @@ class Adldap
      *
      * @var string
      */
-    protected $baseDn = "DC=mydomain,DC=local"; 
+    protected $baseDn = "DC=mydomain,DC=local";
 
     /**
      * Port used to talk to the domain controllers.
      *
      * @var string
      */
-    protected $adPort = self::ADLDAP_LDAP_PORT; 
+    protected $adPort = self::ADLDAP_LDAP_PORT;
 
     /**
      * Array of domain controllers. Specifiy multiple controllers if you
@@ -307,7 +307,7 @@ class Adldap
      */
     public function getBaseDn()
     {
-        return $this->baseDn;   
+        return $this->baseDn;
     }
 
     /**
@@ -485,7 +485,7 @@ class Adldap
 
     /**
     * Retrieves the current useSSL property
-    * 
+    *
     * @return bool
     */
     public function getUseSSL()
@@ -722,9 +722,9 @@ class Adldap
 
         $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
-        
+
         if ($useTLS) $this->ldapConnection->startTLS();
-               
+
         // Bind as a domain admin if they've set it up
         if ($adminUsername !== NULL && $adminPassword !== NULL)
         {
@@ -776,7 +776,7 @@ class Adldap
         {
             return $this->bindUsingKerberos($kerberos);
         }
-        
+
         // Bind as the user
         $ret = true;
 

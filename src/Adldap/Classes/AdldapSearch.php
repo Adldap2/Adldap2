@@ -37,15 +37,19 @@ class AdldapSearch extends AdldapBase
      * @var array
      */
     protected $fields = array(
+        'anr',
         'cn',
         'description',
         'displayname',
         'distinguishedname',
         'samaccountname',
         "objectcategory",
+        "objectclass",
         "operatingsystem",
         "operatingsystemservicepack",
-        "operatingsystemversion"
+        "operatingsystemversion",
+        "msExchUserAccountControl",
+        "msExchMasterAccountSID",
     );
 
     /**
@@ -63,6 +67,28 @@ class AdldapSearch extends AdldapBase
     protected $wheres = array();
 
     /**
+     * Stores the orWheres to use in the query
+     * when assembled.
+     *
+     * @var array
+     */
+    protected $orWheres = array();
+
+    /**
+     * Stores the field to sort search results by.
+     *
+     * @var string
+     */
+    protected $sortByField = '';
+
+    /**
+     * Stores the direction to sort the search results by.
+     *
+     * @var string
+     */
+    protected $sortByDirection = 'DESC';
+
+    /**
      * The opening query string.
      *
      * @var string
@@ -77,14 +103,25 @@ class AdldapSearch extends AdldapBase
     protected static $closeQuery = ')';
 
     /**
+     * Performs a global 'all' search query on the
+     * current connection.
+     *
+     * @return array|bool
+     */
+    public function all()
+    {
+        $this->where('objectClass', '*');
+
+        return $this->get();
+    }
+
+    /**
      * Performs the current query on the current LDAP connection.
      *
      * @return array|bool
      */
     public function get()
     {
-        $this->assembleQuery();
-
         $results = $this->connection->search($this->adldap->getBaseDn(), $this->getQuery(), $this->getSelects());
 
         if($results) return $this->processResults($results);
@@ -115,6 +152,8 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Adds a where clause to the current query.
+     *
      * @param $field
      * @param null $operator
      * @param null $value
@@ -123,6 +162,21 @@ class AdldapSearch extends AdldapBase
     public function where($field, $operator = null, $value = null)
     {
         $this->addWhere($field, $operator, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an orWhere clause to the current query.
+     *
+     * @param string $field
+     * @param null $operator
+     * @param null $value
+     * @return $this
+     */
+    public function orWhere($field, $operator = null, $value = null)
+    {
+        $this->addOrWhere($field, $operator, $value);
 
         return $this;
     }
@@ -159,14 +213,23 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Returns the wheres on the current search object.
      *
-     *
-     * @param $field
-     * @param string $direction
+     * @return array
      */
-    public function sortBy($field, $direction = 'desc')
+    public function getWheres()
     {
+        return $this->wheres;
+    }
 
+    /**
+     * Returns the or wheres on the current search object.
+     *
+     * @return array
+     */
+    public function getOrWheres()
+    {
+        return $this->orWheres;
     }
 
     /**
@@ -176,7 +239,34 @@ class AdldapSearch extends AdldapBase
      */
     public function getQuery()
     {
+        // Return the query if it exists
+        if( ! empty($this->query)) return $this->query;
+
+        /*
+         * Looks like our query hasn't been assembled
+         * yet, let's try to assemble it
+         */
+        $this->assembleQuery();
+
+        // Return the assembled query
         return $this->query;
+    }
+
+    /**
+     * Sorts the LDAP search results by the specified field
+     * and direction.
+     *
+     * @param $field
+     * @param string $direction
+     * @return $this
+     */
+    public function sortBy($field, $direction = 'desc')
+    {
+        $this->sortByField = $field;
+
+        $this->sortByDirection = $direction;
+
+        return $this;
     }
 
     /**
@@ -190,8 +280,8 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
-     * Adds the inserted field, operator and value to the wheres
-     * property array.
+     * Adds the inserted field, operator and value
+     * to the wheres property array.
      *
      * @param string $field
      * @param string $operator
@@ -208,11 +298,66 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Adds the inserted field, operator and value
+     * to the orWheres property array.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param null $value
+     * @throws AdldapException
+     */
+    private function addOrWhere($field, $operator, $value = null)
+    {
+        $this->orWheres[] = array(
+            'field' => $field,
+            'operator' => $this->getOperator($operator),
+            'value' => $this->connection->escape($value),
+        );
+    }
+
+    /**
+     * Sets the query property.
+     *
+     * @param string $query
+     */
+    private function setQuery($query)
+    {
+        $this->query = $query;
+    }
+
+    /**
+     * Adds the specified query onto the current query.
+     *
+     * @param string $query
+     */
+    private function addToQuery($query)
+    {
+        $this->query .= $query;
+    }
+
+    /**
      * Returns an assembled query using the current object parameters.
      *
      * @return string
      */
     private function assembleQuery()
+    {
+        $this->assembleWheres();
+
+        $this->assembleOrWheres();
+
+        /*
+         * Make sure we wrap the query in an 'and'
+         * if using multiple wheres or if we have any
+         * orWheres. For example (&(cn=John*)(|(description=User*)))
+         */
+        if(count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0)
+        {
+            $this->setQuery($this->queryAnd($this->getQuery()));
+        }
+    }
+
+    private function assembleWheres()
     {
         if(count($this->wheres) > 0)
         {
@@ -221,21 +366,46 @@ class AdldapSearch extends AdldapBase
                 switch($where['operator'])
                 {
                     case '=':
-                        $this->query .= $this->queryEquals($where['field'], $where['value']);
+                        $this->addToQuery($this->queryEquals($where['field'], $where['value']));
                         break;
                     case '!':
-                        $this->query .= $this->queryDoesNotEqual($where['field'], $where['value']);
+                        $this->addToQuery($this->queryDoesNotEqual($where['field'], $where['value']));
                         break;
                     case '*':
-                        $this->query .= $this->queryWildcard($where['field']);
+                        $this->addToQuery($this->queryWildcard($where['field']));
+                        break;
+                }
+            }
+        }
+    }
+
+    private function assembleOrWheres()
+    {
+        if(count($this->orWheres) > 0)
+        {
+            $ors = '';
+
+            foreach($this->orWheres as $where)
+            {
+                switch($where['operator'])
+                {
+                    case '=':
+                        $ors .= $this->queryEquals($where['field'], $where['value']);
+                        break;
+                    case '!':
+                        $ors .= $this->queryDoesNotEqual($where['field'], $where['value']);
+                        break;
+                    case '*':
+                        $ors .= $this->queryWildcard($where['field']);
                         break;
                 }
             }
 
-            if(count($this->wheres) > 1)
-            {
-                $this->query = $this->queryAnd($this->query);
-            }
+            /*
+             * Make sure we wrap the query in an 'and'
+             * if using multiple wheres. For example (&QUERY)
+             */
+            if(count($this->orWheres) > 0) $this->addToQuery($this->queryOr($ors));
         }
     }
 
@@ -277,12 +447,23 @@ class AdldapSearch extends AdldapBase
     /**
      * Wraps the inserted query inside an AND operator.
      *
-     * @param $query
+     * @param string $query
      * @return string
      */
     private function queryAnd($query)
     {
         return $this::$openQuery . '&' . $query . $this::$closeQuery;
+    }
+
+    /**
+     * Wraps the inserted query inside an OR operator.
+     *
+     * @param string $query
+     * @return string
+     */
+    private function queryOr($query)
+    {
+        return $this::$openQuery . '|' . $query . $this::$closeQuery;
     }
 
     /**
@@ -325,6 +506,30 @@ class AdldapSearch extends AdldapBase
 
             $objects[] = $entry->getAttributes();
         }
+
+        if(! empty($this->sortByField)) return $this->processSortBy($objects);
+
+        return $objects;
+    }
+
+    /**
+     * Processes the array of specified object results
+     * and sorts them by the field and direction search
+     * property.
+     *
+     * @param $objects
+     * @param array
+     */
+    private function processSortBy($objects)
+    {
+        $sort_col = array();
+
+        foreach ($objects as $key => $row)
+        {
+            $sort_col[$key] = $row[$this->sortByField];
+        }
+
+        array_multisort($sort_col, $dir, $arr);
 
         return $objects;
     }

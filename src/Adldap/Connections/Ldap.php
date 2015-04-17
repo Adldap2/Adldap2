@@ -561,6 +561,18 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Returns an escaped string for use in an LDAP filter.
+     *
+     * @param string $value
+     * @param string$ignore
+     * @return string
+     */
+    public function escape($value, $ignore)
+    {
+        return ldap_escape($value, $ignore);
+    }
+
+    /**
      * Closes the current LDAP connection if
      * it exists.
      *

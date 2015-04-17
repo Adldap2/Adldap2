@@ -28,6 +28,8 @@ class AdldapSearch extends AdldapBase
         '*', // Wildcard, All
         '!', // Does not equal
         '=', // Does equal
+        '>=', // Greater than or equal to
+        '<=', // Less than or equal to
         '&' // And
     );
 

@@ -51,7 +51,8 @@ function performs differently than it would on a database. For example:
     $results = $ad->search()->where('cn', '=', 'John Doe')->orWhere('cn' '=', 'Suzy Doe')->get();
     
 This query would return no results, because we're already defining that the common name (`cn`) must equal `John Doe`. Applying
-the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'.
+the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'. This query would
+actually amount to 'Look for an object with the common name that equals "John Doe" OR "Suzy Doe"
 
 To solve the above problem, we would use `orWhere()` for both fields. For example:
 
@@ -60,6 +61,21 @@ To solve the above problem, we would use `orWhere()` for both fields. For exampl
 Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
 
 #### Select
+
+#### Query
+
+To perform a raw LDAP query yourself, use the `query()` method:
+
+    $results = $ad->search()->query('(cn=John Doe)');
+    
+However, keep in mind the inserted query is not escaped. If you need to escape your values before the query, be sure
+to do so using:
+
+    $escapedValue = $ad->getLdapConnection()->escape($value);
+    
+Then you can perform the above query like so:
+
+    $results = $ad->search()->query("(cn=$escapedValue)");
 
 #### Get Query
 

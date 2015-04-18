@@ -64,6 +64,12 @@ class LdapEntry extends AbstractObject
             $this->setAttribute('samaccountname', $attributes['samaccountname'][0]);
         }
 
+        // Does the entry contain
+        if(array_key_exists('mail', $attributes))
+        {
+            $this->setAttribute('mail', $attributes['mail'][0]);
+        }
+
         // Does the entry contain an object category?
         if(array_key_exists('objectcategory', $attributes))
         {

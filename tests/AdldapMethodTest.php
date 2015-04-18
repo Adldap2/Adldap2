@@ -322,7 +322,7 @@ class AdldapMethodTest extends FunctionalTestCase
         );
 
         $connection
-            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('escape')->once()->andReturn()
             ->shouldReceive('search')->once()->andReturn('resource')
             ->shouldReceive('getEntries')->once()->andReturn($returnedLdapEntries)
             ->shouldReceive('explodeDn')->times(3)->andReturnValues($explodedDnsToReturn)
@@ -370,7 +370,7 @@ class AdldapMethodTest extends FunctionalTestCase
             ),
         );
 
-        $actualResults = $ad->search();
+        $actualResults = $ad->search()->all();
 
         $this->assertEquals($expectedResults, $actualResults);
     }

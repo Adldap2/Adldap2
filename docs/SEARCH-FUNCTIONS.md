@@ -14,9 +14,9 @@ To retrieve all entries in your AD, use the all function:
 
     $results = $ad->search()->all();
     
-This will retrieve all entries from LDAP. However, be careful. AD has a limit of 1000 records per query, if your AD has
-more records than this, you will only see the 1000 records AD has retrieved. LDAP will throw the following warning if
-this occurs:
+This will retrieve all entries from LDAP. However, be careful. AD has a limit of 1000 records per query (depending on your AD 
+server configuration of course), if your AD has more records than this, you will only see the 1000 records AD has 
+retrieved. LDAP will throw the following warning if this occurs:
 
     Warning: ldap_search(): Partial search results returned: Sizelimit exceeded
    

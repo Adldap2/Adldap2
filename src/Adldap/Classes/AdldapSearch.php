@@ -41,6 +41,7 @@ class AdldapSearch extends AdldapBase
     protected $fields = array(
         'anr',
         'cn',
+        'mail',
         'description',
         'displayname',
         'distinguishedname',
@@ -105,6 +106,21 @@ class AdldapSearch extends AdldapBase
     protected static $closeQuery = ')';
 
     /**
+     * Performs the specified query on the current LDAP connection.
+     *
+     * @param string $query
+     * @return mixed
+     */
+    public function query($query)
+    {
+        $results = $this->connection->search($this->adldap->getBaseDn(), $query, $this->getSelects());
+
+        if($results) return $this->processResults($results);
+
+        return false;
+    }
+
+    /**
      * Performs a global 'all' search query on the
      * current connection.
      *
@@ -124,11 +140,7 @@ class AdldapSearch extends AdldapBase
      */
     public function get()
     {
-        $results = $this->connection->search($this->adldap->getBaseDn(), $this->getQuery(), $this->getSelects());
-
-        if($results) return $this->processResults($results);
-
-        return false;
+        return $this->query($this->getQuery(), $this->getSelects());
     }
 
     /**

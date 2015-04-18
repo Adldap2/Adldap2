@@ -30,7 +30,7 @@ Adldap2 is a PHP class library that provides LDAP authentication and Active Dire
 
 ## Requirements
 
-To use adLDAP2, your sever must support:
+To use Adldap2, your sever must support:
 
 - PHP 5.3 or greater
 - PHP SSL Libraries (http://php.net/openssl)

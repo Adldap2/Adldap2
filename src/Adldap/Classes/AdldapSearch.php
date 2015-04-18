@@ -371,6 +371,11 @@ class AdldapSearch extends AdldapBase
         }
     }
 
+    /**
+     * Assembles all where clauses in the current wheres property.
+     *
+     * @return void
+     */
     private function assembleWheres()
     {
         if(count($this->wheres) > 0)
@@ -393,6 +398,11 @@ class AdldapSearch extends AdldapBase
         }
     }
 
+    /**
+     * Assembles all or where clauses in the current orWheres property.
+     *
+     * @return void
+     */
     private function assembleOrWheres()
     {
         if(count($this->orWheres) > 0)

@@ -71,13 +71,17 @@ To perform a raw LDAP query yourself, use the `query()` method:
 However, keep in mind the inserted query is not escaped. If you need to escape your values before the query, be sure
 to do so using:
 
-    $escapedValue = $ad->getLdapConnection()->escape($value);
+    $escapedValue = $ad->getLdapConnection()->escape('John Doe');
     
 Then you can perform the above query like so:
 
     $results = $ad->search()->query("(cn=$escapedValue)");
 
 #### Get Query
+
+If you'd like to retrieve the current query to save or run it at another time, use the `getQuery()` method:
+
+    $query = $ad->search()->where('cn', '=', 'John Doe')->getQuery();
 
 #### Get Wheres
 

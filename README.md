@@ -8,7 +8,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 [![License](https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 
-Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
+> Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
 ## Description
 

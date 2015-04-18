@@ -48,7 +48,10 @@ Or we can retrieve all objects that contain a common name:
 To perform an 'or where' clause on the search object, use the `orWhere()` function. However, please be aware this
 function performs differently than it would on a database. For example:
 
-    $results = $ad->search()->where('cn', '=', 'John Doe')->orWhere('cn' '=', 'Suzy Doe')->get();
+    $results = $ad->search()
+            ->where('cn', '=', 'John Doe')
+            ->orWhere('cn' '=', 'Suzy Doe')
+            ->get();
     
 This query would return no results, because we're already defining that the common name (`cn`) must equal `John Doe`. Applying
 the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'. This query would
@@ -56,9 +59,14 @@ actually amount to 'Look for an object with the common name that equals "John Do
 
 To solve the above problem, we would use `orWhere()` for both fields. For example:
 
-    $results = $ad->search()->orWhere('cn', '=', 'John Doe')->orWhere('cn' '=', 'Suzy Doe')->get();
+    $results = $ad->search()
+            ->orWhere('cn', '=', 'John Doe')
+            ->orWhere('cn' '=', 'Suzy Doe')
+            ->get();
     
 Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
+
+For another example, what if we wanted to retrieve 
 
 #### Select
 

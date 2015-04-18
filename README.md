@@ -12,7 +12,7 @@
 
 ## Description
 
-Adldap2 is a PHP class library that provides LDAP authentication and Active Directory management tools.
+Adldap2 is a tested PHP class library that provides LDAP authentication and Active Directory management tools.
 
 ## Index
 

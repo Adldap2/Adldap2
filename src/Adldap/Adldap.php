@@ -2,6 +2,7 @@
 
 namespace Adldap;
 
+use Adldap\Classes\AdldapSearch;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Interfaces\ConnectionInterface;
 use Adldap\Classes\AdldapUtils;
@@ -808,38 +809,13 @@ class Adldap
     }
 
     /**
-     * Return a list of all found objects (including computers) in AD
+     * Returns a new Adldap Search object.
      *
-     * @param string $search Search parameter
-     * @param array $fields Specific fields you'd like to query
-     * @return array|bool
+     * @return AdldapSearch
      */
-    public function search($search = "*", array $fields = array())
+    public function search()
     {
-        $this->utilities()->validateLdapIsBound();
-
-        $filter = "(anr=" . $search . ")";
-
-        // Get the default query fields if none are present
-        if(count($fields) === 0) $fields = $this->defaultQueryFields;
-
-        // Search LDAP
-        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, $fields);
-
-        // Retrieve the entries from the resource
-        $entries = $this->ldapConnection->getEntries($results);
-
-        $objects = array();
-
-        // Lets go through each entry and start assembling the array
-        for ($i = 0; $i < $entries["count"]; $i++)
-        {
-            $entry = new LdapEntry($entries[$i], $this->getLdapConnection());
-
-            $objects[] = $entry->getAttributes();
-        }
-
-        return $objects;
+        return new AdldapSearch($this);
     }
 
     /**
@@ -1013,7 +989,18 @@ class Adldap
      */
     private function bindUsingCredentials($username, $password)
     {
-        $bindings = $this->ldapConnection->bind($username . $this->getAccountSuffix(), $password);
+        // Allow binding with null credentials
+        if(empty($username))
+        {
+            $username = NULL;
+        } else
+        {
+            $username .= $this->getAccountSuffix();
+        }
+
+        if(empty($password)) $password = NULL;
+
+        $bindings = $this->ldapConnection->bind($username, $password);
 
         if ( ! $bindings)
         {

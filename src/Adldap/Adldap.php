@@ -825,9 +825,12 @@ class Adldap
         // Bind as the user
         $ret = true;
 
-        $bound = $this->bindUsingCredentials($username, $password);
-
-        if ( ! $bound) $ret = false;
+        try {
+            $bound = $this->bindUsingCredentials($username, $password);
+        }
+        catch (AdldapException $e) {
+            $ret = false;
+        }
 
         if($preventRebind)
         {
@@ -837,7 +840,7 @@ class Adldap
             $adminUsername = $this->getAdminUsername();
             $adminPassword = $this->getAdminPassword();
 
-            if($adminUsername && $adminPassword)
+            if($adminUsername !== NULL && $adminPassword !== NULL)
             {
                 $bound = $this->bindUsingCredentials($adminUsername, $adminPassword);
 

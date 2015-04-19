@@ -77,6 +77,13 @@ class Adldap
     protected $baseDn = "DC=mydomain,DC=local";
 
     /**
+     * The user login identifier key used in the AD schema
+     * 
+     * @var string
+     */
+    protected $userIdKey = "sAMAccountname";
+
+    /**
      * Port used to talk to the domain controllers.
      *
      * @var string
@@ -237,6 +244,11 @@ class Adldap
                     $this->setPort($configuration->{'ad_port'});
                 }
 
+                if($configuration->hasAttribute('user_id_key'))
+                {
+                    $this->setUserIdKey($configuration->{'user_id_key'});
+                }
+
                 $sso = $configuration->{'sso'};
 
                 /*
@@ -341,6 +353,28 @@ class Adldap
     public function getAccountSuffix()
     {
         return $this->accountSuffix;
+    }
+
+    /**
+    * Set the user id key
+    * 
+    * @param string $userIdKey
+    * @return void
+    */
+    public function setUserIdKey($userIdKey)
+    {
+          $this->userIdKey = $userIdKey;
+
+    }
+
+    /**
+    * Get the user id key
+    * 
+    * @return string
+    */
+    public function getUserIdKey()
+    {
+          return $this->userIdKey;
     }
 
     /**

@@ -214,35 +214,23 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
+        $search = $this->adldap->search()->where('objectCategory', '=', 'person');
+
         // Make sure we assign the default fields if none are given
         if (count($fields) === 0) $fields = $this->defaultQueryFields;
 
         if ($isGUID === true)
         {
-            $username = $this->adldap->utilities()->strGuidToHex($username);
-
-            $filter = "objectguid=" . $username;
+            $search->where('objectguid', '=', $username);
         } else if (strpos($username, "@"))
         {
-             $filter = "userPrincipalName=" . $username;
+            $search->where('userPrincipalName', '=', $username);
         } else
         {
-             $filter = $this->adldap->getUserIdKey() . "=" . $username;
+            $search->where($this->adldap->getUserIdKey(), '=', $username);
         }
 
-        $filter = "(&(objectCategory=person)({$filter}))";
-
-        if ( ! in_array("objectsid", $fields))
-        {
-            $fields[] = "objectsid";
-        }
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        // Parse the user entry information and return it
-        return $this->parseInfoEntries($entries, $fields);
+        return $search->get();
     }
 
     /**

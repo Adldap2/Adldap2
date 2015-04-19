@@ -732,6 +732,16 @@ class Adldap
     }
 
     /**
+     * Returns a new Adldap Search object.
+     *
+     * @return AdldapSearch
+     */
+    public function search()
+    {
+        return new AdldapSearch($this);
+    }
+
+    /**
      * Connects and Binds to the Domain Controller
      *
      * @return bool
@@ -840,16 +850,6 @@ class Adldap
         }
 
         return $ret;
-    }
-
-    /**
-     * Returns a new Adldap Search object.
-     *
-     * @return AdldapSearch
-     */
-    public function search()
-    {
-        return new AdldapSearch($this);
     }
 
     /**
@@ -981,7 +981,7 @@ class Adldap
     }
 
     /**
-     * Select a random domain controller from your domain controller array
+     * Select a random domain controller from your domain controller array.
      *
      * @return string
      */

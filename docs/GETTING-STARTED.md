@@ -9,6 +9,7 @@ This can be done like so:
     use Adldap\Adldap;
 
     $configuration = array(
+        'user_id_key' => 'samaccountname',
         'account_suffix' => '@domain.local',
         'base_dn' => 'DC=domain,DC=local',
         'domain_controllers' => array('DC1.domain.local', 'DC2.domain.local'),

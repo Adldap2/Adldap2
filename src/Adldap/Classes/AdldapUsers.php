@@ -69,7 +69,7 @@ class AdldapUsers extends AdldapBase
         
         // Additional stuff only used for adding accounts
         $add["cn"][0] = $user->getAttribute("display_name");
-        $add["samaccountname"][0] = $user->getAttribute("username");
+        $add[$this->adldap->getUserIdKey()][0] = $user->getAttribute("username");
         $add["objectclass"][0] = "top";
         $add["objectclass"][1] = "person";
         $add["objectclass"][2] = "organizationalPerson";
@@ -227,7 +227,7 @@ class AdldapUsers extends AdldapBase
              $filter = "userPrincipalName=" . $username;
         } else
         {
-             $filter = "samaccountname=" . $username;
+             $filter = $this->adldap->getUserIdKey() . "=" . $username;
         }
 
         $filter = "(&(objectCategory=person)({$filter}))";
@@ -561,9 +561,11 @@ class AdldapUsers extends AdldapBase
         $this->adldap->utilities()->validateLdapIsBound();
         
         // Perform the search and grab all their details
+        $userIdKey = $this->adldap->getUserIdKey();
+
         $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)(cn=" . $search . "))";
 
-        $fields = array("samaccountname","displayname");
+        $fields = array("{$userIdKey}","displayname");
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
@@ -575,13 +577,13 @@ class AdldapUsers extends AdldapBase
         {
             if ($includeDescription && strlen($entries[$i]["displayname"][0])>0)
             {
-                $usersArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["displayname"][0];
+                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["displayname"][0];
             } elseif ($includeDescription)
             {
-                $usersArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["samaccountname"][0];
+                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["{$userIdKey}"][0];
             } else
             {
-                array_push($usersArray, $entries[$i]["samaccountname"][0]);
+                array_push($usersArray, $entries[$i]["{$userIdKey}"][0]);
             }
         }
 
@@ -602,7 +604,7 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
         
-        $filter = "samaccountname=" . $username;
+        $filter = $this->adldap->getUserIdKey() . "=" . $username;
 
         $fields = array("objectGUID");
 
@@ -647,9 +649,11 @@ class AdldapUsers extends AdldapBase
             }
         }
 
+        $userIdKey = $this->adldap->getUserIdKey();
+
         $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)" . $searchParams . ")";
 
-        $fields = array("samaccountname","displayname");
+        $fields = array("{$userIdKey}","displayname");
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
@@ -661,15 +665,15 @@ class AdldapUsers extends AdldapBase
         {
             if ($includeDescription && strlen($entries[$i]["displayname"][0]) > 0)
             {
-                $usersArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["displayname"][0];
+                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["displayname"][0];
             }
             else if ($includeDescription)
             {
-                $usersArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["samaccountname"][0];
+                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["{$userIdKey}"][0];
             }
             else
             {
-                array_push($usersArray, $entries[$i]["samaccountname"][0]);
+                array_push($usersArray, $entries[$i]["{$userIdKey}"][0]);
             }
         }
 

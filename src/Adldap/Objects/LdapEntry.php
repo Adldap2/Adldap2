@@ -117,6 +117,7 @@ class LdapEntry extends AbstractObject
             $this->setAttribute('samaccountname', $attributes['samaccountname'][0]);
         }
 
+        // Check for another logon name attribute
         if(array_key_exists('userPrincipalName', $attributes))
         {
             $this->setAttribute('userPrincipalName', $attributes['userPrincipalName'][0]);

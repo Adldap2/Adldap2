@@ -123,15 +123,19 @@ class LdapEntry extends AbstractObject
             $this->setAttribute('userPrincipalName', $attributes['userPrincipalName'][0]);
         }
 
-        if(array_key_exists('initials', $attributes))
+        if(array_key_exists('employeeID', $attributes))
         {
-            $this->setAttribute('initials', $attributes['initials'][0]);
+            $this->setAttribute('employeeID', $attributes['employeeID'][0]);
         }
 
-        // Does the entry contain
         if(array_key_exists('mail', $attributes))
         {
             $this->setAttribute('mail', $attributes['mail'][0]);
+        }
+
+        if(array_key_exists('initials', $attributes))
+        {
+            $this->setAttribute('initials', $attributes['initials'][0]);
         }
 
         if(array_key_exists('company', $attributes))

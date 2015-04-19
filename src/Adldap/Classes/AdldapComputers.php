@@ -43,16 +43,12 @@ class AdldapComputers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        // Make sure we assign the default fields if none are given
-        if (count($fields) === 0) $fields = $this->defaultQueryAttributes;
-
-        $filter = "(&(objectClass=computer)(cn=" . $computerName . "))";
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
+        $results = $this->adldap->search()
+            ->where('objectclass', '=', 'computer')
+            ->where('cn', '=', $computerName)
+            ->get();
         
-        return $entries;
+        return $results;
     }
 
     /**

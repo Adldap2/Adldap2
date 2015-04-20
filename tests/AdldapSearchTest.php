@@ -99,6 +99,36 @@ class AdldapSearchTest extends AdldapBaseTest
         $this->assertEquals($selects, $search->getSelects());
     }
 
+    public function testSearchGetSelectsDefault()
+    {
+        $connection = $this->newConnectionMock();
+
+        $ad = $this->newAdldap($connection);
+
+        $search = new AdldapSearch($ad);
+
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $defaultSelects = array(
+            'anr',
+            'cn',
+            'mail',
+            'description',
+            'displayname',
+            'distinguishedname',
+            'samaccountname',
+            "objectcategory",
+            "objectclass",
+            "operatingsystem",
+            "operatingsystemservicepack",
+            "operatingsystemversion",
+            "msExchUserAccountControl",
+            "msExchMasterAccountSID",
+        );
+
+        $this->assertEquals($defaultSelects, $search->getSelects());
+    }
+
     public function testSearchHasSelects()
     {
         $connection = $this->newConnectionMock();
@@ -178,6 +208,22 @@ class AdldapSearchTest extends AdldapBaseTest
         $searchResults = $search->where('cn', '=', 'John Doe')->get();
 
         $this->assertEquals($expected, $searchResults);
+    }
+
+    public function testSearchQuery()
+    {
+        $connection = $this->newConnectionMock();
+
+        $ad = $this->newAdldap($connection);
+
+        $search = new AdldapSearch($ad);
+
+        $connection
+            ->shouldReceive('search')->once()->andReturn('resource')
+            ->shouldReceive('getEntries')->once()->andReturn(array())
+            ->shouldReceive('close')->once()->andReturn(true);
+
+        $this->assertEquals(array(), $search->query('(cn=test)'));
     }
 
     public function testSearchWhereInvalidOperator()

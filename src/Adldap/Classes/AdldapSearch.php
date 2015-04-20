@@ -120,6 +120,16 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Performs the current query on the current LDAP connection.
+     *
+     * @return array|bool
+     */
+    public function get()
+    {
+        return $this->query($this->getQuery(), $this->getSelects());
+    }
+
+    /**
      * Performs a global 'all' search query on the
      * current connection.
      *
@@ -130,16 +140,6 @@ class AdldapSearch extends AdldapBase
         $this->where('objectClass', '*');
 
         return $this->get();
-    }
-
-    /**
-     * Performs the current query on the current LDAP connection.
-     *
-     * @return array|bool
-     */
-    public function get()
-    {
-        return $this->query($this->getQuery(), $this->getSelects());
     }
 
     /**

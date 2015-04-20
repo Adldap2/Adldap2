@@ -84,6 +84,13 @@ class Adldap
     protected $userIdKey = "sAMAccountname";
 
     /**
+     * The attribute (index 0) and value (index 1) used to identify a person in the AD schema
+     * 
+     * @var array
+     */
+    protected $personFilter = array("category" => "objectCategory", "person" => "person");
+
+    /**
      * Port used to talk to the domain controllers.
      *
      * @var string
@@ -249,6 +256,11 @@ class Adldap
                     $this->setUserIdKey($configuration->{'user_id_key'});
                 }
 
+                if($configuration->hasAttribute('person_filter'))
+                {
+                    $this->setPersonFilter($configuration->{'person_filter'});
+                }
+
                 $sso = $configuration->{'sso'};
 
                 /*
@@ -375,6 +387,35 @@ class Adldap
     public function getUserIdKey()
     {
           return $this->userIdKey;
+    }
+
+    /**
+     * Sets the person search filter
+     * 
+     * @param array $personKey
+     */
+    public function setPersonFilter($personFilter)
+    {
+        $this->personFilter = $personFilter;
+    }
+
+    /**
+     * Get the person search filter.
+     * An optional parameter may be used to specify the desired part.
+     * Without a parameter, returns an imploded string of the form "category=person".
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getPersonFilter($key = null)
+    {
+        if ($key == 'category') {
+            return $this->personFilter['category'];
+        }
+        if ($key == 'person') {
+            return $this->personFilter['person'];
+        }
+        return implode('=', $this->personFilter);
     }
 
     /**

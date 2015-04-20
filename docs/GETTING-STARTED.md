@@ -11,6 +11,7 @@ This can be done like so:
     $configuration = array(
         'user_id_key' => 'samaccountname',
         'account_suffix' => '@domain.local',
+        'person_filter' => array('category' => 'objectCategory', 'person' => 'person'),
         'base_dn' => 'DC=domain,DC=local',
         'domain_controllers' => array('DC1.domain.local', 'DC2.domain.local'),
         'admin_username' => 'administrator',

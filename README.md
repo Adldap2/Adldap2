@@ -19,6 +19,7 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
 > **Note:** Documentation is incomplete as Adldap is currently in the upgrade process to version `5.0.0`. They will be fully featured and complete in the coming weeks.
 
 - [Installation](#installation)
+- [Testing With A Public AD Server](#need-to-test-an-ldap-connection)
 - [Upgrading to v5 from v4](docs/UPGRADING.md)
 - [Getting Started](docs/GETTING-STARTED.md)
 - Usage 

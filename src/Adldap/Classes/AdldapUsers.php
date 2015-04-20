@@ -214,10 +214,13 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
+        $personCategory = $this->adldap->getPersonFilter('category');
+        $person = $this->adldap->getPersonFilter('person');
+
         $search = $this->adldap
             ->search()
             ->select($fields)
-            ->where('objectCategory', '=', 'person');
+            ->where($personCategory, '=', $person);
 
         // Make sure we assign the default fields if none are given
         if (count($fields) === 0) $fields = $this->defaultQueryFields;
@@ -553,8 +556,9 @@ class AdldapUsers extends AdldapBase
         
         // Perform the search and grab all their details
         $userIdKey = $this->adldap->getUserIdKey();
+        $personFilter = $this->adldap->getPersonFilter();
 
-        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)(cn=" . $search . "))";
+        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")({$personFilter})(cn=" . $search . "))";
 
         $fields = array("{$userIdKey}","displayname");
 
@@ -641,8 +645,9 @@ class AdldapUsers extends AdldapBase
         }
 
         $userIdKey = $this->adldap->getUserIdKey();
+        $personFilter = $this->adldap->getPersonFilter();
 
-        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")(objectCategory=person)" . $searchParams . ")";
+        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")({$personFilter})" . $searchParams . ")";
 
         $fields = array("{$userIdKey}","displayname");
 

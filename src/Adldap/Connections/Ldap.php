@@ -656,7 +656,7 @@ class Ldap implements ConnectionInterface
             $charMap += $charMaps[LDAP_ESCAPE_DN];
         }
 
-        if ( ! $charMap) $charMap = $charMaps[0];
+        if ( ! empty($charMap)) $charMap = $charMaps[0];
 
         // Remove any chars to ignore from the list
         $ignore = (string)$ignore;

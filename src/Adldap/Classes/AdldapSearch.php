@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Adldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\LdapEntry;
 

@@ -41,13 +41,11 @@ class AdldapComputers extends AdldapBase
     {
         $this->adldap->utilities()->validateNotNull('Computer Name', $computerName);
 
-        $results = $this->adldap->search()
+        return $this->adldap->search()
             ->select($fields)
             ->where('objectClass', '=', 'computer')
             ->where('cn', '=', $computerName)
             ->first();
-        
-        return $results;
     }
 
     /**

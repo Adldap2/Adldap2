@@ -43,12 +43,12 @@ Or we can retrieve all objects that contain a common name attribute using the wi
 
     $results = $ad->search()->where('cn', '*')->get();
     
-It's also good to know that all values (except the asterisk `*`) inserted into a where, or an orWhere method,
+It's also good to know that all values (except an asterisk `*`) inserted into a where, or an orWhere method,
 <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
 
-    $query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();
+    $query = $ad->search()->where('cn', '=', 'test//un-escaping//*')->getQuery();
     
-    // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f)'
+    // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f*)'
 
 #### Or Where
 

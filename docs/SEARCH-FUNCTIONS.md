@@ -139,3 +139,39 @@ If you'd like to retrieve the current or wheres on the search object, call the `
 To retrieve the current selected fields in on the search object, use the `getSelects()` method:
 
     $selects = $ad->search()->select(array('cn', 'dn'))->getSelects();
+    
+    var_dump($selects);
+    
+#### Has Selects
+
+If you need to know if the search object currently contains selected fields, use the `hasSelects()` function:
+
+    echo $ad->search()->select('cn')->hasSelects(); // Returns true
+    
+### Examples
+
+#### User Examples
+
+Retrieving all users who <b>do not</b> have the common name of 'John':
+
+    $results = $ad->search()
+            ->where('objectClass', '=', $ad->getUserIdKey())
+            ->where('cn', '!', 'John')
+            ->get();
+    
+Retrieving all users who do not have the common name of 'John' or 'Suzy':
+
+    $results = $ad->search()
+                ->where('objectClass', '=', $ad->getUserIdKey())
+                ->orWhere('cn', '!', 'John')
+                ->orWhere('cn', '!', 'Suzy')
+                ->get();
+           
+Retrieving all users who have a mail account:
+
+    $results = $ad->search()
+                    ->where('objectClass', '=', $ad->getUserIdKey())
+                    ->where('mail', '*')
+                    ->get();
+                    
+#### Computer Examples

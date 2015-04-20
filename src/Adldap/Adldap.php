@@ -2,9 +2,9 @@
 
 namespace Adldap;
 
-use Adldap\Classes\AdldapSearch;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Interfaces\ConnectionInterface;
+use Adldap\Classes\AdldapSearch;
 use Adldap\Classes\AdldapUtils;
 use Adldap\Classes\AdldapFolders;
 use Adldap\Classes\AdldapExchange;
@@ -13,7 +13,6 @@ use Adldap\Classes\AdldapContacts;
 use Adldap\Classes\AdldapUsers;
 use Adldap\Classes\AdldapGroups;
 use Adldap\Objects\Configuration;
-use Adldap\Objects\LdapEntry;
 use Adldap\Objects\LdapSchema;
 use Adldap\Objects\Schema;
 

@@ -39,4 +39,14 @@ class AdldapBase
 
         if($connection) $this->connection = $connection;
     }
+
+    /**
+     * Returns the current Adldap instance.
+     *
+     * @return Adldap
+     */
+    public function getAdldap()
+    {
+        return $this->adldap;
+    }
 }

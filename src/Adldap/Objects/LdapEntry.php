@@ -70,9 +70,9 @@ class LdapEntry extends AbstractObject
         }
 
         // Does the entry contain a distinguished name?
-        if(array_key_exists('distinguishedname', $attributes))
+        if(array_key_exists('dn', $attributes) || array_key_exists('distinguishedname', $attributes))
         {
-            $dn = $attributes['distinguishedname'][0];
+            $dn = (array_key_exists('dn', $attributes)) ? $attributes['dn'] : $attributes['distinguishedname'][0];
 
             // We'll assign the string distinguished name
             $this->setAttribute('dn', $dn);

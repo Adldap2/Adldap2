@@ -214,7 +214,10 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        $search = $this->adldap->search()->where('objectCategory', '=', 'person');
+        $search = $this->adldap
+            ->search()
+            ->select($fields)
+            ->where('objectCategory', '=', 'person');
 
         // Make sure we assign the default fields if none are given
         if (count($fields) === 0) $fields = $this->defaultQueryFields;

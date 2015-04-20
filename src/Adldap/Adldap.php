@@ -219,7 +219,10 @@ class Adldap
 
         $this->setLdapConnection($connection);
 
-        // If we dev wants to connect automatically, we'll construct the
+        /*
+         * If we dev wants to connect automatically, we'll create the
+         * configuration object and set the the Adldap properties.
+         */
         if($autoConnect)
         {
             $configuration = new Configuration($options);
@@ -866,13 +869,15 @@ class Adldap
         // Bind as the user
         $ret = true;
 
-        try {
-            $bound = $this->bindUsingCredentials($username, $password);
+        try
+        {
+            $this->bindUsingCredentials($username, $password);
         }
-        catch (AdldapException $e) {
+        catch (AdldapException $e)
+        {
             $ret = false;
         }
-
+        
         if($preventRebind)
         {
             return $ret;

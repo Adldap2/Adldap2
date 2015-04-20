@@ -86,10 +86,13 @@ class AdldapSearch extends AdldapBase
      * Performs the specified query on the current LDAP connection.
      *
      * @param string $query
-     * @return mixed
+     * @return bool|array
      */
     public function query($query)
     {
+        // If the query is empty, we'll return false
+        if($query === null || empty($query)) return false;
+
         $results = $this->connection->search($this->adldap->getBaseDn(), $query, $this->getSelects());
 
         if ($results) return $this->processResults($results);

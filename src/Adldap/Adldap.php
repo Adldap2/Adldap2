@@ -394,8 +394,8 @@ class Adldap
 
     /**
      * Sets the person search filter
-     * 
-     * @param array $personKey
+     *
+     * @param array $personFilter
      */
     public function setPersonFilter($personFilter)
     {
@@ -412,12 +412,10 @@ class Adldap
      */
     public function getPersonFilter($key = null)
     {
-        if ($key == 'category') {
-            return $this->personFilter['category'];
-        }
-        if ($key == 'person') {
-            return $this->personFilter['person'];
-        }
+        if ($key == 'category') return $this->personFilter['category'];
+
+        if ($key == 'person') return $this->personFilter['person'];
+
         return implode('=', $this->personFilter);
     }
 
@@ -877,7 +875,7 @@ class Adldap
         {
             $ret = false;
         }
-        
+
         if($preventRebind)
         {
             return $ret;

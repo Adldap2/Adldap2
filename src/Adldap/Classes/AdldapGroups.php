@@ -556,52 +556,29 @@ class AdldapGroups extends AdldapBase
      * Returns a complete list of the groups in AD based on a SAM Account Type
      *
      * @param int $sAMAaccountType The account type to return
-     * @param bool $includeDescription Whether to return a description
-     * @param string $search Search parameters
+     * @param array $select The fields you want to retrieve for each
      * @param bool $sorted Whether to sort the results
      * @return array|bool
      */
-    public function search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $includeDescription = false, $search = "*", $sorted = true)
+    public function search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = array(), $sorted = true)
     {
         $this->adldap->utilities()->validateLdapIsBound();
 
-        $filter = '(&(objectCategory=group)';
+        $search = $this->adldap->search()
+            ->select($select)
+            ->where('objectCategory', '=', 'group');
 
         if ($sAMAaccountType !== null)
         {
-            $filter .= '(samaccounttype='. $sAMAaccountType .')';
+            $search->where('samaccounttype', '=', $sAMAaccountType);
         }
 
-        $filter .= '(cn=' . $search . '))';
-
-        // Perform the search and grab all their details
-        $fields = array("samaccountname", "description");
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        $groupsArray = array();
-
-        for ($i = 0; $i < $entries["count"]; $i++)
+        if($sorted)
         {
-            if ($includeDescription && ! empty($entries[$i]["description"][0]))
-            {
-                $groupsArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["description"][0];
-            }
-            else if ($includeDescription)
-            {
-                $groupsArray[$entries[$i]["samaccountname"][0]] = $entries[$i]["samaccountname"][0];
-            }
-            else
-            {
-                array_push($groupsArray, $entries[$i]["samaccountname"][0]);
-            }
+            $search->sortBy('samaccountname', 'asc');
         }
 
-        if ($sorted) asort($groupsArray);
-
-        return $groupsArray;
+        return $search->get();
     }
 
     /**

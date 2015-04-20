@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Exceptions\AdldapException;
 use Exception;
 use Adldap\Interfaces\ConnectionInterface;
 
@@ -105,6 +106,19 @@ class Ldap implements ConnectionInterface
     public function isSaslSupported()
     {
         if ( ! function_exists('ldap_sasl_bind')) return false;
+
+        return true;
+    }
+
+    /**
+     * Returns true / false if the current
+     * PHP install supports LDAP paging.
+     *
+     * @return bool
+     */
+    public function isPagingSupported()
+    {
+        if ( ! function_exists('ldap_control_paged_result')) return false;
 
         return true;
     }
@@ -527,6 +541,56 @@ class Ldap implements ConnectionInterface
         if($this->suppressErrors) return @ldap_mod_del($this->getConnection(), $dn, $entry);
 
         return ldap_mod_del($this->getConnection(), $dn, $entry);
+    }
+
+    /**
+     * Send LDAP pagination control.
+     *
+     * @param int $pageSize
+     * @param bool $isCritical
+     * @param string $cookie
+     * @return bool
+     * @throws AdldapException
+     */
+    public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
+    {
+        if($this->isPagingSupported())
+        {
+            if($this->suppressErrors)
+            {
+                return @ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
+            }
+
+            return ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
+        }
+
+        $message = 'LDAP Pagination is not supported on your current PHP installation.';
+
+        throw new AdldapException($message);
+    }
+
+    /**
+     * Retrieve a paginated result response.
+     *
+     * @param resource $result
+     * @return bool
+     * @throws AdldapException
+     */
+    public function controlPagedResultResponse($result)
+    {
+        if($this->isPagingSupported())
+        {
+            if ($this->suppressErrors)
+            {
+                return @ldap_control_paged_result_response($this->getConnection(), $result);
+            }
+
+            return ldap_control_paged_result_response($this->getConnection(), $result);
+        }
+
+        $message = 'LDAP Pagination is not supported on your current PHP installation.';
+
+        throw new AdldapException($message);
     }
 
     /**

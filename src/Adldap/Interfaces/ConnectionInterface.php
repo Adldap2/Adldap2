@@ -34,6 +34,14 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the
+     * current connection pagination.
+     *
+     * @return bool
+     */
+    public function isPagingSupported();
+
+    /**
+     * Returns true / false if the
      * current connection instance is using
      * SSL.
      *
@@ -284,6 +292,24 @@ interface ConnectionInterface
      * @return mixed
      */
     public function modDelete($dn, array $entry);
+
+    /**
+     * Send LDAP pagination control.
+     *
+     * @param int $pageSize
+     * @param bool $isCritical
+     * @param string $cookie
+     * @return mixed
+     */
+    public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '');
+
+    /**
+     * Retrieve a paginated result response.
+     *
+     * @param $result
+     * @return mixed
+     */
+    public function controlPagedResultResponse($result);
 
     /**
      * Returns the error number of the last command

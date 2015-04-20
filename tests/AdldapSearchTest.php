@@ -99,36 +99,6 @@ class AdldapSearchTest extends AdldapBaseTest
         $this->assertEquals($selects, $search->getSelects());
     }
 
-    public function testSearchGetSelectsDefault()
-    {
-        $connection = $this->newConnectionMock();
-
-        $ad = $this->newAdldap($connection);
-
-        $search = new AdldapSearch($ad);
-
-        $connection->shouldReceive('close')->once()->andReturn(true);
-
-        $defaultSelects = array(
-            'anr',
-            'cn',
-            'mail',
-            'description',
-            'displayname',
-            'distinguishedname',
-            'samaccountname',
-            "objectcategory",
-            "objectclass",
-            "operatingsystem",
-            "operatingsystemservicepack",
-            "operatingsystemversion",
-            "msExchUserAccountControl",
-            "msExchMasterAccountSID",
-        );
-
-        $this->assertEquals($defaultSelects, $search->getSelects());
-    }
-
     public function testSearchHasSelects()
     {
         $connection = $this->newConnectionMock();
@@ -154,7 +124,8 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $results = array(
             'count' => 1,
-            array(
+            0 => array(
+                'count' => 1,
                 'cn' => array(
                     'John Doe'
                 )
@@ -187,6 +158,7 @@ class AdldapSearchTest extends AdldapBaseTest
         $ldapResults = array(
             'count' => 1,
             array(
+                'count' => 1,
                 'cn' => array(
                     'John Doe'
                 )

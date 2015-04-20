@@ -532,14 +532,17 @@ class AdldapSearch extends AdldapBase
 
         $objects = array();
 
-        for ($i = 0; $i < $entries["count"]; $i++)
+        if(array_key_exists('count', $entries))
         {
-            $entry = new LdapEntry($entries[$i], $this->connection);
+            for ($i = 0; $i < $entries["count"]; $i++)
+            {
+                $entry = new LdapEntry($entries[$i], $this->connection);
 
-            $objects[] = $entry->getAttributes();
+                $objects[] = $entry->getAttributes();
+            }
+
+            if ( ! empty($this->sortByField)) return $this->processSortBy($objects);
         }
-
-        if ( ! empty($this->sortByField)) return $this->processSortBy($objects);
 
         return $objects;
     }

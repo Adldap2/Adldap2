@@ -26,3 +26,10 @@ To:
     $adldap->user()->find($includeDescription = false, $searchArray = array(), $sorted = true))
     
 This allows you to search for multiple parameters when looking for a user. [Thanks To](https://github.com/adldap/adLDAP/pull/17)
+
+
+$adldap->group()->search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $includeDescription = false, $search = "*", $sorted = true);
+
+Has Changed to:
+
+$adldap->group()->search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = array(), $sorted = true);

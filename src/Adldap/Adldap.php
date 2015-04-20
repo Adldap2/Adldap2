@@ -378,8 +378,7 @@ class Adldap
     */
     public function setUserIdKey($userIdKey)
     {
-          $this->userIdKey = $userIdKey;
-
+        $this->userIdKey = $userIdKey;
     }
 
     /**

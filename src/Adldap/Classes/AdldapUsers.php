@@ -214,6 +214,9 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
+        // Make sure we assign the default fields if none are given
+        if (count($fields) === 0) $fields = $this->defaultQueryFields;
+
         $personCategory = $this->adldap->getPersonFilter('category');
         $person = $this->adldap->getPersonFilter('person');
 
@@ -221,9 +224,6 @@ class AdldapUsers extends AdldapBase
             ->search()
             ->select($fields)
             ->where($personCategory, '=', $person);
-
-        // Make sure we assign the default fields if none are given
-        if (count($fields) === 0) $fields = $this->defaultQueryFields;
 
         if ($isGUID === true)
         {

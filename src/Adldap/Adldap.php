@@ -268,7 +268,7 @@ class Adldap
 
                 /*
                  * If we've set SSO to true, we'll make sure we check
-                 * if SSO is supported, if so we'll bind it to the
+                 * if SSO is supported, and if so we'll bind it to the
                  * current LDAP connection.
                  */
                 if ($sso)

@@ -508,7 +508,10 @@ class AdldapSearch extends AdldapBase
     {
         $key = array_search($operator, $this->operators);
 
-        if (array_key_exists($key, $this->operators)) return $this->operators[$key];
+        if ($key !== false && array_key_exists($key, $this->operators))
+        {
+            return $this->operators[$key];
+        }
 
         $operators = implode(', ', $this->operators);
 

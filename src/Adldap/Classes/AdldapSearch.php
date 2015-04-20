@@ -115,7 +115,7 @@ class AdldapSearch extends AdldapBase
     {
         $results = $this->connection->search($this->adldap->getBaseDn(), $query, $this->getSelects());
 
-        if($results) return $this->processResults($results);
+        if ($results) return $this->processResults($results);
 
         return false;
     }
@@ -151,13 +151,13 @@ class AdldapSearch extends AdldapBase
      */
     public function select($fields = array())
     {
-        if(is_array($fields))
+        if (is_array($fields))
         {
             foreach($fields as $field)
             {
                 $this->addSelect($field);
             }
-        } else if(is_string($fields))
+        } else if (is_string($fields))
         {
             $this->addSelect($fields);
         }
@@ -203,7 +203,7 @@ class AdldapSearch extends AdldapBase
      */
     public function hasSelects()
     {
-        if(count($this->selects) > 0) return true;
+        if (count($this->selects) > 0) return true;
 
         return false;
     }
@@ -221,7 +221,7 @@ class AdldapSearch extends AdldapBase
          * If the current search object has specific
          * search fields, we'll use those instead.
          */
-        if($this->hasSelects()) $fields = $this->selects;
+        if ($this->hasSelects()) $fields = $this->selects;
 
         return $fields;
     }
@@ -254,7 +254,7 @@ class AdldapSearch extends AdldapBase
     public function getQuery()
     {
         // Return the query if it exists
-        if( ! empty($this->query)) return $this->query;
+        if ( ! empty($this->query)) return $this->query;
 
         /*
          * Looks like our query hasn't been assembled
@@ -278,7 +278,13 @@ class AdldapSearch extends AdldapBase
     {
         $this->sortByField = $field;
 
-        $this->sortByDirection = $direction;
+        if(strtolower($direction) === 'asc')
+        {
+            $this->sortByDirection = SORT_ASC;
+        } else
+        {
+            $this->sortByDirection = SORT_DESC;
+        }
 
         return $this;
     }
@@ -365,7 +371,7 @@ class AdldapSearch extends AdldapBase
          * if using multiple wheres or if we have any
          * orWheres. For example (&(cn=John*)(|(description=User*)))
          */
-        if(count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0)
+        if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0)
         {
             $this->setQuery($this->queryAnd($this->getQuery()));
         }
@@ -378,7 +384,7 @@ class AdldapSearch extends AdldapBase
      */
     private function assembleWheres()
     {
-        if(count($this->wheres) > 0)
+        if (count($this->wheres) > 0)
         {
             foreach($this->wheres as $where)
             {
@@ -405,7 +411,7 @@ class AdldapSearch extends AdldapBase
      */
     private function assembleOrWheres()
     {
-        if(count($this->orWheres) > 0)
+        if (count($this->orWheres) > 0)
         {
             $ors = '';
 
@@ -429,7 +435,7 @@ class AdldapSearch extends AdldapBase
              * Make sure we wrap the query in an 'and'
              * if using multiple wheres. For example (&QUERY)
              */
-            if(count($this->orWheres) > 0) $this->addToQuery($this->queryOr($ors));
+            if (count($this->orWheres) > 0) $this->addToQuery($this->queryOr($ors));
         }
     }
 
@@ -503,7 +509,7 @@ class AdldapSearch extends AdldapBase
     {
         $key = array_search($operator, $this->operators);
 
-        if(array_key_exists($key, $this->operators)) return $this->operators[$key];
+        if (array_key_exists($key, $this->operators)) return $this->operators[$key];
 
         $operators = implode(', ', $this->operators);
 
@@ -531,7 +537,7 @@ class AdldapSearch extends AdldapBase
             $objects[] = $entry->getAttributes();
         }
 
-        if(! empty($this->sortByField)) return $this->processSortBy($objects);
+        if ( ! empty($this->sortByField)) return $this->processSortBy($objects);
 
         return $objects;
     }
@@ -546,14 +552,18 @@ class AdldapSearch extends AdldapBase
      */
     private function processSortBy($objects)
     {
-        $sort_col = array();
-
-        foreach ($objects as $key => $row)
+        if(count($objects) > 0)
         {
-            $sort_col[$key] = $row[$this->sortByField];
-        }
+            foreach($objects as $key => $row)
+            {
+                if(array_key_exists($this->sortByField, $row))
+                {
+                    $sort[$key] = $row[$this->sortByField];
+                }
+            }
 
-        array_multisort($sort_col, $dir, $arr);
+            array_multisort($sort, $this->sortByDirection, $objects);
+        }
 
         return $objects;
     }

@@ -573,19 +573,20 @@ class Ldap implements ConnectionInterface
      * Retrieve a paginated result response.
      *
      * @param resource $result
+     * @paaram string $cookie
      * @return bool
      * @throws AdldapException
      */
-    public function controlPagedResultResponse($result)
+    public function controlPagedResultResponse($result, &$cookie)
     {
         if($this->isPagingSupported())
         {
             if ($this->suppressErrors)
             {
-                return @ldap_control_paged_result_response($this->getConnection(), $result);
+                return @ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
             }
 
-            return ldap_control_paged_result_response($this->getConnection(), $result);
+            return ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
         }
 
         $message = 'LDAP Pagination is not supported on your current PHP installation.';

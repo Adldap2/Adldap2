@@ -110,6 +110,17 @@ Then you can perform the above query like so:
 
     $results = $ad->search()->query("(cn=$escapedValue)");
 
+#### Paginate
+
+> <b>NOTE:</b> Pagination is only supported in PHP >= 5.4
+
+Pagination is useful when you have a limit on the returned results from LDAP. Using pagination, you will successfully be able
+to view all LDAP results. To paginate your results, call the `paginate()` method:
+
+    $currentPage = $_GET['page'];
+
+    $results = $ad->search()->where('objectClass', '=', 'person')->paginate(25, $currentPage);
+
 #### Get Query
 
 If you'd like to retrieve the current query to save or run it at another time, use the `getQuery()` method:

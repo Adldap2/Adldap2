@@ -124,6 +124,40 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Paginates the current LDAP query.
+     *
+     * @param int $perPage
+     * @param int $currentPage
+     * @param bool $isCritical
+     * @return bool
+     */
+    public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
+    {
+        // Stores all LDAP entries in a page array
+        $pages = array();
+
+        $cookie = '';
+
+        do
+        {
+            $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
+
+            $results = $this->connection->search($this->adldap->getBaseDn(), $this->getQuery(), $this->getSelects());
+
+            if ($results)
+            {
+                $this->connection->controlPagedResultResponse($results, $cookie);
+
+                $pages[] = $this->processResults($results);
+
+                if(array_key_exists($currentPage, $pages)) return $pages[$currentPage];
+            }
+        } while($cookie !== null && ! empty($cookie));
+
+        return false;
+    }
+
+    /**
      * Returns the first entry in a search result.
      *
      * @return array|bool

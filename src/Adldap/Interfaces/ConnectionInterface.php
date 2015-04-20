@@ -307,9 +307,10 @@ interface ConnectionInterface
      * Retrieve a paginated result response.
      *
      * @param $result
+     * @param string $cookie
      * @return mixed
      */
-    public function controlPagedResultResponse($result);
+    public function controlPagedResultResponse($result, &$cookie);
 
     /**
      * Returns the error number of the last command

@@ -33,28 +33,6 @@ class AdldapSearch extends AdldapBase
     );
 
     /**
-     * Stores the default fields to query.
-     *
-     * @var array
-     */
-    protected $fields = array(
-        'anr',
-        'cn',
-        'mail',
-        'description',
-        'displayname',
-        'distinguishedname',
-        'samaccountname',
-        "objectcategory",
-        "objectclass",
-        "operatingsystem",
-        "operatingsystemservicepack",
-        "operatingsystemversion",
-        "msExchUserAccountControl",
-        "msExchMasterAccountSID",
-    );
-
-    /**
      * Stores the selects to use in the query when assembled.
      *
      * @var array
@@ -143,6 +121,23 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Returns the first entry in a search result.
+     *
+     * @return array|bool
+     */
+    public function first()
+    {
+        $results = $this->get();
+
+        if (is_array($results) && array_key_exists(0, $results))
+        {
+            return $results[0];
+        }
+
+        return $results;
+    }
+
+    /**
      * Adds the inserted fields to query on the current LDAP connection.
      *
      * @param array $fields
@@ -214,15 +209,7 @@ class AdldapSearch extends AdldapBase
      */
     public function getSelects()
     {
-        $fields = $this->fields;
-
-        /*
-         * If the current search object has specific
-         * search fields, we'll use those instead.
-         */
-        if ($this->hasSelects()) $fields = $this->selects;
-
-        return $fields;
+        return $this->selects;
     }
 
     /**

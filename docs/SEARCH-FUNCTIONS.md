@@ -55,7 +55,7 @@ function performs differently than it would on a database. For example:
     
 This query would return no results, because we're already defining that the common name (`cn`) must equal `John Doe`. Applying
 the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'. This query would
-actually amount to 'Look for an object with the common name that equals "John Doe" OR "Suzy Doe"
+actually amount to 'Look for an object with the common name that <b>equals</b> "John Doe" OR "Suzy Doe"
 
 To solve the above problem, we would use `orWhere()` for both fields. For example:
 

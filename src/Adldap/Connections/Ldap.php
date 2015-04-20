@@ -600,7 +600,7 @@ class Ldap implements ConnectionInterface
      * @param int $flags Any combination of LDAP_ESCAPE_* flags to indicate the
      *                   set(s) of characters to escape.
      * @return string
-     * @thanks http://stackoverflow.com/questions/8560874/php-ldap-add-function-to-escape-ldap-special-characters-in-dn-syntax/8561604#8561604
+     * @thanks http://stackoverflow.com/users/889949/daverandom
      */
     private function escapeManual($value, $ignore = '', $flags = 0)
     {

@@ -156,6 +156,24 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
+     * Delete a user account
+     *
+     * @param string $username The username to delete
+     * @return bool
+     */
+    public function delete($username)
+    {
+        $user = $this->find($username);
+
+        if(is_array($user) && array_key_exists('dn', $user))
+        {
+            return $this->adldap->folder()->delete($user['dn']);
+        }
+        
+        return false;
+    }
+
+    /**
      * Account control options.
      *
      * @param array $options The options to convert to int
@@ -166,22 +184,6 @@ class AdldapUsers extends AdldapBase
         $accountControl = new AccountControl($options);
 
         return intval($accountControl->getAttribute('value'));
-    }
-
-    /**
-     * Delete a user account
-     *
-     * @param string $username The username to delete
-     * @param bool $isGUID
-     * @return bool
-     */
-    public function delete($username, $isGUID = false)
-    {
-        $userinfo = $this->info($username, array("*"), $isGUID);
-
-        $dn = $userinfo[0]['distinguishedname'][0];
-
-        return $this->adldap->folder()->delete($dn);
     }
 
     /**

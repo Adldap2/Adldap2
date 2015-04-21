@@ -47,6 +47,67 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
+     * Returns all users from the current connection.
+     *
+     * @param array $fields
+     * @param bool $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
+     * @return array|bool
+     * @throws AdldapException
+     */
+    public function all($fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $personCategory = $this->adldap->getPersonFilter('category');
+        $person = $this->adldap->getPersonFilter('person');
+
+        $search = $this->adldap->search()
+            ->select($fields)
+            ->where($personCategory, '=', $person)
+            ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT);
+
+        if($sorted) $search->sortBy($sortBy, $sortByDirection);
+
+        return $search->get();
+    }
+
+    /**
+     * Finds a user with the specified username
+     * in the connection connection.
+     *
+     * The username parameter can be any attribute on the user.
+     * Such as a their name, their logon, their mail, etc.
+     *
+     * @param string $username
+     * @param array $fields
+     * @return array|bool
+     */
+    public function find($username, $fields = array())
+    {
+        $personCategory = $this->adldap->getPersonFilter('category');
+        $person = $this->adldap->getPersonFilter('person');
+
+        return $this->adldap->search()
+            ->select($fields)
+            ->where($personCategory, '=', $person)
+            ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT)
+            ->where('anr', '=', $username)
+            ->first();
+    }
+
+    /**
+     * Retrieves a user from the current connection.
+     *
+     * @param string $username
+     * @param array $fields
+     * @return array|bool
+     */
+    public function info($username, array $fields = array())
+    {
+        return $this->find($username, $fields);
+    }
+
+    /**
      * Create a user.
      *
      * If you specify a password here, this can only be performed over SSL.
@@ -176,8 +237,6 @@ class AdldapUsers extends AdldapBase
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        $this->adldap->utilities()->validateLdapIsBound();
-
         // Use the default option if they haven't set it
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
         
@@ -198,45 +257,6 @@ class AdldapUsers extends AdldapBase
         }
 
         return $groups;
-    }
-
-    /**
-     * Find information about the users. Returned in a raw array format from AD
-     *
-     * @param string $username The username to query
-     * @param array $fields Array of parameters to query
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
-     * @return array|bool
-     */
-    public function info($username, array $fields = array(), $isGUID = false)
-    {
-        $this->adldap->utilities()->validateNotNull('Username', $username);
-
-        $this->adldap->utilities()->validateLdapIsBound();
-
-        // Make sure we assign the default fields if none are given
-        if (count($fields) === 0) $fields = $this->defaultQueryFields;
-
-        $personCategory = $this->adldap->getPersonFilter('category');
-        $person = $this->adldap->getPersonFilter('person');
-
-        $search = $this->adldap
-            ->search()
-            ->select($fields)
-            ->where($personCategory, '=', $person);
-
-        if ($isGUID === true)
-        {
-            $search->where('objectguid', '=', $username);
-        } else if (strpos($username, "@"))
-        {
-            $search->where('userPrincipalName', '=', $username);
-        } else
-        {
-            $search->where($this->adldap->getUserIdKey(), '=', $username);
-        }
-
-        return $search->get();
     }
 
     /**
@@ -543,51 +563,6 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Return a list of all users in AD
-     *
-     * @param bool $includeDescription Return a description of the user
-     * @param string $search Search parameter
-     * @param bool $sorted Sort the user accounts
-     * @return array|bool
-     */
-    public function all($includeDescription = false, $search = "*", $sorted = true)
-    {
-        $this->adldap->utilities()->validateLdapIsBound();
-        
-        // Perform the search and grab all their details
-        $userIdKey = $this->adldap->getUserIdKey();
-        $personFilter = $this->adldap->getPersonFilter();
-
-        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")({$personFilter})(cn=" . $search . "))";
-
-        $fields = array("{$userIdKey}","displayname");
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        $usersArray = array();
-
-        for ($i = 0; $i < $entries["count"]; $i++)
-        {
-            if ($includeDescription && strlen($entries[$i]["displayname"][0])>0)
-            {
-                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["displayname"][0];
-            } elseif ($includeDescription)
-            {
-                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["{$userIdKey}"][0];
-            } else
-            {
-                array_push($usersArray, $entries[$i]["{$userIdKey}"][0]);
-            }
-        }
-
-        if ($sorted) asort($usersArray);
-
-        return $usersArray;
-    }
-
-    /**
      * Converts a username (samAccountName) to a GUID
      *
      * @param string $username The username to query
@@ -598,7 +573,7 @@ class AdldapUsers extends AdldapBase
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
         $this->adldap->utilities()->validateLdapIsBound();
-        
+
         $filter = $this->adldap->getUserIdKey() . "=" . $username;
 
         $fields = array("objectGUID");
@@ -615,67 +590,10 @@ class AdldapUsers extends AdldapBase
 
             $strGUID = $this->adldap->utilities()->binaryToText($guid[0]);
 
-            return $strGUID; 
+            return $strGUID;
         }
 
-        return false; 
-    }
-
-    /**
-     * Return a list of all users in AD that have a specific value in a field
-     *
-     * @param bool $includeDescription Return a description of the user
-     * @param array $searchArray Fields to search for
-     * @param bool $sorted Sort the user accounts
-     * @return array|bool
-     */
-    public function find($includeDescription = false, $searchArray = array(), $sorted = true)
-    {
-        $this->adldap->utilities()->validateLdapIsBound();
-          
-        // Perform the search and grab all their details
-        $searchParams = "";
-
-        if (is_array($searchArray) && count($searchArray) > 0)
-        {
-            foreach($searchArray as $field => $filter)
-            {
-                $searchParams .= "(" . $field . "=" . $filter . ")";
-            }
-        }
-
-        $userIdKey = $this->adldap->getUserIdKey();
-        $personFilter = $this->adldap->getPersonFilter();
-
-        $filter = "(&(objectClass=user)(samaccounttype=" . Adldap::ADLDAP_NORMAL_ACCOUNT .")({$personFilter})" . $searchParams . ")";
-
-        $fields = array("{$userIdKey}","displayname");
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        $usersArray = array();
-
-        for ($i = 0; $i < $entries["count"]; $i++)
-        {
-            if ($includeDescription && strlen($entries[$i]["displayname"][0]) > 0)
-            {
-                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["displayname"][0];
-            }
-            else if ($includeDescription)
-            {
-                $usersArray[$entries[$i]["{$userIdKey}"][0]] = $entries[$i]["{$userIdKey}"][0];
-            }
-            else
-            {
-                array_push($usersArray, $entries[$i]["{$userIdKey}"][0]);
-            }
-        }
-
-        if ($sorted) asort($usersArray);
-
-        return ($usersArray);
+        return false;
     }
 
     /**

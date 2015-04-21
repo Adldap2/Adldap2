@@ -4,6 +4,7 @@ namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\LdapEntry;
+use Adldap\Objects\Paginator;
 
 /**
  * Class AdldapSearch
@@ -609,19 +610,16 @@ class AdldapSearch extends AdldapBase
             }
 
             /*
-             * If we're sorting, we'll process sort all
-             * of the objects
+             * If we're sorting, we'll process all of
+             * our results so it's sorted correctly
              */
             if ( ! empty($this->sortByField))
             {
                 $objects = $this->processSortBy($objects);
             }
 
-            // Get the offset for slicing the array
-            $offset = ($currentPage * $perPage);
-
-            // Return the sliced array
-            return array_slice($objects, $offset, $perPage, true);
+            // Return a new paginator instance
+            return new Paginator($objects, $perPage, $currentPage, count($pages));
         }
 
         // Looks like we don't have any results, return false

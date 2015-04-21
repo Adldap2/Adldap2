@@ -298,6 +298,25 @@ class AdldapUtils extends AdldapBase
     }
 
     /**
+     * Validates if the function Bcmod exists.
+     * Throws an exception otherwise.
+     *
+     * @return bool
+     * @throws AdldapException
+     */
+    public function validateBcmodExists()
+    {
+        if ( ! function_exists('bcmod'))
+        {
+            $message = "Missing function support [bcmod] http://php.net/manual/en/function.bcmod.php";
+
+            throw new AdldapException($message);
+        }
+
+        return true;
+    }
+
+    /**
      * Validates that the current LDAP connection is bound. This
      * will throw an AdldapException otherwise.
      *

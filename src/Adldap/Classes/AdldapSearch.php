@@ -148,11 +148,11 @@ class AdldapSearch extends AdldapBase
             {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
-                $pages[] = $this->processResults($results);
-
-                if(array_key_exists($currentPage, $pages)) return $pages[$currentPage];
+                $pages[] = $results;
             }
         } while($cookie !== null && ! empty($cookie));
+
+        if(count($pages) > 0) return $this->processPaginatedResults($pages, $perPage, $currentPage);
 
         return false;
     }
@@ -569,6 +569,63 @@ class AdldapSearch extends AdldapBase
         }
 
         return $objects;
+    }
+
+    /**
+     * Processes paginated LDAP results.
+     *
+     * @param array $pages
+     * @param int $perPage
+     * @param int $currentPage
+     * @return array|bool
+     */
+    private function processPaginatedResults($pages, $perPage = 50, $currentPage = 0)
+    {
+        // Make sure we have at least one page of results
+        if (count($pages) > 0)
+        {
+            $objects = array();
+
+            // Go through each page
+            foreach($pages as $results)
+            {
+                // Get the entries for each page
+                $entries = $this->connection->getEntries($results);
+
+                /*
+                 * If we've retrieved entries, we'll go through
+                 * each and construct the entry attributes, and
+                 * put them all inside the objects array
+                 */
+                if(is_array($entries) && array_key_exists('count', $entries))
+                {
+                    for ($i = 0; $i < $entries["count"]; $i++)
+                    {
+                        $entry = new LdapEntry($entries[$i], $this->connection);
+
+                        $objects[] = $entry->getAttributes();
+                    }
+                }
+            }
+
+            /*
+             * If we're sorting, we'll process sort all
+             * of the objects
+             */
+            if ( ! empty($this->sortByField))
+            {
+                $objects = $this->processSortBy($objects);
+            }
+
+            // Get the offset for slicing the array
+            $offset = ($currentPage * $perPage);
+
+            // Return the sliced array
+            return array_slice($objects, $offset, $perPage, true);
+        }
+
+        // Looks like we don't have any results, return false
+        return false;
     }
 
     /**

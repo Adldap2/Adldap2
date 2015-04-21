@@ -117,9 +117,11 @@ Then you can perform the above query like so:
 Pagination is useful when you have a limit on the returned results from LDAP. Using pagination, you will successfully be able
 to view all LDAP results. To paginate your results, call the `paginate()` method:
 
+    $perPage = 25;
+    
     $currentPage = $_GET['page'];
-
-    $results = $ad->search()->where('objectClass', '=', 'person')->paginate(25, $currentPage);
+    
+    $results = $ad->search()->where('objectClass', '=', 'person')->paginate($perPage, $currentPage);
 
 #### Get Query
 

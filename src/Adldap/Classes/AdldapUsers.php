@@ -17,23 +17,6 @@ use Adldap\Adldap;
 class AdldapUsers extends AdldapBase
 {
     /**
-     * The default query fields to use
-     * when requesting user information.
-     *
-     * @var array
-     */
-    public $defaultQueryFields = array(
-        "samaccountname",
-        "mail",
-        "memberof",
-        "department",
-        "displayname",
-        "telephonenumber",
-        "primarygroupid",
-        "objectsid"
-    );
-
-    /**
      * Validate a user's login credentials
      *
      * @param string $username The users AD username
@@ -155,16 +138,16 @@ class AdldapUsers extends AdldapBase
         $add["objectclass"][3] = "user";
 
         // Set the account control attribute
-        $control_options = array("NORMAL_ACCOUNT");
+        $controlOptions = array("NORMAL_ACCOUNT");
 
-        if ( ! $user->hasAttribute("enabled")) $control_options[] = "ACCOUNTDISABLE";
+        if ( ! $user->hasAttribute("enabled")) $controlOptions[] = "ACCOUNTDISABLE";
 
-        $add["userAccountControl"][0] = $this->accountControl($control_options);
+        $add["userAccountControl"][0] = $this->accountControl($controlOptions);
         
         // Determine the container
         $attributes["container"] = array_reverse($user->getAttribute("container"));
 
-        $container = "OU=" . implode(", OU=",$user->getAttribute("container"));
+        $container = "OU=" . implode(", OU=", $user->getAttribute("container"));
 
         $dn = "CN=" . $add["cn"][0] . ", " . $container . "," . $this->adldap->getBaseDn();
 

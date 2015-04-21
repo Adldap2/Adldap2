@@ -106,7 +106,7 @@ class AdldapUsers extends AdldapBase
         {
             return $user['dn'];
         }
-
+        
         return false;
     }
 
@@ -165,13 +165,10 @@ class AdldapUsers extends AdldapBase
      */
     public function delete($username)
     {
-        $user = $this->find($username);
+        $dn = $this->dn($username);
 
-        if(is_array($user) && array_key_exists('dn', $user))
-        {
-            return $this->adldap->folder()->delete($user['dn']);
-        }
-        
+        if($dn) return $this->adldap->folder()->delete($dn);
+
         return false;
     }
 

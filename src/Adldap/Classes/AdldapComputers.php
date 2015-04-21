@@ -31,6 +31,26 @@ class AdldapComputers extends AdldapBase
     );
 
     /**
+     * Returns all computers from the current connection.
+     *
+     * @param array $fields
+     * @param bool $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
+     * @return array|bool
+     */
+    public function all(array $fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->adldap->search()
+            ->select($fields)
+            ->where('objectClass', '=', 'computer');
+
+        if($sorted) $search->sortBy($sortBy, $sortByDirection);
+        
+        return $search->get();
+    }
+
+    /**
      * Get information about a specific computer. Returned in a raw array format from AD
      *
      * @param string $computerName The name of the computer

@@ -102,7 +102,7 @@ class AdldapUsers extends AdldapBase
      * @param array $fields
      * @return array|bool
      */
-    public function info($username, array $fields = array())
+    public function info($username, $fields = array())
     {
         return $this->find($username, $fields);
     }

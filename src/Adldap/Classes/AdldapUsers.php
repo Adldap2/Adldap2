@@ -165,48 +165,6 @@ class AdldapUsers extends AdldapBase
     {
         $accountControl = new AccountControl($options);
 
-        $accountControl->setValueIfAttributeExists('SCRIPT', 1);
-
-        $accountControl->setValueIfAttributeExists('ACCOUNTDISABLE', 2);
-
-        $accountControl->setValueIfAttributeExists('HOMEDIR_REQUIRED', 8);
-
-        $accountControl->setValueIfAttributeExists('LOCKOUT', 16);
-
-        $accountControl->setValueIfAttributeExists('PASSWD_NOTREQD', 32);
-
-        //PASSWD_CANT_CHANGE Note You cannot assign this permission by directly modifying the UserAccountControl attribute.
-        //For information about how to set the permission programmatically, see the "Property flag descriptions" section.
-        $accountControl->setValueIfAttributeExists('ENCRYPTED_TEXT_PWD_ALLOWED', 128);
-
-        $accountControl->setValueIfAttributeExists('TEMP_DUPLICATE_ACCOUNT', 256);
-
-        $accountControl->setValueIfAttributeExists('NORMAL_ACCOUNT', 512);
-
-        $accountControl->setValueIfAttributeExists('INTERDOMAIN_TRUST_ACCOUNT', 2048);
-
-        $accountControl->setValueIfAttributeExists('WORKSTATION_TRUST_ACCOUNT', 4096);
-
-        $accountControl->setValueIfAttributeExists('SERVER_TRUST_ACCOUNT', 8192);
-
-        $accountControl->setValueIfAttributeExists('DONT_EXPIRE_PASSWORD', 65536);
-
-        $accountControl->setValueIfAttributeExists('MNS_LOGON_ACCOUNT', 131072);
-
-        $accountControl->setValueIfAttributeExists('SMARTCARD_REQUIRED', 262144);
-
-        $accountControl->setValueIfAttributeExists('TRUSTED_FOR_DELEGATION', 524288);
-
-        $accountControl->setValueIfAttributeExists('NOT_DELEGATED', 1048576);
-
-        $accountControl->setValueIfAttributeExists('USE_DES_KEY_ONLY', 2097152);
-
-        $accountControl->setValueIfAttributeExists('DONT_REQ_PREAUTH', 4194304);
-
-        $accountControl->setValueIfAttributeExists('PASSWORD_EXPIRED', 8388608);
-
-        $accountControl->setValueIfAttributeExists('TRUSTED_TO_AUTH_FOR_DELEGATION', 16777216);
-
         return intval($accountControl->getAttribute('value'));
     }
 

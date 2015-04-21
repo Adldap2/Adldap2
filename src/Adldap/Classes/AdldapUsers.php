@@ -575,44 +575,4 @@ class AdldapUsers extends AdldapBase
 
         return false;
     }
-
-    /**
-     * Parses the returned entries by LDAP into
-     * a nicer array.
-     *
-     * @param array $entries
-     * @param array $fields
-     * @return mixed
-     */
-    protected function parseInfoEntries($entries, $fields)
-    {
-        if (isset($entries[0]) && array_key_exists('count', $entries[0]))
-        {
-            if ($entries[0]['count'] >= 1)
-            {
-                if (in_array("memberof", $fields))
-                {
-                    // AD does not return the primary group in the ldap query, we may need to fudge it
-                    if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["objectsid"][0]))
-                    {
-                        $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
-                    } else
-                    {
-                        $entries[0]["memberof"][] = "CN=Domain Users,CN=Users," . $this->adldap->getBaseDn();
-                    }
-
-                    if ( ! isset($entries[0]["memberof"]["count"]))
-                    {
-                        $entries[0]["memberof"]["count"] = 0;
-                    }
-
-                    $entries[0]["memberof"]["count"]++;
-                }
-            }
-
-            return $entries;
-        }
-
-        return false;
-    }
 }

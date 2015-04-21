@@ -134,9 +134,9 @@ Paginating a search result will return a `Adldap\Objects\Paginator` instance. Th
     
     $results->getCurrentPage(); // Returns current page number, int
     
-    $results->getPerPage(); // Returns the amount of entries allowed per page
+    $results->getPerPage(); // Returns the amount of entries allowed per page, int
     
-    $results->count(); // Returns the total amount of retrieved entries
+    $results->count(); // Returns the total amount of retrieved entries, int
     
     // Iterate over the results like normal
     

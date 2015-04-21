@@ -13,24 +13,6 @@ use Adldap\Collections\AdldapComputerCollection;
 class AdldapComputers extends AdldapBase
 {
     /**
-     * The default query attributes to use when querying
-     * computer information.
-     *
-     * @var array
-     */
-    public $defaultQueryAttributes = array(
-        "memberof",
-        "cn",
-        "displayname",
-        "dnshostname",
-        "distinguishedname",
-        "objectcategory",
-        "operatingsystem",
-        "operatingsystemservicepack",
-        "operatingsystemversion"
-    );
-
-    /**
      * Returns all computers from the current connection.
      *
      * @param array $fields

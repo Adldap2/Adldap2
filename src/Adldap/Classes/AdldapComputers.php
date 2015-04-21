@@ -39,15 +39,31 @@ class AdldapComputers extends AdldapBase
      * @param string $sortByDirection
      * @return array|bool
      */
-    public function all(array $fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    public function all($fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
     {
         $search = $this->adldap->search()
             ->select($fields)
             ->where('objectClass', '=', 'computer');
 
         if($sorted) $search->sortBy($sortBy, $sortByDirection);
-        
+
         return $search->get();
+    }
+
+    /**
+     * Finds a computer using the current connection.
+     *
+     * @param string $computer
+     * @param array $fields
+     * @return array|bool
+     */
+    public function find($computer, $fields = array())
+    {
+        return $this->adldap->search()
+            ->select($fields)
+            ->where('objectClass', '=', 'computer')
+            ->where('cn', '=', $computer)
+            ->first();
     }
 
     /**
@@ -57,15 +73,9 @@ class AdldapComputers extends AdldapBase
      * @param array $fields Attributes to return
      * @return array|bool
      */
-    public function info($computerName, array $fields = array())
+    public function info($computerName, $fields = array())
     {
-        $this->adldap->utilities()->validateNotNull('Computer Name', $computerName);
-
-        return $this->adldap->search()
-            ->select($fields)
-            ->where('objectClass', '=', 'computer')
-            ->where('cn', '=', $computerName)
-            ->first();
+        return $this->find($computerName, $fields);
     }
 
     /**

@@ -387,7 +387,7 @@ class Adldap
     */
     public function getUserIdKey()
     {
-          return $this->userIdKey;
+        return $this->userIdKey;
     }
 
     /**

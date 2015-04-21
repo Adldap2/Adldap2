@@ -122,6 +122,28 @@ to view all LDAP results. To paginate your results, call the `paginate()` method
     $currentPage = $_GET['page'];
     
     $results = $ad->search()->where('objectClass', '=', 'person')->paginate($perPage, $currentPage);
+    
+<b>It's also good to know, that the current page starts at zero (zero being the first page).</b> If you'd like to present pages
+differently, feel free to do so.
+
+Paginating a search result will return a `Adldap\Objects\Paginator` instance. This object provides some handy functions:
+
+    $results = $ad->search()->where('objectClass', '=', 'person')->paginate($perPage, $currentPage);
+    
+    $results->getPages(); // Returns total number of pages, int
+    
+    $results->getCurrentPage(); // Returns current page number, int
+    
+    $results->getPerPage(); // Returns the amount of entries allowed per page
+    
+    $results->count(); // Returns the total amount of retrieved entries
+    
+    // Iterate over the results like normal
+    
+    foreach($results as $result)
+    {
+        echo $result['cn'];
+    }
 
 #### Get Query
 

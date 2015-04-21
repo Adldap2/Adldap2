@@ -67,6 +67,8 @@ class AdldapUsers extends AdldapBase
      */
     public function find($username, $fields = array())
     {
+        $this->adldap->utilities()->validateNotNullOrEmpty('Username', $username);
+
         $personCategory = $this->adldap->getPersonFilter('category');
         $person = $this->adldap->getPersonFilter('person');
 
@@ -163,15 +165,13 @@ class AdldapUsers extends AdldapBase
      */
     public function delete($username)
     {
-        $this->adldap->utilities()->validateNotEmpty('Username', $username);
-        
         $user = $this->find($username);
 
         if(is_array($user) && array_key_exists('dn', $user))
         {
             return $this->adldap->folder()->delete($user['dn']);
         }
-
+        
         return false;
     }
 

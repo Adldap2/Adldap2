@@ -108,6 +108,24 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
+     * Retrieve the user's distinguished name based on their username
+     *
+     * @param string $username The username
+     * @return string|bool
+     */
+    public function dn($username)
+    {
+        $user = $this->find($username, array('distinguishedname'));
+
+        if(is_array($user) && array_key_exists('dn', $user))
+        {
+            return $user['dn'];
+        }
+
+        return false;
+    }
+
+    /**
      * Create a user.
      *
      * If you specify a password here, this can only be performed over SSL.
@@ -542,24 +560,6 @@ class AdldapUsers extends AdldapBase
         for ($i = 0; $i < $length; $i++) $encoded .= "{$password{$i}}\000";
 
         return $encoded;
-    }
-
-    /**
-     * Retrieve the user's distinguished name based on their username
-     *
-     * @param string $username The username
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
-     * @return string|bool
-     */
-    public function dn($username, $isGUID = false)
-    {
-        $user = $this->info($username, array("cn"), $isGUID);
-
-        if ($user[0]["dn"] === NULL) return false;
-
-        $userDn = $user[0]["dn"];
-
-        return $userDn;
     }
 
     /**

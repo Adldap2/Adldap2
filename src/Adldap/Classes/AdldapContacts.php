@@ -14,23 +14,6 @@ use Adldap\Objects\Contact;
 class AdldapContacts extends AdldapBase
 {
     /**
-     * The default fields to query when requesting
-     * user information.
-     *
-     * @var array
-     */
-    public $defaultQueryFields = array(
-        "distinguishedname",
-        "mail",
-        "memberof",
-        "department",
-        "displayname",
-        "telephonenumber",
-        "primarygroupid",
-        "objectsid"
-    );
-
-    /**
      * Create a contact
      *
      * @param array $attributes The attributes to set to the contact
@@ -45,7 +28,7 @@ class AdldapContacts extends AdldapBase
         // Translate the schema
         $add = $this->adldap->ldapSchema($attributes);
 
-        // Additional stuff only used for adding contacts
+        // Set the cn to the contacts display name
         $add["cn"][0] = $contact->{"display_name"};
 
         $add["objectclass"][0] = "top";

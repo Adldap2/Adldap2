@@ -103,6 +103,16 @@ class Paginator extends AbstractObject implements IteratorAggregate
     }
 
     /**
+     * Returns the total amount of entries.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->countAttributes();
+    }
+
+    /**
      * Sets the total number of pages.
      *
      * @param int $pages

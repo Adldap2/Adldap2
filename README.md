@@ -12,6 +12,8 @@
 
 ## Description
 
+> **ATTENTION** Version v5.0.0 is in heavy development, it is close to completion. Use 'dev-master' at you're own risk.
+
 Adldap2 is a tested PHP class library that provides LDAP authentication and Active Directory management tools.
 
 ## Index

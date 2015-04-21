@@ -557,7 +557,7 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Get the last logon time of any user as a Unix timestamp
+     * Get the last logon time of any user as a Unix timestamp.
      *
      * @param string $username
      * @return float|bool|string
@@ -566,11 +566,14 @@ class AdldapUsers extends AdldapBase
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        $this->adldap->utilities()->validateLdapIsBound();
+        $userInfo = $this->info($username, array("lastlogontimestamp"));
 
-        $userInfo = $this->info($username, array("lastLogonTimestamp"));
+        if(is_array($userInfo) && array_key_exists('lastlogontimestamp', $userInfo))
+        {
+            return AdldapUtils::convertWindowsTimeToUnixTime($userInfo['lastlogontimestamp']);
+        }
 
-        return AdldapUtils::convertWindowsTimeToUnixTime($userInfo[0]['lastLogonTimestamp'][0]);
+        return false;
     }
 
     /**

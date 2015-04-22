@@ -15,7 +15,8 @@ class AdldapFolders extends AdldapBase
 {
     /**
      * Delete a distinguished name from Active Directory.
-     * You should never need to call this yourself, just use the wrapper functions user_delete and contact_delete
+     * You should never need to call this yourself, just use
+     * the wrapper functions user()->delete($username) and contact()->delete($name)
      *
      * @param string $dn The distinguished name to delete
      * @return bool
@@ -26,7 +27,7 @@ class AdldapFolders extends AdldapBase
     }
 
     /**
-     * Returns a folder listing for a specific OU
+     * Returns a folder listing for a specific OU.
      * See http://adldap.sourceforge.net/wiki/doku.php?id=api_folder_functions
      *
      * If folderName is set to NULL this will list the root, strongly recommended
@@ -38,62 +39,47 @@ class AdldapFolders extends AdldapBase
      * @param null $type
      * @return array|bool
      */
-    public function listing($folderName = NULL, $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
+    public function listing($folders = NULL, $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
     {
-        $this->adldap->utilities()->validateLdapIsBound();
+        $search = $this->adldap->search();
 
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); //use the default option if they haven't set it
-
-        $filter = '(&';
-
-        if ($type !== NULL)
+        if (is_array($folders))
         {
-            $filter .= $this->typeToObjectClassString($type);
+            /*
+             * Reverse the folder array so it's more
+             * akin to navigating a folder structure
+             */
+            $folders = array_reverse($folders);
+
+            /*
+             * Get the combined OU string for the search.
+             *
+             * ex. OU=Users,OU=Acme
+             */
+            $ou = $dnType . "=" . implode("," . $dnType . "=", $folders);
+
+            $search->where('distinguishedname', '!', $ou . $this->adldap->getBaseDn());
+
+            // Apply the OU to the base DN
+            $dn = $ou . ',' . $this->adldap->getBaseDn();
+
+            $search->setDn($dn);
         } else
         {
-            $filter .= '(objectClass=*)';   
+            $search->where('distinguishedname', '!', $this->adldap->getBaseDn());
         }
 
-        /*
-         * If the folder name is null then we will search the root level of AD.
-         * This requires us to not have an OU= part, just the base_dn
-         */
-        $searchOu = $this->adldap->getBaseDn();
-
-        if (is_array($folderName))
+        if($type === null)
         {
-            $ou = $dnType . "=" . implode("," . $dnType . "=", $folderName);
-
-            $filter .= '(!(distinguishedname=' . $ou . ',' . $this->adldap->getBaseDn() . ')))';
-
-            $searchOu = $ou . ',' . $this->adldap->getBaseDn();
-        }
-        else
+            $search->where('objectClass', '*');
+        } else
         {
-            $filter .= '(!(distinguishedname=' . $this->adldap->getBaseDn() . ')))';
+            $search->where('objectClass', '=', $type);
         }
 
-        $fields = array(
-            'objectclass',
-            'distinguishedname',
-            'samaccountname',
-            'description',
-        );
+        if($recursive === false) $search->recursive(false);
 
-        if ($recursive === true)
-        {
-            $results = $this->connection->search($searchOu, $filter, $fields);
-        }
-        else
-        {
-            $results = $this->connection->listing($searchOu, $filter, $fields);
-        }
-
-        $entries = $this->connection->getEntries($results);
-
-        if (is_array($entries)) return $entries;
-
-        return false;
+        return $search->get();
     }
 
     /**
@@ -120,44 +106,5 @@ class AdldapFolders extends AdldapBase
         $dn = "OU=" . $add["OU"] . ", " . $containers . $this->adldap->getBaseDn();
 
         return $this->connection->add($dn, $add);
-    }
-
-    /**
-     * Converts a folder type string into a object class
-     * filter string compatible with LDAP.
-     *
-     * @param string$type
-     * @return string
-     */
-    private function typeToObjectClassString($type)
-    {
-        $filter = '';
-
-        switch ($type)
-        {
-            case 'contact':
-                $filter .= '(objectClass=contact)';
-                break;
-            case 'computer':
-                $filter .= '(objectClass=computer)';
-                break;
-            case 'group':
-                $filter .= '(objectClass=group)';
-                break;
-            case 'folder':
-                $filter .= '(objectClass=organizationalUnit)';
-                break;
-            case 'container':
-                $filter .= '(objectClass=container)';
-                break;
-            case 'domain':
-                $filter .= '(objectClass=builtinDomain)';
-                break;
-            default:
-                $filter .= '(objectClass=user)';
-                break;
-        }
-
-        return $filter;
     }
 }

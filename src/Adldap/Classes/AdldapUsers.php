@@ -173,19 +173,6 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Account control options.
-     *
-     * @param array $options The options to convert to int
-     * @return int
-     */
-    protected function accountControl($options)
-    {
-        $accountControl = new AccountControl($options);
-
-        return intval($accountControl->getAttribute('value'));
-    }
-
-    /**
      * Retrieves the groups that the specified user is apart of
      *
      * @param string $username The username of the user to query
@@ -574,5 +561,18 @@ class AdldapUsers extends AdldapBase
         }
 
         return false;
+    }
+
+    /**
+     * Account control options.
+     *
+     * @param array $options The options to convert to int
+     * @return int
+     */
+    protected function accountControl($options)
+    {
+        $accountControl = new AccountControl($options);
+
+        return intval($accountControl->getAttribute('value'));
     }
 }

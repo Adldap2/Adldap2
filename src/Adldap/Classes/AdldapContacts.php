@@ -129,47 +129,15 @@ class AdldapContacts extends AdldapBase
     }
 
     /**
-     * Get contact information. Returned in a raw array format from AD
+     * Retrieves a contacts information. Alias for the find method.
      *
-     * @param string $distinguishedName The full DN of a contact
-     * @param array $fields Array of parameters to query
+     * @param string $name
+     * @param array $fields
      * @return array|bool
      */
-    public function info($distinguishedName, array $fields = array())
+    public function info($name, $fields = array())
     {
-        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
-
-        $this->adldap->utilities()->validateLdapIsBound();
-
-        // Make sure we set the default fields if none are given
-        if (count($fields) === 0) $fields = $this->defaultQueryFields;
-
-        $filter = "distinguishedName=" . $this->adldap->utilities()->ldapSlashes($distinguishedName);
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        if($results)
-        {
-            $entries = $this->connection->getEntries($results);
-
-            if ($entries[0]['count'] >= 1)
-            {
-                // AD does not return the primary group in the ldap query, we may need to fudge it
-                if ($this->adldap->getRealPrimaryGroup() && isset($entries[0]["primarygroupid"][0]) && isset($entries[0]["primarygroupid"][0]))
-                {
-                    $entries[0]["memberof"][] = $this->adldap->group()->getPrimaryGroup($entries[0]["primarygroupid"][0], $entries[0]["objectsid"][0]);
-                } else
-                {
-                    $entries[0]["memberof"][] = "CN=Domain Users,CN=Users," . $this->adldap->getBaseDn();
-                }
-            }
-
-            $entries[0]["memberof"]["count"]++;
-
-            return $entries;
-        }
-
-        return false;
+        return $this->find($name, $fields);
     }
 
     /**

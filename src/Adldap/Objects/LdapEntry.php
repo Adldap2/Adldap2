@@ -31,13 +31,13 @@ class LdapEntry extends AbstractObject
         // Construct the entry
         $this->applyAttributes($attributes);
     }
-
+    
     /**
      * Applies the proper object attributes if they exist.
      *
      * @param array $attributes
      */
-    public function applyAttributes($attributes)
+    private function applyAttributes($attributes)
     {
         if (array_key_exists('count', $attributes) && $attributes['count'] > 0)
         {
@@ -47,27 +47,52 @@ class LdapEntry extends AbstractObject
             {
                 if (is_array($attributes[$key]) && array_key_exists(0, $attributes[$key]))
                 {
-                    $this->setAttribute($key, $attributes[$key][0]);
+                    // If the entry has multiple attributes, we'll make sure we loop through each one
+                    if(array_key_exists('count', $attributes[$key]) && $attributes[$key]['count'] > 1)
+                    {
+                        $data = array();
+
+                        for ($i = 0; $i <= $attributes[$key]['count']; $i++)
+                        {
+                            $data[] = $attributes[$key][$i];
+                        }
+
+                        $this->setAttribute($key, array_filter($data));
+                    } else
+                    {
+                        // Looks like only one attribute exists, let's set it
+                        $this->setAttribute($key, $attributes[$key][0]);
+                    }
                 }
             }
 
-            // Convert distinguished name string into an array
-            if ($this->hasAttribute('distinguishedname'))
-            {
-                $dn = $this->getAttribute('distinguishedname');
+            $this->applyExtraAttributes();
+        }
+    }
 
-                $this->setAttribute('dn', $dn);
-                $this->setAttribute('dn_array', $this->connection->explodeDn($dn, true));
-            }
+    /**
+     * Applies extra attributes to the returned array.
+     */
+    private function applyExtraAttributes()
+    {
+        // Convert distinguished name string into an array
+        if ($this->hasAttribute('distinguishedname'))
+        {
+            $dn = $this->getAttribute('distinguishedname');
 
-            // Convert the object category string into an array
-            if ($this->hasAttribute('objectcategory'))
-            {
-                $oc = $this->getAttribute('objectcategory');
+            $this->setAttribute('dn', $dn);
 
-                $this->setAttribute('oc', $oc);
-                $this->setAttribute('oc_array', $this->connection->explodeDn($oc, true));
-            }
+            $this->setAttribute('dn_array', $this->connection->explodeDn($dn, true));
+        }
+
+        // Convert the object category string into an array
+        if ($this->hasAttribute('objectcategory'))
+        {
+            $oc = $this->getAttribute('objectcategory');
+
+            $this->setAttribute('oc', $oc);
+
+            $this->setAttribute('oc_array', $this->connection->explodeDn($oc, true));
         }
     }
 }

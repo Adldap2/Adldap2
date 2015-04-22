@@ -5,6 +5,7 @@ namespace Adldap\Collections;
 /**
  * Class AdldapGroupCollection
  * @package Adldap\collections
+ * @depreciated
  */
 class AdldapGroupCollection extends AdldapCollection
 {

@@ -494,6 +494,7 @@ class AdldapGroups extends AdldapBase
      * @param null $fields Fields to retrieve
      * @param bool $isGUID Is the groupName passed a GUID or a name
      * @return \Adldap\collections\AdldapGroupCollection|bool
+     * @depreciated
      */
     public function infoCollection($groupName, $fields = NULL, $isGUID = false)
     {

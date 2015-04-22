@@ -66,6 +66,7 @@ class AdldapComputers extends AdldapBase
      * @param string $computerName The name of the computer
      * @param array $fields Array of parameters to query
      * @return AdldapComputerCollection|bool
+     * @depreciated
      */
     public function infoCollection($computerName, array $fields = array())
     {

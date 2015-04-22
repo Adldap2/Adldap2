@@ -135,6 +135,7 @@ class AdldapContacts extends AdldapBase
      * @param string $distinguishedName
      * @param array $fields Array of parameters to query
      * @return AdldapContactCollection|bool
+     * @depreciated
      */
     public function infoCollection($distinguishedName, array $fields = array())
     {

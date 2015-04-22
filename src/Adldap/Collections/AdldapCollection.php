@@ -7,6 +7,7 @@ use Adldap\Adldap;
 /**
  * Class AdldapCollection
  * @package Adldap\collections
+ * @depreciated
  */
 abstract class AdldapCollection
 {

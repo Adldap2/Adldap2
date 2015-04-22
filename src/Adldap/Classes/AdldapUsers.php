@@ -213,6 +213,7 @@ class AdldapUsers extends AdldapBase
      * @param array $fields Array of parameters to query
      * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return AdldapUserCollection|bool
+     * @depreciated
      */
     public function infoCollection($username, array $fields = array(), $isGUID = false)
     {

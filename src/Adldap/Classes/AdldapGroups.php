@@ -35,6 +35,22 @@ class AdldapGroups extends AdldapBase
     }
 
     /**
+     * Finds a group and returns it's information.
+     *
+     * @param string $groupName The group name
+     * @param array $fields The group fields to retrieve
+     * @return array|bool
+     */
+    public function find($groupName, $fields = array())
+    {
+        return $this->adldap->search()
+            ->select($fields)
+            ->where('objectCategory', '=', $this->objectCategory)
+            ->where('anr', '=', $groupName)
+            ->first();
+    }
+
+    /**
      * Returns a complete list of the groups in AD based on a SAM Account Type
      *
      * @param int $sAMAaccountType The account type to return
@@ -66,12 +82,12 @@ class AdldapGroups extends AdldapBase
     /**
      * Obtain the group's distinguished name based on their group ID
      *
-     * @param string $name
+     * @param string $groupName
      * @return string|bool
      */
-    public function dn($name)
+    public function dn($groupName)
     {
-        $group = $this->info($name);
+        $group = $this->info($groupName);
 
         if(is_array($group) && array_key_exists('dn', $group))
         {
@@ -426,13 +442,9 @@ class AdldapGroups extends AdldapBase
      * @param array $fields Fields to retrieve
      * @return array|bool
      */
-    public function info($groupName, array $fields = array())
+    public function info($groupName, $fields = array())
     {
-        return $this->adldap->search()
-            ->select($fields)
-            ->where('objectCategory', '=', $this->objectCategory)
-            ->where('anr', '=', $groupName)
-            ->first();
+        return $this->find($groupName, $fields);
     }
 
     /**

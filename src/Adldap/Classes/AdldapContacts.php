@@ -53,7 +53,7 @@ class AdldapContacts extends AdldapBase
             ->select($fields)
             ->where('objectClass', '=', $this->objectClass)
             ->where('anr', '=', $name)
-            ->get();
+            ->first();
     }
 
     /**

@@ -13,6 +13,13 @@ use Adldap\Collections\AdldapComputerCollection;
 class AdldapComputers extends AdldapBase
 {
     /**
+     * The computers object class name.
+     *
+     * @var string
+     */
+    public $objectClass = 'computer';
+
+    /**
      * Returns all computers from the current connection.
      *
      * @param array $fields
@@ -25,7 +32,7 @@ class AdldapComputers extends AdldapBase
     {
         $search = $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '=', 'computer');
+            ->where('objectClass', '=', $this->objectClass);
 
         if($sorted) $search->sortBy($sortBy, $sortByDirection);
 
@@ -43,7 +50,7 @@ class AdldapComputers extends AdldapBase
     {
         return $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '=', 'computer')
+            ->where('objectClass', '=', $this->objectClass)
             ->where('cn', '=', $computer)
             ->first();
     }

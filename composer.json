@@ -43,7 +43,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Adldap\\": "src/Adldap/"
+            "Adldap\\": "src/"
         }
     },
     "autoload-dev": {

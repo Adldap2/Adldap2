@@ -27,6 +27,14 @@ class AdldapSearch extends AdldapBase
     protected $dn = '';
 
     /**
+     * Stores the bool to determine whether or not
+     * to search LDAP recursively.
+     *
+     * @var bool
+     */
+    protected $recursive = false;
+
+    /**
      * Stores available operators to use for a query.
      *
      * @var array
@@ -101,7 +109,17 @@ class AdldapSearch extends AdldapBase
         // If the query is empty, we'll return false
         if($query === null || empty($query)) return false;
 
-        $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
+        /*
+         * If the search is recursive, we'll run a search,
+         * if not, we'll run a listing.
+         */
+        if($this->recursive)
+        {
+            $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
+        } else
+        {
+            $results = $this->connection->listing($this->getDn(), $query, $this->getSelects());
+        }
 
         if ($results) return $this->processResults($results);
 
@@ -346,6 +364,22 @@ class AdldapSearch extends AdldapBase
         if(empty($this->dn)) return $this->adldap->getBaseDn();
 
         return $this->dn;
+    }
+
+    /**
+     * Sets the recursive property to tell the search
+     * whether or not to search recursively.
+     *
+     * @param bool $recursive
+     * @return $this
+     */
+    public function recursive($recursive = true)
+    {
+        $this->recursive = true;
+
+        if($recursive === false) $this->recursive = false;
+
+        return $this;
     }
 
     /**

@@ -14,6 +14,26 @@ use Adldap\Objects\Contact;
 class AdldapContacts extends AdldapBase
 {
     /**
+     * Returns a list of all contacts.
+     *
+     * @param array $fields
+     * @param bool $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
+     * @return array|bool
+     */
+    public function all($fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->adldap->search()
+            ->select($fields)
+            ->where('objectClass', '=', 'contact');
+
+        if($sorted) $search->sortBy($sortBy, $sortByDirection);
+
+        return $search->get();
+    }
+
+    /**
      * Create a contact
      *
      * @param array $attributes The attributes to set to the contact
@@ -203,48 +223,6 @@ class AdldapContacts extends AdldapBase
     public function delete($distinguishedName)
     {
         return $this->adldap->folder()->delete($distinguishedName);
-    }
-
-    /**
-     * Return a list of all contacts
-     *
-     * @param bool $includeDescription Include a description of a contact
-     * @param string $search The search parameters
-     * @param bool $sorted Whether to sort the results
-     * @return array|bool
-     */
-    public function all($includeDescription = false, $search = "*", $sorted = true)
-    {
-        $this->adldap->utilities()->validateLdapIsBound();
-        
-        // Perform the search and grab all their details
-        $filter = "(&(objectClass=contact)(cn=" . $search . "))";
-
-        $fields = array("displayname","distinguishedname");
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        $usersArray = array();
-
-        for ($i = 0; $i < $entries["count"]; $i++)
-        {
-            if ($includeDescription && strlen($entries[$i]["displayname"][0])>0)
-            {
-                $usersArray[$entries[$i]["distinguishedname"][0]] = $entries[$i]["displayname"][0];
-            } elseif ($includeDescription)
-            {
-                $usersArray[$entries[$i]["distinguishedname"][0]] = $entries[$i]["distinguishedname"][0];
-            } else
-            {
-                array_push($usersArray, $entries[$i]["distinguishedname"][0]);
-            }
-        }
-
-        if ($sorted) asort($usersArray);
-
-        return $usersArray;
     }
 
     /**

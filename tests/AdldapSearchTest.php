@@ -198,6 +198,24 @@ class AdldapSearchTest extends AdldapBaseTest
         $this->assertEquals(array(), $search->query('(cn=test)'));
     }
 
+    public function testSearchQueryNonRecursive()
+    {
+        $connection = $this->newConnectionMock();
+
+        $ad = $this->newAdldap($connection);
+
+        $search = new AdldapSearch($ad);
+
+        $search->recursive(false);
+        
+        $connection
+            ->shouldReceive('listing')->once()->andReturn('resource')
+            ->shouldReceive('getEntries')->once()->andReturn(array())
+            ->shouldReceive('close')->once()->andReturn(true);
+
+        $this->assertEquals(array(), $search->query('(cn=test)'));
+    }
+
     public function testSearchWhereInvalidOperator()
     {
         $connection = $this->newConnectionMock();

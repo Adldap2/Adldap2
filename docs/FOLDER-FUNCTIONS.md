@@ -2,7 +2,7 @@
 
 ### Listing
 
-`listing($folders = array(), $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)`
+    listing($folders = array(), $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
 
 To retrieve an OU's (organizational unit(s)) listing, use the `listing()` function. However keep in mind that this query is by default recursive!
 Calling this function without listing an OU will retrieve all entries recursively.

@@ -3,7 +3,6 @@
 namespace Adldap\Connections;
 
 use Adldap\Exceptions\AdldapException;
-use Exception;
 use Adldap\Interfaces\ConnectionInterface;
 
 /**

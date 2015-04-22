@@ -107,18 +107,18 @@ class AdldapGroups extends AdldapBase
     public function addGroup($parent,$child)
     {
         // Find the parent group's dn
-        $parentGroup = $this->info($parent, array("cn"));
+        $parentGroup = $this->find($parent);
 
-        if ($parentGroup[0]["dn"] === NULL) return false;
+        if ($parentGroup["dn"] === NULL) return false;
 
-        $parentDn = $parentGroup[0]["dn"];
+        $parentDn = $parentGroup["dn"];
 
         // Find the child group's dn
-        $childGroup = $this->info($child, array("cn"));
+        $childGroup = $this->info($child);
 
-        if ($childGroup[0]["dn"] === NULL) return false;
+        if ($childGroup["dn"] === NULL) return false;
 
-        $childDn = $childGroup[0]["dn"];
+        $childDn = $childGroup["dn"];
 
         $add = array();
         $add["member"] = $childDn;

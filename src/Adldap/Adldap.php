@@ -926,7 +926,7 @@ class Adldap
     }
 
     /**
-     * Find the Base DN of your domain controller
+     * Finds the Base DN of your domain controller.
      *
      * @return mixed
      */
@@ -934,19 +934,22 @@ class Adldap
     {
         $namingContext = $this->getRootDse(array('defaultnamingcontext'));
 
-        return $namingContext[0]['defaultnamingcontext'][0];
+        if(is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext[0]))
+        {
+            return $namingContext[0]['defaultnamingcontext'][0];
+        }
+
+        return null;
     }
 
     /**
-     * Get the RootDSE properties from a domain controller
+     * Get the RootDSE properties from a domain controller.
      *
      * @param array $attributes The attributes you wish to query e.g. defaultnamingcontext
      * @return array|bool
      */
     public function getRootDse($attributes = array("*", "+"))
     {
-        $this->utilities()->validateLdapIsBound();
-
         $filter = 'objectClass=*';
 
         $results = $this->ldapConnection->read(NULL, $filter, $attributes);

@@ -32,7 +32,7 @@ class AdldapSearch extends AdldapBase
      *
      * @var bool
      */
-    protected $recursive = false;
+    protected $recursive = true;
 
     /**
      * Stores available operators to use for a query.

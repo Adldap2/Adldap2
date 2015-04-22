@@ -33,17 +33,17 @@ class AdldapFolders extends AdldapBase
      * If folderName is set to NULL this will list the root, strongly recommended
      * to set $recursive to false in that instance!
      *
-     * @param null $folderName An array to the OU you wish to list
-     * @param string $dnType The type of record to list.  This can be ADLDAP_FOLDER or ADLDAP_CONTAINER.
+     * @param array $folders
+     * @param string $dnType
      * @param null $recursive
      * @param null $type
      * @return array|bool
      */
-    public function listing($folders = NULL, $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
+    public function listing($folders = array(), $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
     {
         $search = $this->adldap->search();
 
-        if (is_array($folders))
+        if (is_array($folders) && count($folders) > 0)
         {
             /*
              * Reverse the folder array so it's more

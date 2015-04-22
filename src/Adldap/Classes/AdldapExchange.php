@@ -14,11 +14,17 @@ use Adldap\Objects\Mailbox;
 class AdldapExchange extends AdldapBase
 {
     /**
-     * The exchange servers object class.
      *
      * @var string
      */
-    public $objectCategory = 'msExchExchangeServer';
+    public $serverObjectCategory = 'msExchExchangeServer';
+
+    /**
+     * The exchange servers storage group object category.
+     *
+     * @var string
+     */
+    public $storageGroupObjectCategory = 'msExchStorageGroup';
 
     /**
      * Create an Exchange account.
@@ -317,10 +323,10 @@ class AdldapExchange extends AdldapBase
             return $this->adldap->search()
                 ->setDn($dn)
                 ->select($fields)
-                ->where('objectCategory', '=', $this->objectCategory)
+                ->where('objectCategory', '=', $this->serverObjectCategory)
                 ->get();
         }
-        
+
         return false;
     }
 
@@ -340,7 +346,7 @@ class AdldapExchange extends AdldapBase
 
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
 
-        $filter = '(&(objectCategory=msExchStorageGroup))';
+        $filter = "(&(objectCategory=$this->storageGroupObjectCategory))";
 
         $results = $this->connection->search($exchangeServer, $filter, $attributes);
 

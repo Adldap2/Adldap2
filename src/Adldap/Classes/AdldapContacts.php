@@ -14,6 +14,13 @@ use Adldap\Objects\Contact;
 class AdldapContacts extends AdldapBase
 {
     /**
+     * The contacts object class name.
+     *
+     * @var string
+     */
+    public $objectClass = 'contact';
+
+    /**
      * Returns a list of all contacts.
      *
      * @param array $fields
@@ -26,11 +33,27 @@ class AdldapContacts extends AdldapBase
     {
         $search = $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '=', 'contact');
+            ->where('objectClass', '=', $this->objectClass);
 
         if($sorted) $search->sortBy($sortBy, $sortByDirection);
 
         return $search->get();
+    }
+
+    /**
+     * Finds and returns a contact by the specified name.
+     *
+     * @param $name
+     * @param array $fields
+     * @return array|bool
+     */
+    public function find($name, $fields = array())
+    {
+        return $this->adldap->search()
+            ->select($fields)
+            ->where('objectClass', '=', $this->objectClass)
+            ->where('anr', '=', $name)
+            ->get();
     }
 
     /**

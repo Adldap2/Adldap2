@@ -20,6 +20,13 @@ class AdldapSearch extends AdldapBase
     protected $query = '';
 
     /**
+     * Stores the distinguished name to search on.
+     *
+     * @var string
+     */
+    protected $dn = '';
+
+    /**
      * Stores available operators to use for a query.
      *
      * @var array
@@ -94,7 +101,7 @@ class AdldapSearch extends AdldapBase
         // If the query is empty, we'll return false
         if($query === null || empty($query)) return false;
 
-        $results = $this->connection->search($this->adldap->getBaseDn(), $query, $this->getSelects());
+        $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
 
         if ($results) return $this->processResults($results);
 
@@ -311,6 +318,34 @@ class AdldapSearch extends AdldapBase
         }
 
         return $this;
+    }
+
+    /**
+     * Sets the complete distinguished name to search on.
+     *
+     * @param string $dn
+     * @return $this
+     */
+    public function setDn($dn)
+    {
+        $this->dn = (string) $dn;
+
+        return $this;
+    }
+
+    /**
+     * Returns the current distinguished name.
+     *
+     * This will return the domains base DN if a search
+     * DN is not set.
+     *
+     * @return string
+     */
+    public function getDn()
+    {
+        if(empty($this->dn)) return $this->adldap->getBaseDn();
+
+        return $this->dn;
     }
 
     /**

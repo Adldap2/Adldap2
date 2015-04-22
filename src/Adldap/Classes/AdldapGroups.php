@@ -15,20 +15,71 @@ use Adldap\Adldap;
 class AdldapGroups extends AdldapBase
 {
     /**
-     * The default query fields to use when
-     * request group information.
+     * The groups object category string.
      *
-     * @var array
+     * @var string
      */
-    public $defaultQueryFields = array(
-        "member",
-        "memberof",
-        "cn",
-        "description",
-        "distinguishedname",
-        "objectcategory",
-        "samaccountname"
-    );
+    public $objectCategory = 'group';
+
+    /**
+     * Returns a complete list of all groups in AD
+     *
+     * @param bool $includeDescription Whether to return a description
+     * @param string $search Search parameters
+     * @param bool $sorted Whether to sort the results
+     * @return array|bool
+     */
+    public function all($includeDescription = false, $search = "*", $sorted = true)
+    {
+        return $this->search(null, $includeDescription, $search, $sorted);
+    }
+
+    /**
+     * Returns a complete list of the groups in AD based on a SAM Account Type
+     *
+     * @param int $sAMAaccountType The account type to return
+     * @param array $select The fields you want to retrieve for each
+     * @param bool $sorted Whether to sort the results
+     * @return array|bool
+     */
+    public function search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = array(), $sorted = true)
+    {
+        $this->adldap->utilities()->validateLdapIsBound();
+
+        $search = $this->adldap->search()
+            ->select($select)
+            ->where('objectCategory', '=', 'group');
+
+        if ($sAMAaccountType !== null)
+        {
+            $search->where('samaccounttype', '=', $sAMAaccountType);
+        }
+
+        if($sorted)
+        {
+            $search->sortBy('samaccountname', 'asc');
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Obtain the group's distinguished name based on their group ID
+     *
+     * @param string $name
+     * @return string|bool
+     */
+    public function dn($name)
+    {
+        $group = $this->info($name);
+
+        if(is_array($group) && array_key_exists('dn', $group))
+        {
+            return $group['dn'];
+        }
+
+        return false;
+    }
 
     /**
      * Add a group to a group
@@ -337,78 +388,34 @@ class AdldapGroups extends AdldapBase
     }
 
     /**
-     * Return a list of members in a group
+     * Return a list of members in a group.
      *
      * @param string $group The group to query
-     * @param null $recursive Recursively get group members
+     * @param array $fields The fields to retrieve for each member
      * @return array|bool
      */
-    public function members($group, $recursive = NULL)
+    public function members($group, $fields = array())
     {
-        $this->adldap->utilities()->validateLdapIsBound();
+        $group = $this->info($group);
 
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups(); // Use the default option if they haven't set it
-
-        // Search the directory for the members of a group
-        $info = $this->info($group, array("member","cn"));
-
-        if (isset($info[0]["member"]))
+        if(is_array($group) && array_key_exists('member', $group))
         {
-            $users = $info[0]["member"];
+            $members = array();
 
-            if ( ! is_array($users)) return false;
-        } else
-        {
-            return false;
-        }
-
-        $userArray = array();
-
-        for ($i = 0; $i < $users["count"]; $i++)
-        {
-            $filter = "(&(objectCategory=person)(distinguishedName=" . $this->adldap->utilities()->ldapSlashes($users[$i]) . "))";
-
-            $fields = array("samaccountname", "distinguishedname", "objectClass");
-
-            $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-            $entries = $this->connection->getEntries($results);
-
-            // not a person, look for a group
-            if ($entries['count'] == 0 && $recursive === true)
+            foreach($group['member'] as $member)
             {
-                $filter = "(&(objectCategory=group)(distinguishedName=" . $this->adldap->utilities()->ldapSlashes($users[$i]) . "))";
-
-                $fields = array("samaccountname");
-
-                $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-                $entries = $this->connection->getEntries($results);
-
-                if ( ! isset($entries[0]['samaccountname'][0])) continue;
-
-                $subUsers = $this->members($entries[0]['samaccountname'][0], $recursive);
-
-                if (is_array($subUsers))
-                {
-                    $userArray = array_merge($userArray, $subUsers);
-                    $userArray = array_unique($userArray);
-                }
-
-                continue;
-
-            } else if ($entries['count'] == 0) continue;
-
-            if (( ! isset($entries[0]['samaccountname'][0]) || $entries[0]['samaccountname'][0] === NULL) && $entries[0]['distinguishedname'][0] !== NULL)
-            {
-                $userArray[] = $entries[0]['distinguishedname'][0];
-            } else if ($entries[0]['samaccountname'][0] !== NULL)
-            {
-                $userArray[] = $entries[0]['samaccountname'][0];
+                $members[] = $this->adldap->search()
+                    ->setDn($member)
+                    ->select($fields)
+                    ->where('objectClass', '=', 'user')
+                    ->where('objectClass', '=', 'person')
+                    ->first();
             }
+
+            return $members;
         }
 
-        return $userArray;
+        return false;
     }
 
     /**
@@ -417,72 +424,15 @@ class AdldapGroups extends AdldapBase
      *
      * @param string $groupName The group name to retrieve info about
      * @param array $fields Fields to retrieve
-     * @param bool $isGUID Is the groupName passed a GUID or a name
      * @return array|bool
      */
-    public function info($groupName, array $fields = array(), $isGUID = false)
+    public function info($groupName, array $fields = array())
     {
-        $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
-
-        $this->adldap->utilities()->validateLdapIsBound();
-
-        // We'll assign the default query fields if none are given
-        if (count($fields) === 0) $fields = $this->defaultQueryFields;
-
-        if ($isGUID === true)
-        {
-            $filter = "objectguid=" . $this->adldap->utilities()->strGuidToHex($groupName);
-
-        } else
-        {
-            if (stristr($groupName, '+')) $groupName = stripslashes($groupName);
-
-            $filter = "name=" . $this->adldap->utilities()->ldapSlashes($groupName);
-        }
-
-        $filter = "(&(objectCategory=group)(name=$filter))";
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        // Windows 2003: Returns up to 1500 values (Windows 2000 only 1000 is not supported).
-        if (isset($entries[0]['member;range=0-1499']) && $entries[0]['member;range=0-1499']['count'] == 1500)
-        {
-            $entries[0]['member']['count'] = "0";
-
-            $rangestep = 1499;     // Step site
-            $rangelow  = 0;        // Initial low range
-            $rangehigh = $rangelow + $rangestep;     // Initial high range
-
-            // Do until array_keys($members[0])[0] ends with a '*', e. g. member;range=1499-*. It indicates end of the range
-            do
-            {
-                $fields = array("member;range=" . $rangelow . "-" . $rangehigh);
-
-                $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-                $members = $this->connection->getEntries($results);
-
-                $memberrange = array_keys($members[0]);
-
-                $membercount = $members[0][$memberrange[0]]['count'];
-
-                // Copy range entries to member
-                for ($i = 0; $i <= $membercount -1; $i++)
-                {
-                    $entries[0]['member'][] = $members[0][$memberrange[0]][$i];
-                }
-
-                $entries[0]['member']['count'] += $membercount;
-
-                $rangelow  += $rangestep +1;
-                $rangehigh += $rangestep +1;
-
-            } while (substr($memberrange[0], -1) != '*');
-        }
-
-        return $entries;
+        return $this->adldap->search()
+            ->select($fields)
+            ->where('objectCategory', '=', $this->objectCategory)
+            ->where('anr', '=', $groupName)
+            ->first();
     }
 
     /**
@@ -551,65 +501,6 @@ class AdldapGroups extends AdldapBase
         }
 
         return $retGroups;
-    }
-
-    /**
-     * Returns a complete list of the groups in AD based on a SAM Account Type
-     *
-     * @param int $sAMAaccountType The account type to return
-     * @param array $select The fields you want to retrieve for each
-     * @param bool $sorted Whether to sort the results
-     * @return array|bool
-     */
-    public function search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = array(), $sorted = true)
-    {
-        $this->adldap->utilities()->validateLdapIsBound();
-
-        $search = $this->adldap->search()
-            ->select($select)
-            ->where('objectCategory', '=', 'group');
-
-        if ($sAMAaccountType !== null)
-        {
-            $search->where('samaccounttype', '=', $sAMAaccountType);
-        }
-
-        if($sorted)
-        {
-            $search->sortBy('samaccountname', 'asc');
-        }
-
-        return $search->get();
-    }
-
-    /**
-     * Obtain the group's distinguished name based on their group ID
-     *
-     * @param string $groupName
-     * @return string|bool
-     */
-    public function dn($groupName)
-    {
-        $group = $this->info($groupName, array("cn"));
-
-        if ($group[0]["dn"] === NULL) return false;
-
-        $groupDn = $group[0]["dn"];
-
-        return $groupDn;
-    }
-
-    /**
-     * Returns a complete list of all groups in AD
-     *
-     * @param bool $includeDescription Whether to return a description
-     * @param string $search Search parameters
-     * @param bool $sorted Whether to sort the results
-     * @return array|bool
-     */
-    public function all($includeDescription = false, $search = "*", $sorted = true)
-    {
-        return $this->search(null, $includeDescription, $search, $sorted);
     }
 
     /**

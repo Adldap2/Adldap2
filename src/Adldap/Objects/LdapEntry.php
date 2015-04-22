@@ -31,7 +31,7 @@ class LdapEntry extends AbstractObject
         // Construct the entry
         $this->applyAttributes($attributes);
     }
-    
+
     /**
      * Applies the proper object attributes if they exist.
      *

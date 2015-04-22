@@ -14,6 +14,7 @@ use Adldap\Objects\Mailbox;
 class AdldapExchange extends AdldapBase
 {
     /**
+     * The exchange servers object category.
      *
      * @var string
      */

@@ -14,6 +14,13 @@ use Adldap\Objects\Mailbox;
 class AdldapExchange extends AdldapBase
 {
     /**
+     * The exchange servers object class.
+     *
+     * @var string
+     */
+    public $objectCategory = 'msExchExchangeServer';
+
+    /**
      * Create an Exchange account.
      *
      * @param string $username The username of the user to add the Exchange account to
@@ -296,22 +303,25 @@ class AdldapExchange extends AdldapBase
     /**
      * Returns a list of Exchange Servers in the ConfigurationNamingContext of the domain
      *
-     * @param array $attributes An array of the AD attributes you wish to return
+     * @param array $fields
      * @return array|bool
      */
-    public function servers($attributes = array('cn','distinguishedname','serialnumber'))
+    public function servers($fields = array())
     {
-        $this->adldap->utilities()->validateLdapIsBound();
-        
         $configurationNamingContext = $this->adldap->getRootDse(array('configurationnamingcontext'));
 
-        $filter = '(&(objectCategory=msExchExchangeServer))';
+        if(is_array($configurationNamingContext) && array_key_exists('configurationnamingcontext', $configurationNamingContext[0]))
+        {
+            $dn = $configurationNamingContext[0]['configurationnamingcontext'][0];
 
-        $results = $this->connection->search($configurationNamingContext[0]['configurationnamingcontext'][0], $filter, $attributes);
-
-        $entries = $this->connection->getEntries($results);
-
-        return $entries;
+            return $this->adldap->search()
+                ->setDn($dn)
+                ->select($fields)
+                ->where('objectCategory', '=', $this->objectCategory)
+                ->get();
+        }
+        
+        return false;
     }
 
     /**
@@ -364,7 +374,7 @@ class AdldapExchange extends AdldapBase
         $this->adldap->utilities()->validateNotNull('Storage Group', $storageGroup);
 
         $this->adldap->utilities()->validateLdapIsBound();
-        
+
         $filter = '(&(objectCategory=msExchPrivateMDB))';
 
         $results = $this->connection->search($storageGroup, $filter, $attributes);

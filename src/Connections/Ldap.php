@@ -501,6 +501,20 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Batch modifies the specified LDAP entry.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function modifyBatch($dn, array $entry)
+    {
+        if($this->suppressErrors) return @ldap_modify_batch($this->getConnection(), $dn, $entry);
+
+        return ldap_modify_batch($this->getConnection(), $dn, $entry);
+    }
+
+    /**
      * Add attribute values to current attributes.
      *
      * @param string $dn

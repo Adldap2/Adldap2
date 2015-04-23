@@ -456,6 +456,95 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
+     * Check if the php installation is able to perform a password change.
+     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
+     *
+     * @return bool
+     */
+    private function changePasswordSupported()
+    {
+        return function_exists('ldap_modify_batch');
+    }
+
+    /**
+     * Change the password of a user - This must be performed over SSL
+     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
+     *
+     * @param string $username The username to modify
+     * @param string $password The new password
+     * @param string $oldPassword The old password
+     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @return bool
+     * @throws AdldapException
+     */
+    public function changePassword($username, $password, $oldPassword, $isGUID = false)
+    {
+        $this->adldap->utilities()->validateNotNull('Username', $username);
+        $this->adldap->utilities()->validateNotNull('Password', $password);
+        $this->adldap->utilities()->validateNotNull('Old Password', $oldPassword);
+
+        $this->adldap->utilities()->validateLdapIsBound();
+
+        if ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
+        {
+            $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
+
+            throw new AdldapException($message);
+        }
+
+        if ( ! $this->changePasswordSupported())
+        {
+            $message = 'Missing function support [ldap_modify_batch] http://php.net/manual/en/function.ldap-modify-batch.php';
+
+            throw new AdldapException($message);
+        }
+        
+        $userDn = $this->dn($username, $isGUID);
+
+        if ($userDn === false) return false;
+
+        $modification = array (
+            array (
+                'attrib'  => 'unicodePwd',
+                'modtype' => LDAP_MODIFY_BATCH_REMOVE,
+                'values'  => $this->encodePassword($oldPassword)
+            ),
+            array (
+                'attrib'  => 'unicodePwd',
+                'modtype' => LDAP_MODIFY_BATCH_ADD,
+                'values'  => $this->encodePassword($password)
+            )
+        );
+
+        $result = $this->connection->modifyBatch($userDn, $modification);
+
+        if ($result === false)
+        {
+            $err = $this->connection->errNo();
+
+            if ($err)
+            {
+                $error = $this->connection->err2Str($err);
+
+                $msg = 'Error ' . $err . ': ' . $error . '.';
+
+                if($err == 53)
+                {
+                    $msg .= ' Your password might not match the password policy.';
+                }
+
+                throw new AdldapException($msg);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Encode a password for transmission over LDAP
      *
      * @param string $password The password to encode

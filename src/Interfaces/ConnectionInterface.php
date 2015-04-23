@@ -267,6 +267,16 @@ interface ConnectionInterface
     public function modify($dn, array $entry);
 
     /**
+     * Batch modifies an existing entry on the
+     * current connection.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modifyBatch($dn, array $entry);
+
+    /**
      * Add attribute values to current attributes.
      *
      * @param string $dn

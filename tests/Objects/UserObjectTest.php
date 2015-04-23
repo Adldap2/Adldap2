@@ -9,15 +9,15 @@ class UserObjectTest extends FunctionalTestCase
 {
     protected function stubbedUserAttributes()
     {
-        return array(
+        return [
             'display_name' => 'John Doe',
             'username' => 'jdoe',
             'firstname' => 'John',
             'surname' => 'Doe',
             'email' => 'jdoe@email.com',
-            'container' => array('Container Parent', 'Container Child'),
+            'container' => ['Container Parent', 'Container Child'],
             'password' => 'New Password',
-        );
+        ];
     }
 
     public function testUserConstruct()
@@ -28,7 +28,7 @@ class UserObjectTest extends FunctionalTestCase
         $this->assertEquals('John', $user->firstname);
         $this->assertEquals('Doe', $user->surname);
         $this->assertEquals('jdoe@email.com', $user->email);
-        $this->assertEquals(array('Container Parent', 'Container Child'), $user->container);
+        $this->assertEquals(['Container Parent', 'Container Child'], $user->container);
         $this->assertEquals('New Password', $user->password);
     }
 

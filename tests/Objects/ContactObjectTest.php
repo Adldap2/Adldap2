@@ -9,11 +9,11 @@ class ContactObjectTest extends FunctionalTestCase
 {
     public function testContactObjectValidatePasses()
     {
-        $attributes = array(
+        $attributes = [
             'display_name' => 'Display Name',
             'email' => 'Email',
-            'container' => array('Child', 'Parent'),
-        );
+            'container' => ['Child', 'Parent'],
+        ];
 
         $contact = new Contact($attributes);
 
@@ -22,11 +22,11 @@ class ContactObjectTest extends FunctionalTestCase
 
     public function testContactObjectValidateContainerFailure()
     {
-        $attributes = array(
+        $attributes = [
             'display_name' => 'Display Name',
             'email' => 'Email',
             'container' => 'Invalid Container',
-        );
+        ];
 
         $contact = new Contact($attributes);
 
@@ -37,9 +37,9 @@ class ContactObjectTest extends FunctionalTestCase
 
     public function testContactObjectValidateOtherAttributesFailure()
     {
-        $attributes = array(
-            'container' => array('Child', 'Parent')
-        );
+        $attributes = [
+            'container' => ['Child', 'Parent']
+        ];
 
         $contact = new Contact($attributes);
 

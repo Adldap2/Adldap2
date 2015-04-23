@@ -123,27 +123,27 @@ class AdldapUtilityTest extends FunctionalTestCase
 
         $dn = 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM';
 
-        $includedExpected = array(
+        $includedExpected = [
             'count' => 5,
             "CN=Karen Berge",
             "CN=admin",
             "DC=corp",
             "DC=Fabrikam",
             "DC=COM",
-        );
+        ];
 
         $includedAttributes = $utility->dnStrToArr($dn, true, true);
 
         $this->assertEquals($includedExpected, $includedAttributes);
 
-        $notIncludedExpected = array(
+        $notIncludedExpected = [
             'count' => 5,
             "Karen Berge",
             "admin",
             "corp",
             "Fabrikam",
             "COM"
-        );
+        ];
 
         $notIncludedAttributes = $utility->dnStrToArr($dn, true, false);
 

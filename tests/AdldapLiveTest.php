@@ -13,17 +13,17 @@ class AdldapLiveTest extends FunctionalTestCase
      */
     public function testGeorgiaTechConnection()
     {
-        $config = array(
+        $config = [
             'account_suffix' => "@gatech.edu",
 
-            'domain_controllers' => array("whitepages.gatech.edu"),
+            'domain_controllers' => ["whitepages.gatech.edu"],
 
             'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
 
             'admin_username' => '',
 
             'admin_password' => '',
-        );
+        ];
 
         $ad = new Adldap($config);
 

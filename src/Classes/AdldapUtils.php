@@ -27,26 +27,20 @@ class AdldapUtils extends AdldapBase
      */
     public function niceNames($groups)
     {
-        $groupArray = array();
+        $groupNames = array();
 
-        for ($i = 0; $i < $groups["count"]; $i++)
+        if (is_array($groups) && count($groups) > 0)
         {
-            $line = $groups[$i];
-
-            if (strlen($line) > 0)
+            foreach($groups as $group)
             {
-                /*
-                 * More presumptions, they're all prefixed with CN=
-                 * so we ditch the first three characters and the group
-                 * name goes up to the first comma
-                 */
-                $bits = explode(",", $line);
+                $explodedDn = $this->connection->explodeDn($group);
 
-                $groupArray[] = substr($bits[0], 3, (strlen($bits[0]) - 3));
+                // Assuming the zero key is the CN
+                $groupNames[] = $explodedDn[0];
             }
         }
 
-        return $groupArray;
+        return $groupNames;
     }
 
     /**

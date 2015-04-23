@@ -14,6 +14,26 @@
 
 ### Delete
 
+### Change Password
+
+To change a users password, use the `changePassword()` method:
+
+    try
+    {
+        $newPassword = 'newpassword123';
+        
+        $oldPassword = 'oldpassword123';
+    
+        $changed = $ad->user()->changePassword('jdoe', $newPassword, $oldPassword);
+        
+    } catch(Adldap\Exceptions\WrongPasswordException $e)
+    {
+        return "Uh oh, you've entered the wrong old password!";
+    } catch(Adldap\Exceptions\PasswordPolicyException $e)
+    {
+        return "Looks like your new password doesn't meet our requirements. Try again."
+    }
+
 ### Password Expiry
 
 To retrieve a users password expiry date, use the `passwordExpiry()` method:

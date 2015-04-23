@@ -125,9 +125,7 @@ class Ldap implements ConnectionInterface
      */
     public function isBatchSupported()
     {
-        if ( ! function_exists('ldap_modify_batch')) return false;
-
-        return true;
+        return function_exists('ldap_modify_batch');
     }
 
     /**

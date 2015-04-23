@@ -42,7 +42,9 @@ We could also perform a search for all objects beginning with the common name of
 Or we can retrieve all objects that contain a common name attribute using the wildcard operator (`*`):
 
     $results = $ad->search()->where('cn', '*')->get();
-    
+
+they would return the same result.
+   
 It's also good to know that all values (except an asterisk `*`) inserted into a where, or an orWhere method,
 <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
 
@@ -224,5 +226,5 @@ Retrieving all computers that run Windows 7:
 
     $results = $ad->search()
             ->where('objectClass', '=', 'computer')
-            ->where('operatingSystemVersion', '=', 'Windows 7*')
+            ->where('operatingSystem', '=', 'Windows 7*')
             ->get();

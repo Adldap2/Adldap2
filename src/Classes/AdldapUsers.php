@@ -528,9 +528,9 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
         
-        $userInfo = $this->info($user->getAttribute('username'), array("*"));
+        $userInfo = $this->info($user->getAttribute('username'));
 
-        $dn = $userInfo[0]['distinguishedname'][0];
+        $dn = $userInfo['dn'];
 
         $newRDn = "cn=" . $user->getAttribute('username');
 

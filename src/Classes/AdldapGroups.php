@@ -557,42 +557,4 @@ class AdldapGroups extends AdldapBase
 
         return false;
     }
-
-    /**
-     * Coping with AD not returning the primary group
-     * http://support.microsoft.com/?kbid=321360
-     *
-     * For some reason it's not possible to search on primarygrouptoken=XXX
-     * If someone can show otherwise, I'd like to know about it :)
-     * this way is resource intensive and generally a pain in the @#%^
-     *
-     * @deprecated deprecated since version 3.1, see get get_primary_group
-     * @param string $groupId Group ID
-     * @return bool|string
-     */
-    public function cn($groupId)
-    {
-        $this->adldap->utilities()->validateNotNull('Group ID', $groupId);
-
-        $r = '';
-
-        $filter = "(&(objectCategory=group)(samaccounttype=" . Adldap::ADLDAP_SECURITY_GLOBAL_GROUP . "))";
-
-        $fields = array("primarygrouptoken", "samaccountname", "distinguishedname");
-
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        for ($i = 0; $i < $entries["count"]; $i++)
-        {
-            if ($entries[$i]["primarygrouptoken"][0] == $groupId)
-            {
-                $r = $entries[$i]["distinguishedname"][0];
-                $i = $entries["count"];
-            }
-        }
-
-        return $r;
-    }
 }

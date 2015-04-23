@@ -507,12 +507,12 @@ class AdldapUsers extends AdldapBase
             array (
                 'attrib'  => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_REMOVE,
-                'values'  => $this->encodePassword($oldPassword)
+                'values'  => array($this->encodePassword($oldPassword)),
             ),
             array (
                 'attrib'  => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_ADD,
-                'values'  => $this->encodePassword($password)
+                'values'  => array($this->encodePassword($password))
             )
         );
 

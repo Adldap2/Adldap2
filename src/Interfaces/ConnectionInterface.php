@@ -331,6 +331,20 @@ interface ConnectionInterface
     public function errNo();
 
     /**
+     * Returns the extended error string of the last command
+     *
+     * @return mixed
+     */
+    public function getExtendedError();
+
+    /**
+     * Returns the extended error code of the last command
+     *
+     * @return mixed
+     */
+    public function getExtendedErrorCode();
+
+    /**
      * Explodes a distinguished name into an array
      *
      * @param string $dn The distinguished name

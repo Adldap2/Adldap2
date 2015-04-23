@@ -4,6 +4,8 @@ namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Collections\AdldapUserCollection;
+use Adldap\Exceptions\PasswordPolicyException;
+use Adldap\Exceptions\WrongPasswordException;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\User;
 use Adldap\Adldap;
@@ -520,17 +522,25 @@ class AdldapUsers extends AdldapBase
 
         if ($result === false)
         {
-            $err = $this->connection->errNo();
+            $error = $this->connection->getExtendedError();
 
-            if ($err)
+            if ($error)
             {
-                $error = $this->connection->err2Str($err);
+                $errorCode = $this->connection->getExtendedErrorCode();
 
-                $msg = 'Error ' . $err . ': ' . $error . '.';
+                $msg = 'Error: ' . $error;
 
-                if($err == 53)
+                if ($errorCode == '0000052D')
                 {
-                    $msg .= ' Your password might not match the password policy.';
+                    $msg = "Error: $errorCode. Your new password might not match the password policy.";
+
+                    throw new PasswordPolicyException($msg);
+                }
+                elseif ($errorCode == '00000056')
+                {
+                    $msg = "Error: $errorCode. Your old password might be wrong.";
+
+                    throw new WrongPasswordException($msg);
                 }
 
                 throw new AdldapException($msg);

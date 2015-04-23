@@ -618,6 +618,26 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Return the extended LDAP error code of the last LDAP command
+     *
+     * @return int
+     */
+    public function getExtendedError()
+    {
+        return $this->getDiagnosticMessage();
+    }
+
+    /**
+     * Return the extended LDAP error code of the last LDAP command
+     *
+     * @return int
+     */
+    public function getExtendedErrorCode()
+    {
+        return $this->extractDiagnosticCode( $this->getExtendedError() );
+    }
+
+    /**
      * Convert LDAP error number into string error message
      *
      * @param int $number
@@ -759,5 +779,33 @@ class Ldap implements ConnectionInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Return the diagnostic Message
+     *
+     * @return string $diagnosticMessage
+     */
+    public function getDiagnosticMessage()
+    {
+        ldap_get_option($this->getConnection(), LDAP_OPT_ERROR_STRING, $diagnosticMessage);
+
+        return $diagnosticMessage;
+    }
+
+    /**
+     * Extract the diagnostic code from the message
+     *
+     * @return string $diagnosticCode
+     */
+    public function extractDiagnosticCode($message)
+    {
+        preg_match('/^([\da-fA-F]+):/', $message, $matches);
+
+        if(! isset($matches[1])){
+            return false;
+        }
+
+        return $matches[1];
     }
 }

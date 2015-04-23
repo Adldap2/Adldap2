@@ -46,20 +46,6 @@ class Adldap
     const ADLDAP_LDAPS_PORT = '636';
 
     /**
-     * The default query fields to use when
-     * performing a global search.
-     *
-     * @var array
-     */
-    public $defaultQueryFields = array(
-        'cn',
-        'description',
-        'displayname',
-        'distinguishedname',
-        'samaccountname',
-    );
-
-    /**
      * The account suffix for your domain, can be set when the class is invoked
      *
      * @var string

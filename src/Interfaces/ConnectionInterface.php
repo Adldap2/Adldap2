@@ -9,7 +9,6 @@ namespace Adldap\Interfaces;
  * testing classes that require a connection.
  *
  * Interface ConnectionInterface
- * @package Adldap\Interfaces
  */
 interface ConnectionInterface
 {
@@ -78,7 +77,7 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the current
-     * connection is able to modify passwords
+     * connection is able to modify passwords.
      *
      * @return bool
      */
@@ -93,21 +92,21 @@ interface ConnectionInterface
     public function isBound();
 
     /**
-     * Sets the current connection to use TLS
+     * Sets the current connection to use TLS.
      *
      * @return $this
      */
     public function useTLS();
 
     /**
-     * Sets the current connection to use SSL
+     * Sets the current connection to use SSL.
      *
      * @return $this
      */
     public function useSSL();
 
     /**
-     * Sets the current connection to use SSO
+     * Sets the current connection to use SSO.
      *
      * @return $this
      */
@@ -124,6 +123,7 @@ interface ConnectionInterface
      * Retrieve the entries from a search result.
      *
      * @param $searchResult
+     *
      * @return mixed
      */
     public function getEntries($searchResult);
@@ -133,6 +133,7 @@ interface ConnectionInterface
      * result.
      *
      * @param $searchResult
+     *
      * @return int
      */
     public function countEntries($searchResult);
@@ -141,6 +142,7 @@ interface ConnectionInterface
      * Retrieves the first entry from a search result.
      *
      * @param $searchResult
+     *
      * @return mixed
      */
     public function getFirstEntry($searchResult);
@@ -154,10 +156,11 @@ interface ConnectionInterface
     public function getLastError();
 
     /**
-     * Get all binary values from the specified result entry
+     * Get all binary values from the specified result entry.
      *
      * @param $entry
      * @param $attribute
+     *
      * @return array
      */
     public function getValuesLen($entry, $attribute);
@@ -165,8 +168,9 @@ interface ConnectionInterface
     /**
      * Sets an option on the current connection.
      *
-     * @param int $option
+     * @param int   $option
      * @param mixed $value
+     *
      * @return mixed
      */
     public function setOption($option, $value);
@@ -176,7 +180,8 @@ interface ConnectionInterface
      * specified port.
      *
      * @param string $hostname
-     * @param int $port
+     * @param int    $port
+     *
      * @return mixed
      */
     public function connect($hostname, $port = 389);
@@ -196,7 +201,8 @@ interface ConnectionInterface
      *
      * @param string $username
      * @param string $password
-     * @param bool $sasl
+     * @param bool   $sasl
+     *
      * @return mixed
      */
     public function bind($username, $password, $sasl = false);
@@ -211,17 +217,19 @@ interface ConnectionInterface
     /**
      * @param string $dn
      * @param string $filter
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return mixed
      */
     public function search($dn, $filter, array $fields);
 
     /**
-     * Reads an entry on the current connection
+     * Reads an entry on the current connection.
      *
      * @param string $dn
      * @param $filter
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return mixed
      */
     public function read($dn, $filter, array $fields);
@@ -231,7 +239,8 @@ interface ConnectionInterface
      *
      * @param string $dn
      * @param string $filter
-     * @param array $attributes
+     * @param array  $attributes
+     *
      * @return mixed
      */
     public function listing($dn, $filter, array $attributes);
@@ -240,7 +249,8 @@ interface ConnectionInterface
      * Adds an entry to the current connection.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return bool
      */
     public function add($dn, array $entry);
@@ -249,6 +259,7 @@ interface ConnectionInterface
      * Deletes an entry on the current connection.
      *
      * @param string $dn
+     *
      * @return bool
      */
     public function delete($dn);
@@ -260,7 +271,8 @@ interface ConnectionInterface
      * @param string $dn
      * @param string $newRdn
      * @param string $newParent
-     * @param bool $deleteOldRdn
+     * @param bool   $deleteOldRdn
+     *
      * @return mixed
      */
     public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false);
@@ -270,7 +282,8 @@ interface ConnectionInterface
      * current connection.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return mixed
      */
     public function modify($dn, array $entry);
@@ -280,7 +293,8 @@ interface ConnectionInterface
      * current connection.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return mixed
      */
     public function modifyBatch($dn, array $entry);
@@ -289,7 +303,8 @@ interface ConnectionInterface
      * Add attribute values to current attributes.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return mixed
      */
     public function modAdd($dn, array $entry);
@@ -298,16 +313,18 @@ interface ConnectionInterface
      * Replaces attribute values with new ones.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return mixed
      */
     public function modReplace($dn, array $entry);
 
     /**
-     * Delete attribute values from current attributes
+     * Delete attribute values from current attributes.
      *
      * @param string $dn
-     * @param array $entry
+     * @param array  $entry
+     *
      * @return mixed
      */
     public function modDelete($dn, array $entry);
@@ -315,9 +332,10 @@ interface ConnectionInterface
     /**
      * Send LDAP pagination control.
      *
-     * @param int $pageSize
-     * @param bool $isCritical
+     * @param int    $pageSize
+     * @param bool   $isCritical
      * @param string $cookie
+     *
      * @return mixed
      */
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '');
@@ -327,6 +345,7 @@ interface ConnectionInterface
      *
      * @param $result
      * @param string $cookie
+     *
      * @return mixed
      */
     public function controlPagedResultResponse($result, &$cookie);
@@ -340,24 +359,25 @@ interface ConnectionInterface
     public function errNo();
 
     /**
-     * Returns the extended error string of the last command
+     * Returns the extended error string of the last command.
      *
      * @return mixed
      */
     public function getExtendedError();
 
     /**
-     * Returns the extended error code of the last command
+     * Returns the extended error code of the last command.
      *
      * @return mixed
      */
     public function getExtendedErrorCode();
 
     /**
-     * Explodes a distinguished name into an array
+     * Explodes a distinguished name into an array.
      *
-     * @param string $dn The distinguished name
-     * @param bool $removeAttributePrefixes
+     * @param string $dn                      The distinguished name
+     * @param bool   $removeAttributePrefixes
+     *
      * @return mixed
      */
     public function explodeDn($dn, $removeAttributePrefixes = true);
@@ -367,6 +387,7 @@ interface ConnectionInterface
      * error number.
      *
      * @param int $number
+     *
      * @return mixed
      */
     public function err2Str($number);

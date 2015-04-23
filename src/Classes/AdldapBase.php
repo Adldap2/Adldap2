@@ -5,22 +5,21 @@ namespace Adldap\Classes;
 use Adldap\Adldap;
 
 /**
- * The Base Adldap class
+ * The Base Adldap class.
  *
  * Class AdldapBase
- * @package Adldap\Classes
  */
 class AdldapBase
 {
     /**
-     * The current Adldap connection via dependency injection
+     * The current Adldap connection via dependency injection.
      *
      * @var Adldap
      */
     protected $adldap;
 
     /**
-     * The current Adldap connection
+     * The current Adldap connection.
      *
      * @var \Adldap\Interfaces\ConnectionInterface
      */
@@ -37,7 +36,9 @@ class AdldapBase
 
         $connection = $adldap->getLdapConnection();
 
-        if($connection) $this->connection = $connection;
+        if ($connection) {
+            $this->connection = $connection;
+        }
     }
 
     /**

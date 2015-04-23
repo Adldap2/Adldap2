@@ -3,12 +3,13 @@
 namespace Adldap\Collections;
 
 /**
- * Class AdldapUserCollection
- * @package Adldap\Collections
+ * Class AdldapUserCollection.
+ *
  * @depreciated
  */
 class AdldapUserCollection extends AdldapCollection
 {
-    public function __set($attribute, $value) {}
+    public function __set($attribute, $value)
+    {
+    }
 }
-?>

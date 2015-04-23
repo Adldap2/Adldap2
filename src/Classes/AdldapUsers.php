@@ -11,19 +11,19 @@ use Adldap\Objects\User;
 use Adldap\Adldap;
 
 /**
- * Ldap User management
+ * Ldap User management.
  *
  * Class AdldapUsers
- * @package Adldap\classes
  */
 class AdldapUsers extends AdldapBase
 {
     /**
-     * Validate a user's login credentials
+     * Validate a user's login credentials.
      *
-     * @param string $username The users AD username
-     * @param string $password The users AD password
-     * @param bool $preventRebind
+     * @param string $username      The users AD username
+     * @param string $password      The users AD password
+     * @param bool   $preventRebind
+     *
      * @return bool
      */
     public function authenticate($username, $password, $preventRebind = false)
@@ -34,14 +34,16 @@ class AdldapUsers extends AdldapBase
     /**
      * Returns all users from the current connection.
      *
-     * @param array $fields
-     * @param bool $sorted
+     * @param array  $fields
+     * @param bool   $sorted
      * @param string $sortBy
      * @param string $sortByDirection
+     *
      * @return array|bool
+     *
      * @throws AdldapException
      */
-    public function all($fields = array(), $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
     {
         $personCategory = $this->adldap->getPersonFilter('category');
         $person = $this->adldap->getPersonFilter('person');
@@ -51,7 +53,9 @@ class AdldapUsers extends AdldapBase
             ->where($personCategory, '=', $person)
             ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT);
 
-        if($sorted) $search->sortBy($sortBy, $sortByDirection);
+        if ($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
 
         return $search->get();
     }
@@ -64,10 +68,11 @@ class AdldapUsers extends AdldapBase
      * Such as a their name, their logon, their mail, etc.
      *
      * @param string $username
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return array|bool
      */
-    public function find($username, $fields = array())
+    public function find($username, $fields = [])
     {
         $this->adldap->utilities()->validateNotNullOrEmpty('Username', $username);
 
@@ -86,26 +91,27 @@ class AdldapUsers extends AdldapBase
      * Retrieves a user from the current connection.
      *
      * @param string $username
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return array|bool
      */
-    public function info($username, $fields = array())
+    public function info($username, $fields = [])
     {
         return $this->find($username, $fields);
     }
 
     /**
-     * Retrieve the user's distinguished name based on their username
+     * Retrieve the user's distinguished name based on their username.
      *
      * @param string $username The username
+     *
      * @return string|bool
      */
     public function dn($username)
     {
-        $user = $this->find($username, array('distinguishedname'));
+        $user = $this->find($username, ['distinguishedname']);
 
-        if(is_array($user) && array_key_exists('dn', $user))
-        {
+        if (is_array($user) && array_key_exists('dn', $user)) {
             return $user['dn'];
         }
 
@@ -118,86 +124,93 @@ class AdldapUsers extends AdldapBase
      * If you specify a password here, this can only be performed over SSL.
      *
      * @param array $attributes The attributes to set to the user account
+     *
      * @return bool|string
+     *
      * @throws AdldapException
      */
     public function create(array $attributes)
     {
         $user = new User($attributes);
 
-        if ($user->hasAttribute('password') && ! $this->connection->canChangePasswords())
-        {
+        if ($user->hasAttribute('password') && ! $this->connection->canChangePasswords()) {
             throw new AdldapException('SSL must be configured on your web server and enabled in the class to set passwords.');
         }
 
         // Translate the schema
         $add = $this->adldap->ldapSchema($user->toCreateSchema());
-        
+
         // Additional stuff only used for adding accounts
-        $add["cn"][0] = $user->getAttribute("display_name");
-        $add[$this->adldap->getUserIdKey()][0] = $user->getAttribute("username");
-        $add["objectclass"][0] = "top";
-        $add["objectclass"][1] = "person";
-        $add["objectclass"][2] = "organizationalPerson";
-        $add["objectclass"][3] = "user";
+        $add['cn'][0] = $user->getAttribute('display_name');
+        $add[$this->adldap->getUserIdKey()][0] = $user->getAttribute('username');
+        $add['objectclass'][0] = 'top';
+        $add['objectclass'][1] = 'person';
+        $add['objectclass'][2] = 'organizationalPerson';
+        $add['objectclass'][3] = 'user';
 
         // Set the account control attribute
-        $controlOptions = array("NORMAL_ACCOUNT");
+        $controlOptions = ['NORMAL_ACCOUNT'];
 
-        if ( ! $user->hasAttribute("enabled")) $controlOptions[] = "ACCOUNTDISABLE";
+        if (! $user->hasAttribute('enabled')) {
+            $controlOptions[] = 'ACCOUNTDISABLE';
+        }
 
-        $add["userAccountControl"][0] = $this->accountControl($controlOptions);
-        
+        $add['userAccountControl'][0] = $this->accountControl($controlOptions);
+
         // Determine the container
-        $attributes["container"] = array_reverse($user->getAttribute("container"));
+        $attributes['container'] = array_reverse($user->getAttribute('container'));
 
-        $container = "OU=" . implode(", OU=", $user->getAttribute("container"));
+        $container = 'OU='.implode(', OU=', $user->getAttribute('container'));
 
-        $dn = "CN=" . $add["cn"][0] . ", " . $container . "," . $this->adldap->getBaseDn();
+        $dn = 'CN='.$add['cn'][0].', '.$container.','.$this->adldap->getBaseDn();
 
         // Add the entry
         return $this->connection->add($dn, $add);
     }
 
     /**
-     * Delete a user account
+     * Delete a user account.
      *
      * @param string $username The username to delete
+     *
      * @return bool
      */
     public function delete($username)
     {
         $dn = $this->dn($username);
 
-        if($dn) return $this->adldap->folder()->delete($dn);
+        if ($dn) {
+            return $this->adldap->folder()->delete($dn);
+        }
 
         return false;
     }
 
     /**
-     * Retrieves the groups that the specified user is apart of
+     * Retrieves the groups that the specified user is apart of.
      *
-     * @param string $username The username of the user to query
-     * @param null $recursive Recursive list of groups
+     * @param string $username  The username of the user to query
+     * @param null   $recursive Recursive list of groups
+     *
      * @return array|bool
      */
-    public function groups($username, $recursive = NULL)
+    public function groups($username, $recursive = null)
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
         // Use the default option if they haven't set it
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
+        if ($recursive === null) {
+            $recursive = $this->adldap->getRecursiveGroups();
+        }
 
         // Search the directory for their information
-        $info = $this->info($username, array("memberof", "primarygroupid"));
+        $info = $this->info($username, ['memberof', 'primarygroupid']);
 
         // Presuming the entry returned is our guy (unique usernames)
-        $groups = $this->adldap->utilities()->niceNames($info["memberof"]);
+        $groups = $this->adldap->utilities()->niceNames($info['memberof']);
 
-        if ($recursive === true)
-        {
-            foreach ($groups as $id => $groupName)
-            {
+        if ($recursive === true) {
+            foreach ($groups as $id => $groupName) {
                 $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
 
                 $groups = array_merge($groups, $extraGroups);
@@ -208,51 +221,61 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Find information about the users. Returned in a raw array format from AD
+     * Find information about the users. Returned in a raw array format from AD.
      *
      * @param string $username The username to query
-     * @param array $fields Array of parameters to query
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param array  $fields   Array of parameters to query
+     * @param bool   $isGUID   Is the username passed a GUID or a samAccountName
+     *
      * @return AdldapUserCollection|bool
      * @depreciated
      */
-    public function infoCollection($username, array $fields = array(), $isGUID = false)
+    public function infoCollection($username, array $fields = [], $isGUID = false)
     {
         $info = $this->info($username, $fields, $isGUID);
-        
-        if ($info) return new AdldapUserCollection($info, $this->adldap);
+
+        if ($info) {
+            return new AdldapUserCollection($info, $this->adldap);
+        }
 
         return false;
     }
 
     /**
-     * Determine if the specified user is in the specified group
+     * Determine if the specified user is in the specified group.
      *
-     * @param string $username The username to query
-     * @param string $group The name of the group to check against
-     * @param null $recursive Check groups recursively
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param string $username  The username to query
+     * @param string $group     The name of the group to check against
+     * @param null   $recursive Check groups recursively
+     * @param bool   $isGUID    Is the username passed a GUID or a samAccountName
+     *
      * @return bool
      */
-    public function inGroup($username, $group, $recursive = NULL, $isGUID = false)
+    public function inGroup($username, $group, $recursive = null, $isGUID = false)
     {
         // Use the default option if they haven't set it
-        if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
-        
+        if ($recursive === null) {
+            $recursive = $this->adldap->getRecursiveGroups();
+        }
+
         // Get a list of the groups
         $groups = $this->groups($username, $recursive, $isGUID);
-        
+
         // Return true if the specified group is in the group list
-        if (in_array($group, $groups)) return true;
+        if (in_array($group, $groups)) {
+            return true;
+        }
 
         return false;
     }
 
     /**
-     * Determine a user's password expiry date
+     * Determine a user's password expiry date.
      *
      * @param $username
+     *
      * @return array|bool
+     *
      * @throws AdldapException
      * @requires bcmod http://php.net/manual/en/function.bcmod.php
      */
@@ -260,39 +283,37 @@ class AdldapUsers extends AdldapBase
     {
         $this->adldap->utilities()->validateBcmodExists();
 
-        $user = $this->info($username, array("pwdlastset", "useraccountcontrol"));
+        $user = $this->info($username, ['pwdlastset', 'useraccountcontrol']);
 
-        if(is_array($user) && array_key_exists('pwdlastset', $user))
-        {
+        if (is_array($user) && array_key_exists('pwdlastset', $user)) {
             $pwdLastSet = $user['pwdlastset'];
 
-            $status = array(
+            $status = [
                 'expires' => true,
                 'has_expired' => false,
-            );
+            ];
 
             // Check if the password expires
-            if(array_key_exists('useraccountcontrol', $user) && $user['useraccountcontrol'] == '66048')
-            {
+            if (array_key_exists('useraccountcontrol', $user) && $user['useraccountcontrol'] == '66048') {
                 $status['expires'] = false;
             }
 
             // Check if the password is expired
-            if ($pwdLastSet === '0') $status['has_expired'] = true;
+            if ($pwdLastSet === '0') {
+                $status['has_expired'] = true;
+            }
 
             $result = $this->adldap->search()
-                ->select(array('maxPwdAge'))
+                ->select(['maxPwdAge'])
                 ->where('objectclass', '*')
                 ->first();
 
-            if($result && $status['expires'] === true)
-            {
+            if ($result && $status['expires'] === true) {
                 $maxPwdAge = $result['maxpwdage'];
 
                 // See MSDN: http://msdn.microsoft.com/en-us/library/ms974598.aspx
-                if (bcmod($maxPwdAge, 4294967296) === '0')
-                {
-                    return "Domain does not expire passwords";
+                if (bcmod($maxPwdAge, 4294967296) === '0') {
+                    return 'Domain does not expire passwords';
                 }
 
                 // Add maxpwdage and pwdlastset and we get password expiration time in Microsoft's
@@ -313,12 +334,14 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Modify a user
+     * Modify a user.
      *
-     * @param string $username The username to query
-     * @param array $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param string $username   The username to query
+     * @param array  $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
+     * @param bool   $isGUID     Is the username passed a GUID or a samAccountName
+     *
      * @return bool|string
+     *
      * @throws AdldapException
      */
     public function modify($username, $attributes, $isGUID = false)
@@ -331,33 +354,34 @@ class AdldapUsers extends AdldapBase
          */
         $user->setAttribute('username', $username);
 
-        if ($user->getAttribute('password') && ! $this->connection->canChangePasswords())
-        {
+        if ($user->getAttribute('password') && ! $this->connection->canChangePasswords()) {
             throw new AdldapException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
 
         // Find the dn of the user
         $userDn = $this->dn($username, $isGUID);
 
-        if ($userDn === false) return false;
-        
-        // Translate the update to the LDAP schema                
+        if ($userDn === false) {
+            return false;
+        }
+
+        // Translate the update to the LDAP schema
         $mod = $this->adldap->ldapSchema($user->toModifySchema());
 
         $enabled = $user->getAttribute('enabled');
 
         // Check to see if this is an enabled status update
-        if ( ! $mod && ! $enabled) return false;
-
-        if ($enabled)
-        {
-            $controlOptions = array("NORMAL_ACCOUNT");
-        } else
-        {
-            $controlOptions = array("NORMAL_ACCOUNT", "ACCOUNTDISABLE");
+        if (! $mod && ! $enabled) {
+            return false;
         }
 
-        $mod["userAccountControl"][0] = $this->accountControl($controlOptions);
+        if ($enabled) {
+            $controlOptions = ['NORMAL_ACCOUNT'];
+        } else {
+            $controlOptions = ['NORMAL_ACCOUNT', 'ACCOUNTDISABLE'];
+        }
+
+        $mod['userAccountControl'][0] = $this->accountControl($controlOptions);
 
         // Do the update
         return $this->connection->modify($userDn, $mod);
@@ -367,15 +391,17 @@ class AdldapUsers extends AdldapBase
      * Disable a user account.
      *
      * @param string $username The username to disable
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param bool   $isGUID   Is the username passed a GUID or a samAccountName
+     *
      * @return bool|string
+     *
      * @throws AdldapException
      */
     public function disable($username, $isGUID = false)
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        $attributes = array("enabled" => 0);
+        $attributes = ['enabled' => 0];
 
         return $this->modify($username, $attributes, $isGUID);
     }
@@ -384,26 +410,30 @@ class AdldapUsers extends AdldapBase
      * Enable a user account.
      *
      * @param string $username The username to enable
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param bool   $isGUID   Is the username passed a GUID or a samAccountName
+     *
      * @return bool|string
+     *
      * @throws AdldapException
      */
     public function enable($username, $isGUID = false)
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        $attributes = array("enabled" => 1);
+        $attributes = ['enabled' => 1];
 
         return $this->modify($username, $attributes, $isGUID);
     }
 
     /**
-     * Set the password of a user - This must be performed over SSL
+     * Set the password of a user - This must be performed over SSL.
      *
      * @param string $username The username to modify
      * @param string $password The new password
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param bool   $isGUID   Is the username passed a GUID or a samAccountName
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
     public function password($username, $password, $isGUID = false)
@@ -413,42 +443,38 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        if ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
-        {
+        if (! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()) {
             $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
 
             throw new AdldapException($message);
         }
-        
+
         $userDn = $this->dn($username, $isGUID);
 
-        if ($userDn === false) return false;
-                
-        $add = array();
+        if ($userDn === false) {
+            return false;
+        }
 
-        $add["unicodePwd"][0] = $this->encodePassword($password);
+        $add = [];
+
+        $add['unicodePwd'][0] = $this->encodePassword($password);
 
         $result = $this->connection->modReplace($userDn, $add);
 
-        if ($result === false)
-        {
+        if ($result === false) {
             $err = $this->connection->errNo();
 
-            if ($err)
-            {
+            if ($err) {
                 $error = $this->connection->err2Str($err);
 
-                $msg = 'Error ' . $err . ': ' . $error . '.';
+                $msg = 'Error '.$err.': '.$error.'.';
 
-                if($err == 53)
-                {
+                if ($err == 53) {
                     $msg .= ' Your password might not match the password policy.';
                 }
 
                 throw new AdldapException($msg);
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -458,13 +484,15 @@ class AdldapUsers extends AdldapBase
 
     /**
      * Change the password of a user - This must be performed over SSL
-     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
+     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0.
      *
-     * @param string $username The username to modify
-     * @param string $password The new password
+     * @param string $username    The username to modify
+     * @param string $password    The new password
      * @param string $oldPassword The old password
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
+     * @param bool   $isGUID      Is the username passed a GUID or a samAccountName
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
     public function changePassword($username, $password, $oldPassword, $isGUID = false)
@@ -475,66 +503,59 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        if ( ! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS())
-        {
+        if (! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()) {
             $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
 
             throw new AdldapException($message);
         }
 
-        if ( ! $this->connection->isBatchSupported())
-        {
+        if (! $this->connection->isBatchSupported()) {
             $message = 'Missing function support [ldap_modify_batch] http://php.net/manual/en/function.ldap-modify-batch.php';
 
             throw new AdldapException($message);
         }
-        
+
         $userDn = $this->dn($username, $isGUID);
 
-        if ($userDn === false) return false;
+        if ($userDn === false) {
+            return false;
+        }
 
-        $modification = array (
-            array (
+        $modification = [
+            [
                 'attrib'  => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_REMOVE,
-                'values'  => array($this->encodePassword($oldPassword)),
-            ),
-            array (
+                'values'  => [$this->encodePassword($oldPassword)],
+            ],
+            [
                 'attrib'  => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_ADD,
-                'values'  => array($this->encodePassword($password))
-            )
-        );
+                'values'  => [$this->encodePassword($password)],
+            ],
+        ];
 
         $result = $this->connection->modifyBatch($userDn, $modification);
 
-        if ($result === false)
-        {
+        if ($result === false) {
             $error = $this->connection->getExtendedError();
 
-            if ($error)
-            {
+            if ($error) {
                 $errorCode = $this->connection->getExtendedErrorCode();
 
-                $msg = 'Error: ' . $error;
+                $msg = 'Error: '.$error;
 
-                if ($errorCode == '0000052D')
-                {
+                if ($errorCode == '0000052D') {
                     $msg = "Error: $errorCode. Your new password might not match the password policy.";
 
                     throw new PasswordPolicyException($msg);
-                }
-                elseif ($errorCode == '00000056')
-                {
+                } elseif ($errorCode == '00000056') {
                     $msg = "Error: $errorCode. Your old password might be wrong.";
 
                     throw new WrongPasswordException($msg);
                 }
 
                 throw new AdldapException($msg);
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -543,28 +564,33 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Encode a password for transmission over LDAP
+     * Encode a password for transmission over LDAP.
      *
      * @param string $password The password to encode
+     *
      * @return string
      */
     public function encodePassword($password)
     {
-        $password = "\"" . $password . "\"";
+        $password = "\"".$password."\"";
 
-        $encoded = "";
+        $encoded = '';
 
         $length = strlen($password);
 
-        for ($i = 0; $i < $length; $i++) $encoded .= "{$password{$i}}\000";
+        for ($i = 0; $i < $length; $i++) {
+            $encoded .= "{$password{$i}
+            }\000";
+        }
 
         return $encoded;
     }
 
     /**
-     * Converts a username (samAccountName) to a GUID
+     * Converts a username (samAccountName) to a GUID.
      *
      * @param string $username The username to query
+     *
      * @return bool|string
      */
     public function usernameToGuid($username)
@@ -573,16 +599,15 @@ class AdldapUsers extends AdldapBase
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        $filter = $this->adldap->getUserIdKey() . "=" . $username;
+        $filter = $this->adldap->getUserIdKey().'='.$username;
 
-        $fields = array("objectGUID");
+        $fields = ['objectGUID'];
 
         $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
 
         $numEntries = $this->connection->countEntries($results);
 
-        if ($numEntries > 0)
-        {
+        if ($numEntries > 0) {
             $entry = $this->connection->getFirstEntry($results);
 
             $guid = $this->connection->getValuesLen($entry, 'objectGUID');
@@ -600,33 +625,34 @@ class AdldapUsers extends AdldapBase
      *
      * When specifying containers, it accepts containers in 1. parent 2. child order
      *
-     * @param string $username The username to move
+     * @param string $username  The username to move
      * @param string $container The container or containers to move the user to
+     *
      * @return bool|string
      */
     public function move($username, $container)
     {
-        $user = new User(array(
+        $user = new User([
             'username' => $username,
             'container' => $container,
-        ));
+        ]);
 
         // Validate only the username and container attributes
-        $user->validateRequired(array('username', 'container'));
+        $user->validateRequired(['username', 'container']);
 
         $this->adldap->utilities()->validateLdapIsBound();
-        
+
         $userInfo = $this->info($user->getAttribute('username'));
 
         $dn = $userInfo['dn'];
 
-        $newRDn = "cn=" . $user->getAttribute('username');
+        $newRDn = 'cn='.$user->getAttribute('username');
 
         $container = array_reverse($container);
 
-        $newContainer = "ou=" . implode(",ou=", $container);
+        $newContainer = 'ou='.implode(',ou=', $container);
 
-        $newBaseDn = strtolower($newContainer) . "," . $this->adldap->getBaseDn();
+        $newBaseDn = strtolower($newContainer).','.$this->adldap->getBaseDn();
 
         return $this->connection->rename($dn, $newRDn, $newBaseDn, true);
     }
@@ -635,16 +661,16 @@ class AdldapUsers extends AdldapBase
      * Get the last logon time of any user as a Unix timestamp.
      *
      * @param string $username
+     *
      * @return float|bool|string
      */
     public function getLastLogon($username)
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
-        $userInfo = $this->info($username, array("lastlogontimestamp"));
+        $userInfo = $this->info($username, ['lastlogontimestamp']);
 
-        if(is_array($userInfo) && array_key_exists('lastlogontimestamp', $userInfo))
-        {
+        if (is_array($userInfo) && array_key_exists('lastlogontimestamp', $userInfo)) {
             return AdldapUtils::convertWindowsTimeToUnixTime($userInfo['lastlogontimestamp']);
         }
 
@@ -655,6 +681,7 @@ class AdldapUsers extends AdldapBase
      * Account control options.
      *
      * @param array $options The options to convert to int
+     *
      * @return int
      */
     protected function accountControl($options)

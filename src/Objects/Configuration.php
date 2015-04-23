@@ -3,7 +3,8 @@
 namespace Adldap\Objects;
 
 /**
- * Class Configuration
- * @package Adldap\Objects
+ * Class Configuration.
  */
-class Configuration extends AbstractObject {}
+class Configuration extends AbstractObject
+{
+}

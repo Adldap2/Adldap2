@@ -3,7 +3,8 @@
 namespace Adldap\Objects;
 
 /**
- * Class Schema
- * @package Adldap\Objects
+ * Class Schema.
  */
-class Schema extends AbstractObject {}
+class Schema extends AbstractObject
+{
+}

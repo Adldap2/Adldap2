@@ -5,8 +5,7 @@ namespace Adldap\Objects;
 use Adldap\Exceptions\AdldapException;
 
 /**
- * Class AbstractObject
- * @package Adldap\Objects
+ * Class AbstractObject.
  */
 abstract class AbstractObject
 {
@@ -15,23 +14,23 @@ abstract class AbstractObject
      *
      * @var array
      */
-    public $messages = array(
+    public $messages = [
         'required' => 'Missing compulsory field [%s]',
-    );
+    ];
 
     /**
-     * The required attributes for the toSchema methods
+     * The required attributes for the toSchema methods.
      *
      * @var array
      */
-    protected $required = array();
+    protected $required = [];
 
     /**
      * Holds the current objects attributes.
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Constructor.
@@ -40,7 +39,7 @@ abstract class AbstractObject
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         $this->setAttributes($attributes);
     }
@@ -49,6 +48,7 @@ abstract class AbstractObject
      * Dynamically retrieve attributes on the object.
      *
      * @param $key
+     *
      * @return bool
      */
     public function __get($key)
@@ -60,20 +60,20 @@ abstract class AbstractObject
      * Retrieves the specified key from the attribute array.
      *
      * @param $key
+     *
      * @return bool
      */
     public function getAttribute($key)
     {
-        if(array_key_exists($key, $this->attributes))
-        {
+        if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
-        return null;
+        return;
     }
 
     /**
-     * Retrieves the attributes array property
+     * Retrieves the attributes array property.
      *
      * @return array
      */
@@ -86,7 +86,8 @@ abstract class AbstractObject
      * Sets the key on the objects attribute array.
      *
      * @param int|string $key
-     * @param mixed $value
+     * @param mixed      $value
+     *
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -97,12 +98,13 @@ abstract class AbstractObject
     }
 
     /**
-     * Sets the attributes property
+     * Sets the attributes property.
      *
      * @param array $attributes
+     *
      * @return $this
      */
-    public function setAttributes(array $attributes = array())
+    public function setAttributes(array $attributes = [])
     {
         $this->attributes = $attributes;
 
@@ -114,11 +116,14 @@ abstract class AbstractObject
      * exists in the attributes array.
      *
      * @param $attribute
+     *
      * @return bool
      */
     public function hasAttribute($attribute)
     {
-        if(array_key_exists($attribute, $this->attributes)) return true;
+        if (array_key_exists($attribute, $this->attributes)) {
+            return true;
+        }
 
         return false;
     }
@@ -138,9 +143,10 @@ abstract class AbstractObject
      * Sets the required attributes for validation.
      *
      * @param array $required
+     *
      * @return $this
      */
-    public function setRequired(array $required = array())
+    public function setRequired(array $required = [])
     {
         $this->required = $required;
 
@@ -154,21 +160,23 @@ abstract class AbstractObject
      * are only validated.
      *
      * @param array $only
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
-    public function validateRequired($only = array())
+    public function validateRequired($only = [])
     {
-        if(count($only) > 0 ) return $this->validateSpecific($only);
+        if (count($only) > 0) {
+            return $this->validateSpecific($only);
+        }
 
         /*
          * Go through each required attribute
          * and make sure they're not null
          */
-        foreach($this->required as $required)
-        {
-            if($this->getAttribute($required) === null)
-            {
+        foreach ($this->required as $required) {
+            if ($this->getAttribute($required) === null) {
                 throw new AdldapException(sprintf($this->messages['required'], $required));
             }
         }
@@ -183,19 +191,19 @@ abstract class AbstractObject
      * required property.
      *
      * @param array $required
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
-    public function validateSpecific(array $required = array())
+    public function validateSpecific(array $required = [])
     {
-        foreach($required as $field)
-        {
+        foreach ($required as $field) {
             /*
              * If the field is in the required array, and the
              * object attribute equals null, we'll throw an exception.
              */
-            if(in_array($field, $this->required) && $this->getAttribute($field) === null)
-            {
+            if (in_array($field, $this->required) && $this->getAttribute($field) === null) {
                 throw new AdldapException(sprintf($this->messages['required'], $field));
             }
         }

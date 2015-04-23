@@ -2,4 +2,6 @@
 
 namespace Adldap\Exceptions;
 
-class WrongPasswordException extends AdldapException {}
+class WrongPasswordException extends AdldapException
+{
+}

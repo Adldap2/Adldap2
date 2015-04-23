@@ -43,6 +43,7 @@ Or we can retrieve all objects that contain a common name attribute using the wi
 
     $results = $ad->search()->where('cn', '*')->get();
 
+Remember, fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
 they would return the same result.
    
 It's also good to know that all values (except an asterisk `*`) inserted into a where, or an orWhere method,

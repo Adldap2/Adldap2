@@ -271,18 +271,18 @@ class AdldapGroups extends AdldapBase
     public function removeGroup($parent , $child)
     {
         // Find the parent dn
-        $parentGroup = $this->info($parent, array("cn"));
+        $parentGroup = $this->info($parent);
 
-        if ($parentGroup[0]["dn"] === NULL) return false;
+        if ($parentGroup["dn"] === NULL) return false;
 
-        $parentDn = $parentGroup[0]["dn"];
+        $parentDn = $parentGroup["dn"];
 
         // Find the child dn
-        $childGroup = $this->info($child, array("cn"));
+        $childGroup = $this->info($child);
 
-        if ($childGroup[0]["dn"] === NULL) return false;
+        if ($childGroup["dn"] === NULL) return false;
 
-        $childDn = $childGroup[0]["dn"];
+        $childDn = $childGroup["dn"];
 
         $del = array();
         $del["member"] = $childDn;
@@ -301,11 +301,11 @@ class AdldapGroups extends AdldapBase
     public function removeUser($group, $user, $isGUID = false)
     {
         // Find the parent dn
-        $groupInfo = $this->info($group, array("cn"));
+        $groupInfo = $this->info($group);
 
-        if ($groupInfo[0]["dn"] === NULL) return false;
+        if ($groupInfo["dn"] === NULL) return false;
 
-        $groupDn = $groupInfo[0]["dn"];
+        $groupDn = $groupInfo["dn"];
 
         // Find the users dn
         $userDn = $this->adldap->user()->dn($user, $isGUID);
@@ -328,11 +328,11 @@ class AdldapGroups extends AdldapBase
     public function removeContact($group, $contactDn)
     {
         // Find the parent dn
-        $groupInfo = $this->info($group, array("cn"));
+        $groupInfo = $this->info($group);
 
-        if ($groupInfo[0]["dn"] === NULL) return false;
+        if ($groupInfo["dn"] === NULL) return false;
 
-        $groupDn = $groupInfo[0]["dn"];
+        $groupDn = $groupInfo["dn"];
 
         $del = array();
         $del["member"] = $contactDn;
@@ -355,9 +355,9 @@ class AdldapGroups extends AdldapBase
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
 
         // Search the directory for the members of a group
-        $info = $this->info($group, array("member","cn"));
+        $info = $this->info($group);
 
-        $groups = $info[0]["member"];
+        $groups = $info["member"];
 
         if ( ! is_array($groups)) return false;
 
@@ -384,9 +384,9 @@ class AdldapGroups extends AdldapBase
 
                 $entries = $this->connection->getEntries($results);
 
-                if ( ! isset($entries[0]['distinguishedname'][0])) continue;
+                if ( ! isset($entries['distinguishedname'][0])) continue;
 
-                $subGroups = $this->inGroup($entries[0]['distinguishedname'][0], $recursive);
+                $subGroups = $this->inGroup($entries['distinguishedname'], $recursive);
 
                 if (is_array($subGroups))
                 {
@@ -477,11 +477,11 @@ class AdldapGroups extends AdldapBase
     {
         $groups = array();
 
-        $info = $this->find($groupName, array('cn', 'memberof'));
+        $info = $this->find($groupName);
 
         if(is_array($info) && array_key_exists('cn', $info))
         {
-            $groups[] = $info['cn'];
+            $groups[] = $info['dn'];
 
             if (array_key_exists('memberof', $info))
             {
@@ -544,17 +544,15 @@ class AdldapGroups extends AdldapBase
 
         $groupId = substr_replace($userId, pack('V', $groupId), strlen($userId) - 4,4);
 
-        $filter = '(objectsid=' . $this->adldap->utilities()->getTextSID($groupId).')';
+        $sid = $this->adldap->utilities()->getTextSID($groupId);
 
-        $fields = array("samaccountname","distinguishedname");
+        $result = $this->adldap->search()
+                ->where('objectsid', '=', $sid)
+                ->first();
 
-        $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-        $entries = $this->connection->getEntries($results);
-
-        if (isset($entries[0]['distinguishedname'][0]))
+        if(is_array($result) && array_key_exists('dn', $result))
         {
-            return $entries[0]['distinguishedname'][0];
+            return $result['dn'];
         }
 
         return false;

@@ -117,6 +117,20 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Returns true / false if the current if the current
+     * PHP install supports batch modification.
+     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
+     *
+     * @return bool
+     */
+    public function isBatchSupported()
+    {
+        if ( ! function_exists('ldap_modify_batch')) return false;
+
+        return true;
+    }
+
+    /**
      * Returns true / false if the
      * current connection instance is using
      * SSL.
@@ -495,6 +509,20 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Batch modifies the specified LDAP entry.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return bool
+     */
+    public function modifyBatch($dn, array $entry)
+    {
+        if($this->suppressErrors) return @ldap_modify_batch($this->getConnection(), $dn, $entry);
+
+        return ldap_modify_batch($this->getConnection(), $dn, $entry);
+    }
+
+    /**
      * Add attribute values to current attributes.
      *
      * @param string $dn
@@ -595,6 +623,26 @@ class Ldap implements ConnectionInterface
     public function errNo()
     {
         return ldap_errno($this->getConnection());
+    }
+
+    /**
+     * Return the extended LDAP error code of the last LDAP command
+     *
+     * @return int
+     */
+    public function getExtendedError()
+    {
+        return $this->getDiagnosticMessage();
+    }
+
+    /**
+     * Return the extended LDAP error code of the last LDAP command
+     *
+     * @return int
+     */
+    public function getExtendedErrorCode()
+    {
+        return $this->extractDiagnosticCode( $this->getExtendedError() );
     }
 
     /**
@@ -739,5 +787,33 @@ class Ldap implements ConnectionInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Return the diagnostic Message
+     *
+     * @return string $diagnosticMessage
+     */
+    public function getDiagnosticMessage()
+    {
+        ldap_get_option($this->getConnection(), LDAP_OPT_ERROR_STRING, $diagnosticMessage);
+
+        return $diagnosticMessage;
+    }
+
+    /**
+     * Extract the diagnostic code from the message
+     *
+     * @return string $diagnosticCode
+     */
+    public function extractDiagnosticCode($message)
+    {
+        preg_match('/^([\da-fA-F]+):/', $message, $matches);
+
+        if(! isset($matches[1])){
+            return false;
+        }
+
+        return $matches[1];
     }
 }

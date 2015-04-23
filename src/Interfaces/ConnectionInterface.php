@@ -42,6 +42,15 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the
+     * current connection supports batch
+     * modification.
+     *
+     * @return bool
+     */
+    public function isBatchSupported();
+
+    /**
+     * Returns true / false if the
      * current connection instance is using
      * SSL.
      *
@@ -267,6 +276,16 @@ interface ConnectionInterface
     public function modify($dn, array $entry);
 
     /**
+     * Batch modifies an existing entry on the
+     * current connection.
+     *
+     * @param string $dn
+     * @param array $entry
+     * @return mixed
+     */
+    public function modifyBatch($dn, array $entry);
+
+    /**
      * Add attribute values to current attributes.
      *
      * @param string $dn
@@ -319,6 +338,20 @@ interface ConnectionInterface
      * @return mixed
      */
     public function errNo();
+
+    /**
+     * Returns the extended error string of the last command
+     *
+     * @return mixed
+     */
+    public function getExtendedError();
+
+    /**
+     * Returns the extended error code of the last command
+     *
+     * @return mixed
+     */
+    public function getExtendedErrorCode();
 
     /**
      * Explodes a distinguished name into an array

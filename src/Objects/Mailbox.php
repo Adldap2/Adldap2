@@ -3,8 +3,7 @@
 namespace Adldap\Objects;
 
 /**
- * Class Mailbox
- * @package Adldap\Objects
+ * Class Mailbox.
  */
 class Mailbox extends AbstractObject
 {
@@ -13,11 +12,11 @@ class Mailbox extends AbstractObject
      *
      * @var array
      */
-    protected $required = array(
+    protected $required = [
         'username',
         'storageGroup',
         'emailAddress',
-    );
+    ];
 
     /**
      * Returns the Mailboxes attributes to an LDAP compatible array.
@@ -26,11 +25,11 @@ class Mailbox extends AbstractObject
      */
     public function toLdapArray()
     {
-        return array(
-            'exchange_homemdb' => $this->container . "," . $this->baseDn,
-            'exchange_proxyaddress' => 'SMTP:' . $this->emailAddress,
+        return [
+            'exchange_homemdb' => $this->container.','.$this->baseDn,
+            'exchange_proxyaddress' => 'SMTP:'.$this->emailAddress,
             'exchange_mailnickname' => $this->mailNickname,
             'exchange_usedefaults' => $this->mdbUseDefaults,
-        );
+        ];
     }
 }

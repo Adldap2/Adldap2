@@ -14,10 +14,10 @@ use adLDAP\adLDAP;
 use adLDAP\Exceptions\adLDAPException;
 
 // Set up all options.
-$options = array(
+$options = [
     'account_suffix' => '',
     'base_dn' => null,
-    'domain_controllers' => array(''),
+    'domain_controllers' => [''],
     'admin_username' => null,
     'admin_password' => null,
     'real_primarygroup' => '',
@@ -26,7 +26,7 @@ $options = array(
     'recursive_groups' => true,
     'ad_port' => adLDAP::ADLDAP_LDAP_PORT,
     'sso' => '',
-);
+];
 // Update options from $_POST.
 foreach ($options as $optName => $defaultValue) {
     if (isset($_POST[$optName])) {
@@ -57,7 +57,7 @@ if ($adldap && !empty($username)) {
     $password = $_POST["password"];
     try {
         $adldap->authenticate($username, $password);
-        $info = $adldap->user()->info($username, array('*'));
+        $info = $adldap->user()->info($username, ['*']);
         if (isset($info[0])) {
             $info = $info[0];
         }

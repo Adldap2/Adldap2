@@ -6,10 +6,10 @@ use Mockery;
 
 abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 {
-    public $configStub = array(
+    public $configStub = [
         'account_suffix' => 'Account Suffix',
         'base_dn' => 'Base DN',
-        'domain_controllers' => array('dc1', 'dc2'),
+        'domain_controllers' => ['dc1', 'dc2'],
         'admin_username' => 'Admin Username',
         'admin_password' => 'Admin Password',
         'real_primarygroup' => 'Primary Group',
@@ -19,7 +19,7 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
         'recursive_groups' => true,
         'follow_referrals' => true,
         'ad_port' => 500,
-    );
+    ];
 
     /**
      * Returns a mocked version of the specified class

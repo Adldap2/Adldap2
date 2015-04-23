@@ -9,57 +9,57 @@ class LdapEntryTest extends FunctionalTestCase
 {
     public function testEntryConstruct()
     {
-        $returnedLdapEntries = array(
+        $returnedLdapEntries = [
             'count' => 3,
-            0 => array(
+            0 => [
                 0 => 'distinguishedname',
                 'count' => 1,
                 'dn' => 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                'distinguishedname' => array(
+                'distinguishedname' => [
                     'count' => 1,
                     'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                ),
-            ),
-            1 => array(
+                ],
+            ],
+            1 => [
                 0 => 'distinguishedname',
                 'count' => 1,
                 'dn' => 'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                'distinguishedname' => array(
+                'distinguishedname' => [
                     'count' => 1,
                     'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                ),
-            ),
-            2 => array(
+                ],
+            ],
+            2 => [
                 0 => 'cn',
-                'cn' => array(
+                'cn' => [
                     'count' => 1,
                     0 => 'Test',
-                ),
-                'distinguishedname' => array(
+                ],
+                'distinguishedname' => [
                     'count' => 1,
                     0 => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM',
-                ),
+                ],
                 1 => 'distinguishedname',
-                'displayname' => array(
+                'displayname' => [
                     'count' => 1,
                     0 => 'Bauman, Steve'
-                ),
+                ],
                 2 => 'displayname',
-                'samaccountname' => array(
+                'samaccountname' => [
                     'count' => 1,
                     0 => 'stevebauman',
-                ),
+                ],
                 3 => 'samaccountname',
                 'count' => 4,
                 'dn' => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM'
-            )
-        );
+            ]
+        ];
 
-        $explodedDnsToReturn = array(
+        $explodedDnsToReturn = [
             ldap_explode_dn($returnedLdapEntries[0]['dn'], 1),
             ldap_explode_dn($returnedLdapEntries[1]['dn'], 1),
             ldap_explode_dn($returnedLdapEntries[2]['dn'], 1)
-        );
+        ];
 
         $connection = $this->newConnectionMock();
 
@@ -67,38 +67,38 @@ class LdapEntryTest extends FunctionalTestCase
             ->shouldReceive('explodeDn')->times(3)->andReturnValues($explodedDnsToReturn)
             ->shouldReceive('close')->andReturn(true);
 
-        $expectedResults = array(
-            array(
+        $expectedResults = [
+            [
                 'distinguishedname' => 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
                 'dn' => 'CN=Karen Berge,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                'dn_array' => array(
+                'dn_array' => [
                     'count' => 5,
                     0 => 'Karen Berge',
                     1 => 'admin',
                     2 => 'corp',
                     3 => 'Fabrikam',
                     4 => 'COM',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'distinguishedname' => 'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
                 'dn' => 'CN=Doe\, John,CN=admin,DC=corp,DC=Fabrikam,DC=COM',
-                'dn_array' => array(
+                'dn_array' => [
                     'count' => 5,
                     0 => 'Doe\2C John',
                     1 => 'admin',
                     2 => 'corp',
                     3 => 'Fabrikam',
                     4 => 'COM',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'cn' => 'Test',
                 'displayname' => 'Bauman, Steve',
                 'samaccountname' => 'stevebauman',
                 'distinguishedname' => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM',
                 'dn' => 'CN=Bauman\, Steve,OU=Users,OU=Developers,OU=User Accounts,OU=Canada,DC=corp,DC=Fabrikam,DC=COM',
-                'dn_array' => array(
+                'dn_array' => [
                     'count' => 8,
                     0 => 'Bauman\2C Steve',
                     1 => 'Users',
@@ -108,11 +108,11 @@ class LdapEntryTest extends FunctionalTestCase
                     5 => 'corp',
                     6 => 'Fabrikam',
                     7 => 'COM',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $entries = array();
+        $entries = [];
 
         for ($i = 0; $i < $returnedLdapEntries["count"]; $i++)
         {

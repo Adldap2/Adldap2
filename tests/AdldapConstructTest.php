@@ -37,7 +37,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         try
         {
-            new Adldap(array(), $connection);
+            new Adldap([], $connection);
 
             $passes = false;
         } catch(\Exception $e)
@@ -55,9 +55,9 @@ class AdldapConstructTest extends FunctionalTestCase
      */
     public function testAdldapConstructDomainControllerFailure()
     {
-        $config = array(
+        $config = [
             'domain_controllers' => 'test'
-        );
+        ];
 
         try
         {
@@ -100,7 +100,7 @@ class AdldapConstructTest extends FunctionalTestCase
         $this->assertInstanceOf('Adldap\Interfaces\ConnectionInterface', $ad->getLdapConnection());
 
         $this->assertEquals(500, $ad->getPort());
-        $this->assertEquals(array('dc1', 'dc2'), $ad->getDomainControllers());
+        $this->assertEquals(['dc1', 'dc2'], $ad->getDomainControllers());
         $this->assertEquals('Base DN', $ad->getBaseDn());
         $this->assertEquals('Account Suffix', $ad->getAccountSuffix());
 
@@ -118,11 +118,11 @@ class AdldapConstructTest extends FunctionalTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $config = array(
+        $config = [
             'sso' => true,
-            'domain_controllers' => array('domain'),
+            'domain_controllers' => ['domain'],
             'ad_port' => '100'
-        );
+        ];
 
         /*
          * This demonstrates the entire walk-through of each
@@ -156,7 +156,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $differentConnection = $this->newConnectionMock();
 
-        $ad = new Adldap(array(), $connection, false);
+        $ad = new Adldap([], $connection, false);
 
         $differentConnection->shouldReceive('close')->once()->andReturn(true);
 

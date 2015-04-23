@@ -9,7 +9,7 @@ class AdldapSearchTest extends AdldapBaseTest
 {
     protected function newAdldap($connection = null)
     {
-        return new Adldap(array(), $connection, false);
+        return new Adldap([], $connection, false);
     }
 
     public function testSearchGetQuery()
@@ -43,13 +43,13 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $search->where('field', '=', 'value');
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'field' => 'field',
                 'operator' => '=',
                 'value' => 'value',
-            )
-        );
+            ]
+        ];
 
         $this->assertEquals($expected, $search->getWheres());
     }
@@ -68,13 +68,13 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $search->orWhere('field', '=', 'value');
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'field' => 'field',
                 'operator' => '=',
                 'value' => 'value',
-            )
-        );
+            ]
+        ];
 
         $this->assertEquals($expected, $search->getOrWheres());
     }
@@ -89,10 +89,10 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $selects = array(
+        $selects = [
             'cn',
             'dn'
-        );
+        ];
 
         $search->select($selects);
 
@@ -122,15 +122,15 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $search = new AdldapSearch($ad);
 
-        $results = array(
+        $results = [
             'count' => 1,
-            0 => array(
+            0 => [
                 'count' => 1,
-                'cn' => array(
+                'cn' => [
                     'John Doe'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('*')
@@ -138,11 +138,11 @@ class AdldapSearchTest extends AdldapBaseTest
             ->shouldReceive('getEntries')->once()->andReturn($results)
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $expected = array(
-            0 => array(
+        $expected = [
+            0 => [
                 'cn' => 'John Doe'
-            )
-        );
+            ]
+        ];
 
         $this->assertEquals($expected, $search->all());
     }
@@ -155,15 +155,15 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $search = new AdldapSearch($ad);
 
-        $ldapResults = array(
+        $ldapResults = [
             'count' => 1,
-            array(
+            [
                 'count' => 1,
-                'cn' => array(
+                'cn' => [
                     'John Doe'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('*')
@@ -171,11 +171,11 @@ class AdldapSearchTest extends AdldapBaseTest
             ->shouldReceive('getEntries')->once()->andReturn($ldapResults)
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $expected = array(
-            0 => array(
+        $expected = [
+            0 => [
                 'cn' => 'John Doe'
-            )
-        );
+            ]
+        ];
 
         $searchResults = $search->where('cn', '=', 'John Doe')->get();
 
@@ -192,10 +192,10 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $connection
             ->shouldReceive('search')->once()->andReturn('resource')
-            ->shouldReceive('getEntries')->once()->andReturn(array())
+            ->shouldReceive('getEntries')->once()->andReturn([])
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $this->assertEquals(array(), $search->query('(cn=test)'));
+        $this->assertEquals([], $search->query('(cn=test)'));
     }
 
     public function testSearchQueryNonRecursive()
@@ -210,10 +210,10 @@ class AdldapSearchTest extends AdldapBaseTest
         
         $connection
             ->shouldReceive('listing')->once()->andReturn('resource')
-            ->shouldReceive('getEntries')->once()->andReturn(array())
+            ->shouldReceive('getEntries')->once()->andReturn([])
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $this->assertEquals(array(), $search->query('(cn=test)'));
+        $this->assertEquals([], $search->query('(cn=test)'));
     }
 
     public function testSearchWhereInvalidOperator()

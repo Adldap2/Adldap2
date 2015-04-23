@@ -3,8 +3,7 @@
 namespace Adldap\Objects;
 
 /**
- * Class AccountControl
- * @package Adldap\Objects
+ * Class AccountControl.
  */
 class AccountControl extends AbstractObject
 {
@@ -13,7 +12,7 @@ class AccountControl extends AbstractObject
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
@@ -70,8 +69,7 @@ class AccountControl extends AbstractObject
      */
     public function setValueIfAttributeExists($attribute, $value)
     {
-        if($this->hasAttribute($attribute))
-        {
+        if ($this->hasAttribute($attribute)) {
             $currentValue = intval($this->getAttribute('value'));
 
             $this->setAttribute('value', $currentValue + $value);

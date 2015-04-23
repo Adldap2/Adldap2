@@ -5,8 +5,7 @@ namespace Adldap\Objects;
 use Adldap\Interfaces\ConnectionInterface;
 
 /**
- * Class LdapEntry
- * @package Adldap\Objects
+ * Class LdapEntry.
  */
 class LdapEntry extends AbstractObject
 {
@@ -20,10 +19,10 @@ class LdapEntry extends AbstractObject
     /**
      * Constructor.
      *
-     * @param array $attributes
+     * @param array               $attributes
      * @param ConnectionInterface $connection
      */
-    public function __construct(array $attributes = array(), ConnectionInterface $connection)
+    public function __construct(array $attributes = [], ConnectionInterface $connection)
     {
         // Set the connection
         $this->connection = $connection;
@@ -39,27 +38,21 @@ class LdapEntry extends AbstractObject
      */
     private function applyAttributes($attributes)
     {
-        if (array_key_exists('count', $attributes) && $attributes['count'] > 0)
-        {
+        if (array_key_exists('count', $attributes) && $attributes['count'] > 0) {
             $keys = array_keys($attributes);
 
-            foreach ($keys as $key)
-            {
-                if (is_array($attributes[$key]) && array_key_exists(0, $attributes[$key]))
-                {
+            foreach ($keys as $key) {
+                if (is_array($attributes[$key]) && array_key_exists(0, $attributes[$key])) {
                     // If the entry has multiple attributes, we'll make sure we loop through each one
-                    if(array_key_exists('count', $attributes[$key]) && $attributes[$key]['count'] > 1)
-                    {
-                        $data = array();
+                    if (array_key_exists('count', $attributes[$key]) && $attributes[$key]['count'] > 1) {
+                        $data = [];
 
-                        for ($i = 0; $i <= $attributes[$key]['count']; $i++)
-                        {
+                        for ($i = 0; $i <= $attributes[$key]['count']; $i++) {
                             $data[] = $attributes[$key][$i];
                         }
 
                         $this->setAttribute($key, array_filter($data));
-                    } else
-                    {
+                    } else {
                         // Looks like only one attribute exists, let's set it
                         $this->setAttribute($key, $attributes[$key][0]);
                     }
@@ -76,8 +69,7 @@ class LdapEntry extends AbstractObject
     private function applyExtraAttributes()
     {
         // Convert distinguished name string into an array
-        if ($this->hasAttribute('distinguishedname'))
-        {
+        if ($this->hasAttribute('distinguishedname')) {
             $dn = $this->getAttribute('distinguishedname');
 
             $this->setAttribute('dn', $dn);
@@ -86,8 +78,7 @@ class LdapEntry extends AbstractObject
         }
 
         // Convert the object category string into an array
-        if ($this->hasAttribute('objectcategory'))
-        {
+        if ($this->hasAttribute('objectcategory')) {
             $oc = $this->getAttribute('objectcategory');
 
             $this->setAttribute('oc', $oc);

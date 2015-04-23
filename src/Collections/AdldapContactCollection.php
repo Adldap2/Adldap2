@@ -3,12 +3,13 @@
 namespace Adldap\Collections;
 
 /**
- * Class AdldapContactCollection
- * @package Adldap\collections
+ * Class AdldapContactCollection.
+ *
  * @depreciated
  */
 class AdldapContactCollection extends AdldapCollection
 {
-    public function __set($attribute, $value) {}
+    public function __set($attribute, $value)
+    {
+    }
 }
-?>

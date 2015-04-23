@@ -9,7 +9,7 @@ class PagintorTest extends FunctionalTestCase
 {
     public function testPaginatorConstruct()
     {
-        $paginator = new Paginator(array(), 50, 0, 0);
+        $paginator = new Paginator([], 50, 0, 0);
 
         $this->assertEquals(0, $paginator->getPages());
         $this->assertEquals(0, $paginator->count());
@@ -18,14 +18,14 @@ class PagintorTest extends FunctionalTestCase
     
     public function testPaginatorPages()
     {
-        $data = array(
-            array(
+        $data = [
+            [
                 'name' => 'John',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Suzy',
-            )
-        );
+            ]
+        ];
 
         $paginator = new Paginator($data, 1, 0, 2);
 
@@ -36,7 +36,7 @@ class PagintorTest extends FunctionalTestCase
         // Tests that only the first entry is shown
         foreach($paginator as $entry)
         {
-            $this->assertEquals(array('name' => 'John'), $entry);
+            $this->assertEquals(['name' => 'John'], $entry);
         }
 
         $paginator2 = new Paginator($data, 1, 1, 2);
@@ -45,7 +45,7 @@ class PagintorTest extends FunctionalTestCase
 
         foreach($paginator2 as $entry)
         {
-            $this->assertEquals(array('name' => 'Suzy'), $entry);
+            $this->assertEquals(['name' => 'Suzy'], $entry);
         }
     }
 }

@@ -15,9 +15,9 @@ class AdldapObjectTest extends FunctionalTestCase
 
         $object->setAttribute('Key', 'Value');
 
-        $expected = array(
+        $expected = [
             'Key' => 'Value',
-        );
+        ];
 
         $this->assertEquals($expected, $object->getAttributes());
     }
@@ -26,9 +26,9 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $expected = array(
+        $expected = [
             'Key' => 'Value',
-        );
+        ];
 
         $object->setAttributes($expected);
 
@@ -39,9 +39,9 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $attributes = array(
+        $attributes = [
             'Key' => 'Value',
-        );
+        ];
 
         $object->setAttributes($attributes);
 
@@ -53,12 +53,12 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $attributes = array(
+        $attributes = [
             'One',
             'Two',
             'Three',
             'Four'
-        );
+        ];
 
         $object->setAttributes($attributes);
 
@@ -69,9 +69,9 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $required = array(
+        $required = [
             'required'
-        );
+        ];
 
         $object->setRequired($required);
 
@@ -84,9 +84,9 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $required = array(
+        $required = [
             'required'
-        );
+        ];
 
         $object->setRequired($required);
 
@@ -99,26 +99,26 @@ class AdldapObjectTest extends FunctionalTestCase
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $required = array(
+        $required = [
             'required',
             'another',
-        );
+        ];
 
         $object->setRequired($required);
 
         $object->setAttribute('required', 'Pass');
 
-        $object->validateRequired(array('required'));
+        $object->validateRequired(['required']);
     }
 
     public function testObjectValidateRequiredOnlyFailure()
     {
         $object = $this->newAbstractObjectMock()->makePartial();
 
-        $required = array(
+        $required = [
             'required',
             'another',
-        );
+        ];
 
         $object->setRequired($required);
 
@@ -126,6 +126,6 @@ class AdldapObjectTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $object->validateRequired(array('another'));
+        $object->validateRequired(['another']);
     }
 }

@@ -31,7 +31,7 @@ class AdldapMethodTest extends FunctionalTestCase
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $controllers = array('dc1', 'dc2');
+        $controllers = ['dc1', 'dc2'];
 
         $ad->setDomainControllers($controllers);
 
@@ -151,7 +151,7 @@ class AdldapMethodTest extends FunctionalTestCase
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $schemaAttributes = array(
+        $schemaAttributes = [
             'address_city' => 'Address City',
             'address_code' => 'Address Code',
             'address_country' => 'Address Country',
@@ -200,59 +200,59 @@ class AdldapMethodTest extends FunctionalTestCase
             'exchange_deliverandredirect' => 'Exchange Deliver And Redirect',
             'exchange_hidefromlists' => true,
             'contact_email' => 'Contact Email',
-        );
+        ];
 
         $ldapSchema = $ad->ldapSchema($schemaAttributes);
 
-        $expectedSchema = array(
-            'l' => array('Address City'),
-            'postalCode' => array('Address Code'),
-            'c' => array('Address Country'),
-            'postOfficeBox' => array('Address PBOX'),
-            'st' => array('Address State'),
-            'streetAddress' => array('Address Street'),
-            'company' => array('Company'),
-            'pwdLastSet' => array(0),
-            'department' => array('Department'),
-            'description' => array('Description'),
-            'displayName' => array('Display Name'),
-            'mail' => array('Email'),
-            'employeeId' => array('Employee ID'),
-            'accountExpires' => array('Expires'),
-            'givenName' => array('First Name'),
-            'homeDirectory' => array('Home Directory'),
-            'homeDrive' => array('Home Drive'),
-            'initials' => array('Initials'),
-            'userPrincipalName' => array('Logon Name'),
-            'manager' => array('Manager'),
-            'physicalDeliveryOfficeName' => array('Office'),
-            'unicodePwd' => array('Password'),
-            'profilepath' => array('Profile Path'),
-            'scriptPath' => array('Script Path'),
-            'sn' => array('Surname'),
-            'title' => array('Title'),
-            'telephoneNumber' => array('Telephone'),
-            'mobile' => array('Mobile'),
-            'pager' => array('Pager'),
-            'ipphone' => array('IP Phone'),
-            'wWWHomePage' => array('Web Page'),
-            'facsimileTelephoneNumber' => array('Fax'),
-            'userAccountControl' => array(true),
-            'homephone' => array('Home Phone'),
-            'dlMemSubmitPerms' => array('Group Send Permission'),
-            'dlMemRejectPerms' => array('Group Reject Permission'),
-            'homeMDB' => array('Exchange Home'),
-            'mailNickname' => array('Exchange Nickname'),
-            'proxyAddresses' => array('Exchange Proxy'),
-            'mDBUseDefaults' => array('Exchange Use Defaults'),
-            'msExchPoliciesExcluded' => array('Exchange Policy Exclude'),
-            'msExchPoliciesIncluded' => array('Exchange Policy Include'),
-            'showInAddressBook' => array('Exchange Address Book'),
-            'altRecipient' => array('Exchange Alt Recipient'),
-            'deliverAndRedirect' => array('Exchange Deliver And Redirect'),
-            'msExchHideFromAddressLists' => array(true),
-            'targetAddress' => array('Contact Email'),
-        );
+        $expectedSchema = [
+            'l' => ['Address City'],
+            'postalCode' => ['Address Code'],
+            'c' => ['Address Country'],
+            'postOfficeBox' => ['Address PBOX'],
+            'st' => ['Address State'],
+            'streetAddress' => ['Address Street'],
+            'company' => ['Company'],
+            'pwdLastSet' => [0],
+            'department' => ['Department'],
+            'description' => ['Description'],
+            'displayName' => ['Display Name'],
+            'mail' => ['Email'],
+            'employeeId' => ['Employee ID'],
+            'accountExpires' => ['Expires'],
+            'givenName' => ['First Name'],
+            'homeDirectory' => ['Home Directory'],
+            'homeDrive' => ['Home Drive'],
+            'initials' => ['Initials'],
+            'userPrincipalName' => ['Logon Name'],
+            'manager' => ['Manager'],
+            'physicalDeliveryOfficeName' => ['Office'],
+            'unicodePwd' => ['Password'],
+            'profilepath' => ['Profile Path'],
+            'scriptPath' => ['Script Path'],
+            'sn' => ['Surname'],
+            'title' => ['Title'],
+            'telephoneNumber' => ['Telephone'],
+            'mobile' => ['Mobile'],
+            'pager' => ['Pager'],
+            'ipphone' => ['IP Phone'],
+            'wWWHomePage' => ['Web Page'],
+            'facsimileTelephoneNumber' => ['Fax'],
+            'userAccountControl' => [true],
+            'homephone' => ['Home Phone'],
+            'dlMemSubmitPerms' => ['Group Send Permission'],
+            'dlMemRejectPerms' => ['Group Reject Permission'],
+            'homeMDB' => ['Exchange Home'],
+            'mailNickname' => ['Exchange Nickname'],
+            'proxyAddresses' => ['Exchange Proxy'],
+            'mDBUseDefaults' => ['Exchange Use Defaults'],
+            'msExchPoliciesExcluded' => ['Exchange Policy Exclude'],
+            'msExchPoliciesIncluded' => ['Exchange Policy Include'],
+            'showInAddressBook' => ['Exchange Address Book'],
+            'altRecipient' => ['Exchange Alt Recipient'],
+            'deliverAndRedirect' => ['Exchange Deliver And Redirect'],
+            'msExchHideFromAddressLists' => [true],
+            'targetAddress' => ['Contact Email'],
+        ];
 
         $this->assertEquals($expectedSchema, $ldapSchema);
     }

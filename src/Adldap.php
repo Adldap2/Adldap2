@@ -17,13 +17,12 @@ use Adldap\Objects\LdapSchema;
 use Adldap\Objects\Schema;
 
 /**
- * Class Adldap
- * @package Adldap
+ * Class Adldap.
  */
 class Adldap
 {
     /**
-     * Define the different types of account in AD
+     * Define the different types of account in AD.
      */
     const ADLDAP_NORMAL_ACCOUNT = 805306368;
     const ADLDAP_WORKSTATION_TRUST = 805306369;
@@ -36,44 +35,44 @@ class Adldap
     const ADLDAP_CONTAINER = 'CN';
 
     /**
-     * The default port for LDAP non-SSL connections
+     * The default port for LDAP non-SSL connections.
      */
     const ADLDAP_LDAP_PORT = '389';
 
     /**
-     * The default port for LDAPS SSL connections
+     * The default port for LDAPS SSL connections.
      */
     const ADLDAP_LDAPS_PORT = '636';
 
     /**
-     * The account suffix for your domain, can be set when the class is invoked
+     * The account suffix for your domain, can be set when the class is invoked.
      *
      * @var string
      */
-    protected $accountSuffix = "@mydomain.local";
+    protected $accountSuffix = '@mydomain.local';
 
     /**
-     * The base dn for your domain
+     * The base dn for your domain.
      *
      * If this is set to null then Adldap will attempt to obtain this automatically from the rootDSE
      *
      * @var string
      */
-    protected $baseDn = "DC=mydomain,DC=local";
+    protected $baseDn = 'DC=mydomain,DC=local';
 
     /**
-     * The user login identifier key used in the AD schema
-     * 
+     * The user login identifier key used in the AD schema.
+     *
      * @var string
      */
-    protected $userIdKey = "sAMAccountname";
+    protected $userIdKey = 'sAMAccountname';
 
     /**
-     * The attribute (index 0) and value (index 1) used to identify a person in the AD schema
-     * 
+     * The attribute (index 0) and value (index 1) used to identify a person in the AD schema.
+     *
      * @var array
      */
-    protected $personFilter = array("category" => "objectCategory", "person" => "person");
+    protected $personFilter = ['category' => 'objectCategory', 'person' => 'person'];
 
     /**
      * Port used to talk to the domain controllers.
@@ -84,11 +83,11 @@ class Adldap
 
     /**
      * Array of domain controllers. Specifiy multiple controllers if you
-     * would like the class to balance the LDAP queries amongst multiple servers
+     * would like the class to balance the LDAP queries amongst multiple servers.
      *
      * @var array
      */
-    protected $domainControllers = array("dc01.mydomain.local");
+    protected $domainControllers = ['dc01.mydomain.local'];
 
     /**
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
@@ -103,7 +102,7 @@ class Adldap
     /**
      * When querying group memberships, do it recursively
      * eg. User Fred is a member of Group A, which is a member of Group B, which is a member of Group C
-     * user_ingroup("Fred","C") will returns true with this option turned on, false if turned off
+     * user_ingroup("Fred","C") will returns true with this option turned on, false if turned off.
      *
      * @var bool
      */
@@ -117,56 +116,56 @@ class Adldap
     protected $followReferrals = 0;
 
     /**
-     * Holds the current ldap connection
+     * Holds the current ldap connection.
      *
      * @var ConnectionInterface
      */
     protected $ldapConnection;
 
     /**
-     * The group class
+     * The group class.
      *
      * @var AdldapGroups
      */
     protected $groupClass;
 
     /**
-     * The user class
+     * The user class.
      *
      * @var AdldapUsers
      */
     protected $userClass;
 
     /**
-     * The folders class
+     * The folders class.
      *
      * @var AdldapFolders
      */
     protected $folderClass;
 
     /**
-     * The utils class
+     * The utils class.
      *
      * @var AdldapUtils
      */
     protected $utilClass;
 
     /**
-     * The contacts class
+     * The contacts class.
      *
      * @var AdldapContacts
      */
     protected $contactClass;
 
     /**
-     * The exchange class
+     * The exchange class.
      *
      * @var AdldapExchange
      */
     protected $exchangeClass;
 
     /**
-     * The computers class
+     * The computers class.
      *
      * @var AdldapComputers
      */
@@ -174,14 +173,14 @@ class Adldap
 
     /**
      * Optional account with higher privileges for searching
-     * This should be set to a domain admin account
+     * This should be set to a domain admin account.
      *
      * @var string
      */
     private $adminUsername = '';
 
     /**
-     * Account with higher privileges password
+     * Account with higher privileges password.
      *
      * @var string
      */
@@ -192,15 +191,18 @@ class Adldap
      *
      * Tries to bind to the AD domain over LDAP or LDAPs
      *
-     * @param array $options The Adldap configuration options array
-     * @param mixed $connection The connection you'd like to use
-     * @param bool $autoConnect Whether or not you want to connect on construct
+     * @param array $options     The Adldap configuration options array
+     * @param mixed $connection  The connection you'd like to use
+     * @param bool  $autoConnect Whether or not you want to connect on construct
+     *
      * @throws AdldapException
      */
-    public function __construct(array $options = array(), $connection = NULL, $autoConnect = true)
+    public function __construct(array $options = [], $connection = null, $autoConnect = true)
     {
         // Create a new LDAP Connection if one isn't set
-        if( ! $connection) $connection = new Connections\Ldap;
+        if (! $connection) {
+            $connection = new Connections\Ldap();
+        }
 
         $this->setLdapConnection($connection);
 
@@ -208,17 +210,15 @@ class Adldap
          * If we dev wants to connect automatically, we'll create the
          * configuration object and set the the Adldap properties.
          */
-        if($autoConnect)
-        {
+        if ($autoConnect) {
             $configuration = new Configuration($options);
 
-            if ($configuration->countAttributes() > 0)
-            {
+            if ($configuration->countAttributes() > 0) {
                 $this->setAccountSuffix($configuration->{'account_suffix'});
 
                 $this->setBaseDn($configuration->{'base_dn'});
 
-                $this->setDomainControllers($configuration->{"domain_controllers"});
+                $this->setDomainControllers($configuration->{'domain_controllers'});
 
                 $this->setAdminUsername($configuration->{'admin_username'});
 
@@ -234,18 +234,15 @@ class Adldap
 
                 $this->setFollowReferrals($configuration->{'follow_referrals'});
 
-                if($configuration->hasAttribute('ad_port'))
-                {
+                if ($configuration->hasAttribute('ad_port')) {
                     $this->setPort($configuration->{'ad_port'});
                 }
 
-                if($configuration->hasAttribute('user_id_key'))
-                {
+                if ($configuration->hasAttribute('user_id_key')) {
                     $this->setUserIdKey($configuration->{'user_id_key'});
                 }
 
-                if($configuration->hasAttribute('person_filter'))
-                {
+                if ($configuration->hasAttribute('person_filter')) {
                     $this->setPersonFilter($configuration->{'person_filter'});
                 }
 
@@ -256,9 +253,10 @@ class Adldap
                  * if SSO is supported, and if so we'll bind it to the
                  * current LDAP connection.
                  */
-                if ($sso)
-                {
-                    if ($this->ldapConnection->isSaslSupported()) $this->ldapConnection->useSSO();
+                if ($sso) {
+                    if ($this->ldapConnection->isSaslSupported()) {
+                        $this->ldapConnection->useSSO();
+                    }
                 }
             }
 
@@ -271,8 +269,6 @@ class Adldap
      * Destructor.
      *
      * Closes the current LDAP connection.
-     *
-     * @return void
      */
     public function __destruct()
     {
@@ -280,22 +276,23 @@ class Adldap
     }
 
     /**
-     * Get the active LDAP Connection
+     * Get the active LDAP Connection.
      *
      * @return bool|mixed
      */
     public function getLdapConnection()
     {
-        if ($this->ldapConnection) return $this->ldapConnection;
+        if ($this->ldapConnection) {
+            return $this->ldapConnection;
+        }
 
         return false;
     }
 
     /**
-     * Sets the ldapConnection property
+     * Sets the ldapConnection property.
      *
      * @param $connection
-     * @return void
      */
     public function setLdapConnection(ConnectionInterface $connection)
     {
@@ -314,7 +311,7 @@ class Adldap
     }
 
     /**
-     * Get the current base DN
+     * Get the current base DN.
      *
      * @return string
      */
@@ -324,29 +321,31 @@ class Adldap
     }
 
     /**
-     * Set the current base DN
+     * Set the current base DN.
      *
      * @param $baseDn
-     * @return void
      */
     public function setBaseDn($baseDn)
     {
-        if ($baseDn !== NULL) $this->baseDn = $baseDn;
+        if ($baseDn !== null) {
+            $this->baseDn = $baseDn;
+        }
     }
 
     /**
-     * Set the account suffix property
+     * Set the account suffix property.
      *
      * @param string $accountSuffix
-     * @return void
      */
     public function setAccountSuffix($accountSuffix)
     {
-        if ($accountSuffix !== NULL) $this->accountSuffix = $accountSuffix;
+        if ($accountSuffix !== null) {
+            $this->accountSuffix = $accountSuffix;
+        }
     }
 
     /**
-     * Retrieve the current account suffix
+     * Retrieve the current account suffix.
      *
      * @return string
      */
@@ -356,28 +355,27 @@ class Adldap
     }
 
     /**
-    * Set the user id key
-    * 
-    * @param string $userIdKey
-    * @return void
-    */
+     * Set the user id key.
+     *
+     * @param string $userIdKey
+     */
     public function setUserIdKey($userIdKey)
     {
         $this->userIdKey = $userIdKey;
     }
 
     /**
-    * Get the user id key
-    * 
-    * @return string
-    */
+     * Get the user id key.
+     *
+     * @return string
+     */
     public function getUserIdKey()
     {
         return $this->userIdKey;
     }
 
     /**
-     * Sets the person search filter
+     * Sets the person search filter.
      *
      * @param array $personFilter
      */
@@ -392,34 +390,41 @@ class Adldap
      * Without a parameter, returns an imploded string of the form "category=person".
      *
      * @param string $key
+     *
      * @return string
      */
     public function getPersonFilter($key = null)
     {
-        if ($key == 'category') return $this->personFilter['category'];
+        if ($key == 'category') {
+            return $this->personFilter['category'];
+        }
 
-        if ($key == 'person') return $this->personFilter['person'];
+        if ($key == 'person') {
+            return $this->personFilter['person'];
+        }
 
         return implode('=', $this->personFilter);
     }
 
     /**
      * Set the domain controllers property with the
-     * specified domainControllers array
+     * specified domainControllers array.
      *
      * @param array $domainControllers
-     * @return void
+     *
      * @throws AdldapException
      */
-    public function setDomainControllers(array $domainControllers = array())
+    public function setDomainControllers(array $domainControllers = [])
     {
-        if(count($domainControllers) === 0) throw new AdldapException("You must specify at least one domain controller.");
+        if (count($domainControllers) === 0) {
+            throw new AdldapException('You must specify at least one domain controller.');
+        }
 
         $this->domainControllers = $domainControllers;
     }
 
     /**
-     * Retrieve the array of domain controllers
+     * Retrieve the array of domain controllers.
      *
      * @return array
      */
@@ -429,16 +434,18 @@ class Adldap
     }
 
     /**
-     * Sets the port number your domain controller communicates over
+     * Sets the port number your domain controller communicates over.
      *
      * @param int|string $adPort
+     *
      * @throws AdldapException
      */
     public function setPort($adPort)
     {
-        if( ! is_numeric($adPort))
-        {
-            if($adPort === NULL) $adPort = 'null';
+        if (! is_numeric($adPort)) {
+            if ($adPort === null) {
+                $adPort = 'null';
+            }
 
             throw new AdldapException("The Port: $adPort is not numeric and cannot be used.");
         }
@@ -447,7 +454,7 @@ class Adldap
     }
 
     /**
-     * Retrieve the current port number
+     * Retrieve the current port number.
      *
      * @return int|string
      */
@@ -461,7 +468,6 @@ class Adldap
      * Set the username of an account with higher privileges.
      *
      * @param string $adminUsername
-     * @return void
      */
     public function setAdminUsername($adminUsername)
     {
@@ -473,7 +479,6 @@ class Adldap
      * Set the password of an account with higher privileges.
      *
      * @param string $adminPassword
-     * @return void
      */
     public function setAdminPassword($adminPassword)
     {
@@ -481,7 +486,7 @@ class Adldap
     }
 
     /**
-     * Retrieves the set set administrators username
+     * Retrieves the set set administrators username.
      *
      * @return string
      */
@@ -491,7 +496,7 @@ class Adldap
     }
 
     /**
-     * Retrieves the set administrators password
+     * Retrieves the set administrators password.
      *
      * @return string
      */
@@ -505,7 +510,6 @@ class Adldap
      * Set whether to detect the true primary group.
      *
      * @param bool $realPrimaryGroup
-     * @return void
      */
     public function setRealPrimaryGroup($realPrimaryGroup)
     {
@@ -513,7 +517,7 @@ class Adldap
     }
 
     /**
-     * Retrieve the current real primary group setting
+     * Retrieve the current real primary group setting.
      *
      * @return bool
      */
@@ -527,28 +531,24 @@ class Adldap
      * current ldap connection.
      *
      * @param bool $useSSL
-     * @return void
      */
     public function setUseSSL($useSSL)
     {
         // Make sure we set the correct SSL port if using SSL
-        if($useSSL)
-        {
+        if ($useSSL) {
             $this->ldapConnection->useSSL();
 
             $this->setPort(self::ADLDAP_LDAPS_PORT);
-        }
-        else
-        {
+        } else {
             $this->setPort(self::ADLDAP_LDAP_PORT);
         }
     }
 
     /**
-    * Retrieves the current useSSL property
-    *
-    * @return bool
-    */
+     * Retrieves the current useSSL property.
+     *
+     * @return bool
+     */
     public function getUseSSL()
     {
         return $this->ldapConnection->isUsingSSL();
@@ -559,15 +559,16 @@ class Adldap
      * Set whether to use TLS.
      *
      * @param bool $useTLS
-     * @return void
      */
     public function setUseTLS($useTLS)
     {
-        if($useTLS) $this->ldapConnection->useTLS();
+        if ($useTLS) {
+            $this->ldapConnection->useTLS();
+        }
     }
 
     /**
-     * Retrieves the current UseTLS property
+     * Retrieves the current UseTLS property.
      *
      * @return bool
      */
@@ -582,12 +583,12 @@ class Adldap
      * Requires ldap_sasl_bind support. Be sure --with-ldap-sasl is used when configuring PHP otherwise this function will be undefined.
      *
      * @param bool $useSSO
+     *
      * @throws AdldapException
      */
     public function setUseSSO($useSSO)
     {
-        if ($useSSO === true && ! $this->ldapConnection->isSaslSupported())
-        {
+        if ($useSSO === true && ! $this->ldapConnection->isSaslSupported()) {
             throw new AdldapException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
         }
 
@@ -595,7 +596,7 @@ class Adldap
     }
 
     /**
-     * Retrieves the current useSSO property
+     * Retrieves the current useSSO property.
      *
      * @return bool
      */
@@ -609,15 +610,12 @@ class Adldap
      * Set whether to lookup recursive groups.
      *
      * @param bool $recursiveGroups
-     * @return void
      */
     public function setRecursiveGroups($recursiveGroups)
     {
-        if($recursiveGroups)
-        {
+        if ($recursiveGroups) {
             $this->recursiveGroups = true;
-        } else
-        {
+        } else {
             $this->recursiveGroups = false;
         }
     }
@@ -651,8 +649,7 @@ class Adldap
      */
     public function group()
     {
-        if ( ! $this->groupClass)
-        {
+        if (! $this->groupClass) {
             $this->groupClass = new AdldapGroups($this);
         }
 
@@ -668,8 +665,7 @@ class Adldap
      */
     public function user()
     {
-        if ( ! $this->userClass)
-        {
+        if (! $this->userClass) {
             $this->userClass = new AdldapUsers($this);
         }
 
@@ -685,8 +681,7 @@ class Adldap
      */
     public function folder()
     {
-        if ( ! $this->folderClass)
-        {
+        if (! $this->folderClass) {
             $this->folderClass = new AdldapFolders($this);
         }
 
@@ -702,8 +697,7 @@ class Adldap
      */
     public function utilities()
     {
-        if ( ! $this->utilClass)
-        {
+        if (! $this->utilClass) {
             $this->utilClass = new AdldapUtils($this);
         }
 
@@ -719,8 +713,7 @@ class Adldap
      */
     public function contact()
     {
-        if ( ! $this->contactClass)
-        {
+        if (! $this->contactClass) {
             $this->contactClass = new AdldapContacts($this);
         }
 
@@ -728,14 +721,13 @@ class Adldap
     }
 
     /**
-     * Get the exchange class interface
+     * Get the exchange class interface.
      *
      * @return AdldapExchange
      */
     public function exchange()
     {
-        if ( ! $this->exchangeClass)
-        {
+        if (! $this->exchangeClass) {
             $this->exchangeClass = new AdldapExchange($this);
         }
 
@@ -743,14 +735,13 @@ class Adldap
     }
 
     /**
-     * Get the computers class interface
+     * Get the computers class interface.
      *
      * @return AdldapComputers
      */
     public function computer()
     {
-        if ( ! $this->computerClass)
-        {
+        if (! $this->computerClass) {
             $this->computerClass = new AdldapComputers($this);
         }
 
@@ -768,9 +759,10 @@ class Adldap
     }
 
     /**
-     * Connects and Binds to the Domain Controller
+     * Connects and Binds to the Domain Controller.
      *
      * @return bool
+     *
      * @throws AdldapException
      */
     public function connect()
@@ -787,30 +779,34 @@ class Adldap
 
         $port = $this->getPort();
 
-        if ($useSSL) $this->ldapConnection->useSSL();
+        if ($useSSL) {
+            $this->ldapConnection->useSSL();
+        }
 
         $this->ldapConnection->connect($domainController, $port);
 
         $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
 
-        if ($useTLS) $this->ldapConnection->startTLS();
+        if ($useTLS) {
+            $this->ldapConnection->startTLS();
+        }
 
         // Bind as a domain admin if they've set it up
-        if ($adminUsername !== NULL && $adminPassword !== NULL)
-        {
+        if ($adminUsername !== null && $adminPassword !== null) {
             $this->bindUsingCredentials($adminUsername, $adminPassword);
         }
 
         $remoteUser = $this->getRemoteUserInput();
         $kerberosAuth = $this->getKerberosAuthInput();
 
-        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth)
-        {
+        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth) {
             return $this->bindUsingKerberos($kerberosAuth);
         }
 
-        if ( ! $this->getBaseDn()) $this->setBaseDn($this->findBaseDn());
+        if (! $this->getBaseDn()) {
+            $this->setBaseDn($this->findBaseDn());
+        }
 
         return true;
     }
@@ -822,16 +818,20 @@ class Adldap
      */
     public function close()
     {
-        if($this->ldapConnection) $this->ldapConnection->close();
+        if ($this->ldapConnection) {
+            $this->ldapConnection->close();
+        }
     }
 
     /**
-     * Authenticates a user using the specified credentials
+     * Authenticates a user using the specified credentials.
      *
-     * @param string $username The users AD username
-     * @param string $password The users AD password
-     * @param bool $preventRebind
+     * @param string $username      The users AD username
+     * @param string $password      The users AD password
+     * @param bool   $preventRebind
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
     public function authenticate($username, $password, $preventRebind = false)
@@ -843,39 +843,31 @@ class Adldap
         $kerberos = $this->getKerberosAuthInput();
 
         // Allow binding over SSO for Kerberos
-        if ($this->getUseSSO() && $remoteUser && $remoteUser == $username && $this->getAdminUsername() === NULL && $kerberos)
-        {
+        if ($this->getUseSSO() && $remoteUser && $remoteUser == $username && $this->getAdminUsername() === null && $kerberos) {
             return $this->bindUsingKerberos($kerberos);
         }
 
         // Bind as the user
         $ret = true;
 
-        try
-        {
+        try {
             $this->bindUsingCredentials($username, $password);
-        }
-        catch (AdldapException $e)
-        {
+        } catch (AdldapException $e) {
             $ret = false;
         }
 
-        if($preventRebind)
-        {
+        if ($preventRebind) {
             return $ret;
-        } else
-        {
+        } else {
             $adminUsername = $this->getAdminUsername();
             $adminPassword = $this->getAdminPassword();
 
-            if($adminUsername !== NULL && $adminPassword !== NULL)
-            {
+            if ($adminUsername !== null && $adminPassword !== null) {
                 $bound = $this->bindUsingCredentials($adminUsername, $adminPassword);
 
-                if ( ! $bound)
-                {
+                if (! $bound) {
                     // This should never happen in theory
-                    throw new AdldapException('Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError());
+                    throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError());
                 }
             }
         }
@@ -884,9 +876,10 @@ class Adldap
     }
 
     /**
-     * Returns objectClass in an array
+     * Returns objectClass in an array.
      *
      * @param string $distinguishedName The full DN of a contact
+     *
      * @return array|bool
      */
     public function getObjectClass($distinguishedName)
@@ -895,17 +888,16 @@ class Adldap
 
         $this->utilities()->validateLdapIsBound();
 
-        $filter = "distinguishedName=" . $this->utilities()->ldapSlashes($distinguishedName);
+        $filter = 'distinguishedName='.$this->utilities()->ldapSlashes($distinguishedName);
 
-        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, array("objectclass"));
+        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, ['objectclass']);
 
         $entries = $this->ldapConnection->getEntries($results);
 
-        $objects = array();
+        $objects = [];
 
-        for ($i = 0; $i < $entries[0]["objectclass"]["count"]; $i++)
-        {
-            array_push($objects, $entries[0]["objectclass"][$i]);
+        for ($i = 0; $i < $entries[0]['objectclass']['count']; $i++) {
+            array_push($objects, $entries[0]['objectclass'][$i]);
         }
 
         return $objects;
@@ -918,27 +910,27 @@ class Adldap
      */
     public function findBaseDn()
     {
-        $namingContext = $this->getRootDse(array('defaultnamingcontext'));
+        $namingContext = $this->getRootDse(['defaultnamingcontext']);
 
-        if(is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext[0]))
-        {
+        if (is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext[0])) {
             return $namingContext[0]['defaultnamingcontext'][0];
         }
 
-        return null;
+        return;
     }
 
     /**
      * Get the RootDSE properties from a domain controller.
      *
      * @param array $attributes The attributes you wish to query e.g. defaultnamingcontext
+     *
      * @return array|bool
      */
-    public function getRootDse($attributes = array("*", "+"))
+    public function getRootDse($attributes = ['*', '+'])
     {
         $filter = 'objectClass=*';
 
-        $results = $this->ldapConnection->read(NULL, $filter, $attributes);
+        $results = $this->ldapConnection->read(null, $filter, $attributes);
 
         return $this->ldapConnection->getEntries($results);
     }
@@ -954,13 +946,16 @@ class Adldap
      */
     public function getLastError()
     {
-        if($this->ldapConnection) return $this->ldapConnection->getLastError();
+        if ($this->ldapConnection) {
+            return $this->ldapConnection->getLastError();
+        }
     }
 
     /**
      * Returns an LDAP compatible schema array for modifications.
      *
      * @param array $attributes Attributes to be queried
+     *
      * @return array|bool
      * @depreciated Depreciated as of 5.0 in favor of ldapSchema function
      */
@@ -973,24 +968,28 @@ class Adldap
      * Returns an LDAP compatible schema array for modifications.
      *
      * @param array $attributes Attributes to be queried
+     *
      * @return array|bool
      */
     public function ldapSchema(array $attributes)
     {
         // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
-        array_walk($attributes, array($this->utilities(), 'encode8bit'));
+        array_walk($attributes, [$this->utilities(), 'encode8bit']);
 
         $schema = new Schema($attributes);
 
         $ldapSchema = new LdapSchema($schema);
 
-        if ($ldapSchema->countAttributes() === 0) return false;
+        if ($ldapSchema->countAttributes() === 0) {
+            return false;
+        }
 
         // Return a filtered array to remove NULL attributes
-        return array_filter($ldapSchema->getAttributes(), function($attribute)
-        {
+        return array_filter($ldapSchema->getAttributes(), function ($attribute) {
             // Only return the attribute if it is not null
-            if ($attribute[0] !== null) return $attribute;
+            if ($attribute[0] !== null) {
+                return $attribute;
+            }
         });
     }
 
@@ -1025,21 +1024,21 @@ class Adldap
     }
 
     /**
-     * Binds to the current connection using kerberos
+     * Binds to the current connection using kerberos.
      *
      * @param $kerberosCredentials
      * @returns bool
+     *
      * @throws AdldapException
      */
     private function bindUsingKerberos($kerberosCredentials)
     {
-        putenv("KRB5CCNAME=" . $kerberosCredentials);
+        putenv('KRB5CCNAME='.$kerberosCredentials);
 
-        $bound = $this->ldapConnection->bind(NULL, NULL, true);
+        $bound = $this->ldapConnection->bind(null, null, true);
 
-        if ( ! $bound)
-        {
-            $message = 'Rebind to Active Directory failed. AD said: ' . $this->ldapConnection->getLastError();
+        if (! $bound) {
+            $message = 'Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError();
 
             throw new AdldapException($message);
         }
@@ -1048,40 +1047,37 @@ class Adldap
     }
 
     /**
-     * Binds to the current connection using administrator credentials
+     * Binds to the current connection using administrator credentials.
      *
      * @param string $username
      * @param string $password
      * @returns bool
+     *
      * @throws AdldapException
      */
     private function bindUsingCredentials($username, $password)
     {
         // Allow binding with null credentials
-        if(empty($username))
-        {
-            $username = NULL;
-        } else
-        {
+        if (empty($username)) {
+            $username = null;
+        } else {
             $username .= $this->getAccountSuffix();
         }
 
-        if(empty($password)) $password = NULL;
+        if (empty($password)) {
+            $password = null;
+        }
 
         $bindings = $this->ldapConnection->bind($username, $password);
 
-        if ( ! $bindings)
-        {
+        if (! $bindings) {
             $error = $this->ldapConnection->getLastError();
 
-            if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS())
-            {
+            if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS()) {
                 // If you have problems troubleshooting, remove the @ character from the ldapBind command above to get the actual error message
-                $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $error;
-            }
-            else
-            {
-                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $error;
+                $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: '.$error;
+            } else {
+                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;
             }
 
             throw new AdldapException($message);

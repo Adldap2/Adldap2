@@ -7,8 +7,7 @@ use Adldap\Objects\LdapEntry;
 use Adldap\Objects\Paginator;
 
 /**
- * Class AdldapSearch
- * @package Adldap\Classes
+ * Class AdldapSearch.
  */
 class AdldapSearch extends AdldapBase
 {
@@ -39,28 +38,28 @@ class AdldapSearch extends AdldapBase
      *
      * @var array
      */
-    protected $operators = array(
+    protected $operators = [
         '*', // Wildcard, All
         '!', // Does not equal
         '=', // Does equal
         '>=', // Greater than or equal to
         '<=', // Less than or equal to
-        '&' // And
-    );
+        '&', // And
+    ];
 
     /**
      * Stores the selects to use in the query when assembled.
      *
      * @var array
      */
-    protected $selects = array();
+    protected $selects = [];
 
     /**
      * Stores the wheres to use in the query when assembled.
      *
      * @var array
      */
-    protected $wheres = array();
+    protected $wheres = [];
 
     /**
      * Stores the orWheres to use in the query
@@ -68,7 +67,7 @@ class AdldapSearch extends AdldapBase
      *
      * @var array
      */
-    protected $orWheres = array();
+    protected $orWheres = [];
 
     /**
      * Stores the field to sort search results by.
@@ -102,26 +101,29 @@ class AdldapSearch extends AdldapBase
      * Performs the specified query on the current LDAP connection.
      *
      * @param string $query
+     *
      * @return bool|array
      */
     public function query($query)
     {
         // If the query is empty, we'll return false
-        if($query === null || empty($query)) return false;
+        if ($query === null || empty($query)) {
+            return false;
+        }
 
         /*
          * If the search is recursive, we'll run a search,
          * if not, we'll run a listing.
          */
-        if($this->recursive)
-        {
+        if ($this->recursive) {
             $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
-        } else
-        {
+        } else {
             $results = $this->connection->listing($this->getDn(), $query, $this->getSelects());
         }
 
-        if ($results) return $this->processResults($results);
+        if ($results) {
+            return $this->processResults($results);
+        }
 
         return false;
     }
@@ -152,33 +154,34 @@ class AdldapSearch extends AdldapBase
     /**
      * Paginates the current LDAP query.
      *
-     * @param int $perPage
-     * @param int $currentPage
+     * @param int  $perPage
+     * @param int  $currentPage
      * @param bool $isCritical
+     *
      * @return bool
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
         // Stores all LDAP entries in a page array
-        $pages = array();
+        $pages = [];
 
         $cookie = '';
 
-        do
-        {
+        do {
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
             $results = $this->connection->search($this->adldap->getBaseDn(), $this->getQuery(), $this->getSelects());
 
-            if ($results)
-            {
+            if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
                 $pages[] = $results;
             }
-        } while($cookie !== null && ! empty($cookie));
+        } while ($cookie !== null && ! empty($cookie));
 
-        if(count($pages) > 0) return $this->processPaginatedResults($pages, $perPage, $currentPage);
+        if (count($pages) > 0) {
+            return $this->processPaginatedResults($pages, $perPage, $currentPage);
+        }
 
         return false;
     }
@@ -192,8 +195,7 @@ class AdldapSearch extends AdldapBase
     {
         $results = $this->get();
 
-        if (is_array($results) && array_key_exists(0, $results))
-        {
+        if (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 
@@ -204,18 +206,16 @@ class AdldapSearch extends AdldapBase
      * Adds the inserted fields to query on the current LDAP connection.
      *
      * @param array $fields
+     *
      * @return $this
      */
-    public function select($fields = array())
+    public function select($fields = [])
     {
-        if (is_array($fields))
-        {
-            foreach($fields as $field)
-            {
+        if (is_array($fields)) {
+            foreach ($fields as $field) {
                 $this->addSelect($field);
             }
-        } else if (is_string($fields))
-        {
+        } elseif (is_string($fields)) {
             $this->addSelect($fields);
         }
 
@@ -228,6 +228,7 @@ class AdldapSearch extends AdldapBase
      * @param $field
      * @param null $operator
      * @param null $value
+     *
      * @return $this
      */
     public function where($field, $operator = null, $value = null)
@@ -241,8 +242,9 @@ class AdldapSearch extends AdldapBase
      * Adds an orWhere clause to the current query.
      *
      * @param string $field
-     * @param null $operator
-     * @param null $value
+     * @param null   $operator
+     * @param null   $value
+     *
      * @return $this
      */
     public function orWhere($field, $operator = null, $value = null)
@@ -260,7 +262,9 @@ class AdldapSearch extends AdldapBase
      */
     public function hasSelects()
     {
-        if (count($this->selects) > 0) return true;
+        if (count($this->selects) > 0) {
+            return true;
+        }
 
         return false;
     }
@@ -303,7 +307,9 @@ class AdldapSearch extends AdldapBase
     public function getQuery()
     {
         // Return the query if it exists
-        if ( ! empty($this->query)) return $this->query;
+        if (! empty($this->query)) {
+            return $this->query;
+        }
 
         /*
          * Looks like our query hasn't been assembled
@@ -321,17 +327,16 @@ class AdldapSearch extends AdldapBase
      *
      * @param $field
      * @param string $direction
+     *
      * @return $this
      */
     public function sortBy($field, $direction = 'desc')
     {
         $this->sortByField = $field;
 
-        if(strtolower($direction) === 'asc')
-        {
+        if (strtolower($direction) === 'asc') {
             $this->sortByDirection = SORT_ASC;
-        } else
-        {
+        } else {
             $this->sortByDirection = SORT_DESC;
         }
 
@@ -342,6 +347,7 @@ class AdldapSearch extends AdldapBase
      * Sets the complete distinguished name to search on.
      *
      * @param string $dn
+     *
      * @return $this
      */
     public function setDn($dn)
@@ -361,7 +367,9 @@ class AdldapSearch extends AdldapBase
      */
     public function getDn()
     {
-        if(empty($this->dn)) return $this->adldap->getBaseDn();
+        if (empty($this->dn)) {
+            return $this->adldap->getBaseDn();
+        }
 
         return $this->dn;
     }
@@ -371,13 +379,16 @@ class AdldapSearch extends AdldapBase
      * whether or not to search recursively.
      *
      * @param bool $recursive
+     *
      * @return $this
      */
     public function recursive($recursive = true)
     {
         $this->recursive = true;
 
-        if($recursive === false) $this->recursive = false;
+        if ($recursive === false) {
+            $this->recursive = false;
+        }
 
         return $this;
     }
@@ -398,16 +409,17 @@ class AdldapSearch extends AdldapBase
      *
      * @param string $field
      * @param string $operator
-     * @param null $value
+     * @param null   $value
+     *
      * @throws AdldapException
      */
     private function addWhere($field, $operator, $value = null)
     {
-        $this->wheres[] = array(
+        $this->wheres[] = [
             'field' => $field,
             'operator' => $this->getOperator($operator),
             'value' => $this->connection->escape($value),
-        );
+        ];
     }
 
     /**
@@ -416,16 +428,17 @@ class AdldapSearch extends AdldapBase
      *
      * @param string $field
      * @param string $operator
-     * @param null $value
+     * @param null   $value
+     *
      * @throws AdldapException
      */
     private function addOrWhere($field, $operator, $value = null)
     {
-        $this->orWheres[] = array(
+        $this->orWheres[] = [
             'field' => $field,
             'operator' => $this->getOperator($operator),
             'value' => $this->connection->escape($value),
-        );
+        ];
     }
 
     /**
@@ -464,25 +477,19 @@ class AdldapSearch extends AdldapBase
          * if using multiple wheres or if we have any
          * orWheres. For example (&(cn=John*)(|(description=User*)))
          */
-        if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0)
-        {
+        if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0) {
             $this->setQuery($this->queryAnd($this->getQuery()));
         }
     }
 
     /**
      * Assembles all where clauses in the current wheres property.
-     *
-     * @return void
      */
     private function assembleWheres()
     {
-        if (count($this->wheres) > 0)
-        {
-            foreach($this->wheres as $where)
-            {
-                switch($where['operator'])
-                {
+        if (count($this->wheres) > 0) {
+            foreach ($this->wheres as $where) {
+                switch ($where['operator']) {
                     case '=':
                         $this->addToQuery($this->queryEquals($where['field'], $where['value']));
                         break;
@@ -499,19 +506,14 @@ class AdldapSearch extends AdldapBase
 
     /**
      * Assembles all or where clauses in the current orWheres property.
-     *
-     * @return void
      */
     private function assembleOrWheres()
     {
-        if (count($this->orWheres) > 0)
-        {
+        if (count($this->orWheres) > 0) {
             $ors = '';
 
-            foreach($this->orWheres as $where)
-            {
-                switch($where['operator'])
-                {
+            foreach ($this->orWheres as $where) {
+                switch ($where['operator']) {
                     case '=':
                         $ors .= $this->queryEquals($where['field'], $where['value']);
                         break;
@@ -528,7 +530,9 @@ class AdldapSearch extends AdldapBase
              * Make sure we wrap the query in an 'and'
              * if using multiple wheres. For example (&QUERY)
              */
-            if (count($this->orWheres) > 0) $this->addToQuery($this->queryOr($ors));
+            if (count($this->orWheres) > 0) {
+                $this->addToQuery($this->queryOr($ors));
+            }
         }
     }
 
@@ -537,11 +541,12 @@ class AdldapSearch extends AdldapBase
      *
      * @param string $field
      * @param string $value
+     *
      * @return string
      */
     private function queryDoesNotEqual($field, $value)
     {
-        return $this::$openQuery . '!' . $this->queryEquals($field, $value) . $this::$closeQuery;
+        return $this::$openQuery.'!'.$this->queryEquals($field, $value).$this::$closeQuery;
     }
 
     /**
@@ -549,44 +554,48 @@ class AdldapSearch extends AdldapBase
      *
      * @param string $field
      * @param string $value
+     *
      * @return string
      */
     private function queryEquals($field, $value)
     {
-        return $this::$openQuery . $field . '=' . $value . $this::$closeQuery;
+        return $this::$openQuery.$field.'='.$value.$this::$closeQuery;
     }
 
     /**
      * Returns a query string for a wildcard.
      *
      * @param string $field
+     *
      * @return string
      */
     private function queryWildcard($field)
     {
-        return $this::$openQuery .  $field . '=*' . $this::$closeQuery;
+        return $this::$openQuery.$field.'=*'.$this::$closeQuery;
     }
 
     /**
      * Wraps the inserted query inside an AND operator.
      *
      * @param string $query
+     *
      * @return string
      */
     private function queryAnd($query)
     {
-        return $this::$openQuery . '&' . $query . $this::$closeQuery;
+        return $this::$openQuery.'&'.$query.$this::$closeQuery;
     }
 
     /**
      * Wraps the inserted query inside an OR operator.
      *
      * @param string $query
+     *
      * @return string
      */
     private function queryOr($query)
     {
-        return $this::$openQuery . '|' . $query . $this::$closeQuery;
+        return $this::$openQuery.'|'.$query.$this::$closeQuery;
     }
 
     /**
@@ -595,15 +604,16 @@ class AdldapSearch extends AdldapBase
      * Throws an AdldapException if no operator is found.
      *
      * @param $operator
+     *
      * @return string
+     *
      * @throws AdldapException
      */
     private function getOperator($operator)
     {
         $key = array_search($operator, $this->operators);
 
-        if ($key !== false && array_key_exists($key, $this->operators))
-        {
+        if ($key !== false && array_key_exists($key, $this->operators)) {
             return $this->operators[$key];
         }
 
@@ -618,24 +628,25 @@ class AdldapSearch extends AdldapBase
      * Processes LDAP search results into a nice array.
      *
      * @param resource $results
+     *
      * @return array
      */
     private function processResults($results)
     {
         $entries = $this->connection->getEntries($results);
 
-        $objects = array();
+        $objects = [];
 
-        if(array_key_exists('count', $entries))
-        {
-            for ($i = 0; $i < $entries["count"]; $i++)
-            {
+        if (array_key_exists('count', $entries)) {
+            for ($i = 0; $i < $entries['count']; $i++) {
                 $entry = new LdapEntry($entries[$i], $this->connection);
 
                 $objects[] = $entry->getAttributes();
             }
 
-            if ( ! empty($this->sortByField)) return $this->processSortBy($objects);
+            if (! empty($this->sortByField)) {
+                return $this->processSortBy($objects);
+            }
         }
 
         return $objects;
@@ -645,20 +656,19 @@ class AdldapSearch extends AdldapBase
      * Processes paginated LDAP results.
      *
      * @param array $pages
-     * @param int $perPage
-     * @param int $currentPage
+     * @param int   $perPage
+     * @param int   $currentPage
+     *
      * @return array|bool
      */
     private function processPaginatedResults($pages, $perPage = 50, $currentPage = 0)
     {
         // Make sure we have at least one page of results
-        if (count($pages) > 0)
-        {
-            $objects = array();
+        if (count($pages) > 0) {
+            $objects = [];
 
             // Go through each page
-            foreach($pages as $results)
-            {
+            foreach ($pages as $results) {
                 // Get the entries for each page
                 $entries = $this->connection->getEntries($results);
 
@@ -667,10 +677,8 @@ class AdldapSearch extends AdldapBase
                  * each and construct the entry attributes, and
                  * put them all inside the objects array
                  */
-                if(is_array($entries) && array_key_exists('count', $entries))
-                {
-                    for ($i = 0; $i < $entries["count"]; $i++)
-                    {
+                if (is_array($entries) && array_key_exists('count', $entries)) {
+                    for ($i = 0; $i < $entries['count']; $i++) {
                         $entry = new LdapEntry($entries[$i], $this->connection);
 
                         $objects[] = $entry->getAttributes();
@@ -682,8 +690,7 @@ class AdldapSearch extends AdldapBase
              * If we're sorting, we'll process all of
              * our results so it's sorted correctly
              */
-            if ( ! empty($this->sortByField))
-            {
+            if (! empty($this->sortByField)) {
                 $objects = $this->processSortBy($objects);
             }
 
@@ -705,12 +712,9 @@ class AdldapSearch extends AdldapBase
      */
     private function processSortBy($objects)
     {
-        if(count($objects) > 0)
-        {
-            foreach($objects as $key => $row)
-            {
-                if(array_key_exists($this->sortByField, $row))
-                {
+        if (count($objects) > 0) {
+            foreach ($objects as $key => $row) {
+                if (array_key_exists($this->sortByField, $row)) {
                     $sort[$key] = $row[$this->sortByField];
                 }
             }

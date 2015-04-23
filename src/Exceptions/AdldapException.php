@@ -2,4 +2,6 @@
 
 namespace Adldap\Exceptions;
 
-class AdldapException extends \Exception {}
+class AdldapException extends \Exception
+{
+}

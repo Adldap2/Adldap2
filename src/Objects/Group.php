@@ -5,8 +5,7 @@ namespace Adldap\Objects;
 use Adldap\Exceptions\AdldapException;
 
 /**
- * Class Group
- * @package Adldap\Objects
+ * Class Group.
  */
 class Group extends AbstractObject
 {
@@ -16,24 +15,24 @@ class Group extends AbstractObject
      *
      * @var array
      */
-    protected $required = array(
+    protected $required = [
         'group_name',
         'description',
         'container',
-    );
+    ];
 
     /**
      * Validate the required attributes.
      *
      * @return bool
+     *
      * @throws AdldapException
      */
     public function validateRequired()
     {
         parent::validateRequired();
 
-        if( ! is_array($this->getAttribute('container')))
-        {
+        if (! is_array($this->getAttribute('container'))) {
             $message = 'Container attribute must be an array.';
 
             throw new AdldapException($message);

@@ -3,8 +3,7 @@
 namespace Adldap\Objects;
 
 /**
- * Class LdapSchema
- * @package Adldap\Objects
+ * Class LdapSchema.
  */
 class LdapSchema extends AbstractObject
 {
@@ -26,7 +25,8 @@ class LdapSchema extends AbstractObject
      * in their own int(0) key due to LDAP parsing.
      *
      * @param int|string $key
-     * @param mixed $value
+     * @param mixed      $value
+     *
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -40,6 +40,7 @@ class LdapSchema extends AbstractObject
      * Constructs a schema compatible with the LDAP protocol.
      *
      * @param Schema $schema
+     *
      * @return $this
      */
     private function constructLdapSchema(Schema $schema)

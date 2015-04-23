@@ -470,49 +470,34 @@ class AdldapGroups extends AdldapBase
     /**
      * Return a complete list of "groups in groups"
      *
-     * @param string $group The group to get the list from
+     * @param string $groupName The group to get the list from
      * @return array|bool
      */
-    public function recursiveGroups($group)
+    public function recursiveGroups($groupName)
     {
-        $this->adldap->utilities()->validateNotNull('Group', $group);
+        $groups = array();
 
-        $stack = array();
-        $processed = array();
-        $retGroups = array();
+        $info = $this->find($groupName, array('cn', 'memberof'));
 
-        array_push($stack, $group); // Initial Group to Start with
-
-        while (count($stack) > 0)
+        if(is_array($info) && array_key_exists('cn', $info))
         {
-            $parent = array_pop($stack);
+            $groups[] = $info['cn'];
 
-            array_push($processed, $parent);
-
-            $info = $this->info($parent, array("memberof"));
-
-            if (isset($info[0]["memberof"]) && is_array($info[0]["memberof"]))
+            if (array_key_exists('memberof', $info))
             {
-                $groups = $info[0]["memberof"];
-
-                if ($groups)
+                if (is_array($info['memberof']))
                 {
-                    $groupNames = $this->adldap->utilities()->niceNames($groups);
-
-                    $retGroups = array_merge($retGroups, $groupNames); //final groups to return
-
-                    foreach ($groupNames as $id => $groupName)
+                    foreach($info['memberof'] as $group)
                     {
-                        if ( ! in_array($groupName, $processed))
-                        {
-                            array_push($stack, $groupName);
-                        }
+                        $explodedDn = $this->connection->explodeDn($group);
+
+                        $groups = array_merge($groups, $this->recursiveGroups($explodedDn[0]));
                     }
                 }
             }
         }
 
-        return $retGroups;
+        return $groups;
     }
 
     /**

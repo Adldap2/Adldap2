@@ -123,6 +123,20 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Returns true / false if the current if the current
+     * PHP install supports batch modification.
+     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
+     *
+     * @return bool
+     */
+    public function isBatchSupported()
+    {
+        if ( ! function_exists('ldap_modify_batch')) return false;
+
+        return true;
+    }
+
+    /**
      * Returns true / false if the
      * current connection instance is using
      * SSL.

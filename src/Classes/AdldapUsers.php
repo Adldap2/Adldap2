@@ -458,17 +458,6 @@ class AdldapUsers extends AdldapBase
     }
 
     /**
-     * Check if the php installation is able to perform a password change.
-     * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
-     *
-     * @return bool
-     */
-    private function changePasswordSupported()
-    {
-        return function_exists('ldap_modify_batch');
-    }
-
-    /**
      * Change the password of a user - This must be performed over SSL
      * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0
      *
@@ -494,7 +483,7 @@ class AdldapUsers extends AdldapBase
             throw new AdldapException($message);
         }
 
-        if ( ! $this->changePasswordSupported())
+        if ( ! $this->connection->isBatchSupported())
         {
             $message = 'Missing function support [ldap_modify_batch] http://php.net/manual/en/function.ldap-modify-batch.php';
 

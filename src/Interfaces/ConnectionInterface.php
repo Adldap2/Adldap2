@@ -42,6 +42,15 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the
+     * current connection supports batch
+     * modification.
+     *
+     * @return bool
+     */
+    public function isBatchSupported();
+
+    /**
+     * Returns true / false if the
      * current connection instance is using
      * SSL.
      *

@@ -177,22 +177,21 @@ class AdldapUsers extends AdldapBase
      *
      * @param string $username The username of the user to query
      * @param null $recursive Recursive list of groups
-     * @param bool $isGUID Is the username passed a GUID or a samAccountName
      * @return array|bool
      */
-    public function groups($username, $recursive = NULL, $isGUID = false)
+    public function groups($username, $recursive = NULL)
     {
         $this->adldap->utilities()->validateNotNull('Username', $username);
 
         // Use the default option if they haven't set it
         if ($recursive === NULL) $recursive = $this->adldap->getRecursiveGroups();
-        
+
         // Search the directory for their information
-        $info = $this->info($username, array("memberof", "primarygroupid"), $isGUID);
+        $info = $this->info($username, array("memberof", "primarygroupid"));
 
         // Presuming the entry returned is our guy (unique usernames)
-        $groups = $this->adldap->utilities()->niceNames($info[0]["memberof"]);
-
+        $groups = $this->adldap->utilities()->niceNames($info["memberof"]);
+        
         if ($recursive === true)
         {
             foreach ($groups as $id => $groupName)

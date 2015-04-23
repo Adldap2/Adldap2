@@ -33,3 +33,5 @@ $adldap->group()->search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP
 Has Changed to:
 
 $adldap->group()->search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = array(), $sorted = true);
+
+Removed function $adldap->group()->cn();

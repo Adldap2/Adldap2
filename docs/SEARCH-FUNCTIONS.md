@@ -7,7 +7,7 @@ To open a new search query, call the `search()` function on your AD object like 
     $ad = new Adldap($configuration);
     
     $ad->search();
-    
+
 #### All
 
 To retrieve all entries in your AD, use the all function:
@@ -85,6 +85,9 @@ like so:
     
     // Selecting multiple fields
     $results = $ad->search()->select(array('cn', 'displayname'))->all();
+
+All searches will return *all* information for each entry. Be sure to use `select($fields = array())` when you only
+need a small amount of information.
 
 #### Sort By
 

@@ -90,9 +90,7 @@ class Ldap implements ConnectionInterface
      */
     public function isSupported()
     {
-        if ( ! function_exists('ldap_connect')) return false;
-
-        return true;
+        return function_exists('ldap_connect');
     }
 
     /**
@@ -104,9 +102,7 @@ class Ldap implements ConnectionInterface
      */
     public function isSaslSupported()
     {
-        if ( ! function_exists('ldap_sasl_bind')) return false;
-
-        return true;
+        return function_exists('ldap_sasl_bind');
     }
 
     /**
@@ -117,9 +113,7 @@ class Ldap implements ConnectionInterface
      */
     public function isPagingSupported()
     {
-        if ( ! function_exists('ldap_control_paged_result')) return false;
-
-        return true;
+        return function_exists('ldap_control_paged_result');
     }
 
     /**

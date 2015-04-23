@@ -191,7 +191,7 @@ class AdldapUsers extends AdldapBase
 
         // Presuming the entry returned is our guy (unique usernames)
         $groups = $this->adldap->utilities()->niceNames($info["memberof"]);
-        
+
         if ($recursive === true)
         {
             foreach ($groups as $id => $groupName)

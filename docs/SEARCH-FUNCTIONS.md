@@ -213,3 +213,16 @@ Retrieving all users who have a mail account:
                     ->get();
                     
 #### Computer Examples
+
+Retrieving a all computers:
+
+    $results = $ad->search()
+            ->where('objectClass', '=', 'computer')
+            ->get();
+            
+Retrieving all computers that run Windows 7:
+
+    $results = $ad->search()
+            ->where('objectClass', '=', 'computer')
+            ->where('operatingSystemVersion', '=', 'Windows 7*')
+            ->get();

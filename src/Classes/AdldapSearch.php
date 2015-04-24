@@ -6,6 +6,8 @@ use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\LdapEntry;
 use Adldap\Objects\LdapOperator;
 use Adldap\Objects\Paginator;
+use Adldap\Query\Builder;
+use Adldap\Adldap;
 
 /**
  * Class AdldapSearch.
@@ -13,11 +15,11 @@ use Adldap\Objects\Paginator;
 class AdldapSearch extends AdldapBase
 {
     /**
-     * Stores the current query string.
+     * Stores the current query builder instance.
      *
-     * @var string
+     * @var Builder
      */
-    protected $query = '';
+    protected $query;
 
     /**
      * Stores the distinguished name to search on.
@@ -35,28 +37,6 @@ class AdldapSearch extends AdldapBase
     protected $recursive = true;
 
     /**
-     * Stores the selects to use in the query when assembled.
-     *
-     * @var array
-     */
-    protected $selects = [];
-
-    /**
-     * Stores the wheres to use in the query when assembled.
-     *
-     * @var array
-     */
-    protected $wheres = [];
-
-    /**
-     * Stores the orWheres to use in the query
-     * when assembled.
-     *
-     * @var array
-     */
-    protected $orWheres = [];
-
-    /**
      * Stores the field to sort search results by.
      *
      * @var string
@@ -71,18 +51,16 @@ class AdldapSearch extends AdldapBase
     protected $sortByDirection = 'DESC';
 
     /**
-     * The opening query string.
+     * Constructor.
      *
-     * @var string
+     * Sets a new query builder instance.
      */
-    protected static $openQuery = '(';
+    public function __construct(Adldap $adldap)
+    {
+        parent::__construct($adldap);
 
-    /**
-     * The closing query string.
-     *
-     * @var string
-     */
-    protected static $closeQuery = ')';
+        $this->setQuery(new Builder($this->connection));
+    }
 
     /**
      * Performs the specified query on the current LDAP connection.
@@ -97,7 +75,6 @@ class AdldapSearch extends AdldapBase
         if ($query === null || empty($query)) {
             return false;
         }
-
         /*
          * If the search is recursive, we'll run a search,
          * if not, we'll run a listing.
@@ -122,7 +99,7 @@ class AdldapSearch extends AdldapBase
      */
     public function get()
     {
-        return $this->query($this->getQuery(), $this->getSelects());
+        return $this->query($this->getQuery());
     }
 
     /**
@@ -133,7 +110,7 @@ class AdldapSearch extends AdldapBase
      */
     public function all()
     {
-        $this->where('objectClass', LdapOperator::$wildcard);
+        $this->query->where('objectClass', LdapOperator::$wildcard);
 
         return $this->get();
     }
@@ -198,13 +175,7 @@ class AdldapSearch extends AdldapBase
      */
     public function select($fields = [])
     {
-        if (is_array($fields)) {
-            foreach ($fields as $field) {
-                $this->addSelect($field);
-            }
-        } elseif (is_string($fields)) {
-            $this->addSelect($fields);
-        }
+        $this->query->select($fields);
 
         return $this;
     }
@@ -220,7 +191,7 @@ class AdldapSearch extends AdldapBase
      */
     public function where($field, $operator = null, $value = null)
     {
-        $this->addWhere($field, $operator, $value);
+        $this->query->where($field, $operator, $value);
 
         return $this;
     }
@@ -236,7 +207,7 @@ class AdldapSearch extends AdldapBase
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        $this->addOrWhere($field, $operator, $value);
+        $this->query->orWhere($field, $operator, $value);
 
         return $this;
     }
@@ -249,11 +220,7 @@ class AdldapSearch extends AdldapBase
      */
     public function hasSelects()
     {
-        if (count($this->selects) > 0) {
-            return true;
-        }
-
-        return false;
+        return $this->query->hasSelects();
     }
 
     /**
@@ -263,7 +230,7 @@ class AdldapSearch extends AdldapBase
      */
     public function getSelects()
     {
-        return $this->selects;
+        return $this->query->getSelects();
     }
 
     /**
@@ -273,7 +240,7 @@ class AdldapSearch extends AdldapBase
      */
     public function getWheres()
     {
-        return $this->wheres;
+        return $this->query->getWheres();
     }
 
     /**
@@ -283,7 +250,7 @@ class AdldapSearch extends AdldapBase
      */
     public function getOrWheres()
     {
-        return $this->orWheres;
+        return $this->query->getOrWheres();
     }
 
     /**
@@ -293,19 +260,7 @@ class AdldapSearch extends AdldapBase
      */
     public function getQuery()
     {
-        // Return the query if it exists
-        if (! empty($this->query)) {
-            return $this->query;
-        }
-
-        /*
-         * Looks like our query hasn't been assembled
-         * yet, let's try to assemble it
-         */
-        $this->assembleQuery();
-
-        // Return the assembled query
-        return $this->query;
+        return $this->query->get();
     }
 
     /**
@@ -381,304 +336,13 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
-     * Adds the inserted field to the selects property.
-     *
-     * @param string $field
-     */
-    private function addSelect($field)
-    {
-        $this->selects[] = $field;
-    }
-
-    /**
-     * Adds the inserted field, operator and value
-     * to the wheres property array.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param null   $value
-     *
-     * @throws AdldapException
-     */
-    private function addWhere($field, $operator, $value = null)
-    {
-        $this->wheres[] = [
-            'field' => $field,
-            'operator' => $this->getOperator($operator),
-            'value' => $this->connection->escape($value),
-        ];
-    }
-
-    /**
-     * Adds the inserted field, operator and value
-     * to the orWheres property array.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param null   $value
-     *
-     * @throws AdldapException
-     */
-    private function addOrWhere($field, $operator, $value = null)
-    {
-        $this->orWheres[] = [
-            'field' => $field,
-            'operator' => $this->getOperator($operator),
-            'value' => $this->connection->escape($value),
-        ];
-    }
-
-    /**
      * Sets the query property.
      *
-     * @param string $query
+     * @param Builder $query
      */
-    private function setQuery($query)
+    private function setQuery(Builder $query)
     {
         $this->query = $query;
-    }
-
-    /**
-     * Adds the specified query onto the current query.
-     *
-     * @param string $query
-     */
-    private function addToQuery($query)
-    {
-        $this->query .= $query;
-    }
-
-    /**
-     * Returns an assembled query using the current object parameters.
-     *
-     * @return string
-     */
-    private function assembleQuery()
-    {
-        $this->assembleWheres();
-
-        $this->assembleOrWheres();
-
-        /*
-         * Make sure we wrap the query in an 'and'
-         * if using multiple wheres or if we have any
-         * orWheres. For example (&(cn=John*)(|(description=User*)))
-         */
-        if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0) {
-            $this->setQuery($this->queryAnd($this->getQuery()));
-        }
-    }
-
-    /**
-     * Assembles all where clauses in the current wheres property.
-     */
-    private function assembleWheres()
-    {
-        if (count($this->wheres) > 0) {
-            foreach ($this->wheres as $where) {
-                $this->addToQuery($this->assembleWhere($where));
-            }
-        }
-    }
-
-    /**
-     * Assembles all or where clauses in the current orWheres property.
-     */
-    private function assembleOrWheres()
-    {
-        if (count($this->orWheres) > 0) {
-            $ors = '';
-
-            foreach ($this->orWheres as $where) {
-                $ors .= $this->assembleWhere($where);
-            }
-
-            /*
-             * Make sure we wrap the query in an 'and'
-             * if using multiple wheres. For example (&QUERY)
-             */
-            if (count($this->orWheres) > 0) {
-                $this->addToQuery($this->queryOr($ors));
-            }
-        }
-    }
-
-    /**
-     * Assembles a single where query based
-     * on its operator and returns it.
-     *
-     * @param array $where
-     *
-     * @return string|null
-     */
-    private function assembleWhere($where = array())
-    {
-        if(is_array($where))
-        {
-            switch ($where['operator']) {
-                case LdapOperator::$equals:
-                    return $this->queryEquals($where['field'], $where['value']);
-                case LdapOperator::$doesNotEqual:
-                    return $this->queryDoesNotEqual($where['field'], $where['value']);
-                case LdapOperator::$greaterThanOrEqual:
-                    return $this->queryGreaterThanOrEquals($where['field'], $where['value']);
-                case LdapOperator::$lessThanOrEqual:
-                    return $this->queryLessThanOrEquals($where['field'], $where['value']);
-                case LdapOperator::$approximateEqual:
-                    return $this->queryApproximatelyEquals($where['field'], $where['value']);
-                case LdapOperator::$wildcard:
-                    return $this->queryWildcard($where['field']);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns a query string for does not equal.
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function queryDoesNotEqual($field, $value)
-    {
-        return $this::$openQuery.LdapOperator::$doesNotEqual.$this->queryEquals($field, $value).$this::$closeQuery;
-    }
-
-    /**
-     * Returns a query string for equals.
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function queryEquals($field, $value)
-    {
-        return $this::$openQuery.$field.LdapOperator::$equals.$value.$this::$closeQuery;
-    }
-
-    /**
-     * Returns a query string for greater than or equals.
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function queryGreaterThanOrEquals($field, $value)
-    {
-        return $this::$openQuery.$field.LdapOperator::$greaterThanOrEqual.$value.$this::$closeQuery;
-    }
-
-    /**
-     * Returns a query string for less than or equals.
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function queryLessThanOrEquals($field, $value)
-    {
-        return $this::$openQuery.$field.LdapOperator::$lessThanOrEqual.$value.$this::$closeQuery;
-    }
-
-    /**
-     * Returns a query string for approximately equals.
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function queryApproximatelyEquals($field, $value)
-    {
-        return $this::$openQuery.$field.LdapOperator::$approximateEqual.$value.$this::$closeQuery;
-    }
-
-    /**
-     * Returns a query string for a wildcard.
-     *
-     * @param string $field
-     *
-     * @return string
-     */
-    private function queryWildcard($field)
-    {
-        return $this::$openQuery.$field.LdapOperator::$equals.LdapOperator::$wildcard.$this::$closeQuery;
-    }
-
-    /**
-     * Wraps the inserted query inside an AND operator.
-     *
-     * @param string $query
-     *
-     * @return string
-     */
-    private function queryAnd($query)
-    {
-        return $this::$openQuery.LdapOperator::$and.$query.$this::$closeQuery;
-    }
-
-    /**
-     * Wraps the inserted query inside an OR operator.
-     *
-     * @param string $query
-     *
-     * @return string
-     */
-    private function queryOr($query)
-    {
-        return $this::$openQuery.LdapOperator::$or.$query.$this::$closeQuery;
-    }
-
-    /**
-     * Retrieves an operator from the available operators.
-     *
-     * Throws an AdldapException if no operator is found.
-     *
-     * @param $operator
-     *
-     * @return string
-     *
-     * @throws AdldapException
-     */
-    private function getOperator($operator)
-    {
-        $operators = $this->getOperators();
-
-        $key = array_search($operator, $operators);
-
-        if ($key !== false && array_key_exists($key, $operators)) {
-            return $operators[$key];
-        }
-
-        $operators = implode(', ', $operators);
-
-        $message = "Operator: $operator cannot be used in an LDAP query. Available operators are $operators";
-
-        throw new AdldapException($message);
-    }
-
-    /**
-     * Returns an array of available operators.
-     *
-     * @return array
-     */
-    private function getOperators()
-    {
-        return [
-            LdapOperator::$wildcard,
-            LdapOperator::$equals,
-            LdapOperator::$doesNotEqual,
-            LdapOperator::$greaterThanOrEqual,
-            LdapOperator::$lessThanOrEqual,
-            LdapOperator::$approximateEqual,
-            LdapOperator::$and,
-        ];
     }
 
     /**

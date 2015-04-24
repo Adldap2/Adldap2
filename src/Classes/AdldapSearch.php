@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\LdapEntry;
 use Adldap\Objects\LdapOperator;
 use Adldap\Objects\Paginator;

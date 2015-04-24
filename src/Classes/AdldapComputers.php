@@ -51,11 +51,18 @@ class AdldapComputers extends AdldapBase
      */
     public function find($computer, $fields = [])
     {
-        return $this->adldap->search()
+        $results = $this->adldap->search()
             ->select($fields)
             ->where('objectClass', '=', $this->objectClass)
             ->where('cn', '=', $computer)
             ->first();
+
+        if(count($results) > 0)
+        {
+            return $results;
+        }
+
+        return false;
     }
 
     /**
@@ -127,10 +134,6 @@ class AdldapComputers extends AdldapBase
      */
     public function groups($computerName, $recursive = null)
     {
-        $this->adldap->utilities()->validateNotNull('Computer Name', $computerName);
-
-        $this->adldap->utilities()->validateLdapIsBound();
-
         // Use the default option if they haven't set it
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
@@ -140,7 +143,7 @@ class AdldapComputers extends AdldapBase
         $info = $this->info($computerName, ['memberof', 'primarygroupid']);
 
         // Presuming the entry returned is our guy (unique usernames)
-        $groups = $this->adldap->utilities()->niceNames($info[0]['memberof']);
+        $groups = $this->adldap->utilities()->niceNames($info['memberof']);
 
         if ($recursive === true) {
             foreach ($groups as $id => $groupName) {

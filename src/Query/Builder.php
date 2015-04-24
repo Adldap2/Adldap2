@@ -118,8 +118,8 @@ class Builder
      * Adds a where clause to the current query.
      *
      * @param $field
-     * @param null $operator
-     * @param null $value
+     * @param string $operator
+     * @param string $value
      *
      * @return $this
      */
@@ -134,8 +134,8 @@ class Builder
      * Adds an or where clause to the current query.
      *
      * @param $field
-     * @param null $operator
-     * @param null $value
+     * @param string $operator
+     * @param string $value
      *
      * @return $this
      */

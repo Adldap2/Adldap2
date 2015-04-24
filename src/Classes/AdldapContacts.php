@@ -10,7 +10,7 @@ use Adldap\Objects\Contact;
  *
  * Class AdldapContacts
  */
-class AdldapContacts extends AdldapBase
+class AdldapContacts extends AdldapQueryable
 {
     /**
      * The contacts object class name.
@@ -18,69 +18,6 @@ class AdldapContacts extends AdldapBase
      * @var string
      */
     public $objectClass = 'contact';
-
-    /**
-     * Returns a list of all contacts.
-     *
-     * @param array  $fields
-     * @param bool   $sorted
-     * @param string $sortBy
-     * @param string $sortByDirection
-     *
-     * @return array|bool
-     */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
-    {
-        $search = $this->adldap->search()
-            ->select($fields)
-            ->where('objectClass', '=', $this->objectClass);
-
-        if ($sorted) {
-            $search->sortBy($sortBy, $sortByDirection);
-        }
-
-        return $search->get();
-    }
-
-    /**
-     * Finds and returns a contact by the specified name.
-     *
-     * @param string $contactName
-     * @param array $fields
-     *
-     * @return array|bool
-     */
-    public function find($contactName, $fields = [])
-    {
-        $results = $this->adldap->search()
-            ->select($fields)
-            ->where('objectClass', '=', $this->objectClass)
-            ->where('anr', '=', $contactName)
-            ->first();
-
-        if(count($results) > 0) {
-            return $results;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the DN of the contact.
-     *
-     * @param string $contactName
-     * @return bool
-     */
-    public function dn($contactName)
-    {
-        $info = $this->find($contactName);
-
-        if(is_array($info) && array_key_exists('dn', $info)) {
-            return $info['dn'];
-        }
-
-        return false;
-    }
 
     /**
      * Create a contact.
@@ -152,19 +89,6 @@ class AdldapContacts extends AdldapBase
         }
 
         return false;
-    }
-
-    /**
-     * Retrieves a contacts information. Alias for the find method.
-     *
-     * @param string $name
-     * @param array  $fields
-     *
-     * @return array|bool
-     */
-    public function info($name, $fields = [])
-    {
-        return $this->find($name, $fields);
     }
 
     /**

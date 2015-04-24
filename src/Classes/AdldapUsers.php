@@ -15,7 +15,7 @@ use Adldap\Adldap;
  *
  * Class AdldapUsers
  */
-class AdldapUsers extends AdldapBase
+class AdldapUsers extends AdldapQueryable
 {
     /**
      * Validate a user's login credentials.
@@ -85,37 +85,6 @@ class AdldapUsers extends AdldapBase
             ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT)
             ->where('anr', '=', $username)
             ->first();
-    }
-
-    /**
-     * Retrieves a user from the current connection.
-     *
-     * @param string $username
-     * @param array  $fields
-     *
-     * @return array|bool
-     */
-    public function info($username, $fields = [])
-    {
-        return $this->find($username, $fields);
-    }
-
-    /**
-     * Retrieve the user's distinguished name based on their username.
-     *
-     * @param string $username The username
-     *
-     * @return string|bool
-     */
-    public function dn($username)
-    {
-        $user = $this->find($username, ['distinguishedname']);
-
-        if (is_array($user) && array_key_exists('dn', $user)) {
-            return $user['dn'];
-        }
-
-        return false;
     }
 
     /**

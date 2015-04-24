@@ -10,8 +10,18 @@ use Adldap\Adldap;
  *
  * Class AdldapFolders
  */
-class AdldapFolders extends AdldapBase
+class AdldapFolders extends AdldapQueryable
 {
+    /**
+     * Returns all folders.
+     *
+     * @return array|bool
+     */
+    public function all()
+    {
+        return $this->listing();
+    }
+
     /**
      * Delete a distinguished name from Active Directory.
      * You should never need to call this yourself, just use

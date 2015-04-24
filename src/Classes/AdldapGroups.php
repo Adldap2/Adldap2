@@ -11,7 +11,7 @@ use Adldap\Adldap;
  *
  * Class AdldapGroups
  */
-class AdldapGroups extends AdldapBase
+class AdldapGroups extends AdldapQueryable
 {
     /**
      * The groups object category string.
@@ -21,55 +21,11 @@ class AdldapGroups extends AdldapBase
     public $objectCategory = 'group';
 
     /**
-     * Returns a complete list of all groups in AD.
+     * The groups object class string.
      *
-     * @param bool   $includeDescription Whether to return a description
-     * @param string $search             Search parameters
-     * @param bool   $sorted             Whether to sort the results
-     *
-     * @return array|bool
+     * @var string
      */
-    public function all($includeDescription = false, $search = '*', $sorted = true)
-    {
-        return $this->search(null, $includeDescription, $search, $sorted);
-    }
-
-    /**
-     * Finds a group and returns it's information.
-     *
-     * @param string $groupName The group name
-     * @param array  $fields    The group fields to retrieve
-     *
-     * @return array|bool
-     */
-    public function find($groupName, $fields = [])
-    {
-        $results = $this->adldap->search()
-            ->select($fields)
-            ->where('objectCategory', '=', $this->objectCategory)
-            ->where('anr', '=', $groupName)
-            ->first();
-
-        if(count($results) > 0) {
-            return $results;
-        }
-
-        return false;
-    }
-
-    /**
-     * Group Information. Returns an array of raw information about a group.
-     * The group name is case sensitive.
-     *
-     * @param string $groupName The group name to retrieve info about
-     * @param array  $fields    Fields to retrieve
-     *
-     * @return array|bool
-     */
-    public function info($groupName, $fields = [])
-    {
-        return $this->find($groupName, $fields);
-    }
+    public $objectClass = 'group';
 
     /**
      * Returns a complete list of the groups in AD based on a SAM Account Type.
@@ -95,24 +51,6 @@ class AdldapGroups extends AdldapBase
         }
 
         return $search->get();
-    }
-
-    /**
-     * Obtain the group's distinguished name based on their group ID.
-     *
-     * @param string $groupName
-     *
-     * @return string|bool
-     */
-    public function dn($groupName)
-    {
-        $group = $this->find($groupName);
-
-        if (is_array($group) && array_key_exists('dn', $group)) {
-            return $group['dn'];
-        }
-
-        return false;
     }
 
     /**

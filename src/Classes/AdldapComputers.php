@@ -9,7 +9,7 @@ use Adldap\Collections\AdldapComputerCollection;
  *
  * Class AdldapComputers
  */
-class AdldapComputers extends AdldapBase
+class AdldapComputers extends AdldapQueryable
 {
     /**
      * The computers object class name.
@@ -17,65 +17,6 @@ class AdldapComputers extends AdldapBase
      * @var string
      */
     public $objectClass = 'computer';
-
-    /**
-     * Returns all computers from the current connection.
-     *
-     * @param array  $fields
-     * @param bool   $sorted
-     * @param string $sortBy
-     * @param string $sortByDirection
-     *
-     * @return array|bool
-     */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
-    {
-        $search = $this->adldap->search()
-            ->select($fields)
-            ->where('objectClass', '=', $this->objectClass);
-
-        if ($sorted) {
-            $search->sortBy($sortBy, $sortByDirection);
-        }
-
-        return $search->get();
-    }
-
-    /**
-     * Finds a computer using the current connection.
-     *
-     * @param string $computer
-     * @param array  $fields
-     *
-     * @return array|bool
-     */
-    public function find($computer, $fields = [])
-    {
-        $results = $this->adldap->search()
-            ->select($fields)
-            ->where('objectClass', '=', $this->objectClass)
-            ->where('cn', '=', $computer)
-            ->first();
-
-        if(count($results) > 0) {
-            return $results;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get information about a specific computer. Returned in a raw array format from AD.
-     *
-     * @param string $computerName The name of the computer
-     * @param array  $fields       Attributes to return
-     *
-     * @return array|bool
-     */
-    public function info($computerName, $fields = [])
-    {
-        return $this->find($computerName, $fields);
-    }
 
     /**
      * Find information about the computers. Returned in a raw array format from AD.

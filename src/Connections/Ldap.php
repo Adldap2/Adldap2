@@ -194,19 +194,27 @@ class Ldap implements ConnectionInterface
     /**
      * Sets the suppressErrors property to true
      * so any recoverable errors thrown will be suppressed.
+     *
+     * @return $this
      */
     public function suppressErrors()
     {
         $this->suppressErrors = true;
+
+        return $this;
     }
 
     /**
      * Sets the suppressErrors property to true
      * so any errors thrown will be shown.
+     *
+     * @return $this
      */
     public function showErrors()
     {
         $this->suppressErrors = false;
+
+        return $this;
     }
 
     /**

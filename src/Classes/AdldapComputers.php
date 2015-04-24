@@ -51,16 +51,16 @@ class AdldapComputers extends AdldapQueryable
     {
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
-        } // Use the default option if they haven't set it
-
-        // Get a list of the groups
-        $groups = $this->groups($computerName, ['memberof'], $recursive);
-
-        // Return true if the specified group is in the group list
-        if (in_array($group, $groups)) {
-            return true;
         }
 
+        // Get a list of the groups
+        $groups = $this->groups($computerName, $recursive);
+
+        // Return true if the specified group is in the group list
+        if (is_array($groups) && in_array($group, $groups)) {
+            return true;
+        }
+        
         return false;
     }
 
@@ -74,25 +74,26 @@ class AdldapComputers extends AdldapQueryable
      */
     public function groups($computerName, $recursive = null)
     {
-        // Use the default option if they haven't set it
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
         }
 
-        // Search the directory for their information
-        $info = $this->info($computerName, ['memberof', 'primarygroupid']);
+        $info = $this->find($computerName);
 
-        // Presuming the entry returned is our guy (unique usernames)
-        $groups = $this->adldap->utilities()->niceNames($info['memberof']);
+        if(is_array($info) && array_key_exists('memberof', $info)) {
+            $groups = $this->adldap->utilities()->niceNames($info['memberof']);
 
-        if ($recursive === true) {
-            foreach ($groups as $id => $groupName) {
-                $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
+            if ($recursive === true) {
+                foreach ($groups as $id => $groupName) {
+                    $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
 
-                $groups = array_merge($groups, $extraGroups);
+                    $groups = array_merge($groups, $extraGroups);
+                }
             }
+
+            return $groups;
         }
 
-        return $groups;
+        return false;
     }
 }

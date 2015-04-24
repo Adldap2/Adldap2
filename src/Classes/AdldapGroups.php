@@ -44,11 +44,17 @@ class AdldapGroups extends AdldapBase
      */
     public function find($groupName, $fields = [])
     {
-        return $this->adldap->search()
+        $results = $this->adldap->search()
             ->select($fields)
             ->where('objectCategory', '=', $this->objectCategory)
             ->where('anr', '=', $groupName)
             ->first();
+
+        if(count($results) > 0) {
+            return $results;
+        }
+
+        return false;
     }
 
     /**
@@ -76,8 +82,6 @@ class AdldapGroups extends AdldapBase
      */
     public function search($sAMAaccountType = Adldap::ADLDAP_SECURITY_GLOBAL_GROUP, $select = [], $sorted = true)
     {
-        $this->adldap->utilities()->validateLdapIsBound();
-
         $search = $this->adldap->search()
             ->select($select)
             ->where('objectCategory', '=', 'group');
@@ -102,7 +106,7 @@ class AdldapGroups extends AdldapBase
      */
     public function dn($groupName)
     {
-        $group = $this->info($groupName);
+        $group = $this->find($groupName);
 
         if (is_array($group) && array_key_exists('dn', $group)) {
             return $group['dn'];
@@ -220,8 +224,6 @@ class AdldapGroups extends AdldapBase
      */
     public function delete($groupName)
     {
-        $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
-
         $groupDn = $this->dn($groupName);
 
         if($groupDn) {
@@ -342,15 +344,13 @@ class AdldapGroups extends AdldapBase
      */
     public function inGroup($group, $recursive = null)
     {
-        $this->adldap->utilities()->validateLdapIsBound();
-
         // Use the default option if they haven't set it
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
         }
 
         // Search the directory for the members of a group
-        $info = $this->info($group);
+        $info = $this->find($group);
 
         $groups = $info['member'];
 
@@ -409,7 +409,7 @@ class AdldapGroups extends AdldapBase
      */
     public function members($group, $fields = [])
     {
-        $group = $this->info($group);
+        $group = $this->find($group);
 
         if (is_array($group) && array_key_exists('member', $group)) {
             $members = [];

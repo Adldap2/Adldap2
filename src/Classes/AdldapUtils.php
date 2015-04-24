@@ -71,6 +71,8 @@ class AdldapUtils extends AdldapBase
      * @author Modified for PHP55 by Esteban Santana Santana <MentalPower@GMail.com>
      *
      * @return mixed
+     *
+     * @depreciated
      */
     public function ldapSlashes($str)
     {

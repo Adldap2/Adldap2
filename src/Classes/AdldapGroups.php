@@ -52,6 +52,20 @@ class AdldapGroups extends AdldapBase
     }
 
     /**
+     * Group Information. Returns an array of raw information about a group.
+     * The group name is case sensitive.
+     *
+     * @param string $groupName The group name to retrieve info about
+     * @param array  $fields    Fields to retrieve
+     *
+     * @return array|bool
+     */
+    public function info($groupName, $fields = [])
+    {
+        return $this->find($groupName, $fields);
+    }
+
+    /**
      * Returns a complete list of the groups in AD based on a SAM Account Type.
      *
      * @param int   $sAMAaccountType The account type to return
@@ -108,87 +122,69 @@ class AdldapGroups extends AdldapBase
     public function addGroup($parent, $child)
     {
         // Find the parent group's dn
-        $parentGroup = $this->find($parent);
+        $parentDn = $this->dn($parent);
 
-        $childGroup = $this->find($child);
+        $childDn = $this->dn($child);
 
-        // Make sure both the parent and child group are arrays
-        if(is_array($parentGroup) && is_array($childGroup)) {
+        if($parentDn && $childDn)
+        {
+            $add['member'] = $childDn;
 
-            // Make sure a DN exists for both entries
-            if(array_key_exists('dn', $parentGroup) && array_key_exists('dn', $childGroup)) {
-                $add['member'] = $childGroup['dn'];
-
-                // Add the child to the parent group and return the result
-                return $this->connection->modAdd($parentGroup['dn'], $add);
-            }
+            // Add the child to the parent group and return the result
+            return $this->connection->modAdd($parentDn, $add);
         }
-        
+
         return false;
     }
 
     /**
      * Add a user to a group.
      *
-     * @param string $group  The group to add the user to
-     * @param string $user   The user to add to the group
+     * @param string $groupName  The group to add the user to
+     * @param string $username  The user to add to the group
      * @param bool   $isGUID Is the username passed a GUID or a samAccountName
      *
      * @return bool
      */
-    public function addUser($group, $user, $isGUID = false)
+    public function addUser($groupName, $username, $isGUID = false)
     {
         // Adding a user is a bit fiddly, we need to get the full DN of the user
         // and add it using the full DN of the group
+        $groupDn = $this->dn($groupName);
 
-        // Find the user's dn
-        $userDn = $this->adldap->user()->dn($user, $isGUID);
+        $userDn = $this->adldap->user()->dn($username);
 
-        if ($userDn === false) {
-            return false;
+        if($groupDn && $userDn)
+        {
+            $add['member'] = $userDn;
+
+            return $this->connection->modAdd($groupDn, $add);
         }
 
-        // Find the group's dn
-        $groupInfo = $this->info($group, ['cn']);
-
-        if ($groupInfo[0]['dn'] === null) {
-            return false;
-        }
-
-        $groupDn = $groupInfo[0]['dn'];
-
-        $add = [];
-        $add['member'] = $userDn;
-
-        return $this->connection->modAdd($groupDn, $add);
+        return false;
     }
 
     /**
      * Add a contact to a group.
      *
-     * @param string $group     The group to add the contact to
+     * @param string $groupName The group to add the contact to
      * @param string $contactDn The DN of the contact to add
      *
      * @return bool
      */
-    public function addContact($group, $contactDn)
+    public function addContact($groupName, $contactDn)
     {
-        // To add a contact we take the contact's DN
-        // and add it using the full DN of the group
-
         // Find the group's dn
-        $groupInfo = $this->info($group, ['cn']);
+        $groupDn = $this->dn($groupName);
 
-        if ($groupInfo[0]['dn'] === null) {
-            return false;
+        if($groupDn && $contactDn)
+        {
+            $add['member'] = $contactDn;
+
+            return $this->connection->modAdd($groupDn, $add);
         }
 
-        $groupDn = $groupInfo[0]['dn'];
-
-        $add = [];
-        $add['member'] = $contactDn;
-
-        return $this->connection->modAdd($groupDn, $add);
+        return false;
     }
 
     /**
@@ -204,9 +200,8 @@ class AdldapGroups extends AdldapBase
 
         $group->validateRequired();
 
+        // Reset the container by reversing the current container
         $group->setAttribute('container', array_reverse($group->getAttribute('container')));
-
-        $add = [];
 
         $add['cn'] = $group->getAttribute('group_name');
         $add['samaccountname'] = $group->getAttribute('group_name');
@@ -243,99 +238,77 @@ class AdldapGroups extends AdldapBase
     /**
      * Rename a group.
      *
-     * @param string $group     The group to rename
-     * @param string $newName   The new name to give the group
+     * @param string $groupName The group to rename
+     * @param string $newName The new name to give the group
      * @param array  $container
      *
      * @return bool
      */
-    public function rename($group, $newName, $container)
+    public function rename($groupName, $newName, $container)
     {
-        $info = $this->info($group);
+        $groupInfo = $this->find($groupName);
 
-        if ($info[0]['dn'] === null) {
-            return false;
-        } else {
-            $groupDN = $info[0]['dn'];
+        if(is_array($groupInfo) && array_key_exists('dn', $groupInfo)) {
+            $newRDN = 'CN='.$newName;
+
+            // Determine the container
+            $container = array_reverse($container);
+            $container = 'OU='.implode(', OU=', $container);
+
+            $dn = $container.', '.$this->adldap->getBaseDn();
+
+            return $this->connection->rename($groupInfo['dn'], $newRDN, $dn, true);
         }
 
-        $newRDN = 'CN='.$newName;
-
-        // Determine the container
-        $container = array_reverse($container);
-        $container = 'OU='.implode(', OU=', $container);
-
-        // Do the update
-        $dn = $container.', '.$this->adldap->getBaseDn();
-
-        return $this->connection->rename($groupDN, $newRDN, $dn, true);
+        return false;
     }
 
     /**
      * Remove a group from a group.
      *
-     * @param string $parent The parent group name
-     * @param string $child  The child group name
+     * @param string $parentName The parent group name
+     * @param string $childName The child group name
      *
      * @return bool
      */
-    public function removeGroup($parent, $child)
+    public function removeGroup($parentName, $childName)
     {
-        // Find the parent dn
-        $parentGroup = $this->info($parent);
+        $parentDn = $this->dn($parentName);
 
-        if ($parentGroup['dn'] === null) {
-            return false;
+        $childDn = $this->dn($childName);
+
+        if($parentDn && $childDn) {
+            $del = [];
+            $del['member'] = $childDn;
+
+            return $this->connection->modDelete($parentDn, $del);
         }
 
-        $parentDn = $parentGroup['dn'];
-
-        // Find the child dn
-        $childGroup = $this->info($child);
-
-        if ($childGroup['dn'] === null) {
-            return false;
-        }
-
-        $childDn = $childGroup['dn'];
-
-        $del = [];
-        $del['member'] = $childDn;
-
-        return $this->connection->modDelete($parentDn, $del);
+        return false;
     }
 
     /**
      * Remove a user from a group.
      *
-     * @param string $group  The group to remove a user from
-     * @param string $user   The AD user to remove from the group
-     * @param bool   $isGUID Is the username passed a GUID or a samAccountName
+     * @param string $groupName The group to remove a user from
+     * @param string $username The AD user to remove from the group
      *
      * @return bool
      */
-    public function removeUser($group, $user, $isGUID = false)
+    public function removeUser($groupName, $username)
     {
-        // Find the parent dn
-        $groupInfo = $this->info($group);
+        $groupDn = $this->dn($groupName);
 
-        if ($groupInfo['dn'] === null) {
-            return false;
+        $userDn = $this->adldap->user()->dn($username);
+
+        if($groupDn && $userDn) {
+            $del = [];
+            $del['member'] = $userDn;
+
+            return $this->connection->modDelete($groupDn, $del);
         }
 
-        $groupDn = $groupInfo['dn'];
-
-        // Find the users dn
-        $userDn = $this->adldap->user()->dn($user, $isGUID);
-
-        if ($userDn === false) {
-            return false;
-        }
-
-        $del = [];
-        $del['member'] = $userDn;
-
-        return $this->connection->modDelete($groupDn, $del);
+        return false;
     }
 
     /**
@@ -349,18 +322,17 @@ class AdldapGroups extends AdldapBase
     public function removeContact($group, $contactDn)
     {
         // Find the parent dn
-        $groupInfo = $this->info($group);
+        $groupDn = $this->dn($group);
 
-        if ($groupInfo['dn'] === null) {
-            return false;
+        if($groupDn && $contactDn)
+        {
+            $del = [];
+            $del['member'] = $contactDn;
+
+            return $this->connection->modDelete($groupDn, $del);
         }
 
-        $groupDn = $groupInfo['dn'];
-
-        $del = [];
-        $del['member'] = $contactDn;
-
-        return $this->connection->modDelete($groupDn, $del);
+        return false;
     }
 
     /**
@@ -458,20 +430,6 @@ class AdldapGroups extends AdldapBase
         }
 
         return false;
-    }
-
-    /**
-     * Group Information. Returns an array of raw information about a group.
-     * The group name is case sensitive.
-     *
-     * @param string $groupName The group name to retrieve info about
-     * @param array  $fields    Fields to retrieve
-     *
-     * @return array|bool
-     */
-    public function info($groupName, $fields = [])
-    {
-        return $this->find($groupName, $fields);
     }
 
     /**

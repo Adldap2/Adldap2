@@ -9,7 +9,8 @@ use Adldap\Query\Builder;
 use Adldap\Adldap;
 
 /**
- * Class AdldapSearch.
+ * Class AdldapSearch
+ * @package Adldap\Classes
  */
 class AdldapSearch extends AdldapBase
 {
@@ -260,6 +261,16 @@ class AdldapSearch extends AdldapBase
     public function getQuery()
     {
         return $this->query->get();
+    }
+
+    /**
+     * Returns the current query Builder instance.
+     *
+     * @return Builder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->query;
     }
 
     /**

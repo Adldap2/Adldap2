@@ -13,13 +13,48 @@ use Adldap\Adldap;
 class AdldapFolders extends AdldapQueryable
 {
     /**
-     * Returns all folders.
+     * Returns all entries with the current object class.
      *
+     * @param array $fields
+     * @param bool $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
      * @return array|bool
      */
-    public function all()
+    public function all($fields = [], $sorted = true, $sortBy = 'name', $sortByDirection = 'asc')
     {
-        return $this->listing();
+        $search = $this->adldap->search()
+            ->select($fields)
+            ->where('objectClass', '*')
+            ->where('distinguishedname', '!', $this->adldap->getBaseDn());
+
+        if ($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Finds a single entry using the objects current class
+     * and the specified common name.
+     *
+     * @param string $name
+     * @param array $fields
+     * @return array|bool
+     */
+    public function find($name, $fields = [])
+    {
+        $results = $this->adldap->search()
+            ->select($fields)
+            ->where('OU', '=', $name)
+            ->first();
+
+        if(count($results) > 0) {
+            return $results;
+        }
+
+        return false;
     }
 
     /**

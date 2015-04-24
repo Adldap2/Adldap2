@@ -110,25 +110,21 @@ class AdldapGroups extends AdldapBase
         // Find the parent group's dn
         $parentGroup = $this->find($parent);
 
-        if ($parentGroup['dn'] === null) {
-            return false;
+        $childGroup = $this->find($child);
+
+        // Make sure both the parent and child group are arrays
+        if(is_array($parentGroup) && is_array($childGroup)) {
+
+            // Make sure a DN exists for both entries
+            if(array_key_exists('dn', $parentGroup) && array_key_exists('dn', $childGroup)) {
+                $add['member'] = $childGroup['dn'];
+
+                // Add the child to the parent group and return the result
+                return $this->connection->modAdd($parentGroup['dn'], $add);
+            }
         }
-
-        $parentDn = $parentGroup['dn'];
-
-        // Find the child group's dn
-        $childGroup = $this->info($child);
-
-        if ($childGroup['dn'] === null) {
-            return false;
-        }
-
-        $childDn = $childGroup['dn'];
-
-        $add = [];
-        $add['member'] = $childDn;
-
-        return $this->connection->modAdd($parentDn, $add);
+        
+        return false;
     }
 
     /**

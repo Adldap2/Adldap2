@@ -45,18 +45,41 @@ class AdldapContacts extends AdldapBase
     /**
      * Finds and returns a contact by the specified name.
      *
-     * @param $name
+     * @param string $contactName
      * @param array $fields
      *
      * @return array|bool
      */
-    public function find($name, $fields = [])
+    public function find($contactName, $fields = [])
     {
-        return $this->adldap->search()
+        $results = $this->adldap->search()
             ->select($fields)
             ->where('objectClass', '=', $this->objectClass)
-            ->where('anr', '=', $name)
+            ->where('anr', '=', $contactName)
             ->first();
+
+        if(count($results) > 0) {
+            return $results;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the DN of the contact.
+     *
+     * @param string $contactName
+     * @return bool
+     */
+    public function dn($contactName)
+    {
+        $info = $this->find($contactName);
+
+        if(is_array($info) && array_key_exists('dn', $info)) {
+            return $info['dn'];
+        }
+
+        return false;
     }
 
     /**
@@ -101,35 +124,34 @@ class AdldapContacts extends AdldapBase
     /**
      * Determine the list of groups a contact is a member of.
      *
-     * @param string $distinguishedName The full DN of a contact
-     * @param null   $recursive         Recursively check groups
+     * @param string $contactName The contacts name
+     * @param null   $recursive Recursively check groups
      *
      * @return array|bool
      */
-    public function groups($distinguishedName, $recursive = null)
+    public function groups($contactName, $recursive = null)
     {
-        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
-
-        $this->adldap->utilities()->validateLdapIsBound();
-
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
-        } //use the default option if they haven't set it
-
-        // Search the directory for their information
-        $info = $this->info($distinguishedName, ['memberof', 'primarygroupid']);
-
-        $groups = $this->adldap->utilities()->niceNames($info[0]['memberof']); //presuming the entry returned is our contact
-
-        if ($recursive === true) {
-            foreach ($groups as $id => $groupName) {
-                $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
-
-                $groups = array_merge($groups, $extraGroups);
-            }
         }
 
-        return $groups;
+        $info = $this->find($contactName);
+
+        if(is_array($info) && array_key_exists('memberof', $info)) {
+            $groups = $this->adldap->utilities()->niceNames($info['memberof']);
+
+            if ($recursive === true) {
+                foreach ($groups as $id => $groupName) {
+                    $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
+
+                    $groups = array_merge($groups, $extraGroups);
+                }
+            }
+
+            return $groups;
+        }
+
+        return false;
     }
 
     /**
@@ -168,23 +190,21 @@ class AdldapContacts extends AdldapBase
     /**
      * Determine if a contact is a member of a group.
      *
-     * @param string $distinguishedName The full DN of a contact
-     * @param string $group             The group name to query
-     * @param null   $recursive         Recursively check groups
+     * @param string $contactName The contacts name
+     * @param string $group The group name to query
+     * @param null   $recursive Recursively check groups
      *
      * @return bool
      */
-    public function inGroup($distinguishedName, $group, $recursive = null)
+    public function inGroup($contactName, $group, $recursive = null)
     {
-        $this->adldap->utilities()->validateNotNull('Group', $group);
-
         // Use the default option if they haven't set it
         if ($recursive === null) {
             $recursive = $this->adldap->getRecursiveGroups();
         }
 
         // Get a list of the groups
-        $groups = $this->groups($distinguishedName, ['memberof'], $recursive);
+        $groups = $this->groups($contactName, $recursive);
 
         // Return true if the specified group is in the group list
         if (in_array($group, $groups)) {
@@ -198,52 +218,60 @@ class AdldapContacts extends AdldapBase
      * Modify a contact. Note if you set the enabled
      * attribute you must not specify any other attributes.
      *
-     * @param string $distinguishedName The contact to query
+     * @param string $contactName The contact to query
      * @param array  $attributes        The attributes to modify
      *
      * @return bool|string
      */
-    public function modify($distinguishedName, $attributes)
+    public function modify($contactName, $attributes)
     {
-        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
+        $contactDn = $this->dn($contactName);
 
-        $this->adldap->utilities()->validateLdapIsBound();
+        if($contactDn) {
+            // Translate the update to the LDAP schema
+            $mod = $this->adldap->ldapSchema($attributes);
 
-        // Translate the update to the LDAP schema
-        $mod = $this->adldap->ldapSchema($attributes);
+            // Check to see if this is an enabled status update
+            if (! $mod) {
+                return false;
+            }
 
-        // Check to see if this is an enabled status update
-        if (! $mod) {
-            return false;
+            // Do the update
+            return $this->connection->modify($contactDn, $mod);
         }
 
-        // Do the update
-        return $this->connection->modify($distinguishedName, $mod);
+        return false;
     }
 
     /**
      * Delete a contact.
      *
-     * @param string $distinguishedName The contact dn to delete (please be careful here!)
+     * @param string $dn The contact dn to delete (please be careful here!)
      *
      * @return bool
      */
-    public function delete($distinguishedName)
+    public function delete($dn)
     {
-        return $this->adldap->folder()->delete($distinguishedName);
+        return $this->adldap->folder()->delete($dn);
     }
 
     /**
      * Mail enable a contact. Allows email to be sent to them through Exchange.
      *
-     * @param $distinguishedName
-     * @param $emailAddress
+     * @param string $contactName The contacts name
+     * @param string $emailAddress The contacts email address
      * @param null $mailNickname
      *
      * @return bool
      */
-    public function contactMailEnable($distinguishedName, $emailAddress, $mailNickname = null)
+    public function contactMailEnable($contactName, $emailAddress, $mailNickname = null)
     {
-        return $this->adldap->exchange()->contactMailEnable($distinguishedName, $emailAddress, $mailNickname);
+        $contactDn = $this->dn($contactName);
+
+        if($contactDn) {
+            return $this->adldap->exchange()->contactMailEnable($contactDn, $emailAddress, $mailNickname);
+        }
+
+        return false;
     }
 }

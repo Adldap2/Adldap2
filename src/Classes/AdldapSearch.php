@@ -59,7 +59,7 @@ class AdldapSearch extends AdldapBase
     {
         parent::__construct($adldap);
 
-        $this->setQuery(new Builder($this->connection));
+        $this->setQueryBuilder(new Builder($this->connection));
     }
 
     /**
@@ -350,7 +350,7 @@ class AdldapSearch extends AdldapBase
      *
      * @param Builder $query
      */
-    private function setQuery(Builder $query)
+    private function setQueryBuilder(Builder $query)
     {
         $this->query = $query;
     }

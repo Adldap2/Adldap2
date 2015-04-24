@@ -142,14 +142,11 @@ class AdldapGroups extends AdldapBase
      *
      * @param string $groupName  The group to add the user to
      * @param string $username  The user to add to the group
-     * @param bool   $isGUID Is the username passed a GUID or a samAccountName
      *
      * @return bool
      */
-    public function addUser($groupName, $username, $isGUID = false)
+    public function addUser($groupName, $username)
     {
-        // Adding a user is a bit fiddly, we need to get the full DN of the user
-        // and add it using the full DN of the group
         $groupDn = $this->dn($groupName);
 
         $userDn = $this->adldap->user()->dn($username);
@@ -174,7 +171,6 @@ class AdldapGroups extends AdldapBase
      */
     public function addContact($groupName, $contactDn)
     {
-        // Find the group's dn
         $groupDn = $this->dn($groupName);
 
         if($groupDn && $contactDn)
@@ -218,21 +214,21 @@ class AdldapGroups extends AdldapBase
     /**
      * Delete a group account.
      *
-     * @param string $group The group to delete (please be careful here!)
+     * @param string $groupName The group to delete (please be careful here!)
      *
      * @return bool|string
      */
-    public function delete($group)
+    public function delete($groupName)
     {
-        $this->adldap->utilities()->validateNotNull('Group', $group);
+        $this->adldap->utilities()->validateNotNull('Group Name', $groupName);
 
-        $this->adldap->utilities()->validateLdapIsBound();
+        $groupDn = $this->dn($groupName);
 
-        $groupInfo = $this->info($group, ['*']);
+        if($groupDn) {
+            return $this->adldap->folder()->delete($groupDn);
+        }
 
-        $dn = $groupInfo[0]['distinguishedname'][0];
-
-        return $this->adldap->folder()->delete($dn);
+        return false;
     }
 
     /**
@@ -246,9 +242,10 @@ class AdldapGroups extends AdldapBase
      */
     public function rename($groupName, $newName, $container)
     {
-        $groupInfo = $this->find($groupName);
+        $groupDn = $this->dn($groupName);
 
-        if(is_array($groupInfo) && array_key_exists('dn', $groupInfo)) {
+        if($groupDn)
+        {
             $newRDN = 'CN='.$newName;
 
             // Determine the container
@@ -257,7 +254,7 @@ class AdldapGroups extends AdldapBase
 
             $dn = $container.', '.$this->adldap->getBaseDn();
 
-            return $this->connection->rename($groupInfo['dn'], $newRDN, $dn, true);
+            return $this->connection->rename($groupDn, $newRDN, $dn, true);
         }
 
         return false;

@@ -194,14 +194,13 @@ class AdldapUsers extends AdldapQueryable
      *
      * @param string $username The username to query
      * @param array  $fields   Array of parameters to query
-     * @param bool   $isGUID   Is the username passed a GUID or a samAccountName
      *
      * @return AdldapUserCollection|bool
      * @depreciated
      */
-    public function infoCollection($username, array $fields = [], $isGUID = false)
+    public function infoCollection($username, array $fields = [])
     {
-        $info = $this->info($username, $fields, $isGUID);
+        $info = $this->info($username, $fields);
 
         if ($info) {
             return new AdldapUserCollection($info, $this->adldap);

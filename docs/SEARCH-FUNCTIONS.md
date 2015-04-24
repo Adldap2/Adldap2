@@ -118,8 +118,6 @@ Then you can perform the above query like so:
 
 #### Paginate
 
-> <b>NOTE:</b> Pagination is only supported in PHP >= 5.4
-
 Pagination is useful when you have a limit on the returned results from LDAP. Using pagination, you will successfully be able
 to view all LDAP results. To paginate your results, call the `paginate()` method:
 

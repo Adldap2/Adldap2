@@ -4,6 +4,7 @@ namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\LdapEntry;
+use Adldap\Objects\LdapOperator;
 use Adldap\Objects\Paginator;
 
 /**
@@ -32,20 +33,6 @@ class AdldapSearch extends AdldapBase
      * @var bool
      */
     protected $recursive = true;
-
-    /**
-     * Stores available operators to use for a query.
-     *
-     * @var array
-     */
-    protected $operators = [
-        '*', // Wildcard, All
-        '!', // Does not equal
-        '=', // Does equal
-        '>=', // Greater than or equal to
-        '<=', // Less than or equal to
-        '&', // And
-    ];
 
     /**
      * Stores the selects to use in the query when assembled.
@@ -146,7 +133,7 @@ class AdldapSearch extends AdldapBase
      */
     public function all()
     {
-        $this->where('objectClass', '*');
+        $this->where('objectClass', LdapOperator::$wildcard);
 
         return $this->get();
     }
@@ -489,17 +476,7 @@ class AdldapSearch extends AdldapBase
     {
         if (count($this->wheres) > 0) {
             foreach ($this->wheres as $where) {
-                switch ($where['operator']) {
-                    case '=':
-                        $this->addToQuery($this->queryEquals($where['field'], $where['value']));
-                        break;
-                    case '!':
-                        $this->addToQuery($this->queryDoesNotEqual($where['field'], $where['value']));
-                        break;
-                    case '*':
-                        $this->addToQuery($this->queryWildcard($where['field']));
-                        break;
-                }
+                $this->addToQuery($this->assembleWhere($where));
             }
         }
     }
@@ -513,17 +490,7 @@ class AdldapSearch extends AdldapBase
             $ors = '';
 
             foreach ($this->orWheres as $where) {
-                switch ($where['operator']) {
-                    case '=':
-                        $ors .= $this->queryEquals($where['field'], $where['value']);
-                        break;
-                    case '!':
-                        $ors .= $this->queryDoesNotEqual($where['field'], $where['value']);
-                        break;
-                    case '*':
-                        $ors .= $this->queryWildcard($where['field']);
-                        break;
-                }
+                $ors .= $this->assembleWhere($where);
             }
 
             /*
@@ -537,6 +504,37 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Assembles a single where query based
+     * on its operator and returns it.
+     *
+     * @param array $where
+     *
+     * @return string|null
+     */
+    private function assembleWhere($where = array())
+    {
+        if(is_array($where))
+        {
+            switch ($where['operator']) {
+                case LdapOperator::$equals:
+                    return $this->queryEquals($where['field'], $where['value']);
+                case LdapOperator::$doesNotEqual:
+                    return $this->queryDoesNotEqual($where['field'], $where['value']);
+                case LdapOperator::$greaterThanOrEqual:
+                    return $this->queryGreaterThanOrEquals($where['field'], $where['value']);
+                case LdapOperator::$lessThanOrEqual:
+                    return $this->queryLessThanOrEquals($where['field'], $where['value']);
+                case LdapOperator::$approximateEqual:
+                    return $this->queryApproximatelyEquals($where['field'], $where['value']);
+                case LdapOperator::$wildcard:
+                    return $this->queryWildcard($where['field']);
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a query string for does not equal.
      *
      * @param string $field
@@ -546,7 +544,7 @@ class AdldapSearch extends AdldapBase
      */
     private function queryDoesNotEqual($field, $value)
     {
-        return $this::$openQuery.'!'.$this->queryEquals($field, $value).$this::$closeQuery;
+        return $this::$openQuery.LdapOperator::$doesNotEqual.$this->queryEquals($field, $value).$this::$closeQuery;
     }
 
     /**
@@ -559,7 +557,46 @@ class AdldapSearch extends AdldapBase
      */
     private function queryEquals($field, $value)
     {
-        return $this::$openQuery.$field.'='.$value.$this::$closeQuery;
+        return $this::$openQuery.$field.LdapOperator::$equals.$value.$this::$closeQuery;
+    }
+
+    /**
+     * Returns a query string for greater than or equals.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function queryGreaterThanOrEquals($field, $value)
+    {
+        return $this::$openQuery.$field.LdapOperator::$greaterThanOrEqual.$value.$this::$closeQuery;
+    }
+
+    /**
+     * Returns a query string for less than or equals.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function queryLessThanOrEquals($field, $value)
+    {
+        return $this::$openQuery.$field.LdapOperator::$lessThanOrEqual.$value.$this::$closeQuery;
+    }
+
+    /**
+     * Returns a query string for approximately equals.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function queryApproximatelyEquals($field, $value)
+    {
+        return $this::$openQuery.$field.LdapOperator::$approximateEqual.$value.$this::$closeQuery;
     }
 
     /**
@@ -571,7 +608,7 @@ class AdldapSearch extends AdldapBase
      */
     private function queryWildcard($field)
     {
-        return $this::$openQuery.$field.'=*'.$this::$closeQuery;
+        return $this::$openQuery.$field.LdapOperator::$equals.LdapOperator::$wildcard.$this::$closeQuery;
     }
 
     /**
@@ -583,7 +620,7 @@ class AdldapSearch extends AdldapBase
      */
     private function queryAnd($query)
     {
-        return $this::$openQuery.'&'.$query.$this::$closeQuery;
+        return $this::$openQuery.LdapOperator::$and.$query.$this::$closeQuery;
     }
 
     /**
@@ -595,7 +632,7 @@ class AdldapSearch extends AdldapBase
      */
     private function queryOr($query)
     {
-        return $this::$openQuery.'|'.$query.$this::$closeQuery;
+        return $this::$openQuery.LdapOperator::$or.$query.$this::$closeQuery;
     }
 
     /**
@@ -611,17 +648,37 @@ class AdldapSearch extends AdldapBase
      */
     private function getOperator($operator)
     {
-        $key = array_search($operator, $this->operators);
+        $operators = $this->getOperators();
 
-        if ($key !== false && array_key_exists($key, $this->operators)) {
-            return $this->operators[$key];
+        $key = array_search($operator, $operators);
+
+        if ($key !== false && array_key_exists($key, $operators)) {
+            return $operators[$key];
         }
 
-        $operators = implode(', ', $this->operators);
+        $operators = implode(', ', $operators);
 
         $message = "Operator: $operator cannot be used in an LDAP query. Available operators are $operators";
 
         throw new AdldapException($message);
+    }
+
+    /**
+     * Returns an array of available operators.
+     *
+     * @return array
+     */
+    private function getOperators()
+    {
+        return [
+            LdapOperator::$wildcard,
+            LdapOperator::$equals,
+            LdapOperator::$doesNotEqual,
+            LdapOperator::$greaterThanOrEqual,
+            LdapOperator::$lessThanOrEqual,
+            LdapOperator::$approximateEqual,
+            LdapOperator::$and,
+        ];
     }
 
     /**

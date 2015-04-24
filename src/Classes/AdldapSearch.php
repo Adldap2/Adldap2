@@ -751,7 +751,7 @@ class AdldapSearch extends AdldapBase
                 $objects = $this->processSortBy($objects);
             }
 
-            // Return a new paginator instance
+            // Return a new Paginator instance
             return new Paginator($objects, $perPage, $currentPage, count($pages));
         }
 

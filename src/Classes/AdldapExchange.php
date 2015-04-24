@@ -27,6 +27,60 @@ class AdldapExchange extends AdldapQueryable
     public $storageGroupObjectCategory = 'msExchStorageGroup';
 
     /**
+     * Returns all exchange servers.
+     *
+     * @param array $fields
+     * @param bool $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
+     *
+     * @return array|bool
+     */
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $namingContext = $this->getConfigurationNamingContext();
+
+        if ($namingContext) {
+            $search = $this->adldap->search()
+                ->setDn($namingContext)
+                ->select($fields)
+                ->where('objectCategory', '=', $this->serverObjectCategory);
+
+            if($sorted) {
+                $search->sortBy($sortBy, $sortByDirection);
+            }
+
+            return $search->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Finds an exchange server.
+     *
+     * @param string $name
+     * @param array $fields
+     *
+     * @return array|bool
+     */
+    public function find($name, $fields = [])
+    {
+        $namingContext = $this->getConfigurationNamingContext();
+
+        if ($namingContext) {
+            return $this->adldap->search()
+                ->setDn($namingContext)
+                ->select($fields)
+                ->where('objectCategory', '=', $this->serverObjectCategory)
+                ->where('anr', '=', $name)
+                ->first();
+        }
+
+        return false;
+    }
+
+    /**
      * Create an Exchange account.
      *
      * @param string $username     The username of the user to add the Exchange account to
@@ -330,19 +384,7 @@ class AdldapExchange extends AdldapQueryable
      */
     public function servers($fields = [])
     {
-        $configurationNamingContext = $this->adldap->getRootDse(['configurationnamingcontext']);
-
-        if (is_array($configurationNamingContext) && array_key_exists('configurationnamingcontext', $configurationNamingContext[0])) {
-            $dn = $configurationNamingContext[0]['configurationnamingcontext'][0];
-
-            return $this->adldap->search()
-                ->setDn($dn)
-                ->select($fields)
-                ->where('objectCategory', '=', $this->serverObjectCategory)
-                ->get();
-        }
-
-        return false;
+        return $this->all($fields);
     }
 
     /**
@@ -404,5 +446,22 @@ class AdldapExchange extends AdldapQueryable
         $entries = $this->connection->getEntries($results);
 
         return $entries;
+    }
+
+    /**
+     * Returns the current configuration naming context
+     * of the current domain.
+     *
+     * @return string|bool
+     */
+    private function getConfigurationNamingContext()
+    {
+        $result = $this->adldap->getRootDse(['configurationnamingcontext']);
+
+        if (is_array($result) && array_key_exists('configurationnamingcontext', $result[0])) {
+            return $result[0]['configurationnamingcontext'][0];
+        }
+
+        return false;
     }
 }

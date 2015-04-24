@@ -60,7 +60,7 @@ class AdldapComputers extends AdldapQueryable
         if (is_array($groups) && in_array($group, $groups)) {
             return true;
         }
-        
+
         return false;
     }
 

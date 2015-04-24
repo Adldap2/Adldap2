@@ -183,9 +183,9 @@ class AdldapSearch extends AdldapBase
     /**
      * Adds a where clause to the current query.
      *
-     * @param $field
-     * @param null $operator
-     * @param null $value
+     * @param string $field
+     * @param string $operator
+     * @param string $value
      *
      * @return $this
      */
@@ -200,8 +200,8 @@ class AdldapSearch extends AdldapBase
      * Adds an orWhere clause to the current query.
      *
      * @param string $field
-     * @param null   $operator
-     * @param null   $value
+     * @param string $operator
+     * @param string $value
      *
      * @return $this
      */

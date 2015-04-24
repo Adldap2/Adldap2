@@ -117,7 +117,7 @@ class Builder
     /**
      * Adds a where clause to the current query.
      *
-     * @param $field
+     * @param string $field
      * @param string $operator
      * @param string $value
      *
@@ -133,7 +133,7 @@ class Builder
     /**
      * Adds an or where clause to the current query.
      *
-     * @param $field
+     * @param string $field
      * @param string $operator
      * @param string $value
      *

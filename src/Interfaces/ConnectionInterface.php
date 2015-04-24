@@ -330,6 +330,16 @@ interface ConnectionInterface
     public function modDelete($dn, array $entry);
 
     /**
+     * Returns an escaped string for use in an LDAP filter.
+     *
+     * @param string $value
+     * @param string $ignore
+     *
+     * @return string
+     */
+    public function escape($value, $ignore = '*');
+
+    /**
      * Send LDAP pagination control.
      *
      * @param int    $pageSize

@@ -36,6 +36,12 @@ class AdldapUtils extends AdldapBase
                 // Assuming the zero key is the CN
                 $groupNames[] = $explodedDn[0];
             }
+        } elseif (is_string($groups))
+        {
+            // If there's a single entry, groups will be a string
+            $explodedDn = $this->connection->explodeDn($groups);
+
+            $groupNames[] = $explodedDn[0];
         }
 
         return $groupNames;

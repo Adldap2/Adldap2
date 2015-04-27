@@ -906,7 +906,7 @@ class Adldap
     /**
      * Finds the Base DN of your domain controller.
      *
-     * @return mixed
+     * @return string|bool
      */
     public function findBaseDn()
     {
@@ -916,7 +916,7 @@ class Adldap
             return $namingContext[0]['defaultnamingcontext'][0];
         }
 
-        return;
+        return false;
     }
 
     /**

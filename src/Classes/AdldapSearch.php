@@ -75,11 +75,9 @@ class AdldapSearch extends AdldapBase
         if ($query === null || empty($query)) {
             return false;
         }
-        /*
-         * If the search is recursive, we'll run a search,
-         * if not, we'll run a listing.
-         */
+
         if ($this->recursive) {
+            // If recursive is true, we'll perform a recursive search
             $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
         } else {
             $results = $this->connection->listing($this->getDn(), $query, $this->getSelects());
@@ -346,6 +344,18 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Returns a new LdapEntry instance.
+     *
+     * @param array $attributes
+     * @param \Adldap\Interfaces\ConnectionInterface $connection
+     * @return LdapEntry
+     */
+    protected function newLdapEntry($attributes, $connection)
+    {
+        return new LdapEntry($attributes, $connection);
+    }
+
+    /**
      * Sets the query property.
      *
      * @param Builder $query
@@ -370,7 +380,7 @@ class AdldapSearch extends AdldapBase
 
         if (array_key_exists('count', $entries)) {
             for ($i = 0; $i < $entries['count']; $i++) {
-                $entry = new LdapEntry($entries[$i], $this->connection);
+                $entry = $this->newLdapEntry($entries[$i], $this->connection);
 
                 $objects[] = $entry->getAttributes();
             }
@@ -410,7 +420,7 @@ class AdldapSearch extends AdldapBase
                  */
                 if (is_array($entries) && array_key_exists('count', $entries)) {
                     for ($i = 0; $i < $entries['count']; $i++) {
-                        $entry = new LdapEntry($entries[$i], $this->connection);
+                        $entry = $this->newLdapEntry($entries[$i], $this->connection);
 
                         $objects[] = $entry->getAttributes();
                     }

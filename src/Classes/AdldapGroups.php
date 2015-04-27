@@ -221,7 +221,7 @@ class AdldapGroups extends AdldapQueryable
 
         $userDn = $this->adldap->user()->dn($username);
 
-        if($groupDn && $userDn) {
+        if(is_string($groupDn) && is_string($userDn)) {
             $del = [];
             $del['member'] = $userDn;
 
@@ -234,18 +234,19 @@ class AdldapGroups extends AdldapQueryable
     /**
      * Remove a contact from a group.
      *
-     * @param string $group     The group to remove a user from
-     * @param string $contactDn The DN of a contact to remove from the group
+     * @param string $group     The group to remove the contact from
+     * @param string $contactName The contact to remove
      *
      * @return bool
      */
-    public function removeContact($group, $contactDn)
+    public function removeContact($group, $contactName)
     {
         // Find the parent dn
         $groupDn = $this->dn($group);
 
-        if($groupDn && $contactDn)
-        {
+        $contactDn = $this->adldap->contact()->dn($contactName);
+
+        if(is_string($groupDn) && is_string($contactDn)) {
             $del = [];
             $del['member'] = $contactDn;
 

@@ -149,6 +149,22 @@ Paginating a search result will return a `Adldap\Objects\Paginator` instance. Th
         echo $result['cn'];
     }
 
+#### Recursive
+
+By default, all searches performed are recursive. If you'd like to disable recursive search, use the `recursive()` method:
+
+    $result = $ad->search()->recursive(false)->all();
+    
+This would perform an `ldap_listing()` instead of an `ldap_search()`.
+
+#### Read
+
+If you'd like to perform a read instead of a listing or a recursive search, use the `read()` method:
+
+    $result = $ad->search()->read(true)->where('objectClass', '*')->get();
+    
+This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
+
 #### Get Query
 
 If you'd like to retrieve the current query to save or run it at another time, use the `getQuery()` method:

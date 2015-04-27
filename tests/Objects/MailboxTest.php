@@ -11,7 +11,7 @@ class MailboxTest extends FunctionalTestCase
     {
         $attributes = [
             'username' => 'Jdoe',
-            'storageGroup' => 'Test',
+            'storageGroup' => array('Test'),
             'emailAddress' => 'jdoe@email.com',
         ];
 
@@ -24,6 +24,21 @@ class MailboxTest extends FunctionalTestCase
     {
         $attributes = [
             'username' => 'Jdoe',
+            'emailAddress' => 'jdoe@email.com',
+        ];
+
+        $mailbox = new Mailbox($attributes);
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $mailbox->validateRequired();
+    }
+
+    public function testValidationFailsStorageGroup()
+    {
+        $attributes = [
+            'username' => 'Jdoe',
+            'storageGroup' => 'Invalid Storage Group',
             'emailAddress' => 'jdoe@email.com',
         ];
 

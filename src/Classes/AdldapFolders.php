@@ -58,22 +58,6 @@ class AdldapFolders extends AdldapQueryable
     }
 
     /**
-     * Delete a distinguished name from Active Directory.
-     * You should never need to call this yourself, just use
-     * the wrapper functions user()->delete($username) and contact()->delete($name).
-     *
-     * @param string $dn The distinguished name to delete
-     *
-     * @return bool
-     */
-    public function delete($dn)
-    {
-        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $dn);
-
-        return $this->connection->delete($dn);
-    }
-
-    /**
      * Returns a folder listing for a specific OU.
      * See http://adldap.sourceforge.net/wiki/doku.php?id=api_folder_functions.
      *

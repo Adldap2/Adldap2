@@ -138,24 +138,6 @@ class AdldapUsers extends AdldapQueryable
     }
 
     /**
-     * Delete a user account.
-     *
-     * @param string $username The username to delete
-     *
-     * @return bool
-     */
-    public function delete($username)
-    {
-        $dn = $this->dn($username);
-
-        if ($dn) {
-            return $this->adldap->folder()->delete($dn);
-        }
-
-        return false;
-    }
-
-    /**
      * Retrieves the groups that the specified user is apart of.
      *
      * @param string $username  The username of the user to query

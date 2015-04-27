@@ -82,6 +82,20 @@ class AdldapQueryable extends AdldapBase
     }
 
     /**
+     * Delete a distinguished name from Active Directory.
+     *
+     * @param string $dn The distinguished name to delete
+     *
+     * @return bool
+     */
+    public function delete($dn)
+    {
+        $this->adldap->utilities()->validateNotNull('Distinguished Name [dn]', $dn);
+
+        return $this->connection->delete($dn);
+    }
+
+    /**
      * Get information about a specific computer. Returned in a raw array format from AD.
      *
      * @param string $computerName The name of the computer

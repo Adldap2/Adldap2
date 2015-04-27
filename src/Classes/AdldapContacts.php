@@ -168,18 +168,6 @@ class AdldapContacts extends AdldapQueryable
     }
 
     /**
-     * Delete a contact.
-     *
-     * @param string $dn The contact dn to delete (please be careful here!)
-     *
-     * @return bool
-     */
-    public function delete($dn)
-    {
-        return $this->adldap->folder()->delete($dn);
-    }
-
-    /**
      * Mail enable a contact. Allows email to be sent to them through Exchange.
      *
      * @param string $contactName The contacts name

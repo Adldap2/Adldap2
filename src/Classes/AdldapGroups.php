@@ -154,24 +154,6 @@ class AdldapGroups extends AdldapQueryable
     }
 
     /**
-     * Delete a group account.
-     *
-     * @param string $groupName The group to delete (please be careful here!)
-     *
-     * @return bool|string
-     */
-    public function delete($groupName)
-    {
-        $groupDn = $this->dn($groupName);
-
-        if($groupDn) {
-            return $this->adldap->folder()->delete($groupDn);
-        }
-
-        return false;
-    }
-
-    /**
      * Rename a group.
      *
      * @param string $groupName The group to rename

@@ -26,9 +26,17 @@ You can also customize the fields that are returned by passing in field array in
     
 ### Info
 
-To preserver backwards compatibility, the `info()` function is an alias for the `find()` method:
+To preserve backwards compatibility, the `info()` function is an alias for the `find()` method:
 
     $computer = $ad->computer()->info('WIN-PC', $fields);
+
+### DN
+
+To retrieve a computers distinguished name, use the `dn()` method:
+
+    $computerDn = $ad->computer()->dn('WIN-PC');
+    
+    echo $computerDn;
 
 ### Groups
 

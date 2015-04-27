@@ -5,7 +5,7 @@ namespace Adldap\Tests\Objects;
 use Adldap\Objects\User;
 use Adldap\Tests\FunctionalTestCase;
 
-class UserObjectTest extends FunctionalTestCase
+class UserTest extends FunctionalTestCase
 {
     protected function stubbedUserAttributes()
     {

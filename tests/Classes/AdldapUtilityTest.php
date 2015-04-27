@@ -1,8 +1,10 @@
 <?php
 
-namespace Adldap\Tests;
+namespace Adldap\Tests\Classes;
 
 use Adldap\Classes\AdldapUtils;
+use Adldap\Tests\FunctionalTestCase;
+
 
 class AdldapUtilityTest extends FunctionalTestCase
 {

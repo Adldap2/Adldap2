@@ -1,9 +1,10 @@
 <?php
 
-namespace Adldap\Tests;
+namespace Adldap\Tests\Classes;
 
 use Adldap\Adldap;
 use Adldap\Classes\AdldapSearch;
+use Adldap\Tests\AdldapBaseTest;
 
 class AdldapSearchTest extends AdldapBaseTest
 {

@@ -5,7 +5,7 @@ namespace Adldap\Tests\Objects;
 use Adldap\Objects\Contact;
 use Adldap\Tests\FunctionalTestCase;
 
-class ContactObjectTest extends FunctionalTestCase
+class ContactTest extends FunctionalTestCase
 {
     public function testContactObjectValidatePasses()
     {

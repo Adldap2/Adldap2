@@ -1,5 +1,15 @@
 ## Folder Functions
 
+Folder functions are used for managing OU's (organizational units).
+
+### All
+
+To retrieve all OU's from AD, use the `all()` method:
+
+    $folders = $ad->folder()->all();
+    
+Keep in mind that this query is by default recursive, and your results may be limited depending on your server.
+
 ### Listing
 
     listing($folders = array(), $dnType = Adldap::ADLDAP_FOLDER, $recursive = NULL, $type = NULL)
@@ -23,3 +33,37 @@ To navigate an OU, pass in deeper OUs into the array. For example:
 
 It's also good to note, that **OUs must be spelt exact**. If an OU is not spelled correctly, you will receive zero results.
 
+### Find
+
+To find a folder, use the `find()` method:
+
+    $folder = $ad->folder()->find('Accounting');
+
+### Create
+
+To create a folder, use the `create()` method:
+
+    $attributes = [
+        'ou_name' => 'Employees',
+        'container' => [
+            'Users'
+        ]
+    ];
+
+### Delete
+
+To delete a distinguished name, use the `delete()` method:
+
+    $distinguishedName = 'OU=Accounting,OU=User Accounts,DC=corp,DC=acme,DC=com';
+    
+    $deleted = $ad->folder()->delete($distinguishedName);
+
+You can easily delete a found folder like so:
+
+    $folder = $ad->folder()->find('Accounting');
+    
+    if(is_array($folder) && array_key_exists('dn', $folder)) {
+        
+        $ad->folder()->delete($folder['dn']);
+        
+    }

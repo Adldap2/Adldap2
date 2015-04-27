@@ -32,4 +32,12 @@ To preserver backwards compatibility, the `info()` function is an alias for the 
 
 ### Groups
 
+To retrieve all the groups that a computer is in, use the `groups()` method:
+
+    $groups = $ad->computer()->groups('WIN-PC');
+    
 ### In Group
+
+To determine if a computer is in a group, use the `inGroup()` method:
+
+    $inGroup = $ad->computer()->inGroup('WIN-PC', 'Accounting'); // Returns true / false

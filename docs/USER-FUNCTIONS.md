@@ -14,6 +14,10 @@
 
 ### Delete
 
+To delete a user, use the `delete()` method:
+
+    $deleted = $ad->user()->delete('jdoe');
+
 ### Change Password
 
 To change a users password, use the `changePassword()` method:

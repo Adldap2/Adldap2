@@ -73,7 +73,7 @@ class AdldapQueryable extends AdldapBase
      * Returns the DN of the current object class.
      *
      * @param string $name
-     * @return bool
+     * @return string|bool
      */
     public function dn($name)
     {

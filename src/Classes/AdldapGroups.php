@@ -117,6 +117,7 @@ class AdldapGroups extends AdldapQueryable
 
         if($groupDn && $contactDn)
         {
+            $add = [];
             $add['member'] = $contactDn;
 
             return $this->connection->modAdd($groupDn, $add);

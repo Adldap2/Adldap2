@@ -687,16 +687,17 @@ class Ldap implements ConnectionInterface
      *
      * @param string $value
      * @param string $ignore
+     * @param $flags
      *
      * @return string
      */
-    public function escape($value, $ignore = '*')
+    public function escape($value, $ignore = '*', $flags = 0)
     {
-        if (! function_exists('ldap_escape')) {
-            return $this->escapeManual($value, $ignore);
+        if (! $this->isEscapingSupported()) {
+            return $this->escapeManual($value, $ignore, $flags);
         }
 
-        return ldap_escape($value, $ignore);
+        return ldap_escape($value, $ignore, $flags);
     }
 
     /**
@@ -717,90 +718,107 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Escaped the inserted values.
+     * Escapes the inserted value for LDAP.
      *
-     * @param string $value  The subject string
-     * @param string $ignore Set of characters to leave untouched
-     * @param int    $flags  Any combination of LDAP_ESCAPE_* flags to indicate the
-     *                       set(s) of characters to escape.
+     * @param string $value
+     * @param string $ignore
+     * @param int $flags
      *
      * @return string
-     * @thanks http://stackoverflow.com/users/889949/daverandom
      */
-    private function escapeManual($value, $ignore = '', $flags = 0)
+    protected function escapeManual($value, $ignore = '*', $flags = 0)
     {
-        define('LDAP_ESCAPE_FILTER', 0x01);
-        define('LDAP_ESCAPE_DN',     0x02);
+        /*
+         * If a flag was supplied, we'll send the value
+         * off to be escaped using the PHP flag values
+         * and return the result.
+         */
+        if($flags) {
+            return $this->escapeManualWithFlags($value, $ignore, $flags);
+        }
 
-        static $charMaps = [
-            LDAP_ESCAPE_FILTER => ['\\', '*', '(', ')', "\x00"],
-            LDAP_ESCAPE_DN     => ['\\', ',', '=', '+', '<', '>', ';', '"', '#'],
-        ];
+        // Convert ignore string into an array
+        $ignores = str_split($ignore);
 
-        // Pre-process the char maps on first call
-        if (! isset($charMaps[0])) {
-            $charMaps[0] = [];
+        // Convert the value to a hex string
+        $hex = bin2hex($value);
 
-            for ($i = 0; $i < 256; $i++) {
-                $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
+        /*
+         * Separate the string, with the hex length of 2,
+         * and place a backslash on the end of each section
+         */
+        $value = chunk_split($hex, 2, "\\");
+
+        /*
+         * We'll append a backslash at the front of the string
+         * and remove the ending backslash of the string
+         */
+        $value = "\\" . substr($value, 0, -1);
+
+        // Go through each character to ignore
+        foreach($ignores as $charToIgnore)
+        {
+            // Convert the character to ignore to a hex
+            $hexed = bin2hex($charToIgnore);
+
+            // Replace the hexed variant with the original character
+            $value = str_replace("\\" . $hexed, $charToIgnore, $value);
+        }
+
+        // Finally we can return the escaped value
+        return $value;
+    }
+
+    /**
+     * Escapes the inserted value with flags. Supplying either 1
+     * or 2 into the flags parameter will escape only certain values
+     *
+     *
+     * @param string $value
+     * @param string $ignore
+     * @param int $flags
+     * @return bool|mixed
+     */
+    protected function escapeManualWithFlags($value, $ignore = '*', $flags = 0)
+    {
+        // Convert ignore string into an array
+        $ignores = str_split($ignore);
+
+        $escapeFilter = ['\\', '*', '(', ')'];
+        $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
+
+        switch($flags)
+        {
+            case 1:
+                // Int 1 equals to LDAP_ESCAPE_FILTER
+                $escapes = $escapeFilter;
+                break;
+            case 2:
+                // Int 2 equals to LDAP_ESCAPE_DN
+                $escapes = $escapeDn;
+                break;
+            case 3:
+                // If both LDAP_ESCAPE_FILTER and LDAP_ESCAPE_DN are used
+                $escapes = array_merge($escapeFilter, $escapeDn);
+                break;
+            default:
+                return false;
+        }
+
+        foreach($escapes as $escape)
+        {
+            // Make sure the escaped value isn't being ignored
+            if( ! in_array($escape, $ignores))
+            {
+                $hexed = chunk_split(bin2hex($escape), 2, "\\");
+
+                $hexed = "\\" . substr($hexed, 0, -1);
+
+                $value = str_replace($escape, $hexed, $value);
             }
-
-            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
-                $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
-
-                unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
-
-                $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
-            }
-
-            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
-                $chr = $charMaps[LDAP_ESCAPE_DN][$i];
-
-                unset($charMaps[LDAP_ESCAPE_DN][$i]);
-
-                $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
-            }
         }
 
-        // Create the base char map to escape
-        $flags = (int) $flags;
-
-        $charMap = [];
-
-        if ($flags & LDAP_ESCAPE_FILTER) {
-            $charMap += $charMaps[LDAP_ESCAPE_FILTER];
-        }
-
-        if ($flags & LDAP_ESCAPE_DN) {
-            $charMap += $charMaps[LDAP_ESCAPE_DN];
-        }
-
-        if (! empty($charMap)) {
-            $charMap = $charMaps[0];
-        }
-
-        // Remove any chars to ignore from the list
-        $ignore = (string) $ignore;
-
-        for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
-            unset($charMap[$ignore[$i]]);
-        }
-
-        // Do the main replacement
-        $result = strtr($value, $charMap);
-
-        // Encode leading/trailing spaces if LDAP_ESCAPE_DN is passed
-        if ($flags & LDAP_ESCAPE_DN) {
-            if ($result[0] === ' ') {
-                $result = '\\20'.substr($result, 1);
-            }
-
-            if ($result[strlen($result) - 1] === ' ') {
-                $result = substr($result, 0, -1).'\\20';
-            }
-        }
-
-        return $result;
+        return $value;
     }
 
     /**

@@ -42,7 +42,7 @@ trait LdapFunctionSupportTrait
     }
 
     /**
-     * Returns true / false if the current if the current
+     * Returns true / false if the current
      * PHP install supports batch modification.
      * Requires PHP 5.4 >= 5.4.26, PHP 5.5 >= 5.5.10 or PHP 5.6 >= 5.6.0.
      *
@@ -51,5 +51,16 @@ trait LdapFunctionSupportTrait
     public function isBatchSupported()
     {
         return function_exists('ldap_modify_batch');
+    }
+
+    /**
+     * Returns true / false if the current
+     * PHP install supports escaping values.
+     *
+     * @return bool
+     */
+    public function isEscapingSupported()
+    {
+        return function_exists('ldap_escape');
     }
 }

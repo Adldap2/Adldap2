@@ -172,7 +172,8 @@ class AdldapSearch extends AdldapBase
             return $results[0];
         }
 
-        return $results;
+        // No entries were returned, return false
+        return false;
     }
 
     /**

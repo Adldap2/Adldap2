@@ -243,3 +243,13 @@ Retrieving all computers that run Windows 7:
             ->where('objectClass', '=', 'computer')
             ->where('operatingSystem', '=', 'Windows 7*')
             ->get();
+
+#### Folder (OU) examples
+
+Retrieving a folder:
+
+    $folderName = 'Accounting';
+    
+    $results = $this->adldap->search()
+                ->where('OU', '=', $folderName)
+                ->first();

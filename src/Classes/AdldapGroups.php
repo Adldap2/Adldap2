@@ -197,7 +197,7 @@ class AdldapGroups extends AdldapQueryable
 
         $childDn = $this->dn($childName);
 
-        if($parentDn && $childDn) {
+        if(is_string($parentDn) && is_string($childDn)) {
             $del = [];
             $del['member'] = $childDn;
 

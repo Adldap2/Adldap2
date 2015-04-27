@@ -24,7 +24,10 @@ If you're only interested in certain LDAP fields, insert your fields in the seco
     ];
     
     $user = $ad->user()->find($username, $fields);
-
+    
+    echo $user['cn'];
+    echo $user['memberof'];
+   
 ### Info
 
 The `info()` method is an alias for the `find()` method, this exists for backwards compatibility.

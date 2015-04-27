@@ -458,8 +458,8 @@ class AdldapExchange extends AdldapQueryable
     {
         $result = $this->adldap->getRootDse(['configurationnamingcontext']);
 
-        if (is_array($result) && array_key_exists('configurationnamingcontext', $result[0])) {
-            return $result[0]['configurationnamingcontext'][0];
+        if (is_array($result) && array_key_exists('configurationnamingcontext', $result)) {
+            return $result['configurationnamingcontext'];
         }
 
         return false;

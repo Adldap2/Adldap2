@@ -37,6 +37,14 @@ class AdldapSearch extends AdldapBase
     protected $recursive = true;
 
     /**
+     * Stores the bool to determine whether or not
+     * to search LDAP on the base scope.
+     *
+     * @var bool
+     */
+    protected $read = false;
+
+    /**
      * Stores the field to sort search results by.
      *
      * @var string
@@ -76,7 +84,10 @@ class AdldapSearch extends AdldapBase
             return false;
         }
 
-        if ($this->recursive) {
+        if ($this->read) {
+            // If read is true, we'll perform a read search, retrieving one record
+            $results = $this->connection->read($this->getDn(), $query, $this->getSelects());
+        } else if($this->recursive) {
             // If recursive is true, we'll perform a recursive search
             $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
         } else {
@@ -302,7 +313,11 @@ class AdldapSearch extends AdldapBase
      */
     public function setDn($dn)
     {
-        $this->dn = (string) $dn;
+        if($dn === null) {
+            $this->dn = null;
+        } else {
+            $this->dn = (string) $dn;
+        }
 
         return $this;
     }
@@ -317,7 +332,9 @@ class AdldapSearch extends AdldapBase
      */
     public function getDn()
     {
-        if (empty($this->dn)) {
+        if($this->dn === null) {
+            return $this->dn;
+        } else if (empty($this->dn)) {
             return $this->adldap->getBaseDn();
         }
 
@@ -344,13 +361,33 @@ class AdldapSearch extends AdldapBase
     }
 
     /**
+     * Sets the recursive property to tell the search
+     * whether or not to search on the base scope and
+     * return a single entry.
+     *
+     * @param bool $read
+     *
+     * @return $this
+     */
+    public function read($read = false)
+    {
+        $this->read = true;
+
+        if ($read === false) {
+            $this->read = false;
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns a new LdapEntry instance.
      *
      * @param array $attributes
      * @param \Adldap\Interfaces\ConnectionInterface $connection
      * @return LdapEntry
      */
-    protected function newLdapEntry($attributes, $connection)
+    public function newLdapEntry($attributes, $connection)
     {
         return new LdapEntry($attributes, $connection);
     }

@@ -912,8 +912,8 @@ class Adldap
     {
         $namingContext = $this->getRootDse(['defaultnamingcontext']);
 
-        if (is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext[0])) {
-            return $namingContext[0]['defaultnamingcontext'][0];
+        if (is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext)) {
+            return $namingContext['defaultnamingcontext'];
         }
 
         return false;
@@ -928,11 +928,12 @@ class Adldap
      */
     public function getRootDse($attributes = ['*', '+'])
     {
-        $filter = 'objectClass=*';
-
-        $results = $this->ldapConnection->read(null, $filter, $attributes);
-
-        return $this->ldapConnection->getEntries($results);
+        return $this->search()
+            ->setDn(null)
+            ->read(true)
+            ->select($attributes)
+            ->where('objectClass', '*')
+            ->first();
     }
 
     /**

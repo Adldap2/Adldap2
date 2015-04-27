@@ -39,6 +39,12 @@ To use Adldap2, your sever must support:
 
 - PHP 5.4 or greater
 - PHP LDAP Extension
+
+
+## Optional Requirements
+
+If your AD server requires SSL, your server must support the following libraries:
+
 - PHP SSL Libraries (http://php.net/openssl)
 
 ## Installation

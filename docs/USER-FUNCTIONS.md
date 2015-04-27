@@ -2,11 +2,44 @@
 
 ### All
 
+To retrieve all users on AD, use the `all()` method:
+
+    $users = $ad->user()->all();
+
 ### Find
+
+To retrieve all information on a user, use `find()` method:
+
+    $username = 'jdoe';
+    
+    $user = $ad->user()->find($username);
+
+If you're only interested in certain LDAP fields, insert your fields in the second parameter:
+
+    $username = 'jdoe';
+    
+    $fields = [
+        'cn',
+        'memberof'
+    ];
+    
+    $user = $ad->user()->find($username, $fields);
 
 ### Info
 
+The `info()` method is an alias for the `find()` method, this exists for backwards compatibility.
+
+    $username = 'jdoe';
+    
+    $user = $ad->user()->info($username);
+
 ### DN
+
+To retrieve a users full distinguished name, use the `dn()` method:
+
+    $username = 'jdoe';
+
+    $dn = $ad->user()->dn($username);
 
 ### Create
 
@@ -15,8 +48,10 @@
 ### Delete
 
 To delete a user, use the `delete()` method:
-
-    $deleted = $ad->user()->delete('jdoe');
+    
+    $username = 'jdoe';
+    
+    $deleted = $ad->user()->delete($username);
 
 ### Change Password
 

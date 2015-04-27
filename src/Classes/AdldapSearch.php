@@ -131,7 +131,7 @@ class AdldapSearch extends AdldapBase
      * @param int  $currentPage
      * @param bool $isCritical
      *
-     * @return bool
+     * @return Paginator|bool
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
@@ -452,7 +452,7 @@ class AdldapSearch extends AdldapBase
      * @param int   $perPage
      * @param int   $currentPage
      *
-     * @return array|bool
+     * @return Paginator|bool
      */
     private function processPaginatedResults($pages, $perPage = 50, $currentPage = 0)
     {

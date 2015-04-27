@@ -34,6 +34,13 @@ class Paginator extends AbstractObject implements IteratorAggregate
     protected $currentPage;
 
     /**
+     * The current entry offset number.
+     *
+     * @var int
+     */
+    protected $currentOffset;
+
+    /**
      * Constructor.
      *
      * @param array $entries
@@ -50,6 +57,9 @@ class Paginator extends AbstractObject implements IteratorAggregate
         $this->setCurrentPage($currentPage);
 
         $this->setPages($pages);
+
+        // Set the offset for slicing the entries array
+        $this->setCurrentOffset(($this->getCurrentPage() * $this->getPerPage()));
     }
 
     /**
@@ -59,11 +69,8 @@ class Paginator extends AbstractObject implements IteratorAggregate
      */
     public function getIterator()
     {
-        // Get the offset for slicing the array
-        $offset = ($this->getCurrentPage() * $this->getPerPage());
-
         // Slice the the entries
-        $entries = array_slice($this->getAttributes(), $offset, $this->getPerPage(), true);
+        $entries = array_slice($this->getAttributes(), $this->getCurrentOffset(), $this->getPerPage(), true);
 
         // Return the array iterator
         return new ArrayIterator($entries);
@@ -99,6 +106,16 @@ class Paginator extends AbstractObject implements IteratorAggregate
     public function getCurrentPage()
     {
         return $this->currentPage;
+    }
+
+    /**
+     * Returns the current offset number.
+     *
+     * @return int
+     */
+    public function getCurrentOffset()
+    {
+        return $this->currentOffset;
     }
 
     /**
@@ -139,5 +156,15 @@ class Paginator extends AbstractObject implements IteratorAggregate
     private function setCurrentPage($currentPage = 0)
     {
         $this->currentPage = (int) $currentPage;
+    }
+
+    /**
+     * Sets the current offset number.
+     *
+     * @param int $offset
+     */
+    private function setCurrentOffset($offset = 0)
+    {
+        $this->currentOffset = (int) $offset;
     }
 }

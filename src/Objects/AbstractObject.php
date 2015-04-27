@@ -69,7 +69,7 @@ abstract class AbstractObject
             return $this->attributes[$key];
         }
 
-        return;
+        return null;
     }
 
     /**

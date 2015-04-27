@@ -23,10 +23,13 @@ class Mailbox extends AbstractObject
     /**
      * Validates the objects required attributes.
      *
+     * @param array $only
+     *
      * @return bool
+     *
      * @throws AdldapException
      */
-    public function validateRequired()
+    public function validateRequired($only = [])
     {
         parent::validateRequired();
 

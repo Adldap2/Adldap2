@@ -96,7 +96,7 @@ class AdldapQueryable extends AdldapBase
     public function delete($dn)
     {
         $this->adldap->utilities()->validateNotNullOrEmpty('Distinguished Name [dn]', $dn);
-        
+
         return $this->connection->delete($dn);
     }
 

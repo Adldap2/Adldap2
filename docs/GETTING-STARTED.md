@@ -36,7 +36,7 @@ This can be done like so:
    
 When creating a new Adldap instance, it will automatically try and connect to your server, however this behavior
 is completely configurable, and you can supply your own connection class to run LDAP queries off of if you wish.
-We'll discuss this [later](#advanced-usage).
+See [Advanced Usage](#advanced-usage).
 
 #### Authentication
 
@@ -54,53 +54,6 @@ However, if you'd like to stay authenticated as this user, you'll have to pass i
     
 Now, when you call methods on the Adldap object, you're authenticated as John Doe, instead of the administrator.
 
-#### Global Searching
-
-To search LDAP for any object, call the `search()` method like so:
-
-    $results = $ad->search('john');
-
-Then, you can loop through your results:    
-    
-    foreach($results as $result)
-    {
-        if(array_key_exists('cn', $result))
-        {
-            echo $result['cn']; // Returns 'John Doe'
-        }
-        
-        if(array_key_exists('displayname', $result))
-        {
-            echo $result['displayname']; // Returns 'Doe, John'
-        }
-        
-        // The users login name
-        if(array_key_exists('samaccountname', $result))
-        {
-            echo $result['samaccountname']; // Returns 'djohn'
-        }
-    
-        if(array_key_exists('dn', $result))
-        {
-            echo $result['dn']; // Returns 'CN=John Doe,CN=admin,DC=corp,DC=Fabrikam,DC=COM'
-        }
-        
-        if(array_key_exists('dn_array', $result))
-        {
-            var_dump($result['dn_array']);
-            
-            //Results in
-            
-            array(
-                0 => 'John Doe',
-                1 => 'admin',
-                2 => 'corp',
-                3 => 'Fabrikam',
-                4 => 'COM',
-            );
-        }
-    }
-   
 #### Retrieving the last message / error from LDAP:
 
 To retrieve the last message or error from LDAP, call the `getLastError()` method like so:
@@ -139,3 +92,29 @@ by passing in `false` in the last construct parameter. You will have to manually
     $ad = new Adldap($configuration, null, false);
     
     $ad->connect();
+    
+#### Showing LDAP Warning / Errors
+
+By default, LDAP warnings and errors are suppressed in favor of catchable exceptions thrown by Adldap. To display
+warnings and errors, use the `showErrors()` method on the connection:
+
+    $ad->getLdapConnection()->showErrors();
+    
+    // Now all Adldap methods will display LDAP warnings / errors if they are thrown
+    $ad->user()->all();
+
+#### Overriding Adldap Classes and Methods
+
+To override classes / methods, simply create a class that extends Adldap, and override them:
+
+    use Adldap\Adldap;
+    
+    class MyAdldap extends Adldap {
+        
+        // Overriding the user function to return your own User class
+        public function user()
+        {
+            return new MyUserClass();
+        }
+    
+    }

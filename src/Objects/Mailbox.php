@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects;
 
+use Adldap\Exceptions\AdldapException;
+
 /**
  * Class Mailbox.
  */
@@ -17,6 +19,25 @@ class Mailbox extends AbstractObject
         'storageGroup',
         'emailAddress',
     ];
+
+    /**
+     * Validates the objects required attributes.
+     *
+     * @return bool
+     * @throws AdldapException
+     */
+    public function validateRequired()
+    {
+        parent::validateRequired();
+
+        if (! is_array($this->getAttribute('storageGroup'))) {
+            $message = 'Storage Group attribute must be an array';
+
+            throw new AdldapException($message);
+        }
+
+        return true;
+    }
 
     /**
      * Returns the Mailboxes attributes to an LDAP compatible array.

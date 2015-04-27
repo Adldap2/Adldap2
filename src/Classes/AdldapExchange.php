@@ -104,31 +104,21 @@ class AdldapExchange extends AdldapQueryable
             'mailNickname' => $mailNickname,
             'baseDn' => ($baseDn ? $baseDn : $this->adldap->getBaseDn()),
             'mdbUseDefaults' => $this->adldap->utilities()->boolToStr($useDefaults),
-            'container' => 'CN='.implode(',CN=', $storageGroup),
         ]);
 
-        // Throw an exception if the storageGroup is not an array
-        if (! is_array($mailbox->getAttribute('storageGroup'))) {
-            throw new AdldapException('Attribute [storageGroup] must be an array');
-        }
-
-        // Validate the other required field
+        // Validate the mailbox fields
         $mailbox->validateRequired();
+
+        // Set the container attribute by imploding the storage group array
+        $mailbox->setAttribute('container', 'CN='.implode(',CN=', $storageGroup));
 
         // Set the mail nickname to the username if it isn't provided
         if ($mailbox->{'mailNickname'} === null) {
             $mailbox->setAttribute('mailNickname', $mailbox->{'username'});
         }
 
-        // Perform the creation on the current connection
-        $result = $this->adldap->user()->modify($username, $mailbox->toLdapArray(), $isGUID);
-
-        // Return the result
-        if ($result === false) {
-            return false;
-        }
-
-        return true;
+        // Perform the creation and return the result
+        return $this->adldap->user()->modify($username, $mailbox->toLdapArray(), $isGUID);
     }
 
     /**

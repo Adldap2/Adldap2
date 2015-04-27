@@ -7,6 +7,10 @@ namespace Adldap\Classes;
  * some standard methods to queryable classes that
  * extend this class.
  *
+ * A 'queryable' class means that any Class that extends
+ * this class must query and return information from
+ * LDAP based on it's object class property.
+ *
  * Class AdldapQueryable
  * @package Adldap\Classes
  */

@@ -886,21 +886,16 @@ class Adldap
     {
         $this->utilities()->validateNotNull('Distinguished Name [dn]', $distinguishedName);
 
-        $this->utilities()->validateLdapIsBound();
+        $result = $this->search()
+            ->select('objectClass')
+            ->where('distinguishedName', '=', $distinguishedName)
+            ->first();
 
-        $filter = 'distinguishedName='.$this->utilities()->ldapSlashes($distinguishedName);
-
-        $results = $this->ldapConnection->search($this->getBaseDn(), $filter, ['objectclass']);
-
-        $entries = $this->ldapConnection->getEntries($results);
-
-        $objects = [];
-
-        for ($i = 0; $i < $entries[0]['objectclass']['count']; $i++) {
-            array_push($objects, $entries[0]['objectclass'][$i]);
+        if(is_array($result) && array_key_exists('objectclass', $result)) {
+            return $result['objectclass'];
         }
 
-        return $objects;
+        return false;
     }
 
     /**

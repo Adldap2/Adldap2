@@ -255,71 +255,6 @@ class AdldapGroups extends AdldapQueryable
     }
 
     /**
-     * Return a list of groups in a group.
-     *
-     * @param string $group     The group to query
-     * @param null   $recursive Recursively get groups
-     *
-     * @return array|bool
-     */
-    public function inGroup($group, $recursive = null)
-    {
-        // Use the default option if they haven't set it
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        // Search the directory for the members of a group
-        $info = $this->find($group);
-
-        $groups = $info['member'];
-
-        if (! is_array($groups)) {
-            return false;
-        }
-
-        $groupArray = [];
-
-        for ($i = 0; $i < $groups['count']; $i++) {
-            $filter = '(&(objectCategory=group)(distinguishedName='.$this->adldap->utilities()->ldapSlashes($groups[$i]).'))';
-
-            $fields = ['samaccountname', 'distinguishedname', 'objectClass'];
-
-            $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-            $entries = $this->connection->getEntries($results);
-
-            // not a person, look for a group
-            if ($entries['count'] == 0 && $recursive === true) {
-                $filter = '(&(objectCategory=group)(distinguishedName='.$this->adldap->utilities()->ldapSlashes($groups[$i]).'))';
-
-                $fields = ['distinguishedname'];
-
-                $results = $this->connection->search($this->adldap->getBaseDn(), $filter, $fields);
-
-                $entries = $this->connection->getEntries($results);
-
-                if (! isset($entries['distinguishedname'][0])) {
-                    continue;
-                }
-
-                $subGroups = $this->inGroup($entries['distinguishedname'], $recursive);
-
-                if (is_array($subGroups)) {
-                    $groupArray = array_merge($groupArray, $subGroups);
-                    $groupArray = array_unique($groupArray);
-                }
-
-                continue;
-            }
-
-            $groupArray[] = $entries[0]['distinguishedname'][0];
-        }
-
-        return $groupArray;
-    }
-
-    /**
      * Return a list of members in a group.
      *
      * @param string $group  The group to query
@@ -386,7 +321,7 @@ class AdldapGroups extends AdldapQueryable
         $info = $this->find($groupName);
 
         if (is_array($info) && array_key_exists('cn', $info)) {
-            $groups[] = $info['dn'];
+            $groups[] = $info['cn'];
 
             if (array_key_exists('memberof', $info)) {
                 if (is_array($info['memberof'])) {

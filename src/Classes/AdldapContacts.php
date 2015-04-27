@@ -59,39 +59,6 @@ class AdldapContacts extends AdldapQueryable
     }
 
     /**
-     * Determine the list of groups a contact is a member of.
-     *
-     * @param string $contactName The contacts name
-     * @param null   $recursive Recursively check groups
-     *
-     * @return array|bool
-     */
-    public function groups($contactName, $recursive = null)
-    {
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        $info = $this->find($contactName);
-
-        if(is_array($info) && array_key_exists('memberof', $info)) {
-            $groups = $this->adldap->utilities()->niceNames($info['memberof']);
-
-            if ($recursive === true) {
-                foreach ($groups as $id => $groupName) {
-                    $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
-
-                    $groups = array_merge($groups, $extraGroups);
-                }
-            }
-
-            return $groups;
-        }
-
-        return false;
-    }
-
-    /**
      * Find information about the contacts. Returned in a raw array format from AD.
      *
      * @param string $distinguishedName
@@ -106,33 +73,6 @@ class AdldapContacts extends AdldapQueryable
 
         if ($info) {
             return new AdldapContactCollection($info, $this->adldap);
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if a contact is a member of a group.
-     *
-     * @param string $contactName The contacts name
-     * @param string $group The group name to query
-     * @param null   $recursive Recursively check groups
-     *
-     * @return bool
-     */
-    public function inGroup($contactName, $group, $recursive = null)
-    {
-        // Use the default option if they haven't set it
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        // Get a list of the groups
-        $groups = $this->groups($contactName, $recursive);
-
-        // Return true if the specified group is in the group list
-        if (in_array($group, $groups)) {
-            return true;
         }
 
         return false;

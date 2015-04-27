@@ -138,40 +138,6 @@ class AdldapUsers extends AdldapQueryable
     }
 
     /**
-     * Retrieves the groups that the specified user is apart of.
-     *
-     * @param string $username  The username of the user to query
-     * @param null   $recursive Recursive list of groups
-     *
-     * @return array|bool
-     */
-    public function groups($username, $recursive = null)
-    {
-        $this->adldap->utilities()->validateNotNull('Username', $username);
-
-        // Use the default option if they haven't set it
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        // Search the directory for their information
-        $info = $this->info($username, ['memberof', 'primarygroupid']);
-
-        // Presuming the entry returned is our guy (unique usernames)
-        $groups = $this->adldap->utilities()->niceNames($info['memberof']);
-
-        if ($recursive === true) {
-            foreach ($groups as $id => $groupName) {
-                $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
-
-                $groups = array_merge($groups, $extraGroups);
-            }
-        }
-
-        return $groups;
-    }
-
-    /**
      * Find information about the users. Returned in a raw array format from AD.
      *
      * @param string $username The username to query
@@ -186,34 +152,6 @@ class AdldapUsers extends AdldapQueryable
 
         if ($info) {
             return new AdldapUserCollection($info, $this->adldap);
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the specified user is in the specified group.
-     *
-     * @param string $username  The username to query
-     * @param string $group     The name of the group to check against
-     * @param null   $recursive Check groups recursively
-     * @param bool   $isGUID    Is the username passed a GUID or a samAccountName
-     *
-     * @return bool
-     */
-    public function inGroup($username, $group, $recursive = null, $isGUID = false)
-    {
-        // Use the default option if they haven't set it
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        // Get a list of the groups
-        $groups = $this->groups($username, $recursive, $isGUID);
-
-        // Return true if the specified group is in the group list
-        if (in_array($group, $groups)) {
-            return true;
         }
 
         return false;

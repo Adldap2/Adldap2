@@ -43,7 +43,8 @@ class AdldapQueryable extends AdldapBase
 
     /**
      * Finds a single entry using the objects current class
-     * and the specified common name.
+     * and the specified common name. If fields are specified,
+     * then only those fields are returned in the result array.
      *
      * @param string $name
      * @param array $fields
@@ -96,15 +97,80 @@ class AdldapQueryable extends AdldapBase
     }
 
     /**
-     * Get information about a specific computer. Returned in a raw array format from AD.
+     * Alias for the find() method.
      *
-     * @param string $computerName The name of the computer
-     * @param array  $fields       Attributes to return
+     * @param string $name The name of the computer
+     * @param array  $fields Attributes to return
      *
      * @return array|bool
      */
     public function info($name, $fields = [])
     {
         return $this->find($name, $fields);
+    }
+
+    /**
+     * Returns true / false if the specified group exists
+     * on the found LDAP entry.
+     *
+     * @param string $name
+     * @param string $group
+     * @param null $recursive
+     *
+     * @return bool
+     */
+    public function inGroup($name, $group, $recursive = null)
+    {
+        if ($recursive === null) {
+            $recursive = $this->adldap->getRecursiveGroups();
+        }
+
+        // Get a list of the groups
+        $groups = $this->groups($name, $recursive);
+
+        // Return true if the specified group is in the group list
+        if (is_array($groups) && in_array($group, $groups)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Finds the LDAP entry with the specified name, and returns
+     * the groups that it is a member of.
+     *
+     * @param string $name
+     * @param null $recursive
+     *
+     * @return array|bool
+     */
+    public function groups($name, $recursive = null)
+    {
+        if ($recursive === null) {
+            $recursive = $this->adldap->getRecursiveGroups();
+        }
+
+        $info = $this->find($name);
+
+        if(is_array($info) && array_key_exists('memberof', $info)) {
+            $groups = $this->adldap->utilities()->niceNames($info['memberof']);
+
+            if ($recursive === true) {
+                foreach ($groups as $id => $groupName) {
+                    $extraGroups = $this->adldap->group()->recursiveGroups($groupName);
+
+                    $groups = array_merge($groups, $extraGroups);
+                }
+            }
+
+            /*
+             * We'll return a filtered array and
+             * make sure every entry is unique
+             */
+            return array_unique($groups);
+        }
+
+        return false;
     }
 }

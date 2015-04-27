@@ -39,32 +39,6 @@ class AdldapComputers extends AdldapQueryable
     }
 
     /**
-     * Check if a computer is in a group.
-     *
-     * @param string $computerName The name of the computer
-     * @param string $group        The group to check
-     * @param null   $recursive    Whether to check recursively
-     *
-     * @return bool
-     */
-    public function inGroup($computerName, $group, $recursive = null)
-    {
-        if ($recursive === null) {
-            $recursive = $this->adldap->getRecursiveGroups();
-        }
-
-        // Get a list of the groups
-        $groups = $this->groups($computerName, $recursive);
-
-        // Return true if the specified group is in the group list
-        if (is_array($groups) && in_array($group, $groups)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get the groups a computer is in.
      *
      * @param string $computerName The name of the computer

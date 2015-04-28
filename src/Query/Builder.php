@@ -84,6 +84,7 @@ class Builder
         if (! empty($this->query)) {
             return $this->query;
         }
+
         /*
          * Looks like our query hasn't been assembled
          * yet, let's try to assemble it

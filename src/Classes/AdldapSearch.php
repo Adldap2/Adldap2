@@ -91,6 +91,7 @@ class AdldapSearch extends AdldapBase
             // If recursive is true, we'll perform a recursive search
             $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
         } else {
+            // Read and recursive is false, we'll return a listing
             $results = $this->connection->listing($this->getDn(), $query, $this->getSelects());
         }
 

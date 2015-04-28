@@ -3,7 +3,6 @@
 namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Collections\AdldapUserCollection;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
 use Adldap\Objects\AccountControl;
@@ -135,26 +134,6 @@ class AdldapUsers extends AdldapQueryable
 
         // Add the entry
         return $this->connection->add($dn, $add);
-    }
-
-    /**
-     * Find information about the users. Returned in a raw array format from AD.
-     *
-     * @param string $username The username to query
-     * @param array  $fields   Array of parameters to query
-     *
-     * @return AdldapUserCollection|bool
-     * @depreciated
-     */
-    public function infoCollection($username, array $fields = [])
-    {
-        $info = $this->info($username, $fields);
-
-        if ($info) {
-            return new AdldapUserCollection($info, $this->adldap);
-        }
-
-        return false;
     }
 
     /**

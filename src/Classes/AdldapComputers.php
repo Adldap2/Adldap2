@@ -2,8 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Collections\AdldapComputerCollection;
-
 /**
  * Ldap Computer Management.
  *
@@ -17,26 +15,6 @@ class AdldapComputers extends AdldapQueryable
      * @var string
      */
     public $objectClass = 'computer';
-
-    /**
-     * Find information about the computers. Returned in a raw array format from AD.
-     *
-     * @param string $computerName The name of the computer
-     * @param array  $fields       Array of parameters to query
-     *
-     * @return AdldapComputerCollection|bool
-     * @depreciated
-     */
-    public function infoCollection($computerName, array $fields = [])
-    {
-        $info = $this->info($computerName, $fields);
-
-        if ($info) {
-            return new AdldapComputerCollection($info, $this->adldap);
-        }
-
-        return false;
-    }
 
     /**
      * Get the groups a computer is in.

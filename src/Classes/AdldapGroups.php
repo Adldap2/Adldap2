@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Collections\AdldapGroupCollection;
 use Adldap\Objects\Group;
 use Adldap\Adldap;
 
@@ -281,29 +280,6 @@ class AdldapGroups extends AdldapQueryable
             }
 
             return $members;
-        }
-
-        return false;
-    }
-
-    /**
-     * Group Information. Returns a collection.
-     *
-     * The group name is case sensitive.
-     *
-     * @param string $groupName The group name to retrieve info about
-     * @param null   $fields    Fields to retrieve
-     * @param bool   $isGUID    Is the groupName passed a GUID or a name
-     *
-     * @return \Adldap\collections\AdldapGroupCollection|bool
-     * @depreciated
-     */
-    public function infoCollection($groupName, $fields = null, $isGUID = false)
-    {
-        $info = $this->info($groupName, $fields, $isGUID);
-
-        if ($info) {
-            return new AdldapGroupCollection($info, $this->adldap);
         }
 
         return false;

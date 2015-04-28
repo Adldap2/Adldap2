@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Collections\AdldapContactCollection;
 use Adldap\Objects\Contact;
 
 /**
@@ -56,26 +55,6 @@ class AdldapContacts extends AdldapQueryable
 
         // Add the entry
         return $this->connection->add($dn, $add);
-    }
-
-    /**
-     * Find information about the contacts. Returned in a raw array format from AD.
-     *
-     * @param string $distinguishedName
-     * @param array  $fields            Array of parameters to query
-     *
-     * @return AdldapContactCollection|bool
-     * @depreciated
-     */
-    public function infoCollection($distinguishedName, array $fields = [])
-    {
-        $info = $this->info($distinguishedName, $fields);
-
-        if ($info) {
-            return new AdldapContactCollection($info, $this->adldap);
-        }
-
-        return false;
     }
 
     /**

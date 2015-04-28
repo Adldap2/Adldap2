@@ -2,8 +2,8 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Objects\LdapEntry;
-use Adldap\Objects\LdapOperator;
+use Adldap\Objects\Ldap\Entry;
+use Adldap\Objects\Ldap\Operator;
 use Adldap\Objects\Paginator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;
@@ -120,7 +120,7 @@ class AdldapSearch extends AbstractAdldapBase
      */
     public function all()
     {
-        $this->query->where('cn', LdapOperator::$wildcard);
+        $this->query->where('cn', Operator::$wildcard);
 
         return $this->get();
     }
@@ -383,15 +383,15 @@ class AdldapSearch extends AbstractAdldapBase
     }
 
     /**
-     * Returns a new LdapEntry instance.
+     * Returns a new LDAP Entry instance.
      *
      * @param array $attributes
      * @param \Adldap\Interfaces\ConnectionInterface $connection
-     * @return LdapEntry
+     * @return Entry
      */
     public function newLdapEntry($attributes, $connection)
     {
-        return new LdapEntry($attributes, $connection);
+        return new Entry($attributes, $connection);
     }
 
     /**

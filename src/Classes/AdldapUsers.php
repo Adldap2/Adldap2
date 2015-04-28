@@ -117,10 +117,10 @@ class AdldapUsers extends AbstractAdldapQueryable
         $add['objectclass'][3] = 'user';
 
         // Set the account control attribute
-        $controlOptions = ['NORMAL_ACCOUNT'];
+        $controlOptions = ['NORMAL_ACCOUNT' => true];
 
         if (! $user->hasAttribute('enabled')) {
-            $controlOptions[] = 'ACCOUNTDISABLE';
+            $controlOptions['ACCOUNTDISABLE'] = true;
         }
 
         $add['userAccountControl'][0] = $this->accountControl($controlOptions);
@@ -128,9 +128,9 @@ class AdldapUsers extends AbstractAdldapQueryable
         // Determine the container
         $attributes['container'] = array_reverse($user->getAttribute('container'));
 
-        $container = 'OU='.implode(', OU=', $user->getAttribute('container'));
+        $container = 'OU='.implode(',OU=', $user->getAttribute('container'));
 
-        $dn = 'CN='.$add['cn'][0].', '.$container.','.$this->adldap->getBaseDn();
+        $dn = 'CN='.$add['cn'][0].','.$container.','.$this->adldap->getBaseDn();
 
         // Add the entry
         return $this->connection->add($dn, $add);

@@ -2,7 +2,7 @@
 
 namespace Adldap\Tests\Objects;
 
-use Adldap\Objects\LdapEntry;
+use Adldap\Objects\Ldap\Entry;
 use Adldap\Tests\FunctionalTestCase;
 
 class LdapEntryTest extends FunctionalTestCase
@@ -116,7 +116,7 @@ class LdapEntryTest extends FunctionalTestCase
 
         for ($i = 0; $i < $returnedLdapEntries["count"]; $i++)
         {
-            $entry = new LdapEntry($returnedLdapEntries[$i], $connection);
+            $entry = new Entry($returnedLdapEntries[$i], $connection);
 
             $entries[] = $entry->getAttributes();
         }

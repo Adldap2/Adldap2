@@ -16,6 +16,8 @@ class AccountControl extends AbstractObject
     {
         parent::__construct($attributes);
 
+        $this->setAttribute('value', 0);
+
         $this->setValueIfAttributeExists('SCRIPT', 1);
 
         $this->setValueIfAttributeExists('ACCOUNTDISABLE', 2);
@@ -70,7 +72,7 @@ class AccountControl extends AbstractObject
     public function setValueIfAttributeExists($attribute, $value)
     {
         if ($this->hasAttribute($attribute)) {
-            $currentValue = intval($this->getAttribute('value'));
+            $currentValue = $this->getAttribute('value');
 
             $this->setAttribute('value', $currentValue + $value);
         }

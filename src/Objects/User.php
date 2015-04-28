@@ -66,4 +66,9 @@ class User extends AbstractObject
 
         return $this->getAttributes();
     }
+
+    public function create()
+    {
+
+    }
 }

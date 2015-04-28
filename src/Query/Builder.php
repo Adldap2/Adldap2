@@ -3,7 +3,7 @@
 namespace Adldap\Query;
 
 use Adldap\Exceptions\InvalidQueryOperator;
-use Adldap\Objects\LdapOperator;
+use Adldap\Objects\Ldap\Operator;
 use Adldap\Interfaces\ConnectionInterface;
 
 /**
@@ -272,7 +272,7 @@ class Builder
      */
     private function buildDoesNotEqual($field, $value)
     {
-        return $this::$open.LdapOperator::$doesNotEqual.$this->buildEquals($field, $value).$this::$close;
+        return $this::$open.Operator::$doesNotEqual.$this->buildEquals($field, $value).$this::$close;
     }
 
     /**
@@ -285,7 +285,7 @@ class Builder
      */
     private function buildEquals($field, $value)
     {
-        return $this::$open.$field.LdapOperator::$equals.$value.$this::$close;
+        return $this::$open.$field.Operator::$equals.$value.$this::$close;
     }
 
     /**
@@ -298,7 +298,7 @@ class Builder
      */
     private function buildGreaterThanOrEquals($field, $value)
     {
-        return $this::$open.$field.LdapOperator::$greaterThanOrEqual.$value.$this::$close;
+        return $this::$open.$field.Operator::$greaterThanOrEqual.$value.$this::$close;
     }
 
     /**
@@ -311,7 +311,7 @@ class Builder
      */
     private function buildLessThanOrEquals($field, $value)
     {
-        return $this::$open.$field.LdapOperator::$lessThanOrEqual.$value.$this::$close;
+        return $this::$open.$field.Operator::$lessThanOrEqual.$value.$this::$close;
     }
 
     /**
@@ -324,7 +324,7 @@ class Builder
      */
     private function buildApproximatelyEquals($field, $value)
     {
-        return $this::$open.$field.LdapOperator::$approximateEqual.$value.$this::$close;
+        return $this::$open.$field.Operator::$approximateEqual.$value.$this::$close;
     }
 
     /**
@@ -336,7 +336,7 @@ class Builder
      */
     private function buildWildcard($field)
     {
-        return $this::$open.$field.LdapOperator::$equals.LdapOperator::$wildcard.$this::$close;
+        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$this::$close;
     }
 
     /**
@@ -348,7 +348,7 @@ class Builder
      */
     private function buildAnd($query)
     {
-        return $this::$open.LdapOperator::$and.$query.$this::$close;
+        return $this::$open.Operator::$and.$query.$this::$close;
     }
 
     /**
@@ -360,7 +360,7 @@ class Builder
      */
     private function buildOr($query)
     {
-        return $this::$open.LdapOperator::$or.$query.$this::$close;
+        return $this::$open.Operator::$or.$query.$this::$close;
     }
 
     /**
@@ -399,13 +399,13 @@ class Builder
     private function getOperators()
     {
         return [
-            LdapOperator::$wildcard,
-            LdapOperator::$equals,
-            LdapOperator::$doesNotEqual,
-            LdapOperator::$greaterThanOrEqual,
-            LdapOperator::$lessThanOrEqual,
-            LdapOperator::$approximateEqual,
-            LdapOperator::$and,
+            Operator::$wildcard,
+            Operator::$equals,
+            Operator::$doesNotEqual,
+            Operator::$greaterThanOrEqual,
+            Operator::$lessThanOrEqual,
+            Operator::$approximateEqual,
+            Operator::$and,
         ];
     }
 
@@ -477,17 +477,17 @@ class Builder
         if(is_array($where))
         {
             switch ($where['operator']) {
-                case LdapOperator::$equals:
+                case Operator::$equals:
                     return $this->buildEquals($where['field'], $where['value']);
-                case LdapOperator::$doesNotEqual:
+                case Operator::$doesNotEqual:
                     return $this->buildDoesNotEqual($where['field'], $where['value']);
-                case LdapOperator::$greaterThanOrEqual:
+                case Operator::$greaterThanOrEqual:
                     return $this->buildGreaterThanOrEquals($where['field'], $where['value']);
-                case LdapOperator::$lessThanOrEqual:
+                case Operator::$lessThanOrEqual:
                     return $this->buildLessThanOrEquals($where['field'], $where['value']);
-                case LdapOperator::$approximateEqual:
+                case Operator::$approximateEqual:
                     return $this->buildApproximatelyEquals($where['field'], $where['value']);
-                case LdapOperator::$wildcard:
+                case Operator::$wildcard:
                     return $this->buildWildcard($where['field']);
             }
         }

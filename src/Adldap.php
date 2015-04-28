@@ -13,8 +13,8 @@ use Adldap\Classes\AdldapContacts;
 use Adldap\Classes\AdldapUsers;
 use Adldap\Classes\AdldapGroups;
 use Adldap\Objects\Configuration;
-use Adldap\Objects\LdapSchema;
-use Adldap\Objects\Schema;
+use Adldap\Objects\Ldap\Schema as LdapSchema;
+use Adldap\Objects\Schema as AdldapSchema;
 
 /**
  * Class Adldap.
@@ -969,9 +969,9 @@ class Adldap
         // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
         array_walk($attributes, [$this->utilities(), 'encode8bit']);
 
-        $schema = new Schema($attributes);
+        $adldapSchema = new AdldapSchema($attributes);
 
-        $ldapSchema = new LdapSchema($schema);
+        $ldapSchema = new LdapSchema($adldapSchema);
 
         if ($ldapSchema->countAttributes() === 0) {
             return false;
@@ -1067,7 +1067,6 @@ class Adldap
             $error = $this->ldapConnection->getLastError();
 
             if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS()) {
-                // If you have problems troubleshooting, remove the @ character from the ldapBind command above to get the actual error message
                 $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: '.$error;
             } else {
                 $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;

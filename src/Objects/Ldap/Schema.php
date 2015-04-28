@@ -1,11 +1,14 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Objects\Ldap;
+
+use Adldap\Objects\Schema as AdldapSchema;
+use Adldap\Objects\AbstractObject;
 
 /**
  * Class LdapSchema.
  */
-class LdapSchema extends AbstractObject
+class Schema extends AbstractObject
 {
     /**
      * Constructor.
@@ -13,9 +16,9 @@ class LdapSchema extends AbstractObject
      * Accepts a Schema object and constructs an LDAP
      * schema using it's attributes.
      *
-     * @param Schema $schema
+     * @param AdldapSchema $schema
      */
-    public function __construct(Schema $schema)
+    public function __construct(AdldapSchema $schema)
     {
         $this->constructLdapSchema($schema);
     }
@@ -39,11 +42,11 @@ class LdapSchema extends AbstractObject
     /**
      * Constructs a schema compatible with the LDAP protocol.
      *
-     * @param Schema $schema
+     * @param AdldapSchema $schema
      *
      * @return $this
      */
-    private function constructLdapSchema(Schema $schema)
+    private function constructLdapSchema($schema)
     {
         // Set all the LDAP attributes
         $this->setAttribute('l', $schema->getAttribute('address_city'));

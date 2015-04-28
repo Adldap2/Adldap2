@@ -1,13 +1,14 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Objects\Ldap;
 
 use Adldap\Interfaces\ConnectionInterface;
+use Adldap\Objects\AbstractObject;
 
 /**
  * Class LdapEntry.
  */
-class LdapEntry extends AbstractObject
+class Entry extends AbstractObject
 {
     /**
      * The current LDAP connection.

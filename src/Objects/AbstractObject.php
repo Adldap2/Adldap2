@@ -47,13 +47,26 @@ abstract class AbstractObject
     /**
      * Dynamically retrieve attributes on the object.
      *
-     * @param $key
+     * @param mixed $key
      *
      * @return bool
      */
     public function __get($key)
     {
         return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes on the object.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @return AbstractObject
+     */
+    public function __set($key, $value)
+    {
+        return $this->setAttribute($key, $value);
     }
 
     /**

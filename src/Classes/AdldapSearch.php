@@ -75,7 +75,7 @@ class AdldapSearch extends AdldapBase
      *
      * @param string $query
      *
-     * @return bool|array
+     * @return array|bool
      */
     public function query($query)
     {
@@ -119,7 +119,7 @@ class AdldapSearch extends AdldapBase
      */
     public function all()
     {
-        $this->query->where('objectClass', LdapOperator::$wildcard);
+        $this->query->where('cn', LdapOperator::$wildcard);
 
         return $this->get();
     }

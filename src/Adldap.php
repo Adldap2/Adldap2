@@ -325,11 +325,8 @@ class Adldap
      *
      * @param $baseDn
      */
-    public function setBaseDn($baseDn)
-    {
-        if ($baseDn !== null) {
-            $this->baseDn = $baseDn;
-        }
+    public function setBaseDn($baseDn) {
+        $this->baseDn = $baseDn;
     }
 
     /**

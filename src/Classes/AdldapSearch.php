@@ -3,8 +3,8 @@
 namespace Adldap\Classes;
 
 use Adldap\Objects\Ldap\Entry;
-use Adldap\Objects\Ldap\Operator;
 use Adldap\Objects\Paginator;
+use Adldap\Query\Operator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;
 

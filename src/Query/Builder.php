@@ -3,7 +3,6 @@
 namespace Adldap\Query;
 
 use Adldap\Exceptions\InvalidQueryOperator;
-use Adldap\Objects\Ldap\Operator;
 use Adldap\Interfaces\ConnectionInterface;
 
 /**

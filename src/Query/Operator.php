@@ -1,14 +1,11 @@
 <?php
 
-namespace Adldap\Objects\Ldap;
-
-use Adldap\Objects\AbstractObject;
+namespace Adldap\Query;
 
 /**
  * Class Operator
- * @package Adldap\Objects
  */
-class Operator extends AbstractObject
+class Operator
 {
     /**
      * The wildcard operator.

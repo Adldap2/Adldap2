@@ -9,7 +9,7 @@ use Adldap\Adldap;
  *
  * Class AdldapBase
  */
-class AdldapBase
+abstract class AbstractAdldapBase
 {
     /**
      * The current Adldap connection via dependency injection.

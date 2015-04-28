@@ -12,7 +12,7 @@ use Adldap\Adldap;
  * Class AdldapSearch
  * @package Adldap\Classes
  */
-class AdldapSearch extends AdldapBase
+class AdldapSearch extends AbstractAdldapBase
 {
     /**
      * Stores the current query builder instance.

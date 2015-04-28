@@ -14,7 +14,7 @@ use Adldap\Adldap;
  *
  * Class AdldapUsers
  */
-class AdldapUsers extends AdldapQueryable
+class AdldapUsers extends AbstractAdldapQueryable
 {
     /**
      * Validate a user's login credentials.

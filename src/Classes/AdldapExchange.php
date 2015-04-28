@@ -10,7 +10,7 @@ use Adldap\Objects\Mailbox;
  *
  * Class AdldapExchange
  */
-class AdldapExchange extends AdldapQueryable
+class AdldapExchange extends AbstractAdldapQueryable
 {
     /**
      * The exchange servers object category.

@@ -10,7 +10,7 @@ use Adldap\Adldap;
  *
  * Class AdldapFolders
  */
-class AdldapFolders extends AdldapQueryable
+class AdldapFolders extends AbstractAdldapQueryable
 {
     /**
      * Returns all entries with the current object class.

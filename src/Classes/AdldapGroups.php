@@ -10,7 +10,7 @@ use Adldap\Adldap;
  *
  * Class AdldapGroups
  */
-class AdldapGroups extends AdldapQueryable
+class AdldapGroups extends AbstractAdldapQueryable
 {
     /**
      * The groups object category string.

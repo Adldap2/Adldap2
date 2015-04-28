@@ -2,8 +2,6 @@
 
 namespace Adldap\Tests;
 
-use Adldap\Classes\AdldapBase;
-
 class AdldapBaseTest extends FunctionalTestCase
 {
     protected function newAdldapMock()
@@ -15,8 +13,10 @@ class AdldapBaseTest extends FunctionalTestCase
     {
         $ad = $this->mock('Adldap\Adldap')->makePartial();
 
-        $search = new AdldapBase($ad);
+        $base = $this->mock('Adldap\Classes\AbstractAdldapBase');
 
-        $this->assertEquals(get_class($ad), get_class($search->getAdldap()));
+        $base->shouldReceive('getAdldap')->once()->andReturn($ad);
+
+        $this->assertEquals(get_class($ad), get_class($base->getAdldap()));
     }
 }

@@ -9,7 +9,7 @@ use Adldap\Exceptions\AdldapException;
  *
  * Class AdldapUtils
  */
-class AdldapUtils extends AdldapBase
+class AdldapUtils extends AbstractAdldapBase
 {
     /**
      * The current Adldap Version.

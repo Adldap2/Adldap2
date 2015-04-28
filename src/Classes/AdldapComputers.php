@@ -7,7 +7,7 @@ namespace Adldap\Classes;
  *
  * Class AdldapComputers
  */
-class AdldapComputers extends AdldapQueryable
+class AdldapComputers extends AbstractAdldapQueryable
 {
     /**
      * The computers object class name.

@@ -9,7 +9,7 @@ use Adldap\Objects\Contact;
  *
  * Class AdldapContacts
  */
-class AdldapContacts extends AdldapQueryable
+class AdldapContacts extends AbstractAdldapQueryable
 {
     /**
      * The contacts object class name.

@@ -35,13 +35,23 @@ To perform a where clause on the search object, use the `where()` function:
     
 This query would look for an object with the common name of 'John Doe' and return the results.
 
-We could also perform a search for all objects beginning with the common name of 'John' using the asterisk (*) wildcard:
+We could also perform a search for all objects beginning with the common name of 'John' using the `starts_with` operator:
 
-    $results = $ad->search()->where('cn', '=', 'John*')->get();
-    
+    $results = $ad->search()->where('cn', 'starts_with', 'John')->get();
+
+We can also search for all objects that end with the common name of `Doe` using the `ends_with` operator:
+
+    $results = $ad->search()->where('cn', 'ends_with', 'Doe')->get();
+
+We can also search for all objects with a common name that contains `John Doe` using the `contains` operator:
+
+    $results = $ad->search()->where('cn', 'contains', 'Doe')->get();
+
 Or we can retrieve all objects that contain a common name attribute using the wildcard operator (`*`):
 
     $results = $ad->search()->where('cn', '*')->get();
+
+This type of filter syntax allows you to clearly see what your searching for.
 
 Remember, fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
 they would return the same result.
@@ -49,9 +59,9 @@ they would return the same result.
 It's also good to know that all values (except an asterisk `*`) inserted into a where, or an orWhere method,
 <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
 
-    $query = $ad->search()->where('cn', '=', 'test//un-escaping//*')->getQuery();
+    $query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();
     
-    // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f*)'
+    // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f)'
 
 #### Or Where
 
@@ -241,7 +251,7 @@ Retrieving all computers that run Windows 7:
 
     $results = $ad->search()
             ->where('objectClass', '=', 'computer')
-            ->where('operatingSystem', '=', 'Windows 7*')
+            ->where('operatingSystem', 'starts_with', 'Windows 7')
             ->get();
 
 #### Folder (OU) examples

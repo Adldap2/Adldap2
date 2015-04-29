@@ -45,7 +45,7 @@ We can also search for all objects that end with the common name of `Doe` using 
 
 We can also search for all objects with a common name that contains `John Doe` using the `contains` operator:
 
-    $results = $ad->search()->where('cn', 'contains', 'Doe')->get();
+    $results = $ad->search()->where('cn', 'contains', 'John Doe')->get();
 
 Or we can retrieve all objects that contain a common name attribute using the wildcard operator (`*`):
 

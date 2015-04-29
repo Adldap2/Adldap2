@@ -7,7 +7,6 @@
         "ldap",
         "windows"
     ],
-    "homepage": "http://adldap.sourceforge.net",
     "license": "LGPL-2.1",
     "support": {
         "issues": "https://github.com/Adldap2/Adldap2/issues",

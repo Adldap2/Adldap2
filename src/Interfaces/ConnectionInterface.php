@@ -84,6 +84,22 @@ interface ConnectionInterface
     public function canChangePasswords();
 
     /**
+     * Sets the suppressErrors property to true
+     * so any recoverable errors thrown will be suppressed.
+     *
+     * @return $this
+     */
+    public function suppressErrors();
+
+    /**
+     * Sets the suppressErrors property to true
+     * so any errors thrown will be shown.
+     *
+     * @return $this
+     */
+    public function showErrors();
+
+    /**
      * Returns true / false if the current
      * connection is bound.
      *

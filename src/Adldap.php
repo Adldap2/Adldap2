@@ -1061,9 +1061,9 @@ class Adldap
             $password = null;
         }
 
-        $bindings = $this->ldapConnection->bind($username, $password);
+        $this->ldapConnection->bind($username, $password);
 
-        if (! $bindings) {
+        if (! $this->ldapConnection->isBound()) {
             $error = $this->ldapConnection->getLastError();
 
             if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS()) {

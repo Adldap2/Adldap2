@@ -90,9 +90,10 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('isUsingSSL')->andReturn(true)
             ->shouldReceive('isUsingTLS')->andReturn(true)
             ->shouldReceive('isUsingSSO')->andReturn(true)
-            ->shouldReceive('connect')->andReturn(true)
-            ->shouldReceive('setOption')->twice()
-            ->shouldReceive('bind')->andReturn('resource')
+            ->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('bind')->once()->andReturn('resource')
+            ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->andReturn(true);
 
         $ad = new Adldap($this->configStub, $connection);

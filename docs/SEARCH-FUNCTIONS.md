@@ -56,7 +56,7 @@ This type of filter syntax allows you to clearly see what your searching for.
 Remember, fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
 they would return the same result.
    
-It's also good to know that all values (except an asterisk `*`) inserted into a where, or an orWhere method,
+It's also good to know that all values inserted into a where, or an orWhere method,
 <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
 
     $query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();

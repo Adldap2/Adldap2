@@ -691,7 +691,7 @@ class Ldap implements ConnectionInterface
      *
      * @return string
      */
-    public function escape($value, $ignore = '*', $flags = 0)
+    public function escape($value, $ignore = '', $flags = 0)
     {
         if (! $this->isEscapingSupported()) {
             return $this->escapeManual($value, $ignore, $flags);
@@ -726,7 +726,7 @@ class Ldap implements ConnectionInterface
      *
      * @return string
      */
-    protected function escapeManual($value, $ignore = '*', $flags = 0)
+    protected function escapeManual($value, $ignore = '', $flags = 0)
     {
         /*
          * If a flag was supplied, we'll send the value

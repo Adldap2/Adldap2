@@ -353,7 +353,7 @@ interface ConnectionInterface
      *
      * @return string
      */
-    public function escape($value, $ignore = '*');
+    public function escape($value, $ignore = '');
 
     /**
      * Send LDAP pagination control.

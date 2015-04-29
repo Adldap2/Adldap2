@@ -278,7 +278,7 @@ class Adldap
     /**
      * Get the active LDAP Connection.
      *
-     * @return bool|mixed
+     * @return bool|ConnectionInterface
      */
     public function getLdapConnection()
     {

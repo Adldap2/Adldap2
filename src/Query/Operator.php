@@ -62,4 +62,25 @@ class Operator
      * @var string
      */
     public static $or = '|';
+
+    /**
+     * The custom starts with operator.
+     *
+     * @var string
+     */
+    public static $startsWith = 'starts_with';
+
+    /**
+     * The custom ends with operator.
+     *
+     * @var string
+     */
+    public static $endsWith = 'ends_with';
+
+    /**
+     * The custom contains operator.
+     *
+     * @var string
+     */
+    public static $contains = 'contains';
 }

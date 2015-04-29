@@ -264,6 +264,8 @@ class Builder
     /**
      * Returns a query string for does not equal.
      *
+     * Produces: (!(field=value))
+     *
      * @param string $field
      * @param string $value
      *
@@ -271,11 +273,13 @@ class Builder
      */
     private function buildDoesNotEqual($field, $value)
     {
-        return $this::$open.Operator::$doesNotEqual.$this->buildEquals($field, $value).$this::$close;
+        return $this::$open . Operator::$doesNotEqual . $this->buildEquals($field, $value) . $this::$close;
     }
 
     /**
      * Returns a query string for equals.
+     *
+     * Produces: (field=value)
      *
      * @param string $field
      * @param string $value
@@ -284,11 +288,13 @@ class Builder
      */
     private function buildEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$equals.$value.$this::$close;
+        return $this::$open . $field.Operator::$equals . $value . $this::$close;
     }
 
     /**
      * Returns a query string for greater than or equals.
+     *
+     * Produces: (field<=value)
      *
      * @param string $field
      * @param string $value
@@ -297,11 +303,13 @@ class Builder
      */
     private function buildGreaterThanOrEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$greaterThanOrEqual.$value.$this::$close;
+        return $this::$open . $field.Operator::$greaterThanOrEqual . $value . $this::$close;
     }
 
     /**
      * Returns a query string for less than or equals.
+     *
+     * Produces: (field<=value)
      *
      * @param string $field
      * @param string $value
@@ -310,11 +318,13 @@ class Builder
      */
     private function buildLessThanOrEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$lessThanOrEqual.$value.$this::$close;
+        return $this::$open . $field.Operator::$lessThanOrEqual . $value . $this::$close;
     }
 
     /**
      * Returns a query string for approximately equals.
+     *
+     * Produces: (field=value)
      *
      * @param string $field
      * @param string $value
@@ -323,11 +333,58 @@ class Builder
      */
     private function buildApproximatelyEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$approximateEqual.$value.$this::$close;
+        return $this::$open . $field . Operator::$approximateEqual . $value . $this::$close;
+    }
+
+    /**
+     * Returns a query string for starts with.
+     *
+     * Produces: (field=value*)
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildStartsWith($field, $value)
+    {
+        return $this::$open . $field . Operator::$equals . $value . Operator::$wildcard . $this::$close;
+    }
+
+    /**
+     * Returns a query string for ends with
+     *
+     * Produces: (field=*value)
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildEndsWith($field, $value)
+    {
+        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $value . $this::$close;
+    }
+
+    /**
+     * Returns a query string for contains.
+     *
+     * Produces: (field=*value*)
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildContains($field, $value)
+    {
+        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $value . Operator::$wildcard . $this::$close;
     }
 
     /**
      * Returns a query string for a wildcard.
+     *
+     * Produces: (field=*)
      *
      * @param string $field
      *
@@ -335,11 +392,13 @@ class Builder
      */
     private function buildWildcard($field)
     {
-        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$this::$close;
+        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $this::$close;
     }
 
     /**
      * Wraps the inserted query inside an AND operator.
+     *
+     * Produces: (&query)
      *
      * @param string $query
      *
@@ -347,11 +406,13 @@ class Builder
      */
     private function buildAnd($query)
     {
-        return $this::$open.Operator::$and.$query.$this::$close;
+        return $this::$open . Operator::$and . $query . $this::$close;
     }
 
     /**
      * Wraps the inserted query inside an OR operator.
+     *
+     * Produces: (|query)
      *
      * @param string $query
      *
@@ -359,7 +420,7 @@ class Builder
      */
     private function buildOr($query)
     {
-        return $this::$open.Operator::$or.$query.$this::$close;
+        return $this::$open . Operator::$or . $query . $this::$close;
     }
 
     /**
@@ -377,7 +438,7 @@ class Builder
     {
         $operators = $this->getOperators();
 
-        $key = array_search($operator, $operators);
+        $key = array_search(strtolower($operator), $operators);
 
         if ($key !== false && array_key_exists($key, $operators)) {
             return $operators[$key];
@@ -404,6 +465,9 @@ class Builder
             Operator::$greaterThanOrEqual,
             Operator::$lessThanOrEqual,
             Operator::$approximateEqual,
+            Operator::$startsWith,
+            Operator::$endsWith,
+            Operator::$contains,
             Operator::$and,
         ];
     }
@@ -486,6 +550,12 @@ class Builder
                     return $this->buildLessThanOrEquals($where['field'], $where['value']);
                 case Operator::$approximateEqual:
                     return $this->buildApproximatelyEquals($where['field'], $where['value']);
+                case Operator::$startsWith:
+                    return $this->buildStartsWith($where['field'], $where['value']);
+                case Operator::$endsWith:
+                    return $this->buildEndsWith($where['field'], $where['value']);
+                case Operator::$contains:
+                    return $this->buildContains($where['field'], $where['value']);
                 case Operator::$wildcard:
                     return $this->buildWildcard($where['field']);
             }

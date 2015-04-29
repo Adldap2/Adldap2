@@ -34,7 +34,7 @@ This can be done like so:
         echo "Uh oh, looks like we had an issue trying to connect: $e";
     }
     
-If you'd like to know what each configuration option means, please look at the [configuration page](docs/CONFIGURATION.md).
+If you'd like to know what each configuration option means, please look at the [configuration page](CONFIGURATION.md).
 
 When creating a new Adldap instance, it will automatically try and connect to your server, however this behavior
 is completely configurable, and you can supply your own connection class to run LDAP queries off of if you wish.

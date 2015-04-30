@@ -359,6 +359,23 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Closes the current LDAP connection if
+     * it exists.
+     *
+     * @return bool
+     */
+    public function close()
+    {
+        $connection = $this->getConnection();
+
+        if ($connection) {
+            ldap_close($connection);
+        }
+
+        return true;
+    }
+
+    /**
      * Performs a search on the current connection
      * with the specified distinguished name, filter
      * and fields.
@@ -701,23 +718,6 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Closes the current LDAP connection if
-     * it exists.
-     *
-     * @return bool
-     */
-    public function close()
-    {
-        $connection = $this->getConnection();
-
-        if ($connection) {
-            ldap_close($connection);
-        }
-
-        return true;
-    }
-
-    /**
      * Escapes the inserted value for LDAP.
      *
      * @param string $value
@@ -819,6 +819,23 @@ class Ldap implements ConnectionInterface
         }
 
         return $value;
+    }
+
+    /**
+     * Un-escapes a hexadecimal string into its original
+     * string representation.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function unescape($value)
+    {
+        $callback = function ($matches) {
+            return chr(hexdec($matches[1]));
+        };
+
+        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', $callback, $value);
     }
 
     /**

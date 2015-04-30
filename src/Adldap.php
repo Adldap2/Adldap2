@@ -58,7 +58,7 @@ class Adldap
      *
      * @var string
      */
-    protected $baseDn = 'DC=mydomain,DC=local';
+    protected $baseDn = '';
 
     /**
      * The user login identifier key used in the AD schema.
@@ -121,55 +121,6 @@ class Adldap
      * @var ConnectionInterface
      */
     protected $ldapConnection;
-
-    /**
-     * The group class.
-     *
-     * @var AdldapGroups
-     */
-    protected $groupClass;
-
-    /**
-     * The user class.
-     *
-     * @var AdldapUsers
-     */
-    protected $userClass;
-
-    /**
-     * The folders class.
-     *
-     * @var AdldapFolders
-     */
-    protected $folderClass;
-
-    /**
-     * The utils class.
-     *
-     * @var AdldapUtils
-     */
-    protected $utilClass;
-
-    /**
-     * The contacts class.
-     *
-     * @var AdldapContacts
-     */
-    protected $contactClass;
-
-    /**
-     * The exchange class.
-     *
-     * @var AdldapExchange
-     */
-    protected $exchangeClass;
-
-    /**
-     * The computers class.
-     *
-     * @var AdldapComputers
-     */
-    protected $computerClass;
 
     /**
      * Optional account with higher privileges for searching
@@ -317,6 +268,14 @@ class Adldap
      */
     public function getBaseDn()
     {
+        /*
+         * If the base DN is empty, we'll assume the dev
+         * wants it set automatically
+         */
+        if(empty($this->baseDn)) {
+            $this->setBaseDn($this->findBaseDn());
+        }
+
         return $this->baseDn;
     }
 
@@ -646,11 +605,7 @@ class Adldap
      */
     public function group()
     {
-        if (! $this->groupClass) {
-            $this->groupClass = new AdldapGroups($this);
-        }
-
-        return $this->groupClass;
+        return new AdldapGroups($this);
     }
 
     /**
@@ -662,11 +617,7 @@ class Adldap
      */
     public function user()
     {
-        if (! $this->userClass) {
-            $this->userClass = new AdldapUsers($this);
-        }
-
-        return $this->userClass;
+        return new AdldapUsers($this);
     }
 
     /**
@@ -678,11 +629,7 @@ class Adldap
      */
     public function folder()
     {
-        if (! $this->folderClass) {
-            $this->folderClass = new AdldapFolders($this);
-        }
-
-        return $this->folderClass;
+        return new AdldapFolders($this);
     }
 
     /**
@@ -694,11 +641,7 @@ class Adldap
      */
     public function utilities()
     {
-        if (! $this->utilClass) {
-            $this->utilClass = new AdldapUtils($this);
-        }
-
-        return $this->utilClass;
+        return new AdldapUtils($this);
     }
 
     /**
@@ -710,11 +653,7 @@ class Adldap
      */
     public function contact()
     {
-        if (! $this->contactClass) {
-            $this->contactClass = new AdldapContacts($this);
-        }
-
-        return $this->contactClass;
+        return new AdldapContacts($this);
     }
 
     /**
@@ -724,11 +663,7 @@ class Adldap
      */
     public function exchange()
     {
-        if (! $this->exchangeClass) {
-            $this->exchangeClass = new AdldapExchange($this);
-        }
-
-        return $this->exchangeClass;
+        return new AdldapExchange($this);
     }
 
     /**
@@ -738,11 +673,7 @@ class Adldap
      */
     public function computer()
     {
-        if (! $this->computerClass) {
-            $this->computerClass = new AdldapComputers($this);
-        }
-
-        return $this->computerClass;
+        return new AdldapComputers($this);
     }
 
     /**
@@ -764,16 +695,21 @@ class Adldap
      */
     public function connect()
     {
-        $domainController = $this->randomController();
+        // Select a random domain controller
+        $domainController = $this->domainControllers[array_rand($this->domainControllers)];
 
+        // Get the LDAP port
         $port = $this->getPort();
 
+        // Create the LDAP connection
         $this->ldapConnection->connect($domainController, $port);
 
+        // Set the LDAP options
         $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
 
-        return $this->performBindings();
+        // Authenticate to the server
+        return $this->authenticate($this->getAdminUsername(), $this->getAdminPassword(), true);
     }
 
     /**
@@ -804,40 +740,48 @@ class Adldap
         $this->utilities()->validateNotNullOrEmpty('Username', $username);
         $this->utilities()->validateNotNullOrEmpty('Password', $password);
 
-        $remoteUser = $this->getRemoteUserInput();
-        $kerberos = $this->getKerberosAuthInput();
-
-        // Allow binding over SSO for Kerberos
-        if ($this->getUseSSO() && $remoteUser && $remoteUser == $username && $this->getAdminUsername() === null && $kerberos) {
-            return $this->bindUsingKerberos($kerberos);
-        }
-
-        // Bind as the user
-        $ret = true;
+        $auth = false;
 
         try {
-            $this->bindUsingCredentials($username, $password);
-        } catch (AdldapException $e) {
-            $ret = false;
-        }
+            if ($this->getUseSSO()) {
+                // If SSO is enabled, we'll try binding over kerberos
+                $remoteUser = $this->getRemoteUserInput();
+                $kerberos = $this->getKerberosAuthInput();
 
-        if ($preventRebind) {
-            return $ret;
-        } else {
-            $adminUsername = $this->getAdminUsername();
-            $adminPassword = $this->getAdminPassword();
-
-            if ($adminUsername !== null && $adminPassword !== null) {
-                $bound = $this->bindUsingCredentials($adminUsername, $adminPassword);
-
-                if (! $bound) {
-                    // This should never happen in theory
-                    throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError());
+                /*
+                 * If the remote user input equals the username we're
+                 * trying to authenticate, we'll perform the bind
+                 */
+                if($remoteUser == $username) {
+                    $auth = $this->bindUsingKerberos($kerberos);
                 }
+            } else {
+                // Looks like SSO isn't enabled, we'll bind regularly instead
+                $auth = $this->bindUsingCredentials($username, $password);
+            }
+        } catch(AdldapException $e) {
+            if($preventRebind === true) {
+                /*
+                 * Binding failed and we're not allowed
+                 * to rebind, we'll return false
+                 */
+                return $auth;
             }
         }
 
-        return $ret;
+        // If we're allowed to rebind, we'll rebind as administrator
+        if($preventRebind === false) {
+            $adminUsername = $this->getAdminUsername();
+            $adminPassword = $this->getAdminPassword();
+
+            $this->bindUsingCredentials($adminUsername, $adminPassword);
+
+            if (! $this->ldapConnection->isBound()) {
+                throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError());
+            }
+        }
+
+        return $auth;
     }
 
     /**
@@ -907,22 +851,11 @@ class Adldap
      */
     public function getLastError()
     {
-        if ($this->ldapConnection) {
+        if ($this->ldapConnection instanceof ConnectionInterface) {
             return $this->ldapConnection->getLastError();
         }
-    }
 
-    /**
-     * Returns an LDAP compatible schema array for modifications.
-     *
-     * @param array $attributes Attributes to be queried
-     *
-     * @return array|bool
-     * @depreciated Depreciated as of 5.0 in favor of ldapSchema function
-     */
-    public function adldap_schema(array $attributes)
-    {
-        return $this->ldapSchema($attributes);
+        return false;
     }
 
     /**
@@ -975,51 +908,6 @@ class Adldap
     }
 
     /**
-     * Select a random domain controller from your domain controller array.
-     *
-     * @return string
-     */
-    protected function randomController()
-    {
-        return $this->domainControllers[array_rand($this->domainControllers)];
-    }
-
-    /**
-     * Performs the LDAP bindings after a connection is made.
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    private function performBindings()
-    {
-        $adminUsername = $this->getAdminUsername();
-        $adminPassword = $this->getAdminPassword();
-
-        // Bind as a domain admin if it's set it up
-        if ($adminUsername !== null && $adminPassword !== null) {
-            $this->bindUsingCredentials($adminUsername, $adminPassword);
-        }
-
-        $useSSO = $this->getUseSSO();
-
-        $remoteUser = $this->getRemoteUserInput();
-        $kerberosAuth = $this->getKerberosAuthInput();
-
-        // Bind using kerberos if it's set up
-        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth) {
-            return $this->bindUsingKerberos($kerberosAuth);
-        }
-
-        // Set the Base DN if one isn't given
-        if (! $this->getBaseDn()) {
-            $this->setBaseDn($this->findBaseDn());
-        }
-
-        return $this->ldapConnection->isBound();
-    }
-
-    /**
      * Binds to the current connection using kerberos.
      *
      * @param $kerberosCredentials
@@ -1034,7 +922,7 @@ class Adldap
         $bound = $this->ldapConnection->bind(null, null, true);
 
         if (! $bound) {
-            $message = 'Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError();
+            $message = 'Bind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError();
 
             throw new AdldapException($message);
         }

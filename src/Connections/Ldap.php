@@ -16,20 +16,6 @@ class Ldap implements ConnectionInterface
     use LdapFunctionSupportTrait;
 
     /**
-     * The SSL LDAP protocol string.
-     *
-     * @var string
-     */
-    const PROTOCOL_SSL = 'ldaps://';
-
-    /**
-     * The non-SSL LDAP protocol string.
-     *
-     * @var string
-     */
-    const PROTOCOL = 'ldap://';
-
-    /**
      * Stores the bool to tell the connection
      * whether or not to use SSL.
      *

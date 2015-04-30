@@ -13,6 +13,34 @@ namespace Adldap\Interfaces;
 interface ConnectionInterface
 {
     /**
+     * The SSL LDAP protocol string.
+     *
+     * @var string
+     */
+    const PROTOCOL_SSL = 'ldaps://';
+
+    /**
+     * The non-SSL LDAP protocol string.
+     *
+     * @var string
+     */
+    const PROTOCOL = 'ldap://';
+
+    /**
+     * The LDAP SSL Port number.
+     *
+     * @var string
+     */
+    const PORT_SSL = '636';
+
+    /**
+     * The non SSL LDAP port number.
+     *
+     * @var string
+     */
+    const PORT = '389';
+
+    /**
      * Returns true / false if the
      * current connection is supported
      * on the current PHP install.

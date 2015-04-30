@@ -35,21 +35,18 @@ class Adldap
     const ADLDAP_CONTAINER = 'CN';
 
     /**
-     * The default port for LDAP non-SSL connections.
+     * The Adldap version number.
+     *
+     * @var string
      */
-    const ADLDAP_LDAP_PORT = '389';
-
-    /**
-     * The default port for LDAPS SSL connections.
-     */
-    const ADLDAP_LDAPS_PORT = '636';
+    const VERSION = '5.0.0';
 
     /**
      * The account suffix for your domain, can be set when the class is invoked.
      *
      * @var string
      */
-    protected $accountSuffix = '@mydomain.local';
+    protected $accountSuffix = '';
 
     /**
      * The base dn for your domain.
@@ -79,7 +76,7 @@ class Adldap
      *
      * @var string
      */
-    protected $adPort = self::ADLDAP_LDAP_PORT;
+    protected $adPort = ConnectionInterface::PORT;
 
     /**
      * Array of domain controllers. Specifiy multiple controllers if you
@@ -87,7 +84,7 @@ class Adldap
      *
      * @var array
      */
-    protected $domainControllers = ['dc01.mydomain.local'];
+    protected $domainControllers = [];
 
     /**
      * AD does not return the primary group. http://support.microsoft.com/?kbid=321360
@@ -496,9 +493,9 @@ class Adldap
         if ($useSSL) {
             $this->ldapConnection->useSSL();
 
-            $this->setPort(self::ADLDAP_LDAPS_PORT);
+            $this->setPort(ConnectionInterface::PORT_SSL);
         } else {
-            $this->setPort(self::ADLDAP_LDAP_PORT);
+            $this->setPort(ConnectionInterface::PORT);
         }
     }
 
@@ -599,9 +596,7 @@ class Adldap
     }
 
     /**
-     * Retrieve the group class with the current LDAP connection.
-     * This will set the groupClass property with a new group class
-     * instance if it has not been set.
+     * Returns a new AdldapGroups instance.
      *
      * @return AdldapGroups
      */
@@ -611,9 +606,7 @@ class Adldap
     }
 
     /**
-     * Retrieve the current user class with the current LDAP connection.
-     * This will set the userClass property with a new user class instance
-     * if it has not been set.
+     * Returns a new AdldapUsers instance.
      *
      * @return AdldapUsers
      */
@@ -623,9 +616,7 @@ class Adldap
     }
 
     /**
-     * Retrieve the current folder class with the current LDAP connection.
-     * This will set the folderClass property with a new folder class instance
-     * if it has not been set.
+     * Returns a new AdldapFolders instance.
      *
      * @return AdldapFolders
      */
@@ -635,9 +626,7 @@ class Adldap
     }
 
     /**
-     * Retrieves the current utility class with the current LDAP connection.
-     * This will set the utilClass property with a new utility class instance
-     * if it has not been set.
+     * Returns a new AdldapUtils instance.
      *
      * @return AdldapUtils
      */
@@ -647,9 +636,7 @@ class Adldap
     }
 
     /**
-     * Retrieves the current contact class with the current LDAP connection.
-     * This will set the contactClass property with a new contacts class instance
-     * if it has not been set.
+     * Returns a new AdldapContacts instance.
      *
      * @return AdldapContacts
      */
@@ -659,7 +646,7 @@ class Adldap
     }
 
     /**
-     * Get the exchange class interface.
+     * Returns a new AdldapExchange instance.
      *
      * @return AdldapExchange
      */
@@ -669,7 +656,7 @@ class Adldap
     }
 
     /**
-     * Get the computers class interface.
+     * Returns a new AdldapComputers instance.
      *
      * @return AdldapComputers
      */
@@ -679,7 +666,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Adldap Search object.
+     * Returns a new AdldapSearch instance.
      *
      * @return AdldapSearch
      */

@@ -12,13 +12,6 @@ use Adldap\Exceptions\AdldapException;
 class AdldapUtils extends AbstractAdldapBase
 {
     /**
-     * The current Adldap Version.
-     *
-     * @var string
-     */
-    const ADLDAP_VERSION = '5.0.0';
-
-    /**
      * Take an LDAP query and return the nice names, without all the LDAP prefixes (eg. CN, DN).
      *
      * @param array $groups

@@ -219,11 +219,13 @@ class Adldap
     /**
      * Destructor.
      *
-     * Closes the current LDAP connection.
+     * Closes the current LDAP connection if it exists.
      */
     public function __destruct()
     {
-        $this->close();
+        if ($this->ldapConnection instanceof ConnectionInterface) {
+            $this->ldapConnection->close();
+        }
     }
 
     /**
@@ -710,18 +712,6 @@ class Adldap
 
         // Authenticate to the server
         return $this->authenticate($this->getAdminUsername(), $this->getAdminPassword(), true);
-    }
-
-    /**
-     * Closes the LDAP connection if a current connection exists.
-     *
-     * @return bool
-     */
-    public function close()
-    {
-        if ($this->ldapConnection instanceof ConnectionInterface) {
-            $this->ldapConnection->close();
-        }
     }
 
     /**

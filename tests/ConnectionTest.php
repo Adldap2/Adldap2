@@ -96,4 +96,18 @@ class ConnectionTest extends FunctionalTestCase
 
         $this->assertEquals($expected, $result);
     }
+    
+    public function testUnescape()
+    {
+        $ldap = $this->mock('Adldap\Connections\Ldap')->makePartial();
+
+        $toEscape = 'test!@#$%^&*()';
+
+        $expectedEscaped = '\74\65\73\74\21\40\23\24\25\5e\26\2a\28\29';
+
+        $escaped = $ldap->escape($toEscape);
+
+        $this->assertEquals($expectedEscaped, $escaped);
+        $this->assertEquals($toEscape, $ldap->unescape($escaped));
+    }
 }

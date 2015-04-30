@@ -83,17 +83,6 @@ class AdldapUtilityTest extends FunctionalTestCase
         $this->assertTrue($utility->validateNotEmpty('Not Empty', $notEmpty));
     }
 
-    public function testUtilityLdapSlashes()
-    {
-        $utility = $this->newUtilityMock()->makePartial();
-
-        $unescaped = '\ Testing **';
-
-        $escaped = $utility->ldapSlashes($unescaped);
-
-        $this->assertEquals('\5c Testing \2a\2a', $escaped);
-    }
-
     public function testUtilityStrGuidToHex()
     {
         $utility = $this->newUtilityMock()->makePartial();

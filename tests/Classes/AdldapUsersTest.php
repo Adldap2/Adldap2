@@ -61,9 +61,8 @@ class AdldapUsersTest extends FunctionalTestCase
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
-        $this->connectionMock
-            ->shouldReceive('add')->andReturn(true)
-            ->shouldReceive('close')->andReturn(true);
+        $this->connectionMock->shouldReceive('add')->andReturn(true);
+        $this->connectionMock->shouldReceive('close')->andReturn(true);
 
         $this->userClassMock->create($attributes);
     }
@@ -95,9 +94,11 @@ class AdldapUsersTest extends FunctionalTestCase
             'userAccountControl' => [0 => 514]
         ];
 
-        $this->connectionMock
-            ->shouldReceive('add')->andReturn(true)
-            ->shouldReceive('close')->andReturn(true);
+        $this->connectionMock->shouldReceive('escape');
+        $this->connectionMock->shouldReceive('getEntries');
+        $this->connectionMock->shouldReceive('read');
+        $this->connectionMock->shouldReceive('add');
+        $this->connectionMock->shouldReceive('close');
 
         $this->userClassMock->create($attributes);
     }

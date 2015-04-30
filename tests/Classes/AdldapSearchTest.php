@@ -134,9 +134,10 @@ class AdldapSearchTest extends AdldapBaseTest
         ];
 
         $connection
-            ->shouldReceive('escape')->once()->andReturn('*')
+            ->shouldReceive('escape')->twice()->andReturn('*')
+            ->shouldReceive('read')->once()->andReturn('DN')
             ->shouldReceive('search')->once()->andReturn('resource')
-            ->shouldReceive('getEntries')->once()->andReturn($results)
+            ->shouldReceive('getEntries')->twice()->andReturn($results)
             ->shouldReceive('close')->once()->andReturn(true);
 
         $expected = [
@@ -167,9 +168,10 @@ class AdldapSearchTest extends AdldapBaseTest
         ];
 
         $connection
-            ->shouldReceive('escape')->once()->andReturn('*')
+            ->shouldReceive('escape')->twice()->andReturn('DN')
+            ->shouldReceive('read')->once()->andReturn('DN')
             ->shouldReceive('search')->once()->andReturn('resource')
-            ->shouldReceive('getEntries')->once()->andReturn($ldapResults)
+            ->shouldReceive('getEntries')->twice()->andReturn($ldapResults)
             ->shouldReceive('close')->once()->andReturn(true);
 
         $expected = [
@@ -192,6 +194,8 @@ class AdldapSearchTest extends AdldapBaseTest
         $search = new AdldapSearch($ad);
 
         $connection
+            ->shouldReceive('escape')->once()->andReturn('DN')
+            ->shouldReceive('read')->once()
             ->shouldReceive('search')->once()->andReturn('resource')
             ->shouldReceive('getEntries')->once()->andReturn([])
             ->shouldReceive('close')->once()->andReturn(true);
@@ -210,6 +214,8 @@ class AdldapSearchTest extends AdldapBaseTest
         $search->recursive(false);
         
         $connection
+            ->shouldReceive('escape')->once()->andReturn('DN')
+            ->shouldReceive('read')->once()
             ->shouldReceive('listing')->once()->andReturn('resource')
             ->shouldReceive('getEntries')->once()->andReturn([])
             ->shouldReceive('close')->once()->andReturn(true);

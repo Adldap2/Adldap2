@@ -20,9 +20,9 @@ class AdldapLiveTest extends FunctionalTestCase
 
             'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
 
-            'admin_username' => '',
+            'admin_username' => null,
 
-            'admin_password' => '',
+            'admin_password' => null,
         ];
 
         $ad = new Adldap($config);

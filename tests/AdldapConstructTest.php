@@ -80,21 +80,20 @@ class AdldapConstructTest extends FunctionalTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $connection
-            ->shouldReceive('isSupported')->andReturn(true)
-            ->shouldReceive('isSaslSupported')->andReturn(true)
-            ->shouldReceive('useSSO')->andReturn(true)
-            ->shouldReceive('useSSL')->andReturn(true)
-            ->shouldReceive('useTLS')->andReturn(true)
-            ->shouldReceive('startTLS')->andReturn(true)
-            ->shouldReceive('isUsingSSL')->andReturn(true)
-            ->shouldReceive('isUsingTLS')->andReturn(true)
-            ->shouldReceive('isUsingSSO')->andReturn(true)
-            ->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
-            ->shouldReceive('bind')->once()->andReturn('resource')
-            ->shouldReceive('isBound')->twice()->andReturn(true)
-            ->shouldReceive('close')->andReturn(true);
+        $connection->shouldReceive('isSupported')->andReturn(true);
+        $connection->shouldReceive('isSaslSupported')->andReturn(true);
+        $connection->shouldReceive('useSSO')->andReturn(true);
+        $connection->shouldReceive('useSSL')->andReturn(true);
+        $connection->shouldReceive('useTLS')->andReturn(true);
+        $connection->shouldReceive('startTLS')->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->andReturn(true);
+        $connection->shouldReceive('isUsingTLS')->andReturn(true);
+        $connection->shouldReceive('isUsingSSO')->andReturn(true);
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('bind')->andReturn('resource');
+        $connection->shouldReceive('isBound')->andReturn(true);
+        $connection->shouldReceive('close')->andReturn(true);
 
         $ad = new Adldap($this->configStub, $connection);
 
@@ -130,18 +129,17 @@ class AdldapConstructTest extends FunctionalTestCase
          * This demonstrates the entire walk-through of each
          * method on the connection when SSO is enabled
          */
-        $connection
-            ->shouldReceive('isSupported')->andReturn(true)
-            ->shouldReceive('isSaslSupported')->andReturn(true)
-            ->shouldReceive('useSSO')->andReturn(true)
-            ->shouldReceive('isUsingSSL')->andReturn(false)
-            ->shouldReceive('isUsingTLS')->andReturn(false)
-            ->shouldReceive('isUsingSSO')->andReturn(true)
-            ->shouldReceive('connect')->andReturn(true)
-            ->shouldReceive('setOption')->twice()
-            ->shouldReceive('bind')->andReturn('resource')
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('close')->andReturn(true);
+        $connection->shouldReceive('isSupported')->andReturn(true);
+        $connection->shouldReceive('isSaslSupported')->andReturn(true);
+        $connection->shouldReceive('useSSO')->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->andReturn(false);
+        $connection->shouldReceive('isUsingTLS')->andReturn(false);
+        $connection->shouldReceive('isUsingSSO')->andReturn(true);
+        $connection->shouldReceive('connect')->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('bind')->andReturn('resource');
+        $connection->shouldReceive('isBound')->andReturn(true);
+        $connection->shouldReceive('close')->andReturn(true);
 
         $ad = new Adldap($config, $connection);
 

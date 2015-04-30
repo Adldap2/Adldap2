@@ -727,9 +727,6 @@ class Adldap
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
-        $this->utilities()->validateNotNullOrEmpty('Username', $username);
-        $this->utilities()->validateNotNullOrEmpty('Password', $password);
-
         $auth = false;
 
         try {

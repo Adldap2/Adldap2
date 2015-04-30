@@ -53,32 +53,6 @@ class AdldapUtils extends AbstractAdldapBase
     }
 
     /**
-     * Escape strings for the use in LDAP filters.
-     *
-     * DEVELOPERS SHOULD BE DOING PROPER FILTERING IF THEY'RE ACCEPTING USER INPUT
-     * Ported from Perl's Net::LDAP::Util escape_filter_value
-     *
-     * @param string $str
-     *
-     * @author Port by Andreas Gohr <andi@splitbrain.org>
-     * @author Modified for PHP55 by Esteban Santana Santana <MentalPower@GMail.com>
-     *
-     * @return mixed
-     *
-     * @depreciated
-     */
-    public function ldapSlashes($str)
-    {
-        return preg_replace_callback(
-              '/([\x00-\x1F\*\(\)\\\\])/',
-            function ($matches) {
-                return "\\".implode('', unpack('H2', $matches[1]));
-            },
-            $str
-        );
-    }
-
-    /**
      * Converts a string GUID to a hexdecimal value so it can be queried.
      *
      * @param string $strGUID A string representation of a GUID
@@ -228,7 +202,6 @@ class AdldapUtils extends AbstractAdldapBase
      *
      * @param $item
      * @param $key
-     * @depreciated Not finished from original developers?
      */
     public function encode8Bit(&$item, $key)
     {
@@ -247,16 +220,6 @@ class AdldapUtils extends AbstractAdldapBase
         if ($encode === true && $key != 'password') {
             $item = utf8_encode($item);
         }
-    }
-
-    /**
-     * Get the current class version number.
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return self::ADLDAP_VERSION;
     }
 
     /**

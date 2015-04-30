@@ -93,7 +93,7 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOption')->twice()->andReturn(true)
             ->shouldReceive('bind')->once()->andReturn('resource')
-            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('isBound')->twice()->andReturn(true)
             ->shouldReceive('close')->andReturn(true);
 
         $ad = new Adldap($this->configStub, $connection);
@@ -140,6 +140,7 @@ class AdldapConstructTest extends FunctionalTestCase
             ->shouldReceive('connect')->andReturn(true)
             ->shouldReceive('setOption')->twice()
             ->shouldReceive('bind')->andReturn('resource')
+            ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->andReturn(true);
 
         $ad = new Adldap($config, $connection);

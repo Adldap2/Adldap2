@@ -764,48 +764,16 @@ class Adldap
      */
     public function connect()
     {
-        // Connect to the AD/LDAP server as the username/password
         $domainController = $this->randomController();
 
-        $adminUsername = $this->getAdminUsername();
-        $adminPassword = $this->getAdminPassword();
-
-        $useSSL = $this->getUseSSL();
-        $useTLS = $this->getUseTLS();
-        $useSSO = $this->getUseSSO();
-
         $port = $this->getPort();
-
-        if ($useSSL) {
-            $this->ldapConnection->useSSL();
-        }
 
         $this->ldapConnection->connect($domainController, $port);
 
         $this->ldapConnection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->ldapConnection->setOption(LDAP_OPT_REFERRALS, $this->followReferrals);
 
-        if ($useTLS) {
-            $this->ldapConnection->startTLS();
-        }
-
-        // Bind as a domain admin if they've set it up
-        if ($adminUsername !== null && $adminPassword !== null) {
-            $this->bindUsingCredentials($adminUsername, $adminPassword);
-        }
-
-        $remoteUser = $this->getRemoteUserInput();
-        $kerberosAuth = $this->getKerberosAuthInput();
-
-        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth) {
-            return $this->bindUsingKerberos($kerberosAuth);
-        }
-
-        if (! $this->getBaseDn()) {
-            $this->setBaseDn($this->findBaseDn());
-        }
-
-        return true;
+        return $this->performBindings();
     }
 
     /**
@@ -815,7 +783,7 @@ class Adldap
      */
     public function close()
     {
-        if ($this->ldapConnection) {
+        if ($this->ldapConnection instanceof ConnectionInterface) {
             $this->ldapConnection->close();
         }
     }
@@ -1014,6 +982,41 @@ class Adldap
     protected function randomController()
     {
         return $this->domainControllers[array_rand($this->domainControllers)];
+    }
+
+    /**
+     * Performs the LDAP bindings after a connection is made.
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     */
+    private function performBindings()
+    {
+        $adminUsername = $this->getAdminUsername();
+        $adminPassword = $this->getAdminPassword();
+
+        // Bind as a domain admin if it's set it up
+        if ($adminUsername !== null && $adminPassword !== null) {
+            $this->bindUsingCredentials($adminUsername, $adminPassword);
+        }
+
+        $useSSO = $this->getUseSSO();
+
+        $remoteUser = $this->getRemoteUserInput();
+        $kerberosAuth = $this->getKerberosAuthInput();
+
+        // Bind using kerberos if it's set up
+        if ($useSSO && $remoteUser && ! $adminUsername && $kerberosAuth) {
+            return $this->bindUsingKerberos($kerberosAuth);
+        }
+
+        // Set the Base DN if one isn't given
+        if (! $this->getBaseDn()) {
+            $this->setBaseDn($this->findBaseDn());
+        }
+
+        return $this->ldapConnection->isBound();
     }
 
     /**

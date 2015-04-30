@@ -96,7 +96,7 @@ class ConnectionTest extends FunctionalTestCase
 
         $this->assertEquals($expected, $result);
     }
-    
+
     public function testUnescape()
     {
         $ldap = $this->mock('Adldap\Connections\Ldap')->makePartial();

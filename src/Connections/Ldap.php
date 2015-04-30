@@ -821,7 +821,7 @@ class Ldap implements ConnectionInterface
             return chr(hexdec($matches[1]));
         };
 
-        return preg_replace_callback("/\\\([0-9A-Fa-f]{2})/", $callback, $value);
+        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', $callback, $value);
     }
 
     /**

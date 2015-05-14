@@ -765,7 +765,7 @@ class Ldap implements ConnectionInterface
      * @param int $flags
      * @return bool|mixed
      */
-    protected function escapeManualWithFlags($value, $ignore = '*', $flags = 0)
+    protected function escapeManualWithFlags($value, $ignore = '', $flags = 0)
     {
         // Convert ignore string into an array
         $ignores = str_split($ignore);

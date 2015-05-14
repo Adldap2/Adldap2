@@ -29,8 +29,7 @@ class AdldapUtils extends AbstractAdldapBase
                 // Assuming the zero key is the CN
                 $groupNames[] = $explodedDn[0];
             }
-        } elseif (is_string($groups))
-        {
+        } elseif (is_string($groups)) {
             // If there's a single entry, groups will be a string
             $explodedDn = $this->connection->explodeDn($groups);
 
@@ -72,7 +71,7 @@ class AdldapUtils extends AbstractAdldapBase
         $octet_str .= '\\'.substr($strGUID, 14, 2);
         $octet_str .= '\\'.substr($strGUID, 12, 2);
 
-        $length = (strlen($strGUID)-2);
+        $length = (strlen($strGUID) - 2);
 
         for ($i = 16; $i <= $length; $i++) {
             if (($i % 2) == 0) {
@@ -262,7 +261,7 @@ class AdldapUtils extends AbstractAdldapBase
      */
     public function validateBcmodExists()
     {
-        if (! function_exists('bcmod')) {
+        if (!function_exists('bcmod')) {
             $message = 'Missing function support [bcmod] http://php.net/manual/en/function.bcmod.php';
 
             throw new AdldapException($message);
@@ -345,7 +344,7 @@ class AdldapUtils extends AbstractAdldapBase
      */
     public function validateNotEmpty($parameter, $value)
     {
-        if (! empty($value)) {
+        if (!empty($value)) {
             return true;
         }
 

@@ -6,8 +6,7 @@ use Adldap\Exceptions\InvalidQueryOperator;
 use Adldap\Interfaces\ConnectionInterface;
 
 /**
- * Class Builder
- * @package Adldap\Query
+ * Class Builder.
  */
 class Builder
 {
@@ -80,7 +79,7 @@ class Builder
     public function get()
     {
         // Return the query if it exists
-        if (! empty($this->query)) {
+        if (!empty($this->query)) {
             return $this->query;
         }
 
@@ -199,7 +198,7 @@ class Builder
     public function getQuery()
     {
         // Return the query if it exists
-        if (! empty($this->query)) {
+        if (!empty($this->query)) {
             return $this->query;
         }
 
@@ -273,7 +272,7 @@ class Builder
      */
     private function buildDoesNotEqual($field, $value)
     {
-        return $this::$open . Operator::$doesNotEqual . $this->buildEquals($field, $value) . $this::$close;
+        return $this::$open.Operator::$doesNotEqual.$this->buildEquals($field, $value).$this::$close;
     }
 
     /**
@@ -288,7 +287,7 @@ class Builder
      */
     private function buildEquals($field, $value)
     {
-        return $this::$open . $field.Operator::$equals . $value . $this::$close;
+        return $this::$open.$field.Operator::$equals.$value.$this::$close;
     }
 
     /**
@@ -303,7 +302,7 @@ class Builder
      */
     private function buildGreaterThanOrEquals($field, $value)
     {
-        return $this::$open . $field.Operator::$greaterThanOrEqual . $value . $this::$close;
+        return $this::$open.$field.Operator::$greaterThanOrEqual.$value.$this::$close;
     }
 
     /**
@@ -318,7 +317,7 @@ class Builder
      */
     private function buildLessThanOrEquals($field, $value)
     {
-        return $this::$open . $field.Operator::$lessThanOrEqual . $value . $this::$close;
+        return $this::$open.$field.Operator::$lessThanOrEqual.$value.$this::$close;
     }
 
     /**
@@ -333,7 +332,7 @@ class Builder
      */
     private function buildApproximatelyEquals($field, $value)
     {
-        return $this::$open . $field . Operator::$approximateEqual . $value . $this::$close;
+        return $this::$open.$field.Operator::$approximateEqual.$value.$this::$close;
     }
 
     /**
@@ -348,11 +347,11 @@ class Builder
      */
     private function buildStartsWith($field, $value)
     {
-        return $this::$open . $field . Operator::$equals . $value . Operator::$wildcard . $this::$close;
+        return $this::$open.$field.Operator::$equals.$value.Operator::$wildcard.$this::$close;
     }
 
     /**
-     * Returns a query string for ends with
+     * Returns a query string for ends with.
      *
      * Produces: (field=*value)
      *
@@ -363,7 +362,7 @@ class Builder
      */
     private function buildEndsWith($field, $value)
     {
-        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $value . $this::$close;
+        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$value.$this::$close;
     }
 
     /**
@@ -378,7 +377,7 @@ class Builder
      */
     private function buildContains($field, $value)
     {
-        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $value . Operator::$wildcard . $this::$close;
+        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$value.Operator::$wildcard.$this::$close;
     }
 
     /**
@@ -392,7 +391,7 @@ class Builder
      */
     private function buildWildcard($field)
     {
-        return $this::$open . $field . Operator::$equals . Operator::$wildcard . $this::$close;
+        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$this::$close;
     }
 
     /**
@@ -406,7 +405,7 @@ class Builder
      */
     private function buildAnd($query)
     {
-        return $this::$open . Operator::$and . $query . $this::$close;
+        return $this::$open.Operator::$and.$query.$this::$close;
     }
 
     /**
@@ -420,7 +419,7 @@ class Builder
      */
     private function buildOr($query)
     {
-        return $this::$open . Operator::$or . $query . $this::$close;
+        return $this::$open.Operator::$or.$query.$this::$close;
     }
 
     /**
@@ -537,8 +536,7 @@ class Builder
      */
     private function assembleWhere($where = array())
     {
-        if(is_array($where))
-        {
+        if (is_array($where)) {
             switch ($where['operator']) {
                 case Operator::$equals:
                     return $this->buildEquals($where['field'], $where['value']);
@@ -561,7 +559,7 @@ class Builder
             }
         }
 
-        return null;
+        return;
     }
 
     /**

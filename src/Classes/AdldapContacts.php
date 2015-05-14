@@ -42,7 +42,7 @@ class AdldapContacts extends AbstractAdldapQueryable
         $add['objectclass'][2] = 'organizationalPerson';
         $add['objectclass'][3] = 'contact';
 
-        if (! $contact->hasAttribute('exchange_hidefromlists')) {
+        if (!$contact->hasAttribute('exchange_hidefromlists')) {
             $add['msExchHideFromAddressLists'][0] = 'TRUE';
         }
 
@@ -62,7 +62,7 @@ class AdldapContacts extends AbstractAdldapQueryable
      * attribute you must not specify any other attributes.
      *
      * @param string $contactName The contact to query
-     * @param array  $attributes        The attributes to modify
+     * @param array  $attributes  The attributes to modify
      *
      * @return bool|string
      */
@@ -70,12 +70,12 @@ class AdldapContacts extends AbstractAdldapQueryable
     {
         $contactDn = $this->dn($contactName);
 
-        if($contactDn) {
+        if ($contactDn) {
             // Translate the update to the LDAP schema
             $mod = $this->adldap->ldapSchema($attributes);
 
             // Check to see if this is an enabled status update
-            if (! $mod) {
+            if (!$mod) {
                 return false;
             }
 
@@ -89,9 +89,9 @@ class AdldapContacts extends AbstractAdldapQueryable
     /**
      * Mail enable a contact. Allows email to be sent to them through Exchange.
      *
-     * @param string $contactName The contacts name
+     * @param string $contactName  The contacts name
      * @param string $emailAddress The contacts email address
-     * @param null $mailNickname
+     * @param null   $mailNickname
      *
      * @return bool
      */
@@ -99,7 +99,7 @@ class AdldapContacts extends AbstractAdldapQueryable
     {
         $contactDn = $this->dn($contactName);
 
-        if($contactDn) {
+        if ($contactDn) {
             return $this->adldap->exchange()->contactMailEnable($contactDn, $emailAddress, $mailNickname);
         }
 

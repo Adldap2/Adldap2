@@ -3,7 +3,7 @@
 namespace Adldap\Traits;
 
 /**
- * Class LdapFunctionSupportTrait
+ * Class LdapFunctionSupportTrait.
  */
 trait LdapFunctionSupportTrait
 {

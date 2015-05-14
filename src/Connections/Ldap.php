@@ -127,7 +127,7 @@ class Ldap implements ConnectionInterface
      */
     public function canChangePasswords()
     {
-        if (! $this->isUsingSSL() && ! $this->isUsingTLS()) {
+        if (!$this->isUsingSSL() && !$this->isUsingTLS()) {
             return false;
         }
 
@@ -696,7 +696,7 @@ class Ldap implements ConnectionInterface
      */
     public function escape($value, $ignore = '', $flags = 0)
     {
-        if (! $this->isEscapingSupported()) {
+        if (!$this->isEscapingSupported()) {
             return $this->escapeManual($value, $ignore, $flags);
         }
 
@@ -708,7 +708,7 @@ class Ldap implements ConnectionInterface
      *
      * @param string $value
      * @param string $ignore
-     * @param int $flags
+     * @param int    $flags
      *
      * @return string
      */
@@ -719,7 +719,7 @@ class Ldap implements ConnectionInterface
          * off to be escaped using the PHP flag values
          * and return the result.
          */
-        if($flags) {
+        if ($flags) {
             return $this->escapeManualWithFlags($value, $ignore, $flags);
         }
 
@@ -733,22 +733,21 @@ class Ldap implements ConnectionInterface
          * Separate the string, with the hex length of 2,
          * and place a backslash on the end of each section
          */
-        $value = chunk_split($hex, 2, "\\");
+        $value = chunk_split($hex, 2, '\\');
 
         /*
          * We'll append a backslash at the front of the string
          * and remove the ending backslash of the string
          */
-        $value = "\\" . substr($value, 0, -1);
+        $value = '\\'.substr($value, 0, -1);
 
         // Go through each character to ignore
-        foreach($ignores as $charToIgnore)
-        {
+        foreach ($ignores as $charToIgnore) {
             // Convert the character to ignore to a hex
             $hexed = bin2hex($charToIgnore);
 
             // Replace the hexed variant with the original character
-            $value = str_replace("\\" . $hexed, $charToIgnore, $value);
+            $value = str_replace('\\'.$hexed, $charToIgnore, $value);
         }
 
         // Finally we can return the escaped value
@@ -757,12 +756,13 @@ class Ldap implements ConnectionInterface
 
     /**
      * Escapes the inserted value with flags. Supplying either 1
-     * or 2 into the flags parameter will escape only certain values
+     * or 2 into the flags parameter will escape only certain values.
      *
      *
      * @param string $value
      * @param string $ignore
-     * @param int $flags
+     * @param int    $flags
+     *
      * @return bool|mixed
      */
     protected function escapeManualWithFlags($value, $ignore = '', $flags = 0)
@@ -773,8 +773,7 @@ class Ldap implements ConnectionInterface
         $escapeFilter = ['\\', '*', '(', ')'];
         $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
 
-        switch($flags)
-        {
+        switch ($flags) {
             case 1:
                 // Int 1 equals to LDAP_ESCAPE_FILTER
                 $escapes = $escapeFilter;
@@ -791,14 +790,12 @@ class Ldap implements ConnectionInterface
                 return false;
         }
 
-        foreach($escapes as $escape)
-        {
+        foreach ($escapes as $escape) {
             // Make sure the escaped value isn't being ignored
-            if( ! in_array($escape, $ignores))
-            {
-                $hexed = chunk_split(bin2hex($escape), 2, "\\");
+            if (!in_array($escape, $ignores)) {
+                $hexed = chunk_split(bin2hex($escape), 2, '\\');
 
-                $hexed = "\\" . substr($hexed, 0, -1);
+                $hexed = '\\'.substr($hexed, 0, -1);
 
                 $value = str_replace($escape, $hexed, $value);
             }
@@ -845,7 +842,7 @@ class Ldap implements ConnectionInterface
     {
         preg_match('/^([\da-fA-F]+):/', $message, $matches);
 
-        if (! isset($matches[1])) {
+        if (!isset($matches[1])) {
             return false;
         }
 

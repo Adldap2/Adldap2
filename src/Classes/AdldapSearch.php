@@ -9,8 +9,7 @@ use Adldap\Query\Builder;
 use Adldap\Adldap;
 
 /**
- * Class AdldapSearch
- * @package Adldap\Classes
+ * Class AdldapSearch.
  */
 class AdldapSearch extends AbstractAdldapBase
 {
@@ -87,7 +86,7 @@ class AdldapSearch extends AbstractAdldapBase
         if ($this->read) {
             // If read is true, we'll perform a read search, retrieving one record
             $results = $this->connection->read($this->getDn(), $query, $this->getSelects());
-        } else if($this->recursive) {
+        } elseif ($this->recursive) {
             // If recursive is true, we'll perform a recursive search
             $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
         } else {
@@ -151,7 +150,7 @@ class AdldapSearch extends AbstractAdldapBase
 
                 $pages[] = $results;
             }
-        } while ($cookie !== null && ! empty($cookie));
+        } while ($cookie !== null && !empty($cookie));
 
         if (count($pages) > 0) {
             return $this->processPaginatedResults($pages, $perPage, $currentPage);
@@ -315,7 +314,7 @@ class AdldapSearch extends AbstractAdldapBase
      */
     public function setDn($dn)
     {
-        if($dn === null) {
+        if ($dn === null) {
             $this->dn = null;
         } else {
             $this->dn = (string) $dn;
@@ -334,9 +333,9 @@ class AdldapSearch extends AbstractAdldapBase
      */
     public function getDn()
     {
-        if($this->dn === null) {
+        if ($this->dn === null) {
             return $this->dn;
-        } else if (empty($this->dn)) {
+        } elseif (empty($this->dn)) {
             return $this->adldap->getBaseDn();
         }
 
@@ -385,8 +384,9 @@ class AdldapSearch extends AbstractAdldapBase
     /**
      * Returns a new LDAP Entry instance.
      *
-     * @param array $attributes
+     * @param array                                  $attributes
      * @param \Adldap\Interfaces\ConnectionInterface $connection
+     *
      * @return Entry
      */
     public function newLdapEntry($attributes, $connection)
@@ -398,9 +398,10 @@ class AdldapSearch extends AbstractAdldapBase
      * Returns a new Paginator instance.
      *
      * @param array $entries
-     * @param int $perPage
-     * @param int $currentPage
-     * @param int $totalPages
+     * @param int   $perPage
+     * @param int   $currentPage
+     * @param int   $totalPages
+     *
      * @return Paginator
      */
     public function newPaginator($entries, $perPage, $currentPage, $totalPages)
@@ -438,7 +439,7 @@ class AdldapSearch extends AbstractAdldapBase
                 $objects[] = $entry->getAttributes();
             }
 
-            if (! empty($this->sortByField)) {
+            if (!empty($this->sortByField)) {
                 return $this->processSortBy($objects);
             }
         }
@@ -484,7 +485,7 @@ class AdldapSearch extends AbstractAdldapBase
              * If we're sorting, we'll process all of
              * our results so it's sorted correctly
              */
-            if (! empty($this->sortByField)) {
+            if (!empty($this->sortByField)) {
                 $objects = $this->processSortBy($objects);
             }
 

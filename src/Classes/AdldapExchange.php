@@ -29,8 +29,8 @@ class AdldapExchange extends AbstractAdldapQueryable
     /**
      * Returns all exchange servers.
      *
-     * @param array $fields
-     * @param bool $sorted
+     * @param array  $fields
+     * @param bool   $sorted
      * @param string $sortBy
      * @param string $sortByDirection
      *
@@ -46,7 +46,7 @@ class AdldapExchange extends AbstractAdldapQueryable
                 ->select($fields)
                 ->where('objectCategory', '=', $this->serverObjectCategory);
 
-            if($sorted) {
+            if ($sorted) {
                 $search->sortBy($sortBy, $sortByDirection);
             }
 
@@ -60,7 +60,7 @@ class AdldapExchange extends AbstractAdldapQueryable
      * Finds an exchange server.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
      *
      * @return array|bool
      */
@@ -100,7 +100,7 @@ class AdldapExchange extends AbstractAdldapQueryable
         $mailbox = new Mailbox([
             'username' => $username,
             'storageGroup' => $storageGroup,
-            'emailAddress' =>  $emailAddress,
+            'emailAddress' => $emailAddress,
             'mailNickname' => $mailNickname,
             'baseDn' => ($baseDn ? $baseDn : $this->adldap->getBaseDn()),
             'mdbUseDefaults' => $this->adldap->utilities()->boolToStr($useDefaults),
@@ -158,7 +158,7 @@ class AdldapExchange extends AbstractAdldapQueryable
         // Translate the update to the LDAP schema
         $add = $this->adldap->ldapSchema($attributes);
 
-        if (! $add) {
+        if (!$add) {
             return false;
         }
 
@@ -212,7 +212,7 @@ class AdldapExchange extends AbstractAdldapQueryable
                 }
             }
 
-            $modAddresses['proxyAddresses'][($user[0]['proxyaddresses']['count']-1)] = 'SMTP:'.$emailAddress;
+            $modAddresses['proxyAddresses'][($user[0]['proxyaddresses']['count'] - 1)] = 'SMTP:'.$emailAddress;
 
             $result = $this->connection->modReplace($userDn, $modAddresses);
         } else {
@@ -222,7 +222,7 @@ class AdldapExchange extends AbstractAdldapQueryable
             // Translate the update to the LDAP schema
             $add = $this->adldap->ldapSchema($attributes);
 
-            if (! $add) {
+            if (!$add) {
                 return false;
             }
 
@@ -357,7 +357,7 @@ class AdldapExchange extends AbstractAdldapQueryable
         $mod = $this->adldap->ldapSchema($attributes);
 
         // Check to see if this is an enabled status update
-        if (! $mod) {
+        if (!$mod) {
             return false;
         }
 

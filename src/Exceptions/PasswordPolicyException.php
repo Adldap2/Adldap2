@@ -3,8 +3,7 @@
 namespace Adldap\Exceptions;
 
 /**
- * Class PasswordPolicyException
- * @package Adldap\Exceptions
+ * Class PasswordPolicyException.
  */
 class PasswordPolicyException extends AdldapException
 {

@@ -33,7 +33,7 @@ class User extends AbstractObject
     {
         $this->validateRequired();
 
-        if (! is_array($this->getAttribute('container'))) {
+        if (!is_array($this->getAttribute('container'))) {
             throw new AdldapException('Container attribute must be an array');
         }
 
@@ -59,7 +59,7 @@ class User extends AbstractObject
         $this->validateRequired(['username']);
 
         if ($this->hasAttribute('container')) {
-            if (! is_array($this->getAttribute('container'))) {
+            if (!is_array($this->getAttribute('container'))) {
                 throw new AdldapException('Container attribute must be an array');
             }
         }
@@ -69,6 +69,5 @@ class User extends AbstractObject
 
     public function create()
     {
-
     }
 }

@@ -32,7 +32,7 @@ class Group extends AbstractObject
     {
         parent::validateRequired();
 
-        if (! is_array($this->getAttribute('container'))) {
+        if (!is_array($this->getAttribute('container'))) {
             $message = 'Container attribute must be an array.';
 
             throw new AdldapException($message);

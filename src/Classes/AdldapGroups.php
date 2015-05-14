@@ -67,8 +67,7 @@ class AdldapGroups extends AbstractAdldapQueryable
 
         $childDn = $this->dn($child);
 
-        if($parentDn && $childDn)
-        {
+        if ($parentDn && $childDn) {
             $add['member'] = $childDn;
 
             // Add the child to the parent group and return the result
@@ -81,7 +80,7 @@ class AdldapGroups extends AbstractAdldapQueryable
     /**
      * Add a user to a group.
      *
-     * @param string $groupName  The group to add the user to
+     * @param string $groupName The group to add the user to
      * @param string $username  The user to add to the group
      *
      * @return bool
@@ -92,8 +91,7 @@ class AdldapGroups extends AbstractAdldapQueryable
 
         $userDn = $this->adldap->user()->dn($username);
 
-        if($groupDn && $userDn)
-        {
+        if ($groupDn && $userDn) {
             $add['member'] = $userDn;
 
             return $this->connection->modAdd($groupDn, $add);
@@ -114,8 +112,7 @@ class AdldapGroups extends AbstractAdldapQueryable
     {
         $groupDn = $this->dn($groupName);
 
-        if($groupDn && $contactDn)
-        {
+        if ($groupDn && $contactDn) {
             $add = [];
             $add['member'] = $contactDn;
 
@@ -157,7 +154,7 @@ class AdldapGroups extends AbstractAdldapQueryable
      * Rename a group.
      *
      * @param string $groupName The group to rename
-     * @param string $newName The new name to give the group
+     * @param string $newName   The new name to give the group
      * @param array  $container
      *
      * @return bool
@@ -166,8 +163,7 @@ class AdldapGroups extends AbstractAdldapQueryable
     {
         $groupDn = $this->dn($groupName);
 
-        if($groupDn)
-        {
+        if ($groupDn) {
             $newRDN = 'CN='.$newName;
 
             // Determine the container
@@ -186,7 +182,7 @@ class AdldapGroups extends AbstractAdldapQueryable
      * Remove a group from a group.
      *
      * @param string $parentName The parent group name
-     * @param string $childName The child group name
+     * @param string $childName  The child group name
      *
      * @return bool
      */
@@ -196,7 +192,7 @@ class AdldapGroups extends AbstractAdldapQueryable
 
         $childDn = $this->dn($childName);
 
-        if(is_string($parentDn) && is_string($childDn)) {
+        if (is_string($parentDn) && is_string($childDn)) {
             $del = [];
             $del['member'] = $childDn;
 
@@ -210,7 +206,7 @@ class AdldapGroups extends AbstractAdldapQueryable
      * Remove a user from a group.
      *
      * @param string $groupName The group to remove a user from
-     * @param string $username The AD user to remove from the group
+     * @param string $username  The AD user to remove from the group
      *
      * @return bool
      */
@@ -220,7 +216,7 @@ class AdldapGroups extends AbstractAdldapQueryable
 
         $userDn = $this->adldap->user()->dn($username);
 
-        if(is_string($groupDn) && is_string($userDn)) {
+        if (is_string($groupDn) && is_string($userDn)) {
             $del = [];
             $del['member'] = $userDn;
 
@@ -233,7 +229,7 @@ class AdldapGroups extends AbstractAdldapQueryable
     /**
      * Remove a contact from a group.
      *
-     * @param string $group     The group to remove the contact from
+     * @param string $group       The group to remove the contact from
      * @param string $contactName The contact to remove
      *
      * @return bool
@@ -245,7 +241,7 @@ class AdldapGroups extends AbstractAdldapQueryable
 
         $contactDn = $this->adldap->contact()->dn($contactName);
 
-        if(is_string($groupDn) && is_string($contactDn)) {
+        if (is_string($groupDn) && is_string($contactDn)) {
             $del = [];
             $del['member'] = $contactDn;
 

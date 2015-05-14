@@ -15,10 +15,11 @@ class AdldapFolders extends AbstractAdldapQueryable
     /**
      * Returns all entries with the current object class.
      *
-     * @param array $fields
-     * @param bool $sorted
+     * @param array  $fields
+     * @param bool   $sorted
      * @param string $sortBy
      * @param string $sortByDirection
+     *
      * @return array|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = 'name', $sortByDirection = 'asc')
@@ -40,7 +41,8 @@ class AdldapFolders extends AbstractAdldapQueryable
      * and the specified common name.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return array|bool
      */
     public function find($name, $fields = [])
@@ -50,7 +52,7 @@ class AdldapFolders extends AbstractAdldapQueryable
             ->where('OU', '=', $name)
             ->first();
 
-        if(count($results) > 0) {
+        if (count($results) > 0) {
             return $results;
         }
 

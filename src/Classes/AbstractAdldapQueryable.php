@@ -12,7 +12,6 @@ namespace Adldap\Classes;
  * LDAP based on it's object class property.
  *
  * Class AdldapQueryable
- * @package Adldap\Classes
  */
 abstract class AbstractAdldapQueryable extends AbstractAdldapBase
 {
@@ -26,10 +25,11 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
     /**
      * Returns all entries with the current object class.
      *
-     * @param array $fields
-     * @param bool $sorted
+     * @param array  $fields
+     * @param bool   $sorted
      * @param string $sortBy
      * @param string $sortByDirection
+     *
      * @return array|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
@@ -51,7 +51,8 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
      * then only those fields are returned in the result array.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
+     *
      * @return array|bool
      */
     public function find($name, $fields = [])
@@ -62,7 +63,7 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
             ->where('anr', '=', $name)
             ->first();
 
-        if(count($results) > 0) {
+        if (count($results) > 0) {
             return $results;
         }
 
@@ -73,13 +74,14 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
      * Returns the DN of the current object class.
      *
      * @param string $name
+     *
      * @return string|bool
      */
     public function dn($name)
     {
         $info = $this->find($name);
 
-        if(is_array($info) && array_key_exists('dn', $info)) {
+        if (is_array($info) && array_key_exists('dn', $info)) {
             return $info['dn'];
         }
 
@@ -103,7 +105,7 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
     /**
      * Alias for the find() method.
      *
-     * @param string $name The name of the computer
+     * @param string $name   The name of the computer
      * @param array  $fields Attributes to return
      *
      * @return array|bool
@@ -119,7 +121,7 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
      *
      * @param string $name
      * @param string $group
-     * @param null $recursive
+     * @param null   $recursive
      *
      * @return bool
      */
@@ -145,7 +147,7 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
      * the groups that it is a member of.
      *
      * @param string $name
-     * @param null $recursive
+     * @param null   $recursive
      *
      * @return array|bool
      */
@@ -157,7 +159,7 @@ abstract class AbstractAdldapQueryable extends AbstractAdldapBase
 
         $info = $this->find($name);
 
-        if(is_array($info) && array_key_exists('memberof', $info)) {
+        if (is_array($info) && array_key_exists('memberof', $info)) {
             $groups = $this->adldap->utilities()->niceNames($info['memberof']);
 
             if ($recursive === true) {

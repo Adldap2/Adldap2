@@ -101,7 +101,7 @@ class AdldapUsers extends AbstractAdldapQueryable
     {
         $user = new User($attributes);
 
-        if ($user->hasAttribute('password') && ! $this->connection->canChangePasswords()) {
+        if ($user->hasAttribute('password') && !$this->connection->canChangePasswords()) {
             throw new AdldapException('SSL must be configured on your web server and enabled in the class to set passwords.');
         }
 
@@ -119,7 +119,7 @@ class AdldapUsers extends AbstractAdldapQueryable
         // Set the account control attribute
         $controlOptions = ['NORMAL_ACCOUNT' => true];
 
-        if (! $user->hasAttribute('enabled')) {
+        if (!$user->hasAttribute('enabled')) {
             $controlOptions['ACCOUNTDISABLE'] = true;
         }
 
@@ -221,7 +221,7 @@ class AdldapUsers extends AbstractAdldapQueryable
          */
         $user->setAttribute('username', $username);
 
-        if ($user->getAttribute('password') && ! $this->connection->canChangePasswords()) {
+        if ($user->getAttribute('password') && !$this->connection->canChangePasswords()) {
             throw new AdldapException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
         }
 
@@ -238,7 +238,7 @@ class AdldapUsers extends AbstractAdldapQueryable
         $enabled = $user->getAttribute('enabled');
 
         // Check to see if this is an enabled status update
-        if (! $mod && ! $enabled) {
+        if (!$mod && !$enabled) {
             return false;
         }
 
@@ -310,7 +310,7 @@ class AdldapUsers extends AbstractAdldapQueryable
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        if (! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()) {
+        if (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) {
             $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
 
             throw new AdldapException($message);
@@ -370,13 +370,13 @@ class AdldapUsers extends AbstractAdldapQueryable
 
         $this->adldap->utilities()->validateLdapIsBound();
 
-        if (! $this->adldap->getUseSSL() && ! $this->adldap->getUseTLS()) {
+        if (!$this->adldap->getUseSSL() && !$this->adldap->getUseTLS()) {
             $message = 'SSL must be configured on your webserver and enabled in the class to set passwords.';
 
             throw new AdldapException($message);
         }
 
-        if (! $this->connection->isBatchSupported()) {
+        if (!$this->connection->isBatchSupported()) {
             $message = 'Missing function support [ldap_modify_batch] http://php.net/manual/en/function.ldap-modify-batch.php';
 
             throw new AdldapException($message);
@@ -390,14 +390,14 @@ class AdldapUsers extends AbstractAdldapQueryable
 
         $modification = [
             [
-                'attrib'  => 'unicodePwd',
+                'attrib' => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_REMOVE,
-                'values'  => [$this->encodePassword($oldPassword)],
+                'values' => [$this->encodePassword($oldPassword)],
             ],
             [
-                'attrib'  => 'unicodePwd',
+                'attrib' => 'unicodePwd',
                 'modtype' => LDAP_MODIFY_BATCH_ADD,
-                'values'  => [$this->encodePassword($password)],
+                'values' => [$this->encodePassword($password)],
             ],
         ];
 
@@ -439,7 +439,7 @@ class AdldapUsers extends AbstractAdldapQueryable
      */
     public function encodePassword($password)
     {
-        $password = "\"".$password."\"";
+        $password = '"'.$password.'"';
 
         $encoded = '';
 

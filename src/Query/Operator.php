@@ -3,7 +3,7 @@
 namespace Adldap\Query;
 
 /**
- * Class Operator
+ * Class Operator.
  */
 class Operator
 {
@@ -29,7 +29,7 @@ class Operator
     public static $doesNotEqual = '!';
 
     /**
-     * The greater than or equal to operator
+     * The greater than or equal to operator.
      *
      * @var string
      */

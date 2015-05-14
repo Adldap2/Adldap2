@@ -3,8 +3,7 @@
 namespace Adldap\Exceptions;
 
 /**
- * Class InvalidQueryOperator
- * @package Adldap\Exceptions
+ * Class InvalidQueryOperator.
  */
 class InvalidQueryOperator extends AdldapException
 {

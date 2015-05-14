@@ -33,7 +33,7 @@ class Mailbox extends AbstractObject
     {
         parent::validateRequired();
 
-        if (! is_array($this->getAttribute('storageGroup'))) {
+        if (!is_array($this->getAttribute('storageGroup'))) {
             $message = 'Storage Group attribute must be an array';
 
             throw new AdldapException($message);

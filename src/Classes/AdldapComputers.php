@@ -32,7 +32,7 @@ class AdldapComputers extends AbstractAdldapQueryable
 
         $info = $this->find($computerName);
 
-        if(is_array($info) && array_key_exists('memberof', $info)) {
+        if (is_array($info) && array_key_exists('memberof', $info)) {
             $groups = $this->adldap->utilities()->niceNames($info['memberof']);
 
             if ($recursive === true) {

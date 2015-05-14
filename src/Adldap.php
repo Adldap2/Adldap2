@@ -148,7 +148,7 @@ class Adldap
     public function __construct(array $options = [], $connection = null, $autoConnect = true)
     {
         // Create a new LDAP Connection if one isn't set
-        if (! $connection) {
+        if (!$connection) {
             $connection = new Connections\Ldap();
         }
 
@@ -271,7 +271,7 @@ class Adldap
          * If the base DN is empty, we'll assume the dev
          * wants it set automatically
          */
-        if(empty($this->baseDn)) {
+        if (empty($this->baseDn)) {
             $this->setBaseDn($this->findBaseDn());
         }
 
@@ -283,7 +283,8 @@ class Adldap
      *
      * @param $baseDn
      */
-    public function setBaseDn($baseDn) {
+    public function setBaseDn($baseDn)
+    {
         $this->baseDn = $baseDn;
     }
 
@@ -397,7 +398,7 @@ class Adldap
      */
     public function setPort($adPort)
     {
-        if (! is_numeric($adPort)) {
+        if (!is_numeric($adPort)) {
             if ($adPort === null) {
                 $adPort = 'null';
             }
@@ -543,7 +544,7 @@ class Adldap
      */
     public function setUseSSO($useSSO)
     {
-        if ($useSSO === true && ! $this->ldapConnection->isSaslSupported()) {
+        if ($useSSO === true && !$this->ldapConnection->isSaslSupported()) {
             throw new AdldapException('No LDAP SASL support for PHP.  See: http://www.php.net/ldap_sasl_bind');
         }
 
@@ -726,15 +727,15 @@ class Adldap
                  * If the remote user input equals the username we're
                  * trying to authenticate, we'll perform the bind
                  */
-                if($remoteUser == $username) {
+                if ($remoteUser == $username) {
                     $auth = $this->bindUsingKerberos($kerberos);
                 }
             } else {
                 // Looks like SSO isn't enabled, we'll bind regularly instead
                 $auth = $this->bindUsingCredentials($username, $password);
             }
-        } catch(AdldapException $e) {
-            if($preventRebind === true) {
+        } catch (AdldapException $e) {
+            if ($preventRebind === true) {
                 /*
                  * Binding failed and we're not allowed
                  * to rebind, we'll return false
@@ -744,13 +745,13 @@ class Adldap
         }
 
         // If we're allowed to rebind, we'll rebind as administrator
-        if($preventRebind === false) {
+        if ($preventRebind === false) {
             $adminUsername = $this->getAdminUsername();
             $adminPassword = $this->getAdminPassword();
 
             $this->bindUsingCredentials($adminUsername, $adminPassword);
 
-            if (! $this->ldapConnection->isBound()) {
+            if (!$this->ldapConnection->isBound()) {
                 throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError());
             }
         }
@@ -774,7 +775,7 @@ class Adldap
             ->where('distinguishedName', '=', $distinguishedName)
             ->first();
 
-        if(is_array($result) && array_key_exists('objectclass', $result)) {
+        if (is_array($result) && array_key_exists('objectclass', $result)) {
             return $result['objectclass'];
         }
 
@@ -895,7 +896,7 @@ class Adldap
 
         $bound = $this->ldapConnection->bind(null, null, true);
 
-        if (! $bound) {
+        if (!$bound) {
             $message = 'Bind to Active Directory failed. AD said: '.$this->ldapConnection->getLastError();
 
             throw new AdldapException($message);
@@ -928,10 +929,10 @@ class Adldap
 
         $this->ldapConnection->bind($username, $password);
 
-        if (! $this->ldapConnection->isBound()) {
+        if (!$this->ldapConnection->isBound()) {
             $error = $this->ldapConnection->getLastError();
 
-            if ($this->ldapConnection->isUsingSSL() && ! $this->ldapConnection->isUsingTLS()) {
+            if ($this->ldapConnection->isUsingSSL() && !$this->ldapConnection->isUsingTLS()) {
                 $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: '.$error;
             } else {
                 $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;

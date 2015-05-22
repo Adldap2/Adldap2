@@ -2,13 +2,14 @@
 
 /**
  * This file contains a working example of adLDAP in operation.
+ *
  * @file
  */
-if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    echo "Before using this demo, please run <code>composer dump-autoload</code>";
+if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
+    echo 'Before using this demo, please run <code>composer dump-autoload</code>';
     exit(1);
 }
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use adLDAP\adLDAP;
 use adLDAP\Exceptions\adLDAPException;
@@ -54,7 +55,7 @@ if (is_array($options['domain_controllers']) && !empty($options['domain_controll
 $username = (!empty($_POST['username'])) ? $_POST['username'] : '';
 $info = false;
 if ($adldap && !empty($username)) {
-    $password = $_POST["password"];
+    $password = $_POST['password'];
     try {
         $adldap->authenticate($username, $password);
         $info = $adldap->user()->info($username, ['*']);

@@ -85,7 +85,9 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="checkbox" name="use_ssl" value="<?php echo $options['use_ssl'] ?>"
-                                       class="form-control" <?php if ($options['use_ssl']) echo 'checked' ?> />
+                                       class="form-control" <?php if ($options['use_ssl']) {
+    echo 'checked';
+} ?> />
                             </div>
                         </div>
                         <div class="row">
@@ -94,7 +96,9 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="checkbox" name="use_tls" value="<?php echo $options['use_tls'] ?>"
-                                       class="form-control" <?php if ($options['use_tls']) echo 'checked' ?> />
+                                       class="form-control" <?php if ($options['use_tls']) {
+    echo 'checked';
+} ?> />
                             </div>
                         </div>
                         <div class="row">
@@ -103,7 +107,9 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="checkbox" name="recursive_groups" value="<?php echo $options['recursive_groups'] ?>"
-                                       class="form-control" <?php if ($options['recursive_groups']) echo 'checked' ?> />
+                                       class="form-control" <?php if ($options['recursive_groups']) {
+    echo 'checked';
+} ?> />
                             </div>
                         </div>
                         <div class="row">
@@ -121,7 +127,9 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="checkbox" name="sso" value="<?php echo $options['sso'] ?>"
-                                       class="form-control" <?php if ($options['sso']) echo 'checked' ?> />
+                                       class="form-control" <?php if ($options['sso']) {
+    echo 'checked';
+} ?> />
                             </div>
                         </div>
 
@@ -167,7 +175,9 @@
                         <h3>User info:</h3>
                             <dl>
                                 <?php foreach ($info as $key => $val): ?>
-                                <?php if (!is_string($key)) continue; ?>
+                                <?php if (!is_string($key)) {
+    continue;
+} ?>
                                 <dt><?php echo $key ?></dt>
                                 <dd><?php var_dump($val) ?></dd>
                                 <?php endforeach ?>

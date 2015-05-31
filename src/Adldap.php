@@ -906,7 +906,8 @@ class Adldap
     }
 
     /**
-     * Binds to the current connection using administrator credentials.
+     * Binds to the current connection using the
+     * inserted credentials.
      *
      * @param string $username
      * @param string $password

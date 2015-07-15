@@ -293,7 +293,7 @@ class Builder
     /**
      * Returns a query string for greater than or equals.
      *
-     * Produces: (field<=value)
+     * Produces: (field>=value)
      *
      * @param string $field
      * @param string $value

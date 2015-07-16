@@ -2,15 +2,14 @@
 
 namespace Adldap\Tests\Classes;
 
-use Adldap\Classes\AdldapUtils;
+use Adldap\Classes\Utilities;
 use Adldap\Tests\FunctionalTestCase;
-
 
 class AdldapUtilityTest extends FunctionalTestCase
 {
     protected function newUtilityMock()
     {
-        return $this->mock('Adldap\Classes\AdldapUtils');
+        return $this->mock(Utilities::class);
     }
 
     public function testUtilityValidateLdapIsBoundPass()
@@ -22,7 +21,7 @@ class AdldapUtilityTest extends FunctionalTestCase
             ->shouldReceive('getLdapBind')->andReturn(true)
             ->shouldReceive('close')->andReturn(true);
 
-        $utility = new AdldapUtils($adldap);
+        $utility = new Utilities($adldap);
 
         $this->assertTrue($utility->validateLdapIsBound());
     }
@@ -36,7 +35,7 @@ class AdldapUtilityTest extends FunctionalTestCase
             ->shouldReceive('getLdapBind')->andReturn(false)
             ->shouldReceive('close')->andReturn(true);
 
-        $utility = new AdldapUtils($adldap);
+        $utility = new Utilities($adldap);
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 

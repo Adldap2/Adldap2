@@ -8,10 +8,7 @@ use Adldap\Query\Operator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;
 
-/**
- * Class AdldapSearch.
- */
-class AdldapSearch extends AbstractAdldapBase
+class Search extends AbstractBase
 {
     /**
      * Stores the current query builder instance.

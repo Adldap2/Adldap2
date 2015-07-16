@@ -5,12 +5,7 @@ namespace Adldap\Classes;
 use Adldap\Objects\Group;
 use Adldap\Adldap;
 
-/**
- * Ldap Group management.
- *
- * Class AdldapGroups
- */
-class AdldapGroups extends AbstractAdldapQueryable
+class Groups extends AbstractQueryable
 {
     /**
      * The groups object category string.

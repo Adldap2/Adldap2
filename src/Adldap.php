@@ -4,14 +4,6 @@ namespace Adldap;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Interfaces\ConnectionInterface;
-use Adldap\Classes\AdldapSearch;
-use Adldap\Classes\AdldapUtils;
-use Adldap\Classes\AdldapFolders;
-use Adldap\Classes\AdldapExchange;
-use Adldap\Classes\AdldapComputers;
-use Adldap\Classes\AdldapContacts;
-use Adldap\Classes\AdldapUsers;
-use Adldap\Classes\AdldapGroups;
 use Adldap\Objects\Configuration;
 use Adldap\Objects\Ldap\Schema as LdapSchema;
 use Adldap\Objects\Schema as AdldapSchema;
@@ -599,81 +591,81 @@ class Adldap
     /**
      * Returns a new AdldapGroups instance.
      *
-     * @return AdldapGroups
+     * @return Classes\Groups
      */
     public function group()
     {
-        return new AdldapGroups($this);
+        return new Classes\Groups($this);
     }
 
     /**
      * Returns a new AdldapUsers instance.
      *
-     * @return AdldapUsers
+     * @return Classes\Users
      */
     public function user()
     {
-        return new AdldapUsers($this);
+        return new Classes\Users($this);
     }
 
     /**
      * Returns a new AdldapFolders instance.
      *
-     * @return AdldapFolders
+     * @return Classes\Folders
      */
     public function folder()
     {
-        return new AdldapFolders($this);
+        return new Classes\Folders($this);
     }
 
     /**
      * Returns a new AdldapUtils instance.
      *
-     * @return AdldapUtils
+     * @return Classes\Utilities
      */
     public function utilities()
     {
-        return new AdldapUtils($this);
+        return new Classes\Utilities($this);
     }
 
     /**
      * Returns a new AdldapContacts instance.
      *
-     * @return AdldapContacts
+     * @return Classes\Contacts
      */
     public function contact()
     {
-        return new AdldapContacts($this);
+        return new Classes\Contacts($this);
     }
 
     /**
      * Returns a new AdldapExchange instance.
      *
-     * @return AdldapExchange
+     * @return Classes\Exchange
      */
     public function exchange()
     {
-        return new AdldapExchange($this);
+        return new Classes\Exchange($this);
     }
 
     /**
      * Returns a new AdldapComputers instance.
      *
-     * @return AdldapComputers
+     * @return Classes\Computers
      */
     public function computer()
     {
-        return new AdldapComputers($this);
+        return new Classes\Computers($this);
     }
 
     /**
      * Returns a new AdldapSearch instance.
      *
-     * @return AdldapSearch
+     * @return Classes\Search
      */
     public function search()
     {
-        return new AdldapSearch($this);
+        return new Classes\Search($this);
     }
 
     /**

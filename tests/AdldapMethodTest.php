@@ -2,6 +2,8 @@
 
 namespace Adldap\Tests;
 
+use Adldap\Classes\Utilities;
+
 class AdldapMethodTest extends FunctionalTestCase
 {
     protected function newAdldapMock()
@@ -97,49 +99,49 @@ class AdldapMethodTest extends FunctionalTestCase
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapComputers', get_class($ad->computer()));
+        $this->assertEquals('Adldap\Classes\Computers', get_class($ad->computer()));
     }
 
     public function testAdldapNewContactsClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapContacts', get_class($ad->contact()));
+        $this->assertEquals('Adldap\Classes\Contacts', get_class($ad->contact()));
     }
 
     public function testAdldapNewExchangeClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapExchange', get_class($ad->exchange()));
+        $this->assertEquals('Adldap\Classes\Exchange', get_class($ad->exchange()));
     }
 
     public function testAdldapNewFoldersClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapFolders', get_class($ad->folder()));
+        $this->assertEquals('Adldap\Classes\Folders', get_class($ad->folder()));
     }
 
     public function testAdldapNewGroupsClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapGroups', get_class($ad->group()));
+        $this->assertEquals('Adldap\Classes\Groups', get_class($ad->group()));
     }
 
     public function testAdldapNewUsersClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapUsers', get_class($ad->user()));
+        $this->assertEquals('Adldap\Classes\Users', get_class($ad->user()));
     }
 
     public function testAdldapNewUtilityClass()
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals('Adldap\Classes\AdldapUtils', get_class($ad->utilities()));
+        $this->assertEquals(Utilities::class, get_class($ad->utilities()));
     }
 
     /**

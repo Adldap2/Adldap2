@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests\Classes;
 
+use Adldap\Classes\Users;
 use Adldap\Tests\FunctionalTestCase;
 
 class AdldapUsersTest extends FunctionalTestCase
@@ -37,7 +38,7 @@ class AdldapUsersTest extends FunctionalTestCase
 
         $this->adMock = $this->mock('Adldap\Adldap')->makePartial();
 
-        $this->userClassMock = $this->mock('Adldap\Classes\AdldapUsers')->makePartial();
+        $this->userClassMock = $this->mock(Users::class)->makePartial();
 
         $this->adMock->setLdapConnection($this->connectionMock);
 

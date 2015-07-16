@@ -5,12 +5,7 @@ namespace Adldap\Classes;
 use Adldap\Objects\Folder;
 use Adldap\Adldap;
 
-/**
- * Ldap Folder / OU management.
- *
- * Class AdldapFolders
- */
-class AdldapFolders extends AbstractAdldapQueryable
+class Folders extends AbstractQueryable
 {
     /**
      * Returns all entries with the current object class.

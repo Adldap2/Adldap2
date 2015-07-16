@@ -13,7 +13,7 @@ class AdldapBaseTest extends FunctionalTestCase
     {
         $ad = $this->mock('Adldap\Adldap')->makePartial();
 
-        $base = $this->mock('Adldap\Classes\AbstractAdldapBase');
+        $base = $this->mock('Adldap\Classes\AbstractBase');
 
         $base->shouldReceive('getAdldap')->once()->andReturn($ad);
 

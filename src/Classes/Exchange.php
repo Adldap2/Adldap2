@@ -5,12 +5,7 @@ namespace Adldap\Classes;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Objects\Mailbox;
 
-/**
- * Ldap Microsoft Exchange Management.
- *
- * Class AdldapExchange
- */
-class AdldapExchange extends AbstractAdldapQueryable
+class Exchange extends AbstractQueryable
 {
     /**
      * The exchange servers object category.

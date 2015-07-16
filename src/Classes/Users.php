@@ -9,12 +9,7 @@ use Adldap\Objects\AccountControl;
 use Adldap\Objects\User;
 use Adldap\Adldap;
 
-/**
- * Ldap User management.
- *
- * Class AdldapUsers
- */
-class AdldapUsers extends AbstractAdldapQueryable
+class Users extends AbstractQueryable
 {
     /**
      * Validate a user's login credentials.

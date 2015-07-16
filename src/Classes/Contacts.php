@@ -4,12 +4,7 @@ namespace Adldap\Classes;
 
 use Adldap\Objects\Contact;
 
-/**
- * Ldap Contacts Management.
- *
- * Class AdldapContacts
- */
-class AdldapContacts extends AbstractAdldapQueryable
+class Contacts extends AbstractQueryable
 {
     /**
      * The contacts object class name.

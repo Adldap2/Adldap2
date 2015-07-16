@@ -3,7 +3,7 @@
 namespace Adldap\Tests\Classes;
 
 use Adldap\Adldap;
-use Adldap\Classes\AdldapSearch;
+use Adldap\Classes\Search;
 use Adldap\Tests\AdldapBaseTest;
 
 class AdldapSearchTest extends AdldapBaseTest
@@ -19,7 +19,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('*')
@@ -36,7 +36,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('value')
@@ -61,7 +61,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('value')
@@ -86,7 +86,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
@@ -106,7 +106,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
@@ -121,7 +121,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $results = [
             'count' => 1,
@@ -155,7 +155,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $ldapResults = [
             'count' => 1,
@@ -191,7 +191,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection
             ->shouldReceive('escape')->once()->andReturn('DN')
@@ -209,7 +209,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $search->recursive(false);
         
@@ -229,7 +229,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
@@ -244,7 +244,7 @@ class AdldapSearchTest extends AdldapBaseTest
 
         $ad = $this->newAdldap($connection);
 
-        $search = new AdldapSearch($ad);
+        $search = new Search($ad);
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 

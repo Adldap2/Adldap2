@@ -13,7 +13,7 @@ namespace Adldap\Classes;
  *
  * Class AdldapQueryable
  */
-abstract class AbstractAdldapQueryable extends AbstractAdldapBase
+abstract class AbstractQueryable extends AbstractBase
 {
     /**
      * The LDAP objects class name.

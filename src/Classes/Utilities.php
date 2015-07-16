@@ -4,12 +4,7 @@ namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
 
-/**
- * AdLDAP Utility Functions.
- *
- * Class AdldapUtils
- */
-class AdldapUtils extends AbstractAdldapBase
+class Utilities extends AbstractBase
 {
     /**
      * Take an LDAP query and return the nice names, without all the LDAP prefixes (eg. CN, DN).

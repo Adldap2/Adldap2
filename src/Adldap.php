@@ -781,30 +781,22 @@ class Adldap
      */
     public function findBaseDn()
     {
-        $namingContext = $this->getRootDse(['defaultnamingcontext']);
+        $result = $this->search()
+            ->setDn(null)
+            ->read()
+            ->raw()
+            ->where('objectClass', '*')
+            ->first();
 
-        if (is_array($namingContext) && array_key_exists('defaultnamingcontext', $namingContext)) {
-            return $namingContext['defaultnamingcontext'];
+        $key = 'defaultnamingcontext';
+
+        if (is_array($result) && array_key_exists($key, $result)) {
+            if(array_key_exists(0, $result[$key])) {
+                return $result[$key][0];
+            }
         }
 
         return false;
-    }
-
-    /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @param array $attributes The attributes you wish to query e.g. defaultnamingcontext
-     *
-     * @return array|bool
-     */
-    public function getRootDse($attributes = ['*', '+'])
-    {
-        return $this->search()
-            ->setDn(null)
-            ->read(true)
-            ->select($attributes)
-            ->where('objectClass', '*')
-            ->first();
     }
 
     /**

@@ -5,11 +5,6 @@ namespace Adldap\Objects;
 use ArrayIterator;
 use IteratorAggregate;
 
-/**
- * Allows easy pagination for a paginated LDAP result.
- *
- * Class Paginator
- */
 class Paginator extends AbstractObject implements IteratorAggregate
 {
     /**
@@ -50,7 +45,7 @@ class Paginator extends AbstractObject implements IteratorAggregate
      */
     public function __construct(array $entries = [], $perPage = 50, $currentPage = 0, $pages = 0)
     {
-        $this->setAttributes($entries);
+        parent::__construct($entries);
 
         $this->setPerPage($perPage);
 

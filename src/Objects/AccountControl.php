@@ -2,9 +2,6 @@
 
 namespace Adldap\Objects;
 
-/**
- * Class AccountControl.
- */
 class AccountControl extends AbstractObject
 {
     /**

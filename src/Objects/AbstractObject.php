@@ -69,14 +69,21 @@ abstract class AbstractObject
     /**
      * Retrieves the specified key from the attribute array.
      *
-     * @param $key
+     * @param int|string $key
+     * @param int|string $subKey
      *
-     * @return bool
+     * @return mixed
      */
-    public function getAttribute($key)
+    public function getAttribute($key, $subKey = null)
     {
-        if ($this->hasAttribute($key)) {
-            return $this->attributes[$key];
+        if(!is_null($subKey)) {
+            if ($this->hasAttribute($key, $subKey)) {
+                return $this->attributes[$key][$subKey];
+            }
+        } else {
+            if ($this->hasAttribute($key)) {
+                return $this->attributes[$key];
+            }
         }
 
         return null;
@@ -125,13 +132,26 @@ abstract class AbstractObject
      * Returns true / false if the specified attribute
      * exists in the attributes array.
      *
-     * @param $attribute
+     * @param int|string $key
+     * @param int|string $subKey
      *
      * @return bool
      */
-    public function hasAttribute($attribute)
+    public function hasAttribute($key, $subKey = null)
     {
-        if (array_key_exists($attribute, $this->attributes)) {
+        if (array_key_exists($key, $this->attributes)) {
+            /*
+             * If a sub key is given, we'll check if
+             * it exists in the nested attribute array
+             */
+            if(!is_null($subKey)) {
+                if(array_key_exists($subKey, $this->attributes[$key])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
             return true;
         }
 

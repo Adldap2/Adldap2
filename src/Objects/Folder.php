@@ -4,9 +4,6 @@ namespace Adldap\Objects;
 
 use Adldap\Exceptions\AdldapException;
 
-/**
- * Class Folder.
- */
 class Folder extends AbstractObject
 {
     /**

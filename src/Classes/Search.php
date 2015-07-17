@@ -2,8 +2,10 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Objects\Computer;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Objects\Paginator;
+use Adldap\Objects\User;
 use Adldap\Query\Operator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;
@@ -39,6 +41,14 @@ class Search extends AbstractBase
      * @var bool
      */
     protected $read = false;
+
+    /**
+     * Stores the bool to determine whether or not
+     * to return LDAP results in their raw format.
+     *
+     * @var bool
+     */
+    protected $raw = false;
 
     /**
      * Stores the field to sort search results by.
@@ -338,7 +348,7 @@ class Search extends AbstractBase
     {
         if ($this->dn === null) {
             return $this->dn;
-        } elseif (empty($this->dn)) {
+        } else if (empty($this->dn)) {
             return $this->adldap->getBaseDn();
         }
 
@@ -355,11 +365,7 @@ class Search extends AbstractBase
      */
     public function recursive($recursive = true)
     {
-        $this->recursive = true;
-
-        if ($recursive === false) {
-            $this->recursive = false;
-        }
+        $this->recursive = (bool) $recursive;
 
         return $this;
     }
@@ -373,13 +379,25 @@ class Search extends AbstractBase
      *
      * @return $this
      */
-    public function read($read = false)
+    public function read($read = true)
     {
-        $this->read = true;
+        $this->read = (bool) $read;
 
-        if ($read === false) {
-            $this->read = false;
-        }
+        return $this;
+    }
+
+    /**
+     * Sets the recursive property to tell the search
+     * whether or not to return the LDAP results in
+     * their raw format.
+     *
+     * @param bool $raw
+     *
+     * @return $this
+     */
+    public function raw($raw = true)
+    {
+        $this->raw = (bool) $raw;
 
         return $this;
     }
@@ -392,9 +410,20 @@ class Search extends AbstractBase
      *
      * @return Entry
      */
-    public function newLdapEntry($attributes, $connection)
+    public function newLdapEntry(array $attributes)
     {
-        return new Entry($attributes, $connection);
+        if(array_key_exists('objectcategory', $attributes) && array_key_exists(0, $attributes['objectcategory'])) {
+            $category = $this->connection->explodeDn($attributes['objectcategory'][0]);
+
+            switch($category[0]) {
+                case 'Computer':
+                    return new Computer($attributes);
+                case 'Person':
+                    return new User($attributes);
+            }
+        }
+
+        return new Entry($attributes);
     }
 
     /**
@@ -433,17 +462,19 @@ class Search extends AbstractBase
     {
         $entries = $this->connection->getEntries($results);
 
-        $objects = [];
+        if($this->raw) {
+            return $entries;
+        } else {
+            $objects = [];
 
-        if (array_key_exists('count', $entries)) {
-            for ($i = 0; $i < $entries['count']; $i++) {
-                $entry = $this->newLdapEntry($entries[$i], $this->connection);
-
-                $objects[] = $entry->getAttributes();
+            if (array_key_exists('count', $entries)) {
+                for ($i = 0; $i < $entries['count']; $i++) {
+                    $objects[] = $this->newLdapEntry($entries[$i]);
+                }
             }
-        }
 
-        return $objects;
+            return $objects;
+        }
     }
 
     /**

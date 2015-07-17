@@ -4,9 +4,6 @@ namespace Adldap\Objects;
 
 use Adldap\Exceptions\AdldapException;
 
-/**
- * Class Mailbox.
- */
 class Mailbox extends AbstractObject
 {
     /**

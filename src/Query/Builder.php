@@ -5,9 +5,6 @@ namespace Adldap\Query;
 use Adldap\Exceptions\InvalidQueryOperator;
 use Adldap\Interfaces\ConnectionInterface;
 
-/**
- * Class Builder.
- */
 class Builder
 {
     /**
@@ -555,7 +552,7 @@ class Builder
             }
         }
 
-        return;
+        return null;
     }
 
     /**

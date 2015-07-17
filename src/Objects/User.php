@@ -41,6 +41,16 @@ class User extends Entry
     }
 
     /**
+     * Returns the users full name.
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->getAttribute('name', 0);
+    }
+
+    /**
      * Returns the users first name.
      *
      * @return mixed

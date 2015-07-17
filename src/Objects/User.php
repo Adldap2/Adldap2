@@ -45,7 +45,7 @@ class User extends Entry
      *
      * @return string
      */
-    public function getFullName()
+    public function getName()
     {
         return $this->getAttribute('name', 0);
     }

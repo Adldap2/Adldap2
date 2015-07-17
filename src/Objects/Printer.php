@@ -98,6 +98,16 @@ class Printer extends Entry
     }
 
     /**
+     * Returns true / false if the printer supports stapling.
+     *
+     * @return null|bool
+     */
+    public function getStaplingSupported()
+    {
+        return $this->convertStringToBool($this->getAttribute('printstaplingsupported', 0));
+    }
+
+    /**
      * Returns an array of the printers bin names.
      *
      * @return array
@@ -195,5 +205,25 @@ class Printer extends Entry
     public function getVersionNumber()
     {
         return $this->getAttribute('versionnumber', 0);
+    }
+
+    /**
+     * Returns the print rate.
+     *
+     * @return string
+     */
+    public function getPrintRate()
+    {
+        return $this->getAttribute('printrate', 0);
+    }
+
+    /**
+     * Returns the print rate unit.
+     *
+     * @return string
+     */
+    public function getPrintRateUnit()
+    {
+        return $this->getAttribute('printrateunit', 0);
     }
 }

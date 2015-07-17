@@ -2,39 +2,47 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Exceptions\AdldapException;
+use Adldap\Objects\Ldap\Entry;
 
-class Group extends AbstractObject
+class Group extends Entry
 {
     /**
-     * The required attributes to validate against
-     * when calling the method validateRequired.
+     * Returns the groups description.
      *
-     * @var array
+     * @return string
      */
-    protected $required = [
-        'group_name',
-        'description',
-        'container',
-    ];
+    public function getDescription()
+    {
+        return $this->getAttribute('description', 0);
+    }
 
     /**
-     * Validate the required attributes.
+     * Returns the user DNs of all users inside the group.
      *
-     * @return bool
-     *
-     * @throws AdldapException
+     * @return array
      */
-    public function validateRequired()
+    public function getMembers()
     {
-        parent::validateRequired();
+        return $this->getAttribute('member');
+    }
 
-        if (!is_array($this->getAttribute('container'))) {
-            $message = 'Container attribute must be an array.';
+    /**
+     * Returns the parent groups DN.
+     *
+     * @return string
+     */
+    public function getMemberOf()
+    {
+        return $this->getAttribute('memberof', 0);
+    }
 
-            throw new AdldapException($message);
-        }
-
-        return true;
+    /**
+     * Returns the group type integer.
+     *
+     * @return string
+     */
+    public function getGroupType()
+    {
+        return $this->getAttribute('grouptype', 0);
     }
 }

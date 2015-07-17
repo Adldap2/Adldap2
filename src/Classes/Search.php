@@ -3,6 +3,7 @@
 namespace Adldap\Classes;
 
 use Adldap\Objects\Computer;
+use Adldap\Objects\Group;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Objects\User;
@@ -406,7 +407,6 @@ class Search extends AbstractBase
      * Returns a new LDAP Entry instance.
      *
      * @param array                                  $attributes
-     * @param \Adldap\Interfaces\ConnectionInterface $connection
      *
      * @return Entry
      */
@@ -420,6 +420,8 @@ class Search extends AbstractBase
                     return new Computer($attributes);
                 case 'Person':
                     return new User($attributes);
+                case 'Group':
+                    return new Group($attributes);
             }
         }
 

@@ -17,6 +17,26 @@ class Entry extends AbstractObject
     }
 
     /**
+     * Returns the entry's samaccountname.
+     *
+     * @return mixed
+     */
+    public function getAccountName()
+    {
+        return $this->getAttribute('samaccountname', 0);
+    }
+
+    /**
+     * Returns the entry's samaccounttype.
+     *
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->getAttribute('samaccounttype', 0);
+    }
+
+    /**
      * Returns the entry's `when created` time.
      *
      * @return string

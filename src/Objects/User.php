@@ -31,6 +31,16 @@ class User extends Entry
     }
 
     /**
+     * Returns the users department.
+     *
+     * @return string
+     */
+    public function getDepartment()
+    {
+        return $this->getAttribute('department', 0);
+    }
+
+    /**
      * Returns the users first name.
      *
      * @return mixed
@@ -48,26 +58,6 @@ class User extends Entry
     public function getLastName()
     {
         return $this->getAttribute('sn', 0);
-    }
-
-    /**
-     * Returns the users login name (samaccountname).
-     *
-     * @return mixed
-     */
-    public function getLoginName()
-    {
-        return $this->getAttribute('samaccountname', 0);
-    }
-
-    /**
-     * Returns the users account type.
-     *
-     * @return string
-     */
-    public function getAccountType()
-    {
-        return $this->getAttribute('samaccounttype', 0);
     }
 
     /**

@@ -445,7 +445,7 @@ class Builder
 
         $operators = implode(', ', $operators);
 
-        $message = "Operator: $operator cannot be used in an LDAP query. Available operators are $operators";
+        $message = "Operator: $operator cannot be used in an LDAP query. Available operators are: $operators";
 
         throw new InvalidQueryOperator($message);
     }
@@ -497,10 +497,8 @@ class Builder
      */
     private function assembleWheres()
     {
-        if (count($this->wheres) > 0) {
-            foreach ($this->wheres as $where) {
-                $this->addToQuery($this->assembleWhere($where));
-            }
+        foreach ($this->wheres as $where) {
+            $this->addToQuery($this->assembleWhere($where));
         }
     }
 
@@ -509,20 +507,18 @@ class Builder
      */
     private function assembleOrWheres()
     {
+        $ors = '';
+
+        foreach ($this->orWheres as $where) {
+            $ors .= $this->assembleWhere($where);
+        }
+
+        /*
+         * Make sure we wrap the query in an 'and'
+         * if using multiple wheres. For example (&QUERY)
+         */
         if (count($this->orWheres) > 0) {
-            $ors = '';
-
-            foreach ($this->orWheres as $where) {
-                $ors .= $this->assembleWhere($where);
-            }
-
-            /*
-             * Make sure we wrap the query in an 'and'
-             * if using multiple wheres. For example (&QUERY)
-             */
-            if (count($this->orWheres) > 0) {
-                $this->addToQuery($this->buildOr($ors));
-            }
+            $this->addToQuery($this->buildOr($ors));
         }
     }
 

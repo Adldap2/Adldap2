@@ -1,10 +1,7 @@
 <?php
 
-namespace Adldap\Traits;
+namespace Adldap\Connections;
 
-/**
- * Class LdapFunctionSupportTrait.
- */
 trait LdapFunctionSupportTrait
 {
     /**

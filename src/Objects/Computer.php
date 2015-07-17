@@ -2,29 +2,15 @@
 
 namespace Adldap\Objects;
 
+use Adldap\Objects\Traits\HasCriticalSystemObjectTrait;
+use Adldap\Objects\Traits\HasDescriptionTrait;
 use Adldap\Objects\Ldap\Entry;
 
 class Computer extends Entry
 {
-    /**
-     * Returns the computers name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getAttribute('cn', 0);
-    }
+    use HasCriticalSystemObjectTrait;
 
-    /**
-     * Returns the computers description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getAttribute('description', 0);
-    }
+    use HasDescriptionTrait;
 
     /**
      * Returns the computers last log off date.
@@ -114,21 +100,5 @@ class Computer extends Entry
     public function getAccountExpiry()
     {
         return $this->getAttribute('accountexpires', 0);
-    }
-
-    /**
-     * Returns true / false if the computer is a critical system object.
-     *
-     * @return bool
-     */
-    public function getIsCriticalSystemObject()
-    {
-        $bool =  $this->getAttribute('iscriticalsystemobject', 0);
-
-        if($bool === 'FALSE') {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

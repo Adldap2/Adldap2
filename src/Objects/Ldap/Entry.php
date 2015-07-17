@@ -7,6 +7,16 @@ use Adldap\Objects\AbstractObject;
 class Entry extends AbstractObject
 {
     /**
+     * Returns the entry's name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getAttribute('name', 0);
+    }
+
+    /**
      * Returns the entry's common name.
      *
      * @return mixed

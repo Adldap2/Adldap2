@@ -3,6 +3,7 @@
 namespace Adldap\Classes;
 
 use Adldap\Objects\Computer;
+use Adldap\Objects\Container;
 use Adldap\Objects\Group;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Objects\Paginator;
@@ -422,6 +423,8 @@ class Search extends AbstractBase
                     return new User($attributes);
                 case 'Group':
                     return new Group($attributes);
+                case 'Container':
+                    return new Container($attributes);
             }
         }
 

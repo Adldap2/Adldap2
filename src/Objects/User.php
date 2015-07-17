@@ -41,16 +41,6 @@ class User extends Entry
     }
 
     /**
-     * Returns the users full name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getAttribute('name', 0);
-    }
-
-    /**
      * Returns the users first name.
      *
      * @return mixed
@@ -165,6 +155,26 @@ class User extends Entry
     }
 
     /**
+     * Returns the users last logon date.
+     *
+     * @return string
+     */
+    public function getLastLogon()
+    {
+        return $this->getAttribute('lastlogon', 0);
+    }
+
+    /**
+     * Returns the users last log off date.
+     *
+     * @return string
+     */
+    public function getLastLogOff()
+    {
+        return $this->getAttribute('lastlogoff', 0);
+    }
+
+    /**
      * Returns the users bad password count.
      *
      * @return string
@@ -172,16 +182,6 @@ class User extends Entry
     public function getBadPasswordCount()
     {
         return $this->getAttribute('badpwdcount', 0);
-    }
-
-    /**
-     * Returns the users user account control integer.
-     *
-     * @return string
-     */
-    public function getUserAccountControl()
-    {
-        return $this->getAttribute('useraccountcontrol', 0);
     }
 
     /**
@@ -202,6 +202,16 @@ class User extends Entry
     public function getLockoutTime()
     {
         return $this->getAttribute('lockouttime', 0);
+    }
+
+    /**
+     * Returns the users user account control integer.
+     *
+     * @return string
+     */
+    public function getUserAccountControl()
+    {
+        return $this->getAttribute('useraccountcontrol', 0);
     }
 
     /**

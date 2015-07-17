@@ -2,19 +2,12 @@
 
 namespace Adldap\Objects;
 
+use Adldap\Objects\Traits\HasDescriptionTrait;
 use Adldap\Objects\Ldap\Entry;
 
 class Group extends Entry
 {
-    /**
-     * Returns the groups description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getAttribute('description', 0);
-    }
+    use HasDescriptionTrait;
 
     /**
      * Returns the user DNs of all users inside the group.

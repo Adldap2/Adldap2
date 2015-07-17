@@ -3,14 +3,8 @@
 namespace Adldap\Connections;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Traits\LdapFunctionSupportTrait;
 use Adldap\Interfaces\ConnectionInterface;
 
-/**
- * The LDAP Connection.
- *
- * Class LDAP
- */
 class Ldap implements ConnectionInterface
 {
     use LdapFunctionSupportTrait;

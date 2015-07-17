@@ -7,6 +7,7 @@ use Adldap\Objects\Container;
 use Adldap\Objects\Group;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Objects\Paginator;
+use Adldap\Objects\Printer;
 use Adldap\Objects\User;
 use Adldap\Query\Operator;
 use Adldap\Query\Builder;
@@ -416,15 +417,17 @@ class Search extends AbstractBase
         if(array_key_exists('objectcategory', $attributes) && array_key_exists(0, $attributes['objectcategory'])) {
             $category = $this->connection->explodeDn($attributes['objectcategory'][0]);
 
-            switch($category[0]) {
-                case 'Computer':
+            switch(strtoupper($category[0])) {
+                case 'COMPUTER':
                     return new Computer($attributes);
-                case 'Person':
+                case 'PERSON':
                     return new User($attributes);
-                case 'Group':
+                case 'GROUP':
                     return new Group($attributes);
-                case 'Container':
+                case 'CONTAINER':
                     return new Container($attributes);
+                case 'PRINT-QUEUE':
+                    return new Printer($attributes);
             }
         }
 

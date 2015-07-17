@@ -117,4 +117,24 @@ class Entry extends AbstractObject
     {
         return $this->getAttribute('instancetype', 0);
     }
+
+    /**
+     * Converts the inserted string boolean to a PHP boolean.
+     *
+     * @param string $bool
+     *
+     * @return null|bool
+     */
+    protected function convertStringToBool($bool)
+    {
+        $bool = strtoupper($bool);
+
+        if($bool === 'FALSE') {
+            return false;
+        } else if($bool === 'TRUE') {
+            return true;
+        } else {
+            return null;
+        }
+    }
 }

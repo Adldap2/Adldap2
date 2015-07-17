@@ -7,16 +7,12 @@ trait HasCriticalSystemObjectTrait
     /**
      * Returns true / false if the entry is a critical system object.
      *
-     * @return bool
+     * @return null|bool
      */
     public function getIsCriticalSystemObject()
     {
-        $bool =  $this->getAttribute('iscriticalsystemobject', 0);
+        $attribute = $this->getAttribute('iscriticalsystemobject', 0);
 
-        if($bool === 'FALSE') {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->convertStringToBool($attribute);
     }
 }

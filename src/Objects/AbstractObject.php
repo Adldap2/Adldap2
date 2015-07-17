@@ -75,11 +75,11 @@ abstract class AbstractObject
      */
     public function getAttribute($key)
     {
-        if (array_key_exists($key, $this->attributes)) {
+        if ($this->hasAttribute($key)) {
             return $this->attributes[$key];
         }
 
-        return;
+        return null;
     }
 
     /**

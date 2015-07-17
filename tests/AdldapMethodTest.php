@@ -141,7 +141,7 @@ class AdldapMethodTest extends FunctionalTestCase
     {
         $ad = $this->newAdldapMock()->makePartial();
 
-        $this->assertEquals(Utilities::class, get_class($ad->utilities()));
+        $this->assertEquals('Adldap\Classes\Utilities', get_class($ad->utilities()));
     }
 
     /**

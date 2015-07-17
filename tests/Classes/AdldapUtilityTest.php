@@ -9,7 +9,7 @@ class AdldapUtilityTest extends FunctionalTestCase
 {
     protected function newUtilityMock()
     {
-        return $this->mock(Utilities::class);
+        return $this->mock('Adldap\Classes\Utilities');
     }
 
     public function testUtilityValidateLdapIsBoundPass()

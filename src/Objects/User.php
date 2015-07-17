@@ -3,8 +3,9 @@
 namespace Adldap\Objects;
 
 use Adldap\Exceptions\AdldapException;
+use Adldap\Objects\Ldap\Entry;
 
-class User extends AbstractObject
+class User extends Entry
 {
     /**
      * The required attributes for the toSchema methods.
@@ -18,6 +19,231 @@ class User extends AbstractObject
         'email',
         'container',
     ];
+
+    /**
+     * Returns the users title.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getAttribute('title', 0);
+    }
+
+    /**
+     * Returns the users first name.
+     *
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->getAttribute('givenname', 0);
+    }
+
+    /**
+     * Returns the users last name.
+     *
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->getAttribute('sn', 0);
+    }
+
+    /**
+     * Returns the users login name (samaccountname).
+     *
+     * @return mixed
+     */
+    public function getLoginName()
+    {
+        return $this->getAttribute('samaccountname', 0);
+    }
+
+    /**
+     * Returns the users account type.
+     *
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->getAttribute('samaccounttype', 0);
+    }
+
+    /**
+     * Returns the users telephone number.
+     *
+     * @return string
+     */
+    public function getTelephoneNumber()
+    {
+        return $this->getAttribute('title', 0);
+    }
+
+    /**
+     * Returns the users company.
+     *
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->getAttribute('company', 0);
+    }
+
+    /**
+     * Returns the users email address.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getAttribute('mail', 0);
+    }
+
+    /**
+     * Returns the users mailbox store DN.
+     *
+     * https://msdn.microsoft.com/en-us/library/aa487565(v=exchg.65).aspx
+     *
+     * @return string
+     */
+    public function getHomeMdb()
+    {
+        return $this->getAttribute('homemdb', 0);
+    }
+
+    /**
+     * Returns the users mail nickname.
+     *
+     * @return string
+     */
+    public function getMailNickname()
+    {
+        return $this->getAttribute('mailnickname', 0);
+    }
+
+    /**
+     * Returns the users principal name.
+     *
+     * This is usually their email address.
+     *
+     * @return mixed
+     */
+    public function getUserPrincipalName()
+    {
+        return $this->getAttribute('userprincipalname', 0);
+    }
+
+    /**
+     * Returns the users proxy addresses.
+     *
+     * @return array
+     */
+    public function getProxyAddresses()
+    {
+        return $this->getAttribute('proxyaddresses');
+    }
+
+    /**
+     * Returns the users script path if the user has one.
+     *
+     * @return string
+     */
+    public function getScriptPath()
+    {
+        return $this->getAttribute('scriptpath', 0);
+    }
+
+    /**
+     * Returns the array of group DNs the user is a member of.
+     *
+     * @return array
+     */
+    public function getMemberOf()
+    {
+        return $this->getAttribute('memberof');
+    }
+
+    /**
+     * Returns the users bad password count.
+     *
+     * @return string
+     */
+    public function getBadPasswordCount()
+    {
+        return $this->getAttribute('badpwdcount', 0);
+    }
+
+    /**
+     * Returns the users user account control integer.
+     *
+     * @return string
+     */
+    public function getUserAccountControl()
+    {
+        return $this->getAttribute('useraccountcontrol', 0);
+    }
+
+    /**
+     * Returns the users bad password time.
+     *
+     * @return string
+     */
+    public function getBadPasswordTime()
+    {
+        return $this->getAttribute('badpasswordtime', 0);
+    }
+
+    /**
+     * Returns the users lockout time.
+     *
+     * @return string
+     */
+    public function getLockoutTime()
+    {
+        return $this->getAttribute('lockouttime', 0);
+    }
+
+    /**
+     * Returns the users profile file path.
+     *
+     * @return string
+     */
+    public function getProfilePath()
+    {
+        return $this->getAttribute('profilepath', 0);
+    }
+
+    /**
+     * Returns the users legaxy exchange distinguished name.
+     *
+     * @return string
+     */
+    public function getLegacyExchangeDn()
+    {
+        return $this->getAttribute('legacyexchangedn', 0);
+    }
+
+    /**
+     * Returns the users account expiry date.
+     *
+     * @return string
+     */
+    public function getAccountExpiry()
+    {
+        return $this->getAttribute('accountexpires', 0);
+    }
+
+    /**
+     * Returns an array of address book DNs
+     * that the user is listed to be shown in.
+     *
+     * @return array
+     */
+    public function getShowInAddressBook()
+    {
+        return $this->attributes('showinaddressbook');
+    }
 
     /**
      * Checks the attributes for existence and returns the attributes array.
@@ -62,9 +288,5 @@ class User extends AbstractObject
         }
 
         return $this->getAttributes();
-    }
-
-    public function create()
-    {
     }
 }

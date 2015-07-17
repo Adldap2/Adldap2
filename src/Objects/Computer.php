@@ -2,7 +2,9 @@
 
 namespace Adldap\Objects;
 
-class Computer extends AbstractObject
+use Adldap\Objects\Ldap\Entry;
+
+class Computer extends Entry
 {
     /**
      * Returns the computers name.
@@ -15,23 +17,13 @@ class Computer extends AbstractObject
     }
 
     /**
-     * Returns the computers `when created` time.
+     * Returns the computers description.
      *
      * @return string
      */
-    public function getCreatedAt()
+    public function getDescription()
     {
-        return $this->getAttribute('whencreated', 0);
-    }
-
-    /**
-     * Returns the computers `when changed` time.
-     *
-     * @return string
-     */
-    public function getUpdatedAt()
-    {
-        return $this->getAttribute('whenchanged', 0);
+        return $this->getAttribute('description', 0);
     }
 
     /**
@@ -117,7 +109,7 @@ class Computer extends AbstractObject
     /**
      * Returns the computers account expiry date.
      *
-     * @return mixed
+     * @return string
      */
     public function getAccountExpiry()
     {
@@ -125,44 +117,18 @@ class Computer extends AbstractObject
     }
 
     /**
-     * Returns the computers primary group ID.
+     * Returns true / false if the computer is a critical system object.
      *
-     * @return string
+     * @return bool
      */
-    public function getPrimaryGroupId()
+    public function getIsCriticalSystemObject()
     {
-        return $this->getAttribute('primarygroupid', 0);
-    }
+        $bool =  $this->getAttribute('iscriticalsystemobject', 0);
 
-    /**
-     * Returns the computers object SID.
-     *
-     * @return string
-     */
-    public function getObjectSid()
-    {
-        return $this->getAttribute('objectsid', 0);
-    }
-
-    /**
-     * Returns the computers instance type.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms676204(v=vs.85).aspx
-     *
-     * @return int
-     */
-    public function getInstanceType()
-    {
-        return $this->getAttribute('instancetype', 0);
-    }
-
-    /**
-     * Returns the computers distinguished name string.
-     *
-     * @return string
-     */
-    public function getDistinguishedName()
-    {
-        return $this->getAttribute('distinguishedname', 0);
+        if($bool === 'FALSE') {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

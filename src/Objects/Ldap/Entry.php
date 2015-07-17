@@ -5,9 +5,6 @@ namespace Adldap\Objects\Ldap;
 use Adldap\Interfaces\ConnectionInterface;
 use Adldap\Objects\AbstractObject;
 
-/**
- * Class LdapEntry.
- */
 class Entry extends AbstractObject
 {
     /**
@@ -39,7 +36,12 @@ class Entry extends AbstractObject
      */
     private function applyAttributes($attributes)
     {
+        /*
+         * We'll check if the LDAP entry's count attribute
+         * exists, and make sure more than one attribute exists
+         */
         if (array_key_exists('count', $attributes) && $attributes['count'] > 0) {
+            // We'll grab each attribute key for iterating
             $keys = array_keys($attributes);
 
             foreach ($keys as $key) {
@@ -49,7 +51,9 @@ class Entry extends AbstractObject
                         $data = [];
 
                         for ($i = 0; $i <= $attributes[$key]['count']; $i++) {
-                            $data[] = $attributes[$key][$i];
+                            if(array_key_exists($i, $attributes[$key])) {
+                                $data[] = $attributes[$key][$i];
+                            }
                         }
 
                         $this->setAttribute($key, array_filter($data));

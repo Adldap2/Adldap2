@@ -92,7 +92,13 @@ class Search extends AbstractBase
         }
 
         if ($results) {
-            return $this->processResults($results);
+            $objects = $this->processResults($results);
+
+            if (!empty($this->sortByField)) {
+                $objects =  $this->processSortBy($objects);
+            }
+
+            return $objects;
         }
 
         return false;
@@ -435,10 +441,6 @@ class Search extends AbstractBase
 
                 $objects[] = $entry->getAttributes();
             }
-
-            if (!empty($this->sortByField)) {
-                return $this->processSortBy($objects);
-            }
         }
 
         return $objects;
@@ -459,31 +461,9 @@ class Search extends AbstractBase
         if (count($pages) > 0) {
             $objects = [];
 
-            // Go through each page
+            // Go through each page and process the results into an objects array
             foreach ($pages as $results) {
-                // Get the entries for each page
-                $entries = $this->connection->getEntries($results);
-
-                /*
-                 * If we've retrieved entries, we'll go through
-                 * each and construct the entry attributes, and
-                 * put them all inside the objects array
-                 */
-                if (is_array($entries) && array_key_exists('count', $entries)) {
-                    for ($i = 0; $i < $entries['count']; $i++) {
-                        $entry = $this->newLdapEntry($entries[$i], $this->connection);
-
-                        $objects[] = $entry->getAttributes();
-                    }
-                }
-            }
-
-            /*
-             * If we're sorting, we'll process all of
-             * our results so it's sorted correctly
-             */
-            if (!empty($this->sortByField)) {
-                $objects = $this->processSortBy($objects);
+                $objects = array_merge($objects, $this->processResults($results));
             }
 
             // Return a new Paginator instance

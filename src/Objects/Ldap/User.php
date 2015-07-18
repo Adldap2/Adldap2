@@ -247,7 +247,7 @@ class User extends Entry
      */
     public function getShowInAddressBook()
     {
-        return $this->attributes('showinaddressbook');
+        return $this->getAttribute('showinaddressbook');
     }
 
     /**

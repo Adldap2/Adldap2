@@ -71,7 +71,7 @@ class Search extends AbstractBase
     /**
      * Constructor.
      *
-     * Sets a new query builder instance.
+     * @param Adldap $adldap
      */
     public function __construct(Adldap $adldap)
     {
@@ -89,11 +89,6 @@ class Search extends AbstractBase
      */
     public function query($query)
     {
-        // If the query is empty, we'll return false
-        if ($query === null || empty($query)) {
-            return false;
-        }
-
         if ($this->read) {
             // If read is true, we'll perform a read search, retrieving one record
             $results = $this->connection->read($this->getDn(), $query, $this->getSelects());

@@ -7,7 +7,9 @@ use Adldap\Objects\AbstractObject;
 class Entry extends AbstractObject
 {
     /**
-     * Returns the entry's name.
+     * Returns the entry's name. An AD alias for the CN attribute.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
      *
      * @return string
      */
@@ -19,7 +21,9 @@ class Entry extends AbstractObject
     /**
      * Returns the entry's common name.
      *
-     * @return mixed
+     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
+     *
+     * @return string
      */
     public function getCommonName()
     {
@@ -29,7 +33,9 @@ class Entry extends AbstractObject
     /**
      * Returns the entry's samaccountname.
      *
-     * @return mixed
+     * https://msdn.microsoft.com/en-us/library/ms679635(v=vs.85).aspx
+     *
+     * @return string
      */
     public function getAccountName()
     {
@@ -38,6 +44,8 @@ class Entry extends AbstractObject
 
     /**
      * Returns the entry's samaccounttype.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679637(v=vs.85).aspx
      *
      * @return string
      */
@@ -49,6 +57,8 @@ class Entry extends AbstractObject
     /**
      * Returns the entry's `when created` time.
      *
+     * https://msdn.microsoft.com/en-us/library/ms680924(v=vs.85).aspx
+     *
      * @return string
      */
     public function getCreatedAt()
@@ -58,6 +68,8 @@ class Entry extends AbstractObject
 
     /**
      * Returns the entry's `when changed` time.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
      *
      * @return string
      */
@@ -69,6 +81,8 @@ class Entry extends AbstractObject
     /**
      * Returns the entry's distinguished name string.
      *
+     * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
+     *
      * @return string
      */
     public function getDistinguishedName()
@@ -79,7 +93,9 @@ class Entry extends AbstractObject
     /**
      * Returns the entry's object class.
      *
-     * @return mixed
+     * https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx
+     *
+     * @return string
      */
     public function getObjectClass()
     {
@@ -88,6 +104,8 @@ class Entry extends AbstractObject
 
     /**
      * Returns the entry's primary group ID.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
      *
      * @return string
      */
@@ -98,6 +116,8 @@ class Entry extends AbstractObject
 
     /**
      * Returns the entry's object SID.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679024(v=vs.85).aspx
      *
      * @return string
      */

@@ -7,6 +7,8 @@ class Printer extends Entry
     /**
      * Returns the printers name.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679385(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPrinterName()
@@ -17,6 +19,8 @@ class Printer extends Entry
     /**
      * Returns the printers share name.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679408(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPrinterShareName()
@@ -26,6 +30,8 @@ class Printer extends Entry
 
     /**
      * Returns the printers memory.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679396(v=vs.85).aspx
      *
      * @return string
      */
@@ -47,6 +53,8 @@ class Printer extends Entry
     /**
      * Returns the printers location.
      *
+     * https://msdn.microsoft.com/en-us/library/ms676839(v=vs.85).aspx
+     *
      * @return string
      */
     public function getLocation()
@@ -58,6 +66,8 @@ class Printer extends Entry
      * Returns the server name that the
      * current printer is connected to.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679772(v=vs.85).aspx
+     *
      * @return string
      */
     public function getServerName()
@@ -67,6 +77,8 @@ class Printer extends Entry
 
     /**
      * Returns true / false if the printer can print in color.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679382(v=vs.85).aspx
      *
      * @return null|bool
      */
@@ -78,6 +90,8 @@ class Printer extends Entry
     /**
      * Returns true / false if the printer supports duplex printing.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679383(v=vs.85).aspx
+     *
      * @return null|bool
      */
     public function getDuplexSupported()
@@ -87,6 +101,8 @@ class Printer extends Entry
 
     /**
      * Returns an array of printer paper types that the printer supports.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679395(v=vs.85).aspx
      *
      * @return array
      */
@@ -98,6 +114,8 @@ class Printer extends Entry
     /**
      * Returns true / false if the printer supports stapling.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679410(v=vs.85).aspx
+     *
      * @return null|bool
      */
     public function getStaplingSupported()
@@ -107,6 +125,8 @@ class Printer extends Entry
 
     /**
      * Returns an array of the printers bin names.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679380(v=vs.85).aspx
      *
      * @return array
      */
@@ -118,6 +138,8 @@ class Printer extends Entry
     /**
      * Returns the printers maximum resolution.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679391(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPrintMaxResolution()
@@ -127,6 +149,8 @@ class Printer extends Entry
 
     /**
      * Returns the printers orientations supported.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679402(v=vs.85).aspx
      *
      * @return string
      */
@@ -138,6 +162,8 @@ class Printer extends Entry
     /**
      * Returns the driver name of the printer.
      *
+     * https://msdn.microsoft.com/en-us/library/ms675652(v=vs.85).aspx
+     *
      * @return string
      */
     public function getDriverName()
@@ -147,6 +173,8 @@ class Printer extends Entry
 
     /**
      * Returns the printer drivers version number.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675653(v=vs.85).aspx
      *
      * @return string
      */
@@ -158,6 +186,8 @@ class Printer extends Entry
     /**
      * Returns the priority number of the printer.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679413(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPriority()
@@ -167,6 +197,8 @@ class Printer extends Entry
 
     /**
      * Returns the printers start time.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679411(v=vs.85).aspx
      *
      * @return string
      */
@@ -178,6 +210,8 @@ class Printer extends Entry
     /**
      * Returns the printers end time.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679384(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPrintEndTime()
@@ -187,6 +221,8 @@ class Printer extends Entry
 
     /**
      * Returns the port name of printer.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679131(v=vs.85).aspx
      *
      * @return string
      */
@@ -198,6 +234,8 @@ class Printer extends Entry
     /**
      * Returns the printers version number.
      *
+     * https://msdn.microsoft.com/en-us/library/ms680897(v=vs.85).aspx
+     *
      * @return string
      */
     public function getVersionNumber()
@@ -208,6 +246,8 @@ class Printer extends Entry
     /**
      * Returns the print rate.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679405(v=vs.85).aspx
+     *
      * @return string
      */
     public function getPrintRate()
@@ -217,6 +257,8 @@ class Printer extends Entry
 
     /**
      * Returns the print rate unit.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679406(v=vs.85).aspx
      *
      * @return string
      */

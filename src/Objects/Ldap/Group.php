@@ -11,6 +11,8 @@ class Group extends Entry
     /**
      * Returns the user DNs of all users inside the group.
      *
+     * https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
+     *
      * @return array
      */
     public function getMembers()
@@ -21,6 +23,8 @@ class Group extends Entry
     /**
      * Returns the parent groups DN.
      *
+     * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
+     *
      * @return string
      */
     public function getMemberOf()
@@ -30,6 +34,8 @@ class Group extends Entry
 
     /**
      * Returns the group type integer.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675935(v=vs.85).aspx
      *
      * @return string
      */

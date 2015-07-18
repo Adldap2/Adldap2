@@ -3,9 +3,15 @@
 namespace Adldap\Objects\Ldap;
 
 use Adldap\Exceptions\AdldapException;
+use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
+use Adldap\Objects\Traits\HasMemberOfTrait;
 
 class User extends Entry
 {
+    use HasMemberOfTrait;
+
+    use HasLastLogonAndLogOffTrait;
+
     /**
      * The required attributes for the toSchema methods.
      *
@@ -22,6 +28,8 @@ class User extends Entry
     /**
      * Returns the users title.
      *
+     * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     *
      * @return string
      */
     public function getTitle()
@@ -31,6 +39,8 @@ class User extends Entry
 
     /**
      * Returns the users department.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
      *
      * @return string
      */
@@ -42,6 +52,8 @@ class User extends Entry
     /**
      * Returns the users first name.
      *
+     * https://msdn.microsoft.com/en-us/library/ms675719(v=vs.85).aspx
+     *
      * @return mixed
      */
     public function getFirstName()
@@ -51,6 +63,8 @@ class User extends Entry
 
     /**
      * Returns the users last name.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
      *
      * @return mixed
      */
@@ -62,15 +76,19 @@ class User extends Entry
     /**
      * Returns the users telephone number.
      *
+     * https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
+     *
      * @return string
      */
     public function getTelephoneNumber()
     {
-        return $this->getAttribute('title', 0);
+        return $this->getAttribute('telephonenumber', 0);
     }
 
     /**
      * Returns the users company.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675457(v=vs.85).aspx
      *
      * @return string
      */
@@ -81,6 +99,8 @@ class User extends Entry
 
     /**
      * Returns the users email address.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
      * @return string
      */
@@ -116,7 +136,9 @@ class User extends Entry
      *
      * This is usually their email address.
      *
-     * @return mixed
+     * https://msdn.microsoft.com/en-us/library/ms680857(v=vs.85).aspx
+     *
+     * @return string
      */
     public function getUserPrincipalName()
     {
@@ -125,6 +147,8 @@ class User extends Entry
 
     /**
      * Returns the users proxy addresses.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
      *
      * @return array
      */
@@ -136,41 +160,13 @@ class User extends Entry
     /**
      * Returns the users script path if the user has one.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679656(v=vs.85).aspx
+     *
      * @return string
      */
     public function getScriptPath()
     {
         return $this->getAttribute('scriptpath', 0);
-    }
-
-    /**
-     * Returns the array of group DNs the user is a member of.
-     *
-     * @return array
-     */
-    public function getMemberOf()
-    {
-        return $this->getAttribute('memberof');
-    }
-
-    /**
-     * Returns the users last logon date.
-     *
-     * @return string
-     */
-    public function getLastLogon()
-    {
-        return $this->getAttribute('lastlogon', 0);
-    }
-
-    /**
-     * Returns the users last log off date.
-     *
-     * @return string
-     */
-    public function getLastLogOff()
-    {
-        return $this->getAttribute('lastlogoff', 0);
     }
 
     /**

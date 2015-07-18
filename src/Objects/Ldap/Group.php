@@ -3,10 +3,13 @@
 namespace Adldap\Objects\Ldap;
 
 use Adldap\Objects\Traits\HasDescriptionTrait;
+use Adldap\Objects\Traits\HasMemberOfTrait;
 
 class Group extends Entry
 {
     use HasDescriptionTrait;
+
+    use HasMemberOfTrait;
 
     /**
      * Returns the user DNs of all users inside the group.
@@ -18,18 +21,6 @@ class Group extends Entry
     public function getMembers()
     {
         return $this->getAttribute('member');
-    }
-
-    /**
-     * Returns the parent groups DN.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getMemberOf()
-    {
-        return $this->getAttribute('memberof', 0);
     }
 
     /**

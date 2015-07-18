@@ -127,6 +127,51 @@ class Builder
     }
 
     /**
+     * Adds a where contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereContains($field, $value)
+    {
+        $this->addWhere($field, Operator::$contains, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereStartsWith($field, $value)
+    {
+        $this->addWhere($field, Operator::$startsWith, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where ends with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereEndsWith($field, $value)
+    {
+        $this->addWhere($field, Operator::$endsWith, $value);
+
+        return $this;
+    }
+
+    /**
      * Adds an or where clause to the current query.
      *
      * @param string $field
@@ -138,6 +183,51 @@ class Builder
     public function orWhere($field, $operator = null, $value = null)
     {
         $this->addOrWhere($field, $operator, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereContains($field, $value)
+    {
+        $this->addOrWhere($field, Operator::$contains, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereStartsWith($field, $value)
+    {
+        $this->addOrWhere($field, Operator::$startsWith, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where ends with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereEndsWith($field, $value)
+    {
+        $this->addOrWhere($field, Operator::$endsWith, $value);
 
         return $this;
     }
@@ -203,10 +293,7 @@ class Builder
          * Looks like our query hasn't been assembled
          * yet, let's try to assemble it
          */
-        $this->assembleQuery();
-
-        // Return the assembled query
-        return $this->query;
+        return $this->assembleQuery();
     }
 
     /**
@@ -487,6 +574,8 @@ class Builder
         if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0) {
             $this->setQuery($this->buildAnd($this->getQuery()));
         }
+
+        return $this->query;
     }
 
     /**

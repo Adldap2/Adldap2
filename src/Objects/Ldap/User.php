@@ -1,9 +1,8 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Objects\Ldap;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Objects\Ldap\Entry;
 
 class User extends Entry
 {

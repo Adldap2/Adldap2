@@ -2,12 +2,13 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Objects\Computer;
-use Adldap\Objects\Container;
-use Adldap\Objects\Group;
+
 use Adldap\Objects\Paginator;
-use Adldap\Objects\Printer;
-use Adldap\Objects\User;
+use Adldap\Objects\Ldap\Computer;
+use Adldap\Objects\Ldap\Container;
+use Adldap\Objects\Ldap\Group;
+use Adldap\Objects\Ldap\User;
+use Adldap\Objects\Ldap\Printer;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Query\Operator;
 use Adldap\Query\Builder;

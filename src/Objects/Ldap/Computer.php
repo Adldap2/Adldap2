@@ -1,10 +1,9 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Objects\Ldap;
 
 use Adldap\Objects\Traits\HasCriticalSystemObjectTrait;
 use Adldap\Objects\Traits\HasDescriptionTrait;
-use Adldap\Objects\Ldap\Entry;
 
 class Computer extends Entry
 {

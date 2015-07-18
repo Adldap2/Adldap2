@@ -30,6 +30,13 @@ abstract class AbstractObject
     protected $attributes = [];
 
     /**
+     * Holds the current objects modified attributes.
+     *
+     * @var array
+     */
+    protected $modifications = [];
+
+    /**
      * Constructor.
      *
      * Sets the object's attributes property.

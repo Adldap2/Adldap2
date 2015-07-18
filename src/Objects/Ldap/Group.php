@@ -1,9 +1,8 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Objects\Ldap;
 
 use Adldap\Objects\Traits\HasDescriptionTrait;
-use Adldap\Objects\Ldap\Entry;
 
 class Group extends Entry
 {

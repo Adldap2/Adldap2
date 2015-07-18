@@ -1,8 +1,6 @@
 <?php
 
-namespace Adldap\Objects;
-
-use Adldap\Objects\Ldap\Entry;
+namespace Adldap\Objects\Ldap;
 
 class Printer extends Entry
 {

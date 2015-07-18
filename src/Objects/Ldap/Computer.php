@@ -14,6 +14,8 @@ class Computer extends Entry
     /**
      * Returns the computers last log off date.
      *
+     * https://msdn.microsoft.com/en-us/library/ms676822(v=vs.85).aspx
+     *
      * @return string
      */
     public function getLastLogOff()
@@ -23,6 +25,8 @@ class Computer extends Entry
 
     /**
      * Returns the computers last log on date.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms676823(v=vs.85).aspx
      *
      * @return string
      */
@@ -34,6 +38,8 @@ class Computer extends Entry
     /**
      * Returns the computers last log on timestamp.
      *
+     * https://msdn.microsoft.com/en-us/library/ms676824(v=vs.85).aspx
+     *
      * @return string
      */
     public function getLastLogonTimestamp()
@@ -43,6 +49,8 @@ class Computer extends Entry
 
     /**
      * Returns the computers operating system.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679076(v=vs.85).aspx
      *
      * @return string
      */
@@ -54,6 +62,8 @@ class Computer extends Entry
     /**
      * Returns the computers operating system version.
      *
+     * https://msdn.microsoft.com/en-us/library/ms679079(v=vs.85).aspx
+     *
      * @return string
      */
     public function getOperatingSystemVersion()
@@ -63,6 +73,8 @@ class Computer extends Entry
 
     /**
      * Returns the computers operating system service pack.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679078(v=vs.85).aspx
      *
      * @return string
      */
@@ -84,6 +96,8 @@ class Computer extends Entry
     /**
      * Returns the computers bad password time.
      *
+     * https://msdn.microsoft.com/en-us/library/ms675243(v=vs.85).aspx
+     *
      * @return string
      */
     public function getBadPasswordTime()
@@ -93,6 +107,8 @@ class Computer extends Entry
 
     /**
      * Returns the computers account expiry date.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
      *
      * @return string
      */

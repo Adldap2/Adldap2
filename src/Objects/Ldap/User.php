@@ -98,7 +98,7 @@ class User extends Entry
     }
 
     /**
-     * Returns the users email address.
+     * Returns the users first email address.
      *
      * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
@@ -107,6 +107,18 @@ class User extends Entry
     public function getEmail()
     {
         return $this->getAttribute('mail', 0);
+    }
+
+    /**
+     * Returns the users email addresses.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
+     *
+     * @return array
+     */
+    public function getEmails()
+    {
+        return $this->getAttribute('mail');
     }
 
     /**

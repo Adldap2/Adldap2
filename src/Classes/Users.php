@@ -6,9 +6,9 @@ use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
 use Adldap\Objects\AccountControl;
-use Adldap\Objects\User;
+use Adldap\Objects\Ldap\User;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Adldap;
-
 
 class Users extends AbstractQueryable
 {
@@ -46,7 +46,7 @@ class Users extends AbstractQueryable
         $search = $this->adldap->search()
             ->select($fields)
             ->where($personCategory, '=', $person)
-            ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT);
+            ->where(ActiveDirectory::ACCOUNT_TYPE, '=', Adldap::ADLDAP_NORMAL_ACCOUNT);
 
         if ($sorted) {
             $search->sortBy($sortBy, $sortByDirection);
@@ -77,8 +77,8 @@ class Users extends AbstractQueryable
         return $this->adldap->search()
             ->select($fields)
             ->where($personCategory, '=', $person)
-            ->where('samaccounttype', '=', Adldap::ADLDAP_NORMAL_ACCOUNT)
-            ->where('anr', '=', $username)
+            ->where(ActiveDirectory::ACCOUNT_TYPE, '=', Adldap::ADLDAP_NORMAL_ACCOUNT)
+            ->where(ActiveDirectory::ANR, '=', $username)
             ->first();
     }
 

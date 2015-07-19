@@ -23,18 +23,11 @@ abstract class AbstractObject
     protected $required = [];
 
     /**
-     * Holds the current objects attributes.
+     * Holds the current objects original attributes.
      *
      * @var array
      */
     protected $attributes = [];
-
-    /**
-     * Holds the current objects modified attributes.
-     *
-     * @var array
-     */
-    protected $modifications = [];
 
     /**
      * Constructor.
@@ -76,6 +69,9 @@ abstract class AbstractObject
     /**
      * Retrieves the specified key from the attribute array.
      *
+     * If a sub-key is specified, it will try
+     * and retrieve it from the parent keys array.
+     *
      * @param int|string $key
      * @param int|string $subKey
      *
@@ -107,7 +103,7 @@ abstract class AbstractObject
     }
 
     /**
-     * Sets the key on the objects attribute array.
+     * Sets an attribute in the objects attributes array.
      *
      * @param int|string $key
      * @param mixed      $value

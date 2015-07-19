@@ -7,6 +7,89 @@ use Adldap\Objects\AbstractObject;
 class Entry extends AbstractObject
 {
     /**
+     * Holds the current objects modified attributes.
+     *
+     * @var array
+     */
+    protected $modifications = [];
+
+    /**
+     * Adds modifications to the current object.
+     *
+     * @param int|string $key
+     * @param mixed      $value
+     *
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        /*
+         * We'll check if the attribute exists on the current
+         * object to see what type of modification is taking place
+         */
+        if ($this->hasAttribute($key)) {
+            if(is_null($value)) {
+                /*
+                 * If the dev has explicitly set the value null,
+                 * we'll assume they want to remove the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REMOVE;
+            } else {
+                /*
+                 * If it's not null, we'll assume
+                 * they're looking to replace the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REPLACE;
+            }
+        } else {
+            /*
+             * It looks like the attribute doesn't exist yet,
+             * they must be looking to add it to the object
+             */
+            $type = LDAP_MODIFY_BATCH_ADD;
+        }
+
+        // Finally we'll set the modification
+        $this->setModification($key, $type, $value);
+
+        return $this;
+    }
+
+    /**
+     * Returns the objects modifications.
+     *
+     * @return array
+     */
+    public function getModifications()
+    {
+        return $this->modifications;
+    }
+
+    /**
+     * Sets a modification in the objects modifications array.
+     *
+     * @param int|string $key
+     * @param int        $type
+     * @param mixed      $values
+     *
+     * @return $this
+     */
+    public function setModification($key, $type, $values)
+    {
+        /*
+         * We'll use the key as the array key here so if the same
+         * attribute is set multiple times, it will always be overwritten
+         */
+        $this->modifications[$key] = [
+            'attrib' => $key,
+            'modtype' => $type,
+            'values' => $values,
+        ];
+
+        return $this;
+    }
+
+    /**
      * Returns the entry's name. An AD alias for the CN attribute.
      *
      * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
@@ -88,6 +171,20 @@ class Entry extends AbstractObject
     public function getDistinguishedName()
     {
         return $this->getAttribute('distinguishedname', 0);
+    }
+
+    /**
+     * Returns the entry's distinguished name string.
+     *
+     * (Alias for getDistinguishedName())
+     *
+     * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getDn()
+    {
+        return $this->getDistinguishedName();
     }
 
     /**

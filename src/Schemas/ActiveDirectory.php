@@ -41,6 +41,7 @@ class ActiveDirectory
     const LAST_LOGON_TIMESTAMP = 'lastlogontimestamp';
     const LAST_NAME = 'sn';
     const LEGACY_EXCHANGE_DN = 'legacyexchangedn';
+    const LOCATION = 'location';
     const LOCKOUT_TIME = 'lockouttime';
     const MEMBER = 'member';
     const MEMBER_OF = 'memberof';
@@ -52,9 +53,18 @@ class ActiveDirectory
     const OPERATING_SYSTEM_VERSION = 'operatingsystemversion';
     const POSTAL_CODE = 'postalcode';
     const PRIMARY_GROUP_ID = 'primarygroupid';
+    const PRINTER_BIN_NAMES = 'printbinnames';
+    const PRINTER_COLOR_SUPPORTED = 'printcolor';
+    const PRINTER_DUPLEX_SUPPORTED = 'printduplexsupported';
+    const PRINTER_MEDIA_SUPPORTED = 'printmediasupported';
+    const PRINTER_MEMORY = 'printmemory';
+    const PRINTER_NAME = 'printername';
+    const PRINTER_SHARE_NAME = 'printsharename';
+    const PRINTER_STAPLING_SUPPORTED = 'printstaplingsupported';
     const PROFILE_PATH = 'profilepath';
     const PROXY_ADDRESSES = 'proxyaddresses';
     const SCRIPT_PATH = 'scriptpath';
+    const SERVER_NAME = 'servername';
     const SHOW_IN_ADDRESS_BOOK = 'showinaddressbook';
     const STREET = 'street';
     const SYSTEM_FLAGS = 'systemflags';
@@ -62,17 +72,7 @@ class ActiveDirectory
     const TITLE = 'title';
     const TRUE = 'TRUE';
     const UPDATED_AT  = 'whenchanged';
+    const URL = 'url';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
-    const PRINTER_NAME = 'printername';
-    const PRINTER_COLOR_SUPPORTED = 'printcolor';
-    const PRINTER_DUPLEX_SUPPORTED = 'printduplexsupported';
-    const PRINTER_STAPLING_SUPPORTED = 'printstaplingsupported';
-    const PRINTER_MEDIA_SUPPORTED = 'printmediasupported';
-    const PRINTER_BIN_NAMES = 'printbinnames';
-    const PRINTER_SHARE_NAME = 'printsharename';
-    const PRINTER_MEMORY = 'printmemory';
-    const URL = 'url';
-    const LOCATION = 'location';
-    const SERVER_NAME = 'servername';
 }

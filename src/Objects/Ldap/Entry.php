@@ -2,6 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\AbstractObject;
 
 class Entry extends AbstractObject
@@ -98,7 +99,7 @@ class Entry extends AbstractObject
      */
     public function getName()
     {
-        return $this->getAttribute('name', 0);
+        return $this->getAttribute(ActiveDirectory::NAME, 0);
     }
 
     /**
@@ -110,7 +111,7 @@ class Entry extends AbstractObject
      */
     public function getCommonName()
     {
-        return $this->getAttribute('cn', 0);
+        return $this->getAttribute(ActiveDirectory::COMMON_NAME, 0);
     }
 
     /**
@@ -122,7 +123,7 @@ class Entry extends AbstractObject
      */
     public function getAccountName()
     {
-        return $this->getAttribute('samaccountname', 0);
+        return $this->getAttribute(ActiveDirectory::ACCOUNT_NAME, 0);
     }
 
     /**
@@ -134,7 +135,7 @@ class Entry extends AbstractObject
      */
     public function getAccountType()
     {
-        return $this->getAttribute('samaccounttype', 0);
+        return $this->getAttribute(ActiveDirectory::ACCOUNT_TYPE, 0);
     }
 
     /**
@@ -146,7 +147,7 @@ class Entry extends AbstractObject
      */
     public function getCreatedAt()
     {
-        return $this->getAttribute('whencreated', 0);
+        return $this->getAttribute(ActiveDirectory::CREATED_AT, 0);
     }
 
     /**
@@ -158,7 +159,7 @@ class Entry extends AbstractObject
      */
     public function getUpdatedAt()
     {
-        return $this->getAttribute('whenchanged', 0);
+        return $this->getAttribute(ActiveDirectory::UPDATED_AT, 0);
     }
 
     /**
@@ -170,7 +171,7 @@ class Entry extends AbstractObject
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute('distinguishedname', 0);
+        return $this->getAttribute(ActiveDirectory::DISTINGUISHED_NAME, 0);
     }
 
     /**
@@ -196,19 +197,7 @@ class Entry extends AbstractObject
      */
     public function getObjectClass()
     {
-        return $this->getAttribute('objectclass', 0);
-    }
-
-    /**
-     * Returns the entry's primary group ID.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getPrimaryGroupId()
-    {
-        return $this->getAttribute('primarygroupid', 0);
+        return $this->getAttribute(ActiveDirectory::OBJECT_CLASS, 0);
     }
 
     /**
@@ -220,7 +209,19 @@ class Entry extends AbstractObject
      */
     public function getObjectSid()
     {
-        return $this->getAttribute('objectsid', 0);
+        return $this->getAttribute(ActiveDirectory::OBJECT_SID, 0);
+    }
+
+    /**
+     * Returns the entry's primary group ID.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getPrimaryGroupId()
+    {
+        return $this->getAttribute(ActiveDirectory::PRIMARY_GROUP_ID, 0);
     }
 
     /**
@@ -232,7 +233,7 @@ class Entry extends AbstractObject
      */
     public function getInstanceType()
     {
-        return $this->getAttribute('instancetype', 0);
+        return $this->getAttribute(ActiveDirectory::INSTANCE_TYPE, 0);
     }
 
     /**
@@ -246,9 +247,9 @@ class Entry extends AbstractObject
     {
         $bool = strtoupper($bool);
 
-        if($bool === 'FALSE') {
+        if($bool === ActiveDirectory::FALSE) {
             return false;
-        } else if($bool === 'TRUE') {
+        } else if($bool === ActiveDirectory::TRUE) {
             return true;
         } else {
             return null;

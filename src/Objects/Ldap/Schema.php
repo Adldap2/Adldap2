@@ -2,42 +2,9 @@
 
 namespace Adldap\Objects\Ldap;
 
-use Adldap\Objects\Schema as AdldapSchema;
-use Adldap\Objects\AbstractObject;
 
-/**
- * Class LdapSchema.
- */
-class Schema extends AbstractObject
+class Schema
 {
-    /**
-     * Constructor.
-     *
-     * Accepts a Schema object and constructs an LDAP
-     * schema using it's attributes.
-     *
-     * @param AdldapSchema $schema
-     */
-    public function __construct(AdldapSchema $schema)
-    {
-        $this->constructLdapSchema($schema);
-    }
-
-    /**
-     * When setting attributes, we need to assign them
-     * in their own int(0) key due to LDAP parsing.
-     *
-     * @param int|string $key
-     * @param mixed      $value
-     *
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        $this->attributes[$key][0] = $value;
-
-        return $this;
-    }
 
     /**
      * Constructs a schema compatible with the LDAP protocol.

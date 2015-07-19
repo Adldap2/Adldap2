@@ -2,6 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Traits\HasDescriptionTrait;
 use Adldap\Objects\Traits\HasMemberOfTrait;
 
@@ -20,7 +21,7 @@ class Group extends Entry
      */
     public function getMembers()
     {
-        return $this->getAttribute('member');
+        return $this->getAttribute(ActiveDirectory::MEMBER);
     }
 
     /**
@@ -32,6 +33,6 @@ class Group extends Entry
      */
     public function getGroupType()
     {
-        return $this->getAttribute('grouptype', 0);
+        return $this->getAttribute(ActiveDirectory::GROUP_TYPE, 0);
     }
 }

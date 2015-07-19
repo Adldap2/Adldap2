@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects\Traits;
 
+use Adldap\Schemas\ActiveDirectory;
+
 trait HasMemberOfTrait
 {
     /**
@@ -13,6 +15,6 @@ trait HasMemberOfTrait
      */
     public function getMemberOf()
     {
-        return $this->getAttribute('memberof');
+        return $this->getAttribute(ActiveDirectory::MEMBER_OF);
     }
 }

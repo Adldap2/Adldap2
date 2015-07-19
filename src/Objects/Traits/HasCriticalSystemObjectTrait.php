@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects\Traits;
 
+use Adldap\Schemas\ActiveDirectory;
+
 trait HasCriticalSystemObjectTrait
 {
     /**
@@ -11,7 +13,7 @@ trait HasCriticalSystemObjectTrait
      */
     public function getIsCriticalSystemObject()
     {
-        $attribute = $this->getAttribute('iscriticalsystemobject', 0);
+        $attribute = $this->getAttribute(ActiveDirectory::IS_CRITICAL_SYSTEM_OBJECT, 0);
 
         return $this->convertStringToBool($attribute);
     }

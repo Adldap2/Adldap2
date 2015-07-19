@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects\Traits;
 
+use Adldap\Schemas\ActiveDirectory;
+
 trait HasLastLogonAndLogOffTrait
 {
     /**
@@ -13,7 +15,7 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogOff()
     {
-        return $this->getAttribute('lastlogoff', 0);
+        return $this->getAttribute(ActiveDirectory::LAST_LOGOFF, 0);
     }
 
     /**
@@ -25,7 +27,7 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogon()
     {
-        return $this->getAttribute('lastlogon', 0);
+        return $this->getAttribute(ActiveDirectory::LAST_LOGON, 0);
     }
 
     /**
@@ -37,6 +39,6 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogonTimestamp()
     {
-        return $this->getAttribute('lastlogontimestamp', 0);
+        return $this->getAttribute(ActiveDirectory::LAST_LOGON_TIMESTAMP, 0);
     }
 }

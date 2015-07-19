@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Schemas\ActiveDirectory;
+
 class Printer extends Entry
 {
     /**
@@ -13,7 +15,7 @@ class Printer extends Entry
      */
     public function getPrinterName()
     {
-        return $this->getAttribute('printername', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_NAME, 0);
     }
 
     /**
@@ -25,7 +27,7 @@ class Printer extends Entry
      */
     public function getPrinterShareName()
     {
-        return $this->getAttribute('printsharename', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_SHARE_NAME, 0);
     }
 
     /**
@@ -37,7 +39,7 @@ class Printer extends Entry
      */
     public function getMemory()
     {
-        return $this->getAttribute('printmemory', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_MEMORY, 0);
     }
 
     /**
@@ -47,7 +49,7 @@ class Printer extends Entry
      */
     public function getUrl()
     {
-        return $this->getAttribute('url', 0);
+        return $this->getAttribute(ActiveDirectory::URL, 0);
     }
 
     /**
@@ -59,7 +61,7 @@ class Printer extends Entry
      */
     public function getLocation()
     {
-        return $this->getAttribute('location', 0);
+        return $this->getAttribute(ActiveDirectory::LOCATION, 0);
     }
 
     /**
@@ -72,7 +74,7 @@ class Printer extends Entry
      */
     public function getServerName()
     {
-        return $this->getAttribute('servername', 0);
+        return $this->getAttribute(ActiveDirectory::SERVER_NAME, 0);
     }
 
     /**
@@ -84,7 +86,7 @@ class Printer extends Entry
      */
     public function getColorSupported()
     {
-        return $this->convertStringToBool($this->getAttribute('printcolor', 0));
+        return $this->convertStringToBool($this->getAttribute(ActiveDirectory::PRINTER_COLOR_SUPPORTED, 0));
     }
 
     /**
@@ -96,7 +98,7 @@ class Printer extends Entry
      */
     public function getDuplexSupported()
     {
-        return $this->convertStringToBool($this->getAttribute('printduplexsupported', 0));
+        return $this->convertStringToBool($this->getAttribute(ActiveDirectory::PRINTER_DUPLEX_SUPPORTED, 0));
     }
 
     /**
@@ -108,7 +110,7 @@ class Printer extends Entry
      */
     public function getMediaSupported()
     {
-        return $this->getAttribute('printmediasupported');
+        return $this->getAttribute(ActiveDirectory::PRINTER_MEDIA_SUPPORTED);
     }
 
     /**
@@ -120,7 +122,7 @@ class Printer extends Entry
      */
     public function getStaplingSupported()
     {
-        return $this->convertStringToBool($this->getAttribute('printstaplingsupported', 0));
+        return $this->convertStringToBool($this->getAttribute(ActiveDirectory::PRINTER_STAPLING_SUPPORTED, 0));
     }
 
     /**
@@ -132,7 +134,7 @@ class Printer extends Entry
      */
     public function getPrintBinNames()
     {
-        return $this->getAttribute('printbinnames');
+        return $this->getAttribute(ActiveDirectory::PRINTER_BIN_NAMES);
     }
 
     /**

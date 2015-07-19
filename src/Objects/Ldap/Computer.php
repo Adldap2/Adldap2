@@ -2,6 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Traits\HasCriticalSystemObjectTrait;
 use Adldap\Objects\Traits\HasDescriptionTrait;
 use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
@@ -23,7 +24,7 @@ class Computer extends Entry
      */
     public function getOperatingSystem()
     {
-        return $this->getAttribute('operatingsystem', 0);
+        return $this->getAttribute(ActiveDirectory::OPERATING_SYSTEM, 0);
     }
 
     /**
@@ -35,7 +36,7 @@ class Computer extends Entry
      */
     public function getOperatingSystemVersion()
     {
-        return $this->getAttribute('operatingsystemversion', 0);
+        return $this->getAttribute(ActiveDirectory::OPERATING_SYSTEM_VERSION, 0);
     }
 
     /**
@@ -47,7 +48,7 @@ class Computer extends Entry
      */
     public function getOperatingSystemServicePack()
     {
-        return $this->getAttribute('operatingsystemservicepack', 0);
+        return $this->getAttribute(ActiveDirectory::OPERATING_SYSTEM_SERVICE_PACK, 0);
     }
 
     /**
@@ -57,7 +58,7 @@ class Computer extends Entry
      */
     public function getDnsHostName()
     {
-        return $this->getAttribute('dnshostname', 0);
+        return $this->getAttribute(ActiveDirectory::DNS_HOST_NAME, 0);
     }
 
     /**
@@ -69,7 +70,7 @@ class Computer extends Entry
      */
     public function getBadPasswordTime()
     {
-        return $this->getAttribute('badpasswordtime', 0);
+        return $this->getAttribute(ActiveDirectory::BAD_PASSWORD_TIME, 0);
     }
 
     /**
@@ -81,6 +82,6 @@ class Computer extends Entry
      */
     public function getAccountExpiry()
     {
-        return $this->getAttribute('accountexpires', 0);
+        return $this->getAttribute(ActiveDirectory::ACCOUNT_EXPIRES, 0);
     }
 }

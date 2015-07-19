@@ -2,7 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
-use Adldap\Exceptions\AdldapException;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Objects\Traits\HasMemberOfTrait;
 
@@ -13,19 +13,6 @@ class User extends Entry
     use HasLastLogonAndLogOffTrait;
 
     /**
-     * The required attributes for the toSchema methods.
-     *
-     * @var array
-     */
-    protected $required = [
-        'username',
-        'firstname',
-        'surname',
-        'email',
-        'container',
-    ];
-
-    /**
      * Returns the users title.
      *
      * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
@@ -34,7 +21,7 @@ class User extends Entry
      */
     public function getTitle()
     {
-        return $this->getAttribute('title', 0);
+        return $this->getAttribute(ActiveDirectory::TITLE, 0);
     }
 
     /**
@@ -46,7 +33,7 @@ class User extends Entry
      */
     public function getDepartment()
     {
-        return $this->getAttribute('department', 0);
+        return $this->getAttribute(ActiveDirectory::DESCRIPTION, 0);
     }
 
     /**
@@ -58,7 +45,7 @@ class User extends Entry
      */
     public function getFirstName()
     {
-        return $this->getAttribute('givenname', 0);
+        return $this->getAttribute(ActiveDirectory::FIRST_NAME, 0);
     }
 
     /**
@@ -70,7 +57,7 @@ class User extends Entry
      */
     public function getLastName()
     {
-        return $this->getAttribute('sn', 0);
+        return $this->getAttribute(ActiveDirectory::LAST_NAME, 0);
     }
 
     /**
@@ -82,7 +69,7 @@ class User extends Entry
      */
     public function getTelephoneNumber()
     {
-        return $this->getAttribute('telephonenumber', 0);
+        return $this->getAttribute(ActiveDirectory::TELEPHONE, 0);
     }
 
     /**
@@ -94,7 +81,7 @@ class User extends Entry
      */
     public function getCompany()
     {
-        return $this->getAttribute('company', 0);
+        return $this->getAttribute(ActiveDirectory::COMPANY, 0);
     }
 
     /**
@@ -106,7 +93,7 @@ class User extends Entry
      */
     public function getEmail()
     {
-        return $this->getAttribute('mail', 0);
+        return $this->getAttribute(ActiveDirectory::EMAIL, 0);
     }
 
     /**
@@ -118,7 +105,7 @@ class User extends Entry
      */
     public function getEmails()
     {
-        return $this->getAttribute('mail');
+        return $this->getAttribute(ActiveDirectory::EMAIL);
     }
 
     /**
@@ -130,7 +117,7 @@ class User extends Entry
      */
     public function getHomeMdb()
     {
-        return $this->getAttribute('homemdb', 0);
+        return $this->getAttribute(ActiveDirectory::HOME_MDB, 0);
     }
 
     /**
@@ -140,7 +127,7 @@ class User extends Entry
      */
     public function getMailNickname()
     {
-        return $this->getAttribute('mailnickname', 0);
+        return $this->getAttribute(ActiveDirectory::EMAIL_NICKNAME, 0);
     }
 
     /**
@@ -154,7 +141,7 @@ class User extends Entry
      */
     public function getUserPrincipalName()
     {
-        return $this->getAttribute('userprincipalname', 0);
+        return $this->getAttribute(ActiveDirectory::USER_PRINCIPAL_NAME, 0);
     }
 
     /**
@@ -166,7 +153,7 @@ class User extends Entry
      */
     public function getProxyAddresses()
     {
-        return $this->getAttribute('proxyaddresses');
+        return $this->getAttribute(ActiveDirectory::PROXY_ADDRESSES);
     }
 
     /**
@@ -178,7 +165,7 @@ class User extends Entry
      */
     public function getScriptPath()
     {
-        return $this->getAttribute('scriptpath', 0);
+        return $this->getAttribute(ActiveDirectory::SCRIPT_PATH, 0);
     }
 
     /**
@@ -188,7 +175,7 @@ class User extends Entry
      */
     public function getBadPasswordCount()
     {
-        return $this->getAttribute('badpwdcount', 0);
+        return $this->getAttribute(ActiveDirectory::BAD_PASSWORD_COUNT, 0);
     }
 
     /**
@@ -198,7 +185,7 @@ class User extends Entry
      */
     public function getBadPasswordTime()
     {
-        return $this->getAttribute('badpasswordtime', 0);
+        return $this->getAttribute(ActiveDirectory::BAD_PASSWORD_TIME, 0);
     }
 
     /**
@@ -208,7 +195,7 @@ class User extends Entry
      */
     public function getLockoutTime()
     {
-        return $this->getAttribute('lockouttime', 0);
+        return $this->getAttribute(ActiveDirectory::LOCKOUT_TIME, 0);
     }
 
     /**
@@ -218,7 +205,7 @@ class User extends Entry
      */
     public function getUserAccountControl()
     {
-        return $this->getAttribute('useraccountcontrol', 0);
+        return $this->getAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, 0);
     }
 
     /**
@@ -228,7 +215,7 @@ class User extends Entry
      */
     public function getProfilePath()
     {
-        return $this->getAttribute('profilepath', 0);
+        return $this->getAttribute(ActiveDirectory::PROFILE_PATH, 0);
     }
 
     /**
@@ -238,7 +225,7 @@ class User extends Entry
      */
     public function getLegacyExchangeDn()
     {
-        return $this->getAttribute('legacyexchangedn', 0);
+        return $this->getAttribute(ActiveDirectory::LEGACY_EXCHANGE_DN, 0);
     }
 
     /**
@@ -248,7 +235,7 @@ class User extends Entry
      */
     public function getAccountExpiry()
     {
-        return $this->getAttribute('accountexpires', 0);
+        return $this->getAttribute(ActiveDirectory::ACCOUNT_EXPIRES, 0);
     }
 
     /**
@@ -259,51 +246,6 @@ class User extends Entry
      */
     public function getShowInAddressBook()
     {
-        return $this->getAttribute('showinaddressbook');
-    }
-
-    /**
-     * Checks the attributes for existence and returns the attributes array.
-     *
-     * @return array
-     *
-     * @throws AdldapException
-     */
-    public function toCreateSchema()
-    {
-        $this->validateRequired();
-
-        if (!is_array($this->getAttribute('container'))) {
-            throw new AdldapException('Container attribute must be an array');
-        }
-
-        // Set the display name if it's not set
-        if ($this->getAttribute('display_name') === null) {
-            $displayName = $this->getAttribute('firstname').' '.$this->getAttribute('surname');
-
-            $this->setAttribute('display_name', $displayName);
-        }
-
-        return $this->getAttributes();
-    }
-
-    /**
-     * Checks the username attribute for existence and returns the attributes array.
-     *
-     * @return array
-     *
-     * @throws AdldapException
-     */
-    public function toModifySchema()
-    {
-        $this->validateRequired(['username']);
-
-        if ($this->hasAttribute('container')) {
-            if (!is_array($this->getAttribute('container'))) {
-                throw new AdldapException('Container attribute must be an array');
-            }
-        }
-
-        return $this->getAttributes();
+        return $this->getAttribute(ActiveDirectory::SHOW_IN_ADDRESS_BOOK);
     }
 }

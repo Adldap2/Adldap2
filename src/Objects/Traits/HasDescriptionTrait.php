@@ -2,6 +2,8 @@
 
 namespace Adldap\Objects\Traits;
 
+use Adldap\Schemas\ActiveDirectory;
+
 trait HasDescriptionTrait
 {
     /**
@@ -13,6 +15,6 @@ trait HasDescriptionTrait
      */
     public function getDescription()
     {
-        return $this->getAttribute('description', 0);
+        return $this->getAttribute(ActiveDirectory::DESCRIPTION, 0);
     }
 }

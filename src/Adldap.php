@@ -5,8 +5,6 @@ namespace Adldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Interfaces\ConnectionInterface;
 use Adldap\Objects\Configuration;
-use Adldap\Objects\Ldap\Schema as LdapSchema;
-use Adldap\Objects\Schema as AdldapSchema;
 
 /**
  * Class Adldap.
@@ -815,35 +813,6 @@ class Adldap
         }
 
         return false;
-    }
-
-    /**
-     * Returns an LDAP compatible schema array for modifications.
-     *
-     * @param array $attributes Attributes to be queried
-     *
-     * @return array|bool
-     */
-    public function ldapSchema(array $attributes)
-    {
-        // Check every attribute to see if it contains 8bit characters and then UTF8 encode them
-        array_walk($attributes, [$this->utilities(), 'encode8bit']);
-
-        $adldapSchema = new AdldapSchema($attributes);
-
-        $ldapSchema = new LdapSchema($adldapSchema);
-
-        if ($ldapSchema->countAttributes() === 0) {
-            return false;
-        }
-
-        // Return a filtered array to remove NULL attributes
-        return array_filter($ldapSchema->getAttributes(), function ($attribute) {
-            // Only return the attribute if it is not null
-            if ($attribute[0] !== null) {
-                return $attribute;
-            }
-        });
     }
 
     /**

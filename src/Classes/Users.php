@@ -83,56 +83,6 @@ class Users extends AbstractQueryable
     }
 
     /**
-     * Create a user.
-     *
-     * If you specify a password here, this can only be performed over SSL.
-     *
-     * @param array $attributes The attributes to set to the user account
-     *
-     * @return bool|string
-     *
-     * @throws AdldapException
-     */
-    public function create(array $attributes)
-    {
-        $user = new User($attributes);
-
-        if ($user->hasAttribute('password') && !$this->connection->canChangePasswords()) {
-            throw new AdldapException('SSL must be configured on your web server and enabled in the class to set passwords.');
-        }
-
-        // Translate the schema
-        $add = $this->adldap->ldapSchema($user->toCreateSchema());
-
-        // Additional stuff only used for adding accounts
-        $add['cn'][0] = $user->getAttribute('display_name');
-        $add[$this->adldap->getUserIdKey()][0] = $user->getAttribute('username');
-        $add['objectclass'][0] = 'top';
-        $add['objectclass'][1] = 'person';
-        $add['objectclass'][2] = 'organizationalPerson';
-        $add['objectclass'][3] = 'user';
-
-        // Set the account control attribute
-        $controlOptions = ['NORMAL_ACCOUNT' => true];
-
-        if (!$user->hasAttribute('enabled')) {
-            $controlOptions['ACCOUNTDISABLE'] = true;
-        }
-
-        $add['userAccountControl'][0] = $this->accountControl($controlOptions);
-
-        // Determine the container
-        $attributes['container'] = array_reverse($user->getAttribute('container'));
-
-        $container = 'OU='.implode(',OU=', $user->getAttribute('container'));
-
-        $dn = 'CN='.$add['cn'][0].','.$container.','.$this->adldap->getBaseDn();
-
-        // Add the entry
-        return $this->connection->add($dn, $add);
-    }
-
-    /**
      * Determine a user's password expiry date.
      *
      * @param $username
@@ -194,60 +144,6 @@ class Users extends AbstractQueryable
         }
 
         return false;
-    }
-
-    /**
-     * Modify a user.
-     *
-     * @param string $username   The username to query
-     * @param array  $attributes The attributes to modify.  Note if you set the enabled attribute you must not specify any other attributes
-     * @param bool   $isGUID     Is the username passed a GUID or a samAccountName
-     *
-     * @return bool|string
-     *
-     * @throws AdldapException
-     */
-    public function modify($username, $attributes, $isGUID = false)
-    {
-        $user = new User($attributes);
-
-        /*
-         * Set the username attribute manually so it's properly
-         * validated using toModifySchema method
-         */
-        $user->setAttribute('username', $username);
-
-        if ($user->getAttribute('password') && !$this->connection->canChangePasswords()) {
-            throw new AdldapException('SSL/TLS must be configured on your webserver and enabled in the class to set passwords.');
-        }
-
-        // Find the dn of the user
-        $userDn = $this->dn($username, $isGUID);
-
-        if ($userDn === false) {
-            return false;
-        }
-
-        // Translate the update to the LDAP schema
-        $mod = $this->adldap->ldapSchema($user->toModifySchema());
-
-        $enabled = $user->getAttribute('enabled');
-
-        // Check to see if this is an enabled status update
-        if (!$mod && !$enabled) {
-            return false;
-        }
-
-        if ($enabled) {
-            $controlOptions = ['NORMAL_ACCOUNT'];
-        } else {
-            $controlOptions = ['NORMAL_ACCOUNT', 'ACCOUNTDISABLE'];
-        }
-
-        $mod['userAccountControl'][0] = $this->accountControl($controlOptions);
-
-        // Do the update
-        return $this->connection->modify($userDn, $mod);
     }
 
     /**

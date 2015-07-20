@@ -2,6 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Exceptions\AdldapException;
 use Adldap\Interfaces\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\AbstractObject;
@@ -48,6 +49,18 @@ class Entry extends AbstractObject
     }
 
     /**
+     * Sets the entry's name.
+     *
+     * @param string $name
+     *
+     * @return Entry
+     */
+    public function setName($name)
+    {
+        return $this->setAttribute(ActiveDirectory::NAME, $name);
+    }
+
+    /**
      * Returns the entry's common name.
      *
      * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
@@ -57,6 +70,18 @@ class Entry extends AbstractObject
     public function getCommonName()
     {
         return $this->getAttribute(ActiveDirectory::COMMON_NAME, 0);
+    }
+
+    /**
+     * Sets the entry's common name.
+     *
+     * @param string $name
+     *
+     * @return Entry
+     */
+    public function setCommonName($name)
+    {
+        return $this->setAttribute(ActiveDirectory::COMMON_NAME, $name);
     }
 
     /**
@@ -116,7 +141,7 @@ class Entry extends AbstractObject
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute(ActiveDirectory::DISTINGUISHED_NAME, 0);
+        return $this->getAttribute(ActiveDirectory::DISTINGUISHED_NAME);
     }
 
     /**
@@ -252,11 +277,7 @@ class Entry extends AbstractObject
             $values = [$values];
         }
 
-        /*
-         * We'll use the key as the array key here so if the same
-         * attribute is set multiple times, it will always be overwritten
-         */
-        $this->modifications[$key] = [
+        $this->modifications[] = [
             'attrib' => $key,
             'modtype' => $type,
             'values' => $values,
@@ -269,10 +290,21 @@ class Entry extends AbstractObject
      * Persists the changes to the LDAP server and returns the result.
      *
      * @return bool
+     *
+     * @throws AdldapException
      */
     public function save()
     {
-        return $this->connection->modifyBatch($this->getDn(), $this->getModifications());
+        $dn = $this->getDn();
+
+        if(is_null($dn) || empty($dn)) {
+            $message = 'Unable to save. The current entry does not have a distinguished name present.';
+
+            throw new AdldapException($message);
+        }
+        $this->connection->showErrors();
+
+        return $this->connection->modifyBatch($dn, $this->getModifications());
     }
 
     /**

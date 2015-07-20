@@ -5,8 +5,15 @@ namespace Adldap\Objects;
 use ArrayIterator;
 use IteratorAggregate;
 
-class Paginator extends AbstractObject implements IteratorAggregate
+class Paginator implements IteratorAggregate
 {
+    /**
+     * The complete results array.
+     *
+     * @var array
+     */
+    protected $results = [];
+
     /**
      * The total amount of pages.
      *
@@ -38,14 +45,14 @@ class Paginator extends AbstractObject implements IteratorAggregate
     /**
      * Constructor.
      *
-     * @param array $entries
+     * @param array $results
      * @param int   $perPage
      * @param int   $currentPage
      * @param int   $pages
      */
-    public function __construct(array $entries = [], $perPage = 50, $currentPage = 0, $pages = 0)
+    public function __construct(array $results = [], $perPage = 50, $currentPage = 0, $pages = 0)
     {
-        parent::__construct($entries);
+        $this->setResults($results);
 
         $this->setPerPage($perPage);
 
@@ -65,10 +72,20 @@ class Paginator extends AbstractObject implements IteratorAggregate
     public function getIterator()
     {
         // Slice the the entries
-        $entries = array_slice($this->getAttributes(), $this->getCurrentOffset(), $this->getPerPage(), true);
+        $entries = array_slice($this->getResults(), $this->getCurrentOffset(), $this->getPerPage(), true);
 
         // Return the array iterator
         return new ArrayIterator($entries);
+    }
+
+    /**
+     * Returns the complete results array.
+     *
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->results;
     }
 
     /**
@@ -114,13 +131,23 @@ class Paginator extends AbstractObject implements IteratorAggregate
     }
 
     /**
-     * Returns the total amount of entries.
+     * Returns the total amount of results.
      *
      * @return int
      */
     public function count()
     {
-        return $this->countAttributes();
+        return count($this->results);
+    }
+
+    /**
+     * Sets the results array property.
+     *
+     * @param array $results
+     */
+    private function setResults(array $results)
+    {
+        $this->results = $results;
     }
 
     /**

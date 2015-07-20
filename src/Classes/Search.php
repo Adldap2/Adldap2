@@ -415,19 +415,19 @@ class Search extends AbstractBase
 
             switch(strtoupper($category[0])) {
                 case 'COMPUTER':
-                    return new Computer($attributes);
+                    return new Computer($attributes, $this->connection);
                 case 'PERSON':
-                    return new User($attributes);
+                    return new User($attributes, $this->connection);
                 case 'GROUP':
-                    return new Group($attributes);
+                    return new Group($attributes, $this->connection);
                 case 'CONTAINER':
-                    return new Container($attributes);
+                    return new Container($attributes, $this->connection);
                 case 'PRINT-QUEUE':
-                    return new Printer($attributes);
+                    return new Printer($attributes, $this->connection);
             }
         }
 
-        return new Entry($attributes);
+        return new Entry($attributes, $this->connection);
     }
 
     /**

@@ -78,6 +78,14 @@ class Entry extends AbstractObject
     public function setModification($key, $type, $values)
     {
         /*
+         * We need to make sure the values
+         * given are always in an array.
+         */
+        if(!is_array($values)) {
+            $values = [$values];
+        }
+
+        /*
          * We'll use the key as the array key here so if the same
          * attribute is set multiple times, it will always be overwritten
          */

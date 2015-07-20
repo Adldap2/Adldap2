@@ -25,6 +25,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users title.
+     *
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        return $this->setAttribute(ActiveDirectory::TITLE, $title);
+    }
+
+    /**
      * Returns the users department.
      *
      * https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
@@ -33,7 +45,19 @@ class User extends Entry
      */
     public function getDepartment()
     {
-        return $this->getAttribute(ActiveDirectory::DESCRIPTION, 0);
+        return $this->getAttribute(ActiveDirectory::DEPARTMENT, 0);
+    }
+
+    /**
+     * Sets the users department.
+     *
+     * @param string $department
+     *
+     * @return $this
+     */
+    public function setDepartment($department)
+    {
+        return $this->setAttribute(ActiveDirectory::DEPARTMENT, $department);
     }
 
     /**
@@ -49,6 +73,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users first name.
+     *
+     * @param string $firstName
+     *
+     * @return $this
+     */
+    public function setFirstName($firstName)
+    {
+        return $this->setAttribute(ActiveDirectory::FIRST_NAME, $firstName);
+    }
+
+    /**
      * Returns the users last name.
      *
      * https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
@@ -58,6 +94,18 @@ class User extends Entry
     public function getLastName()
     {
         return $this->getAttribute(ActiveDirectory::LAST_NAME, 0);
+    }
+
+    /**
+     * Sets the users last name.
+     *
+     * @param string $lastName
+     *
+     * @return $this
+     */
+    public function setLastName($lastName)
+    {
+        return $this->setAttribute(ActiveDirectory::LAST_NAME, $lastName);
     }
 
     /**
@@ -73,6 +121,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users telephone number.
+     *
+     * @param string $number
+     *
+     * @return $this
+     */
+    public function setTelephoneNumber($number)
+    {
+        return $this->setAttribute(ActiveDirectory::TELEPHONE, $number);
+    }
+
+    /**
      * Returns the users company.
      *
      * https://msdn.microsoft.com/en-us/library/ms675457(v=vs.85).aspx
@@ -82,6 +142,18 @@ class User extends Entry
     public function getCompany()
     {
         return $this->getAttribute(ActiveDirectory::COMPANY, 0);
+    }
+
+    /**
+     * Sets the users company.
+     *
+     * @param string $company
+     *
+     * @return $this
+     */
+    public function setCompany($company)
+    {
+        return $this->setAttribute(ActiveDirectory::COMPANY, $company);
     }
 
     /**
@@ -97,6 +169,21 @@ class User extends Entry
     }
 
     /**
+     * Sets the users email.
+     *
+     * Keep in mind this will remove all other
+     * email addresses the user currently has.
+     *
+     * @param string $email
+     *
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        return $this->setAttribute(ActiveDirectory::EMAIL, $email);
+    }
+
+    /**
      * Returns the users email addresses.
      *
      * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
@@ -106,6 +193,18 @@ class User extends Entry
     public function getEmails()
     {
         return $this->getAttribute(ActiveDirectory::EMAIL);
+    }
+
+    /**
+     * Sets the users email addresses.
+     *
+     * @param array $emails
+     *
+     * @return $this
+     */
+    public function setEmails(array $emails)
+    {
+        return $this->setAttribute(ActiveDirectory::EMAIL, $emails);
     }
 
     /**

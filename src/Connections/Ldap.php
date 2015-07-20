@@ -518,10 +518,10 @@ class Ldap implements ConnectionInterface
     public function modifyBatch($dn, array $values)
     {
         if ($this->suppressErrors) {
-            return @ldap_modify_batch($this->getConnection(), $dn, $entry);
+            return @ldap_modify_batch($this->getConnection(), $dn, $values);
         }
 
-        return ldap_modify_batch($this->getConnection(), $dn, $entry);
+        return ldap_modify_batch($this->getConnection(), $dn, $values);
     }
 
     /**

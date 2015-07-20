@@ -17,4 +17,16 @@ trait HasMemberOfTrait
     {
         return $this->getAttribute(ActiveDirectory::MEMBER_OF);
     }
+
+    /**
+     * Sets the entry's group DN's the entry is a member of.
+     *
+     * @param array $groups
+     *
+     * @return $this
+     */
+    public function setMemberOf(array $groups)
+    {
+        return $this->setAttribute(ActiveDirectory::MEMBER_OF, $groups);
+    }
 }

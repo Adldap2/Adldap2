@@ -17,4 +17,16 @@ trait HasDescriptionTrait
     {
         return $this->getAttribute(ActiveDirectory::DESCRIPTION, 0);
     }
+
+    /**
+     * Sets the entry's description.
+     *
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function setEmails($description)
+    {
+        return $this->setAttribute(ActiveDirectory::DESCRIPTION, $description);
+    }
 }

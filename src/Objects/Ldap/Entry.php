@@ -302,7 +302,6 @@ class Entry extends AbstractObject
 
             throw new AdldapException($message);
         }
-        $this->connection->showErrors();
 
         return $this->connection->modifyBatch($dn, $this->getModifications());
     }

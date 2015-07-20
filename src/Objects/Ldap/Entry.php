@@ -2,11 +2,19 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Interfaces\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\AbstractObject;
 
 class Entry extends AbstractObject
 {
+    /**
+     * The current LDAP connection instance.
+     *
+     * @var ConnectionInterface
+     */
+    protected $connection;
+
     /**
      * Holds the current objects modified attributes.
      *
@@ -15,87 +23,16 @@ class Entry extends AbstractObject
     protected $modifications = [];
 
     /**
-     * Adds modifications to the current object.
+     * Constructor.
      *
-     * @param int|string $key
-     * @param mixed      $value
-     *
-     * @return $this
+     * @param array $attributes
+     * @param ConnectionInterface $connection
      */
-    public function setAttribute($key, $value)
+    public function __construct(array $attributes = [], ConnectionInterface $connection)
     {
-        /*
-         * We'll check if the attribute exists on the current
-         * object to see what type of modification is taking place
-         */
-        if ($this->hasAttribute($key)) {
-            if(is_null($value)) {
-                /*
-                 * If the dev has explicitly set the value null,
-                 * we'll assume they want to remove the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REMOVE;
-            } else {
-                /*
-                 * If it's not null, we'll assume
-                 * they're looking to replace the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REPLACE;
-            }
-        } else {
-            /*
-             * It looks like the attribute doesn't exist yet,
-             * they must be looking to add it to the object
-             */
-            $type = LDAP_MODIFY_BATCH_ADD;
-        }
+        parent::__construct($attributes);
 
-        // Finally we'll set the modification
-        $this->setModification($key, $type, $value);
-
-        return $this;
-    }
-
-    /**
-     * Returns the objects modifications.
-     *
-     * @return array
-     */
-    public function getModifications()
-    {
-        return $this->modifications;
-    }
-
-    /**
-     * Sets a modification in the objects modifications array.
-     *
-     * @param int|string $key
-     * @param int        $type
-     * @param mixed      $values
-     *
-     * @return $this
-     */
-    public function setModification($key, $type, $values)
-    {
-        /*
-         * We need to make sure the values
-         * given are always in an array.
-         */
-        if(!is_array($values)) {
-            $values = [$values];
-        }
-
-        /*
-         * We'll use the key as the array key here so if the same
-         * attribute is set multiple times, it will always be overwritten
-         */
-        $this->modifications[$key] = [
-            'attrib' => $key,
-            'modtype' => $type,
-            'values' => $values,
-        ];
-
-        return $this;
+        $this->connection = $connection;
     }
 
     /**
@@ -242,6 +179,100 @@ class Entry extends AbstractObject
     public function getInstanceType()
     {
         return $this->getAttribute(ActiveDirectory::INSTANCE_TYPE, 0);
+    }
+
+    /**
+     * Adds modifications to the current object.
+     *
+     * @param int|string $key
+     * @param mixed      $value
+     *
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        /*
+         * We'll check if the attribute exists on the current
+         * object to see what type of modification is taking place
+         */
+        if ($this->hasAttribute($key)) {
+            if(is_null($value)) {
+                /*
+                 * If the dev has explicitly set the value null,
+                 * we'll assume they want to remove the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REMOVE;
+            } else {
+                /*
+                 * If it's not null, we'll assume
+                 * they're looking to replace the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REPLACE;
+            }
+        } else {
+            /*
+             * It looks like the attribute doesn't exist yet,
+             * they must be looking to add it to the object
+             */
+            $type = LDAP_MODIFY_BATCH_ADD;
+        }
+
+        // Finally we'll set the modification
+        $this->setModification($key, $type, $value);
+
+        return $this;
+    }
+
+    /**
+     * Returns the objects modifications.
+     *
+     * @return array
+     */
+    public function getModifications()
+    {
+        return $this->modifications;
+    }
+
+    /**
+     * Sets a modification in the objects modifications array.
+     *
+     * @param int|string $key
+     * @param int        $type
+     * @param mixed      $values
+     *
+     * @return $this
+     */
+    public function setModification($key, $type, $values)
+    {
+        /*
+         * We need to make sure the values
+         * given are always in an array.
+         */
+        if(!is_array($values)) {
+            $values = [$values];
+        }
+
+        /*
+         * We'll use the key as the array key here so if the same
+         * attribute is set multiple times, it will always be overwritten
+         */
+        $this->modifications[$key] = [
+            'attrib' => $key,
+            'modtype' => $type,
+            'values' => $values,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Persists the changes to the LDAP server and returns the result.
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        return $this->connection->modifyBatch($this->getDn(), $this->getModifications());
     }
 
     /**

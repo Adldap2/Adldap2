@@ -148,7 +148,7 @@ abstract class AbstractObject
              * it exists in the nested attribute array
              */
             if(!is_null($subKey)) {
-                if(array_key_exists($subKey, $this->attributes[$key])) {
+                if(is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
                     return true;
                 } else {
                     return false;

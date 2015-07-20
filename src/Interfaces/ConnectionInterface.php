@@ -337,11 +337,11 @@ interface ConnectionInterface
      * current connection.
      *
      * @param string $dn
-     * @param array  $entry
+     * @param array  $values
      *
      * @return mixed
      */
-    public function modifyBatch($dn, array $entry);
+    public function modifyBatch($dn, array $values);
 
     /**
      * Add attribute values to current attributes.

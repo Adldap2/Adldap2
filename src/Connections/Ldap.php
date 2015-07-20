@@ -511,11 +511,11 @@ class Ldap implements ConnectionInterface
      * Batch modifies the specified LDAP entry.
      *
      * @param string $dn
-     * @param array  $entry
+     * @param array  $values
      *
      * @return bool
      */
-    public function modifyBatch($dn, array $entry)
+    public function modifyBatch($dn, array $values)
     {
         if ($this->suppressErrors) {
             return @ldap_modify_batch($this->getConnection(), $dn, $entry);

@@ -65,20 +65,16 @@ You're good to go!
 If you need to test something with access to an LDAP server, the generous folks at [Georgia Tech](http://drupal.gatech.edu/handbook/public-ldap-server) have you covered.
 
 Use the following configuration:
-
-    $config = array(
-        'account_suffix' => "@gatech.edu",
     
-        'domain_controllers' => array("whitepages.gatech.edu"),
+    $config = new \Adldap\Connections\Configuration();
     
-        'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
+    $config->setAccountSuffix('@gatech.edu');
+    $config->setDomainControllers(['whitepages.gatech.edu']);
+    $config->setBaseDn('dc=whitepages,dc=gatech,dc=edu');
+    $config->setAdminUsername('');
+    $config->setAdminPassword('');
     
-        'admin_username' => '',
-    
-        'admin_password' => '',
-    );
-    
-    $ad = new Adldap($config);
+    $ad = new \Adldap\Adldap($config);
     
 However while useful for basic testing, the queryable data only includes user data, so if you're looking for testing with any other information
 or functionality such as modification, you'll have to use you're own server.

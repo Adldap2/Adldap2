@@ -160,7 +160,7 @@ class User extends Entry
     }
 
     /**
-     * Returns the users first email address.
+     * Returns the users primary email address.
      *
      * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *

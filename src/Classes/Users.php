@@ -10,20 +10,6 @@ use Adldap\Schemas\ActiveDirectory;
 class Users extends AbstractQueryable
 {
     /**
-     * Validate a user's login credentials.
-     *
-     * @param string $username      The users AD username
-     * @param string $password      The users AD password
-     * @param bool   $preventRebind
-     *
-     * @return bool
-     */
-    public function authenticate($username, $password, $preventRebind = false)
-    {
-        return $this->adldap->authenticate($username, $password, $preventRebind);
-    }
-
-    /**
      * Returns all users from the current connection.
      *
      * @param array  $fields

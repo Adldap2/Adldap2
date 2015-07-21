@@ -252,7 +252,16 @@ class Search extends AbstractBase
      */
     public function getSelects()
     {
-        return $this->query->getSelects();
+        $selects = $this->query->getSelects();
+
+        if(count($selects) > 0) {
+            // Always make sure object category is in the selected fields
+            if(!array_key_exists('objectCategory', $selects)) {
+                $selects[] = 'objectCategory';
+            }
+        }
+
+        return $selects;
     }
 
     /**

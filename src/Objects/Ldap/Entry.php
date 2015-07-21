@@ -325,15 +325,7 @@ class Entry extends AbstractObject
      */
     public function save()
     {
-        $dn = $this->getDn();
-
-        if (is_null($dn) || empty($dn)) {
-            $message = 'Unable to save. The current entry does not have a distinguished name present.';
-
-            throw new AdldapException($message);
-        }
-
-        return $this->connection->modifyBatch($dn, $this->getModifications());
+        return $this->connection->modifyBatch($this->getDn(), $this->getModifications());
     }
 
     /**

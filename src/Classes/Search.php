@@ -132,7 +132,7 @@ class Search extends AbstractBase
      */
     public function all()
     {
-        $this->query->where('cn', Operator::$wildcard);
+        $this->query->where(ActiveDirectory::COMMON_NAME, Operator::$wildcard);
 
         return $this->get();
     }
@@ -398,7 +398,7 @@ class Search extends AbstractBase
             ->where(ActiveDirectory::OBJECT_CLASS, '*')
             ->first();
 
-        $key = 'defaultnamingcontext';
+        $key = ActiveDirectory::DEFAULT_NAMING_CONTEXT;
 
         if (is_array($result) && array_key_exists($key, $result)) {
             if(array_key_exists(0, $result[$key])) {

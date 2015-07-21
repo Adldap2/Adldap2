@@ -21,6 +21,7 @@ class ActiveDirectory
     const COMPANY = 'company';
     const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
     const CREATED_AT = 'whencreated';
+    const DEFAULT_NAMING_CONTEXT = 'defaultnamingcontext';
     const DEPARTMENT = 'department';
     const DESCRIPTION = 'description';
     const DISPLAY_NAME = 'displayname';

@@ -76,7 +76,7 @@ class ActiveDirectory
     const TELEPHONE = 'telephonenumber';
     const TITLE = 'title';
     const TRUE = 'TRUE';
-    const UNICODE_PASSWORD = 'unicodePwd';
+    const UNICODE_PASSWORD = 'unicodepwd';
     const UPDATED_AT = 'whenchanged';
     const URL = 'url';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';

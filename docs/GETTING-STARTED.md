@@ -1,29 +1,57 @@
 ## Getting Started
 
+### Configuration
+
+Configuring Adldap is easy. First create a Configuration object:
+
+    $config = new \Adldap\Connections\Configuration();
+    
+Once you've created one, you can apply options to it through its methods.
+
+#### Admin Username
+
+    $config->setAdminUsername('admin');
+    
+#### Admin Password
+
+    $config->setAdminPassword('correcthorsebatterystaple');
+
+#### Domain Controllers
+    
+    $controllers = ['dc01.corp.company.org', 'dc02.corp.company.org'];
+    
+    $config->setDomainControllers($controllers);
+
+#### Base Distinguished Name
+
+    $config->setBaseDn('DC=corp,DC=company,DC=org');
+
+#### Port
+
+> Note, the port is set automatically depending on the
+> configured protocol, you, only change it if your AD server has a unique port.
+
+    $config->setPort(389);
+
+#### Use SSL
+
+    $config->setUseSSL(true);
+
+#### Use TLS
+
+    $config->setUseTLS(true);
+
+#### Use SSO
+
+    $config->setUseSSO(true);
+
+
 ### Basic Functionality
 
-To connect to your Active Directory server, you'll have to provide a configuration array to a new Adldap instance.
+To connect to your Active Directory server, you'll have to provide a configuration instance to a new Adldap instance.
 
 This can be done like so:
 
-    use Adldap\Adldap;
-
-    $configuration = array(
-        'user_id_key' => 'samaccountname',
-        'account_suffix' => '@domain.local',
-        'person_filter' => array('category' => 'objectCategory', 'person' => 'person'),
-        'base_dn' => 'DC=domain,DC=local',
-        'domain_controllers' => array('DC1.domain.local', 'DC2.domain.local'),
-        'admin_username' => 'administrator',
-        'admin_password' => 'password',
-        'real_primarygroup' => true,
-        'use_ssl' => false,
-        'use_tls' => false,
-        'recursive_groups' => true,
-        'ad_port' => '389',
-        'sso' => false,
-    );
-    
     try
     {
         $ad = new Adldap($configuration);

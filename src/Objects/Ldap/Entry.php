@@ -207,6 +207,36 @@ class Entry extends AbstractObject
     }
 
     /**
+     * Returns the entry's GUID.
+     *
+     * @return string
+     */
+    public function getGuid()
+    {
+        return $this->getAttribute(ActiveDirectory::OBJECT_GUID, 0);
+    }
+
+    /**
+     * Returns the entry's SID.
+     *
+     * @return string
+     */
+    public function getSid()
+    {
+        return $this->getAttribute(ActiveDirectory::OBJECT_SID, 0);
+    }
+
+    /**
+     * Returns the entry' max password age.
+     *
+     * @return string
+     */
+    public function getMaxPasswordAge()
+    {
+        return $this->getAttribute(ActiveDirectory::MAX_PASSWORD_AGE, 0);
+    }
+
+    /**
      * Adds modifications to the current object.
      *
      * @param int|string $key
@@ -297,13 +327,33 @@ class Entry extends AbstractObject
     {
         $dn = $this->getDn();
 
-        if(is_null($dn) || empty($dn)) {
+        if (is_null($dn) || empty($dn)) {
             $message = 'Unable to save. The current entry does not have a distinguished name present.';
 
             throw new AdldapException($message);
         }
 
         return $this->connection->modifyBatch($dn, $this->getModifications());
+    }
+
+    /**
+     * Deletes the current entry.
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     */
+    public function delete()
+    {
+        $dn = $this->getDn();
+
+        if(is_null($dn) || empty($dn)) {
+            $message = 'Unable to delete. The current entry does not have a distinguished name present.';
+
+            throw new AdldapException($message);
+        }
+
+        return $this->connection->delete($dn);
     }
 
     /**

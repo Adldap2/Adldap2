@@ -43,15 +43,19 @@ class ActiveDirectory
     const LEGACY_EXCHANGE_DN = 'legacyexchangedn';
     const LOCATION = 'location';
     const LOCKOUT_TIME = 'lockouttime';
+    const MAX_PASSWORD_AGE = 'maxpwdage';
     const MEMBER = 'member';
     const MEMBER_OF = 'memberof';
     const NAME = 'name';
-    const OBJECT_CLASS = 'objectclass';
     const OBJECT_CATEGORY = 'objectcategory';
+    const OBJECT_CLASS = 'objectclass';
+    const OBJECT_GUID = 'objectguid';
     const OBJECT_SID = 'objectsid';
     const OPERATING_SYSTEM = 'operatingsystem';
     const OPERATING_SYSTEM_SERVICE_PACK = 'operatingsystemservicepack';
     const OPERATING_SYSTEM_VERSION = 'operatingsystemversion';
+    const PASSWORD_LAST_SET = 'pwdlastset';
+    const PERSON = 'person';
     const POSTAL_CODE = 'postalcode';
     const PRIMARY_GROUP_ID = 'primarygroupid';
     const PRINTER_BIN_NAMES = 'printbinnames';
@@ -72,9 +76,9 @@ class ActiveDirectory
     const TELEPHONE = 'telephonenumber';
     const TITLE = 'title';
     const TRUE = 'TRUE';
+    const UNICODE_PASSWORD = 'unicodePwd';
     const UPDATED_AT = 'whenchanged';
     const URL = 'url';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
-    const PERSON = 'person';
 }

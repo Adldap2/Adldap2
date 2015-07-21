@@ -3,7 +3,7 @@
 namespace Adldap\Query;
 
 use Adldap\Exceptions\InvalidQueryOperator;
-use Adldap\Interfaces\ConnectionInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Builder
 {

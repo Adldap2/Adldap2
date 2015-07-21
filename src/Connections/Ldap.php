@@ -3,7 +3,6 @@
 namespace Adldap\Connections;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Interfaces\ConnectionInterface;
 
 class Ldap implements ConnectionInterface
 {

@@ -275,7 +275,7 @@ class Utilities extends AbstractBase
      */
     public function validateLdapIsBound()
     {
-        if ($this->adldap->getLdapBind()) {
+        if ($this->adldap->getConnection()->isBound()) {
             return true;
         }
 

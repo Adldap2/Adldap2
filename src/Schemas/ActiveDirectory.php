@@ -47,6 +47,7 @@ class ActiveDirectory
     const MEMBER_OF = 'memberof';
     const NAME = 'name';
     const OBJECT_CLASS = 'objectclass';
+    const OBJECT_CATEGORY = 'objectcategory';
     const OBJECT_SID = 'objectsid';
     const OPERATING_SYSTEM = 'operatingsystem';
     const OPERATING_SYSTEM_SERVICE_PACK = 'operatingsystemservicepack';
@@ -71,8 +72,9 @@ class ActiveDirectory
     const TELEPHONE = 'telephonenumber';
     const TITLE = 'title';
     const TRUE = 'TRUE';
-    const UPDATED_AT  = 'whenchanged';
+    const UPDATED_AT = 'whenchanged';
     const URL = 'url';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
+    const PERSON = 'person';
 }

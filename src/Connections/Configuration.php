@@ -1,0 +1,379 @@
+<?php
+
+namespace Adldap\Connections;
+
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Exceptions\ConfigurationException;
+
+class Configuration
+{
+    /**
+     * The LDAP base dn.
+     *
+     * @var string
+     */
+    protected $baseDn;
+
+    /**
+     * The integer to instruct the LDAP connection
+     * whether or not to follow referrals.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms677913(v=vs.85).aspx
+     *
+     * @var int
+     */
+    protected $followReferrals = 0;
+
+    /**
+     * The user ID key to use for performing searches upon.
+     *
+     * @var string
+     */
+    protected $userIdKey = ActiveDirectory::ACCOUNT_NAME;
+
+    /**
+     * The attribute (index 0) and value (index 1) used to identify a person in the AD schema.
+     *
+     * @var array
+     */
+    protected $personFilter = [
+        'category' => ActiveDirectory::OBJECT_CATEGORY,
+        'person' => ActiveDirectory::PERSON
+    ];
+
+    /**
+     * The LDAP port to use when connecting to
+     * the domain controllers.
+     *
+     * @var string
+     */
+    protected $port = ConnectionInterface::PORT;
+
+    /**
+     * Determines whether or not to use SSL
+     * with the current LDAP connection.
+     *
+     * @var bool
+     */
+    protected $useSSL = false;
+
+    /**
+     * Determines whether or not to use TLS
+     * with the current LDAP connection.
+     *
+     * @var bool
+     */
+    protected $useTLS = false;
+
+    /**
+     * Determines whether or not to use SSO
+     * with the current LDAP connection.
+     *
+     * @var bool
+     */
+    protected $useSSO = false;
+
+    /**
+     * The domain controllers to connect to.
+     *
+     * @var array
+     */
+    protected $domainControllers = [];
+
+    /**
+     * The LDAP account suffix.
+     *
+     * @var string
+     */
+    protected $accountSuffix;
+
+    /**
+     * The LDAP administrator username.
+     *
+     * @var string
+     */
+    private $adminUsername;
+
+    /**
+     * The LDAP administrator password.
+     *
+     * @var string
+     */
+    private $adminPassword;
+
+    /**
+     * Sets the base DN property.
+     *
+     * @param string $dn
+     */
+    public function setBaseDn($dn)
+    {
+        $this->baseDn = (string) $dn;
+    }
+
+    /**
+     * Returns the Base DN string.
+     *
+     * @return string
+     */
+    public function getBaseDn()
+    {
+        return $this->baseDn;
+    }
+
+    /**
+     * Sets the follow referrals option.
+     *
+     * @param $int
+     */
+    public function setFollowReferrals($int)
+    {
+        $this->followReferrals = (int) $int;
+    }
+
+    /**
+     * Returns the follow referrals option.
+     *
+     * @return int
+     */
+    public function getFollowReferrals()
+    {
+        return $this->followReferrals;
+    }
+
+    /**
+     * Sets the user ID key option.
+     *
+     * @param $key
+     */
+    public function setUserIdKey($key)
+    {
+        $this->userIdKey = $key;
+    }
+
+    /**
+     * Returns the user ID key option.
+     *
+     * @return string
+     */
+    public function getUserIdKey()
+    {
+        return $this->userIdKey;
+    }
+
+    /**
+     * Sets the person search filter.
+     *
+     * @param array $personFilter
+     */
+    public function setPersonFilter($personFilter)
+    {
+        $this->personFilter = $personFilter;
+    }
+
+    /**
+     * Get the person search filter.
+     * An optional parameter may be used to specify the desired part.
+     * Without a parameter, returns an imploded string of the form "category=person".
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getPersonFilter($key = null)
+    {
+        if ($key == 'category') {
+            return $this->personFilter['category'];
+        }
+
+        if ($key == 'person') {
+            return $this->personFilter['person'];
+        }
+
+        return implode('=', $this->personFilter);
+    }
+
+    /**
+     * Sets the port option to use when connecting.
+     *
+     * @param $port
+     */
+    public function setPort($port)
+    {
+        $this->port = (string) $port;
+    }
+
+    /**
+     * Returns the port option.
+     *
+     * @return string
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * Sets the option whether or not to use SSL when connecting.
+     *
+     * @param $bool
+     *
+     * @throws ConfigurationException
+     */
+    public function setUseSSL($bool)
+    {
+        if($this->useTLS) {
+            $message = 'You can only specify the use of one security protocol. Use TLS is true.';
+
+            throw new ConfigurationException($message);
+        }
+
+        $this->useSSL = (bool) $bool;
+    }
+
+    /**
+     * Returns the use SSL option.
+     *
+     * @return bool
+     */
+    public function getUseSSL()
+    {
+        return $this->useSSL;
+    }
+
+    /**
+     * Sets the option whether or not to use TLS when connecting.
+     *
+     * @param $bool
+     *
+     * @throws ConfigurationException
+     */
+    public function setUseTLS($bool)
+    {
+        if($this->useSSL) {
+            $message = 'You can only specify the use of one security protocol. Use SSL is true.';
+
+            throw new ConfigurationException($message);
+        }
+
+        $this->useTLS = (bool) $bool;
+    }
+
+    /**
+     * Returns the use TLS option.
+     *
+     * @return bool
+     */
+    public function getUseTLS()
+    {
+        return $this->useTLS;
+    }
+
+    /**
+     * Sets the option whether or not to use SSO when connecting.
+     *
+     * @param $bool
+     */
+    public function setUseSSO($bool)
+    {
+        $this->useSSO = (bool) $bool;
+    }
+
+    /**
+     * Returns the use SSO option.
+     *
+     * @return bool
+     */
+    public function getUseSSO()
+    {
+        return $this->useSSO;
+    }
+
+    /**
+     * Sets the domain controllers option.
+     *
+     * @param array $hosts
+     *
+     * @throws ConfigurationException
+     */
+    public function setDomainControllers(array $hosts)
+    {
+        if(count($hosts) === 0) {
+            $message = 'You must specify at least one domain controller.';
+
+            throw new ConfigurationException($message);
+        }
+
+        $this->domainControllers = $hosts;
+    }
+
+    /**
+     * Returns the domain controllers option.
+     *
+     * @return array
+     */
+    public function getDomainControllers()
+    {
+        return $this->domainControllers;
+    }
+
+    /**
+     * Sets the account suffix option.
+     *
+     * @param string $suffix
+     */
+    public function setAccountSuffix($suffix)
+    {
+        $this->accountSuffix = (string) $suffix;
+    }
+
+    /**
+     * Returns the account suffix option.
+     *
+     * @return string
+     */
+    public function getAccountSuffix()
+    {
+        return $this->accountSuffix;
+    }
+
+    /**
+     * Sets the administrators username option.
+     *
+     * @param string $username
+     */
+    public function setAdminUsername($username)
+    {
+        $this->adminUsername = (string) $username;
+    }
+
+    /**
+     * Returns the administrator username option.
+     *
+     * @return string
+     */
+    public function getAdminUsername()
+    {
+        return $this->adminUsername;
+    }
+
+    /**
+     * Sets the administrators password option.
+     *
+     * @param string $password
+     */
+    public function setAdminPassword($password)
+    {
+        $this->adminPassword = (string) $password;
+    }
+
+    /**
+     * Returns the administrators password option.
+     *
+     * @return string
+     */
+    public function getAdminPassword()
+    {
+        return $this->adminPassword;
+    }
+}

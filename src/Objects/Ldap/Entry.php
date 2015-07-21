@@ -3,7 +3,7 @@
 namespace Adldap\Objects\Ldap;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Interfaces\ConnectionInterface;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\AbstractObject;
 

@@ -21,7 +21,7 @@ abstract class AbstractBase
     /**
      * The current Adldap connection.
      *
-     * @var \Adldap\Interfaces\ConnectionInterface
+     * @var \Adldap\Connections\ConnectionInterface
      */
     protected $connection;
 
@@ -34,7 +34,7 @@ abstract class AbstractBase
     {
         $this->adldap = $adldap;
 
-        $connection = $adldap->getLdapConnection();
+        $connection = $adldap->getConnection();
 
         if ($connection) {
             $this->connection = $connection;

@@ -109,6 +109,16 @@ class Adldap
     }
 
     /**
+     * Returns the configuration object.
+     *
+     * @return Configuration
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
      * Sets the connection property.
      *
      * @param ConnectionInterface $connection

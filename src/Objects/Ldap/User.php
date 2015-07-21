@@ -2,6 +2,9 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\PasswordPolicyException;
+use Adldap\Exceptions\WrongPasswordException;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Objects\Traits\HasMemberOfTrait;
@@ -288,6 +291,16 @@ class User extends Entry
     }
 
     /**
+     * Returns the time when the users password was set last.
+     *
+     * @return string
+     */
+    public function getPasswordLastSet()
+    {
+        return $this->getAttribute(ActiveDirectory::PASSWORD_LAST_SET, 0);
+    }
+
+    /**
      * Returns the users lockout time.
      *
      * @return string
@@ -346,5 +359,152 @@ class User extends Entry
     public function getShowInAddressBook()
     {
         return $this->getAttribute(ActiveDirectory::SHOW_IN_ADDRESS_BOOK);
+    }
+
+    /**
+     * Enables the current user.
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     */
+    public function enable()
+    {
+        $this->enabled = 1;
+
+        return $this->save();
+    }
+
+    /**
+     * Disables the current user.
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     */
+    public function disable()
+    {
+        $this->enabled = 0;
+
+        return $this->save();
+    }
+
+    /**
+     * Sets the password on the current user.
+     *
+     * @param string $password
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     */
+    public function setPassword($password)
+    {
+        if (!$this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {
+            $message = 'SSL or TLS must be configured on your web server and enabled to set passwords.';
+
+            throw new AdldapException($message);
+        }
+
+        $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, $this->encodePassword($password));
+
+        $result = $this->save();
+
+        if ($result === false) {
+            $err = $this->connection->errNo();
+
+            if ($err) {
+                $error = $this->connection->err2Str($err);
+
+                $msg = 'Error '.$err.': '.$error.'.';
+
+                if ($err == 53) {
+                    $msg .= ' Your password might not match the password policy.';
+                }
+
+                throw new AdldapException($msg);
+            } else {
+                return false;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Change the password of the current user. This must be performed over SSL.
+
+     * @param string $oldPassword The new password
+     * @param string $newPassword The old password
+     *
+     * @return bool
+     *
+     * @throws AdldapException
+     * @throws PasswordPolicyException
+     * @throws WrongPasswordException
+     */
+    public function changePassword($oldPassword, $newPassword)
+    {
+        if (!$this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {
+            $message = 'SSL or TLS must be configured on your web server and enabled to change passwords.';
+
+            throw new AdldapException($message);
+        }
+
+        $attribute = ActiveDirectory::UNICODE_PASSWORD;
+
+        $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, $this->encodePassword($oldPassword));
+        $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, $this->encodePassword($newPassword));
+
+        $result = $this->save();
+
+        if($result === false) {
+            $error = $this->connection->getExtendedError();
+
+            if ($error) {
+                $errorCode = $this->connection->getExtendedErrorCode();
+
+                $message = 'Error: '.$error;
+
+                if ($errorCode == '0000052D') {
+                    $message = "Error: $errorCode. Your new password might not match the password policy.";
+
+                    throw new PasswordPolicyException($message);
+                } elseif ($errorCode == '00000056') {
+                    $message = "Error: $errorCode. Your old password might be wrong.";
+
+                    throw new WrongPasswordException($message);
+                }
+
+                throw new AdldapException($message);
+            } else {
+                return false;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Encode a password for transmission over LDAP.
+     *
+     * @param string $password The password to encode
+     *
+     * @return string
+     */
+    private function encodePassword($password)
+    {
+        $password = '"'.$password.'"';
+
+        $encoded = '';
+
+        $length = strlen($password);
+
+        for ($i = 0; $i < $length; $i++) {
+            $encoded .= "{$password{$i}
+            }\000";
+        }
+
+        return $encoded;
     }
 }

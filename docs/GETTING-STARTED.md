@@ -28,8 +28,8 @@ Once you've created one, you can apply options to it through its methods.
 
 #### Port
 
-> Note, the port is set automatically depending on the
-> configured protocol, you, only change it if your AD server has a unique port.
+> Note, the port is set automatically depending on the configured
+> protocol. You should only change it if your AD server has a unique port.
 
     $config->setPort(389);
 

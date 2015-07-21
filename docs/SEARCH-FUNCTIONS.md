@@ -2,7 +2,7 @@
 
 The new Adldap Search functionality makes it really easy to query your AD server for exactly what you want. Let's get started.
 
-To open a new search query, call the `search()` function on your AD object like so:
+To open a new search, call the `search()` function on your AD object like so:
 
     $ad = new Adldap($configuration);
     

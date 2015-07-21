@@ -2,26 +2,8 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Exceptions\AdldapException;
-
 abstract class AbstractObject
 {
-    /**
-     * The validation messages of the object.
-     *
-     * @var array
-     */
-    public $messages = [
-        'required' => 'Missing compulsory field [%s]',
-    ];
-
-    /**
-     * The required attributes for the toSchema methods.
-     *
-     * @var array
-     */
-    protected $required = [];
-
     /**
      * Holds the current objects original attributes.
      *
@@ -170,77 +152,5 @@ abstract class AbstractObject
     public function countAttributes()
     {
         return count($this->getAttributes());
-    }
-
-    /**
-     * Sets the required attributes for validation.
-     *
-     * @param array $required
-     *
-     * @return $this
-     */
-    public function setRequired(array $required = [])
-    {
-        $this->required = $required;
-
-        return $this;
-    }
-
-    /**
-     * Validates the required attributes for preventing null keys.
-     *
-     * If an array is provided, then the specified required attributes
-     * are only validated.
-     *
-     * @param array $only
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateRequired($only = [])
-    {
-        if (count($only) > 0) {
-            return $this->validateSpecific($only);
-        }
-
-        /*
-         * Go through each required attribute
-         * and make sure they're not null
-         */
-        foreach ($this->required as $required) {
-            if ($this->getAttribute($required) === null) {
-                throw new AdldapException(sprintf($this->messages['required'], $required));
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Validates the specified attributes inside the required array.
-     *
-     * The attributes inside the required array must also exist inside the
-     * required property.
-     *
-     * @param array $required
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateSpecific(array $required = [])
-    {
-        foreach ($required as $field) {
-            /*
-             * If the field is in the required array, and the
-             * object attribute equals null, we'll throw an exception.
-             */
-            if (in_array($field, $this->required) && $this->getAttribute($field) === null) {
-                throw new AdldapException(sprintf($this->messages['required'], $field));
-            }
-        }
-
-        return true;
     }
 }

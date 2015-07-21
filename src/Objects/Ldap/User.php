@@ -5,6 +5,7 @@ namespace Adldap\Objects\Ldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
+use Adldap\Objects\AccountControl;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Objects\Traits\HasMemberOfTrait;
@@ -318,6 +319,18 @@ class User extends Entry
     public function getUserAccountControl()
     {
         return $this->getAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, 0);
+    }
+
+    /**
+     * Sets the users account control property.
+     *
+     * @param AccountControl $accountControl
+     *
+     * @return $this
+     */
+    public function setUserAccountControl(AccountControl $accountControl)
+    {
+        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, $accountControl->getValue());
     }
 
     /**

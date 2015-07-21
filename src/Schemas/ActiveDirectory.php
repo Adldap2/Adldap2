@@ -13,11 +13,13 @@ class ActiveDirectory
     const ACCOUNT_NAME = 'samaccountname';
     const ACCOUNT_TYPE = 'samaccounttype';
     const ADDRESS_HOME = 'homepostaladdress';
+    const ADMIN_DISPLAY_NAME = 'admindisplayname';
     const ANR = 'anr';
     const BAD_PASSWORD_COUNT = 'badpwdcount';
     const BAD_PASSWORD_TIME = 'badpasswordtime';
     const COMMON_NAME = 'cn';
     const COMPANY = 'company';
+    const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
     const CREATED_AT = 'whencreated';
     const DEPARTMENT = 'department';
     const DESCRIPTION = 'description';
@@ -46,6 +48,9 @@ class ActiveDirectory
     const MAX_PASSWORD_AGE = 'maxpwdage';
     const MEMBER = 'member';
     const MEMBER_OF = 'memberof';
+    const MESSAGE_TRACKING_ENABLED = 'messagetrackingenabled';
+    const MS_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
+    const MS_EXCHANGE_SERVER = 'ms-exch-exchange-server';
     const NAME = 'name';
     const OBJECT_CATEGORY = 'objectcategory';
     const OBJECT_CATEGORY_COMPUTER = 'computer';
@@ -75,6 +80,7 @@ class ActiveDirectory
     const PROFILE_PATH = 'profilepath';
     const PROXY_ADDRESSES = 'proxyaddresses';
     const SCRIPT_PATH = 'scriptpath';
+    const SERIAL_NUMBER = 'serialnumber';
     const SERVER_NAME = 'servername';
     const SHOW_IN_ADDRESS_BOOK = 'showinaddressbook';
     const STREET = 'street';
@@ -87,4 +93,5 @@ class ActiveDirectory
     const URL = 'url';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
+    const VERSION_NUMBER = 'versionnumber';
 }

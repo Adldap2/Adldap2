@@ -2,6 +2,7 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Objects\Ldap\ExchangeServer;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Paginator;
 use Adldap\Objects\Ldap\Computer;
@@ -476,6 +477,8 @@ class Search extends AbstractBase
                     return new User($attributes, $this->connection);
                 case ActiveDirectory::OBJECT_CATEGORY_GROUP:
                     return new Group($attributes, $this->connection);
+                case ActiveDirectory::MS_EXCHANGE_SERVER:
+                    return new ExchangeServer($attributes, $this->connection);
                 case ActiveDirectory::OBJECT_CATEGORY_CONTAINER:
                     return new Container($attributes, $this->connection);
                 case ActiveDirectory::OBJECT_CATEGORY_PRINTER:

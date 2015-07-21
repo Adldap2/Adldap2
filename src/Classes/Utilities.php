@@ -7,46 +7,6 @@ use Adldap\Exceptions\AdldapException;
 class Utilities extends AbstractBase
 {
     /**
-     * Take an LDAP query and return the nice names, without all the LDAP prefixes (eg. CN, DN).
-     *
-     * @param array $groups
-     *
-     * @return array
-     */
-    public function niceNames($groups)
-    {
-        $groupNames = [];
-
-        if (is_array($groups) && count($groups) > 0) {
-            foreach ($groups as $group) {
-                $explodedDn = $this->connection->explodeDn($group);
-
-                // Assuming the zero key is the CN
-                $groupNames[] = $explodedDn[0];
-            }
-        } elseif (is_string($groups)) {
-            // If there's a single entry, groups will be a string
-            $explodedDn = $this->connection->explodeDn($groups);
-
-            $groupNames[] = $explodedDn[0];
-        }
-
-        return $groupNames;
-    }
-
-    /**
-     * Escape characters for use in an ldap_create function.
-     *
-     * @param string $str
-     *
-     * @return string
-     */
-    public function escapeCharacters($str)
-    {
-        return str_replace(',', "\,", $str);
-    }
-
-    /**
      * Converts a string GUID to a hexdecimal value so it can be queried.
      *
      * @param string $strGUID A string representation of a GUID

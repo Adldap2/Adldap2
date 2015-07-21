@@ -27,49 +27,49 @@ class Group extends Entry
     /**
      * Sets the groups members using an array of user DNs.
      *
-     * @param array $users
+     * @param array $entries
      *
      * @return bool
      */
-    public function setMembers(array $users)
+    public function setMembers(array $entries)
     {
-        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REPLACE, $users);
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REPLACE, $entries);
 
         return $this->save();
     }
 
     /**
-     * Adds a user to the current group.
+     * Adds an entry to the current group.
      *
-     * @param string|User $user
+     * @param string|Entry $entry
      *
      * @return bool
      */
-    public function addMember($user)
+    public function addMember($entry)
     {
-        if($user instanceof User) {
-            $user = $user->getDn();
+        if($entry instanceof Entry) {
+            $entry = $entry->getDn();
         }
 
-        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_ADD, $user);
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_ADD, $entry);
 
         return $this->save();
     }
 
     /**
-     * Removes a user from the current group.
+     * Removes an entry from the current group.
      *
-     * @param string|User $user
+     * @param string|Entry $entry
      *
      * @return bool
      */
-    public function removeMember($user)
+    public function removeMember($entry)
     {
-        if($user instanceof User) {
-            $user = $user->getDn();
+        if($entry instanceof Entry) {
+            $entry = $entry->getDn();
         }
 
-        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REMOVE, $user);
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REMOVE, $entry);
 
         return $this->save();
     }

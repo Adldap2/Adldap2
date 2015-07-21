@@ -5,6 +5,7 @@ namespace Adldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Configuration;
+use Adldap\Schemas\ActiveDirectory;
 
 class Adldap
 {
@@ -388,7 +389,7 @@ class Adldap
         return $this->search()
             ->setDn(null)
             ->read(true)
-            ->where('objectClass', '*')
+            ->where(ActiveDirectory::OBJECT_CLASS, '*')
             ->first();
     }
 }

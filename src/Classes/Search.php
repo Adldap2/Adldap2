@@ -2,7 +2,7 @@
 
 namespace Adldap\Classes;
 
-
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Paginator;
 use Adldap\Objects\Ldap\Computer;
 use Adldap\Objects\Ldap\Container;
@@ -256,8 +256,8 @@ class Search extends AbstractBase
 
         if(count($selects) > 0) {
             // Always make sure object category is in the selected fields
-            if(!array_key_exists('objectCategory', $selects)) {
-                $selects[] = 'objectCategory';
+            if(!array_key_exists(ActiveDirectory::OBJECT_CLASS, $selects)) {
+                $selects[] = ActiveDirectory::OBJECT_CLASS;
             }
         }
 

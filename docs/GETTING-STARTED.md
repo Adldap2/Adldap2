@@ -26,6 +26,10 @@ Once you've created one, you can apply options to it through its methods.
 
     $config->setBaseDn('DC=corp,DC=company,DC=org');
 
+#### Account Suffix
+
+    $config->setAccountSuffix('@company.org');
+
 #### Port
 
 > Note, the port is set automatically depending on the configured

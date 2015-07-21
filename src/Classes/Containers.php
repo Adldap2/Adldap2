@@ -2,10 +2,10 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Objects\Folder;
 use Adldap\Adldap;
+use Adldap\Schemas\ActiveDirectory;
 
-class Folders extends AbstractQueryable
+class Containers extends AbstractQueryable
 {
     /**
      * Returns all entries with the current object class.
@@ -21,8 +21,8 @@ class Folders extends AbstractQueryable
     {
         $search = $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '*')
-            ->where('distinguishedname', '!', $this->adldap->getBaseDn());
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_CONTAINER)
+            ->where(ActiveDirectory::DISTINGUISHED_NAME, '!', $this->adldap->search()->getBaseDn());
 
         if ($sorted) {
             $search->sortBy($sortBy, $sortByDirection);
@@ -44,7 +44,7 @@ class Folders extends AbstractQueryable
     {
         $results = $this->adldap->search()
             ->select($fields)
-            ->where('OU', '=', $name)
+            ->where(ActiveDirectory::ORGANIZATIONAL_UNIT, '=', $name)
             ->first();
 
         if (count($results) > 0) {

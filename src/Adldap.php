@@ -153,7 +153,7 @@ class Adldap
      *
      * @return Classes\Groups
      */
-    public function group()
+    public function groups()
     {
         return new Classes\Groups($this);
     }
@@ -163,7 +163,7 @@ class Adldap
      *
      * @return Classes\Users
      */
-    public function user()
+    public function users()
     {
         return new Classes\Users($this);
     }
@@ -171,11 +171,11 @@ class Adldap
     /**
      * Returns a new AdldapFolders instance.
      *
-     * @return Classes\Folders
+     * @return Classes\Containers
      */
-    public function folder()
+    public function containers()
     {
-        return new Classes\Folders($this);
+        return new Classes\Containers($this);
     }
 
     /**
@@ -193,7 +193,7 @@ class Adldap
      *
      * @return Classes\Contacts
      */
-    public function contact()
+    public function contacts()
     {
         return new Classes\Contacts($this);
     }
@@ -213,7 +213,7 @@ class Adldap
      *
      * @return Classes\Computers
      */
-    public function computer()
+    public function computers()
     {
         return new Classes\Computers($this);
     }

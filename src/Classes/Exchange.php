@@ -3,7 +3,7 @@
 namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
-use Adldap\Objects\Mailbox;
+use Adldap\Schemas\ActiveDirectory;
 
 class Exchange extends AbstractQueryable
 {
@@ -39,7 +39,7 @@ class Exchange extends AbstractQueryable
             $search = $this->adldap->search()
                 ->setDn($namingContext)
                 ->select($fields)
-                ->where('objectCategory', '=', $this->serverObjectCategory);
+                ->where(ActiveDirectory::OBJECT_CATEGORY, '=', $this->serverObjectCategory);
 
             if ($sorted) {
                 $search->sortBy($sortBy, $sortByDirection);
@@ -67,8 +67,8 @@ class Exchange extends AbstractQueryable
             return $this->adldap->search()
                 ->setDn($namingContext)
                 ->select($fields)
-                ->where('objectCategory', '=', $this->serverObjectCategory)
-                ->where('anr', '=', $name)
+                ->where(ActiveDirectory::OBJECT_CATEGORY, '=', $this->serverObjectCategory)
+                ->where(ActiveDirectory::ANR, '=', $name)
                 ->first();
         }
 
@@ -114,106 +114,6 @@ class Exchange extends AbstractQueryable
 
         // Perform the creation and return the result
         return $this->adldap->user()->modify($username, $mailbox->toLdapArray(), $isGUID);
-    }
-
-    /**
-     * Remove an address to Exchange.
-     * If you remove a default address the account will no longer have a default,
-     * we recommend changing the default address first.
-     *
-     * @param string $username     The username of the user to add the Exchange account to
-     * @param string $emailAddress The email address to add to this user
-     * @param bool   $isGUID       Is the username passed a GUID or a samAccountName
-     *
-     * @return bool|string
-     */
-    public function deleteAddress($username, $emailAddress, $isGUID = false)
-    {
-        $this->adldap->utilities()->validateNotNull('Username', $username);
-        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
-
-        // Find the dn of the user
-        $user = $this->adldap->user()->info($username, ['cn', 'proxyaddresses'], $isGUID);
-
-        if ($user[0]['dn'] === null) {
-            return false;
-        }
-
-        $userDn = $user[0]['dn'];
-
-        if (is_array($user[0]['proxyaddresses'])) {
-            $mod = [];
-
-            for ($i = 0; $i < $user[0]['proxyaddresses']['count']; $i++) {
-                if (strpos($user[0]['proxyaddresses'][$i], 'SMTP:') !== false && $user[0]['proxyaddresses'][$i] == 'SMTP:'.$emailAddress) {
-                    $mod['proxyAddresses'][0] = 'SMTP:'.$emailAddress;
-                } elseif (strpos($user[0]['proxyaddresses'][$i], 'smtp:') !== false && $user[0]['proxyaddresses'][$i] == 'smtp:'.$emailAddress) {
-                    $mod['proxyAddresses'][0] = 'smtp:'.$emailAddress;
-                }
-            }
-
-            return $this->connection->modDelete($userDn, $mod);
-        }
-
-        return false;
-    }
-
-    /**
-     * Change the default address.
-     *
-     * @param string $username     The username of the user to add the Exchange account to
-     * @param string $emailAddress The email address to make default
-     * @param bool   $isGUID       Is the username passed a GUID or a samAccountName
-     *
-     * @return bool|string
-     */
-    public function primaryAddress($username, $emailAddress, $isGUID = false)
-    {
-        $this->adldap->utilities()->validateNotNull('Username', $username);
-        $this->adldap->utilities()->validateNotNull('Email Address', $emailAddress);
-
-        // Find the dn of the user
-        $user = $this->adldap->user()->info($username, ['cn', 'proxyaddresses'], $isGUID);
-
-        if ($user[0]['dn'] === null) {
-            return false;
-        }
-
-        $userDn = $user[0]['dn'];
-
-        if (is_array($user[0]['proxyaddresses'])) {
-            $modAddresses = [];
-
-            for ($i = 0; $i < $user[0]['proxyaddresses']['count']; $i++) {
-                if (strpos($user[0]['proxyaddresses'][$i], 'SMTP:') !== false) {
-                    $user[0]['proxyaddresses'][$i] = str_replace('SMTP:', 'smtp:', $user[0]['proxyaddresses'][$i]);
-                }
-
-                if ($user[0]['proxyaddresses'][$i] == 'smtp:'.$emailAddress) {
-                    $user[0]['proxyaddresses'][$i] = str_replace('smtp:', 'SMTP:', $user[0]['proxyaddresses'][$i]);
-                }
-
-                if ($user[0]['proxyaddresses'][$i] != '') {
-                    $modAddresses['proxyAddresses'][$i] = $user[0]['proxyaddresses'][$i];
-                }
-            }
-
-            return $this->connection->modReplace($userDn, $modAddresses);
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns a list of Exchange Servers in the ConfigurationNamingContext of the domain.
-     *
-     * @param array $fields
-     *
-     * @return array|bool
-     */
-    public function servers($fields = [])
-    {
-        return $this->all($fields);
     }
 
     /**

@@ -126,6 +126,14 @@ Then you can perform the above query like so:
 
     $results = $ad->search()->query("(cn=$escapedValue)");
 
+#### Raw
+
+If you'd like to retrieve the raw LDAP results, use the `raw()` method:
+
+    $rawResults = $ad->search()->raw()->where('cn', '=', 'John Doe')->get();
+    
+    var_dump($rawResults); // Returns an array
+    
 #### Paginate
 
 Pagination is useful when you have a limit on the returned results from LDAP. Using pagination, you will successfully be able

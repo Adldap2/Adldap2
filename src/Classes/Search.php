@@ -394,7 +394,7 @@ class Search extends AbstractBase
             ->setDn(null)
             ->read()
             ->raw()
-            ->where('objectClass', '*')
+            ->where(ActiveDirectory::OBJECT_CLASS, '*')
             ->first();
 
         $key = 'defaultnamingcontext';
@@ -467,16 +467,16 @@ class Search extends AbstractBase
         if(array_key_exists('objectcategory', $attributes) && array_key_exists(0, $attributes['objectcategory'])) {
             $category = $this->connection->explodeDn($attributes['objectcategory'][0]);
 
-            switch(strtoupper($category[0])) {
-                case 'COMPUTER':
+            switch(strtolower($category[0])) {
+                case ActiveDirectory::OBJECT_CATEGORY_COMPUTER:
                     return new Computer($attributes, $this->connection);
-                case 'PERSON':
+                case ActiveDirectory::OBJECT_CATEGORY_PERSON:
                     return new User($attributes, $this->connection);
-                case 'GROUP':
+                case ActiveDirectory::OBJECT_CATEGORY_GROUP:
                     return new Group($attributes, $this->connection);
-                case 'CONTAINER':
+                case ActiveDirectory::OBJECT_CATEGORY_CONTAINER:
                     return new Container($attributes, $this->connection);
-                case 'PRINT-QUEUE':
+                case ActiveDirectory::OBJECT_CATEGORY_PRINTER:
                     return new Printer($attributes, $this->connection);
             }
         }
@@ -580,7 +580,9 @@ class Search extends AbstractBase
                 }
             }
 
-            array_multisort($sort, $this->sortByDirection, $objects);
+            if(isset($sort) && is_array($sort)) {
+                array_multisort($sort, $this->sortByDirection, $objects);
+            }
         }
 
         return $objects;

@@ -25,17 +25,3 @@ To retrieve information on an exchange server, use the `find()` method:
     $serverName = 'EXCH-CORP';
     
     $server = $ad->exchange()->find($serverName);
-
-### Create Mailbox
-
-### Storage Groups
-
-### Servers
-
-The `servers()` method is an alias for the `all()` method, this is purely for backwards compatibility.
-
-    $servers = $ad->exchange()->servers();
-
-### Add Address
-
-### Add X 400

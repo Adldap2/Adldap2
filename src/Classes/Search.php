@@ -458,14 +458,16 @@ class Search extends AbstractBase
     /**
      * Returns a new LDAP Entry instance.
      *
-     * @param array                                  $attributes
+     * @param array $attributes
      *
      * @return Entry
      */
     public function newLdapEntry(array $attributes)
     {
-        if(array_key_exists('objectcategory', $attributes) && array_key_exists(0, $attributes['objectcategory'])) {
-            $category = $this->connection->explodeDn($attributes['objectcategory'][0]);
+        $attribute = ActiveDirectory::OBJECT_CATEGORY;
+
+        if(array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
+            $category = $this->connection->explodeDn($attributes[$attribute][0]);
 
             switch(strtolower($category[0])) {
                 case ActiveDirectory::OBJECT_CATEGORY_COMPUTER:

@@ -25,6 +25,68 @@ class Group extends Entry
     }
 
     /**
+     * Sets the groups members using an array of user DNs.
+     *
+     * @param array $users
+     *
+     * @return bool
+     */
+    public function setMembers(array $users)
+    {
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REPLACE, $users);
+
+        return $this->save();
+    }
+
+    /**
+     * Adds a user to the current group.
+     *
+     * @param string|User $user
+     *
+     * @return bool
+     */
+    public function addMember($user)
+    {
+        if($user instanceof User) {
+            $user = $user->getDn();
+        }
+
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_ADD, $user);
+
+        return $this->save();
+    }
+
+    /**
+     * Removes a user from the current group.
+     *
+     * @param string|User $user
+     *
+     * @return bool
+     */
+    public function removeMember($user)
+    {
+        if($user instanceof User) {
+            $user = $user->getDn();
+        }
+
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REMOVE, $user);
+
+        return $this->save();
+    }
+
+    /**
+     * Removes all members from the current group.
+     *
+     * @return bool
+     */
+    public function removeMembers()
+    {
+        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REMOVE_ALL, []);
+
+        return $this->save();
+    }
+
+    /**
      * Returns the group type integer.
      *
      * https://msdn.microsoft.com/en-us/library/ms675935(v=vs.85).aspx

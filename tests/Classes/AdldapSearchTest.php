@@ -4,13 +4,14 @@ namespace Adldap\Tests\Classes;
 
 use Adldap\Adldap;
 use Adldap\Classes\Search;
+use Adldap\Connections\Configuration;
 use Adldap\Tests\AdldapBaseTest;
 
 class AdldapSearchTest extends AdldapBaseTest
 {
     protected function newAdldap($connection = null)
     {
-        return new Adldap([], $connection, false);
+        return new Adldap(new Configuration(), $connection, false);
     }
 
     public function testSearchGetQuery()

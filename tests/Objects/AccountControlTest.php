@@ -7,18 +7,16 @@ use Adldap\Tests\FunctionalTestCase;
 
 class AccountControlTest extends FunctionalTestCase
 {
-    public function testConstructValue()
+    public function testEndingValue()
     {
-        $attributes = array(
-            'NORMAL_ACCOUNT' => true,
-            'DONT_EXPIRE_PASSWORD' => true,
-        );
+        $accountControl = new AccountControl();
 
-        $accountControl = new AccountControl($attributes);
+        $accountControl->accountIsNormal();
+        $accountControl->passwordDoesNotExpire();
 
         // Code means that the account is enabled, and the users password does not expire
         $code = 66048;
 
-        $this->assertEquals($code, $accountControl->value);
+        $this->assertEquals($code, $accountControl->getValue());
     }
 }

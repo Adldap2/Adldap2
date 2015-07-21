@@ -29,7 +29,7 @@ class PagintorTest extends FunctionalTestCase
 
         $paginator = new Paginator($data, 1, 0, 2);
 
-        $this->assertEquals($data, $paginator->getAttributes());
+        $this->assertEquals($data, $paginator->getResults());
         $this->assertEquals(2, $paginator->count());
         $this->assertEquals(0, $paginator->getCurrentPage());
 

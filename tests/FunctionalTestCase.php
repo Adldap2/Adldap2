@@ -42,6 +42,16 @@ abstract class FunctionalTestCase extends \PHPUnit_Framework_TestCase
         return $this->mock('Adldap\Interfaces\ConnectionInterface');
     }
 
+    /**
+     * Returns a mocked configuration object.
+     *
+     * @return Mockery\MockInterface
+     */
+    protected function newConfigurationMock()
+    {
+        return $this->mock('Adldap\Connections\Configuration');
+    }
+
     public function setUp()
     {
         // Set constants for testing without LDAP support

@@ -377,4 +377,18 @@ class Adldap
 
         return true;
     }
+
+    /**
+     * Get the RootDSE properties from a domain controller.
+     *
+     * @return array|bool
+     */
+    public function getRootDse()
+    {
+        return $this->search()
+            ->setDn(null)
+            ->read(true)
+            ->where('objectClass', '*')
+            ->first();
+    }
 }

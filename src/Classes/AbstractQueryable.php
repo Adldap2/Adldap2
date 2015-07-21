@@ -1,6 +1,7 @@
 <?php
 
 namespace Adldap\Classes;
+use Adldap\Schemas\ActiveDirectory;
 
 /**
  * The AdldapQueryable class. This class provides
@@ -36,7 +37,7 @@ abstract class AbstractQueryable extends AbstractBase
     {
         $search = $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '=', $this->objectClass);
+            ->where(ActiveDirectory::OBJECT_CLASS, '=', $this->objectClass);
 
         if ($sorted) {
             $search->sortBy($sortBy, $sortByDirection);
@@ -59,8 +60,8 @@ abstract class AbstractQueryable extends AbstractBase
     {
         $results = $this->adldap->search()
             ->select($fields)
-            ->where('objectClass', '=', $this->objectClass)
-            ->where('anr', '=', $name)
+            ->where(ActiveDirectory::OBJECT_CLASS, '=', $this->objectClass)
+            ->where(ActiveDirectory::ANR, '=', $name)
             ->first();
 
         if (count($results) > 0) {

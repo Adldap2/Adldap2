@@ -155,7 +155,7 @@ class Search extends AbstractBase
         do {
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
-            $results = $this->connection->search($this->adldap->getBaseDn(), $this->getQuery(), $this->getSelects());
+            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
 
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
@@ -357,10 +357,55 @@ class Search extends AbstractBase
         if ($this->dn === null) {
             return $this->dn;
         } else if (empty($this->dn)) {
-            return $this->adldap->getBaseDn();
+            return $this->getBaseDn();
         }
 
         return $this->dn;
+    }
+
+    /**
+     * Retrieves the current base DN.
+     *
+     * @return string
+     */
+    public function getBaseDn()
+    {
+        /*
+        * If the base DN is empty, we'll assume the
+         * dev wants it found automatically
+         */
+        $baseDn = $this->getAdldap()->getConfiguration()->getBaseDn();
+
+        if (empty($baseDn)) {
+            $this->findBaseDn();
+        }
+
+        return $baseDn;
+    }
+
+    /**
+     * Finds the Base DN of your domain controller.
+     *
+     * @return string|bool
+     */
+    public function findBaseDn()
+    {
+        $result = (new self($this->getAdldap()))
+            ->setDn(null)
+            ->read()
+            ->raw()
+            ->where('objectClass', '*')
+            ->first();
+
+        $key = 'defaultnamingcontext';
+
+        if (is_array($result) && array_key_exists($key, $result)) {
+            if(array_key_exists(0, $result[$key])) {
+                return $result[$key][0];
+            }
+        }
+
+        return false;
     }
 
     /**

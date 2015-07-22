@@ -7,31 +7,31 @@ All Adldap results will return an array of objects. These objects may vary depen
 All objects **extend** from the base Entry object. This means that the Entry methods are available on **all** objects
 listed below.
 
-#### getAttributes()
+    $entry->getAttributes();
 
 Returns the raw LDAP attributes of the current entry.
 
-#### getName()
+    $entry->getName();
 
 Returns the entry's `name` attribute.
 
-#### getCommonName()
+    $entry->getCommonName();
 
 Returns the entry's `commonName` attribute.
 
-#### getAccountName()
+    $entry->getAccountName();
 
 Returns the entry's `sAMaccountname` attribute.
 
-#### getAccountType()
+    $entry->getAccountType();
 
 Returns the entry's `sAMaccounttype` attribute.
 
-#### getCreatedAt()
+    $entry->getCreatedAt()
 
 Returns the entry's `whencreated` attribute.
 
-#### getUpdatedAt()
+    $entry->getUpdatedAt()
 
 Returns the entry's `whenchanged` attribute.
 

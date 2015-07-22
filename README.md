@@ -1,5 +1,4 @@
-![AdLDAP 2 Banner]
-(https://github.com/adldap2/adldap2/blob/master/adldap2-banner.jpg)
+# Adldap2
 
 [![Build Status](https://img.shields.io/travis/Adldap2/Adldap2.svg?style=flat-square)](https://travis-ci.org/Adldap2/Adldap2)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/adLDAP2/adLDAP2/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/?branch=master)

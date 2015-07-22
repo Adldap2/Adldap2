@@ -71,9 +71,9 @@ class AdldapMethodTest extends FunctionalTestCase
 
         $connection->shouldReceive('close')->andReturn(true);
 
-        $ad->setLdapConnection($connection);
+        $ad->setConnection($connection);
 
-        $this->assertEquals($connection, $ad->getLdapConnection());
+        $this->assertEquals($connection, $ad->getConnection());
     }
 
     public function testAdldapSetLdapConnectionFailure()
@@ -84,7 +84,7 @@ class AdldapMethodTest extends FunctionalTestCase
 
         try
         {
-            $ad->setLdapConnection($connection);
+            $ad->setConnection($connection);
 
             $passes = false;
         } catch (\Exception $e)

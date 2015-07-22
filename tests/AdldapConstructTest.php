@@ -3,15 +3,16 @@
 namespace Adldap\Tests;
 
 use Adldap\Adldap;
+use Adldap\Connections\Configuration;
 
 class AdldapConstructTest extends FunctionalTestCase
 {
     /**
      * This tests that the first configuration parameter
-     * must be an array, and will fail constructing with
+     * must be a Configuration instance, and will fail constructing with
      * another variable type.
      */
-    public function testAdldapConstructConfigNotArrayFailure()
+    public function testAdldapConstructNotConfigurationInstanceFailure()
     {
         try
         {
@@ -37,7 +38,7 @@ class AdldapConstructTest extends FunctionalTestCase
 
         try
         {
-            new Adldap([], $connection);
+            new Adldap(new Configuration(), $connection);
 
             $passes = false;
         } catch(\Exception $e)
@@ -49,32 +50,8 @@ class AdldapConstructTest extends FunctionalTestCase
     }
 
     /**
-     * This tests that the domain_controllers key must
-     * be an array and an exception is thrown when it
-     * is set to another type.
-     */
-    public function testAdldapConstructDomainControllerFailure()
-    {
-        $config = [
-            'domain_controllers' => 'test'
-        ];
-
-        try
-        {
-            new Adldap($config);
-
-            $passes = false;
-        } catch (\Exception $e)
-        {
-            $passes = true;
-        }
-
-        $this->assertTrue($passes);
-    }
-
-    /**
-     * This test demonstrates that all attributes are set
-     * properly on construct.
+     * This test demonstrates that all
+     * attributes are set properly on construct.
      */
     public function testAdldapConstructConfig()
     {
@@ -111,42 +88,6 @@ class AdldapConstructTest extends FunctionalTestCase
     }
 
     /**
-     * This tests that when sso configuration property
-     * is true, the method getUseSSO must return true.
-     */
-    public function testAdldapConstructUseSSO()
-    {
-        $connection = $this->newConnectionMock();
-
-        $config = [
-            'sso' => true,
-            'domain_controllers' => ['domain'],
-            'ad_port' => '100',
-            'base_dn' => 'dc=com',
-        ];
-
-        /*
-         * This demonstrates the entire walk-through of each
-         * method on the connection when SSO is enabled
-         */
-        $connection->shouldReceive('isSupported')->andReturn(true);
-        $connection->shouldReceive('isSaslSupported')->andReturn(true);
-        $connection->shouldReceive('useSSO')->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->andReturn(false);
-        $connection->shouldReceive('isUsingTLS')->andReturn(false);
-        $connection->shouldReceive('isUsingSSO')->andReturn(true);
-        $connection->shouldReceive('connect')->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('bind')->andReturn('resource');
-        $connection->shouldReceive('isBound')->andReturn(true);
-        $connection->shouldReceive('close')->andReturn(true);
-
-        $ad = new Adldap($config, $connection);
-
-        $this->assertTrue($ad->getUseSSO());
-    }
-
-    /**
      * This tests that when auto-connect is false,
      * the connect method is not called on the current
      * connection until manually called.
@@ -157,10 +98,10 @@ class AdldapConstructTest extends FunctionalTestCase
 
         $differentConnection = $this->newConnectionMock();
 
-        $ad = new Adldap([], $connection, false);
+        $ad = new Adldap(new Configuration(), $connection, false);
 
         $differentConnection->shouldReceive('close')->once()->andReturn(true);
 
-        $ad->setLdapConnection($differentConnection);
+        $ad->setConnection($differentConnection);
     }
 }

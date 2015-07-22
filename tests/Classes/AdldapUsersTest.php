@@ -40,7 +40,7 @@ class AdldapUsersTest extends FunctionalTestCase
 
         $this->userClassMock = $this->mock('Adldap\Classes\Users')->makePartial();
 
-        $this->adMock->setLdapConnection($this->connectionMock);
+        $this->adMock->setConnection($this->connectionMock);
 
         $this->userClassMock->__construct($this->adMock);
     }

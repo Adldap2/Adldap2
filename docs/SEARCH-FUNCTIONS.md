@@ -164,7 +164,7 @@ Paginating a search result will return a `Adldap\Objects\Paginator` instance. Th
     
     foreach($results as $result)
     {
-        echo $result['cn'];
+        echo $result->getCommonName();
     }
 
 #### Recursive

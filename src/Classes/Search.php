@@ -2,9 +2,9 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Objects\Ldap\ExchangeServer;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Paginator;
+use Adldap\Objects\Ldap\ExchangeServer;
 use Adldap\Objects\Ldap\Computer;
 use Adldap\Objects\Ldap\Container;
 use Adldap\Objects\Ldap\Group;

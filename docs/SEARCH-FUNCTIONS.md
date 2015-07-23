@@ -23,7 +23,7 @@ retrieved. LDAP will throw the following warning if this occurs:
 However, LDAP functions are suppressed by default, so you won't see this message. If you'd like to show errors and warnings, call the `showErrors()` method
 on the AD connection before performing the search like so:
 
-    $ad->getLdapConnection()->showErrors();
+    $ad->getConnection()->showErrors();
     
     $results = $ad->search()->all();
 
@@ -120,7 +120,7 @@ To perform a raw LDAP query yourself, use the `query()` method:
 However, keep in mind the inserted query is not escaped. If you need to escape your values before the query, be sure
 to do so using:
 
-    $escapedValue = $ad->getLdapConnection()->escape('John Doe');
+    $escapedValue = $ad->getConnection()->escape('John Doe');
     
 Then you can perform the above query like so:
 

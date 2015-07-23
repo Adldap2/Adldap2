@@ -132,7 +132,7 @@ by passing in `false` in the last construct parameter. You will have to manually
 By default, LDAP warnings and errors are suppressed in favor of catchable exceptions thrown by Adldap. To display
 warnings and errors, use the `showErrors()` method on the connection:
 
-    $ad->getLdapConnection()->showErrors();
+    $ad->getConnection()->showErrors();
     
     // Now all Adldap methods will display LDAP warnings / errors if they are thrown
     $ad->user()->all();

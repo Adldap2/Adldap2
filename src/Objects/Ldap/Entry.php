@@ -5,9 +5,8 @@ namespace Adldap\Objects\Ldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\AbstractObject;
 
-class Entry extends AbstractObject
+class Entry
 {
     /**
      * The current LDAP connection instance.
@@ -15,6 +14,13 @@ class Entry extends AbstractObject
      * @var ConnectionInterface
      */
     protected $connection;
+
+    /**
+     * Holds the current objects original attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
 
     /**
      * Holds the current objects modified attributes.
@@ -31,9 +37,167 @@ class Entry extends AbstractObject
      */
     public function __construct(array $attributes = [], ConnectionInterface $connection)
     {
-        parent::__construct($attributes);
+        $this->setAttributes($attributes);
 
         $this->connection = $connection;
+    }
+
+    /**
+     * Dynamically retrieve attributes on the object.
+     *
+     * @param mixed $key
+     *
+     * @return bool
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes on the object.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function __set($key, $value)
+    {
+        return $this->setAttribute($key, $value);
+    }
+
+    /**
+     * Retrieves the specified key from the attribute array.
+     *
+     * If a sub-key is specified, it will try
+     * and retrieve it from the parent keys array.
+     *
+     * @param int|string $key
+     * @param int|string $subKey
+     *
+     * @return mixed
+     */
+    public function getAttribute($key, $subKey = null)
+    {
+        if(!is_null($subKey)) {
+            if ($this->hasAttribute($key, $subKey)) {
+                return $this->attributes[$key][$subKey];
+            }
+        } else {
+            if ($this->hasAttribute($key)) {
+                return $this->attributes[$key];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieves the attributes array property.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Adds modifications to the current object.
+     *
+     * @param int|string $key
+     * @param mixed      $value
+     *
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        /*
+         * We'll check if the attribute exists on the current
+         * object to see what type of modification is taking place
+         */
+        if ($this->hasAttribute($key)) {
+            if(is_null($value)) {
+                /*
+                 * If the dev has explicitly set the value null,
+                 * we'll assume they want to remove the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REMOVE;
+            } else {
+                /*
+                 * If it's not null, we'll assume
+                 * they're looking to replace the attribute
+                 */
+                $type = LDAP_MODIFY_BATCH_REPLACE;
+            }
+        } else {
+            /*
+             * It looks like the attribute doesn't exist yet,
+             * they must be looking to add it to the object
+             */
+            $type = LDAP_MODIFY_BATCH_ADD;
+        }
+
+        // Finally we'll set the modification
+        $this->setModification($key, $type, $value);
+
+        return $this;
+    }
+
+    /**
+     * Sets the attributes property.
+     *
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function setAttributes(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Returns true / false if the specified attribute
+     * exists in the attributes array.
+     *
+     * @param int|string $key
+     * @param int|string $subKey
+     *
+     * @return bool
+     */
+    public function hasAttribute($key, $subKey = null)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            /*
+             * If a sub key is given, we'll check if
+             * it exists in the nested attribute array
+             */
+            if(!is_null($subKey)) {
+                if(is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the number of attributes inside
+     * the attributes property.
+     *
+     * @return int
+     */
+    public function countAttributes()
+    {
+        return count($this->getAttributes());
     }
 
     /**
@@ -234,48 +398,6 @@ class Entry extends AbstractObject
     public function getMaxPasswordAge()
     {
         return $this->getAttribute(ActiveDirectory::MAX_PASSWORD_AGE, 0);
-    }
-
-    /**
-     * Adds modifications to the current object.
-     *
-     * @param int|string $key
-     * @param mixed      $value
-     *
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        /*
-         * We'll check if the attribute exists on the current
-         * object to see what type of modification is taking place
-         */
-        if ($this->hasAttribute($key)) {
-            if(is_null($value)) {
-                /*
-                 * If the dev has explicitly set the value null,
-                 * we'll assume they want to remove the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REMOVE;
-            } else {
-                /*
-                 * If it's not null, we'll assume
-                 * they're looking to replace the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REPLACE;
-            }
-        } else {
-            /*
-             * It looks like the attribute doesn't exist yet,
-             * they must be looking to add it to the object
-             */
-            $type = LDAP_MODIFY_BATCH_ADD;
-        }
-
-        // Finally we'll set the modification
-        $this->setModification($key, $type, $value);
-
-        return $this;
     }
 
     /**

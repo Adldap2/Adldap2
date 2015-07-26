@@ -27,6 +27,7 @@ class ActiveDirectory
     const DISPLAY_NAME = 'displayname';
     const DISTINGUISHED_NAME = 'dn';
     const DNS_HOST_NAME = 'dnshostname';
+    const DOMAIN_COMPONENT = 'dc';
     const EMAIL = 'mail';
     const EMAIL_NICKNAME = 'mailnickname';
     const EMPLOYEE_ID = 'employeeid';

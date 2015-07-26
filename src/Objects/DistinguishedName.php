@@ -7,13 +7,6 @@ use Adldap\Schemas\ActiveDirectory;
 class DistinguishedName
 {
     /**
-     * The complete DN string.
-     *
-     * @var string
-     */
-    protected $string;
-
-    /**
      * Stores the domain components in the DN.
      *
      * @var array
@@ -34,9 +27,20 @@ class DistinguishedName
      */
     protected $organizationUnits = [];
 
+    /**
+     * Returns the complete distinguished name.
+     *
+     * @return string
+     */
     public function get()
     {
+        $cns = $this->assembleRdns(ActiveDirectory::COMMON_NAME, $this->commonNames);
 
+        $ous = $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT, $this->organizationUnits);
+
+        $dcs = $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
+
+        return implode(',', [$cns, $ous, $dcs]);
     }
 
     /**
@@ -85,12 +89,16 @@ class DistinguishedName
      * Assembles an RDN with the specified attribute and value.
      *
      * @param string $attribute
-     * @param string $value
+     * @param array  $values
      *
      * @return string
      */
-    private function assembleRdn($attribute, $value)
+    private function assembleRdns($attribute, array $values = [])
     {
-        return sprintf('%s=%s', $attribute, $value);
+        $values = array_map(function($value) use ($attribute) {
+            return $attribute.'='.$value;
+        }, $values);
+
+        return implode(',', $values);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Adldap;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 

@@ -66,7 +66,8 @@ class ActiveDirectory
     const OPERATING_SYSTEM = 'operatingsystem';
     const OPERATING_SYSTEM_SERVICE_PACK = 'operatingsystemservicepack';
     const OPERATING_SYSTEM_VERSION = 'operatingsystemversion';
-    const ORGANIZATIONAL_UNIT = 'ou';
+    const ORGANIZATIONAL_UNIT_SHORT = 'ou';
+    const ORGANIZATIONAL_UNIT_LONG = 'organizationalUnit';
     const PASSWORD_LAST_SET = 'pwdlastset';
     const PERSON = 'person';
     const POSTAL_CODE = 'postalcode';

@@ -36,7 +36,7 @@ class DistinguishedName
     {
         $cns = $this->assembleRdns(ActiveDirectory::COMMON_NAME, $this->commonNames);
 
-        $ous = $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT, $this->organizationUnits);
+        $ous = $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, $this->organizationUnits);
 
         $dcs = $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
 

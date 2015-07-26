@@ -3,6 +3,7 @@
 namespace Adldap\Classes;
 
 use Adldap\Adldap;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 
 class Containers extends AbstractQueryable
@@ -44,7 +45,7 @@ class Containers extends AbstractQueryable
     {
         $results = $this->adldap->search()
             ->select($fields)
-            ->where(ActiveDirectory::ORGANIZATIONAL_UNIT, '=', $name)
+            ->where(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, '=', $name)
             ->first();
 
         if (count($results) > 0) {
@@ -57,26 +58,21 @@ class Containers extends AbstractQueryable
     /**
      * Create an organizational unit.
      *
-     * @param array $attributes Default attributes of the ou
+     * @param string                   $name
+     * @param string|DistinguishedName $dn
      *
      * @return bool|string
      */
-    public function create(array $attributes)
+    public function create($name, $dn)
     {
-        $folder = new Folder($attributes);
-
-        $folder->validateRequired();
-
-        $folder->setAttribute('container', array_reverse($folder->getAttribute('container')));
-
         $add = [];
 
-        $add['objectClass'] = 'organizationalUnit';
-        $add['OU'] = $folder->getAttribute('ou_name');
+        $add[ActiveDirectory::OBJECT_CLASS] = ActiveDirectory::ORGANIZATIONAL_UNIT_LONG;
+        $add[ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT] = $name;
 
-        $containers = 'OU='.implode(',OU=', $folder->getAttribute('container'));
-
-        $dn = 'OU='.$add['OU'].', '.$containers.$this->adldap->getBaseDn();
+        if($dn instanceof DistinguishedName) {
+            $dn = $dn->get();
+        }
 
         return $this->connection->add($dn, $add);
     }

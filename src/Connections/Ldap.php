@@ -668,6 +668,8 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Converts a DN string into an array.
+     *
      * @param string $dn
      * @param bool   $removeAttributePrefixes
      *
@@ -676,142 +678,6 @@ class Ldap implements ConnectionInterface
     public function explodeDn($dn, $removeAttributePrefixes = true)
     {
         return ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
-    }
-
-    /**
-     * Returns an escaped string for use in an LDAP filter.
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param $flags
-     *
-     * @return string
-     */
-    public function escape($value, $ignore = '', $flags = 0)
-    {
-        if (!$this->isEscapingSupported()) {
-            return $this->escapeManual($value, $ignore, $flags);
-        }
-
-        return ldap_escape($value, $ignore, $flags);
-    }
-
-    /**
-     * Escapes the inserted value for LDAP.
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param int    $flags
-     *
-     * @return string
-     */
-    protected function escapeManual($value, $ignore = '', $flags = 0)
-    {
-        /*
-         * If a flag was supplied, we'll send the value
-         * off to be escaped using the PHP flag values
-         * and return the result.
-         */
-        if ($flags) {
-            return $this->escapeManualWithFlags($value, $ignore, $flags);
-        }
-
-        // Convert ignore string into an array
-        $ignores = str_split($ignore);
-
-        // Convert the value to a hex string
-        $hex = bin2hex($value);
-
-        /*
-         * Separate the string, with the hex length of 2,
-         * and place a backslash on the end of each section
-         */
-        $value = chunk_split($hex, 2, '\\');
-
-        /*
-         * We'll append a backslash at the front of the string
-         * and remove the ending backslash of the string
-         */
-        $value = '\\'.substr($value, 0, -1);
-
-        // Go through each character to ignore
-        foreach ($ignores as $charToIgnore) {
-            // Convert the character to ignore to a hex
-            $hexed = bin2hex($charToIgnore);
-
-            // Replace the hexed variant with the original character
-            $value = str_replace('\\'.$hexed, $charToIgnore, $value);
-        }
-
-        // Finally we can return the escaped value
-        return $value;
-    }
-
-    /**
-     * Escapes the inserted value with flags. Supplying either 1
-     * or 2 into the flags parameter will escape only certain values.
-     *
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param int    $flags
-     *
-     * @return bool|mixed
-     */
-    protected function escapeManualWithFlags($value, $ignore = '', $flags = 0)
-    {
-        // Convert ignore string into an array
-        $ignores = str_split($ignore);
-
-        $escapeFilter = ['\\', '*', '(', ')'];
-        $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
-
-        switch ($flags) {
-            case 1:
-                // Int 1 equals to LDAP_ESCAPE_FILTER
-                $escapes = $escapeFilter;
-                break;
-            case 2:
-                // Int 2 equals to LDAP_ESCAPE_DN
-                $escapes = $escapeDn;
-                break;
-            case 3:
-                // If both LDAP_ESCAPE_FILTER and LDAP_ESCAPE_DN are used
-                $escapes = array_merge($escapeFilter, $escapeDn);
-                break;
-            default:
-                return false;
-        }
-
-        foreach ($escapes as $escape) {
-            // Make sure the escaped value isn't being ignored
-            if (!in_array($escape, $ignores)) {
-                $hexed = chunk_split(bin2hex($escape), 2, '\\');
-
-                $hexed = '\\'.substr($hexed, 0, -1);
-
-                $value = str_replace($escape, $hexed, $value);
-            }
-        }
-
-        return $value;
-    }
-
-    /**
-     * Un-escapes a hexadecimal string into its original
-     * string representation.
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    public function unescape($value)
-    {
-        $callback = function ($matches) {
-            return chr(hexdec($matches[1]));
-        };
-
-        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', $callback, $value);
     }
 
     /**

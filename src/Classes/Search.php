@@ -142,41 +142,6 @@ class Search extends AbstractBase
     }
 
     /**
-     * Paginates the current LDAP query.
-     *
-     * @param int  $perPage
-     * @param int  $currentPage
-     * @param bool $isCritical
-     *
-     * @return Paginator|bool
-     */
-    public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
-    {
-        // Stores all LDAP entries in a page array
-        $pages = [];
-
-        $cookie = '';
-
-        do {
-            $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
-
-            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getQueryBuilder()->getSelects());
-
-            if ($results) {
-                $this->connection->controlPagedResultResponse($results, $cookie);
-
-                $pages[] = $results;
-            }
-        } while ($cookie !== null && !empty($cookie));
-
-        if (count($pages) > 0) {
-            return $this->processPaginatedResults($pages, $perPage, $currentPage);
-        }
-
-        return false;
-    }
-
-    /**
      * Returns the first entry in a search result.
      *
      * @return array|bool
@@ -257,6 +222,41 @@ class Search extends AbstractBase
     public function getQueryBuilder()
     {
         return $this->query;
+    }
+
+    /**
+     * Paginates the current LDAP query.
+     *
+     * @param int  $perPage
+     * @param int  $currentPage
+     * @param bool $isCritical
+     *
+     * @return Paginator|bool
+     */
+    public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
+    {
+        // Stores all LDAP entries in a page array
+        $pages = [];
+
+        $cookie = '';
+
+        do {
+            $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
+
+            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getQueryBuilder()->getSelects());
+
+            if ($results) {
+                $this->connection->controlPagedResultResponse($results, $cookie);
+
+                $pages[] = $results;
+            }
+        } while ($cookie !== null && !empty($cookie));
+
+        if (count($pages) > 0) {
+            return $this->processPaginatedResults($pages, $perPage, $currentPage);
+        }
+
+        return false;
     }
 
     /**

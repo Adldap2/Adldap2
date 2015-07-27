@@ -190,37 +190,7 @@ If you'd like to retrieve the current query to save or run it at another time, u
     $query = $ad->search()->where('cn', '=', 'John Doe')->getQuery();
     
     echo $query; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
-    
-#### Get Wheres
 
-If you'd like to retrieve the current wheres on the search object, call the `getWheres()` method:
-
-    $wheres = $ad->search()->where('cn', '=', 'John')->getWheres();
-    
-    var_dump($wheres);
-    
-#### Get Or Wheres
-
-If you'd like to retrieve the current or wheres on the search object, call the `getOrWheres()` method:
-
-    $orWheres = $ad->search()->orWhere('cn', '=', 'John')->getOrWheres();
-    
-    var_dump($orWheres);
-
-#### Get Selects
-
-To retrieve the current selected fields in on the search object, use the `getSelects()` method:
-
-    $selects = $ad->search()->select(array('cn', 'dn'))->getSelects();
-    
-    var_dump($selects);
-    
-#### Has Selects
-
-If you need to know if the search object currently contains selected fields, use the `hasSelects()` function:
-
-    echo $ad->search()->select('cn')->hasSelects(); // Returns true
-    
 ### Examples
 
 #### User Examples

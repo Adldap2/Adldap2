@@ -362,9 +362,7 @@ class Adldap
             $password = null;
         }
 
-        $this->connection->bind($username, $password);
-
-        if (!$this->connection->isBound()) {
+        if (! $this->connection->bind($username, $password)) {
             $error = $this->connection->getLastError();
 
             if ($this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {

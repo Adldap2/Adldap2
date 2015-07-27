@@ -325,11 +325,11 @@ class Adldap
      */
     private function bindUsingKerberos($kerberosCredentials)
     {
-        putenv('KRB5CCNAME='.$kerberosCredentials);
+        $key = 'KRB5CCNAME=';
 
-        $bound = $this->connection->bind(null, null, true);
+        putenv($key.$kerberosCredentials);
 
-        if (!$bound) {
+        if (!$this->connection->bind(null, null, true)) {
             $message = 'Bind to Active Directory failed. AD said: '.$this->connection->getLastError();
 
             throw new AdldapException($message);

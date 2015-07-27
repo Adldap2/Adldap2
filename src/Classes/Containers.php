@@ -69,10 +69,6 @@ class Containers extends AbstractQueryable
         $add[ActiveDirectory::OBJECT_CLASS] = ActiveDirectory::ORGANIZATIONAL_UNIT_LONG;
         $add[ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT] = $name;
 
-        if($dn instanceof DistinguishedName) {
-            $dn = $dn->get();
-        }
-
         return $this->connection->add($dn, $add);
     }
 }

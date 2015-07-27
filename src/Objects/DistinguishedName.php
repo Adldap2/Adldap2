@@ -2,10 +2,18 @@
 
 namespace Adldap\Objects;
 
+use Adldap\Classes\Utilities;
 use Adldap\Schemas\ActiveDirectory;
 
 class DistinguishedName
 {
+    /**
+     * The optional base dn string.
+     *
+     * @var string
+     */
+    protected $base = '';
+
     /**
      * Stores the domain components in the DN.
      *
@@ -28,19 +36,33 @@ class DistinguishedName
     protected $organizationUnits = [];
 
     /**
+     * Constructor.
+     *
+     * @param null $baseDn
+     */
+    public function __construct($baseDn = null)
+    {
+        $this->setBase($baseDn);
+    }
+
+    /**
+     * Returns the complete distinguished name.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->get();
+    }
+
+    /**
      * Returns the complete distinguished name.
      *
      * @return string
      */
     public function get()
     {
-        $cns = $this->assembleRdns(ActiveDirectory::COMMON_NAME, $this->commonNames);
-
-        $ous = $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, $this->organizationUnits);
-
-        $dcs = $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
-
-        return implode(',', array_filter([$cns, $ous, $dcs]));
+        return $this->assemble();
     }
 
     /**
@@ -128,6 +150,46 @@ class DistinguishedName
     }
 
     /**
+     * Sets the base DB string.
+     *
+     * @param string $base
+     *
+     * @return $this
+     */
+    public function setBase($base)
+    {
+        $this->base = $base;
+
+        return $this;
+    }
+
+    /**
+     * Returns the base DN string.
+     *
+     * @return string
+     */
+    public function getBase()
+    {
+        return $this->base;
+    }
+
+    /**
+     * Assembles all of the RDNs and returns the result.
+     *
+     * @return string
+     */
+    private function assemble()
+    {
+        $cns = $this->assembleRdns(ActiveDirectory::COMMON_NAME, $this->commonNames);
+
+        $ous = $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, $this->organizationUnits);
+
+        $dcs = $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
+
+        return implode(',', array_filter([$cns, $ous, $dcs, $this->getBase()]));
+    }
+
+    /**
      * Assembles an RDN with the specified attribute and value.
      *
      * @param string $attribute
@@ -138,8 +200,10 @@ class DistinguishedName
     private function assembleRdns($attribute, array $values = [])
     {
         if(count($values) > 0) {
+            $values = array_reverse($values);
+
             $values = array_map(function($value) use ($attribute) {
-                return $attribute.'='.$value;
+                return $attribute.'='.Utilities::escape($value, '', 2);
             }, $values);
 
             return implode(',', $values);

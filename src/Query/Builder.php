@@ -3,6 +3,7 @@
 namespace Adldap\Query;
 
 use Adldap\Exceptions\InvalidQueryOperator;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Connections\ConnectionInterface;
 
 class Builder
@@ -254,7 +255,16 @@ class Builder
      */
     public function getSelects()
     {
-        return $this->selects;
+        $selects = $this->selects;
+
+        if(count($selects) > 0) {
+            // Always make sure object category is in the selected fields
+            if(!array_key_exists(ActiveDirectory::OBJECT_CLASS, $selects)) {
+                $selects[] = ActiveDirectory::OBJECT_CLASS;
+            }
+        }
+
+        return $selects;
     }
 
     /**

@@ -90,15 +90,19 @@ class Search extends AbstractBase
      */
     public function query($query)
     {
+        $dn = $this->getDn();
+
+        $selects = $this->getQueryBuilder()->getSelects();
+
         if ($this->read) {
             // If read is true, we'll perform a read search, retrieving one record
-            $results = $this->connection->read($this->getDn(), $query, $this->getSelects());
+            $results = $this->connection->read($dn, $query, $selects);
         } elseif ($this->recursive) {
             // If recursive is true, we'll perform a recursive search
-            $results = $this->connection->search($this->getDn(), $query, $this->getSelects());
+            $results = $this->connection->search($dn, $query, $selects);
         } else {
             // Read and recursive is false, we'll return a listing
-            $results = $this->connection->listing($this->getDn(), $query, $this->getSelects());
+            $results = $this->connection->listing($dn, $query, $selects);
         }
 
         if ($results) {
@@ -156,7 +160,7 @@ class Search extends AbstractBase
         do {
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
-            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
+            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getQueryBuilder()->getSelects());
 
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
@@ -233,56 +237,6 @@ class Search extends AbstractBase
         $this->query->orWhere($field, $operator, $value);
 
         return $this;
-    }
-
-    /**
-     * Returns true / false depending if the current object
-     * contains selects.
-     *
-     * @return bool
-     */
-    public function hasSelects()
-    {
-        return $this->query->hasSelects();
-    }
-
-    /**
-     * Returns the current selected fields to retrieve.
-     *
-     * @return array
-     */
-    public function getSelects()
-    {
-        $selects = $this->query->getSelects();
-
-        if(count($selects) > 0) {
-            // Always make sure object category is in the selected fields
-            if(!array_key_exists(ActiveDirectory::OBJECT_CLASS, $selects)) {
-                $selects[] = ActiveDirectory::OBJECT_CLASS;
-            }
-        }
-
-        return $selects;
-    }
-
-    /**
-     * Returns the wheres on the current search object.
-     *
-     * @return array
-     */
-    public function getWheres()
-    {
-        return $this->query->getWheres();
-    }
-
-    /**
-     * Returns the or wheres on the current search object.
-     *
-     * @return array
-     */
-    public function getOrWheres()
-    {
-        return $this->query->getOrWheres();
     }
 
     /**

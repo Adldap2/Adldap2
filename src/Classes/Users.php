@@ -3,6 +3,8 @@
 namespace Adldap\Classes;
 
 use Adldap\Exceptions\AdldapException;
+use Adldap\Objects\AccountControl;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Objects\Ldap\Entry;
 use Adldap\Objects\Ldap\User;
 use Adldap\Schemas\ActiveDirectory;
@@ -59,6 +61,51 @@ class Users extends AbstractQueryable
             ->where($personCategory, '=', $person)
             ->where(ActiveDirectory::ANR, '=', $username)
             ->first();
+    }
+
+    /**
+     * Creates a user.
+     *
+     * @param string                   $name
+     * @param string                   $accountName
+     * @param string|DistinguishedName $dn
+     * @param string                   $password
+     * @param AccountControl           $accountControl
+     *
+     * @return array|bool
+     *
+     * @throws AdldapException
+     */
+    public function create($name, $accountName, $dn, $password = null, AccountControl $accountControl = null)
+    {
+        $entry = [];
+
+        $entry[ActiveDirectory::COMMON_NAME] = $name;
+        $entry[ActiveDirectory::ACCOUNT_NAME] = $accountName;
+        $entry[ActiveDirectory::OBJECT_CLASS] = [
+            ActiveDirectory::TOP,
+            ActiveDirectory::PERSON,
+            ActiveDirectory::ORGANIZATIONAL_PERSON,
+            ActiveDirectory::USER,
+        ];
+
+        if($password && $this->connection->canChangePasswords()) {
+            $entry[ActiveDirectory::UNICODE_PASSWORD] = Utilities::encodePassword($password);
+        } else {
+            throw new AdldapException('You must be connected to your server by SSL / TLS to set passwords.');
+        }
+
+        if($accountControl) {
+            $entry[ActiveDirectory::USER_ACCOUNT_CONTROL] = $accountControl->getValueString();
+        }
+
+        if(!$dn instanceof DistinguishedName) {
+            $dn = new DistinguishedName($dn);
+        }
+
+        $dn->addCn($name);
+
+        return $this->connection->add($dn, $entry);
     }
 
     /**

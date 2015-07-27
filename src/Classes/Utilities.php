@@ -202,6 +202,29 @@ class Utilities
     }
 
     /**
+     * Encode a password for transmission over LDAP.
+     *
+     * @param string $password The password to encode
+     *
+     * @return string
+     */
+    public static function encodePassword($password)
+    {
+        $password = '"'.$password.'"';
+
+        $encoded = '';
+
+        $length = strlen($password);
+
+        for ($i = 0; $i < $length; $i++) {
+            $encoded .= "{$password{$i}
+            }\000";
+        }
+
+        return $encoded;
+    }
+
+    /**
      * Convert a boolean value to a string.
      * You should never need to call this yourself.
      *

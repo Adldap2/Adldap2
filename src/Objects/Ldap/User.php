@@ -2,6 +2,7 @@
 
 namespace Adldap\Objects\Ldap;
 
+use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
@@ -330,7 +331,7 @@ class User extends Entry
      */
     public function setUserAccountControl(AccountControl $accountControl)
     {
-        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, $accountControl->getValue());
+        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, $accountControl->getValueString());
     }
 
     /**
@@ -419,7 +420,7 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, $this->encodePassword($password));
+        $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
 
         $result = $this->save();
 
@@ -466,8 +467,8 @@ class User extends Entry
 
         $attribute = ActiveDirectory::UNICODE_PASSWORD;
 
-        $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, $this->encodePassword($oldPassword));
-        $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, $this->encodePassword($newPassword));
+        $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, Utilities::encodePassword($oldPassword));
+        $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($newPassword));
 
         $result = $this->save();
 
@@ -496,28 +497,5 @@ class User extends Entry
         }
 
         return $result;
-    }
-
-    /**
-     * Encode a password for transmission over LDAP.
-     *
-     * @param string $password The password to encode
-     *
-     * @return string
-     */
-    private function encodePassword($password)
-    {
-        $password = '"'.$password.'"';
-
-        $encoded = '';
-
-        $length = strlen($password);
-
-        for ($i = 0; $i < $length; $i++) {
-            $encoded .= "{$password{$i}
-            }\000";
-        }
-
-        return $encoded;
     }
 }

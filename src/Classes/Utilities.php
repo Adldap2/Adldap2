@@ -2,39 +2,153 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Exceptions\AdldapException;
-
-class Utilities extends AbstractBase
+class Utilities
 {
     /**
-     * Converts a string GUID to a hexdecimal value so it can be queried.
+     * Returns true / false if the current
+     * PHP install supports escaping values.
      *
-     * @param string $strGUID A string representation of a GUID
+     * @return bool
+     */
+    public static function isEscapingSupported()
+    {
+        return function_exists('ldap_escape');
+    }
+
+    /**
+     * Returns an escaped string for use in an LDAP filter.
+     *
+     * @param string $value
+     * @param string $ignore
+     * @param $flags
      *
      * @return string
      */
-    public function strGuidToHex($strGUID)
+    public static function escape($value, $ignore = '', $flags = 0)
     {
-        $strGUID = str_replace('-', '', $strGUID);
+        if (!self::isEscapingSupported()) {
+            return self::escapeManual($value, $ignore, $flags);
+        }
 
-        $octet_str = '\\'.substr($strGUID, 6, 2);
-        $octet_str .= '\\'.substr($strGUID, 4, 2);
-        $octet_str .= '\\'.substr($strGUID, 2, 2);
-        $octet_str .= '\\'.substr($strGUID, 0, 2);
-        $octet_str .= '\\'.substr($strGUID, 10, 2);
-        $octet_str .= '\\'.substr($strGUID, 8, 2);
-        $octet_str .= '\\'.substr($strGUID, 14, 2);
-        $octet_str .= '\\'.substr($strGUID, 12, 2);
+        return ldap_escape($value, $ignore, $flags);
+    }
 
-        $length = (strlen($strGUID) - 2);
+    /**
+     * Escapes the inserted value for LDAP.
+     *
+     * @param string $value
+     * @param string $ignore
+     * @param int    $flags
+     *
+     * @return string
+     */
+    protected static function escapeManual($value, $ignore = '', $flags = 0)
+    {
+        /*
+         * If a flag was supplied, we'll send the value
+         * off to be escaped using the PHP flag values
+         * and return the result.
+         */
+        if ($flags) {
+            return self::escapeManualWithFlags($value, $ignore, $flags);
+        }
 
-        for ($i = 16; $i <= $length; $i++) {
-            if (($i % 2) == 0) {
-                $octet_str .= '\\'.substr($strGUID, $i, 2);
+        // Convert ignore string into an array
+        $ignores = str_split($ignore);
+
+        // Convert the value to a hex string
+        $hex = bin2hex($value);
+
+        /*
+         * Separate the string, with the hex length of 2,
+         * and place a backslash on the end of each section
+         */
+        $value = chunk_split($hex, 2, '\\');
+
+        /*
+         * We'll append a backslash at the front of the string
+         * and remove the ending backslash of the string
+         */
+        $value = '\\'.substr($value, 0, -1);
+
+        // Go through each character to ignore
+        foreach ($ignores as $charToIgnore) {
+            // Convert the character to ignore to a hex
+            $hexed = bin2hex($charToIgnore);
+
+            // Replace the hexed variant with the original character
+            $value = str_replace('\\'.$hexed, $charToIgnore, $value);
+        }
+
+        // Finally we can return the escaped value
+        return $value;
+    }
+
+    /**
+     * Escapes the inserted value with flags. Supplying either 1
+     * or 2 into the flags parameter will escape only certain values.
+     *
+     *
+     * @param string $value
+     * @param string $ignore
+     * @param int    $flags
+     *
+     * @return bool|mixed
+     */
+    protected static function escapeManualWithFlags($value, $ignore = '', $flags = 0)
+    {
+        // Convert ignore string into an array
+        $ignores = str_split($ignore);
+
+        $escapeFilter = ['\\', '*', '(', ')'];
+        $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
+
+        switch ($flags) {
+            case 1:
+                // Int 1 equals to LDAP_ESCAPE_FILTER
+                $escapes = $escapeFilter;
+                break;
+            case 2:
+                // Int 2 equals to LDAP_ESCAPE_DN
+                $escapes = $escapeDn;
+                break;
+            case 3:
+                // If both LDAP_ESCAPE_FILTER and LDAP_ESCAPE_DN are used
+                $escapes = array_merge($escapeFilter, $escapeDn);
+                break;
+            default:
+                return false;
+        }
+
+        foreach ($escapes as $escape) {
+            // Make sure the escaped value isn't being ignored
+            if (!in_array($escape, $ignores)) {
+                $hexed = chunk_split(bin2hex($escape), 2, '\\');
+
+                $hexed = '\\'.substr($hexed, 0, -1);
+
+                $value = str_replace($escape, $hexed, $value);
             }
         }
 
-        return $octet_str;
+        return $value;
+    }
+
+    /**
+     * Un-escapes a hexadecimal string into
+     * its original string representation.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function unescape($value)
+    {
+        $callback = function ($matches) {
+            return chr(hexdec($matches[1]));
+        };
+
+        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', $callback, $value);
     }
 
     /**
@@ -44,7 +158,7 @@ class Utilities extends AbstractBase
      *
      * @return string
      */
-    public function getTextSID($binsid)
+    public static function binarySidToText($binsid)
     {
         $hex_sid = bin2hex($binsid);
 
@@ -59,7 +173,7 @@ class Utilities extends AbstractBase
         $subauth = [];
 
         for ($x = 0;$x < $subcount; $x++) {
-            $subauth[$x] = hexdec($this->littleEndian(substr($hex_sid, 16 + ($x * 8), 8)));
+            $subauth[$x] = hexdec(self::littleEndian(substr($hex_sid, 16 + ($x * 8), 8)));
 
             $result .= '-'.$subauth[$x];
         }
@@ -68,6 +182,7 @@ class Utilities extends AbstractBase
         return 'S-'.$result;
     }
 
+
     /**
      * Converts a little-endian hex number to one that hexdec() can convert.
      *
@@ -75,7 +190,7 @@ class Utilities extends AbstractBase
      *
      * @return string
      */
-    public function littleEndian($hex)
+    public static function littleEndian($hex)
     {
         $result = '';
 
@@ -87,58 +202,6 @@ class Utilities extends AbstractBase
     }
 
     /**
-     * Converts a binary attribute to a string.
-     *
-     * @param string $bin A binary LDAP attribute
-     *
-     * @return string
-     */
-    public function binaryToText($bin)
-    {
-        $hex_guid = bin2hex($bin);
-
-        $hex_guid_to_guid_str = '';
-
-        for ($k = 1; $k <= 4; ++$k) {
-            $hex_guid_to_guid_str .= substr($hex_guid, 8 - 2 * $k, 2);
-        }
-
-        $hex_guid_to_guid_str .= '-';
-
-        for ($k = 1; $k <= 2; ++$k) {
-            $hex_guid_to_guid_str .= substr($hex_guid, 12 - 2 * $k, 2);
-        }
-
-        $hex_guid_to_guid_str .= '-';
-
-        for ($k = 1; $k <= 2; ++$k) {
-            $hex_guid_to_guid_str .= substr($hex_guid, 16 - 2 * $k, 2);
-        }
-
-        $hex_guid_to_guid_str .= '-'.substr($hex_guid, 16, 4);
-
-        $hex_guid_to_guid_str .= '-'.substr($hex_guid, 20);
-
-        return strtoupper($hex_guid_to_guid_str);
-    }
-
-    /**
-     * Converts a binary GUID to a string GUID.
-     *
-     * @param string $binaryGuid The binary GUID attribute to convert
-     *
-     * @return string
-     */
-    public function decodeGuid($binaryGuid)
-    {
-        $this->validateNotNull('Binary GUID', $binaryGuid);
-
-        $strGUID = $this->binaryToText($binaryGuid);
-
-        return $strGUID;
-    }
-
-    /**
      * Convert a boolean value to a string.
      * You should never need to call this yourself.
      *
@@ -146,34 +209,9 @@ class Utilities extends AbstractBase
      *
      * @return string
      */
-    public function boolToStr($bool)
+    public static function boolToStr($bool)
     {
         return ($bool) ? 'TRUE' : 'FALSE';
-    }
-
-    /**
-     * Convert 8bit characters e.g. accented characters to UTF8 encoded characters.
-     *
-     * @param $item
-     * @param $key
-     */
-    public function encode8Bit(&$item, $key)
-    {
-        $encode = false;
-
-        if (is_string($item)) {
-            $length = strlen($item);
-
-            for ($i = 0; $i < $length; $i++) {
-                if (ord($item[$i]) >> 7) {
-                    $encode = true;
-                }
-            }
-        }
-
-        if ($encode === true && $key != 'password') {
-            $item = utf8_encode($item);
-        }
     }
 
     /**
@@ -187,124 +225,5 @@ class Utilities extends AbstractBase
     public static function convertWindowsTimeToUnixTime($windowsTime)
     {
         return round($windowsTime / 10000000) - 11644473600;
-    }
-
-    /**
-     * Convert DN string to array.
-     *
-     * @param $dnStr
-     * @param bool $excludeBaseDn exclude base DN from results
-     *
-     * @return array
-     */
-    public function dnStrToArr($dnStr, $excludeBaseDn = true, $includeAttributes = false)
-    {
-        if ($excludeBaseDn) {
-            return ldap_explode_dn($dnStr, ($includeAttributes ? 0 : 1));
-        } else {
-            return ldap_explode_dn($this->adldap->getBaseDn().$dnStr, ($includeAttributes ? 0 : 1));
-        }
-    }
-
-    /**
-     * Validates if the function Bcmod exists.
-     * Throws an exception otherwise.
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateBcmodExists()
-    {
-        if (!function_exists('bcmod')) {
-            $message = 'Missing function support [bcmod] http://php.net/manual/en/function.bcmod.php';
-
-            throw new AdldapException($message);
-        }
-
-        return true;
-    }
-
-    /**
-     * Validates that the current LDAP connection is bound. This
-     * will throw an AdldapException otherwise.
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateLdapIsBound()
-    {
-        if ($this->adldap->getConnection()->isBound()) {
-            return true;
-        }
-
-        $message = 'No LDAP connection is currently bound.';
-
-        throw new AdldapException($message);
-    }
-
-    /**
-     * Validates that the inserted value is not null or empty. This
-     * will throw an AdldapException otherwise.
-     *
-     * @param string $parameter
-     * @param string $value
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateNotNullOrEmpty($parameter, $value)
-    {
-        $this->validateNotNull($parameter, $value);
-
-        $this->validateNotEmpty($parameter, $value);
-
-        return true;
-    }
-
-    /**
-     * Validates that the inserted value of the specified parameter
-     * is not null. This will throw an AdldapException otherwise.
-     *
-     * @param string $parameter
-     * @param mixed  $value
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateNotNull($parameter, $value)
-    {
-        if ($value !== null) {
-            return true;
-        }
-
-        $message = sprintf('Parameter: %s cannot be null.', $parameter);
-
-        throw new AdldapException($message);
-    }
-
-    /**
-     * Validates that the inserted value of the specified parameter
-     * is not empty. This will throw an AdldapException otherwise.
-     *
-     * @param string $parameter
-     * @param mixed  $value
-     *
-     * @return bool
-     *
-     * @throws AdldapException
-     */
-    public function validateNotEmpty($parameter, $value)
-    {
-        if (!empty($value)) {
-            return true;
-        }
-
-        $message = sprintf('Parameter: %s cannot be empty.', $parameter);
-
-        throw new AdldapException($message);
     }
 }

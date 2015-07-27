@@ -180,16 +180,6 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapUtils instance.
-     *
-     * @return Classes\Utilities
-     */
-    public function utilities()
-    {
-        return new Classes\Utilities($this);
-    }
-
-    /**
      * Returns a new AdldapContacts instance.
      *
      * @return Classes\Contacts

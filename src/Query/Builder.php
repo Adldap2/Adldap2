@@ -4,17 +4,10 @@ namespace Adldap\Query;
 
 use Adldap\Exceptions\InvalidQueryOperator;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Classes\Utilities;
 
 class Builder
 {
-    /**
-     * Stores the current connection.
-     *
-     * @var ConnectionInterface
-     */
-    protected $connection;
-
     /**
      * Stores the current query string.
      *
@@ -58,16 +51,6 @@ class Builder
      * @var string
      */
     protected static $close = ')';
-
-    /**
-     * Constructor.
-     *
-     * @param ConnectionInterface $connection
-     */
-    public function __construct(ConnectionInterface $connection)
-    {
-        $this->connection = $connection;
-    }
 
     /**
      * Returns the current query.
@@ -331,7 +314,7 @@ class Builder
         $this->wheres[] = [
             'field' => $field,
             'operator' => $this->getOperator($operator),
-            'value' => $this->connection->escape($value),
+            'value' => Utilities::escape($value),
         ];
     }
 
@@ -350,7 +333,7 @@ class Builder
         $this->orWheres[] = [
             'field' => $field,
             'operator' => $this->getOperator($operator),
-            'value' => $this->connection->escape($value),
+            'value' => Utilities::escape($value),
         ];
     }
 

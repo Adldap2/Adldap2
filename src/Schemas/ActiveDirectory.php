@@ -66,8 +66,9 @@ class ActiveDirectory
     const OPERATING_SYSTEM = 'operatingsystem';
     const OPERATING_SYSTEM_SERVICE_PACK = 'operatingsystemservicepack';
     const OPERATING_SYSTEM_VERSION = 'operatingsystemversion';
+    const ORGANIZATIONAL_PERSON = 'organizationalperson';
+    const ORGANIZATIONAL_UNIT_LONG = 'organizationalunit';
     const ORGANIZATIONAL_UNIT_SHORT = 'ou';
-    const ORGANIZATIONAL_UNIT_LONG = 'organizationalUnit';
     const PASSWORD_LAST_SET = 'pwdlastset';
     const PERSON = 'person';
     const POSTAL_CODE = 'postalcode';
@@ -90,10 +91,12 @@ class ActiveDirectory
     const SYSTEM_FLAGS = 'systemflags';
     const TELEPHONE = 'telephonenumber';
     const TITLE = 'title';
+    const TOP = 'top';
     const TRUE = 'TRUE';
     const UNICODE_PASSWORD = 'unicodepwd';
     const UPDATED_AT = 'whenchanged';
     const URL = 'url';
+    const USER = 'user';
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
     const VERSION_NUMBER = 'versionnumber';

@@ -371,10 +371,6 @@ class Search extends AbstractBase
      */
     public function getBaseDn()
     {
-        /*
-        * If the base DN is empty, we'll assume the
-         * dev wants it found automatically
-         */
         $baseDn = $this->getAdldap()->getConfiguration()->getBaseDn();
 
         if (empty($baseDn)) {
@@ -382,6 +378,33 @@ class Search extends AbstractBase
         }
 
         return $baseDn;
+    }
+
+    /**
+     * Finds a record using ambiguous name resolution.
+     *
+     * @param string $anr
+     *
+     * @return array|bool
+     */
+    public function find($anr)
+    {
+        return $this->where(ActiveDirectory::ANR, '=', $anr)->first();
+    }
+
+    /**
+     * Finds a record by its distinguished name.
+     *
+     * @param string $dn
+     *
+     * @return array|bool
+     */
+    public function findByDn($dn)
+    {
+        return $this->setDn($dn)
+            ->read(true)
+            ->where(ActiveDirectory::OBJECT_CLASS, '*')
+            ->first();
     }
 
     /**

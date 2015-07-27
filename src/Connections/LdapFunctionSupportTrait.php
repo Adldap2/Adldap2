@@ -49,15 +49,4 @@ trait LdapFunctionSupportTrait
     {
         return function_exists('ldap_modify_batch');
     }
-
-    /**
-     * Returns true / false if the current
-     * PHP install supports escaping values.
-     *
-     * @return bool
-     */
-    public function isEscapingSupported()
-    {
-        return function_exists('ldap_escape');
-    }
 }

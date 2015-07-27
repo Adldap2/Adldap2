@@ -513,21 +513,6 @@ class Search extends AbstractBase
     }
 
     /**
-     * Returns a new Paginator instance.
-     *
-     * @param array $entries
-     * @param int   $perPage
-     * @param int   $currentPage
-     * @param int   $totalPages
-     *
-     * @return Paginator
-     */
-    public function newPaginator($entries, $perPage, $currentPage, $totalPages)
-    {
-        return new Paginator($entries, $perPage, $currentPage, $totalPages);
-    }
-
-    /**
      * Sets the query property.
      *
      * @param Builder $query
@@ -584,7 +569,7 @@ class Search extends AbstractBase
             }
 
             // Return a new Paginator instance
-            return $this->newPaginator($objects, $perPage, $currentPage, count($pages));
+            return new Paginator($objects, $perPage, $currentPage, count($pages));
         }
 
         // Looks like we don't have any results, return false

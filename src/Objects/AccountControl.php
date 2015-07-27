@@ -345,6 +345,16 @@ class AccountControl
     }
 
     /**
+     * Returns the account control integer in a string.
+     *
+     * @return string
+     */
+    public function getValueString()
+    {
+        return (string) $this->getValue();
+    }
+
+    /**
      * Applies the inserted value to the values property array.
      *
      * @param $value

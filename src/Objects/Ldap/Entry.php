@@ -32,7 +32,7 @@ class Entry
     /**
      * Constructor.
      *
-     * @param array $attributes
+     * @param array               $attributes
      * @param ConnectionInterface $connection
      */
     public function __construct(array $attributes = [], ConnectionInterface $connection)

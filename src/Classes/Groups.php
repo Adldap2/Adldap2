@@ -37,10 +37,10 @@ class Groups extends AbstractQueryable
     {
         $group = $this->find($group);
 
-        $user = $this->adldap->user()->find($user);
+        $user = $this->adldap->users()->find($user);
 
         if($group instanceof Group && $user instanceof User) {
-            $sid = $this->adldap->utilities()->getTextSID($group->getSid());
+            $sid = Utilities::binarySidToText($group->getSid());
 
             $result = $this->adldap->search()
                     ->where(ActiveDirectory::OBJECT_SID, '=', $sid)

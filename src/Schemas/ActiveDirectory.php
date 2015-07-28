@@ -20,6 +20,7 @@ class ActiveDirectory
     const COMMON_NAME = 'cn';
     const COMPANY = 'company';
     const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
+    const CONTACT = 'contact';
     const CREATED_AT = 'whencreated';
     const DEFAULT_NAMING_CONTEXT = 'defaultnamingcontext';
     const DEPARTMENT = 'department';

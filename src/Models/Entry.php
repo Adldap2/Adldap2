@@ -415,7 +415,7 @@ class Entry
      */
     public function getObjectCategoryDn()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_CATEGORY);
+        return $this->getAttribute(ActiveDirectory::OBJECT_CATEGORY, 0);
     }
 
     /**

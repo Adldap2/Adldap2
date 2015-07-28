@@ -604,7 +604,7 @@ class Ldap implements ConnectionInterface
      * Retrieve a paginated result response.
      *
      * @param resource $result
-     * @paaram string $cookie
+     * @param string $cookie
      *
      * @return bool
      *
@@ -681,6 +681,8 @@ class Ldap implements ConnectionInterface
 
     /**
      * Extract the diagnostic code from the message.
+     *
+     * @param string $message
      *
      * @return string $diagnosticCode
      */

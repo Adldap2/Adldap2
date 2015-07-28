@@ -455,17 +455,13 @@ class Entry
     public function getModifications()
     {
         foreach($this->attributes as $key => $value) {
-            /*
-             * If the key still exists inside the original attributes,
-             * the developer is modifying an attribute.
-             */
+            // If the key still exists inside the original attributes,
+            // the developer is modifying an attribute.
             if (array_key_exists($key, $this->original)) {
                 if (is_array($value)) {
                     if (count(array_diff($value, $this->original[$key])) > 0) {
-                        /*
-                         * If the value of the set attribute is an array and the differences
-                         * are greater than zero, we'll replace the attribute.
-                         */
+                        // If the value of the set attribute is an array and the differences
+                        // are greater than zero, we'll replace the attribute.
                         $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                     }
                 } else if ($value !== $this->original[$key]) {
@@ -492,10 +488,7 @@ class Entry
      */
     public function setModification($key, $type, $values)
     {
-        /*
-         * We need to make sure the values
-         * given are always in an array.
-         */
+        // We need to make sure the values given are always in an array.
         if(!is_array($values)) {
             $values = [$values];
         }

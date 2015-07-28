@@ -207,7 +207,7 @@ class User extends Entry
      *
      * @return $this
      */
-    public function setEmails(array $emails)
+    public function setEmails(array $emails = [])
     {
         return $this->setAttribute(ActiveDirectory::EMAIL, $emails);
     }

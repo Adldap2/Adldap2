@@ -2,6 +2,7 @@
 
 namespace Adldap\Models;
 
+use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
@@ -370,15 +371,51 @@ class Entry
     }
 
     /**
-     * Returns the entry's object class.
+     * Returns the entry's object class array.
      *
      * https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx
      *
-     * @return string
+     * @return array
      */
     public function getObjectClass()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_CLASS, 0);
+        return $this->getAttribute(ActiveDirectory::OBJECT_CLASS);
+    }
+
+    /**
+     * Returns the CN of the entry's object category.
+     *
+     * @return null|string
+     */
+    public function getObjectCategory()
+    {
+        $category = $this->getObjectCategoryArray();
+
+        if(is_array($category) && array_key_exists(0, $category)) {
+            return $category[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the entry's object category DN in an exploded array.
+     *
+     * @return array
+     */
+    public function getObjectCategoryArray()
+    {
+        return Utilities::explodeDn($this->getObjectCategoryDn());
+    }
+
+    /**
+     * Returns the entry's object category DN string.
+     *
+     * @return array
+     */
+    public function getObjectCategoryDn()
+    {
+        return $this->getAttribute(ActiveDirectory::OBJECT_CATEGORY);
     }
 
     /**

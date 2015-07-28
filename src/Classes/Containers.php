@@ -2,6 +2,7 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Models\Container;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 
@@ -55,20 +56,27 @@ class Containers extends AbstractQueryable
     }
 
     /**
-     * Create an organizational unit.
+     * Returns a new instance of a Container.
      *
-     * @param string                   $name
-     * @param string|DistinguishedName $dn
+     * @param array $attributes
      *
-     * @return bool|string
+     * @return Container
      */
-    public function create($name, $dn)
+    public function newInstance(array $attributes = [])
     {
-        $add = [];
+        return (new Container($attributes, $this->connection))
+            ->setAttribute(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
+    }
 
-        $add[ActiveDirectory::OBJECT_CLASS] = ActiveDirectory::ORGANIZATIONAL_UNIT_LONG;
-        $add[ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT] = $name;
-
-        return $this->connection->add($dn, $add);
+    /**
+     * Creates a new Container and returns the result.
+     *
+     * @param array $attributes
+     *
+     * @return bool
+     */
+    public function create(array $attributes = [])
+    {
+        return $this->newInstance($attributes)->save();
     }
 }

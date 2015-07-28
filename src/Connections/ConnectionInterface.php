@@ -417,16 +417,6 @@ interface ConnectionInterface
     public function getExtendedErrorCode();
 
     /**
-     * Explodes a distinguished name into an array.
-     *
-     * @param string $dn                      The distinguished name
-     * @param bool   $removeAttributePrefixes
-     *
-     * @return mixed
-     */
-    public function explodeDn($dn, $removeAttributePrefixes = true);
-
-    /**
      * Returns the error string of the specified
      * error number.
      *

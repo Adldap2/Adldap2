@@ -668,19 +668,6 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Converts a DN string into an array.
-     *
-     * @param string $dn
-     * @param bool   $removeAttributePrefixes
-     *
-     * @return array
-     */
-    public function explodeDn($dn, $removeAttributePrefixes = true)
-    {
-        return ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
-    }
-
-    /**
      * Return the diagnostic Message.
      *
      * @return string $diagnosticMessage

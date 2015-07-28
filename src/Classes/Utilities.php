@@ -5,6 +5,19 @@ namespace Adldap\Classes;
 class Utilities
 {
     /**
+     * Converts a DN string into an array.
+     *
+     * @param string $dn
+     * @param bool   $removeAttributePrefixes
+     *
+     * @return array
+     */
+    public static function explodeDn($dn, $removeAttributePrefixes = true)
+    {
+        return ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
+    }
+
+    /**
      * Returns true / false if the current
      * PHP install supports escaping values.
      *

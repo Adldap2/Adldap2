@@ -4,13 +4,13 @@ namespace Adldap\Classes;
 
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\Paginator;
-use Adldap\Objects\Ldap\ExchangeServer;
-use Adldap\Objects\Ldap\Computer;
-use Adldap\Objects\Ldap\Container;
-use Adldap\Objects\Ldap\Group;
-use Adldap\Objects\Ldap\User;
-use Adldap\Objects\Ldap\Printer;
-use Adldap\Objects\Ldap\Entry;
+use Adldap\Models\ExchangeServer;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\Group;
+use Adldap\Models\User;
+use Adldap\Models\Printer;
+use Adldap\Models\Entry;
 use Adldap\Query\Operator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;
@@ -445,25 +445,28 @@ class Search extends AbstractBase
         $attribute = ActiveDirectory::OBJECT_CATEGORY;
 
         if(array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
-            $category = $this->connection->explodeDn($attributes[$attribute][0]);
+            // We'll explode the DN so we can grab it's object category.
+            $category = Utilities::explodeDn($attributes[$attribute][0]);
 
+            // We'll create a new object depending on the object category of the LDAP entry.
             switch(strtolower($category[0])) {
                 case ActiveDirectory::OBJECT_CATEGORY_COMPUTER:
-                    return new Computer($attributes, $this->connection);
+                    return (new Computer([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PERSON:
-                    return new User($attributes, $this->connection);
+                    return (new User([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_GROUP:
-                    return new Group($attributes, $this->connection);
+                    return (new Group([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::MS_EXCHANGE_SERVER:
-                    return new ExchangeServer($attributes, $this->connection);
+                    return (new ExchangeServer([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_CONTAINER:
-                    return new Container($attributes, $this->connection);
+                    return (new Container([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PRINTER:
-                    return new Printer($attributes, $this->connection);
+                    return (new Printer($attributes, $this->connection))->setRawAttributes();
             }
         }
 
-        return new Entry($attributes, $this->connection);
+        // A default entry object if the object category isn't recognized.
+        return (new Entry($attributes, $this->connection))->setRawAttributes($attributes);
     }
 
     /**

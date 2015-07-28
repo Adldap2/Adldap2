@@ -1,10 +1,10 @@
 <?php
 
-namespace Adldap\Objects\Ldap;
+namespace Adldap\Models;
 
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\Traits\HasDescriptionTrait;
-use Adldap\Objects\Traits\HasMemberOfTrait;
+use Adldap\Models\Traits\HasDescriptionTrait;
+use Adldap\Models\Traits\HasMemberOfTrait;
 
 class Group extends Entry
 {

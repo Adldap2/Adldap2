@@ -2,11 +2,9 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Models\Entry;
+use Adldap\Models\User;
 use Adldap\Exceptions\AdldapException;
-use Adldap\Objects\AccountControl;
-use Adldap\Objects\DistinguishedName;
-use Adldap\Objects\Ldap\Entry;
-use Adldap\Objects\Ldap\User;
 use Adldap\Schemas\ActiveDirectory;
 
 class Users extends AbstractQueryable
@@ -64,48 +62,23 @@ class Users extends AbstractQueryable
     }
 
     /**
-     * Creates a user.
+     * Returns a new User instance.
      *
-     * @param string                   $name
-     * @param string                   $accountName
-     * @param string|DistinguishedName $dn
-     * @param string                   $password
-     * @param AccountControl           $accountControl
+     * @param array $attributes
      *
-     * @return array|bool
-     *
-     * @throws AdldapException
+     * @return User
      */
-    public function create($name, $accountName, $dn, $password = null, AccountControl $accountControl = null)
+    public function newInstance(array $attributes = array())
     {
-        $entry = [];
-
-        $entry[ActiveDirectory::COMMON_NAME] = $name;
-        $entry[ActiveDirectory::ACCOUNT_NAME] = $accountName;
-        $entry[ActiveDirectory::OBJECT_CLASS] = [
-            ActiveDirectory::TOP,
-            ActiveDirectory::PERSON,
-            ActiveDirectory::ORGANIZATIONAL_PERSON,
-            ActiveDirectory::USER,
-        ];
-
-        if($password && $this->connection->canChangePasswords()) {
-            $entry[ActiveDirectory::UNICODE_PASSWORD] = Utilities::encodePassword($password);
-        } else {
-            throw new AdldapException('You must be connected to your server by SSL / TLS to set passwords.');
-        }
-
-        if($accountControl) {
-            $entry[ActiveDirectory::USER_ACCOUNT_CONTROL] = $accountControl->getValueString();
-        }
-
-        if(!$dn instanceof DistinguishedName) {
-            $dn = new DistinguishedName($dn);
-        }
-
-        $dn->addCn($name);
-
-        return $this->connection->add($dn, $entry);
+        // We'll return a new User instance with the default
+        // object class attributes set for convenience
+        return (new User($attributes, $this->connection))
+            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
+                ActiveDirectory::TOP,
+                ActiveDirectory::PERSON,
+                ActiveDirectory::ORGANIZATIONAL_PERSON,
+                ActiveDirectory::USER,
+            ]);
     }
 
     /**

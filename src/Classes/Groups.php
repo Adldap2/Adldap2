@@ -2,9 +2,9 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Objects\Ldap\Group;
-use Adldap\Objects\Ldap\Entry;
-use Adldap\Objects\Ldap\User;
+use Adldap\Models\Group;
+use Adldap\Models\Entry;
+use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
 class Groups extends AbstractQueryable

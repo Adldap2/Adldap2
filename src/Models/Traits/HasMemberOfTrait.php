@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Objects\Traits;
+namespace Adldap\Models\Traits;
 
 use Adldap\Schemas\ActiveDirectory;
 

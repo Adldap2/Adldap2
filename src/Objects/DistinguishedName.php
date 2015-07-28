@@ -12,7 +12,7 @@ class DistinguishedName
      *
      * @var string
      */
-    protected $base = '';
+    protected $base;
 
     /**
      * Stores the domain components in the DN.
@@ -158,7 +158,39 @@ class DistinguishedName
      */
     public function setBase($base)
     {
-        $this->base = $base;
+        if(!is_null($base) && is_string($base)) {
+            // If the base DN isn't null and it's a string, we'll explode it.
+            $base = Utilities::explodeDn($base, false);
+
+            // Since exploding a DN returns false on failure,
+            // we'll double check to make sure it's an array
+            if(is_array($base)) {
+                foreach($base as $key => $rdn) {
+                    // We'll avoid going through the count key as it's
+                    // automatically created when exploding a DN
+                    if($key !== 'count') {
+                        // We'll break the RDN into pieces
+                        $pieces = explode('=', $rdn);
+
+                        // If there's exactly 2 pieces, then we can work with it.
+                        if(count($pieces) === 2) {
+                            // We see what time of RDN it is and add each accordingly
+                            switch(strtoupper($pieces[0])) {
+                                case 'DC':
+                                    $this->addDc($pieces[1]);
+                                    break;
+                                case 'OU':
+                                    $this->addOu($pieces[1]);
+                                    break;
+                                case 'CN':
+                                    $this->addCn($pieces[1]);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         return $this;
     }

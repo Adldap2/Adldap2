@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Objects\Ldap;
+namespace Adldap\Models;
 
 use Adldap\Schemas\ActiveDirectory;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Objects\Ldap;
+namespace Adldap\Models;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
@@ -9,6 +9,13 @@ use Adldap\Schemas\ActiveDirectory;
 class Entry
 {
     /**
+     * Indicates if the entry exist in active directory.
+     *
+     * @var bool
+     */
+    public $exists = false;
+
+    /**
      * The current LDAP connection instance.
      *
      * @var ConnectionInterface
@@ -16,11 +23,18 @@ class Entry
     protected $connection;
 
     /**
-     * Holds the current objects original attributes.
+     * Holds the current objects attributes.
      *
      * @var array
      */
     protected $attributes = [];
+
+    /**
+     * Holds the current objects original attributes.
+     *
+     * @var array
+     */
+    protected $original = [];
 
     /**
      * Holds the current objects modified attributes.
@@ -37,7 +51,9 @@ class Entry
      */
     public function __construct(array $attributes = [], ConnectionInterface $connection)
     {
-        $this->setAttributes($attributes);
+        $this->syncOriginal();
+
+        $this->fill($attributes);
 
         $this->connection = $connection;
     }
@@ -65,6 +81,18 @@ class Entry
     public function __set($key, $value)
     {
         return $this->setAttribute($key, $value);
+    }
+
+    /**
+     * Sets the original attributes on the entry.
+     *
+     * @return $this
+     */
+    public function syncOriginal()
+    {
+        $this->original = $this->attributes;
+
+        return $this;
     }
 
     /**
@@ -104,7 +132,23 @@ class Entry
     }
 
     /**
-     * Adds modifications to the current object.
+     *
+     *
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function fill(array $attributes = [])
+    {
+        foreach($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets attributes on the current entry.
      *
      * @param int|string $key
      * @param mixed      $value
@@ -113,34 +157,7 @@ class Entry
      */
     public function setAttribute($key, $value)
     {
-        /*
-         * We'll check if the attribute exists on the current
-         * object to see what type of modification is taking place
-         */
-        if ($this->hasAttribute($key)) {
-            if(is_null($value)) {
-                /*
-                 * If the dev has explicitly set the value null,
-                 * we'll assume they want to remove the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REMOVE;
-            } else {
-                /*
-                 * If it's not null, we'll assume
-                 * they're looking to replace the attribute
-                 */
-                $type = LDAP_MODIFY_BATCH_REPLACE;
-            }
-        } else {
-            /*
-             * It looks like the attribute doesn't exist yet,
-             * they must be looking to add it to the object
-             */
-            $type = LDAP_MODIFY_BATCH_ADD;
-        }
-
-        // Finally we'll set the modification
-        $this->setModification($key, $type, $value);
+        $this->attributes[$key] = $value;
 
         return $this;
     }
@@ -152,9 +169,13 @@ class Entry
      *
      * @return $this
      */
-    public function setAttributes(array $attributes = [])
+    public function setRawAttributes(array $attributes = [])
     {
         $this->attributes = $attributes;
+
+        $this->exists = true;
+
+        $this->syncOriginal();
 
         return $this;
     }
@@ -309,6 +330,18 @@ class Entry
     }
 
     /**
+     * Sets the entry's distinguished name attribute.
+     *
+     * @param string $dn
+     *
+     * @return Entry
+     */
+    public function setDistinguishedName($dn)
+    {
+        return $this->setAttribute(ActiveDirectory::DISTINGUISHED_NAME, (string) $dn);
+    }
+
+    /**
      * Returns the entry's distinguished name string.
      *
      * (Alias for getDistinguishedName())
@@ -320,6 +353,20 @@ class Entry
     public function getDn()
     {
         return $this->getDistinguishedName();
+    }
+
+    /**
+     *  Sets the entry's distinguished name attribute.
+     *
+     * (Alias for setDistinguishedName())
+     *
+     * @param string $dn
+     *
+     * @return Entry
+     */
+    public function setDn($dn)
+    {
+        return $this->setDistinguishedName($dn);
     }
 
     /**
@@ -407,6 +454,30 @@ class Entry
      */
     public function getModifications()
     {
+        foreach($this->attributes as $key => $value) {
+            /*
+             * If the key still exists inside the original attributes,
+             * the developer is modifying an attribute.
+             */
+            if (array_key_exists($key, $this->original)) {
+                if (is_array($value)) {
+                    if (count(array_diff($value, $this->original[$key])) > 0) {
+                        /*
+                         * If the value of the set attribute is an array and the differences
+                         * are greater than zero, we'll replace the attribute.
+                         */
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                    }
+                } else if ($value !== $this->original[$key]) {
+                    // If the value doesn't equal it's original, we'll replace it.
+                    $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                }
+            } else {
+                // The value doesn't exist at all, we'll add it.
+                $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
+            }
+        }
+
         return $this->modifications;
     }
 
@@ -447,7 +518,31 @@ class Entry
      */
     public function save()
     {
+        if($this->exists) {
+            return $this->update();
+        } else {
+            return $this->create();
+        }
+    }
+
+    /**
+     * Persists attribute updates to the active directory record.
+     *
+     * @return bool
+     */
+    public function update()
+    {
         return $this->connection->modifyBatch($this->getDn(), $this->getModifications());
+    }
+
+    /**
+     * Creates an active directory record.
+     *
+     * @return bool
+     */
+    public function create()
+    {
+        return $this->connection->add($this->getDn(), $this->getAttributes());
     }
 
     /**

@@ -1,15 +1,15 @@
 <?php
 
-namespace Adldap\Objects\Ldap;
+namespace Adldap\Models;
 
 use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
-use Adldap\Objects\AccountControl;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\Traits\HasLastLogonAndLogOffTrait;
-use Adldap\Objects\Traits\HasMemberOfTrait;
+use Adldap\Objects\AccountControl;
+use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
+use Adldap\Models\Traits\HasMemberOfTrait;
 
 class User extends Entry
 {

@@ -2,8 +2,7 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Exceptions\AdldapException;
-use Adldap\Objects\Ldap\Entry;
+use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
 
 class Exchange extends AbstractQueryable

@@ -3,7 +3,6 @@
 namespace Adldap\Classes;
 
 use Adldap\Models\Container;
-use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 
 class Containers extends AbstractQueryable

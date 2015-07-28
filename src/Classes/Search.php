@@ -2,8 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\Paginator;
 use Adldap\Models\ExchangeServer;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
@@ -11,6 +9,8 @@ use Adldap\Models\Group;
 use Adldap\Models\User;
 use Adldap\Models\Printer;
 use Adldap\Models\Entry;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Objects\Paginator;
 use Adldap\Query\Operator;
 use Adldap\Query\Builder;
 use Adldap\Adldap;

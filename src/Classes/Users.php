@@ -68,7 +68,7 @@ class Users extends AbstractQueryable
      *
      * @return User
      */
-    public function newInstance(array $attributes = array())
+    public function newInstance(array $attributes = [])
     {
         // We'll return a new User instance with the default
         // object class attributes set for convenience
@@ -79,6 +79,18 @@ class Users extends AbstractQueryable
                 ActiveDirectory::ORGANIZATIONAL_PERSON,
                 ActiveDirectory::USER,
             ]);
+    }
+
+    /**
+     * Creates a new user and returns the result.
+     *
+     * @param array $attributes
+     *
+     * @return bool
+     */
+    public function create(array $attributes = [])
+    {
+        return $this->newInstance($attributes)->save();
     }
 
     /**

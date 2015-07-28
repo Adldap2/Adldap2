@@ -19,6 +19,7 @@ class ActiveDirectory
     const BAD_PASSWORD_TIME = 'badpasswordtime';
     const COMMON_NAME = 'cn';
     const COMPANY = 'company';
+    const COMPUTER = 'computer';
     const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
     const CONTACT = 'contact';
     const CREATED_AT = 'whencreated';

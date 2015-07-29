@@ -2,6 +2,7 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Exceptions\EntryNotFoundException;
 use Adldap\Models\ExchangeServer;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
@@ -344,6 +345,31 @@ class Search extends AbstractBase
     public function find($anr)
     {
         return $this->where(ActiveDirectory::ANR, '=', $anr)->first();
+    }
+
+    /**
+     * Finds a record using ambiguous name resolution. If a record
+     * is not found, an exception is thrown.
+     *
+     * @param string $anr
+     *
+     * @return array|bool
+     *
+     * @throws EntryNotFoundException
+     */
+    public function findOrFail($anr)
+    {
+        $entry = $this->find($anr);
+
+        // Make sure we check if the result is an entry or an array before
+        // we throw an exception in case the user wants raw results.
+        if(!$entry instanceof Entry && !is_array($entry)) {
+            $message = 'Unable to find record in Active Directory.';
+
+            throw new EntryNotFoundException($message);
+        }
+
+        return $entry;
     }
 
     /**

@@ -37,6 +37,15 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals($base->get(), $dn->get());
     }
 
+    public function testToString()
+    {
+        $dn = new DistinguishedName();
+
+        $dn->addDc('corp');
+
+        $this->assertEquals('dc=corp', (string) $dn);
+    }
+
     public function testAddDc()
     {
         $dn = new DistinguishedName();
@@ -99,5 +108,16 @@ class DistinguishedNameTest extends UnitTestCase
         $dn->removeCn('Testing');
 
         $this->assertEmpty($dn->get());
+    }
+
+    public function testEscaping()
+    {
+        $dn = new DistinguishedName();
+
+        $dn->addDc('=,#test;<>+');
+        $dn->addOu('=,#test;<>+');
+        $dn->addCn('=,#test;<>+');
+
+        $this->assertEquals('cn=\3d\2c\23test\3b\3c\3e\2b,ou=\3d\2c\23test\3b\3c\3e\2b,dc=\3d\2c\23test\3b\3c\3e\2b', $dn->get());
     }
 }

@@ -80,7 +80,7 @@ class EntryTest extends UnitTestCase
 
         $entry = new Entry(['testing'], $connection);
 
-        $this->assertTrue($entry->save());
+        $this->assertTrue($entry->create());
     }
 
     public function testUpdate()
@@ -96,5 +96,57 @@ class EntryTest extends UnitTestCase
         $entry->setRawAttributes(['dn' => $dn]);
 
         $this->assertTrue($entry->update());
+    }
+
+    public function testSaveForCreate()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('add')->once()->withArgs([null, ['testing']])->andReturn(true);
+
+        $entry = new Entry(['testing'], $connection);
+
+        $this->assertTrue($entry->save());
+    }
+
+    public function testSaveForUpdate()
+    {
+        $connection = $this->newConnectionMock();
+
+        $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
+
+        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
+
+        $entry = new Entry([], $connection);
+
+        $entry->setRawAttributes(['dn' => $dn]);
+
+        $this->assertTrue($entry->save());
+    }
+
+    public function testDeleteFailure()
+    {
+        $connection = $this->newConnectionMock();
+
+        $entry = new Entry([], $connection);
+
+        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+
+        $entry->delete();
+    }
+
+    public function testDelete()
+    {
+        $connection = $this->newConnectionMock();
+
+        $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
+
+        $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
+
+        $entry = new Entry([], $connection);
+
+        $entry->setRawAttributes(['dn' => $dn]);
+
+        $this->assertTrue($entry->delete());
     }
 }

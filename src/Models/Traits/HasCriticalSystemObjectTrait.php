@@ -11,7 +11,7 @@ trait HasCriticalSystemObjectTrait
      *
      * @return null|bool
      */
-    public function getIsCriticalSystemObject()
+    public function isCriticalSystemObject()
     {
         $attribute = $this->getAttribute(ActiveDirectory::IS_CRITICAL_SYSTEM_OBJECT, 0);
 

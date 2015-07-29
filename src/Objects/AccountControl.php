@@ -2,6 +2,13 @@
 
 namespace Adldap\Objects;
 
+/**
+ * The Account Control class.
+ *
+ * This class is for easily building a user account control value.
+ *
+ * https://support.microsoft.com/en-us/kb/305144
+ */
 class AccountControl
 {
     const SCRIPT = 1;
@@ -73,7 +80,7 @@ class AccountControl
      */
     public function __toInt()
     {
-        return (int) $this->getValue();
+        return $this->getValue();
     }
 
     /**
@@ -84,6 +91,18 @@ class AccountControl
     public function runLoginScript()
     {
         $this->applyValue(self::SCRIPT);
+
+        return $this;
+    }
+
+    /**
+     * The user account is locked.
+     *
+     * @return $this
+     */
+    public function accountIsLocked()
+    {
+        $this->applyValue(self::LOCKOUT);
 
         return $this;
     }
@@ -100,80 +119,6 @@ class AccountControl
         return $this;
     }
 
-    /**
-     * The home folder is required.
-     *
-     * @return $this
-     */
-    public function homeFolderIsRequired()
-    {
-        $this->applyValue(self::HOMEDIR_REQUIRED);
-
-        return $this;
-    }
-
-    /**
-     * No password is required.
-     *
-     * @return $this
-     */
-    public function passwordIsNotRequired()
-    {
-        $this->applyValue(self::PASSWD_NOTREQD);
-
-        return $this;
-    }
-
-    /**
-     * The user cannot change the password. This is a permission on the user's object.
-     *
-     * For information about how to programmatically set this permission, visit the following Web site:
-     * http://msdn2.microsoft.com/en-us/library/aa746398.aspx
-     *
-     * @return $this
-     */
-    public function passwordCannotBeChanged()
-    {
-        $this->applyValue(self::PASSWD_NOTREQD);
-
-        return $this;
-    }
-
-    /**
-     * Represents the password, which should never expire on the account.
-     *
-     * @return $this
-     */
-    public function passwordDoesNotExpire()
-    {
-        $this->applyValue(self::DONT_EXPIRE_PASSWORD);
-
-        return $this;
-    }
-
-    /**
-     * (Windows 2000/Windows Server 2003) The user's password has expired.
-     *
-     * @return $this
-     */
-    public function passwordIsExpired()
-    {
-        $this->applyValue(self::PASSWORD_EXPIRED);
-
-        return $this;
-    }
-
-    /**
-     * The user can send an encrypted password.
-     *
-     * @return $this
-     */
-    public function allowEncryptedTextPassword()
-    {
-        $this->applyValue(self::ENCRYPTED_TEXT_PWD_ALLOWED);
-
-        return $this;
-    }
 
     /**
      * This is an account for users whose primary account is in another domain.
@@ -287,6 +232,81 @@ class AccountControl
     public function accountIsReadOnly()
     {
         $this->applyValue(self::PARTIAL_SECRETS_ACCOUNT);
+
+        return $this;
+    }
+
+    /**
+     * The home folder is required.
+     *
+     * @return $this
+     */
+    public function homeFolderIsRequired()
+    {
+        $this->applyValue(self::HOMEDIR_REQUIRED);
+
+        return $this;
+    }
+
+    /**
+     * No password is required.
+     *
+     * @return $this
+     */
+    public function passwordIsNotRequired()
+    {
+        $this->applyValue(self::PASSWD_NOTREQD);
+
+        return $this;
+    }
+
+    /**
+     * The user cannot change the password. This is a permission on the user's object.
+     *
+     * For information about how to programmatically set this permission, visit the following Web site:
+     * http://msdn2.microsoft.com/en-us/library/aa746398.aspx
+     *
+     * @return $this
+     */
+    public function passwordCannotBeChanged()
+    {
+        $this->applyValue(self::PASSWD_NOTREQD);
+
+        return $this;
+    }
+
+    /**
+     * Represents the password, which should never expire on the account.
+     *
+     * @return $this
+     */
+    public function passwordDoesNotExpire()
+    {
+        $this->applyValue(self::DONT_EXPIRE_PASSWORD);
+
+        return $this;
+    }
+
+    /**
+     * (Windows 2000/Windows Server 2003) The user's password has expired.
+     *
+     * @return $this
+     */
+    public function passwordIsExpired()
+    {
+        $this->applyValue(self::PASSWORD_EXPIRED);
+
+        return $this;
+    }
+
+    /**
+     * The user can send an encrypted password.
+     *
+     * @return $this
+     */
+    public function allowEncryptedTextPassword()
+    {
+        $this->applyValue(self::ENCRYPTED_TEXT_PWD_ALLOWED);
 
         return $this;
     }

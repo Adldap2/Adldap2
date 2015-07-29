@@ -35,7 +35,7 @@ class Exchange extends AbstractQueryable
     {
         $namingContext = $this->getConfigurationNamingContext();
 
-        if ($namingContext) {
+        if (is_string($namingContext)) {
             $search = $this->adldap->search()
                 ->setDn($namingContext)
                 ->select($fields)
@@ -63,7 +63,7 @@ class Exchange extends AbstractQueryable
     {
         $namingContext = $this->getConfigurationNamingContext();
 
-        if ($namingContext) {
+        if (is_string($namingContext)) {
             return $this->adldap->search()
                 ->setDn($namingContext)
                 ->select($fields)

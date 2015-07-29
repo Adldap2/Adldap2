@@ -38,4 +38,65 @@ class UtilitiesTest extends UnitTestCase
 
         $this->assertEquals($expected, $result);
     }
+
+    public function testEscapeManualWithIgnore()
+    {
+        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+
+        $mockedUtilities->shouldAllowMockingProtectedMethods();
+
+        $escape = '**<>!=,#$%^testing';
+
+        $ignore = '*<>!';
+
+        $result = $mockedUtilities->escapeManual($escape, $ignore);
+
+        $expected = '**<>!\3d\2c\23\24\25\5e\74\65\73\74\69\6e\67';
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testEscapeManualWithIgnoreAndFlag()
+    {
+        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+
+        $mockedUtilities->shouldAllowMockingProtectedMethods();
+
+        $escape = '**<>!=,#$%^testing';
+
+        $ignore = '*';
+
+        // Flag integer 2 means we're escaping a value for a distinguished name.
+        $flag = 2;
+
+        $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);
+
+        $expected = '**\3c\3e!\3d\2c\23$%^testing';
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testUnescape()
+    {
+        $unescaped = 'testing';
+
+        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+
+        $mockedUtilities->shouldAllowMockingProtectedMethods();
+
+        $escaped = $mockedUtilities->escapeManual($unescaped);
+
+        $this->assertEquals($unescaped, Utilities::unescape($escaped));
+    }
+
+    public function testEncodePassword()
+    {
+        $password = 'password';
+
+        $encoded = Utilities::encodePassword($password);
+
+        $expected = '2200700061007300730077006f00720064002200';
+
+        $this->assertEquals($expected, bin2hex($encoded));
+    }
 }

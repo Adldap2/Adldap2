@@ -20,7 +20,7 @@ class AdldapTest extends UnitTestCase
         $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
         $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp');
 
-        $ad = new Adldap($config);
+        $ad = new Adldap($config, null, $autoConnect = false);
 
         $this->assertInstanceOf('Adldap\Connections\Configuration', $ad->getConfiguration());
     }

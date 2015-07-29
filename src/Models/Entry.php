@@ -542,8 +542,6 @@ class Entry
      * Persists the changes to the LDAP server and returns the result.
      *
      * @return bool
-     *
-     * @throws AdldapException
      */
     public function save()
     {

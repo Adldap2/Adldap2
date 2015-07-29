@@ -278,10 +278,8 @@ class Adldap
                 $remoteUser = $this->getRemoteUserInput();
                 $kerberos = $this->getKerberosAuthInput();
 
-                /*
-                 * If the remote user input equals the username we're
-                 * trying to authenticate, we'll perform the bind
-                 */
+                // If the remote user input equals the username we're
+                // trying to authenticate, we'll perform the bind
                 if ($remoteUser == $username) {
                     $auth = $this->bindUsingKerberos($kerberos);
                 }
@@ -291,10 +289,8 @@ class Adldap
             }
         } catch (AdldapException $e) {
             if ($preventRebind === true) {
-                /*
-                 * Binding failed and we're not allowed
-                 * to rebind, we'll return false
-                 */
+                // Binding failed and we're not allowed
+                // to rebind, we'll return false
                 return $auth;
             }
         }

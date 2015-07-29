@@ -234,19 +234,6 @@ class Utilities
     }
 
     /**
-     * Convert a boolean value to a string.
-     * You should never need to call this yourself.
-     *
-     * @param bool $bool Boolean value
-     *
-     * @return string
-     */
-    public static function boolToStr($bool)
-    {
-        return ($bool) ? 'TRUE' : 'FALSE';
-    }
-
-    /**
      * Round a Windows timestamp down to seconds and remove
      * the seconds between 1601-01-01 and 1970-01-01.
      *

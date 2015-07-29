@@ -58,6 +58,15 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals([],  $b->getSelects());
     }
 
+    public function testHasSelects()
+    {
+        $b = new Builder();
+
+        $b->select('test');
+
+        $this->assertTrue($b->hasSelects());
+    }
+
     public function testWhere()
     {
         $b = new Builder();
@@ -192,5 +201,23 @@ class BuilderTest extends UnitTestCase
         ];
 
         $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testWhereInvalidOperator()
+    {
+        $b = new Builder();
+
+        $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
+
+        $b->where('field', 'invalid', 'value');
+    }
+
+    public function testOrWhereInvalidOperator()
+    {
+        $b = new Builder();
+
+        $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
+
+        $b->orWhere('field', 'invalid', 'value');
     }
 }

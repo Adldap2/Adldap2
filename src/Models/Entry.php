@@ -85,7 +85,8 @@ class Entry
     }
 
     /**
-     * Sets the original attributes on the entry.
+     * Syncs the original attributes with
+     * the entry's current attributes.
      *
      * @return $this
      */
@@ -133,7 +134,7 @@ class Entry
     }
 
     /**
-     *
+     * Fills the entry with the supplied attributes.
      *
      * @param array $attributes
      *
@@ -193,10 +194,8 @@ class Entry
     public function hasAttribute($key, $subKey = null)
     {
         if (array_key_exists($key, $this->attributes)) {
-            /*
-             * If a sub key is given, we'll check if
-             * it exists in the nested attribute array
-             */
+            // If a sub key is given, we'll check if it
+            // exists in the nested attribute array
             if(!is_null($subKey)) {
                 if(is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
                     return true;

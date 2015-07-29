@@ -332,7 +332,7 @@ class Builder
      * @param string $operator
      * @param null   $value
      *
-     * @throws InvalidQueryOperator
+     * @throws InvalidQueryOperatorException
      */
     private function addWhere($field, $operator, $value = null)
     {
@@ -351,7 +351,7 @@ class Builder
      * @param string $operator
      * @param null   $value
      *
-     * @throws InvalidQueryOperator
+     * @throws InvalidQueryOperatorException
      */
     private function addOrWhere($field, $operator, $value = null)
     {
@@ -529,11 +529,11 @@ class Builder
      *
      * Throws an AdldapException if no operator is found.
      *
-     * @param $operator
+     * @param string $operator
      *
      * @return string
      *
-     * @throws InvalidQueryOperator
+     * @throws InvalidQueryOperatorException
      */
     private function getOperator($operator)
     {

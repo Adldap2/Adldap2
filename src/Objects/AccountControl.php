@@ -55,6 +55,28 @@ class AccountControl
     protected $values = [];
 
     /**
+     * Returns the account control integer as a string
+     * when the object is casted as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getValue();
+    }
+
+    /**
+     * Returns the account control integer when
+     * the object is casted as an integer.
+     *
+     * @return int
+     */
+    public function __toInt()
+    {
+        return (int) $this->getValue();
+    }
+
+    /**
      * The logon script will be run.
      *
      * @return $this
@@ -342,16 +364,6 @@ class AccountControl
         }
 
         return $total;
-    }
-
-    /**
-     * Returns the account control integer in a string.
-     *
-     * @return string
-     */
-    public function getValueString()
-    {
-        return (string) $this->getValue();
     }
 
     /**

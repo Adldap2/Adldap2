@@ -331,7 +331,7 @@ class User extends Entry
      */
     public function setUserAccountControl(AccountControl $accountControl)
     {
-        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, $accountControl->getValueString());
+        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, (string) $accountControl);
     }
 
     /**

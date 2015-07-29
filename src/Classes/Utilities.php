@@ -67,7 +67,7 @@ class Utilities
         }
 
         // Convert ignore string into an array
-        $ignores = str_split($ignore);
+        $ignores = self::ignoreStrToArray($ignore);
 
         // Convert the value to a hex string
         $hex = bin2hex($value);
@@ -111,7 +111,7 @@ class Utilities
     protected static function escapeManualWithFlags($value, $ignore = '', $flags = 0)
     {
         // Convert ignore string into an array
-        $ignores = str_split($ignore);
+        $ignores = self::ignoreStrToArray($ignore);
 
         $escapeFilter = ['\\', '*', '(', ')'];
         $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
@@ -261,5 +261,20 @@ class Utilities
     public static function convertWindowsTimeToUnixTime($windowsTime)
     {
         return round($windowsTime / 10000000) - 11644473600;
+    }
+
+    /**
+     * @param string $ignore
+     * @return array
+     */
+    private static function ignoreStrToArray($ignore)
+    {
+        $ignore = trim($ignore);
+
+        if (!empty($ignore)) {
+            return str_split($ignore);
+        }
+
+        return [];
     }
 }

@@ -255,13 +255,15 @@ class Configuration
      */
     public function setUseSSL($bool)
     {
-        if($this->useTLS) {
+        $bool = (bool) $bool;
+
+        if($this->useTLS && $bool === true) {
             $message = 'You can only specify the use of one security protocol. Use TLS is true.';
 
             throw new ConfigurationException($message);
         }
 
-        $this->useSSL = (bool) $bool;
+        $this->useSSL = $bool;
     }
 
     /**
@@ -283,13 +285,15 @@ class Configuration
      */
     public function setUseTLS($bool)
     {
-        if($this->useSSL) {
+        $bool = (bool) $bool;
+
+        if($this->useSSL && $bool === true) {
             $message = 'You can only specify the use of one security protocol. Use SSL is true.';
 
             throw new ConfigurationException($message);
         }
 
-        $this->useTLS = (bool) $bool;
+        $this->useTLS = $bool;
     }
 
     /**

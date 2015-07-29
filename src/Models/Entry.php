@@ -501,8 +501,14 @@ class Entry
                         $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                     }
                 } else if ($value !== $this->original[$key]) {
-                    // If the value doesn't equal it's original, we'll replace it.
-                    $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                    if(is_null($value)) {
+                        // If the value is set to null, then we'll
+                        // assume they want the attribute removed
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE, $value);
+                    } else {
+                        // If the value doesn't equal it's original, we'll replace it.
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                    }
                 }
             } else {
                 // The value doesn't exist at all, we'll add it.

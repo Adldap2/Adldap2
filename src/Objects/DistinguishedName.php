@@ -8,13 +8,6 @@ use Adldap\Schemas\ActiveDirectory;
 class DistinguishedName
 {
     /**
-     * The optional base dn string.
-     *
-     * @var string
-     */
-    protected $base;
-
-    /**
      * Stores the domain components in the DN.
      *
      * @var array
@@ -158,13 +151,17 @@ class DistinguishedName
      */
     public function setBase($base)
     {
-        if(!is_null($base) && is_string($base)) {
-            // If the base DN isn't null and it's a string, we'll explode it.
+        if(!is_null($base)) {
+            // If the base DN isn't null we'll try to explode it.
             $base = Utilities::explodeDn($base, false);
 
             // Since exploding a DN returns false on failure,
             // we'll double check to make sure it's an array
             if(is_array($base)) {
+                // We need to reverse the base to keep the order in tact since RDNs
+                // are already reversed to follow the right to left pattern
+                $base = array_reverse($base);
+
                 foreach($base as $key => $rdn) {
                     // We'll avoid going through the count key as it's
                     // automatically created when exploding a DN
@@ -196,16 +193,6 @@ class DistinguishedName
     }
 
     /**
-     * Returns the base DN string.
-     *
-     * @return string
-     */
-    public function getBase()
-    {
-        return $this->base;
-    }
-
-    /**
      * Assembles all of the RDNs and returns the result.
      *
      * @return string
@@ -218,7 +205,7 @@ class DistinguishedName
 
         $dcs = $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
 
-        return implode(',', array_filter([$cns, $ous, $dcs, $this->getBase()]));
+        return implode(',', array_filter([$cns, $ous, $dcs]));
     }
 
     /**

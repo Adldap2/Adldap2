@@ -5,6 +5,7 @@ namespace Adldap;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Configuration;
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Adldap
@@ -35,20 +36,32 @@ class Adldap
      *
      * Tries to bind to the AD domain over LDAP or LDAPs
      *
-     * @param Configuration       $configuration The Adldap configuration options array
+     * @param array|Configuration $configuration The Adldap configuration options array
      * @param ConnectionInterface $connection    The connection you'd like to use
      * @param bool                $autoConnect   Whether or not you want to connect on construct
      *
      * @throws AdldapException
+     * @throws InvalidArgumentException
      */
-    public function __construct(Configuration $configuration, $connection = null, $autoConnect = true)
+    public function __construct($configuration, $connection = null, $autoConnect = true)
     {
+        if(is_array($configuration)) {
+            // If we've been given an array, we'll create
+            // a new Configuration instance.
+            $configuration = new Configuration($configuration);
+        } else if(!$configuration instanceof Configuration) {
+            // Otherwise, if the Configuration isn't a Configuration
+            // object, we'll throw an exception.
+            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration.';
+
+            throw new InvalidArgumentException($message);
+        }
+
         $this->configuration = $configuration;
 
-        /*
-         * If we dev wants to connect automatically, we'll construct a new
-         * Connection and try to connect using the supplied configuration object
-         */
+        // If we dev wants to connect automatically, we'll construct
+        // a new Connection and try to connect using the
+        // supplied configuration object
         if ($autoConnect) {
             // Create a new LDAP Connection if one isn't set
             if (!$connection) {
@@ -57,21 +70,17 @@ class Adldap
 
             $this->setConnection($connection);
 
-            /*
-             * Set the beginning protocol options on the
-             * connection if they're set in the configuration
-             */
+            // Set the beginning protocol options on the connection
+            // if they're set in the configuration
             if($this->configuration->getUseSSL()) {
                 $this->connection->useSSL();
             } else if ($this->configuration->getUseTLS()) {
                 $this->connection->useTLS();
             }
 
-            /*
-             * If we've set SSO to true, we'll make sure we check
-             * if SSO is supported, and if so we'll bind it to the
-             * current LDAP connection.
-             */
+            // If we've set SSO to true, we'll make sure we check if
+            // SSO is supported, and if so we'll bind it to
+            // the current LDAP connection.
             if ($this->configuration->getUseSSO()) {
                 if ($this->connection->isSaslSupported()) {
                     $this->connection->useSSO();

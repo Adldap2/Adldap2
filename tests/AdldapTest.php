@@ -36,6 +36,17 @@ class AdldapTest extends UnitTestCase
         $this->assertInstanceOf(get_class($connection), $ad->getConnection());
     }
 
+    public function testSetConnection()
+    {
+        $connection = new Ldap();
+
+        $ad = new Adldap([], null, $autoConnect = false);
+
+        $ad->setConnection($connection);
+
+        $this->assertInstanceOf(get_class($connection), $ad->getConnection());
+    }
+
     public function testGetConfiguration()
     {
         $config = new Configuration();
@@ -43,6 +54,18 @@ class AdldapTest extends UnitTestCase
         $ad = new Adldap($config, new Ldap(), $autoConnect = false);
 
         $this->assertInstanceOf(get_class($config), $ad->getConfiguration());
+    }
+
+    public function testSetConfiguration()
+    {
+        $ad = new Adldap([], new Ldap(), $autoConnect = false);
+
+        $config = new Configuration(['admin_username' => 'username']);
+
+        $ad->setConfiguration($config);
+
+        $this->assertInstanceOf(get_class($config), $ad->getConfiguration());
+        $this->assertEquals('username', $ad->getConfiguration()->getAdminUsername());
     }
 
     public function testGroups()

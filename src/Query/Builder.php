@@ -53,6 +53,27 @@ class Builder
     protected static $close = ')';
 
     /**
+     * The field key for a where statement.
+     *
+     * @var string
+     */
+    protected static $whereFieldKey = 'field';
+
+    /**
+     * The operator key for a where statement.
+     *
+     * @var string
+     */
+    protected static $whereOperatorKey = 'operator';
+
+    /**
+     * The value keey for a where statement.
+     *
+     * @var string
+     */
+    protected static $whereValueKey = 'value';
+
+    /**
      * Returns the current query.
      *
      * @return string
@@ -316,9 +337,9 @@ class Builder
     private function addWhere($field, $operator, $value = null)
     {
         $this->wheres[] = [
-            'field' => $field,
-            'operator' => $this->getOperator($operator),
-            'value' => Utilities::escape($value),
+            self::$whereFieldKey => $field,
+            self::$whereOperatorKey => $this->getOperator($operator),
+            self::$whereValueKey => Utilities::escape($value),
         ];
     }
 
@@ -335,9 +356,9 @@ class Builder
     private function addOrWhere($field, $operator, $value = null)
     {
         $this->orWheres[] = [
-            'field' => $field,
-            'operator' => $this->getOperator($operator),
-            'value' => Utilities::escape($value),
+            self::$whereFieldKey => $field,
+            self::$whereOperatorKey => $this->getOperator($operator),
+            self::$whereValueKey => Utilities::escape($value),
         ];
     }
 

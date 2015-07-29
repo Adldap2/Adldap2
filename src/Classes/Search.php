@@ -190,7 +190,52 @@ class Search extends AbstractBase
     }
 
     /**
-     * Adds an orWhere clause to the current query.
+     * Adds a where contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereContains($field, $value)
+    {
+        $this->query->whereContains($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereStartsWith($field, $value)
+    {
+        $this->query->whereStartsWith($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where ends with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function whereEndsWith($field, $value)
+    {
+        $this->query->whereEndsWith($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where clause to the current query.
      *
      * @param string $field
      * @param string $operator
@@ -201,6 +246,51 @@ class Search extends AbstractBase
     public function orWhere($field, $operator = null, $value = null)
     {
         $this->query->orWhere($field, $operator, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereContains($field, $value)
+    {
+        $this->query->orWhereContains($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereStartsWith($field, $value)
+    {
+        $this->query->orWhereStartsWith($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where ends with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function orWhereEndsWith($field, $value)
+    {
+        $this->query->orWhereEndsWith($field, $value);
 
         return $this;
     }

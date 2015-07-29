@@ -22,6 +22,32 @@ class ConfigurationTest extends UnitTestCase
         $this->assertFalse($config->getUseTLS());
     }
 
+    public function testDynamicSetUp()
+    {
+        $settings = [
+            'port' => 500,
+            'base_dn' => 'dc=corp,dc=org',
+            'domain_controllers' => ['dc1', 'dc2'],
+            'follow_referrals' => 1,
+            'admin_username' => 'username',
+            'admin_password' => 'password',
+            'use_ssl' => true,
+            'use_tls' => false,
+            'use_sso' => false,
+        ];
+
+        $config = new Configuration($settings);
+
+        $this->assertEquals(500, $config->getPort());
+        $this->assertEquals('dc=corp,dc=org', $config->getBaseDn());
+        $this->assertEquals(['dc1', 'dc2'], $config->getDomainControllers());
+        $this->assertEquals('username', $config->getAdminUsername());
+        $this->assertEquals('password', $config->getAdminPassword());
+        $this->assertTrue($config->getUseSSL());
+        $this->assertFalse($config->getUseSSO());
+        $this->assertFalse($config->getUseTLS());
+    }
+
     public function testSetPort()
     {
         $config = new Configuration();

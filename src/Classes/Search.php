@@ -263,7 +263,7 @@ class Search extends AbstractBase
      * Sorts the LDAP search results by the specified field
      * and direction.
      *
-     * @param $field
+     * @param string $field
      * @param string $direction
      *
      * @return $this
@@ -538,8 +538,9 @@ class Search extends AbstractBase
      * and sorts them by the field and direction search
      * property.
      *
-     * @param $objects
-     * @param array
+     * @param array $objects
+     *
+     * @return array
      */
     private function processSortBy($objects)
     {

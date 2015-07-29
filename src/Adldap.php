@@ -57,19 +57,21 @@ class Adldap
             throw new InvalidArgumentException($message);
         }
 
-        $this->configuration = $configuration;
+        // Set the configuration
+        $this->setConfiguration($configuration);
+
+        // Create a new LDAP Connection if one isn't set
+        if (!$connection) {
+            $connection = new Connections\Ldap();
+        }
+
+        // Set the connection
+        $this->setConnection($connection);
 
         // If we dev wants to connect automatically, we'll construct
         // a new Connection and try to connect using the
         // supplied configuration object
         if ($autoConnect) {
-            // Create a new LDAP Connection if one isn't set
-            if (!$connection) {
-                $connection = new Connections\Ldap();
-            }
-
-            $this->setConnection($connection);
-
             // Set the beginning protocol options on the connection
             // if they're set in the configuration
             if($this->configuration->getUseSSL()) {
@@ -119,6 +121,16 @@ class Adldap
     }
 
     /**
+     * Sets the connection property.
+     *
+     * @param ConnectionInterface $connection
+     */
+    public function setConnection(ConnectionInterface $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
      * Returns the configuration object.
      *
      * @return Configuration
@@ -129,13 +141,13 @@ class Adldap
     }
 
     /**
-     * Sets the connection property.
+     * Sets the configuration property.
      *
-     * @param ConnectionInterface $connection
+     * @param Configuration $configuration
      */
-    public function setConnection(ConnectionInterface $connection)
+    public function setConfiguration(Configuration $configuration)
     {
-        $this->connection = $connection;
+        $this->configuration = $configuration;
     }
 
     /**

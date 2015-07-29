@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Exceptions\ConfigurationException;
 
@@ -108,7 +109,13 @@ class Configuration
      */
     public function setBaseDn($dn)
     {
-        $this->baseDn = (string) $dn;
+        // We'll construct a new Distinguished name with
+        // the DN we're given so we know it's valid.
+        if(!$dn instanceof DistinguishedName) {
+            $dn = new DistinguishedName($dn);
+        }
+
+        $this->baseDn = $dn->get();
     }
 
     /**

@@ -292,12 +292,13 @@ class AccountControl
     }
 
     /**
-     * When this flag is set, the service account (the user or computer account) under which a service
-     * runs is trusted for Kerberos delegation.
+     * When this flag is set, the service account (the user or computer account)
+     * under which a service runs is trusted for Kerberos delegation.
      *
      * Any such service can impersonate a client requesting the service.
      *
-     * To enable a service for Kerberos delegation, you must set this flag on the userAccountControl property of the service account.
+     * To enable a service for Kerberos delegation, you must set this
+     * flag on the userAccountControl property of the service account.
      *
      * @return $this
      */
@@ -313,7 +314,8 @@ class AccountControl
      *
      * This is a security-sensitive setting. Accounts that have this option enabled
      * should be tightly controlled. This setting lets a service that runs under the
-     * account assume a client's identity and authenticate as that user to other remote servers on the network.
+     * account assume a client's identity and authenticate as that user to other remote
+     * servers on the network.
      *
      * @return $this
      */
@@ -373,10 +375,8 @@ class AccountControl
      */
     protected function applyValue($value)
     {
-        /*
-         * Use the value as a key so if the same
-         * value is used, it will always be overwritten
-         */
+        // Use the value as a key so if the same value
+        // is used, it will always be overwritten
         $this->values[$value] = $value;
     }
 }

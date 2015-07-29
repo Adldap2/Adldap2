@@ -174,7 +174,7 @@ class DistinguishedName
 
                         // If there's exactly 2 pieces, then we can work with it.
                         if(count($pieces) === 2) {
-                            // We see what time of RDN it is and add each accordingly
+                            // We see what type of RDN it is and add each accordingly
                             switch(strtoupper($pieces[0])) {
                                 case 'DC':
                                     $this->addDc($pieces[1]);

@@ -345,7 +345,7 @@ class User extends Entry
     }
 
     /**
-     * Returns the users legaxy exchange distinguished name.
+     * Returns the users legacy exchange distinguished name.
      *
      * @return string
      */

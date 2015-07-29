@@ -52,7 +52,7 @@ class Adldap
         } else if(!$configuration instanceof Configuration) {
             // Otherwise, if the Configuration isn't a Configuration
             // object, we'll throw an exception.
-            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration.';
+            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';
 
             throw new InvalidArgumentException($message);
         }

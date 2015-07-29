@@ -5,6 +5,7 @@ namespace Adldap\Models;
 use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Exceptions\EntryDoesNotExistException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Entry
@@ -583,13 +584,21 @@ class Entry
      *
      * @return bool
      *
+     * @throws EntryDoesNotExistException
      * @throws AdldapException
      */
     public function delete()
     {
         $dn = $this->getDn();
 
-        if(is_null($dn) || empty($dn)) {
+        if(!$this->exists) {
+            // Make sure the record exists before we can delete it
+            $message = 'Entry does not exist in active directory.';
+
+            throw new EntryDoesNotExistException($message);
+        } else if(is_null($dn) || empty($dn)) {
+            // If the record exists but the DN attribute does
+            // not exist, we can't process a delete.
             $message = 'Unable to delete. The current entry does not have a distinguished name present.';
 
             throw new AdldapException($message);

@@ -57,4 +57,140 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals([],  $b->getSelects());
     }
+
+    public function testWhere()
+    {
+        $b = new Builder();
+
+        $b->where('cn', '=', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => '=',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
+    public function testWhereContains()
+    {
+        $b = new Builder();
+
+        $b->whereContains('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'contains',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
+    public function testWhereStartsWith()
+    {
+        $b = new Builder();
+
+        $b->whereStartsWith('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'starts_with',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
+    public function testWhereEndsWith()
+    {
+        $b = new Builder();
+
+        $b->whereEndsWith('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'ends_with',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
+    public function testOrWhere()
+    {
+        $b = new Builder();
+
+        $b->orWhere('cn', '=', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => '=',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testOrWhereContains()
+    {
+        $b = new Builder();
+
+        $b->orWhereContains('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'contains',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testOrWhereStartsWith()
+    {
+        $b = new Builder();
+
+        $b->orWhereStartsWith('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'starts_with',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testOrWhereEndsWith()
+    {
+        $b = new Builder();
+
+        $b->orWhereEndsWith('cn', 'test');
+
+        $wheres = [
+            [
+                'field' => 'cn',
+                'operator' => 'ends_with',
+                'value' => '\74\65\73\74',
+            ]
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
 }

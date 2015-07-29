@@ -68,6 +68,34 @@ class AdldapTest extends UnitTestCase
         $this->assertEquals('username', $ad->getConfiguration()->getAdminUsername());
     }
 
+    public function testConnect()
+    {
+        $ad = new Adldap([], new Ldap(), $autoConnect = false);
+
+        $config = $this->mock('Adldap\Connections\Configuration');
+
+        $config->shouldReceive('getDomainControllers')->once()->andReturn(['dc1', 'dc2']);
+        $config->shouldReceive('getPort')->once()->andReturn(389);
+        $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
+        $config->shouldReceive('getAdminUsername')->once()->andReturn('username');
+        $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
+        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp.org');
+        $config->shouldReceive('getUseSSO')->once()->andReturn(false);
+
+        $connection = $this->mock('Adldap\Connections\Ldap');
+
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('bind')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $ad->setConfiguration($config);
+
+        $ad->setConnection($connection);
+
+        $this->assertTrue($ad->connect());
+    }
+
     public function testGroups()
     {
         $ad = new Adldap([], new Ldap(), $autoConnect = false);

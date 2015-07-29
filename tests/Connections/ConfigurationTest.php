@@ -32,6 +32,15 @@ class ConfigurationTest extends UnitTestCase
         $this->assertInternalType('string', $config->getPort());
     }
 
+    public function testSetBaseDn()
+    {
+        $config = new Configuration();
+
+        $config->setBaseDn('dc=corp');
+
+        $this->assertEquals('dc=corp', $config->getBaseDn());
+    }
+
     public function testSetDomainControllers()
     {
         $config = new Configuration();
@@ -66,5 +75,74 @@ class ConfigurationTest extends UnitTestCase
 
         $this->assertEquals(1, $config->getFollowReferrals());
         $this->assertInternalType('int', $config->getFollowReferrals());
+    }
+
+    public function testSetAdminUsername()
+    {
+        $config = new Configuration();
+
+        $config->setAdminUsername('username');
+
+        $this->assertEquals('username', $config->getAdminUsername());
+        $this->assertInternalType('string',  $config->getAdminUsername());
+    }
+
+    public function testSetAdminPassword()
+    {
+        $config = new Configuration();
+
+        $config->setAdminPassword('password');
+
+        $this->assertEquals('password', $config->getAdminPassword());
+        $this->assertInternalType('string',  $config->getAdminPassword());
+    }
+
+    public function testSetUseSSL()
+    {
+        $config = new Configuration();
+
+        $config->setUseSSL(true);
+
+        $this->assertTrue($config->getUseSSL());
+    }
+
+    public function testSetUseSSLWhenUsingTLS()
+    {
+        $config = new Configuration();
+
+        $config->setUseTLS(true);
+
+        $this->setExpectedException('Adldap\Exceptions\ConfigurationException');
+
+        $config->setUseSSL(true);
+    }
+
+    public function testSetUseTLS()
+    {
+        $config = new Configuration();
+
+        $config->setUseTLS(true);
+
+        $this->assertTrue($config->getUseTLS());
+    }
+
+    public function testSetUseTLSWhenUsingSSL()
+    {
+        $config = new Configuration();
+
+        $config->setUseSSL(true);
+
+        $this->setExpectedException('Adldap\Exceptions\ConfigurationException');
+
+        $config->setUseTLS(true);
+    }
+
+    public function testSetUseSSO()
+    {
+        $config = new Configuration();
+
+        $config->setUseSSO(true);
+
+        $this->assertTrue($config->getUseSSO());
     }
 }

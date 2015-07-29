@@ -5,6 +5,8 @@ namespace Adldap\Connections;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Exceptions\ConfigurationException;
+use Adldap\Exceptions\InvalidArgumentException;
+use Traversable;
 
 class Configuration
 {
@@ -101,6 +103,30 @@ class Configuration
      * @var string
      */
     private $adminPassword;
+
+    /**
+     * @param array|Traversable $options
+     * @throws InvalidArgumentException
+     */
+    public function __construct($options = [])
+    {
+        if (!is_array($options) && !$options instanceof Traversable) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s expects an array or Traversable argument; received "%s"',
+                    __METHOD__,
+                    (is_object($options) ? get_class($options) : gettype($options))
+                )
+            );
+        }
+
+        foreach ($options as $key => $value) {
+            $method = 'set' . $this->normalizeKey($key);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+    }
 
     /**
      * Sets the base DN property.
@@ -382,5 +408,18 @@ class Configuration
     public function getAdminPassword()
     {
         return $this->adminPassword;
+    }
+
+    /**
+     * Normalize array key
+     *
+     * @param  string $key
+     * @return string
+     */
+    protected function normalizeKey($key)
+    {
+        $key = str_replace('_', '', strtolower($key));
+        return $key;
+
     }
 }

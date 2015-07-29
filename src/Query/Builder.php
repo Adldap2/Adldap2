@@ -296,7 +296,11 @@ class Builder
      */
     private function addSelect($field)
     {
-        $this->selects[] = $field;
+        // We'll make sure the field isn't empty
+        // before we add it to the selects
+        if(!empty($field)) {
+            $this->selects[] = $field;
+        }
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Adldap\Query;
 
-use Adldap\Exceptions\InvalidQueryOperator;
+use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Classes\Utilities;
 
@@ -549,7 +549,7 @@ class Builder
 
         $message = "Operator: $operator cannot be used in an LDAP query. Available operators are: $operators";
 
-        throw new InvalidQueryOperator($message);
+        throw new InvalidQueryOperatorException($message);
     }
 
     /**

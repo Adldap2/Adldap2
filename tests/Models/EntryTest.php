@@ -149,4 +149,21 @@ class EntryTest extends UnitTestCase
 
         $this->assertTrue($entry->delete());
     }
+
+    public function testConvertStringToBool()
+    {
+        $entry = $this->mock('Adldap\Models\Entry')->makePartial();
+
+        $entry->shouldAllowMockingProtectedMethods();
+
+        $this->assertNull($entry->convertStringToBool('test'));
+
+        $this->assertTrue($entry->convertStringToBool('true'));
+        $this->assertTrue($entry->convertStringToBool('TRUE'));
+        $this->assertTrue($entry->convertStringToBool('TRue'));
+
+        $this->assertFalse($entry->convertStringToBool('false'));
+        $this->assertFalse($entry->convertStringToBool('FALSE'));
+        $this->assertFalse($entry->convertStringToBool('FAlse'));
+    }
 }

@@ -475,7 +475,7 @@ class Entry
     }
 
     /**
-     * Returns the entry' max password age.
+     * Returns the entry's max password age.
      *
      * @return string
      */

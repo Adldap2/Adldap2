@@ -145,4 +145,13 @@ class ConfigurationTest extends UnitTestCase
 
         $this->assertTrue($config->getUseSSO());
     }
+
+    public function testSetAccountSuffix()
+    {
+        $config = new Configuration();
+
+        $config->setAccountSuffix('@corp.org');
+
+        $this->assertEquals('@corp.org', $config->getAccountSuffix());
+    }
 }

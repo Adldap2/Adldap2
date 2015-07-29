@@ -15,7 +15,7 @@ class AdldapTest extends UnitTestCase
         $config->shouldReceive('getUseSSO')->once()->andReturn(false);
         $config->shouldReceive('getDomainControllers')->once()->andReturn([]);
         $config->shouldReceive('getPort')->once()->andReturn(389);
-        $config->shouldReceive('getFollowReferrals')->once()->andReturn(true);
+        $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
         $config->shouldReceive('getAdminUsername')->once()->andReturn('admin');
         $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
         $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp');

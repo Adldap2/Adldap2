@@ -72,16 +72,12 @@ class Utilities
         // Convert the value to a hex string
         $hex = bin2hex($value);
 
-        /*
-         * Separate the string, with the hex length of 2,
-         * and place a backslash on the end of each section
-         */
+        // Separate the string, with the hex length of 2, and
+        // place a backslash on the end of each section
         $value = chunk_split($hex, 2, '\\');
 
-        /*
-         * We'll append a backslash at the front of the string
-         * and remove the ending backslash of the string
-         */
+        // We'll append a backslash at the front of the string
+        // and remove the ending backslash of the string
         $value = '\\'.substr($value, 0, -1);
 
         // Go through each character to ignore
@@ -264,7 +260,10 @@ class Utilities
     }
 
     /**
+     * Converts an ignore string into an array.
+     *
      * @param string $ignore
+     *
      * @return array
      */
     private static function ignoreStrToArray($ignore)

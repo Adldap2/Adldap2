@@ -155,12 +155,17 @@ class Entry
      *
      * @param int|string $key
      * @param mixed      $value
+     * @param int|string $subKey
      *
      * @return $this
      */
-    public function setAttribute($key, $value)
+    public function setAttribute($key, $value, $subKey = null)
     {
-        $this->attributes[$key] = $value;
+        if(is_null($subKey)) {
+            $this->attributes[$key] = $value;
+        } else {
+            $this->attributes[$key][$subKey] = $value;
+        }
 
         return $this;
     }
@@ -497,6 +502,10 @@ class Entry
             if (array_key_exists($key, $this->original)) {
                 if (is_array($value)) {
                     if (count(array_diff($value, $this->original[$key])) > 0) {
+                        // Make sure we remove the count key as we don't
+                        // want to push that attribute into LDAP
+                        unset($value['count']);
+
                         // If the value of the set attribute is an array and the differences
                         // are greater than zero, we'll replace the attribute.
                         $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);

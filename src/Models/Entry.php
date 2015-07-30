@@ -111,13 +111,13 @@ class Entry
      */
     public function getAttribute($key, $subKey = null)
     {
-        if(!is_null($subKey)) {
-            if ($this->hasAttribute($key, $subKey)) {
-                return $this->attributes[$key][$subKey];
-            }
-        } else {
+        if(is_null($subKey)) {
             if ($this->hasAttribute($key)) {
                 return $this->attributes[$key];
+            }
+        } else {
+            if ($this->hasAttribute($key, $subKey)) {
+                return $this->attributes[$key][$subKey];
             }
         }
 

@@ -57,6 +57,25 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(['New Account Name'], $entry->samaccountname);
     }
 
+    public function testDeleteAttribute()
+    {
+        $attributes = [
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
+        ];
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', ['cn' => []]])->andReturn(true);
+
+        $entry = new Entry([], $connection);
+
+        $entry->setRawAttributes($attributes);
+
+        $this->assertTrue($entry->deleteAttribute('cn'));
+    }
+
     public function testModifications()
     {
         $attributes = [

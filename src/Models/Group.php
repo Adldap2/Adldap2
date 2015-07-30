@@ -33,7 +33,7 @@ class Group extends Entry
      */
     public function setMembers(array $entries)
     {
-        $this->setModification(ActiveDirectory::MEMBER, LDAP_MODIFY_BATCH_REPLACE, $entries);
+        $this->setAttribute(ActiveDirectory::MEMBER, $entries);
 
         return $this->save();
     }

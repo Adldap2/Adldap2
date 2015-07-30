@@ -185,7 +185,7 @@ class User extends Entry
      */
     public function setEmail($email)
     {
-        return $this->setAttribute(ActiveDirectory::EMAIL, $email);
+        return $this->setAttribute(ActiveDirectory::EMAIL, $email, 0);
     }
 
     /**

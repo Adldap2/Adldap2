@@ -146,7 +146,7 @@ class Printer extends Entry
      */
     public function getPrintMaxResolution()
     {
-        return $this->getAttribute('printmaxresolutionsupported', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_MAX_RESOLUTION_SUPPORTED, 0);
     }
 
     /**
@@ -158,7 +158,7 @@ class Printer extends Entry
      */
     public function getPrintOrientations()
     {
-        return $this->getAttribute('printorientationssupported', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_ORIENTATION_SUPPORTED, 0);
     }
 
     /**
@@ -170,7 +170,7 @@ class Printer extends Entry
      */
     public function getDriverName()
     {
-        return $this->getAttribute('drivername', 0);
+        return $this->getAttribute(ActiveDirectory::DRIVER_NAME, 0);
     }
 
     /**
@@ -182,7 +182,7 @@ class Printer extends Entry
      */
     public function getDriverVersion()
     {
-        return $this->getAttribute('driverversion', 0);
+        return $this->getAttribute(ActiveDirectory::DRIVER_VERSION, 0);
     }
 
     /**
@@ -194,7 +194,7 @@ class Printer extends Entry
      */
     public function getPriority()
     {
-        return $this->getAttribute('priority', 0);
+        return $this->getAttribute(ActiveDirectory::PRIORITY, 0);
     }
 
     /**
@@ -206,7 +206,7 @@ class Printer extends Entry
      */
     public function getPrintStartTime()
     {
-        return $this->getAttribute('printstarttime', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_START_TIME, 0);
     }
 
     /**
@@ -218,7 +218,7 @@ class Printer extends Entry
      */
     public function getPrintEndTime()
     {
-        return $this->getAttribute('printendtime', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_END_TIME, 0);
     }
 
     /**
@@ -230,7 +230,7 @@ class Printer extends Entry
      */
     public function getPortName()
     {
-        return $this->getAttribute('portname', 0);
+        return $this->getAttribute(ActiveDirectory::PORT_NAME, 0);
     }
 
     /**
@@ -242,7 +242,7 @@ class Printer extends Entry
      */
     public function getVersionNumber()
     {
-        return $this->getAttribute('versionnumber', 0);
+        return $this->getAttribute(ActiveDirectory::VERSION_NUMBER, 0);
     }
 
     /**
@@ -254,7 +254,7 @@ class Printer extends Entry
      */
     public function getPrintRate()
     {
-        return $this->getAttribute('printrate', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_PRINT_RATE, 0);
     }
 
     /**
@@ -266,6 +266,6 @@ class Printer extends Entry
      */
     public function getPrintRateUnit()
     {
-        return $this->getAttribute('printrateunit', 0);
+        return $this->getAttribute(ActiveDirectory::PRINTER_PRINT_RATE_UNIT, 0);
     }
 }

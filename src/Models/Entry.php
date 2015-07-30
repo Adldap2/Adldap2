@@ -595,6 +595,22 @@ class Entry
     }
 
     /**
+     * Deletes an attribute on the current entry.
+     *
+     * @param string $attribute
+     *
+     * @return bool
+     */
+    public function deleteAttribute($attribute)
+    {
+        // We need to pass in an empty array as the value
+        // for the attribute so LDAP knows to remove it.
+        $remove = [$attribute => []];
+
+        return $this->connection->modDelete($this->getDn(), $remove);
+    }
+
+    /**
      * Deletes the current entry.
      *
      * @return bool

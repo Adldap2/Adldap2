@@ -38,7 +38,7 @@ class User extends Entry
      */
     public function setTitle($title)
     {
-        return $this->setAttribute(ActiveDirectory::TITLE, $title);
+        return $this->setAttribute(ActiveDirectory::TITLE, $title, 0);
     }
 
     /**
@@ -62,7 +62,7 @@ class User extends Entry
      */
     public function setDepartment($department)
     {
-        return $this->setAttribute(ActiveDirectory::DEPARTMENT, $department);
+        return $this->setAttribute(ActiveDirectory::DEPARTMENT, $department, 0);
     }
 
     /**
@@ -86,7 +86,7 @@ class User extends Entry
      */
     public function setFirstName($firstName)
     {
-        return $this->setAttribute(ActiveDirectory::FIRST_NAME, $firstName);
+        return $this->setAttribute(ActiveDirectory::FIRST_NAME, $firstName, 0);
     }
 
     /**
@@ -110,7 +110,7 @@ class User extends Entry
      */
     public function setLastName($lastName)
     {
-        return $this->setAttribute(ActiveDirectory::LAST_NAME, $lastName);
+        return $this->setAttribute(ActiveDirectory::LAST_NAME, $lastName, 0);
     }
 
     /**
@@ -134,7 +134,7 @@ class User extends Entry
      */
     public function setTelephoneNumber($number)
     {
-        return $this->setAttribute(ActiveDirectory::TELEPHONE, $number);
+        return $this->setAttribute(ActiveDirectory::TELEPHONE, $number, 0);
     }
 
     /**
@@ -158,7 +158,7 @@ class User extends Entry
      */
     public function setCompany($company)
     {
-        return $this->setAttribute(ActiveDirectory::COMPANY, $company);
+        return $this->setAttribute(ActiveDirectory::COMPANY, $company, 0);
     }
 
     /**

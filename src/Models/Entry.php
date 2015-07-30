@@ -248,7 +248,7 @@ class Entry
      */
     public function setName($name)
     {
-        return $this->setAttribute(ActiveDirectory::NAME, $name);
+        return $this->setAttribute(ActiveDirectory::NAME, $name, 0);
     }
 
     /**
@@ -272,7 +272,7 @@ class Entry
      */
     public function setCommonName($name)
     {
-        return $this->setAttribute(ActiveDirectory::COMMON_NAME, $name);
+        return $this->setAttribute(ActiveDirectory::COMMON_NAME, $name, 0);
     }
 
     /**
@@ -575,7 +575,13 @@ class Entry
      */
     public function update()
     {
-        return $this->connection->modifyBatch($this->getDn(), $this->getModifications());
+        $modifications = $this->getModifications();
+
+        if(count($modifications) > 0) {
+            return $this->connection->modifyBatch($this->getDn(), $modifications);
+        }
+
+        return true;
     }
 
     /**

@@ -39,6 +39,24 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($attributes, $entry->getAttributes());
     }
 
+    public function testSetAttribute()
+    {
+        $attributes = [
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+        ];
+
+        $entry = new Entry([], $this->newConnectionMock());
+
+        $entry->setRawAttributes($attributes);
+
+        $entry->setCommonName('New Common Name');
+        $entry->samaccountname = ['New Account Name'];
+
+        $this->assertEquals('New Common Name', $entry->getCommonName());
+        $this->assertEquals(['New Account Name'], $entry->samaccountname);
+    }
+
     public function testModifications()
     {
         $attributes = [

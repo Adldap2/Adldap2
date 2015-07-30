@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/adLDAP2/adLDAP2/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/?branch=master)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/45a86fc2-b202-4f1b-9549-679900e5807c.svg?style=flat-square)](https://insight.sensiolabs.com/projects/45a86fc2-b202-4f1b-9549-679900e5807c)
 [![Total Downloads](https://img.shields.io/packagist/dt/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
-[![Latest Stable Version](https://img.shields.io/packagist/vpre/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2#v5.0.0-beta.1)
+[![Latest Stable Version](https://img.shields.io/packagist/vpre/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2#v5.0.0-beta.2)
 [![License](https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 
 > Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
@@ -49,7 +49,7 @@ have to require the files inside the project `src/` directory yourself.
 
 Insert Adldap into your `composer.json` file:
 
-    "adldap2/adldap2": "5.0.0-beta.1"
+    "adldap2/adldap2": "5.0.0-beta.2"
    
 Run `composer update`
 
@@ -61,13 +61,13 @@ If you need to test something with access to an LDAP server, the generous folks 
 
 Use the following configuration:
     
-    $config = new \Adldap\Connections\Configuration();
-    
-    $config->setAccountSuffix('@gatech.edu');
-    $config->setDomainControllers(['whitepages.gatech.edu']);
-    $config->setBaseDn('dc=whitepages,dc=gatech,dc=edu');
-    $config->setAdminUsername('');
-    $config->setAdminPassword('');
+    $config = [
+        'account_suffix' => '@gatech.edu',
+        'domain_controllers' => ['whitepages.gatech.edu'],
+        'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
+        'admin_username' => '',
+        'admin_password' => '',
+    ];
     
     $ad = new \Adldap\Adldap($config);
     

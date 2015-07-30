@@ -144,4 +144,19 @@ class AdldapTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Classes\Search', $ad->search());
     }
+
+    public function testLiveConnection()
+    {
+        $config = [
+            'account_suffix' => '@gatech.edu',
+            'domain_controllers' => ['whitepages.gatech.edu'],
+            'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
+            'admin_username' => '',
+            'admin_password' => '',
+        ];
+
+        $ad = new \Adldap\Adldap($config);
+
+        $this->assertTrue($ad->getConnection()->isBound());
+    }
 }

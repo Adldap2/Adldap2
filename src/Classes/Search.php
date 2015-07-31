@@ -497,7 +497,7 @@ class Search extends AbstractBase
      *
      * @param string $dn
      *
-     * @return array|bool
+     * @return bool|Entry
      */
     public function findByDn($dn)
     {

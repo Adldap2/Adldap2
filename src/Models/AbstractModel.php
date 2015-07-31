@@ -222,7 +222,7 @@ abstract class AbstractModel
     /**
      * Returns the model's object category DN string.
      *
-     * @return array
+     * @return null|string
      */
     public function getObjectCategoryDn()
     {

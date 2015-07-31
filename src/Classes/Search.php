@@ -607,7 +607,7 @@ class Search extends AbstractBase
                 case ActiveDirectory::OBJECT_CATEGORY_CONTAINER:
                     return (new Container([], $this->connection))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PRINTER:
-                    return (new Printer($attributes, $this->connection))->setRawAttributes();
+                    return (new Printer([], $this->connection))->setRawAttributes($attributes);
             }
         }
 

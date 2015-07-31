@@ -5,10 +5,23 @@ namespace Adldap\Classes;
 use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;
 
-class Containers extends AbstractQueryable
+class Containers extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * Returns all entries with the current object class.
+     * Finds a container.
+     *
+     * @param string $name
+     * @param array  $fields
+     *
+     * @return array|bool
+     */
+    public function find($name, $fields = [])
+    {
+        return $this->search()->select($fields)->find($name);
+    }
+
+    /**
+     * Returns all containers.
      *
      * @param array  $fields
      * @param bool   $sorted
@@ -19,10 +32,7 @@ class Containers extends AbstractQueryable
      */
     public function all($fields = [], $sorted = true, $sortBy = 'name', $sortByDirection = 'asc')
     {
-        $search = $this->adldap->search()
-            ->select($fields)
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_CONTAINER)
-            ->where(ActiveDirectory::DISTINGUISHED_NAME, '!', $this->adldap->search()->getBaseDn());
+        $search = $this->search();
 
         if ($sorted) {
             $search->sortBy($sortBy, $sortByDirection);
@@ -32,26 +42,15 @@ class Containers extends AbstractQueryable
     }
 
     /**
-     * Finds a single entry using the objects current class
-     * and the specified common name.
+     * Creates a new search limited to containers only.
      *
-     * @param string $name
-     * @param array  $fields
-     *
-     * @return array|bool
+     * @return Search
      */
-    public function find($name, $fields = [])
+    public function search()
     {
-        $results = $this->adldap->search()
-            ->select($fields)
-            ->where(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, '=', $name)
-            ->first();
-
-        if (count($results) > 0) {
-            return $results;
-        }
-
-        return false;
+        return $this->getAdldap()
+            ->search()
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_CONTAINER);
     }
 
     /**

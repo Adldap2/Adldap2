@@ -5,14 +5,53 @@ namespace Adldap\Classes;
 use Adldap\Models\Computer;
 use Adldap\Schemas\ActiveDirectory;
 
-class Computers extends AbstractQueryable
+class Computers extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * The computers object class name.
+     * Finds a computer.
      *
-     * @var string
+     * @param string $name
+     * @param array $fields
+     *
+     * @return bool|\Adldap\Models\Computer
      */
-    public $objectClass = 'computer';
+    public function find($name, $fields = [])
+    {
+        return $this->search()->select($fields)->find($name);
+    }
+
+    /**
+     * Returns all computers.
+     *
+     * @param array     $fields
+     * @param bool|true $sorted
+     * @param string    $sortBy
+     * @param string    $sortByDirection
+     *
+     * @return array|bool
+     */
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->search()->select($fields);
+
+        if($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Creates a new search limited to computers only.
+     *
+     * @return Search
+     */
+    public function search()
+    {
+        return $this->getAdldap()
+            ->search()
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::COMPUTER);
+    }
 
     /**
      * Returns a new Computer instance.

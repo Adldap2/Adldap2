@@ -5,21 +5,29 @@ namespace Adldap\Classes;
 use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
 
-class Exchange extends AbstractQueryable
+class Exchange extends AbstractBase implements QueryableInterface
 {
     /**
-     * The exchange servers object category.
+     * Finds an exchange server.
      *
-     * @var string
+     * @param string $name
+     * @param array  $fields
+     *
+     * @return array|bool
      */
-    public $serverObjectCategory = 'msExchExchangeServer';
+    public function find($name, $fields = [])
+    {
+        $namingContext = $this->getConfigurationNamingContext();
 
-    /**
-     * The exchange servers storage group object category.
-     *
-     * @var string
-     */
-    public $storageGroupObjectCategory = 'msExchStorageGroup';
+        if (is_string($namingContext)) {
+            return $this->search()
+                ->setDn($namingContext)
+                ->select($fields)
+                ->find($name);
+        }
+
+        return false;
+    }
 
     /**
      * Returns all exchange servers.
@@ -36,10 +44,9 @@ class Exchange extends AbstractQueryable
         $namingContext = $this->getConfigurationNamingContext();
 
         if (is_string($namingContext)) {
-            $search = $this->adldap->search()
+            $search = $this->search()
                 ->setDn($namingContext)
-                ->select($fields)
-                ->where(ActiveDirectory::OBJECT_CATEGORY, '=', $this->serverObjectCategory);
+                ->select($fields);
 
             if ($sorted) {
                 $search->sortBy($sortBy, $sortByDirection);
@@ -52,27 +59,15 @@ class Exchange extends AbstractQueryable
     }
 
     /**
-     * Finds an exchange server.
+     * Creates a new search limited to exchange servers only.
      *
-     * @param string $name
-     * @param array  $fields
-     *
-     * @return array|bool
+     * @return Search
      */
-    public function find($name, $fields = [])
+    public function search()
     {
-        $namingContext = $this->getConfigurationNamingContext();
-
-        if (is_string($namingContext)) {
-            return $this->adldap->search()
-                ->setDn($namingContext)
-                ->select($fields)
-                ->where(ActiveDirectory::OBJECT_CATEGORY, '=', $this->serverObjectCategory)
-                ->where(ActiveDirectory::ANR, '=', $name)
-                ->first();
-        }
-
-        return false;
+        return $this->getAdldap()
+            ->search()
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_SERVER);
     }
 
     /**
@@ -84,9 +79,9 @@ class Exchange extends AbstractQueryable
      */
     public function storageGroups($exchangeServer)
     {
-        return $this->adldap->search()
+        return $this->getAdldap()->search()
             ->setDn($exchangeServer)
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', $this->storageGroupObjectCategory)
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP)
             ->get();
     }
 
@@ -95,24 +90,24 @@ class Exchange extends AbstractQueryable
      *
      * @param string $storageGroup The full DN of an Storage Group.  You can use exchange_storage_groups() to find the DN
      *
-     * @return array|bool
+     * @return bool|array
      */
     public function storageDatabases($storageGroup)
     {
-        return $this->adldap->search()
+        return $this->getAdldap()->search()
             ->setDn($storageGroup)
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::MS_EXCHANGE_PRIVATE_MDB)
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB)
             ->get();
     }
 
     /**
      * Returns the current configuration naming context of the current domain.
      *
-     * @return string|bool
+     * @return bool|string
      */
     private function getConfigurationNamingContext()
     {
-        $result = $this->adldap->getRootDse();
+        $result = $this->getAdldap()->getRootDse();
 
         if($result instanceof Entry) {
             return $result->getAttribute(ActiveDirectory::CONFIGURATION_NAMING_CONTEXT, 0);

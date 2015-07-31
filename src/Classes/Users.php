@@ -7,36 +7,8 @@ use Adldap\Models\User;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Schemas\ActiveDirectory;
 
-class Users extends AbstractQueryable
+class Users extends AbstractBase implements QueryableInterface, CreateableInterface
 {
-    /**
-     * Returns all users from the current connection.
-     *
-     * @param array  $fields
-     * @param bool   $sorted
-     * @param string $sortBy
-     * @param string $sortByDirection
-     *
-     * @return array|bool
-     *
-     * @throws AdldapException
-     */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
-    {
-        $personCategory = $this->adldap->getConfiguration()->getPersonFilter('category');
-        $person = $this->adldap->getConfiguration()->getPersonFilter('person');
-
-        $search = $this->adldap->search()
-            ->select($fields)
-            ->where($personCategory, '=', $person);
-
-        if ($sorted) {
-            $search->sortBy($sortBy, $sortByDirection);
-        }
-
-        return $search->get();
-    }
-
     /**
      * Finds a user with the specified username
      * in the connection connection.
@@ -51,18 +23,49 @@ class Users extends AbstractQueryable
      */
     public function find($username, $fields = [])
     {
-        $personCategory = $this->adldap->getConfiguration()->getPersonFilter('category');
-        $person = $this->adldap->getConfiguration()->getPersonFilter('person');
-
-        return $this->adldap->search()
-            ->select($fields)
-            ->where($personCategory, '=', $person)
-            ->where(ActiveDirectory::ANR, '=', $username)
-            ->first();
+        return $this->search()->select($fields)->find($username);
     }
 
     /**
-     * Returns a new User instance.
+     * Returns all users from the current connection.
+     *
+     * @param array  $fields
+     * @param bool   $sorted
+     * @param string $sortBy
+     * @param string $sortByDirection
+     *
+     * @return array|bool
+     *
+     * @throws AdldapException
+     */
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->search()->select($fields);
+
+        if($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Creates a new search limited to users only.
+     *
+     * @return Search
+     */
+    public function search()
+    {
+        $personCategory = $this->getAdldap()->getConfiguration()->getPersonFilter('category');
+        $person = $this->getAdldap()->getConfiguration()->getPersonFilter('person');
+
+        return $this->getAdldap()
+            ->search()
+            ->where($personCategory, '=', $person);
+    }
+
+    /**
+     * Creates a new User instance.
      *
      * @param array $attributes
      *
@@ -70,8 +73,6 @@ class Users extends AbstractQueryable
      */
     public function newInstance(array $attributes = [])
     {
-        // We'll return a new User instance with the default
-        // object class attributes set for convenience
         return (new User($attributes, $this->connection))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
@@ -82,7 +83,7 @@ class Users extends AbstractQueryable
     }
 
     /**
-     * Creates a new user and returns the result.
+     * Creates and saves a new User instance, then returns the result.
      *
      * @param array $attributes
      *

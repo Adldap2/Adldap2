@@ -7,21 +7,81 @@ use Adldap\Models\Entry;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
-class Groups extends AbstractQueryable
+class Groups extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * The groups object category string.
+     * Finds a group.
      *
-     * @var string
+     * @param string $name
+     * @param array $fields
+     *
+     * @return bool|\Adldap\Models\Group
      */
-    public $objectCategory = 'group';
+    public function find($name, $fields = [])
+    {
+        return $this->search()->select($fields)->find($name);
+    }
 
     /**
-     * The groups object class string.
+     * Returns all groups.
      *
-     * @var string
+     * @param array     $fields
+     * @param bool|true $sorted
+     * @param string    $sortBy
+     * @param string    $sortByDirection
+     *
+     * @return array|bool
      */
-    public $objectClass = 'group';
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->search()->select($fields);
+
+        if($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Creates a new search limited to contacts only.
+     *
+     * @return Search
+     */
+    public function search()
+    {
+        return $this->getAdldap()
+            ->search()
+            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_GROUP);
+    }
+
+    /**
+     * Creates a new Group instance.
+     *
+     * @param array $attributes
+     *
+     * @return Group
+     */
+    public function newInstance(array $attributes = [])
+    {
+        return (new Group($attributes, $this->connection))
+            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
+                ActiveDirectory::TOP,
+                ActiveDirectory::OBJECT_CATEGORY_GROUP,
+            ]);
+    }
+
+    /**
+     * Creates and saves a new Group instance, then returns the result.
+     *
+     * @param array $attributes
+     *
+     * @return bool
+     */
+    public function create(array $attributes = [])
+    {
+        return $this->newInstance($attributes)->save();
+    }
 
     /**
      * Coping with AD not returning the primary group.

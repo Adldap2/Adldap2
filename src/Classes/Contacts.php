@@ -5,14 +5,53 @@ namespace Adldap\Classes;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
-class Contacts extends AbstractQueryable
+class Contacts extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * The contacts object class name.
+     * Finds a contact.
      *
-     * @var string
+     * @param string $name
+     * @param array $fields
+     *
+     * @return bool|\Adldap\Models\User
      */
-    public $objectClass = 'contact';
+    public function find($name, $fields = [])
+    {
+        return $this->search()->select($fields)->find($name);
+    }
+
+    /**
+     * Returns all contacts.
+     *
+     * @param array     $fields
+     * @param bool|true $sorted
+     * @param string    $sortBy
+     * @param string    $sortByDirection
+     *
+     * @return array|bool
+     */
+    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    {
+        $search = $this->search()->select($fields);
+
+        if($sorted) {
+            $search->sortBy($sortBy, $sortByDirection);
+        }
+
+        return $search->get();
+    }
+
+    /**
+     * Creates a new search limited to contacts only.
+     *
+     * @return Search
+     */
+    public function search()
+    {
+        return $this->getAdldap()
+            ->search()
+            ->where(ActiveDirectory::OBJECT_CLASS, '=', ActiveDirectory::CONTACT);
+    }
 
     /**
      * Returns a new User instance.

@@ -9,6 +9,8 @@
 
 > Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
+[![Join the chat at https://gitter.im/Adldap2](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Adldap2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Description
 
 Adldap2 is a tested PHP class library that provides LDAP authentication and Active Directory management tools.

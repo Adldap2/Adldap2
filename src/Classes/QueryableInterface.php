@@ -22,7 +22,7 @@ interface QueryableInterface
      * @param string    $sortBy
      * @param string    $sortByDirection
      *
-     * @return array
+     * @return array|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc');
 

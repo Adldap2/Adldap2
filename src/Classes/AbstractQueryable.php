@@ -1,6 +1,7 @@
 <?php
 
 namespace Adldap\Classes;
+
 use Adldap\Schemas\ActiveDirectory;
 
 /**
@@ -54,7 +55,7 @@ abstract class AbstractQueryable extends AbstractBase
      * @param string $name
      * @param array  $fields
      *
-     * @return array|bool
+     * @return bool|\Adldap\Models\Entry
      */
     public function find($name, $fields = [])
     {

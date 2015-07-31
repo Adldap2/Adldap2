@@ -15,7 +15,19 @@ trait HasMemberOfTrait
      */
     public function getMemberOf()
     {
-        return $this->getAttribute(ActiveDirectory::MEMBER_OF);
+        $groups = [];
+
+        $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
+
+        if(is_array($dns)) {
+            unset($dns['count']);
+
+            foreach($dns as $key => $dn) {
+                $groups[] = $this->getAdldap()->search()->findByDn($dn);
+            }
+        }
+
+        return $groups;
     }
 
     /**

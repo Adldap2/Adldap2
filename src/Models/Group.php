@@ -13,7 +13,7 @@ class Group extends Entry
     use HasMemberOfTrait;
 
     /**
-     * Returns the user DNs of all users inside the group.
+     * Returns all users apart of the current group.
      *
      * https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
      *
@@ -21,7 +21,19 @@ class Group extends Entry
      */
     public function getMembers()
     {
-        return $this->getAttribute(ActiveDirectory::MEMBER);
+        $members = [];
+
+        $dns = $this->getAttribute(ActiveDirectory::MEMBER);
+
+        if(is_array($dns)) {
+            unset($dns['count']);
+
+            foreach($dns as $dn) {
+                $members[] = $this->getAdldap()->search()->findByDn($dn);
+            }
+        }
+
+        return $members;
     }
 
     /**

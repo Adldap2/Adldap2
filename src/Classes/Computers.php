@@ -62,7 +62,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Computer($attributes, $this->connection))
+        return (new Computer($attributes, $this->getAdldap()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

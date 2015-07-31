@@ -64,7 +64,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Group($attributes, $this->connection))
+        return (new Group($attributes, $this->getAdldap()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::OBJECT_CATEGORY_GROUP,
@@ -97,7 +97,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
     {
         $group = $this->find($group);
 
-        $user = $this->adldap->users()->find($user);
+        $user = $this->getAdldap()->users()->find($user);
 
         if($group instanceof Group && $user instanceof User) {
             $sid = Utilities::binarySidToText($group->getSid());

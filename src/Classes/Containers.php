@@ -62,7 +62,7 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Container($attributes, $this->connection))
+        return (new Container($attributes, $this->getAdldap()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
     }
 

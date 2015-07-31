@@ -19,13 +19,6 @@ abstract class AbstractBase
     protected $adldap;
 
     /**
-     * The current Adldap connection.
-     *
-     * @var \Adldap\Connections\ConnectionInterface
-     */
-    protected $connection;
-
-    /**
      * Constructor.
      *
      * @param Adldap $adldap
@@ -33,12 +26,6 @@ abstract class AbstractBase
     public function __construct(Adldap $adldap)
     {
         $this->adldap = $adldap;
-
-        $connection = $adldap->getConnection();
-
-        if ($connection) {
-            $this->connection = $connection;
-        }
     }
 
     /**

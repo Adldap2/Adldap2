@@ -79,7 +79,7 @@ class Search extends AbstractBase
     {
         parent::__construct($adldap);
 
-        $this->setQueryBuilder(new Builder($this->connection));
+        $this->setQueryBuilder(new Builder($adldap->getConnection()));
     }
 
     /**
@@ -97,13 +97,13 @@ class Search extends AbstractBase
 
         if ($this->read) {
             // If read is true, we'll perform a read search, retrieving one record
-            $results = $this->connection->read($dn, $query, $selects);
+            $results = $this->getAdldap()->getConnection()->read($dn, $query, $selects);
         } elseif ($this->recursive) {
             // If recursive is true, we'll perform a recursive search
-            $results = $this->connection->search($dn, $query, $selects);
+            $results = $this->getAdldap()->getConnection()->search($dn, $query, $selects);
         } else {
             // Read and recursive is false, we'll return a listing
-            $results = $this->connection->listing($dn, $query, $selects);
+            $results = $this->getAdldap()->getConnection()->listing($dn, $query, $selects);
         }
 
         if ($results) {
@@ -362,12 +362,12 @@ class Search extends AbstractBase
         $cookie = '';
 
         do {
-            $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
+            $this->getAdldap()->getConnection()->controlPagedResult($perPage, $isCritical, $cookie);
 
-            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getQueryBuilder()->getSelects());
+            $results = $this->getAdldap()->getConnection()->search($this->getDn(), $this->getQuery(), $this->getQueryBuilder()->getSelects());
 
             if ($results) {
-                $this->connection->controlPagedResultResponse($results, $cookie);
+                $this->getAdldap()->getConnection()->controlPagedResultResponse($results, $cookie);
 
                 $pages[] = $results;
             }
@@ -597,22 +597,22 @@ class Search extends AbstractBase
             // We'll create a new object depending on the object category of the LDAP entry.
             switch(strtolower($category[0])) {
                 case ActiveDirectory::OBJECT_CATEGORY_COMPUTER:
-                    return (new Computer([], $this->connection))->setRawAttributes($attributes);
+                    return (new Computer([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PERSON:
-                    return (new User([], $this->connection))->setRawAttributes($attributes);
+                    return (new User([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_GROUP:
-                    return (new Group([], $this->connection))->setRawAttributes($attributes);
+                    return (new Group([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::MS_EXCHANGE_SERVER:
-                    return (new ExchangeServer([], $this->connection))->setRawAttributes($attributes);
+                    return (new ExchangeServer([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_CONTAINER:
-                    return (new Container([], $this->connection))->setRawAttributes($attributes);
+                    return (new Container([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PRINTER:
-                    return (new Printer([], $this->connection))->setRawAttributes($attributes);
+                    return (new Printer([], $this->getAdldap()))->setRawAttributes($attributes);
             }
         }
 
         // A default entry object if the object category isn't recognized.
-        return (new Entry($attributes, $this->connection))->setRawAttributes($attributes);
+        return (new Entry($attributes, $this->getAdldap()))->setRawAttributes($attributes);
     }
 
     /**
@@ -634,7 +634,7 @@ class Search extends AbstractBase
      */
     private function processResults($results)
     {
-        $entries = $this->connection->getEntries($results);
+        $entries = $this->getAdldap()->getConnection()->getEntries($results);
 
         if($this->raw) {
             return $entries;

@@ -5,7 +5,7 @@ namespace Adldap\Models;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Adldap;
 
 abstract class AbstractModel
 {
@@ -19,9 +19,9 @@ abstract class AbstractModel
     /**
      * The current LDAP connection instance.
      *
-     * @var ConnectionInterface
+     * @var Adldap
      */
-    protected $connection;
+    protected $adldap;
 
     /**
      * Holds the current objects attributes.
@@ -47,16 +47,16 @@ abstract class AbstractModel
     /**
      * Constructor.
      *
-     * @param array               $attributes
-     * @param ConnectionInterface $connection
+     * @param array  $attributes
+     * @param Adldap $adldap
      */
-    public function __construct(array $attributes = [], ConnectionInterface $connection)
+    public function __construct(array $attributes = [], Adldap $adldap)
     {
         $this->syncOriginal();
 
         $this->fill($attributes);
 
-        $this->connection = $connection;
+        $this->adldap = $adldap;
     }
 
     /**
@@ -367,7 +367,7 @@ abstract class AbstractModel
         $modifications = $this->getModifications();
 
         if(count($modifications) > 0) {
-            return $this->connection->modifyBatch($this->getDn(), $modifications);
+            return $this->getAdldap()->getConnection()->modifyBatch($this->getDn(), $modifications);
         }
 
         return true;
@@ -380,7 +380,7 @@ abstract class AbstractModel
      */
     public function create()
     {
-        return $this->connection->add($this->getDn(), $this->getAttributes());
+        return $this->getAdldap()->getConnection()->add($this->getDn(), $this->getAttributes());
     }
 
     /**
@@ -396,7 +396,7 @@ abstract class AbstractModel
         // for the attribute so LDAP knows to remove it.
         $remove = [$attribute => []];
 
-        return $this->connection->modDelete($this->getDn(), $remove);
+        return $this->getAdldap()->getConnection()->modDelete($this->getDn(), $remove);
     }
 
     /**
@@ -424,7 +424,17 @@ abstract class AbstractModel
             throw new AdldapException($message);
         }
 
-        return $this->connection->delete($dn);
+        return $this->getAdldap()->getConnection()->delete($dn);
+    }
+
+    /**
+     * Returns the current Adldap instance.
+     *
+     * @return Adldap
+     */
+    public function getAdldap()
+    {
+        return $this->adldap;
     }
 
     /**

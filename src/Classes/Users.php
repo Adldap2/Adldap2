@@ -73,7 +73,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      */
     public function newInstance(array $attributes = [])
     {
-        return (new User($attributes, $this->connection))
+        return (new User($attributes, $this->getAdldap()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

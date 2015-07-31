@@ -7,7 +7,7 @@ use Adldap\Schemas\ActiveDirectory;
 trait HasDescriptionTrait
 {
     /**
-     * Returns the entry's description.
+     * Returns the models's description.
      *
      * https://msdn.microsoft.com/en-us/library/ms675492(v=vs.85).aspx
      *
@@ -19,7 +19,7 @@ trait HasDescriptionTrait
     }
 
     /**
-     * Sets the entry's description.
+     * Sets the models's description.
      *
      * @param string $description
      *

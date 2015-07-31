@@ -31,7 +31,7 @@ trait HasMemberOfTrait
     }
 
     /**
-     * Sets the entry's group DN's the entry is a member of.
+     * Sets the models's group DN's the entry is a member of.
      *
      * @param array $groups
      *

@@ -199,7 +199,7 @@ class Configuration
      *
      * @param array $personFilter
      */
-    public function setPersonFilter($personFilter)
+    public function setPersonFilter(array $personFilter)
     {
         $this->personFilter = $personFilter;
     }

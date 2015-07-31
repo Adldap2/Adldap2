@@ -47,7 +47,7 @@ class Users extends AbstractQueryable
      * @param string $username
      * @param array  $fields
      *
-     * @return array|bool
+     * @return bool|User
      */
     public function find($username, $fields = [])
     {

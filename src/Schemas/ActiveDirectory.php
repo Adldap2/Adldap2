@@ -55,12 +55,14 @@ class ActiveDirectory
     const MEMBER = 'member';
     const MEMBER_OF = 'memberof';
     const MESSAGE_TRACKING_ENABLED = 'messagetrackingenabled';
-    const MS_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
     const MS_EXCHANGE_SERVER = 'ms-exch-exchange-server';
     const NAME = 'name';
     const OBJECT_CATEGORY = 'objectcategory';
     const OBJECT_CATEGORY_COMPUTER = 'computer';
     const OBJECT_CATEGORY_CONTAINER = 'container';
+    const OBJECT_CATEGORY_EXCHANGE_SERVER = 'msExchExchangeServer';
+    const OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP = 'msExchStorageGroup';
+    const OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
     const OBJECT_CATEGORY_GROUP = 'group';
     const OBJECT_CATEGORY_PERSON = 'person';
     const OBJECT_CATEGORY_PRINTER = 'print-queue';

@@ -164,7 +164,7 @@ class Search extends AbstractBase
      *
      * @param array $fields
      *
-     * @return $this
+     * @return Search
      */
     public function select($fields = [])
     {
@@ -180,11 +180,26 @@ class Search extends AbstractBase
      * @param string $operator
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function where($field, $operator = null, $value = null)
     {
         $this->query->where($field, $operator, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Search
+     */
+    public function whereEquals($field, $value)
+    {
+        $this->query->where($field, '=', $value);
 
         return $this;
     }
@@ -195,7 +210,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function whereContains($field, $value)
     {
@@ -210,7 +225,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function whereStartsWith($field, $value)
     {
@@ -225,7 +240,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function whereEndsWith($field, $value)
     {
@@ -241,11 +256,26 @@ class Search extends AbstractBase
      * @param string $operator
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function orWhere($field, $operator = null, $value = null)
     {
         $this->query->orWhere($field, $operator, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Search
+     */
+    public function orWhereEquals($field, $value)
+    {
+        $this->query->orWhere($field, '=', $value);
 
         return $this;
     }
@@ -256,7 +286,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function orWhereContains($field, $value)
     {
@@ -271,7 +301,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function orWhereStartsWith($field, $value)
     {
@@ -286,7 +316,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Search
      */
     public function orWhereEndsWith($field, $value)
     {
@@ -357,7 +387,7 @@ class Search extends AbstractBase
      * @param string $field
      * @param string $direction
      *
-     * @return $this
+     * @return Search
      */
     public function sortBy($field, $direction = 'desc')
     {
@@ -377,7 +407,7 @@ class Search extends AbstractBase
      *
      * @param string $dn
      *
-     * @return $this
+     * @return Search
      */
     public function setDn($dn)
     {
@@ -430,7 +460,7 @@ class Search extends AbstractBase
      *
      * @param string $anr
      *
-     * @return array|bool
+     * @return bool|Entry
      */
     public function find($anr)
     {
@@ -508,7 +538,7 @@ class Search extends AbstractBase
      *
      * @param bool $recursive
      *
-     * @return $this
+     * @return Search
      */
     public function recursive($recursive = true)
     {
@@ -524,7 +554,7 @@ class Search extends AbstractBase
      *
      * @param bool $read
      *
-     * @return $this
+     * @return Search
      */
     public function read($read = true)
     {
@@ -540,7 +570,7 @@ class Search extends AbstractBase
      *
      * @param bool $raw
      *
-     * @return $this
+     * @return Search
      */
     public function raw($raw = true)
     {

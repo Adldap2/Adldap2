@@ -115,7 +115,7 @@ interface ConnectionInterface
      * Sets the suppressErrors property to true
      * so any recoverable errors thrown will be suppressed.
      *
-     * @return $this
+     * @return ConnectionInterface
      */
     public function suppressErrors();
 
@@ -123,7 +123,7 @@ interface ConnectionInterface
      * Sets the suppressErrors property to true
      * so any errors thrown will be shown.
      *
-     * @return $this
+     * @return ConnectionInterface
      */
     public function showErrors();
 
@@ -138,21 +138,21 @@ interface ConnectionInterface
     /**
      * Sets the current connection to use TLS.
      *
-     * @return $this
+     * @return ConnectionInterface
      */
     public function useTLS();
 
     /**
      * Sets the current connection to use SSL.
      *
-     * @return $this
+     * @return ConnectionInterface
      */
     public function useSSL();
 
     /**
      * Sets the current connection to use SSO.
      *
-     * @return $this
+     * @return ConnectionInterface
      */
     public function useSSO();
 

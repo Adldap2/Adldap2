@@ -86,7 +86,7 @@ class AccountControl
     /**
      * The logon script will be run.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function runLoginScript()
     {
@@ -98,7 +98,7 @@ class AccountControl
     /**
      * The user account is locked.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsLocked()
     {
@@ -110,7 +110,7 @@ class AccountControl
     /**
      * The user account is disabled.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsDisabled()
     {
@@ -126,7 +126,7 @@ class AccountControl
      * This account provides user access to this domain, but not to any domain that
      * trusts this domain. This is sometimes referred to as a local user account.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsTemporary()
     {
@@ -138,7 +138,7 @@ class AccountControl
     /**
      * This is a default account type that represents a typical user.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsNormal()
     {
@@ -150,7 +150,7 @@ class AccountControl
     /**
      * This is a permit to trust an account for a system domain that trusts other domains.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsForInterdomain()
     {
@@ -164,7 +164,7 @@ class AccountControl
      * Windows NT 4.0 Workstation, Microsoft Windows NT 4.0 Server, Microsoft
      * Windows 2000 Professional, or Windows 2000 Server and is a member of this domain.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsForWorkstation()
     {
@@ -176,7 +176,7 @@ class AccountControl
     /**
      * This is a computer account for a domain controller that is a member of this domain.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsForServer()
     {
@@ -188,7 +188,7 @@ class AccountControl
     /**
      * This is an MNS logon account.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsMnsLogon()
     {
@@ -201,7 +201,7 @@ class AccountControl
      * (Windows 2000/Windows Server 2003) This account does
      * not require Kerberos pre-authentication for logging on.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountDoesNotRequirePreAuth()
     {
@@ -213,7 +213,7 @@ class AccountControl
     /**
      * When this flag is set, it forces the user to log on by using a smart card.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountRequiresSmartCard()
     {
@@ -227,7 +227,7 @@ class AccountControl
      *
      * This is a security-sensitive setting. Removing this setting from an RODC compromises security on that server.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function accountIsReadOnly()
     {
@@ -239,7 +239,7 @@ class AccountControl
     /**
      * The home folder is required.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function homeFolderIsRequired()
     {
@@ -251,7 +251,7 @@ class AccountControl
     /**
      * No password is required.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function passwordIsNotRequired()
     {
@@ -266,7 +266,7 @@ class AccountControl
      * For information about how to programmatically set this permission, visit the following Web site:
      * http://msdn2.microsoft.com/en-us/library/aa746398.aspx
      *
-     * @return $this
+     * @return AccountControl
      */
     public function passwordCannotBeChanged()
     {
@@ -278,7 +278,7 @@ class AccountControl
     /**
      * Represents the password, which should never expire on the account.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function passwordDoesNotExpire()
     {
@@ -290,7 +290,7 @@ class AccountControl
     /**
      * (Windows 2000/Windows Server 2003) The user's password has expired.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function passwordIsExpired()
     {
@@ -302,7 +302,7 @@ class AccountControl
     /**
      * The user can send an encrypted password.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function allowEncryptedTextPassword()
     {
@@ -320,7 +320,7 @@ class AccountControl
      * To enable a service for Kerberos delegation, you must set this
      * flag on the userAccountControl property of the service account.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function trustForDelegation()
     {
@@ -337,7 +337,7 @@ class AccountControl
      * account assume a client's identity and authenticate as that user to other remote
      * servers on the network.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function trustToAuthForDelegation()
     {
@@ -350,7 +350,7 @@ class AccountControl
      * When this flag is set, the security context of the user is not delegated to a
      * service even if the service account is set as trusted for Kerberos delegation.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function doNotTrustForDelegation()
     {
@@ -363,7 +363,7 @@ class AccountControl
      * (Windows 2000/Windows Server 2003) Restrict this principal to
      * use only Data Encryption Standard (DES) encryption types for keys.
      *
-     * @return $this
+     * @return AccountControl
      */
     public function useDesKeyOnly()
     {

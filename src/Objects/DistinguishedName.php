@@ -63,7 +63,7 @@ class DistinguishedName
      *
      * @param string $dc
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function addDc($dc)
     {
@@ -77,7 +77,7 @@ class DistinguishedName
      *
      * @param string $dc
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function removeDc($dc)
     {
@@ -91,7 +91,7 @@ class DistinguishedName
      *
      * @param string $cn
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function addCn($cn)
     {
@@ -105,7 +105,7 @@ class DistinguishedName
      *
      * @param string $cn
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function removeCn($cn)
     {
@@ -119,7 +119,7 @@ class DistinguishedName
      *
      * @param string $ou
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function addOu($ou)
     {
@@ -133,7 +133,7 @@ class DistinguishedName
      *
      * @param string $ou
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function removeOu($ou)
     {
@@ -147,7 +147,7 @@ class DistinguishedName
      *
      * @param string $base
      *
-     * @return $this
+     * @return DistinguishedName
      */
     public function setBase($base)
     {

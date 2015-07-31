@@ -100,7 +100,7 @@ class Builder
      *
      * @param array $fields
      *
-     * @return $this
+     * @return Builder
      */
     public function select($fields = [])
     {
@@ -122,7 +122,7 @@ class Builder
      * @param string|null $operator
      * @param string|null $value
      *
-     * @return $this
+     * @return Builder
      */
     public function where($field, $operator = null, $value = null)
     {
@@ -137,7 +137,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function whereContains($field, $value)
     {
@@ -152,7 +152,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function whereStartsWith($field, $value)
     {
@@ -167,7 +167,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function whereEndsWith($field, $value)
     {
@@ -183,7 +183,7 @@ class Builder
      * @param string|null $operator
      * @param string|null $value
      *
-     * @return $this
+     * @return Builder
      */
     public function orWhere($field, $operator = null, $value = null)
     {
@@ -198,7 +198,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function orWhereContains($field, $value)
     {
@@ -213,7 +213,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function orWhereStartsWith($field, $value)
     {
@@ -228,7 +228,7 @@ class Builder
      * @param string $field
      * @param string $value
      *
-     * @return $this
+     * @return Builder
      */
     public function orWhereEndsWith($field, $value)
     {

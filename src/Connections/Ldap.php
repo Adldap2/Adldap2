@@ -131,7 +131,7 @@ class Ldap implements ConnectionInterface
      * Sets the suppressErrors property to true
      * so any recoverable errors thrown will be suppressed.
      *
-     * @return $this
+     * @return Ldap
      */
     public function suppressErrors()
     {
@@ -144,7 +144,7 @@ class Ldap implements ConnectionInterface
      * Sets the suppressErrors property to true
      * so any errors thrown will be shown.
      *
-     * @return $this
+     * @return Ldap
      */
     public function showErrors()
     {
@@ -157,7 +157,7 @@ class Ldap implements ConnectionInterface
      * Set's the current connection
      * to use SSL.
      *
-     * @return $this
+     * @return Ldap
      */
     public function useSSL()
     {
@@ -170,7 +170,7 @@ class Ldap implements ConnectionInterface
      * Set's the current connection
      * to use TLS.
      *
-     * @return $this
+     * @return Ldap
      */
     public function useTLS()
     {
@@ -183,7 +183,7 @@ class Ldap implements ConnectionInterface
      * Set's the current connection
      * to use SSO.
      *
-     * @return $this
+     * @return Ldap
      */
     public function useSSO()
     {

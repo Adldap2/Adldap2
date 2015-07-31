@@ -34,7 +34,7 @@ class User extends Entry
      *
      * @param string $title
      *
-     * @return $this
+     * @return User
      */
     public function setTitle($title)
     {
@@ -58,7 +58,7 @@ class User extends Entry
      *
      * @param string $department
      *
-     * @return $this
+     * @return User
      */
     public function setDepartment($department)
     {
@@ -82,7 +82,7 @@ class User extends Entry
      *
      * @param string $firstName
      *
-     * @return $this
+     * @return User
      */
     public function setFirstName($firstName)
     {
@@ -106,7 +106,7 @@ class User extends Entry
      *
      * @param string $lastName
      *
-     * @return $this
+     * @return User
      */
     public function setLastName($lastName)
     {
@@ -130,7 +130,7 @@ class User extends Entry
      *
      * @param string $number
      *
-     * @return $this
+     * @return User
      */
     public function setTelephoneNumber($number)
     {
@@ -154,7 +154,7 @@ class User extends Entry
      *
      * @param string $company
      *
-     * @return $this
+     * @return User
      */
     public function setCompany($company)
     {
@@ -181,7 +181,7 @@ class User extends Entry
      *
      * @param string $email
      *
-     * @return $this
+     * @return User
      */
     public function setEmail($email)
     {
@@ -205,7 +205,7 @@ class User extends Entry
      *
      * @param array $emails
      *
-     * @return $this
+     * @return User
      */
     public function setEmails(array $emails = [])
     {
@@ -327,7 +327,7 @@ class User extends Entry
      *
      * @param AccountControl $accountControl
      *
-     * @return $this
+     * @return User
      */
     public function setUserAccountControl(AccountControl $accountControl)
     {

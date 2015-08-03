@@ -21,16 +21,16 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
 
 - [Installation](#installation)
 - [Testing With A Public AD Server](#need-to-test-an-ldap-connection)
-- [Getting Started](docs/GETTING-STARTED.md)
 - Usage 
  - [API Documentation](http://adldap2.github.io/api)
- - [Search Functions](docs/SEARCH-FUNCTIONS.md)
- - [Computer Functions](docs/COMPUTER-FUNCTIONS.md)
- - [Contact Functions](docs/CONTACT-FUNCTIONS.md)
- - [Exchange Functions](docs/EXCHANGE-FUNCTIONS.md)
- - [Container Functions](docs/CONTAINER-FUNCTIONS.md)
- - [Group Functions](docs/GROUP-FUNCTIONS.md)
- - [User Functions](docs/USER-FUNCTIONS.md)
+ - [Configuration](https://github.com/adldap2/adldap2/docs/CONFIGURATION.md)
+ - [Search Functions](https://github.com/adldap2/adldap2/docs/SEARCH-FUNCTIONS.md)
+ - [Computer Functions](https://github.com/adldap2/adldap2/docs/COMPUTER-FUNCTIONS.md)
+ - [Contact Functions](https://github.com/adldap2/adldap2/docs/CONTACT-FUNCTIONS.md)
+ - [Exchange Functions](https://github.com/adldap2/adldap2/docs/EXCHANGE-FUNCTIONS.md)
+ - [Container Functions](https://github.com/adldap2/adldap2/docs/CONTAINER-FUNCTIONS.md)
+ - [Group Functions](https://github.com/adldap2/adldap2/docs/GROUP-FUNCTIONS.md)
+ - [User Functions](https://github.com/adldap2/adldap2/docs/USER-FUNCTIONS.md)
 
 ## Requirements
 

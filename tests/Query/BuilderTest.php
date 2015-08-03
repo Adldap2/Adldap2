@@ -27,12 +27,13 @@ class BuilderTest extends UnitTestCase
 
         $b->select(['testing']);
 
-        $selects = [
+        $expected = [
             'testing',
-            'objectclass',
+            'objectcategory',
+            'dn',
         ];
 
-        $this->assertEquals($selects,  $b->getSelects());
+        $this->assertEquals($expected,  $b->getSelects());
     }
 
     public function testSelectString()
@@ -41,12 +42,13 @@ class BuilderTest extends UnitTestCase
 
         $b->select('testing');
 
-        $selects = [
+        $expected = [
             'testing',
-            'objectclass',
+            'objectcategory',
+            'dn',
         ];
 
-        $this->assertEquals($selects,  $b->getSelects());
+        $this->assertEquals($expected,  $b->getSelects());
     }
 
     public function testSelectEmptyString()

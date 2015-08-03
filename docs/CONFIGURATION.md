@@ -35,7 +35,7 @@ methods are required. This will be discussed below. Here is an example of a Conf
     $config->setBaseDn('dc=corp,dc=acme,dc=org');
     $config->setAdminUsername('username');
     $config->setAdminPassword('password');
-    $config->setFollowReferrals(true);
+    $config->setFollowReferrals(false);
     $config->setUseSSL(false);
     $config->setUseTLS(false);
     $config->setUseSSO(false);
@@ -80,7 +80,7 @@ You can use any user account that has these permissions.
 #### Follow Referrals (optional)
 
 The follow referrals option is a boolean to tell active directory to follow a referral to another server on your network if the
-server queried knows the information your asking for exists, but does not yet contain a copy of it locally. This option is defaulted to true.
+server queried knows the information your asking for exists, but does not yet contain a copy of it locally. This option is defaulted to false.
 
 For more information, visit: https://technet.microsoft.com/en-us/library/cc978014.aspx
 

@@ -604,7 +604,7 @@ abstract class AbstractModel
     public function deleteAttribute($attribute)
     {
         // We need to pass in an empty array as the value
-        // for the attribute so LDAP knows to remove it.
+        // for the attribute so AD knows to remove it.
         $remove = [$attribute => []];
 
         return $this->getAdldap()->getConnection()->modDelete($this->getDn(), $remove);

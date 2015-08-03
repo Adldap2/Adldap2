@@ -23,14 +23,14 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
 - [Testing With A Public AD Server](#need-to-test-an-ldap-connection)
 - Usage 
  - [API Documentation](http://adldap2.github.io/api)
- - [Configuration](https://github.com/adldap2/adldap2/docs/CONFIGURATION.md)
- - [Search Functions](https://github.com/adldap2/adldap2/docs/SEARCH-FUNCTIONS.md)
- - [Computer Functions](https://github.com/adldap2/adldap2/docs/COMPUTER-FUNCTIONS.md)
- - [Contact Functions](https://github.com/adldap2/adldap2/docs/CONTACT-FUNCTIONS.md)
- - [Exchange Functions](https://github.com/adldap2/adldap2/docs/EXCHANGE-FUNCTIONS.md)
- - [Container Functions](https://github.com/adldap2/adldap2/docs/CONTAINER-FUNCTIONS.md)
- - [Group Functions](https://github.com/adldap2/adldap2/docs/GROUP-FUNCTIONS.md)
- - [User Functions](https://github.com/adldap2/adldap2/docs/USER-FUNCTIONS.md)
+ - [Configuration](https://github.com/adldap2/adldap2/tree/master/docs/CONFIGURATION.md)
+ - [Search Functions](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH-FUNCTIONS.md)
+ - [Computer Functions](https://github.com/adldap2/adldap2/tree/master/docs/COMPUTER-FUNCTIONS.md)
+ - [Contact Functions](https://github.com/adldap2/adldap2/tree/master/docs/CONTACT-FUNCTIONS.md)
+ - [Exchange Functions](https://github.com/adldap2/adldap2/tree/master/docs/EXCHANGE-FUNCTIONS.md)
+ - [Container Functions](https://github.com/adldap2/adldap2/tree/master/docs/CONTAINER-FUNCTIONS.md)
+ - [Group Functions](https://github.com/adldap2/adldap2/tree/master/docs/GROUP-FUNCTIONS.md)
+ - [User Functions](https://github.com/adldap2/adldap2/tree/master/docs/USER-FUNCTIONS.md)
 
 ## Requirements
 

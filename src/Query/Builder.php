@@ -85,10 +85,8 @@ class Builder
             return $this->query;
         }
 
-        /*
-         * Looks like our query hasn't been assembled
-         * yet, let's try to assemble it
-         */
+        // Looks like our query hasn't been assembled
+        // yet, let's try to assemble it
         $this->assembleQuery();
 
         // Return the assembled query
@@ -584,11 +582,9 @@ class Builder
 
         $this->assembleOrWheres();
 
-        /*
-         * Make sure we wrap the query in an 'and'
-         * if using multiple wheres or if we have any
-         * orWheres. For example (&(cn=John*)(|(description=User*)))
-         */
+        // Make sure we wrap the query in an 'and' if using multiple
+        // wheres or if we have any orWheres. For example:
+        // (&(cn=John*)(|(description=User*)))
         if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0) {
             $this->setQuery($this->buildAnd($this->getQuery()));
         }

@@ -427,6 +427,23 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Sorts an AD search result by the specified attribute.
+     *
+     * @param resource $result
+     * @param string   $attribute
+     *
+     * @return bool
+     */
+    public function sort($result, $attribute)
+    {
+        if ($this->suppressErrors) {
+            return @ldap_sort($this->getConnection(), $result, $attribute);
+        }
+
+        return ldap_sort($this->getConnection(), $result, $attribute);
+    }
+
+    /**
      * Binds to the current LDAP connection. If SASL
      * is true, we'll set up a SASL bind instead.
      *

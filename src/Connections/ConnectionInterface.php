@@ -299,6 +299,16 @@ interface ConnectionInterface
     public function listing($dn, $filter, array $attributes);
 
     /**
+     * Sorts an AD search result by the specified attribute.
+     *
+     * @param resource $result
+     * @param string   $attribute
+     *
+     * @return bool
+     */
+    public function sort($result, $attribute);
+
+    /**
      * Adds an entry to the current connection.
      *
      * @param string $dn

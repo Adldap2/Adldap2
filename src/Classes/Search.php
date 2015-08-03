@@ -63,12 +63,6 @@ class Search extends AbstractBase
      */
     protected $sortByField = '';
 
-    /**
-     * Stores the direction to sort the search results by.
-     *
-     * @var string
-     */
-    protected $sortByDirection = 'DESC';
 
     /**
      * Constructor.
@@ -107,11 +101,11 @@ class Search extends AbstractBase
         }
 
         if ($results) {
-            $objects = $this->processResults($results);
-
             if (!empty($this->sortByField)) {
-                $objects =  $this->processSortBy($objects);
+                $this->getAdldap()->getConnection()->sort($results, $this->sortByField);
             }
+
+            $objects = $this->processResults($results);
 
             return $objects;
         }
@@ -395,23 +389,16 @@ class Search extends AbstractBase
     }
 
     /**
-     * Sorts the LDAP search results by the specified field
-     * and direction.
+     * Sorts the LDAP search results by the
+     * specified field and direction.
      *
      * @param string $field
-     * @param string $direction
      *
      * @return Search
      */
-    public function sortBy($field, $direction = 'desc')
+    public function sortBy($field)
     {
         $this->sortByField = $field;
-
-        if (strtolower($direction) === 'asc') {
-            $this->sortByDirection = SORT_ASC;
-        } else {
-            $this->sortByDirection = SORT_DESC;
-        }
 
         return $this;
     }
@@ -691,31 +678,5 @@ class Search extends AbstractBase
 
         // Looks like we don't have any results, return false
         return false;
-    }
-
-    /**
-     * Processes the array of specified object results
-     * and sorts them by the field and direction search
-     * property.
-     *
-     * @param array $objects
-     *
-     * @return array
-     */
-    private function processSortBy($objects)
-    {
-        if (count($objects) > 0) {
-            foreach ($objects as $key => $row) {
-                if (array_key_exists($this->sortByField, $row)) {
-                    $sort[$key] = $row[$this->sortByField];
-                }
-            }
-
-            if(isset($sort) && is_array($sort)) {
-                array_multisort($sort, $this->sortByDirection, $objects);
-            }
-        }
-
-        return $objects;
     }
 }

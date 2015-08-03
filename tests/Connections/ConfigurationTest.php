@@ -97,10 +97,10 @@ class ConfigurationTest extends UnitTestCase
     {
         $config = new Configuration();
 
-        $config->setFollowReferrals('1');
+        $config->setFollowReferrals(true);
 
-        $this->assertEquals(1, $config->getFollowReferrals());
-        $this->assertInternalType('int', $config->getFollowReferrals());
+        $this->assertEquals(true, $config->getFollowReferrals());
+        $this->assertInternalType('bool', $config->getFollowReferrals());
     }
 
     public function testSetAdminUsername()

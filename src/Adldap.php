@@ -394,7 +394,7 @@ class Adldap
         return $this->search()
             ->setDn(null)
             ->read(true)
-            ->where(ActiveDirectory::OBJECT_CLASS, '*')
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
     }
 }

@@ -23,9 +23,9 @@ class Configuration
      *
      * https://msdn.microsoft.com/en-us/library/ms677913(v=vs.85).aspx
      *
-     * @var int
+     * @var bool
      */
-    protected $followReferrals = 0;
+    protected $followReferrals = false;
 
     /**
      * The user ID key to use for performing searches upon.
@@ -157,11 +157,11 @@ class Configuration
     /**
      * Sets the follow referrals option.
      *
-     * @param $int
+     * @param bool $bool
      */
-    public function setFollowReferrals($int)
+    public function setFollowReferrals($bool)
     {
-        $this->followReferrals = (int) $int;
+        $this->followReferrals = (bool) $bool;
     }
 
     /**

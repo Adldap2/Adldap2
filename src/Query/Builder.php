@@ -262,10 +262,10 @@ class Builder
         $selects = $this->selects;
 
         if(count($selects) > 0) {
-            // Always make sure object category is in the selected fields
-            if(!array_key_exists(ActiveDirectory::OBJECT_CLASS, $selects)) {
-                $selects[] = ActiveDirectory::OBJECT_CLASS;
-            }
+            // Always make sure object category and distinguished
+            // name are included in the selected fields
+            $selects[] = ActiveDirectory::OBJECT_CATEGORY;
+            $selects[] = ActiveDirectory::DISTINGUISHED_NAME;
         }
 
         return $selects;

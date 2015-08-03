@@ -190,6 +190,20 @@ class Search extends AbstractBase
     }
 
     /**
+     * Adds a where has clause to the current query.
+     *
+     * @param string $field
+     *
+     * @return Search
+     */
+    public function whereHas($field)
+    {
+        $this->query->where($field, '*');
+
+        return $this;
+    }
+
+    /**
      * Adds a where equals clause to the current query.
      *
      * @param string $field

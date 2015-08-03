@@ -38,18 +38,34 @@ This query would look for an object with the common name of 'John Doe' and retur
 We could also perform a search for all objects beginning with the common name of 'John' using the `starts_with` operator:
 
     $results = $ad->search()->where('cn', 'starts_with', 'John')->get();
-
+    
+    // Or use the method whereStartsWith($attribute, $value)
+    
+    $results = $ad->search()->whereStartsWith('cn', 'John')->get();
+    
 We can also search for all objects that end with the common name of `Doe` using the `ends_with` operator:
 
     $results = $ad->search()->where('cn', 'ends_with', 'Doe')->get();
+    
+    // Or use the method whereEndsWith($attribute, $value)
+    
+    $results = $ad->search()->whereEndsWith('cn', 'Doe')->get();
 
 We can also search for all objects with a common name that contains `John Doe` using the `contains` operator:
 
     $results = $ad->search()->where('cn', 'contains', 'John Doe')->get();
+    
+    // Or use the method whereContains($attribute, $value)
+    
+    $results = $ad->search()->whereContains($attribute, $value)->get();
 
-Or we can retrieve all objects that contain a common name attribute using the wildcard operator (`*`):
+Or we can retrieve all objects that have a common name attribute using the wildcard operator (`*`):
 
     $results = $ad->search()->where('cn', '*')->get();
+    
+    // Or use the method whereHas($field)
+    
+    $results = $ad->search()->whereHas('cn')->get();
 
 This type of filter syntax allows you to clearly see what your searching for.
 
@@ -102,14 +118,15 @@ like so:
 All searches will return *all* information for each entry. Be sure to use `select($fields = array())` when you only
 need a small amount of information.
 
+> Note: The `objectCategory` and `distinguishedName` attribute will always be selected as Adldap needs these for 
+creating the applicable models.
+
 #### Sort By
 
 If you'd like to sort your returned results, call the `sortBy()` method like so:
     
-    // Returned results will be sorted by the common name in a descending order
-    $results = $ad->search()->where('cn', '=', 'John*')->sortBy('cn', 'desc')->get();
-
-The function is case insensitive with directions, so don't worry if you use `DESC` or `desc`.
+    // Returned results will be sorted by the common name in a ascending order
+    $results = $ad->search()->where('cn', '=', 'John*')->sortBy('cn')->get();
 
 #### Query
 
@@ -198,14 +215,14 @@ If you'd like to retrieve the current query to save or run it at another time, u
 Retrieving all users who <b>do not</b> have the common name of 'John':
 
     $results = $ad->search()
-            ->where('objectClass', '=', $ad->getUserIdKey())
+            ->where('objectClass', '=', $ad->getConfiguration()->getUserIdKey())
             ->where('cn', '!', 'John')
             ->get();
     
 Retrieving all users who do not have the common name of 'John' or 'Suzy':
 
     $results = $ad->search()
-                ->where('objectClass', '=', $ad->getUserIdKey())
+                ->where('objectClass', '=', $ad->getConfiguration()->getUserIdKey())
                 ->orWhere('cn', '!', 'John')
                 ->orWhere('cn', '!', 'Suzy')
                 ->get();
@@ -229,7 +246,7 @@ Retrieving all computers that run Windows 7:
 
     $results = $ad->search()
             ->where('objectClass', '=', 'computer')
-            ->where('operatingSystem', 'starts_with', 'Windows 7')
+            ->whereStartsWith('operatingSystem', 'Windows 7')
             ->get();
 
 #### Folder (OU) examples

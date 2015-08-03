@@ -304,6 +304,22 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Set a callback function to do re-binds on referral chasing.
+     *
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function setRebindCallback(callable $callback)
+    {
+        if ($this->suppressErrors) {
+            return @ldap_set_rebind_proc($this->getConnection(), $callback);
+        }
+
+        return ldap_set_rebind_proc($this->getConnection(), $callback);
+    }
+
+    /**
      * Starts the LDAP connection as TLS.
      *
      * @return bool

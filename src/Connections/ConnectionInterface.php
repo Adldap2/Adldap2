@@ -220,6 +220,15 @@ interface ConnectionInterface
     public function setOption($option, $value);
 
     /**
+     * Set a callback function to do re-binds on referral chasing.
+     *
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function setRebindCallback(callable $callback);
+
+    /**
      * Connects to the specified hostname using the
      * specified port.
      *

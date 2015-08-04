@@ -53,7 +53,7 @@ To delete a model, use the `delete()` method:
         // Model has been successfully deleted
     }
 
-## Manually Creating New Attributes
+### Manually Creating New Attributes
 
 If you'd like to manually create a new attribute on an existing record, use the `createAttribute()` method:
     

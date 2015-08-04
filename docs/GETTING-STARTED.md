@@ -48,15 +48,15 @@ second parameter when you're constructing a new Adldap instance:
     
     // Some other file
     
-    $ad = new Adldap($config, new CustomConnection());
-    
-    // Or
-    
-    $ad = new Adldap($config, null, $autoConnect = false)
-    
-    $ad->setConnection(new CustomConnection());
-    
-    $ad->connect();
+        $ad = new Adldap($config, new CustomConnection());
+        
+            // Or
+        
+        $ad = new Adldap($config, null, $autoConnect = false)
+        
+        $ad->setConnection(new CustomConnection());
+        
+        $ad->connect();
 
 ## Changing Configurations
 

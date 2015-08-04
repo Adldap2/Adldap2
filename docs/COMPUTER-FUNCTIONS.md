@@ -10,7 +10,7 @@ You can also customize your results by providing some paramters inside the funct
 
     $fields = array('operatingsystem');
     
-    $results = $ad->computer()->all($fields, $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc');
+    $results = $ad->computer()->all($fields, $sorted = true, $sortBy = 'cn');
 
 ### Find
 

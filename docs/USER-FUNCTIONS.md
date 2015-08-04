@@ -18,23 +18,13 @@ If you're only interested in certain LDAP fields, insert your fields in the seco
 
     $username = 'jdoe';
     
-    $fields = [
+    $select = [
         'cn',
         'memberof'
     ];
     
-    $user = $ad->user()->find($username, $fields);
-    
-    echo $user['cn'];
-    echo $user['memberof'];
+    $user = $ad->user()->find($username, $select);
    
-### Info
-
-The `info()` method is an alias for the `find()` method, this exists for backwards compatibility.
-
-    $username = 'jdoe';
-    
-    $user = $ad->user()->info($username);
 
 ### DN
 
@@ -86,11 +76,3 @@ To retrieve a users password expiry date, use the `passwordExpiry()` method:
     $results['has_expired']; // Returns true / false if the users password **has** expired
     $results['expiry_timestamp']; // Returns the users password expiry date in unix time
     $results['expiry_formatted']; // Returns the users password expiry date in a formatted string ('YYYY-MM-DD HH:MM:SS')
-    
-### Get Last Logon
-
-To retrieve a users last login time, use the `getLastLogon()` method:
-
-    $time = $ad->user()->getLastLogon('jdoe'); // Returns in Unix time
-    
-    $date = date('Y-m-d h:i:s', $time);

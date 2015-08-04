@@ -12,6 +12,7 @@ When receiving search results from Adldap, you will always have an array of mode
 - [Container](https://github.com/Adldap2/Adldap2/blob/master/docs/models/CONTAINER.md)
 - [Computer](https://github.com/Adldap2/Adldap2/blob/master/docs/models/COMPUTER.md)
 - [Exchange Server](https://github.com/Adldap2/Adldap2/blob/master/docs/models/EXHANGE-SERVER.md)
+- [Entry](https://github.com/Adldap2/Adldap2/blob/master/docs/models/ENTRY.md)
 
 ### Modifying Models
 

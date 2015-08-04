@@ -24,27 +24,36 @@ If you're only interested in certain LDAP fields, insert your fields in the seco
     ];
     
     $user = $ad->user()->find($username, $select);
-   
 
-### DN
+### New Instance
 
-To retrieve a users full distinguished name, use the `dn()` method:
+To instantiate a new User, use the `newInstance()` method:
 
-    $username = 'jdoe';
-
-    $dn = $ad->user()->dn($username);
+    $user = $ad->users()->newInstance();
+    
+    $user->setFirstName('John');
+    
+    $user->setLastName('Doe');
+    
+    if($user->save())
+    {
+        return 'User was successfully created.';
+    }
 
 ### Create
 
-### Modify
+To create a new user, use the `create()` method:
 
-### Delete
-
-To delete a user, use the `delete()` method:
+    $attributes = [
+        'cn' => 'John Doe',
+        'givenname' => 'John',
+        'surname' => 'Doe',
+    ];
     
-    $username = 'jdoe';
-    
-    $deleted = $ad->user()->delete($username);
+    if($ad->users()->create($attributes))
+    {
+        return 'User was successfully created.';
+    }
 
 ### Change Password
 

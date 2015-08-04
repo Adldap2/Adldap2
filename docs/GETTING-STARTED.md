@@ -45,18 +45,18 @@ second parameter when you're constructing a new Adldap instance:
     {
         
     }
+
+Then in some other file:
+
+    // Inserting in the second parameter
+    $ad = new Adldap($config, new CustomConnection());
     
-    // Some other file
+    // Or setting auto-connect to false and setting the connection later
+    $ad = new Adldap($config, null, $autoConnect = false);
     
-        $ad = new Adldap($config, new CustomConnection());
-        
-            // Or
-        
-        $ad = new Adldap($config, null, $autoConnect = false)
-        
-        $ad->setConnection(new CustomConnection());
-        
-        $ad->connect();
+    $ad->setConnection(new CustomConnection());
+    
+    $ad->connect();
 
 ## Changing Configurations
 

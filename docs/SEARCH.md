@@ -1,4 +1,4 @@
-## Searching Functions
+## Searching
 
 The new Adldap Search functionality makes it really easy to query your AD server for exactly what you want. Let's get started.
 

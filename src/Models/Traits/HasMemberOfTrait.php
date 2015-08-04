@@ -2,12 +2,29 @@
 
 namespace Adldap\Models\Traits;
 
+use Adldap\Models\Group;
 use Adldap\Schemas\ActiveDirectory;
 
 trait HasMemberOfTrait
 {
     /**
-     * Returns the array of group DNs the entry is a member of.
+     * {@inheritdoc}
+     */
+    public function getGroups()
+    {
+        return $this->getMemberOf();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGroups(array $groups)
+    {
+        return $this->setMemberOf($groups);
+    }
+
+    /**
+     * Returns an array of groups the model is a member of.
      *
      * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
      *
@@ -35,10 +52,37 @@ trait HasMemberOfTrait
      *
      * @param array $groups
      *
-     * @return $this
+     * @return \Adldap\Models\Entry
      */
     public function setMemberOf(array $groups)
     {
         return $this->setAttribute(ActiveDirectory::MEMBER_OF, $groups);
+    }
+
+    /**
+     * Returns true / false if the current user
+     * is in the specified group.
+     *
+     * @param string|Group $group
+     *
+     * @return bool
+     */
+    public function inGroup($group)
+    {
+        $groups = $this->getGroups();
+
+        if ($group instanceof Group) {
+            if(in_array($group, $groups)) {
+                return true;
+            }
+        } else if (is_string($group)) {
+            foreach($groups as $model) {
+                if($group == $model->getName()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

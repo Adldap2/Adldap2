@@ -44,6 +44,37 @@ saved or not:
         // There was an issue updating this record
     }
 
+## Deleting
+
+To delete a model, use the `delete()` method:
+
+    if($user->delete())
+    {
+        // Model has been successfully deleted
+    }
+
+## Manually Creating New Attributes
+
+If you'd like to manually create a new attribute on an existing record, use the `createAttribute()` method:
+    
+    $groups = [
+        'CN=Accounting,OU=Groups,DC=corp,DC=acme,DC=org',
+    ];
+    
+    if($user->createAttribute('memberOf', $groups))
+    {
+        // Successfully created attribute
+    }
+
+## Manually Deleting Attributes
+
+To manually remove / delete attributes, use the `deleteAttribute()` method:
+
+    if($user->deleteAttribute('memberOf'))
+    {
+        // Successfully removed attribute
+    }
+
 ## Manually Creating a new Model Instance
 
 To manually create a new model instance, you need to inject the current Adldap instance into the Models second parameter:

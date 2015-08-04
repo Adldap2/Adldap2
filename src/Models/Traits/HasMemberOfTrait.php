@@ -60,7 +60,7 @@ trait HasMemberOfTrait
     }
 
     /**
-     * Returns true / false if the current user
+     * Returns true / false if the current model
      * is in the specified group.
      *
      * @param string|Group $group

@@ -325,7 +325,8 @@ class Adldap
     /**
      * Binds to the current connection using kerberos.
      *
-     * @param $kerberosCredentials
+     * @param string $kerberosCredentials
+     *
      * @returns bool
      *
      * @throws AdldapException

@@ -62,39 +62,39 @@ To manually create a new model instance, you need to inject the current Adldap i
 
 Example Query: `$model = $ad->search()->where('cn', '*')->first();`
 
-Getting all raw attributes from the model:
+#### Getting all raw attributes from the model:
 
     $model->getAttributes();
 
-Getting / setting the name of the model:
+#### Getting / setting the name of the model:
 
     $model->getName();
     
     $model->setName('New Name');
 
-Getting / setting the model's `commonName` attribute:
+#### Getting / setting the model's `commonName` attribute:
 
     $model->getCommonName();
     
     $model->setCommonName('New Common Name');
 
-Getting the model's `sAMaccountname` attribute:
+#### Getting the model's `sAMaccountname` attribute:
 
     $model->getAccountName();
 
-Getting the model's `sAMaccounttype` attribute:
+#### Getting the model's `sAMaccounttype` attribute:
 
     $model->getAccountType();
 
-Getting the model's `whencreated` attribute:
+#### Getting the model's `whencreated` attribute:
 
     $model->getCreatedAt();
 
-Getting the model's `whenchanged` attribute:
+#### Getting the model's `whenchanged` attribute:
 
     $model->getUpdatedAt();
 
-Getting / setting the model's `distinguishedname` attribute:
+#### Getting / setting the model's `distinguishedname` attribute:
 
     // Long Form
     $model->getDistinguishedName();
@@ -107,7 +107,7 @@ Getting / setting the model's `distinguishedname` attribute:
     
     $model->setDn('cn=New Common Name,DC=corp,DC=acme,DC=org');
 
-Getting the model's `objectCategory` attribute:
+#### Getting the model's `objectCategory` attribute:
 
     $model->getObjectCategory();
     
@@ -115,25 +115,25 @@ Getting the model's `objectCategory` attribute:
     
     $model->getObjectCategoryDn();
 
-Getting the model's `objectSID` attribute:
+#### Getting the model's `objectSID` attribute:
 
     $model->getObjectSID();
 
-Getting the model's `primaryGroupId` attribute:
+#### Getting the model's `primaryGroupId` attribute:
 
     $model->getPrimaryGroupId();
 
-Getting the model's object class model:
+#### Getting the model's object class model:
 
     $objectClass = $model->getObjectClass();
     
     $objectClass->getDn();
     
-Getting the model's `instanceType` attribute:
+#### Getting the model's `instanceType` attribute:
 
     $model->getInstanceType();
 
-Getting a specific raw attribute:
+#### Getting a specific raw attribute:
 
     $model->getAttribute('samAccountName');
     

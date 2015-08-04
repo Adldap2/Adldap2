@@ -15,7 +15,7 @@ When receiving search results from Adldap, you will always have an array of mode
 
 ## Modifying Models
 
-To modify any attributes on the model, you can just set the attributes manually, or use their setters:
+To modify any attributes on the model, you can just set the attributes manually, or use their [setters](#specific-methods-available-on-all-models):
 
     // Using a setter
     $user->setCommonName('Doe, John');

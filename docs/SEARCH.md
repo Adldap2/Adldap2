@@ -8,6 +8,27 @@ To open a new search, call the `search()` function on your AD object like so:
     
     $ad->search();
 
+#### Find
+
+If you're trying to find a single record, but not sure what the record might be, use the `find()` method:
+
+    $record = $ad->search()->find('John Doe');
+
+#### FindOrFail
+
+If you'd like to try and find a single record and throw an exception when it hasn't been found, use the `findOrFail()` method:
+
+    try
+    {
+        $record = $ad->search()->findOrFail('John Doe');
+        
+        $record->getDn();
+        
+    } catch(Adldap\Exceptions\ModelNotFoundException $e)
+    {
+        // Record wasn't found!
+    }
+
 #### All
 
 To retrieve all entries in your AD, use the all function:

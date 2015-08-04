@@ -20,11 +20,10 @@ interface QueryableInterface
      * @param array     $fields
      * @param bool|true $sorted
      * @param string    $sortBy
-     * @param string    $sortByDirection
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc');
+    public function all($fields = [], $sorted = true, $sortBy = 'cn');
 
     /**
      * Creates a new Search limited to the current classes object type.

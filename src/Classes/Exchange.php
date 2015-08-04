@@ -35,11 +35,10 @@ class Exchange extends AbstractBase implements QueryableInterface
      * @param array  $fields
      * @param bool   $sorted
      * @param string $sortBy
-     * @param string $sortByDirection
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortByDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = 'cn')
     {
         $namingContext = $this->getConfigurationNamingContext();
 
@@ -49,7 +48,7 @@ class Exchange extends AbstractBase implements QueryableInterface
                 ->select($fields);
 
             if ($sorted) {
-                $search->sortBy($sortBy, $sortByDirection);
+                $search->sortBy($sortBy);
             }
 
             return $search->get();

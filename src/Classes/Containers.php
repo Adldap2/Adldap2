@@ -26,16 +26,15 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
      * @param array  $fields
      * @param bool   $sorted
      * @param string $sortBy
-     * @param string $sortByDirection
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'name', $sortByDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = 'name')
     {
         $search = $this->search();
 
         if ($sorted) {
-            $search->sortBy($sortBy, $sortByDirection);
+            $search->sortBy($sortBy);
         }
 
         return $search->get();

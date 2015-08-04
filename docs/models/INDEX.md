@@ -13,7 +13,7 @@ When receiving search results from Adldap, you will always have an array of mode
 - [Computer](https://github.com/Adldap2/Adldap2/blob/master/docs/models/COMPUTER.md)
 - [Exchange Server](https://github.com/Adldap2/Adldap2/blob/master/docs/models/EXHANGE-SERVER.md)
 
-## Modifying Models
+### Modifying Models
 
 To modify any attributes on the model, you can just set the attributes manually, or use their [setters](#specific-methods-available-on-all-models):
 
@@ -29,7 +29,7 @@ To modify any attributes on the model, you can just set the attributes manually,
 
 Adldap is smart enough to know that if an attribute doesn't exist, then it will add it to the entry.
 
-## Saving / Updating
+### Saving / Updating
 
 When you've made your modifications, just call the `save()` method. It will return true or false if the record has been
 saved or not:
@@ -44,7 +44,7 @@ saved or not:
         // There was an issue updating this record
     }
 
-## Deleting
+### Deleting
 
 To delete a model, use the `delete()` method:
 
@@ -66,7 +66,7 @@ If you'd like to manually create a new attribute on an existing record, use the 
         // Successfully created attribute
     }
 
-## Manually Deleting Attributes
+### Manually Deleting Attributes
 
 To manually remove / delete attributes, use the `deleteAttribute()` method:
 
@@ -75,7 +75,7 @@ To manually remove / delete attributes, use the `deleteAttribute()` method:
         // Successfully removed attribute
     }
 
-## Manually Creating a new Model Instance
+### Manually Creating a new Model Instance
 
 To manually create a new model instance, you need to inject the current Adldap instance into the Models second parameter:
 
@@ -89,43 +89,43 @@ To manually create a new model instance, you need to inject the current Adldap i
     
     $user->save();
 
-## Specific Methods available on all models
+### Specific Methods available on all models
 
 Example Query: `$model = $ad->search()->where('cn', '*')->first();`
 
-#### Getting all raw attributes from the model:
+##### Getting all raw attributes from the model:
 
     $model->getAttributes();
 
-#### Getting / setting the name of the model:
+##### Getting / setting the name of the model:
 
     $model->getName();
     
     $model->setName('New Name');
 
-#### Getting / setting the model's `commonName` attribute:
+##### Getting / setting the model's `commonName` attribute:
 
     $model->getCommonName();
     
     $model->setCommonName('New Common Name');
 
-#### Getting the model's `sAMaccountname` attribute:
+##### Getting the model's `sAMaccountname` attribute:
 
     $model->getAccountName();
 
-#### Getting the model's `sAMaccounttype` attribute:
+##### Getting the model's `sAMaccounttype` attribute:
 
     $model->getAccountType();
 
-#### Getting the model's `whencreated` attribute:
+##### Getting the model's `whencreated` attribute:
 
     $model->getCreatedAt();
 
-#### Getting the model's `whenchanged` attribute:
+##### Getting the model's `whenchanged` attribute:
 
     $model->getUpdatedAt();
 
-#### Getting / setting the model's `distinguishedname` attribute:
+##### Getting / setting the model's `distinguishedname` attribute:
 
     // Long Form
     $model->getDistinguishedName();
@@ -138,7 +138,7 @@ Example Query: `$model = $ad->search()->where('cn', '*')->first();`
     
     $model->setDn('cn=New Common Name,DC=corp,DC=acme,DC=org');
 
-#### Getting the model's `objectCategory` attribute:
+##### Getting the model's `objectCategory` attribute:
 
     $model->getObjectCategory();
     
@@ -146,25 +146,25 @@ Example Query: `$model = $ad->search()->where('cn', '*')->first();`
     
     $model->getObjectCategoryDn();
 
-#### Getting the model's `objectSID` attribute:
+##### Getting the model's `objectSID` attribute:
 
     $model->getObjectSID();
 
-#### Getting the model's `primaryGroupId` attribute:
+##### Getting the model's `primaryGroupId` attribute:
 
     $model->getPrimaryGroupId();
 
-#### Getting the model's object class model:
+##### Getting the model's object class model:
 
     $objectClass = $model->getObjectClass();
     
     $objectClass->getDn();
     
-#### Getting the model's `instanceType` attribute:
+##### Getting the model's `instanceType` attribute:
 
     $model->getInstanceType();
 
-#### Getting a specific raw attribute:
+##### Getting a specific raw attribute:
 
     $model->getAttribute('samAccountName');
     

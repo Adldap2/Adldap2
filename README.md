@@ -26,12 +26,7 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
  - [Configuration](https://github.com/adldap2/adldap2/tree/master/docs/CONFIGURATION.md)
  - [Getting Started](https://github.com/adldap2/adldap2/tree/master/docs/GETTING-STARTED.md)
  - [Search Functions](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH-FUNCTIONS.md)
- - [Computer Functions](https://github.com/adldap2/adldap2/tree/master/docs/COMPUTER-FUNCTIONS.md)
- - [Contact Functions](https://github.com/adldap2/adldap2/tree/master/docs/CONTACT-FUNCTIONS.md)
- - [Exchange Functions](https://github.com/adldap2/adldap2/tree/master/docs/EXCHANGE-FUNCTIONS.md)
- - [Container Functions](https://github.com/adldap2/adldap2/tree/master/docs/CONTAINER-FUNCTIONS.md)
- - [Group Functions](https://github.com/adldap2/adldap2/tree/master/docs/GROUP-FUNCTIONS.md)
- - [User Functions](https://github.com/adldap2/adldap2/tree/master/docs/USER-FUNCTIONS.md)
+ - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
 
 ## Requirements
 

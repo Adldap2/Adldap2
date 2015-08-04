@@ -585,6 +585,21 @@ abstract class AbstractModel
     }
 
     /**
+     * Creates an attribute on the current model.
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function createAttribute($attribute, $value)
+    {
+        $add = [$attribute => $value];
+
+        return $this->getAdldap()->getConnection()->modAdd($this->getDn(), $add);
+    }
+
+    /**
      * Creates an active directory record.
      *
      * @return bool

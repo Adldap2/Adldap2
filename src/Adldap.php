@@ -323,6 +323,20 @@ class Adldap
     }
 
     /**
+     * Get the RootDSE properties from a domain controller.
+     *
+     * @return array|bool
+     */
+    public function getRootDse()
+    {
+        return $this->search()
+            ->setDn(null)
+            ->read(true)
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->first();
+    }
+
+    /**
      * Binds to the current connection using kerberos.
      *
      * @param string $kerberosCredentials
@@ -383,19 +397,5 @@ class Adldap
         }
 
         return true;
-    }
-
-    /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @return array|bool
-     */
-    public function getRootDse()
-    {
-        return $this->search()
-            ->setDn(null)
-            ->read(true)
-            ->whereHas(ActiveDirectory::OBJECT_CLASS)
-            ->first();
     }
 }

@@ -1,87 +1,113 @@
-## User Functions
+## User Model
 
-### All
+The user model will be returned when an AD contains the object category of `person`.
 
-To retrieve all users on AD, use the `all()` method:
+### Methods and Attribute Setters / Getters
 
-    $users = $ad->user()->all();
+##### Getting / setting the users' `title` attribute:
 
-### Find
-
-To retrieve all information on a user, use `find()` method:
-
-    $username = 'jdoe';
+    $user->getTitle();
     
-    $user = $ad->user()->find($username);
+    $user->setTitle('Manager');
 
-If you're only interested in certain LDAP fields, insert your fields in the second parameter:
+##### Getting / setting the users' `department` attribute:
 
-    $username = 'jdoe';
+    $user->getDepartment();
     
-    $select = [
-        'cn',
-        'memberof'
-    ];
-    
-    $user = $ad->user()->find($username, $select);
+    $user->setDepartment('Accounting');
 
-### New Instance
+##### Getting / setting the users' `givenName` attribute:
 
-To instantiate a new User, use the `newInstance()` method:
-
-    $user = $ad->users()->newInstance();
+    $user->getFirstName();
     
     $user->setFirstName('John');
+
+##### Getting / setting the users' `surname` attribute:
+
+    $user->getLastName();
     
     $user->setLastName('Doe');
+
+##### Getting / setting the users' `telephone` attribute:
+
+    $user->getTelephoneNumber();
     
-    if($user->save())
-    {
-        return 'User was successfully created.';
-    }
+    $user->setTelephoneNumber('555 555-5555');
 
-### Create
+##### Getting / setting the users' `company` attribute:
 
-To create a new user, use the `create()` method:
-
-    $attributes = [
-        'cn' => 'John Doe',
-        'givenname' => 'John',
-        'surname' => 'Doe',
-    ];
+    $user->getCompany();
     
-    if($ad->users()->create($attributes))
-    {
-        return 'User was successfully created.';
-    }
+    $user->setCompany('Acme');
 
-### Change Password
+##### Getting / setting the users' `mail` attribute:
 
-To change a users password, use the `changePassword()` method:
+    $user->getEmail();
+    
+    $user->setEmail('jdoe@acme.org');
 
-    try
-    {
-        $newPassword = 'newpassword123';
+##### Getting / setting the users' `mail` attribute (multiple):
+
+    $user->getEmails();
+    
+    $user->setEmails(['jdoe@acme.org', 'johndoe@otheremail.com']);
+    
+##### Getting / setting the users' `useraccountcontrol` attribute:
+
+    $user->getUserAccountControl();
+    
+    $user->setUserAccountControl(new AccountControl());
         
-        $oldPassword = 'oldpassword123';
+[More about this here](https://github.com/Adldap2/Adldap2/blob/master/docs/models/user/ACCOUNT-CONTROL.md)
+
+##### Getting the users' `homeMdb` attribute:
+
+    $user->getHomeMb();
     
-        $changed = $ad->user()->changePassword('jdoe', $newPassword, $oldPassword);
-        
-    } catch(Adldap\Exceptions\WrongPasswordException $e)
-    {
-        return "Uh oh, you've entered the wrong old password!";
-    } catch(Adldap\Exceptions\PasswordPolicyException $e)
-    {
-        return "Looks like your new password doesn't meet our requirements. Try again."
-    }
+##### Getting the users' `mailnickname` attribute:
 
-### Password Expiry
+    $user->getMailNickname();
+    
+##### Getting the users' `userprincipalname` attribute:
 
-To retrieve a users password expiry date, use the `passwordExpiry()` method:
+    $user->getUserPrincipalName();
+    
+##### Getting the users' `proxyaddresses` attribute:
 
-    $results = $ad->user()->passwordExpiry('jdoe'); // Returns array|bool
-       
-    $results['expires']; // Returns true / false if the users password expires
-    $results['has_expired']; // Returns true / false if the users password **has** expired
-    $results['expiry_timestamp']; // Returns the users password expiry date in unix time
-    $results['expiry_formatted']; // Returns the users password expiry date in a formatted string ('YYYY-MM-DD HH:MM:SS')
+    $user->getProxyAddresses();
+    
+##### Getting the users' `scriptpath` attribute:
+
+    $user->getScriptPath();
+    
+##### Getting the users' `badpwdcount` attribute:
+
+    $user->getBadPasswordCount();
+    
+##### Getting the users' `badpasswordtime` attribute:
+
+    $user->getBadPasswordTime();
+    
+##### Getting the users' `pwdlastset` attribute:
+
+    $user->getPasswordLastSet();
+    
+##### Getting the users' `lockouttime` attribute:
+
+    $user->getLockoutTime();
+    
+##### Getting the users' `profilepath` attribute:
+
+    $user->getProfilePath();
+    
+##### Getting the users' `legacyexchangedn` attribute:
+
+    $user->getLegacyExchangeDn();
+
+##### Getting the users' `accountexpires` attribute:
+
+    $user->getAccountExpiry();
+    
+##### Getting the users' `showinaddressbook` attribute:
+
+    $user->getShowInAddressBook();

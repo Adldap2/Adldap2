@@ -1,6 +1,6 @@
 ## User Model
 
-The user model will be returned when an AD contains the object category of `person`.
+The user model will be returned when an AD result entry contains the object category: `person`.
 
 ### Methods and Attribute Setters / Getters
 

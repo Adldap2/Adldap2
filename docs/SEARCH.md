@@ -13,6 +13,14 @@ To open a new search, call the `search()` function on your AD object like so:
 If you're trying to find a single record, but not sure what the record might be, use the `find()` method:
 
     $record = $ad->search()->find('John Doe');
+    
+    if($record)
+    {
+        // Record was found!    
+    } else
+    {
+        // Hmm, looks like we couldn't find anything...
+    }
 
 #### FindOrFail
 

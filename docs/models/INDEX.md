@@ -7,7 +7,6 @@ When receiving search results from Adldap, you will always have an array of mode
 > Note: All models are located in the namespace `Adldap\Models\`.
 
 - [User](https://github.com/Adldap2/Adldap2/blob/master/docs/models/USER.md)
-- [Contact](https://github.com/Adldap2/Adldap2/blob/master/docs/models/CONTACT.md)
 - [Group](https://github.com/Adldap2/Adldap2/blob/master/docs/models/GROUP.md)
 - [Container](https://github.com/Adldap2/Adldap2/blob/master/docs/models/CONTAINER.md)
 - [Computer](https://github.com/Adldap2/Adldap2/blob/master/docs/models/COMPUTER.md)

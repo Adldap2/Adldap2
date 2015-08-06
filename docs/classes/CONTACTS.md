@@ -4,13 +4,13 @@
 
 To retrieve all contacts from AD, use the `all()` method:
 
-    $contacts = $ad->contact()->all();
+    $contacts = $ad->contacts()->all();
 
 ### Find
 
 To retrieve information on a specific contact, use the `find()` method:
 
-    $contact = $ad->contact()->find('John Doe');
+    $contact = $ad->contacts()->find('John Doe');
 
 If you're only interested in certain LDAP fields, insert your fields in the second parameter:
 
@@ -18,7 +18,7 @@ If you're only interested in certain LDAP fields, insert your fields in the seco
         'cn'
     ];
 
-    $contact = $ad->contact()->find('John Doe', $fields);
+    $contact = $ad->contacts()->find('John Doe', $fields);
 
 ### Create
 

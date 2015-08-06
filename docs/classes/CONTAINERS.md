@@ -1,4 +1,4 @@
-## Container Functions
+## Container Class
 
 Container functions are used for managing active directory OU's (organizational units).
 

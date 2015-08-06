@@ -4,7 +4,7 @@
 
 To retrieve all users on AD, use the `all()` method:
 
-    $users = $ad->user()->all();
+    $users = $ad->users()->all();
 
 ### Find
 
@@ -12,7 +12,7 @@ To retrieve all information on a user, use `find()` method:
 
     $username = 'jdoe';
     
-    $user = $ad->user()->find($username);
+    $user = $ad->users()->find($username);
 
 If you're only interested in certain LDAP fields, insert your fields in the second parameter:
 
@@ -23,7 +23,7 @@ If you're only interested in certain LDAP fields, insert your fields in the seco
         'memberof'
     ];
     
-    $user = $ad->user()->find($username, $select);
+    $user = $ad->users()->find($username, $select);
 
 ### New Instance
 
@@ -79,7 +79,7 @@ To change a users password, use the `changePassword()` method:
 
 To retrieve a users password expiry date, use the `passwordExpiry()` method:
 
-    $results = $ad->user()->passwordExpiry('jdoe'); // Returns array|bool
+    $results = $ad->users()->passwordExpiry('jdoe'); // Returns array|bool
        
     $results['expires']; // Returns true / false if the users password expires
     $results['has_expired']; // Returns true / false if the users password **has** expired

@@ -131,13 +131,8 @@ To solve the above problem, we would use `orWhere()` for both fields. For exampl
     
 Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
 
-#### Where Has
-
-If you'd like to retrieve all records that contain a specific attribute, you can use the method `whereHas($attribute)`:
-
-> Note: This is the same as using `where('attribute', '*')`
-
-    $results = $ad->search()->whereHas('operatingsystem')->get();
+> *Note*: You can also use all `where` methods as an or where, for example:
+`orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
 
 #### Select
 

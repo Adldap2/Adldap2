@@ -86,6 +86,30 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->deleteAttribute('cn'));
     }
 
+    public function testCreateAttribute()
+    {
+        $attributes = [
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
+        ];
+
+        $adldap = $this->newAdldapPartialMock();
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('modAdd')->once()->withArgs(['dc=corp,dc=org', ['givenName' => 'John Doe']])->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $adldap->setConnection($connection);
+
+        $entry = new Entry([], $adldap);
+
+        $entry->setRawAttributes($attributes);
+
+        $this->assertTrue($entry->createAttribute('givenName', 'John Doe'));
+    }
+
     public function testModifications()
     {
         $attributes = [

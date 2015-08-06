@@ -3,7 +3,51 @@
 Working with DN strings are a pain, but they're about to get easier. Adldap includes a DN builder for easily modifying and
 creating DN strings.
 
-#### Creating a DN
+#### Creating a New DN
+
+To create a new DN, construct a new `\Adldap\Objects\DistinguishedName` instance:
+
+    $dn = new \Adldap\Objects\DinstinguishedName();
+    
+You can also pass in a current DN string and start modifying it:
+
+    $currentDn = 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org';
+
+    $dn = new \Adldap\Objects\DinstinguishedName($currentDn);
+    
+#### Adding / Removing a Domain Component
+
+    // Add Domain Component
+    $dn->addDc('corp');
+    
+    // Remove Domain Component
+    $dn->removeDc('corp');
+
+#### Adding / Removing an Organizational Unit
+
+    // Add Organizational Unit
+    $dn->addOu('Accounting');
+        
+    // Remove Organizational Unit
+    $dn->removeOu('Accounting');
+
+#### Adding / Removing Common Names
+
+    // Add Common Name
+    $dn->addCn('John Doe');
+        
+    // Remove Common Name
+    $dn->removeCn('John Doe');   
+
+#### Setting a base
+
+If you'd like to set the base DN, such as a domain component RDN, use the `setBase()` method:
+
+    $base = 'dc=corp,dc=acme,dc=org';
+    
+    $dn->setBase($base);
+
+#### Creating a DN From A Model
 
 When you're creating a new AD record, you'll need to create a distinguished name as well. Let's go through an example of
 creating a new user.
@@ -33,4 +77,15 @@ Now we've built a DN, and all we have to do is set it on the new user:
     
     $user->save();
 
-#### Modifying a DN
+#### Modifying a DN From A Model
+
+When you've received a model from a search result, you can build and modify the models DN like so:
+
+    $user = $ad->users()->find('jdoe');
+    
+    $dn = $user->getDnBuilder();
+    
+    $dn->addOu('Users');
+    
+    $user->setDn($dn)->save();
+    

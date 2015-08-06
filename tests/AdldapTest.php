@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\tests;
+namespace Adldap\Tests;
 
 use Adldap\Adldap;
 use Adldap\Connections\Configuration;

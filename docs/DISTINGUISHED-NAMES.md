@@ -73,6 +73,10 @@ So we've set the basic information on the user, but we run into trouble when we 
     
     echo $dn->get(); // Returns 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org'
     
+    // The DistinguishedName object also contains the __toString() magic method
+    // so you can also just echo the object itself
+    echo $dn;
+    
 Now we've built a DN, and all we have to do is set it on the new user:    
     
     $user->setDn($dn);

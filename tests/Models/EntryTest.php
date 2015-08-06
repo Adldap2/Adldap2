@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Models;
+namespace Adldap\tests\Models;
 
 use Adldap\Models\Entry;
 use Adldap\Tests\UnitTestCase;
@@ -20,7 +20,7 @@ class EntryTest extends UnitTestCase
     public function testConstruct()
     {
         $attributes = [
-            'cn' => 'Common Name',
+            'cn'             => 'Common Name',
             'samaccountname' => 'Account Name',
         ];
 
@@ -32,7 +32,7 @@ class EntryTest extends UnitTestCase
     public function testSetRawAttributes()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -47,7 +47,7 @@ class EntryTest extends UnitTestCase
     public function testSetAttribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -65,9 +65,9 @@ class EntryTest extends UnitTestCase
     public function testDeleteAttribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $adldap = $this->newAdldapPartialMock();
@@ -89,9 +89,9 @@ class EntryTest extends UnitTestCase
     public function testCreateAttribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $adldap = $this->newAdldapPartialMock();
@@ -113,7 +113,7 @@ class EntryTest extends UnitTestCase
     public function testModifications()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 

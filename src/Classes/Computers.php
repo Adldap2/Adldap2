@@ -11,7 +11,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
      * Finds a computer.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
      *
      * @return bool|\Adldap\Models\Computer
      */
@@ -33,7 +33,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
     {
         $search = $this->search()->select($fields);
 
-        if($sorted) {
+        if ($sorted) {
             $search->sortBy($sortBy);
         }
 

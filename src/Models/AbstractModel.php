@@ -2,12 +2,12 @@
 
 namespace Adldap\Models;
 
+use Adldap\Adldap;
+use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Classes\Utilities;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Adldap;
+use Adldap\Schemas\ActiveDirectory;
 
 abstract class AbstractModel
 {
@@ -203,11 +203,11 @@ abstract class AbstractModel
     {
         $category = $this->getObjectCategoryArray();
 
-        if(is_array($category) && array_key_exists(0, $category)) {
+        if (is_array($category) && array_key_exists(0, $category)) {
             return $category[0];
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class AbstractModel
      */
     public function getAttribute($key, $subKey = null)
     {
-        if(is_null($subKey)) {
+        if (is_null($subKey)) {
             if ($this->hasAttribute($key)) {
                 return $this->attributes[$key];
             }
@@ -394,7 +394,7 @@ abstract class AbstractModel
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -416,7 +416,7 @@ abstract class AbstractModel
      */
     public function fill(array $attributes = [])
     {
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $this->setAttribute($key, $value);
         }
 
@@ -434,7 +434,7 @@ abstract class AbstractModel
      */
     public function setAttribute($key, $value, $subKey = null)
     {
-        if(is_null($subKey)) {
+        if (is_null($subKey)) {
             $this->attributes[$key] = $value;
         } else {
             $this->attributes[$key][$subKey] = $value;
@@ -475,8 +475,8 @@ abstract class AbstractModel
         if (array_key_exists($key, $this->attributes)) {
             // If a sub key is given, we'll check if it
             // exists in the nested attribute array
-            if(!is_null($subKey)) {
-                if(is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
+            if (!is_null($subKey)) {
+                if (is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
                     return true;
                 } else {
                     return false;
@@ -507,7 +507,7 @@ abstract class AbstractModel
      */
     public function getModifications()
     {
-        foreach($this->attributes as $key => $value) {
+        foreach ($this->attributes as $key => $value) {
             // If the key still exists inside the original attributes,
             // the developer is modifying an attribute.
             if (array_key_exists($key, $this->original)) {
@@ -521,8 +521,8 @@ abstract class AbstractModel
                         // are greater than zero, we'll replace the attribute.
                         $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                     }
-                } else if ($value !== $this->original[$key]) {
-                    if(is_null($value)) {
+                } elseif ($value !== $this->original[$key]) {
+                    if (is_null($value)) {
                         // If the value is set to null, then we'll
                         // assume they want the attribute removed
                         $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE, $value);
@@ -552,14 +552,14 @@ abstract class AbstractModel
     public function setModification($key, $type, $values)
     {
         // We need to make sure the values given are always in an array.
-        if(!is_array($values)) {
+        if (!is_array($values)) {
             $values = [$values];
         }
 
         $this->modifications[] = [
-            'attrib' => $key,
+            'attrib'  => $key,
             'modtype' => $type,
-            'values' => $values,
+            'values'  => $values,
         ];
 
         return $this;
@@ -572,7 +572,7 @@ abstract class AbstractModel
      */
     public function save()
     {
-        if($this->exists) {
+        if ($this->exists) {
             return $this->update();
         } else {
             return $this->create();
@@ -588,7 +588,7 @@ abstract class AbstractModel
     {
         $modifications = $this->getModifications();
 
-        if(count($modifications) > 0) {
+        if (count($modifications) > 0) {
             return $this->getAdldap()->getConnection()->modifyBatch($this->getDn(), $modifications);
         }
 
@@ -639,21 +639,21 @@ abstract class AbstractModel
     /**
      * Deletes the current entry.
      *
-     * @return bool
-     *
      * @throws ModelNotFoundException
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function delete()
     {
         $dn = $this->getDn();
 
-        if(!$this->exists) {
+        if (!$this->exists) {
             // Make sure the record exists before we can delete it
             $message = 'Model does not exist in active directory.';
 
             throw new ModelNotFoundException($message);
-        } else if(is_null($dn) || empty($dn)) {
+        } elseif (is_null($dn) || empty($dn)) {
             // If the record exists but the DN attribute does
             // not exist, we can't process a delete.
             $message = 'Unable to delete. The current model does not have a distinguished name present.';
@@ -685,12 +685,12 @@ abstract class AbstractModel
     {
         $bool = strtoupper($bool);
 
-        if($bool === ActiveDirectory::FALSE) {
+        if ($bool === ActiveDirectory::FALSE) {
             return false;
-        } else if($bool === ActiveDirectory::TRUE) {
+        } elseif ($bool === ActiveDirectory::TRUE) {
             return true;
         } else {
-            return null;
+            return;
         }
     }
 }

@@ -2,19 +2,19 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Adldap;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Models\ExchangeServer;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
-use Adldap\Models\Group;
-use Adldap\Models\User;
-use Adldap\Models\Printer;
 use Adldap\Models\Entry;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Models\ExchangeServer;
+use Adldap\Models\Group;
+use Adldap\Models\Printer;
+use Adldap\Models\User;
 use Adldap\Objects\Paginator;
-use Adldap\Query\Operator;
 use Adldap\Query\Builder;
-use Adldap\Adldap;
+use Adldap\Query\Operator;
+use Adldap\Schemas\ActiveDirectory;
 
 class Search extends AbstractBase
 {
@@ -62,7 +62,6 @@ class Search extends AbstractBase
      * @var string
      */
     protected $sortByField = '';
-
 
     /**
      * Constructor.
@@ -433,7 +432,7 @@ class Search extends AbstractBase
     {
         if ($this->dn === null) {
             return $this->dn;
-        } else if (empty($this->dn)) {
+        } elseif (empty($this->dn)) {
             return $this->getBaseDn();
         }
 
@@ -474,9 +473,9 @@ class Search extends AbstractBase
      *
      * @param string $anr
      *
-     * @return array|bool
-     *
      * @throws ModelNotFoundException
+     *
+     * @return array|bool
      */
     public function findOrFail($anr)
     {
@@ -484,7 +483,7 @@ class Search extends AbstractBase
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
-        if(!$entry instanceof Entry && !is_array($entry)) {
+        if (!$entry instanceof Entry && !is_array($entry)) {
             $message = 'Unable to find record in Active Directory.';
 
             throw new ModelNotFoundException($message);
@@ -525,7 +524,7 @@ class Search extends AbstractBase
         $key = ActiveDirectory::DEFAULT_NAMING_CONTEXT;
 
         if (is_array($result) && array_key_exists($key, $result)) {
-            if(array_key_exists(0, $result[$key])) {
+            if (array_key_exists(0, $result[$key])) {
                 return $result[$key][0];
             }
         }
@@ -591,12 +590,12 @@ class Search extends AbstractBase
     {
         $attribute = ActiveDirectory::OBJECT_CATEGORY;
 
-        if(array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
+        if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
             // We'll explode the DN so we can grab it's object category.
             $category = Utilities::explodeDn($attributes[$attribute][0]);
 
             // We'll create a new object depending on the object category of the LDAP entry.
-            switch(strtolower($category[0])) {
+            switch (strtolower($category[0])) {
                 case ActiveDirectory::OBJECT_CATEGORY_COMPUTER:
                     return (new Computer([], $this->getAdldap()))->setRawAttributes($attributes);
                 case ActiveDirectory::OBJECT_CATEGORY_PERSON:
@@ -637,7 +636,7 @@ class Search extends AbstractBase
     {
         $entries = $this->getAdldap()->getConnection()->getEntries($results);
 
-        if($this->raw) {
+        if ($this->raw) {
             return $entries;
         } else {
             $objects = [];

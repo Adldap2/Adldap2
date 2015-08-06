@@ -2,10 +2,10 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Objects\DistinguishedName;
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Exceptions\ConfigurationException;
 use Adldap\Exceptions\InvalidArgumentException;
+use Adldap\Objects\DistinguishedName;
+use Adldap\Schemas\ActiveDirectory;
 use Traversable;
 
 class Configuration
@@ -41,7 +41,7 @@ class Configuration
      */
     protected $personFilter = [
         'category' => ActiveDirectory::OBJECT_CATEGORY,
-        'person' => ActiveDirectory::PERSON
+        'person'   => ActiveDirectory::PERSON,
     ];
 
     /**
@@ -106,6 +106,7 @@ class Configuration
 
     /**
      * @param array|Traversable $options
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($options = [])
@@ -121,7 +122,7 @@ class Configuration
         }
 
         foreach ($options as $key => $value) {
-            $method = 'set' . $this->normalizeKey($key);
+            $method = 'set'.$this->normalizeKey($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
@@ -137,7 +138,7 @@ class Configuration
     {
         // We'll construct a new Distinguished name with
         // the DN we're given so we know it's valid.
-        if(!$dn instanceof DistinguishedName) {
+        if (!$dn instanceof DistinguishedName) {
             $dn = new DistinguishedName($dn);
         }
 
@@ -257,7 +258,7 @@ class Configuration
     {
         $bool = (bool) $bool;
 
-        if($this->useTLS && $bool === true) {
+        if ($this->useTLS && $bool === true) {
             $message = 'You can only specify the use of one security protocol. Use TLS is true.';
 
             throw new ConfigurationException($message);
@@ -287,7 +288,7 @@ class Configuration
     {
         $bool = (bool) $bool;
 
-        if($this->useSSL && $bool === true) {
+        if ($this->useSSL && $bool === true) {
             $message = 'You can only specify the use of one security protocol. Use SSL is true.';
 
             throw new ConfigurationException($message);
@@ -335,7 +336,7 @@ class Configuration
      */
     public function setDomainControllers(array $hosts)
     {
-        if(count($hosts) === 0) {
+        if (count($hosts) === 0) {
             $message = 'You must specify at least one domain controller.';
 
             throw new ConfigurationException($message);
@@ -415,15 +416,16 @@ class Configuration
     }
 
     /**
-     * Normalize array key
+     * Normalize array key.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string
      */
     protected function normalizeKey($key)
     {
         $key = str_replace('_', '', strtolower($key));
-        return $key;
 
+        return $key;
     }
 }

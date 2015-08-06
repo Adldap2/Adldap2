@@ -11,7 +11,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
      * Finds a contact.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
      *
      * @return bool|\Adldap\Models\User
      */
@@ -33,7 +33,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     {
         $search = $this->search()->select($fields);
 
-        if($sorted) {
+        if ($sorted) {
             $search->sortBy($sortBy);
         }
 

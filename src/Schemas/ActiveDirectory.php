@@ -3,7 +3,7 @@
 namespace Adldap\Schemas;
 
 /**
- * Class ActiveDirectory
+ * Class ActiveDirectory.
  *
  * The active directory attribute schema for easy auto completion retrieval.
  */

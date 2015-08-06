@@ -2,6 +2,6 @@
 
 namespace Adldap\Exceptions;
 
-class EntryDoesNotExistException extends AdldapException
+class ModelDoesNotExistException extends AdldapException
 {
 }

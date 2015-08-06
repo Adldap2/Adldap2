@@ -6,10 +6,10 @@ use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\AccountControl;
 use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
+use Adldap\Objects\AccountControl;
+use Adldap\Schemas\ActiveDirectory;
 
 class User extends Entry
 {
@@ -378,9 +378,9 @@ class User extends Entry
     /**
      * Enables the current user.
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function enable()
     {
@@ -392,9 +392,9 @@ class User extends Entry
     /**
      * Disables the current user.
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function disable()
     {
@@ -408,9 +408,9 @@ class User extends Entry
      *
      * @param string $password
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function setPassword($password)
     {
@@ -447,15 +447,15 @@ class User extends Entry
 
     /**
      * Change the password of the current user. This must be performed over SSL.
-
+     
      * @param string $oldPassword The new password
      * @param string $newPassword The old password
-     *
-     * @return bool
      *
      * @throws AdldapException
      * @throws PasswordPolicyException
      * @throws WrongPasswordException
+     *
+     * @return bool
      */
     public function changePassword($oldPassword, $newPassword)
     {
@@ -472,7 +472,7 @@ class User extends Entry
 
         $result = $this->save();
 
-        if($result === false) {
+        if ($result === false) {
             $error = $this->connection->getExtendedError();
 
             if ($error) {

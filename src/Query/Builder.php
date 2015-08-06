@@ -2,9 +2,9 @@
 
 namespace Adldap\Query;
 
+use Adldap\Classes\Utilities;
 use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Classes\Utilities;
 
 class Builder
 {
@@ -259,7 +259,7 @@ class Builder
     {
         $selects = $this->selects;
 
-        if(count($selects) > 0) {
+        if (count($selects) > 0) {
             // Always make sure object category and distinguished
             // name are included in the selected fields
             $selects[] = ActiveDirectory::OBJECT_CATEGORY;
@@ -317,7 +317,7 @@ class Builder
     {
         // We'll make sure the field isn't empty
         // before we add it to the selects
-        if(!empty($field)) {
+        if (!empty($field)) {
             $this->selects[] = $field;
         }
     }
@@ -335,9 +335,9 @@ class Builder
     private function addWhere($field, $operator, $value = null)
     {
         $this->wheres[] = [
-            self::$whereFieldKey => $field,
+            self::$whereFieldKey    => $field,
             self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey => Utilities::escape($value),
+            self::$whereValueKey    => Utilities::escape($value),
         ];
     }
 
@@ -354,9 +354,9 @@ class Builder
     private function addOrWhere($field, $operator, $value = null)
     {
         $this->orWheres[] = [
-            self::$whereFieldKey => $field,
+            self::$whereFieldKey    => $field,
             self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey => Utilities::escape($value),
+            self::$whereValueKey    => Utilities::escape($value),
         ];
     }
 
@@ -529,9 +529,9 @@ class Builder
      *
      * @param string $operator
      *
-     * @return string
-     *
      * @throws InvalidQueryOperatorException
+     *
+     * @return string
      */
     private function getOperator($operator)
     {
@@ -630,7 +630,7 @@ class Builder
      *
      * @return string|null
      */
-    private function assembleWhere($where = array())
+    private function assembleWhere($where = [])
     {
         if (is_array($where)) {
             switch ($where['operator']) {
@@ -655,7 +655,7 @@ class Builder
             }
         }
 
-        return null;
+        return;
     }
 
     /**

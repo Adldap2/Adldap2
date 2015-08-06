@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Objects;
+namespace Adldap\tests\Objects;
 
 use Adldap\Objects\DistinguishedName;
 use Adldap\Tests\UnitTestCase;

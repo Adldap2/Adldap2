@@ -108,7 +108,7 @@ class Exchange extends AbstractBase implements QueryableInterface
     {
         $result = $this->getAdldap()->getRootDse();
 
-        if($result instanceof Entry) {
+        if ($result instanceof Entry) {
             return $result->getAttribute(ActiveDirectory::CONFIGURATION_NAMING_CONTEXT, 0);
         }
 

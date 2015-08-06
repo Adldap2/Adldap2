@@ -151,28 +151,28 @@ class DistinguishedName
      */
     public function setBase($base)
     {
-        if(!is_null($base)) {
+        if (!is_null($base)) {
             // If the base DN isn't null we'll try to explode it.
             $base = Utilities::explodeDn($base, false);
 
             // Since exploding a DN returns false on failure,
             // we'll double check to make sure it's an array
-            if(is_array($base)) {
+            if (is_array($base)) {
                 // We need to reverse the base to keep the order in tact since RDNs
                 // are already reversed to follow the right to left pattern
                 $base = array_reverse($base);
 
-                foreach($base as $key => $rdn) {
+                foreach ($base as $key => $rdn) {
                     // We'll avoid going through the count key as it's
                     // automatically created when exploding a DN
-                    if($key !== 'count') {
+                    if ($key !== 'count') {
                         // We'll break the RDN into pieces
                         $pieces = explode('=', $rdn);
 
                         // If there's exactly 2 pieces, then we can work with it.
-                        if(count($pieces) === 2) {
+                        if (count($pieces) === 2) {
                             // We see what type of RDN it is and add each accordingly
-                            switch(strtoupper($pieces[0])) {
+                            switch (strtoupper($pieces[0])) {
                                 case 'DC':
                                     $this->addDc($pieces[1]);
                                     break;
@@ -218,16 +218,16 @@ class DistinguishedName
      */
     private function assembleRdns($attribute, array $values = [])
     {
-        if(count($values) > 0) {
+        if (count($values) > 0) {
             $values = array_reverse($values);
 
-            $values = array_map(function($value) use ($attribute) {
+            $values = array_map(function ($value) use ($attribute) {
                 return $attribute.'='.Utilities::escape($value, '', 2);
             }, $values);
 
             return implode(',', $values);
         }
 
-        return null;
+        return;
     }
 }

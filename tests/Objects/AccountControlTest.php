@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Objects;
+namespace Adldap\tests\Objects;
 
 use Adldap\Objects\AccountControl;
 use Adldap\Tests\UnitTestCase;

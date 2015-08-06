@@ -2,9 +2,9 @@
 
 namespace Adldap;
 
-use Adldap\Exceptions\AdldapException;
-use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Configuration;
+use Adldap\Connections\ConnectionInterface;
+use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
@@ -45,11 +45,11 @@ class Adldap
      */
     public function __construct($configuration, $connection = null, $autoConnect = true)
     {
-        if(is_array($configuration)) {
+        if (is_array($configuration)) {
             // If we've been given an array, we'll create
             // a new Configuration instance.
             $configuration = new Configuration($configuration);
-        } else if(!$configuration instanceof Configuration) {
+        } elseif (!$configuration instanceof Configuration) {
             // Otherwise, if the Configuration isn't a Configuration
             // object, we'll throw an exception.
             $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';
@@ -74,9 +74,9 @@ class Adldap
         if ($autoConnect) {
             // Set the beginning protocol options on the connection
             // if they're set in the configuration
-            if($this->configuration->getUseSSL()) {
+            if ($this->configuration->getUseSSL()) {
                 $this->connection->useSSL();
-            } else if ($this->configuration->getUseTLS()) {
+            } elseif ($this->configuration->getUseTLS()) {
                 $this->connection->useTLS();
             }
 
@@ -243,9 +243,9 @@ class Adldap
     /**
      * Connects and Binds to the Domain Controller.
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function connect()
     {
@@ -276,9 +276,9 @@ class Adldap
      * @param string $password      The users AD password
      * @param bool   $preventRebind
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
@@ -384,7 +384,7 @@ class Adldap
             $password = null;
         }
 
-        if (! $this->connection->bind($username, $password)) {
+        if (!$this->connection->bind($username, $password)) {
             $error = $this->connection->getLastError();
 
             if ($this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {

@@ -36,10 +36,10 @@ trait HasMemberOfTrait
 
         $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
 
-        if(is_array($dns)) {
+        if (is_array($dns)) {
             unset($dns['count']);
 
-            foreach($dns as $key => $dn) {
+            foreach ($dns as $key => $dn) {
                 $groups[] = $this->getAdldap()->search()->findByDn($dn);
             }
         }
@@ -72,12 +72,12 @@ trait HasMemberOfTrait
         $groups = $this->getGroups();
 
         if ($group instanceof Group) {
-            if(in_array($group, $groups)) {
+            if (in_array($group, $groups)) {
                 return true;
             }
-        } else if (is_string($group)) {
-            foreach($groups as $model) {
-                if($group == $model->getName()) {
+        } elseif (is_string($group)) {
+            foreach ($groups as $model) {
+                if ($group == $model->getName()) {
                     return true;
                 }
             }

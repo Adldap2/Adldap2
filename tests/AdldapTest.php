@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests;
+namespace Adldap\tests;
 
 use Adldap\Adldap;
 use Adldap\Connections\Configuration;
@@ -148,11 +148,11 @@ class AdldapTest extends UnitTestCase
     public function testLiveConnection()
     {
         $config = [
-            'account_suffix' => '@gatech.edu',
+            'account_suffix'     => '@gatech.edu',
             'domain_controllers' => ['whitepages.gatech.edu'],
-            'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
-            'admin_username' => '',
-            'admin_password' => '',
+            'base_dn'            => 'dc=whitepages,dc=gatech,dc=edu',
+            'admin_username'     => '',
+            'admin_password'     => '',
         ];
 
         $ad = new \Adldap\Adldap($config);

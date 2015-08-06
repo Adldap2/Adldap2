@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Query;
+namespace Adldap\tests\Query;
 
 use Adldap\Query\Builder;
 use Adldap\Tests\UnitTestCase;
@@ -33,7 +33,7 @@ class BuilderTest extends UnitTestCase
             'dn',
         ];
 
-        $this->assertEquals($expected,  $b->getSelects());
+        $this->assertEquals($expected, $b->getSelects());
     }
 
     public function testSelectString()
@@ -48,7 +48,7 @@ class BuilderTest extends UnitTestCase
             'dn',
         ];
 
-        $this->assertEquals($expected,  $b->getSelects());
+        $this->assertEquals($expected, $b->getSelects());
     }
 
     public function testSelectEmptyString()
@@ -57,7 +57,7 @@ class BuilderTest extends UnitTestCase
 
         $b->select('');
 
-        $this->assertEquals([],  $b->getSelects());
+        $this->assertEquals([], $b->getSelects());
     }
 
     public function testHasSelects()
@@ -77,10 +77,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => '=',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getWheres());
@@ -94,10 +94,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'contains',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getWheres());
@@ -111,10 +111,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'starts_with',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getWheres());
@@ -128,10 +128,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'ends_with',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getWheres());
@@ -145,10 +145,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => '=',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getOrWheres());
@@ -162,10 +162,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'contains',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getOrWheres());
@@ -179,10 +179,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'starts_with',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getOrWheres());
@@ -196,10 +196,10 @@ class BuilderTest extends UnitTestCase
 
         $wheres = [
             [
-                'field' => 'cn',
+                'field'    => 'cn',
                 'operator' => 'ends_with',
-                'value' => '\74\65\73\74',
-            ]
+                'value'    => '\74\65\73\74',
+            ],
         ];
 
         $this->assertEquals($wheres, $b->getOrWheres());

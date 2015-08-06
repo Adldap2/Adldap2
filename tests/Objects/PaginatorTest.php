@@ -1,11 +1,11 @@
 <?php
 
-namespace Adldap\Tests\Objects;
+namespace Adldap\tests\Objects;
 
 use Adldap\Objects\Paginator;
 use Adldap\Tests\UnitTestCase;
 
-class PagintorTest extends UnitTestCase
+class PaginatorTest extends UnitTestCase
 {
     public function testPaginatorConstruct()
     {
@@ -24,7 +24,7 @@ class PagintorTest extends UnitTestCase
             ],
             [
                 'name' => 'Suzy',
-            ]
+            ],
         ];
 
         $paginator = new Paginator($data, 1, 0, 2);
@@ -34,8 +34,7 @@ class PagintorTest extends UnitTestCase
         $this->assertEquals(0, $paginator->getCurrentPage());
 
         // Tests that only the first entry is shown
-        foreach($paginator as $entry)
-        {
+        foreach ($paginator as $entry) {
             $this->assertEquals(['name' => 'John'], $entry);
         }
 
@@ -43,8 +42,7 @@ class PagintorTest extends UnitTestCase
 
         $this->assertEquals(1, $paginator2->getCurrentPage());
 
-        foreach($paginator2 as $entry)
-        {
+        foreach ($paginator2 as $entry) {
             $this->assertEquals(['name' => 'Suzy'], $entry);
         }
     }

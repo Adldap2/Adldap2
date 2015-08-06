@@ -614,9 +614,9 @@ class Ldap implements ConnectionInterface
      * @param bool   $isCritical
      * @param string $cookie
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
     {
@@ -637,11 +637,11 @@ class Ldap implements ConnectionInterface
      * Retrieve a paginated result response.
      *
      * @param resource $result
-     * @param string $cookie
-     *
-     * @return bool
+     * @param string   $cookie
      *
      * @throws AdldapException
+     *
+     * @return bool
      */
     public function controlPagedResultResponse($result, &$cookie)
     {

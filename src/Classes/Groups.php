@@ -2,8 +2,8 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Models\Group;
 use Adldap\Models\Entry;
+use Adldap\Models\Group;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
@@ -13,7 +13,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      * Finds a group.
      *
      * @param string $name
-     * @param array $fields
+     * @param array  $fields
      *
      * @return bool|\Adldap\Models\Group
      */
@@ -35,7 +35,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
     {
         $search = $this->search()->select($fields);
 
-        if($sorted) {
+        if ($sorted) {
             $search->sortBy($sortBy);
         }
 
@@ -98,14 +98,14 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
 
         $user = $this->getAdldap()->users()->find($user);
 
-        if($group instanceof Group && $user instanceof User) {
+        if ($group instanceof Group && $user instanceof User) {
             $sid = Utilities::binarySidToText($group->getSid());
 
             $result = $this->adldap->search()
                     ->where(ActiveDirectory::OBJECT_SID, '=', $sid)
                     ->first();
 
-            if($result instanceof Entry) {
+            if ($result instanceof Entry) {
                 return $result->getDn();
             }
         }

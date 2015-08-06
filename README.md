@@ -17,17 +17,15 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
 
 ## Index
 
-> **Note:** Documentation is incomplete as Adldap is currently in the upgrade process to version `5.0.0`. They will be fully featured and complete in the coming weeks.
-
 - [Installation](#installation)
 - [Testing With A Public AD Server](#need-to-test-an-ldap-connection)
 - Usage
- - [API Documentation](http://adldap2.github.io/api)
  - [Configuration](https://github.com/adldap2/adldap2/tree/master/docs/CONFIGURATION.md)
  - [Getting Started](https://github.com/adldap2/adldap2/tree/master/docs/GETTING-STARTED.md)
  - [Searching](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH.md)
  - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
  - [Working with Distinguished Names](https://github.com/adldap2/adldap2/tree/master/docs/DISTINGUISHED-NAMES.md)
+ - [API Documentation](http://adldap2.github.io/api)
 
 ## Requirements
 

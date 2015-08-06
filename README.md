@@ -48,7 +48,7 @@ have to require the files inside the project `src/` directory yourself.
 
 Insert Adldap into your `composer.json` file:
 
-    "adldap2/adldap2": "5.0.0-beta.4"
+    "adldap2/adldap2": "5.0.0-beta.5"
    
 Run `composer update`
 

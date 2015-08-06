@@ -1,17 +1,12 @@
-## Container Functions
+## Container Model
 
-Container functions are used for managing active directory OU's (organizational units).
+The container model will be returned when an AD result entry contains the object category: `container`.
 
-### All
+##### Getting the containers `systemflags` attribute:
 
-To retrieve all OU's from AD, use the `all()` method:
-
-    $folders = $ad->containers()->all();
+    $container->getSystemFlags();
     
-Keep in mind that this query is by default recursive, and your results may be limited depending on your server.
+##### Getting the containers `iscriticalsystemobject` attribute:
 
-### Find
+    $container->isCriticalSystemObject(); // Returns bool
 
-To find a folder, use the `find()` method:
-
-    $folder = $ad->containers()->find('Accounting');

@@ -3,6 +3,8 @@
 Working with DN strings are a pain, but they're about to get easier. Adldap includes a DN builder for easily modifying and
 creating DN strings.
 
+> **Note**: All values inserted into DN methods are escaped. You don't need to escape **any** values before hand.
+
 #### Creating a New DN
 
 To create a new DN, construct a new `\Adldap\Objects\DistinguishedName` instance:

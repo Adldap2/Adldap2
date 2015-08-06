@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Classes;
+namespace Adldap\tests\Classes;
 
 use Adldap\Classes\Search;
 use Adldap\Tests\UnitTestCase;

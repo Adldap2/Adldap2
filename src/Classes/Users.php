@@ -2,9 +2,9 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Exceptions\AdldapException;
 use Adldap\Models\Entry;
 use Adldap\Models\User;
-use Adldap\Exceptions\AdldapException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Users extends AbstractBase implements QueryableInterface, CreateableInterface
@@ -33,15 +33,15 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      * @param bool   $sorted
      * @param string $sortBy
      *
-     * @return array|bool
-     *
      * @throws AdldapException
+     *
+     * @return array|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = 'cn')
     {
         $search = $this->search()->select($fields);
 
-        if($sorted) {
+        if ($sorted) {
             $search->sortBy($sortBy);
         }
 
@@ -98,9 +98,9 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      *
      * @param $username
      *
-     * @return array|string|bool
-     *
      * @throws AdldapException
+     *
+     * @return array|string|bool
      */
     public function passwordExpiry($username)
     {
@@ -110,7 +110,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
             $passwordLastSet = $user->getPasswordLastSet();
 
             $status = [
-                'expires' => true,
+                'expires'     => true,
                 'has_expired' => false,
             ];
 

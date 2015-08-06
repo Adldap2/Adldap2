@@ -2,9 +2,9 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
+use Adldap\Schemas\ActiveDirectory;
 
 class Group extends Entry
 {
@@ -25,10 +25,10 @@ class Group extends Entry
 
         $dns = $this->getAttribute(ActiveDirectory::MEMBER);
 
-        if(is_array($dns)) {
+        if (is_array($dns)) {
             unset($dns['count']);
 
-            foreach($dns as $dn) {
+            foreach ($dns as $dn) {
                 $members[] = $this->getAdldap()->search()->findByDn($dn);
             }
         }
@@ -59,7 +59,7 @@ class Group extends Entry
      */
     public function addMember($entry)
     {
-        if($entry instanceof Entry) {
+        if ($entry instanceof Entry) {
             $entry = $entry->getDn();
         }
 
@@ -77,7 +77,7 @@ class Group extends Entry
      */
     public function removeMember($entry)
     {
-        if($entry instanceof Entry) {
+        if ($entry instanceof Entry) {
             $entry = $entry->getDn();
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Classes;
+namespace Adldap\tests\Classes;
 
 use Adldap\Classes\Utilities;
 use Adldap\Tests\UnitTestCase;
@@ -15,10 +15,10 @@ class UtilitiesTest extends UnitTestCase
 
         $expected = [
             'count' => 4,
-            0 => 'Testing',
-            1 => 'Folder',
-            2 => 'corp',
-            3 => 'org',
+            0       => 'Testing',
+            1       => 'Folder',
+            2       => 'corp',
+            3       => 'org',
         ];
 
         $this->assertEquals($expected, $split);

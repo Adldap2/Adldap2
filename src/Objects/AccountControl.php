@@ -119,7 +119,6 @@ class AccountControl
         return $this;
     }
 
-
     /**
      * This is an account for users whose primary account is in another domain.
      *
@@ -381,7 +380,7 @@ class AccountControl
     {
         $total = 0;
 
-        foreach($this->values as $value) {
+        foreach ($this->values as $value) {
             $total = $total + $value;
         }
 

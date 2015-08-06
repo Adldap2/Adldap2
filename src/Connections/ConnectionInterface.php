@@ -281,7 +281,7 @@ interface ConnectionInterface
      *
      * @param string $dn
      * @param $filter
-     * @param array  $fields
+     * @param array $fields
      *
      * @return mixed
      */

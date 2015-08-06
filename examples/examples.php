@@ -42,11 +42,11 @@ if (0) {
 
 // create a group
 if (0) {
-    $attributes = array(
-        'group_name' => 'Test Group',
+    $attributes = [
+        'group_name'  => 'Test Group',
         'description' => 'Just Testing',
-        'container' => array('Groups','A Container'),
-    );
+        'container'   => ['Groups','A Container'],
+    ];
     $result = $adldap->group()->create($attributes);
     var_dump($result);
 }
@@ -60,18 +60,18 @@ if (0) {
 
 // create a user account
 if (0) {
-    $attributes = array(
-        'username' => 'freds',
+    $attributes = [
+        'username'   => 'freds',
         'logon_name' => 'freds@mydomain.local',
-        'firstname' => 'Fred',
-        'surname' => 'Smith',
-        'company' => 'My Company',
+        'firstname'  => 'Fred',
+        'surname'    => 'Smith',
+        'company'    => 'My Company',
         'department' => 'My Department',
-        'email' => 'freds@mydomain.local',
-        'container' => array('Container Parent','Container Child'),
-        'enabled' => 1,
-        'password' => 'Password123',
-    );
+        'email'      => 'freds@mydomain.local',
+        'container'  => ['Container Parent','Container Child'],
+        'enabled'    => 1,
+        'password'   => 'Password123',
+    ];
 
     try {
         $result = $adldap->user()->create($attributes);
@@ -103,9 +103,9 @@ if (0) {
 
 // modify a user account (this example will set "user must change password at next logon")
 if (0) {
-    $attributes = array(
+    $attributes = [
         'change_password' => 1,
-    );
+    ];
     $result = $adldap->user()->modify('username', $attributes);
     var_dump($result);
 }
@@ -134,6 +134,6 @@ if (0) {
 
 // list the contents of the Users OU
 if (0) {
-    $result = $adldap->folder()->listing(array('Users'), adLDAP::ADLDAP_FOLDER, false);
+    $result = $adldap->folder()->listing(['Users'], adLDAP::ADLDAP_FOLDER, false);
     var_dump($result);
 }

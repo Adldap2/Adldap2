@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Connections;
+namespace Adldap\tests\Connections;
 
 use Adldap\Connections\Configuration;
 use Adldap\Tests\UnitTestCase;
@@ -25,15 +25,15 @@ class ConfigurationTest extends UnitTestCase
     public function testDynamicSetUp()
     {
         $settings = [
-            'port' => 500,
-            'base_dn' => 'dc=corp,dc=org',
+            'port'               => 500,
+            'base_dn'            => 'dc=corp,dc=org',
             'domain_controllers' => ['dc1', 'dc2'],
-            'follow_referrals' => 1,
-            'admin_username' => 'username',
-            'admin_password' => 'password',
-            'use_ssl' => true,
-            'use_tls' => false,
-            'use_sso' => false,
+            'follow_referrals'   => 1,
+            'admin_username'     => 'username',
+            'admin_password'     => 'password',
+            'use_ssl'            => true,
+            'use_tls'            => false,
+            'use_sso'            => false,
         ];
 
         $config = new Configuration($settings);
@@ -110,7 +110,7 @@ class ConfigurationTest extends UnitTestCase
         $config->setAdminUsername('username');
 
         $this->assertEquals('username', $config->getAdminUsername());
-        $this->assertInternalType('string',  $config->getAdminUsername());
+        $this->assertInternalType('string', $config->getAdminUsername());
     }
 
     public function testSetAdminPassword()
@@ -120,7 +120,7 @@ class ConfigurationTest extends UnitTestCase
         $config->setAdminPassword('password');
 
         $this->assertEquals('password', $config->getAdminPassword());
-        $this->assertInternalType('string',  $config->getAdminPassword());
+        $this->assertInternalType('string', $config->getAdminPassword());
     }
 
     public function testSetUseSSL()

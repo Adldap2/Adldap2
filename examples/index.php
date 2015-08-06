@@ -16,17 +16,17 @@ use adLDAP\Exceptions\adLDAPException;
 
 // Set up all options.
 $options = [
-    'account_suffix' => '',
-    'base_dn' => null,
+    'account_suffix'     => '',
+    'base_dn'            => null,
     'domain_controllers' => [''],
-    'admin_username' => null,
-    'admin_password' => null,
-    'real_primarygroup' => '',
-    'use_ssl' => false,
-    'use_tls' => false,
-    'recursive_groups' => true,
-    'ad_port' => adLDAP::ADLDAP_LDAP_PORT,
-    'sso' => '',
+    'admin_username'     => null,
+    'admin_password'     => null,
+    'real_primarygroup'  => '',
+    'use_ssl'            => false,
+    'use_tls'            => false,
+    'recursive_groups'   => true,
+    'ad_port'            => adLDAP::ADLDAP_LDAP_PORT,
+    'sso'                => '',
 ];
 // Update options from $_POST.
 foreach ($options as $optName => $defaultValue) {

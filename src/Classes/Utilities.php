@@ -191,7 +191,6 @@ class Utilities
         return 'S-'.$result;
     }
 
-
     /**
      * Converts a little-endian hex number to one that hexdec() can convert.
      *

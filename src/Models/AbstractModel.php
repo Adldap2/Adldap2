@@ -6,6 +6,7 @@ use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Classes\Utilities;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Adldap;
 
 abstract class AbstractModel
@@ -331,6 +332,16 @@ abstract class AbstractModel
     public function getDn()
     {
         return $this->getDistinguishedName();
+    }
+
+    /**
+     * Returns a new DistinguishedName object for building onto.
+     *
+     * @return DistinguishedName
+     */
+    public function getDnBuilder()
+    {
+        return new DistinguishedName($this->getDistinguishedName());
     }
 
     /**

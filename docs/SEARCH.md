@@ -169,7 +169,7 @@ To perform a raw LDAP query yourself, use the `query()` method:
 However, keep in mind the inserted query is not escaped. If you need to escape your values before the query, be sure
 to do so using:
 
-    $escapedValue = $ad->getConnection()->escape('John Doe');
+    $escapedValue = Adldap\Classes\Utilities::escape('John Doe');
     
 Then you can perform the above query like so:
 

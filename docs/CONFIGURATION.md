@@ -87,6 +87,6 @@ For more information, visit: https://technet.microsoft.com/en-us/library/cc97801
 #### SSL & TLS (optional)
 
 If you need to be able to change user passwords on your server, then an SSL *or* TLS connection is required. All other operations
-are allowed on unsecured protocols. This option is definitely recommended if you have the ability to connect to your server
+are allowed on unsecured protocols. These options are definitely recommended if you have the ability to connect to your server
 securely.
 

@@ -414,7 +414,9 @@ class User extends Entry
      */
     public function setPassword($password)
     {
-        if (!$this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {
+        $connection = $this->getAdldap()->getConnection();
+
+        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to set passwords.';
 
             throw new AdldapException($message);
@@ -425,10 +427,10 @@ class User extends Entry
         $result = $this->save();
 
         if ($result === false) {
-            $err = $this->connection->errNo();
+            $err = $connection->errNo();
 
             if ($err) {
-                $error = $this->connection->err2Str($err);
+                $error = $connection->err2Str($err);
 
                 $msg = 'Error '.$err.': '.$error.'.';
 
@@ -459,7 +461,9 @@ class User extends Entry
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        if (!$this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {
+        $connection = $this->getAdldap()->getConnection();
+
+        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to change passwords.';
 
             throw new AdldapException($message);
@@ -473,10 +477,10 @@ class User extends Entry
         $result = $this->save();
 
         if ($result === false) {
-            $error = $this->connection->getExtendedError();
+            $error = $connection->getExtendedError();
 
             if ($error) {
-                $errorCode = $this->connection->getExtendedErrorCode();
+                $errorCode = $connection->getExtendedErrorCode();
 
                 $message = 'Error: '.$error;
 

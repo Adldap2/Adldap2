@@ -617,9 +617,13 @@ abstract class AbstractModel
      */
     public function createAttribute($attribute, $value)
     {
-        $add = [$attribute => $value];
+        if($this->exists) {
+            $add = [$attribute => $value];
 
-        return $this->getAdldap()->getConnection()->modAdd($this->getDn(), $add);
+            return $this->getAdldap()->getConnection()->modAdd($this->getDn(), $add);
+        }
+
+        return false;
     }
 
     /**
@@ -651,11 +655,15 @@ abstract class AbstractModel
      */
     public function deleteAttribute($attribute)
     {
-        // We need to pass in an empty array as the value
-        // for the attribute so AD knows to remove it.
-        $remove = [$attribute => []];
+        if($this->exists) {
+            // We need to pass in an empty array as the value
+            // for the attribute so AD knows to remove it.
+            $remove = [$attribute => []];
 
-        return $this->getAdldap()->getConnection()->modDelete($this->getDn(), $remove);
+            return $this->getAdldap()->getConnection()->modDelete($this->getDn(), $remove);
+        }
+
+        return false;
     }
 
     /**

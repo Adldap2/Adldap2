@@ -580,7 +580,7 @@ abstract class AbstractModel
     /**
      * Persists the changes to the LDAP server and returns the result.
      *
-     * @return bool
+     * @return bool|$this
      */
     public function save()
     {
@@ -594,14 +594,20 @@ abstract class AbstractModel
     /**
      * Persists attribute updates to the active directory record.
      *
-     * @return bool
+     * @return bool|$this
      */
     public function update()
     {
         $modifications = $this->getModifications();
 
+        $dn = $this->getDn();
+
         if (count($modifications) > 0) {
-            return $this->getAdldap()->getConnection()->modifyBatch($this->getDn(), $modifications);
+            $modified = $this->getAdldap()->getConnection()->modifyBatch($dn, $modifications);
+
+            if($modified) {
+                return $this->getAdldap()->search()->findByDn($dn);
+            }
         }
 
         return true;
@@ -629,7 +635,7 @@ abstract class AbstractModel
     /**
      * Creates an active directory record.
      *
-     * @return bool
+     * @return bool|$this
      */
     public function create()
     {

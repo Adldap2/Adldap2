@@ -147,6 +147,18 @@ abstract class AbstractModel
     }
 
     /**
+     * Sets the model's samaccountname.
+     *
+     * @param string $accountName
+     *
+     * @return AbstractModel
+     */
+    public function setAccountName($accountName)
+    {
+        return $this->setAttribute(ActiveDirectory::ACCOUNT_NAME, $accountName, 0);
+    }
+
+    /**
      * Returns the model's samaccounttype.
      *
      * https://msdn.microsoft.com/en-us/library/ms679637(v=vs.85).aspx

@@ -608,8 +608,12 @@ abstract class AbstractModel
             if($modified) {
                 return $this->getAdldap()->search()->findByDn($dn);
             }
+
+            return false;
         }
 
+        // We need to return true here because modify batch will
+        // return false if no modifications are made
         return true;
     }
 

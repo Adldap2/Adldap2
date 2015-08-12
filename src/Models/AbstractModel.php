@@ -629,7 +629,17 @@ abstract class AbstractModel
      */
     public function create()
     {
-        return $this->getAdldap()->getConnection()->add($this->getDn(), $this->getAttributes());
+        $attributes = $this->arrayExcept($this->getAttributes(), ['dn']);
+
+        $dn = $this->getDn();
+
+        $added = $this->getAdldap()->getConnection()->add($dn, $attributes);
+
+        if($added) {
+            return $this->getAdldap()->search()->findByDn($dn);
+        }
+
+        return false;
     }
 
     /**
@@ -704,5 +714,32 @@ abstract class AbstractModel
         } else {
             return;
         }
+    }
+
+    /**
+     * Removes the specified keys from the specified array.
+     *
+     * @param array $array
+     * @param array $keys
+     *
+     * @return array
+     */
+    protected function arrayExcept(array $array, $keys)
+    {
+        foreach ((array) $keys as $key) {
+            $parts = explode('.', $key);
+
+            while (count($parts) > 1) {
+                $part = array_shift($parts);
+
+                if (isset($array[$part]) && is_array($array[$part])) {
+                    $array = $array[$part];
+                }
+            }
+
+            unset($array[array_shift($parts)]);
+        }
+
+        return $array;
     }
 }

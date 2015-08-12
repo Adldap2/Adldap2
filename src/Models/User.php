@@ -380,13 +380,13 @@ class User extends Entry
      *
      * @throws AdldapException
      *
-     * @return bool
+     * @return User
      */
     public function enable()
     {
         $this->enabled = 1;
 
-        return $this->save();
+        return $this;
     }
 
     /**
@@ -394,13 +394,13 @@ class User extends Entry
      *
      * @throws AdldapException
      *
-     * @return bool
+     * @return User
      */
     public function disable()
     {
         $this->enabled = 0;
 
-        return $this->save();
+        return $this;
     }
 
     /**

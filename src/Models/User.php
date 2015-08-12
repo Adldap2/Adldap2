@@ -325,11 +325,11 @@ class User extends Entry
     /**
      * Sets the users account control property.
      *
-     * @param AccountControl $accountControl
+     * @param int|string|AccountControl $accountControl
      *
      * @return User
      */
-    public function setUserAccountControl(AccountControl $accountControl)
+    public function setUserAccountControl($accountControl)
     {
         return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, (string) $accountControl);
     }

@@ -26,6 +26,7 @@ Adldap2 is a tested PHP class library that provides LDAP authentication and Acti
  - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
  - [Working with Distinguished Names](https://github.com/adldap2/adldap2/tree/master/docs/DISTINGUISHED-NAMES.md)
  - [API Documentation](http://adldap2.github.io/api)
+- [Implementations](#implementations)
 
 ## Requirements
 
@@ -52,6 +53,10 @@ Insert Adldap into your `composer.json` file:
 Run `composer update`
 
 You're good to go!
+
+## Implementations
+
+[Laravel](www.github.com/Adldap2/Adldap-Laravel)
 
 ## Need to test an LDAP connection?
 

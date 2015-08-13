@@ -175,7 +175,7 @@ If you'd like to retrieve the first result of a search, but throw an exception w
 
 If you'd like to sort your returned results, call the `sortBy()` method like so:
     
-> Note: The sort by attribute also needs to be specified in your selects if your specifying them.
+> Note: The sort by attribute also needs to be specified in your selects if you're specifying them.
     
     // Returned results will be sorted by the common name in a ascending order
     $results = $ad->search()->select('cn')->where('cn', '=', 'John*')->sortBy('cn')->get();

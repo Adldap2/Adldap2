@@ -151,6 +151,26 @@ need a small amount of information.
 > Note: The `objectCategory` and `distinguishedName` attribute will always be selected as Adldap needs these for 
 creating the applicable models.
 
+
+#### First
+
+If you'd like to retrieve the first result of a search, use the `first()` method:
+
+    $result = $ad->seach()->where('cn', '=', 'John Doe')->first();
+    
+#### First or Fail
+
+If you'd like to retrieve the first result of a search, but throw an exception when one isn't found, use the
+`firstOrFail()` method:
+
+    try {
+        
+        $result = $ad->seach()->where('cn', '=', 'John Doe')->firstOrFail();
+      
+    } catch (Adldap\Exceptions\ModelNotFoundException $e) {
+        // Couldn't find the record
+    }
+
 #### Sort By
 
 If you'd like to sort your returned results, call the `sortBy()` method like so:

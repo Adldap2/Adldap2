@@ -650,7 +650,7 @@ abstract class AbstractModel
         // We need to remove the dn from the attributes array
         // as it's inserted independently.
         unset($attributes['dn']);
-        
+
         $added = $this->getAdldap()->getConnection()->add($dn, $attributes);
 
         if($added) {

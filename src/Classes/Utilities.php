@@ -218,18 +218,7 @@ class Utilities
      */
     public static function encodePassword($password)
     {
-        $password = '"'.$password.'"';
-
-        $encoded = '';
-
-        $length = strlen($password);
-
-        for ($i = 0; $i < $length; $i++) {
-            $encoded .= "{$password{$i}
-            }\000";
-        }
-
-        return $encoded;
+        return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
     }
 
     /**

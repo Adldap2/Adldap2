@@ -57,11 +57,9 @@ class Utilities
      */
     protected static function escapeManual($value, $ignore = '', $flags = 0)
     {
-        /*
-         * If a flag was supplied, we'll send the value
-         * off to be escaped using the PHP flag values
-         * and return the result.
-         */
+        // If a flag was supplied, we'll send the value off
+        // to be escaped using the PHP flag values
+        // and return the result.
         if ($flags) {
             return self::escapeManualWithFlags($value, $ignore, $flags);
         }
@@ -109,7 +107,10 @@ class Utilities
         // Convert ignore string into an array
         $ignores = self::ignoreStrToArray($ignore);
 
+        // The escape characters for search filters
         $escapeFilter = ['\\', '*', '(', ')'];
+
+        // The escape characters for distinguished names
         $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
 
         switch ($flags) {

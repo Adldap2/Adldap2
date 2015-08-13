@@ -153,6 +153,28 @@ class Search extends AbstractBase
     }
 
     /**
+     * Returns the first entry in a search result.
+     *
+     * If no entry is found, an exception is thrown.
+     *
+     * @return array|bool
+     *
+     * @throws ModelNotFoundException
+     */
+    public function firstOrFail()
+    {
+        $record = $this->first();
+
+        if(!$record) {
+            $message = 'Unable to find record in Active Directory.';
+
+            throw new ModelNotFoundException($message);
+        }
+
+        return $record;
+    }
+
+    /**
      * Adds the inserted fields to query on the current LDAP connection.
      *
      * @param array $fields

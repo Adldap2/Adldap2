@@ -2,6 +2,8 @@
 
 namespace Adldap\Models;
 
+use ArrayAccess;
+use JsonSerializable;
 use Adldap\Adldap;
 use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
@@ -9,7 +11,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
 
-abstract class AbstractModel
+abstract class AbstractModel implements ArrayAccess, JsonSerializable
 {
     /**
      * Indicates if the model exists in active directory.
@@ -84,6 +86,268 @@ abstract class AbstractModel
     public function __set($key, $value)
     {
         return $this->setAttribute($key, $value);
+    }
+
+    /**
+     * Determine if the given offset exists.
+     *
+     * @param  string  $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->{$offset});
+    }
+
+    /**
+     * Get the value for a given offset.
+     *
+     * @param  string  $offset
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->{$offset};
+    }
+
+    /**
+     * Set the value at the given offset.
+     *
+     * @param  string  $offset
+     * @param  mixed   $value
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->{$offset} = $value;
+    }
+
+    /**
+     * Unset the value at the given offset.
+     *
+     * @param  string  $offset
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->{$offset});
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->getAttributes();
+    }
+
+    /**
+     * Syncs the original attributes with
+     * the model's current attributes.
+     *
+     * @return $this
+     */
+    public function syncOriginal()
+    {
+        $this->original = $this->attributes;
+
+        return $this;
+    }
+
+    /**
+     * Retrieves the specified key from the attribute array.
+     *
+     * If a sub-key is specified, it will try
+     * and retrieve it from the parent keys array.
+     *
+     * @param int|string $key
+     * @param int|string $subKey
+     *
+     * @return mixed
+     */
+    public function getAttribute($key, $subKey = null)
+    {
+        if (is_null($subKey)) {
+            if ($this->hasAttribute($key)) {
+                return $this->attributes[$key];
+            }
+        } else {
+            if ($this->hasAttribute($key, $subKey)) {
+                return $this->attributes[$key][$subKey];
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * Retrieves the attributes array property.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Fills the entry with the supplied attributes.
+     *
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function fill(array $attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets attributes on the current entry.
+     *
+     * @param int|string $key
+     * @param mixed      $value
+     * @param int|string $subKey
+     *
+     * @return $this
+     */
+    public function setAttribute($key, $value, $subKey = null)
+    {
+        if (is_null($subKey)) {
+            $this->attributes[$key] = $value;
+        } else {
+            $this->attributes[$key][$subKey] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the attributes property.
+     *
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function setRawAttributes(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+
+        $this->exists = true;
+
+        $this->syncOriginal();
+
+        return $this;
+    }
+
+    /**
+     * Returns true / false if the specified attribute
+     * exists in the attributes array.
+     *
+     * @param int|string $key
+     * @param int|string $subKey
+     *
+     * @return bool
+     */
+    public function hasAttribute($key, $subKey = null)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            // If a sub key is given, we'll check if it
+            // exists in the nested attribute array
+            if (!is_null($subKey)) {
+                if (is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the number of attributes inside
+     * the attributes property.
+     *
+     * @return int
+     */
+    public function countAttributes()
+    {
+        return count($this->getAttributes());
+    }
+
+    /**
+     * Returns the objects modifications.
+     *
+     * @return array
+     */
+    public function getModifications()
+    {
+        foreach ($this->attributes as $key => $value) {
+            // If the key still exists inside the original attributes,
+            // the developer is modifying an attribute.
+            if (array_key_exists($key, $this->original)) {
+                if (is_array($value)) {
+                    if (count(array_diff($value, $this->original[$key])) > 0) {
+                        // Make sure we remove the count key as we don't
+                        // want to push that attribute into AD
+                        unset($value['count']);
+
+                        // If the value of the set attribute is an array and the differences
+                        // are greater than zero, we'll replace the attribute.
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                    }
+                } elseif ($value !== $this->original[$key]) {
+                    if (is_null($value)) {
+                        // If the value is set to null, then we'll
+                        // assume they want the attribute removed
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE, $value);
+                    } else {
+                        // If the value doesn't equal it's original, we'll replace it.
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                    }
+                }
+            } else {
+                // The value doesn't exist at all, we'll add it.
+                $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
+            }
+        }
+
+        return $this->modifications;
+    }
+
+    /**
+     * Sets a modification in the objects modifications array.
+     *
+     * @param int|string $key
+     * @param int        $type
+     * @param mixed      $values
+     *
+     * @return $this
+     */
+    public function setModification($key, $type, $values)
+    {
+        // We need to make sure the values given are always in an array.
+        if (!is_array($values)) {
+            $values = [$values];
+        }
+
+        $this->modifications[] = [
+            'attrib'  => $key,
+            'modtype' => $type,
+            'values'  => $values,
+        ];
+
+        return $this;
     }
 
     /**
@@ -368,213 +632,6 @@ abstract class AbstractModel
     public function setDn($dn)
     {
         return $this->setDistinguishedName($dn);
-    }
-
-    /**
-     * Syncs the original attributes with
-     * the model's current attributes.
-     *
-     * @return $this
-     */
-    public function syncOriginal()
-    {
-        $this->original = $this->attributes;
-
-        return $this;
-    }
-
-    /**
-     * Retrieves the specified key from the attribute array.
-     *
-     * If a sub-key is specified, it will try
-     * and retrieve it from the parent keys array.
-     *
-     * @param int|string $key
-     * @param int|string $subKey
-     *
-     * @return mixed
-     */
-    public function getAttribute($key, $subKey = null)
-    {
-        if (is_null($subKey)) {
-            if ($this->hasAttribute($key)) {
-                return $this->attributes[$key];
-            }
-        } else {
-            if ($this->hasAttribute($key, $subKey)) {
-                return $this->attributes[$key][$subKey];
-            }
-        }
-
-        return;
-    }
-
-    /**
-     * Retrieves the attributes array property.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Fills the entry with the supplied attributes.
-     *
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function fill(array $attributes = [])
-    {
-        foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets attributes on the current entry.
-     *
-     * @param int|string $key
-     * @param mixed      $value
-     * @param int|string $subKey
-     *
-     * @return $this
-     */
-    public function setAttribute($key, $value, $subKey = null)
-    {
-        if (is_null($subKey)) {
-            $this->attributes[$key] = $value;
-        } else {
-            $this->attributes[$key][$subKey] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the attributes property.
-     *
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function setRawAttributes(array $attributes = [])
-    {
-        $this->attributes = $attributes;
-
-        $this->exists = true;
-
-        $this->syncOriginal();
-
-        return $this;
-    }
-
-    /**
-     * Returns true / false if the specified attribute
-     * exists in the attributes array.
-     *
-     * @param int|string $key
-     * @param int|string $subKey
-     *
-     * @return bool
-     */
-    public function hasAttribute($key, $subKey = null)
-    {
-        if (array_key_exists($key, $this->attributes)) {
-            // If a sub key is given, we'll check if it
-            // exists in the nested attribute array
-            if (!is_null($subKey)) {
-                if (is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the number of attributes inside
-     * the attributes property.
-     *
-     * @return int
-     */
-    public function countAttributes()
-    {
-        return count($this->getAttributes());
-    }
-
-    /**
-     * Returns the objects modifications.
-     *
-     * @return array
-     */
-    public function getModifications()
-    {
-        foreach ($this->attributes as $key => $value) {
-            // If the key still exists inside the original attributes,
-            // the developer is modifying an attribute.
-            if (array_key_exists($key, $this->original)) {
-                if (is_array($value)) {
-                    if (count(array_diff($value, $this->original[$key])) > 0) {
-                        // Make sure we remove the count key as we don't
-                        // want to push that attribute into AD
-                        unset($value['count']);
-
-                        // If the value of the set attribute is an array and the differences
-                        // are greater than zero, we'll replace the attribute.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
-                    }
-                } elseif ($value !== $this->original[$key]) {
-                    if (is_null($value)) {
-                        // If the value is set to null, then we'll
-                        // assume they want the attribute removed
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE, $value);
-                    } else {
-                        // If the value doesn't equal it's original, we'll replace it.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
-                    }
-                }
-            } else {
-                // The value doesn't exist at all, we'll add it.
-                $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
-            }
-        }
-
-        return $this->modifications;
-    }
-
-    /**
-     * Sets a modification in the objects modifications array.
-     *
-     * @param int|string $key
-     * @param int        $type
-     * @param mixed      $values
-     *
-     * @return $this
-     */
-    public function setModification($key, $type, $values)
-    {
-        // We need to make sure the values given are always in an array.
-        if (!is_array($values)) {
-            $values = [$values];
-        }
-
-        $this->modifications[] = [
-            'attrib'  => $key,
-            'modtype' => $type,
-            'values'  => $values,
-        ];
-
-        return $this;
     }
 
     /**

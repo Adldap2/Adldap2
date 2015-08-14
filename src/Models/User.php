@@ -449,7 +449,7 @@ class User extends Entry
 
     /**
      * Change the password of the current user. This must be performed over SSL.
-     
+     * 
      * @param string $oldPassword The new password
      * @param string $newPassword The old password
      *

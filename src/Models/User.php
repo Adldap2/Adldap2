@@ -18,6 +18,28 @@ class User extends Entry
     use HasLastLogonAndLogOffTrait;
 
     /**
+     * Returns the users display name.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->getAttribute(ActiveDirectory::DISPLAY_NAME, 0);
+    }
+
+    /**
+     * Sets the users display name.
+     *
+     * @param string $displayName
+     *
+     * @return User
+     */
+    public function setDisplayName($displayName)
+    {
+        return $this->setAttribute(ActiveDirectory::DISPLAY_NAME, $displayName, 0);
+    }
+
+    /**
      * Returns the users title.
      *
      * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
@@ -114,6 +136,116 @@ class User extends Entry
     }
 
     /**
+     * Returns the users initials.
+     *
+     * @return mixed
+     */
+    public function getInitials()
+    {
+        return $this->getAttribute(ActiveDirectory::INITIALS, 0);
+    }
+
+    /**
+     * Sets the users initials.
+     *
+     * @param string $initials
+     *
+     * @return User
+     */
+    public function setInitials($initials)
+    {
+        return $this->setAttribute(ActiveDirectory::INITIALS, $initials, 0);
+    }
+
+    /**
+     * Returns the users country.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->getAttribute(ActiveDirectory::COUNTRY, 0);
+    }
+
+    /**
+     * Sets the users country.
+     *
+     * @param string $country
+     *
+     * @return User
+     */
+    public function setCountry($country)
+    {
+        return $this->setAttribute(ActiveDirectory::COUNTRY, $country, 0);
+    }
+
+    /**
+     * Returns the users street address.
+     *
+     * @return User
+     */
+    public function getStreetAddress()
+    {
+        return $this->getAttribute(ActiveDirectory::STREET_ADDRESS, 0);
+    }
+
+    /**
+     * Sets the users street address.
+     *
+     * @param string $address
+     *
+     * @return User
+     */
+    public function setStreetAddress($address)
+    {
+        return $this->setAttribute(ActiveDirectory::STREET_ADDRESS, $address, 0);
+    }
+
+    /**
+     * Returns the users postal code.
+     *
+     * @return string
+     */
+    public function getPostalCode()
+    {
+        return $this->getAttribute(ActiveDirectory::POSTAL_CODE, 0);
+    }
+
+    /**
+     * Sets the users postal code.
+     *
+     * @param string $postalCode
+     *
+     * @return User
+     */
+    public function setPostalCode($postalCode)
+    {
+        return $this->setAttribute(ActiveDirectory::POSTAL_CODE, $postalCode, 0);
+    }
+
+    /**
+     * Returns the users physical delivery office name.
+     *
+     * @return string
+     */
+    public function getPhysicalDeliveryOfficeName()
+    {
+        return $this->getAttribute(ActiveDirectory::PHYSICAL_DELIVERY_OFFICE_NAME, 0);
+    }
+
+    /**
+     * Sets the users physical delivery office name.
+     *
+     * @param string $deliveryOffice
+     *
+     * @return User
+     */
+    public function setPhysicalDeliveryOfficeName($deliveryOffice)
+    {
+        return $this->setAttribute(ActiveDirectory::PHYSICAL_DELIVERY_OFFICE_NAME, $deliveryOffice, 0);
+    }
+
+    /**
      * Returns the users telephone number.
      *
      * https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
@@ -135,6 +267,28 @@ class User extends Entry
     public function setTelephoneNumber($number)
     {
         return $this->setAttribute(ActiveDirectory::TELEPHONE, $number, 0);
+    }
+
+    /**
+     * Returns the users locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->getAttribute(ActiveDirectory::LOCALE, 0);
+    }
+
+    /**
+     * Sets the users locale.
+     *
+     * @param string $locale
+     *
+     * @return User
+     */
+    public function setLocale($locale)
+    {
+        return $this->setAttribute(ActiveDirectory::LOCALE, $locale, 0);
     }
 
     /**

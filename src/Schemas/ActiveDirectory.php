@@ -22,6 +22,7 @@ class ActiveDirectory
     const COMPUTER = 'computer';
     const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
     const CONTACT = 'contact';
+    const COUNTRY = 'c';
     const CREATED_AT = 'whencreated';
     const DEFAULT_NAMING_CONTEXT = 'defaultnamingcontext';
     const DEPARTMENT = 'department';
@@ -49,6 +50,7 @@ class ActiveDirectory
     const LAST_LOGON_TIMESTAMP = 'lastlogontimestamp';
     const LAST_NAME = 'sn';
     const LEGACY_EXCHANGE_DN = 'legacyexchangedn';
+    const LOCALE = 'l';
     const LOCATION = 'location';
     const LOCKOUT_TIME = 'lockouttime';
     const MAX_PASSWORD_AGE = 'maxpwdage';
@@ -60,9 +62,9 @@ class ActiveDirectory
     const OBJECT_CATEGORY = 'objectcategory';
     const OBJECT_CATEGORY_COMPUTER = 'computer';
     const OBJECT_CATEGORY_CONTAINER = 'container';
+    const OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
     const OBJECT_CATEGORY_EXCHANGE_SERVER = 'msExchExchangeServer';
     const OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP = 'msExchStorageGroup';
-    const OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
     const OBJECT_CATEGORY_GROUP = 'group';
     const OBJECT_CATEGORY_PERSON = 'person';
     const OBJECT_CATEGORY_PRINTER = 'print-queue';
@@ -77,6 +79,7 @@ class ActiveDirectory
     const ORGANIZATIONAL_UNIT_SHORT = 'ou';
     const PASSWORD_LAST_SET = 'pwdlastset';
     const PERSON = 'person';
+    const PHYSICAL_DELIVERY_OFFICE_NAME = 'physicaldeliveryofficename';
     const PORT_NAME = 'portname';
     const POSTAL_CODE = 'postalcode';
     const PRIMARY_GROUP_ID = 'primarygroupid';
@@ -102,6 +105,7 @@ class ActiveDirectory
     const SERVER_NAME = 'servername';
     const SHOW_IN_ADDRESS_BOOK = 'showinaddressbook';
     const STREET = 'street';
+    const STREET_ADDRESS = 'streetaddress';
     const SYSTEM_FLAGS = 'systemflags';
     const TELEPHONE = 'telephonenumber';
     const TITLE = 'title';

@@ -4,11 +4,6 @@ namespace Adldap\Classes;
 
 use Adldap\Adldap;
 
-/**
- * The Base Adldap class.
- *
- * Class AdldapBase
- */
 abstract class AbstractBase
 {
     /**

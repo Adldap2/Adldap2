@@ -13,7 +13,8 @@
 
 ## Description
 
-Adldap2 is a tested PHP class library that provides LDAP authentication and Active Directory management tools.
+Working with Active Directory doesn't need to be hard. Adldap2 is a tested PHP package that provides LDAP
+authentication and Active Directory management tools.
 
 ## Index
 

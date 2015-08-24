@@ -91,7 +91,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Determine if the given offset exists.
      *
-     * @param  string  $offset
+     * @param string $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -102,7 +103,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Get the value for a given offset.
      *
-     * @param  string  $offset
+     * @param string $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -113,8 +115,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Set the value at the given offset.
      *
-     * @param  string  $offset
-     * @param  mixed   $value
+     * @param string $offset
+     * @param mixed  $value
+     *
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -125,7 +128,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Unset the value at the given offset.
      *
-     * @param  string  $offset
+     * @param string $offset
+     *
      * @return void
      */
     public function offsetUnset($offset)

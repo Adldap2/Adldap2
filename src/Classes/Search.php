@@ -486,7 +486,7 @@ class Search extends AbstractBase
      */
     public function find($anr)
     {
-        return $this->whereEquals(ActiveDirectory::ACCOUNT_NAME, $anr)->first();
+        return $this->whereEquals(ActiveDirectory::ANR, $anr)->first();
     }
 
     /**

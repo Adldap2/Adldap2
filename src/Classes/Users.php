@@ -13,9 +13,6 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      * Finds a user with the specified username
      * in the connection connection.
      *
-     * The username parameter can be any attribute on the user.
-     * Such as a their name, their logon, their mail, etc.
-     *
      * @param string $username
      * @param array  $fields
      *
@@ -23,7 +20,10 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      */
     public function find($username, $fields = [])
     {
-        return $this->search()->select($fields)->find($username);
+        return $this->search()
+            ->select($fields)
+            ->whereEquals(ActiveDirectory::ACCOUNT_NAME, $username)
+            ->first();
     }
 
     /**

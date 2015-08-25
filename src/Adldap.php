@@ -11,13 +11,6 @@ use Adldap\Schemas\ActiveDirectory;
 class Adldap
 {
     /**
-     * The Adldap version number.
-     *
-     * @var string
-     */
-    const VERSION = '5.0.0';
-
-    /**
      * Holds the current ldap connection.
      *
      * @var ConnectionInterface

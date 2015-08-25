@@ -58,6 +58,7 @@ You're good to go!
 ## Implementations
 
 [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
+[Kohana](https://github.com/Adldap2/Adldap2-Kohana)
 
 ## Need to test an LDAP connection?
 

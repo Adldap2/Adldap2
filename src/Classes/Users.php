@@ -10,8 +10,7 @@ use Adldap\Schemas\ActiveDirectory;
 class Users extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * Finds a user with the specified username
-     * in the connection connection.
+     * Finds a user with the specified username.
      *
      * @param string $username
      * @param array  $fields

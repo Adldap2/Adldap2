@@ -3,27 +3,26 @@
 namespace Adldap\tests\Query;
 
 use Adldap\Query\Builder;
+use Adldap\Query\Grammar;
 use Adldap\Tests\UnitTestCase;
 
 class BuilderTest extends UnitTestCase
 {
-    public function testConstruct()
+    protected function newBuilder()
     {
-        $b = new Builder();
-
-        $this->assertEmpty($b->getQuery());
+        return new Builder(new Grammar());
     }
 
-    public function testGetSelectsAreEmpty()
+    public function testConstruct()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
-        $this->assertEquals([], $b->getSelects());
+        $this->assertEmpty($b->get());
     }
 
     public function testSelectArray()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->select(['testing']);
 
@@ -38,7 +37,7 @@ class BuilderTest extends UnitTestCase
 
     public function testSelectString()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->select('testing');
 
@@ -53,16 +52,18 @@ class BuilderTest extends UnitTestCase
 
     public function testSelectEmptyString()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->select('');
 
-        $this->assertEquals([], $b->getSelects());
+        $expected = [];
+
+        $this->assertEquals($expected, $b->getSelects());
     }
 
     public function testHasSelects()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->select('test');
 
@@ -71,7 +72,7 @@ class BuilderTest extends UnitTestCase
 
     public function testWhere()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->where('cn', '=', 'test');
 
@@ -88,7 +89,7 @@ class BuilderTest extends UnitTestCase
 
     public function testWhereContains()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereContains('cn', 'test');
 
@@ -105,7 +106,7 @@ class BuilderTest extends UnitTestCase
 
     public function testWhereStartsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereStartsWith('cn', 'test');
 
@@ -122,7 +123,7 @@ class BuilderTest extends UnitTestCase
 
     public function testWhereEndsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereEndsWith('cn', 'test');
 
@@ -139,7 +140,7 @@ class BuilderTest extends UnitTestCase
 
     public function testOrWhere()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhere('cn', '=', 'test');
 
@@ -156,7 +157,7 @@ class BuilderTest extends UnitTestCase
 
     public function testOrWhereContains()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereContains('cn', 'test');
 
@@ -173,7 +174,7 @@ class BuilderTest extends UnitTestCase
 
     public function testOrWhereStartsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereStartsWith('cn', 'test');
 
@@ -190,7 +191,7 @@ class BuilderTest extends UnitTestCase
 
     public function testOrWhereEndsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereEndsWith('cn', 'test');
 
@@ -207,7 +208,7 @@ class BuilderTest extends UnitTestCase
 
     public function testWhereInvalidOperator()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
 
@@ -216,7 +217,7 @@ class BuilderTest extends UnitTestCase
 
     public function testOrWhereInvalidOperator()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
 
@@ -225,7 +226,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWhere()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->where('field', '=' , 'value');
 
@@ -236,7 +237,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWheres()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->where('field', '=' , 'value');
 
@@ -249,7 +250,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWhereStartsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereStartsWith('field', 'value');
 
@@ -260,7 +261,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWhereEndsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereEndsWith('field', 'value');
 
@@ -271,7 +272,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWhereContains()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->whereContains('field', 'value');
 
@@ -282,7 +283,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltOrWhere()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhere('field', '=' , 'value');
 
@@ -293,7 +294,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltOrWheres()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhere('field', '=' , 'value');
 
@@ -306,7 +307,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltOrWhereStartsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereStartsWith('field', 'value');
 
@@ -317,7 +318,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltOrWhereEndsWith()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereEndsWith('field', 'value');
 
@@ -328,7 +329,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltOrWhereContains()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->orWhereContains('field', 'value');
 
@@ -339,7 +340,7 @@ class BuilderTest extends UnitTestCase
 
     public function testBuiltWhereAndOrWheres()
     {
-        $b = new Builder();
+        $b = $this->newBuilder();
 
         $b->where('field', '=', 'value');
 
@@ -348,49 +349,5 @@ class BuilderTest extends UnitTestCase
         $expected = '(&(field=\76\61\6c\75\65)(|(or=\76\61\6c\75\65)))';
 
         $this->assertEquals($expected, $b->get());
-    }
-
-    public function testWrap()
-    {
-        $b = new Builder();
-
-        $wrapped = $b->wrap('test');
-
-        $expected = '(test)';
-
-        $this->assertEquals($expected, $wrapped);
-    }
-
-    public function testWrapPrefix()
-    {
-        $b = new Builder();
-
-        $wrapped = $b->wrap('test', '(!');
-
-        $expected = '(!test)';
-
-        $this->assertEquals($expected, $wrapped);
-    }
-
-    public function testWrapSuffix()
-    {
-        $b = new Builder();
-
-        $wrapped = $b->wrap('test', null, '=)');
-
-        $expected = 'test=)';
-
-        $this->assertEquals($expected, $wrapped);
-    }
-
-    public function testWrapBoth()
-    {
-        $b = new Builder();
-
-        $wrapped = $b->wrap('test', '(!prefix', 'suffix)');
-
-        $expected = '(!prefixtestsuffix)';
-
-        $this->assertEquals($expected, $wrapped);
     }
 }

@@ -9,18 +9,32 @@ use Adldap\Schemas\ActiveDirectory;
 class Builder
 {
     /**
-     * Stores the current query string.
+     * The field key for a where statement.
      *
      * @var string
      */
-    protected $query = '';
+    public static $whereFieldKey = 'field';
 
     /**
-     * Stores the selects to use in the query when assembled.
+     * The operator key for a where statement.
+     *
+     * @var string
+     */
+    public static $whereOperatorKey = 'operator';
+
+    /**
+     * The value key for a where statement.
+     *
+     * @var string
+     */
+    public static $whereValueKey = 'value';
+
+    /**
+     * Stores the column selects to use in the query when assembled.
      *
      * @var array
      */
-    protected $selects = [];
+    public $selects = [];
 
     /**
      * Stores the current where filters
@@ -28,7 +42,7 @@ class Builder
      *
      * @var array
      */
-    protected $wheres = [];
+    public $wheres = [];
 
     /**
      * Stores the current or where filters
@@ -36,28 +50,24 @@ class Builder
      *
      * @var array
      */
-    protected $orWheres = [];
+    public $orWheres = [];
 
     /**
-     * The field key for a where statement.
+     * Stores the current grammar instance.
      *
-     * @var string
+     * @var Grammar
      */
-    protected static $whereFieldKey = 'field';
+    protected $grammar;
 
     /**
-     * The operator key for a where statement.
+     * Constructor.
      *
-     * @var string
+     * @param Grammar $grammar
      */
-    protected static $whereOperatorKey = 'operator';
-
-    /**
-     * The value key for a where statement.
-     *
-     * @var string
-     */
-    protected static $whereValueKey = 'value';
+    public function __construct(Grammar $grammar)
+    {
+        $this->grammar = $grammar;
+    }
 
     /**
      * Returns the current query.
@@ -66,31 +76,17 @@ class Builder
      */
     public function get()
     {
-        // Return the query if it exists
-        if (!empty($this->query)) {
-            return $this->query;
-        }
-
-        // Looks like our query hasn't been assembled
-        // yet, let's try to assemble it
-        $this->assembleQuery();
-
-        // Return the assembled query
-        return $this->query;
+        return $this->grammar->compileQuery($this);
     }
 
     /**
-     * Wraps a query string in brackets.
+     * Returns the current Grammar instance.
      *
-     * @param string $query
-     * @param string $prefix
-     * @param string $suffix
-     *
-     * @return string
+     * @return Grammar
      */
-    public function wrap($query, $prefix = '(', $suffix = ')')
+    public function getGrammar()
     {
-        return $prefix.$query.$suffix;
+        return $this->grammar;
     }
 
     /**
@@ -290,25 +286,6 @@ class Builder
     }
 
     /**
-     * Returns the current query string.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        // Return the query if it exists
-        if (!empty($this->query)) {
-            return $this->query;
-        }
-
-        /*
-         * Looks like our query hasn't been assembled
-         * yet, let's try to assemble it
-         */
-        return $this->assembleQuery();
-    }
-
-    /**
      * Adds the inserted field to the selects property.
      *
      * @param string $field
@@ -361,227 +338,6 @@ class Builder
     }
 
     /**
-     * Returns a query string for does not equal.
-     *
-     * Produces: (!(field=value))
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildDoesNotEqual($field, $value)
-    {
-        return $this->wrap(Operator::$doesNotEqual.$this->buildEquals($field, $value));
-    }
-
-    /**
-     * Returns a query string for equals.
-     *
-     * Produces: (field=value)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildEquals($field, $value)
-    {
-        return $this->wrap($field.Operator::$equals.$value);
-    }
-
-    /**
-     * Returns a query string for greater than or equals.
-     *
-     * Produces: (field>=value)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildGreaterThanOrEquals($field, $value)
-    {
-        return $this->wrap($field.Operator::$greaterThanOrEqual.$value);
-    }
-
-    /**
-     * Returns a query string for less than or equals.
-     *
-     * Produces: (field<=value)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildLessThanOrEquals($field, $value)
-    {
-        return $this->wrap($field.Operator::$lessThanOrEqual.$value);
-    }
-
-    /**
-     * Returns a query string for approximately equals.
-     *
-     * Produces: (field~=value)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildApproximatelyEquals($field, $value)
-    {
-        return $this->wrap($field.Operator::$approximateEqual.$value);
-    }
-
-    /**
-     * Returns a query string for starts with.
-     *
-     * Produces: (field=value*)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildStartsWith($field, $value)
-    {
-        return $this->wrap($field.Operator::$equals.$value.Operator::$wildcard);
-    }
-
-    /**
-     * Returns a query string for does not start with.
-     *
-     * Produces: (!(field=*value))
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildNotStartsWith($field, $value)
-    {
-        return $this->wrap(Operator::$doesNotEqual.$this->buildStartsWith($field, $value));
-    }
-
-    /**
-     * Returns a query string for ends with.
-     *
-     * Produces: (field=*value)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildEndsWith($field, $value)
-    {
-        return $this->wrap($field.Operator::$equals.Operator::$wildcard.$value);
-    }
-
-    /**
-     * Returns a query string for does not end with.
-     *
-     * Produces: (!(field=value*))
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildNotEndsWith($field, $value)
-    {
-        return $this->wrap(Operator::$doesNotEqual.$this->buildEndsWith($field, $value));
-    }
-
-    /**
-     * Returns a query string for contains.
-     *
-     * Produces: (field=*value*)
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildContains($field, $value)
-    {
-        return $this->wrap($field.Operator::$equals.Operator::$wildcard.$value.Operator::$wildcard);
-    }
-
-    /**
-     * Returns a query string for does not contain.
-     *
-     * Produces: (!(field=*value*))
-     *
-     * @param string $field
-     * @param string $value
-     *
-     * @return string
-     */
-    private function buildNotContains($field, $value)
-    {
-        return $this->wrap(Operator::$doesNotEqual.$this->buildContains($field, $value));
-    }
-
-    /**
-     * Returns a query string for a wildcard (where has).
-     *
-     * Produces: (field=*)
-     *
-     * @param string $field
-     *
-     * @return string
-     */
-    private function buildWildcard($field)
-    {
-        return $this->wrap($field.Operator::$equals.Operator::$wildcard);
-    }
-
-    /**
-     * Returns a query string for a not wildcard (where does not have).
-     *
-     * Produces: (!(field=*))
-     *
-     * @param string $field
-     *
-     * @return string
-     */
-    private function buildNotWildcard($field)
-    {
-        return $this->wrap(Operator::$doesNotEqual.$this->buildWildcard($field));
-    }
-
-    /**
-     * Wraps the inserted query inside an AND operator.
-     *
-     * Produces: (&query)
-     *
-     * @param string $query
-     *
-     * @return string
-     */
-    private function buildAnd($query)
-    {
-        return $this->wrap(Operator::$and.$query);
-    }
-
-    /**
-     * Wraps the inserted query inside an OR operator.
-     *
-     * Produces: (|query)
-     *
-     * @param string $query
-     *
-     * @return string
-     */
-    private function buildOr($query)
-    {
-        return $this->wrap(Operator::$or.$query);
-    }
-
-    /**
      * Retrieves an operator from the available operators.
      *
      * Throws an AdldapException if no operator is found.
@@ -594,7 +350,7 @@ class Builder
      */
     private function getOperator($operator)
     {
-        $operators = $this->getOperators();
+        $operators = Operator::all();
 
         $key = array_search(strtolower($operator), $operators);
 
@@ -607,131 +363,5 @@ class Builder
         $message = "Operator: $operator cannot be used in an LDAP query. Available operators are: $operators";
 
         throw new InvalidQueryOperatorException($message);
-    }
-
-    /**
-     * Returns an array of available operators.
-     *
-     * @return array
-     */
-    private function getOperators()
-    {
-        return [
-            Operator::$wildcard,
-            Operator::$equals,
-            Operator::$doesNotEqual,
-            Operator::$greaterThanOrEqual,
-            Operator::$lessThanOrEqual,
-            Operator::$approximateEqual,
-            Operator::$startsWith,
-            Operator::$endsWith,
-            Operator::$contains,
-            Operator::$and,
-        ];
-    }
-
-    /**
-     * Returns an assembled query using the current object parameters.
-     *
-     * @return string
-     */
-    private function assembleQuery()
-    {
-        $this->assembleWheres();
-
-        $this->assembleOrWheres();
-
-        // Make sure we wrap the query in an 'and' if using multiple
-        // wheres or if we have any orWheres. For example:
-        // (&(cn=John*)(|(description=User*)))
-        if (count($this->getWheres()) > 1 || count($this->getOrWheres()) > 0) {
-            $this->setQuery($this->buildAnd($this->getQuery()));
-        }
-
-        return $this->query;
-    }
-
-    /**
-     * Assembles all where clauses in the current wheres property.
-     */
-    private function assembleWheres()
-    {
-        foreach ($this->wheres as $where) {
-            $this->addToQuery($this->assembleWhere($where));
-        }
-    }
-
-    /**
-     * Assembles all or where clauses in the current orWheres property.
-     */
-    private function assembleOrWheres()
-    {
-        $ors = '';
-
-        foreach ($this->orWheres as $where) {
-            $ors .= $this->assembleWhere($where);
-        }
-
-        // Make sure we wrap the query in an 'and' if using
-        // multiple wheres. For example (&QUERY)
-        if (count($this->orWheres) > 0) {
-            $this->addToQuery($this->buildOr($ors));
-        }
-    }
-
-    /**
-     * Assembles a single where query based
-     * on its operator and returns it.
-     *
-     * @param array $where
-     *
-     * @return string|null
-     */
-    private function assembleWhere($where = [])
-    {
-        if (is_array($where)) {
-            switch ($where['operator']) {
-                case Operator::$equals:
-                    return $this->buildEquals($where['field'], $where['value']);
-                case Operator::$doesNotEqual:
-                    return $this->buildDoesNotEqual($where['field'], $where['value']);
-                case Operator::$greaterThanOrEqual:
-                    return $this->buildGreaterThanOrEquals($where['field'], $where['value']);
-                case Operator::$lessThanOrEqual:
-                    return $this->buildLessThanOrEquals($where['field'], $where['value']);
-                case Operator::$approximateEqual:
-                    return $this->buildApproximatelyEquals($where['field'], $where['value']);
-                case Operator::$startsWith:
-                    return $this->buildStartsWith($where['field'], $where['value']);
-                case Operator::$endsWith:
-                    return $this->buildEndsWith($where['field'], $where['value']);
-                case Operator::$contains:
-                    return $this->buildContains($where['field'], $where['value']);
-                case Operator::$wildcard:
-                    return $this->buildWildcard($where['field']);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Adds the specified query onto the current query.
-     *
-     * @param string $query
-     */
-    private function addToQuery($query)
-    {
-        $this->query .= (string) $query;
-    }
-
-    /**
-     * Sets the current query property.
-     *
-     * @param string $query
-     */
-    private function setQuery($query)
-    {
-        $this->query = (string) $query;
     }
 }

@@ -219,7 +219,7 @@ class Utilities
      */
     public static function encodePassword($password)
     {
-        return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
+        return iconv('UTF-8', 'UTF-16LE', '"'.$password.'"');
     }
 
     /**

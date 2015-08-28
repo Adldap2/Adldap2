@@ -2,9 +2,9 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Query\Grammar;
-use Adldap\Query\Builder;
 use Adldap\Adldap;
+use Adldap\Query\Builder;
+use Adldap\Query\Grammar;
 
 abstract class AbstractBase
 {

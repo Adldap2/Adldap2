@@ -333,12 +333,12 @@ class Grammar
                 $method = $prefix.ucfirst($name);
 
                 // Make sure the compile method exists for the operator
-                if(method_exists($this, $method)) {
+                if (method_exists($this, $method)) {
                     return $this->{$method}($where[Builder::$whereFieldKey], $where[Builder::$whereValueKey]);
                 }
             }
         }
 
-        return null;
+        return;
     }
 }

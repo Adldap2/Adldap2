@@ -23,16 +23,16 @@ authentication and Active Directory management tools.
 - Usage
  - [Configuration](https://github.com/adldap2/adldap2/tree/master/docs/CONFIGURATION.md)
  - [Getting Started](https://github.com/adldap2/adldap2/tree/master/docs/GETTING-STARTED.md)
- - Classes
+ - [Searching](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH.md)
+ - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
+ - [Working with Distinguished Names](https://github.com/adldap2/adldap2/tree/master/docs/DISTINGUISHED-NAMES.md)
+ - [API Documentation](http://adldap2.github.io/api)
+- Classes
   - [Users](https://github.com/adldap2/adldap2/tree/master/docs/classes/USERS.md)
   - [Groups](https://github.com/adldap2/adldap2/tree/master/docs/classes/GROUPS.md)
   - [Containers](https://github.com/adldap2/adldap2/tree/master/docs/classes/CONTAINERS.md)
   - [Computers](https://github.com/adldap2/adldap2/tree/master/docs/classes/COMPUTERS.md)
   - [Exchange Servers](https://github.com/adldap2/adldap2/tree/master/docs/classes/EXCHANGE.md)
- - [Searching](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH.md)
- - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
- - [Working with Distinguished Names](https://github.com/adldap2/adldap2/tree/master/docs/DISTINGUISHED-NAMES.md)
- - [API Documentation](http://adldap2.github.io/api)
 - [Implementations](#implementations)
 
 ## Requirements

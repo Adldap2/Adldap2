@@ -360,4 +360,37 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals($expected, $wrapped);
     }
+
+    public function testWrapPrefix()
+    {
+        $b = new Builder();
+
+        $wrapped = $b->wrap('test', '(!');
+
+        $expected = '(!test)';
+
+        $this->assertEquals($expected, $wrapped);
+    }
+
+    public function testWrapSuffix()
+    {
+        $b = new Builder();
+
+        $wrapped = $b->wrap('test', null, '=)');
+
+        $expected = 'test=)';
+
+        $this->assertEquals($expected, $wrapped);
+    }
+
+    public function testWrapBoth()
+    {
+        $b = new Builder();
+
+        $wrapped = $b->wrap('test', '(!prefix', 'suffix)');
+
+        $expected = '(!prefixtestsuffix)';
+
+        $this->assertEquals($expected, $wrapped);
+    }
 }

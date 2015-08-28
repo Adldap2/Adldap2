@@ -39,20 +39,6 @@ class Builder
     protected $orWheres = [];
 
     /**
-     * The opening query string.
-     *
-     * @var string
-     */
-    protected static $open = '(';
-
-    /**
-     * The closing query string.
-     *
-     * @var string
-     */
-    protected static $close = ')';
-
-    /**
      * The field key for a where statement.
      *
      * @var string
@@ -97,12 +83,14 @@ class Builder
      * Wraps a query string in brackets.
      *
      * @param string $query
+     * @param string $prefix
+     * @param string $suffix
      *
      * @return string
      */
-    public function wrap($query)
+    public function wrap($query, $prefix = '(', $suffix = ')')
     {
-        return $this::$open.$query.$this::$close;
+        return $prefix.$query.$suffix;
     }
 
     /**

@@ -247,7 +247,7 @@ class Grammar
      */
     public function compileAnd($query)
     {
-        return $this->wrap('&'.$query);
+        return $this->wrap($query, '(&');
     }
 
     /**
@@ -261,7 +261,7 @@ class Grammar
      */
     public function compileOr($query)
     {
-        return $this->wrap('|'.$query);
+        return $this->wrap($query, '(|');
     }
 
     /**

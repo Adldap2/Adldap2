@@ -2,17 +2,14 @@
 
 namespace Adldap\Query;
 
-/**
- * Class Operator.
- */
 class Operator
 {
     /**
-     * The wildcard operator.
+     * The 'has' wildcard operator.
      *
      * @var string
      */
-    public static $wildcard = '*';
+    public static $has = '*';
 
     /**
      * The equals operator.
@@ -33,35 +30,21 @@ class Operator
      *
      * @var string
      */
-    public static $greaterThanOrEqual = '>=';
+    public static $greaterThanOrEquals = '>=';
 
     /**
      * The less than or equal to operator.
      *
      * @var string
      */
-    public static $lessThanOrEqual = '<=';
+    public static $lessThanOrEquals = '<=';
 
     /**
      * The approximately equal to operator.
      *
      * @var string
      */
-    public static $approximateEqual = '~=';
-
-    /**
-     * The and operator.
-     *
-     * @var string
-     */
-    public static $and = '&';
-
-    /**
-     * The or operator.
-     *
-     * @var string
-     */
-    public static $or = '|';
+    public static $approximatelyEquals = '~=';
 
     /**
      * The custom starts with operator.
@@ -71,6 +54,13 @@ class Operator
     public static $startsWith = 'starts_with';
 
     /**
+     * The custom not starts with operator.
+     *
+     * @var string
+     */
+    public static $notStartsWith = 'not_starts_with';
+
+    /**
      * The custom ends with operator.
      *
      * @var string
@@ -78,9 +68,35 @@ class Operator
     public static $endsWith = 'ends_with';
 
     /**
+     * The custom not ends with operator.
+     *
+     * @var string
+     */
+    public static $notEndsWith = 'not_ends_with';
+
+    /**
      * The custom contains operator.
      *
      * @var string
      */
     public static $contains = 'contains';
+
+    /**
+     * The custom not contains operator.
+     *
+     * @var string
+     */
+    public static $notContains = 'not_contains';
+
+    /**
+     * Returns all available operators.
+     *
+     * @return array
+     */
+    public static function all()
+    {
+       $class = new \ReflectionClass(new static);
+
+        return $class->getStaticProperties();
+    }
 }

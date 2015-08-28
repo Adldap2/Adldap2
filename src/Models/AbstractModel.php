@@ -2,14 +2,14 @@
 
 namespace Adldap\Models;
 
-use ArrayAccess;
-use JsonSerializable;
 use Adldap\Adldap;
 use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Schemas\ActiveDirectory;
+use ArrayAccess;
+use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable
 {
@@ -666,7 +666,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if (count($modifications) > 0) {
             $modified = $this->getAdldap()->getConnection()->modifyBatch($dn, $modifications);
 
-            if($modified) {
+            if ($modified) {
                 return $this->getAdldap()->search()->findByDn($dn);
             }
 
@@ -689,7 +689,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function createAttribute($attribute, $value)
     {
-        if($this->exists) {
+        if ($this->exists) {
             $add = [$attribute => $value];
 
             return $this->getAdldap()->getConnection()->modAdd($this->getDn(), $add);
@@ -715,7 +715,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         $added = $this->getAdldap()->getConnection()->add($dn, $attributes);
 
-        if($added) {
+        if ($added) {
             return $this->getAdldap()->search()->findByDn($dn);
         }
 
@@ -731,7 +731,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function deleteAttribute($attribute)
     {
-        if($this->exists) {
+        if ($this->exists) {
             // We need to pass in an empty array as the value
             // for the attribute so AD knows to remove it.
             $remove = [$attribute => []];

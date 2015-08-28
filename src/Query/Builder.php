@@ -67,7 +67,7 @@ class Builder
     protected static $whereOperatorKey = 'operator';
 
     /**
-     * The value keey for a where statement.
+     * The value key for a where statement.
      *
      * @var string
      */
@@ -91,6 +91,18 @@ class Builder
 
         // Return the assembled query
         return $this->query;
+    }
+
+    /**
+     * Wraps a query string in brackets.
+     *
+     * @param string $query
+     *
+     * @return string
+     */
+    public function wrap($query)
+    {
+        return $this::$open.$query.$this::$close;
     }
 
     /**
@@ -372,7 +384,7 @@ class Builder
      */
     private function buildDoesNotEqual($field, $value)
     {
-        return $this::$open.Operator::$doesNotEqual.$this->buildEquals($field, $value).$this::$close;
+        return $this->wrap(Operator::$doesNotEqual.$this->buildEquals($field, $value));
     }
 
     /**
@@ -387,7 +399,7 @@ class Builder
      */
     private function buildEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$equals.$value.$this::$close;
+        return $this->wrap($field.Operator::$equals.$value);
     }
 
     /**
@@ -402,7 +414,7 @@ class Builder
      */
     private function buildGreaterThanOrEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$greaterThanOrEqual.$value.$this::$close;
+        return $this->wrap($field.Operator::$greaterThanOrEqual.$value);
     }
 
     /**
@@ -417,7 +429,7 @@ class Builder
      */
     private function buildLessThanOrEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$lessThanOrEqual.$value.$this::$close;
+        return $this->wrap($field.Operator::$lessThanOrEqual.$value);
     }
 
     /**
@@ -432,7 +444,7 @@ class Builder
      */
     private function buildApproximatelyEquals($field, $value)
     {
-        return $this::$open.$field.Operator::$approximateEqual.$value.$this::$close;
+        return $this->wrap($field.Operator::$approximateEqual.$value);
     }
 
     /**
@@ -447,7 +459,7 @@ class Builder
      */
     private function buildStartsWith($field, $value)
     {
-        return $this::$open.$field.Operator::$equals.$value.Operator::$wildcard.$this::$close;
+        return $this->wrap($field.Operator::$equals.$value.Operator::$wildcard);
     }
 
     /**
@@ -462,7 +474,7 @@ class Builder
      */
     private function buildEndsWith($field, $value)
     {
-        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$value.$this::$close;
+        return $this->wrap($field.Operator::$equals.Operator::$wildcard.$value);
     }
 
     /**
@@ -477,7 +489,7 @@ class Builder
      */
     private function buildContains($field, $value)
     {
-        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$value.Operator::$wildcard.$this::$close;
+        return $this->wrap($field.Operator::$equals.Operator::$wildcard.$value.Operator::$wildcard);
     }
 
     /**
@@ -491,7 +503,7 @@ class Builder
      */
     private function buildWildcard($field)
     {
-        return $this::$open.$field.Operator::$equals.Operator::$wildcard.$this::$close;
+        return $this->wrap($field.Operator::$equals.Operator::$wildcard);
     }
 
     /**
@@ -505,7 +517,7 @@ class Builder
      */
     private function buildAnd($query)
     {
-        return $this::$open.Operator::$and.$query.$this::$close;
+        return $this->wrap(Operator::$and.$query);
     }
 
     /**
@@ -519,7 +531,7 @@ class Builder
      */
     private function buildOr($query)
     {
-        return $this::$open.Operator::$or.$query.$this::$close;
+        return $this->wrap(Operator::$or.$query);
     }
 
     /**
@@ -613,10 +625,8 @@ class Builder
             $ors .= $this->assembleWhere($where);
         }
 
-        /*
-         * Make sure we wrap the query in an 'and'
-         * if using multiple wheres. For example (&QUERY)
-         */
+        // Make sure we wrap the query in an 'and' if using
+        // multiple wheres. For example (&QUERY)
         if (count($this->orWheres) > 0) {
             $this->addToQuery($this->buildOr($ors));
         }

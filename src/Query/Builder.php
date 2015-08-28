@@ -423,7 +423,7 @@ class Builder
     /**
      * Returns a query string for approximately equals.
      *
-     * Produces: (field=value)
+     * Produces: (field~=value)
      *
      * @param string $field
      * @param string $value
@@ -451,6 +451,21 @@ class Builder
     }
 
     /**
+     * Returns a query string for does not start with.
+     *
+     * Produces: (!(field=*value))
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildNotStartsWith($field, $value)
+    {
+        return $this->wrap(Operator::$doesNotEqual.$this->buildStartsWith($field, $value));
+    }
+
+    /**
      * Returns a query string for ends with.
      *
      * Produces: (field=*value)
@@ -463,6 +478,21 @@ class Builder
     private function buildEndsWith($field, $value)
     {
         return $this->wrap($field.Operator::$equals.Operator::$wildcard.$value);
+    }
+
+    /**
+     * Returns a query string for does not end with.
+     *
+     * Produces: (!(field=value*))
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildNotEndsWith($field, $value)
+    {
+        return $this->wrap(Operator::$doesNotEqual.$this->buildEndsWith($field, $value));
     }
 
     /**
@@ -481,7 +511,22 @@ class Builder
     }
 
     /**
-     * Returns a query string for a wildcard.
+     * Returns a query string for does not contain.
+     *
+     * Produces: (!(field=*value*))
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    private function buildNotContains($field, $value)
+    {
+        return $this->wrap(Operator::$doesNotEqual.$this->buildContains($field, $value));
+    }
+
+    /**
+     * Returns a query string for a wildcard (where has).
      *
      * Produces: (field=*)
      *
@@ -492,6 +537,20 @@ class Builder
     private function buildWildcard($field)
     {
         return $this->wrap($field.Operator::$equals.Operator::$wildcard);
+    }
+
+    /**
+     * Returns a query string for a not wildcard (where does not have).
+     *
+     * Produces: (!(field=*))
+     *
+     * @param string $field
+     *
+     * @return string
+     */
+    private function buildNotWildcard($field)
+    {
+        return $this->wrap(Operator::$doesNotEqual.$this->buildWildcard($field));
     }
 
     /**
@@ -653,7 +712,7 @@ class Builder
             }
         }
 
-        return;
+        return null;
     }
 
     /**

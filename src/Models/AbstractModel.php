@@ -675,6 +675,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         // We need to return true here because modify batch will
         // return false if no modifications are made
+        // but this may not always be the case
         return true;
     }
 

@@ -320,14 +320,14 @@ class Grammar
         $prefix = 'compile';
 
         // Make sure the operator key exists inside the where clause
-        if(array_key_exists(Builder::$whereOperatorKey, $where)) {
+        if (array_key_exists(Builder::$whereOperatorKey, $where)) {
             // Get the operator from the where
             $operator = $where[Builder::$whereOperatorKey];
 
             // Get the name of the operator
             $name = array_search($operator, Operator::all());
 
-            if($name) {
+            if ($name !== false) {
                 // If the name was found we'll camel case it
                 // to run it through the compile method
                 $method = $prefix.ucfirst($name);

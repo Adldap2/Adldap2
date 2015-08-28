@@ -25,3 +25,9 @@ To retrieve information on an exchange server, use the `find()` method:
     $serverName = 'EXCH-CORP';
     
     $server = $ad->exchange()->find($serverName);
+
+### Search
+
+### Storage Groups
+
+### Storage Databases

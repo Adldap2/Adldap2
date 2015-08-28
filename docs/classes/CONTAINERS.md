@@ -15,3 +15,9 @@ Keep in mind that this query is by default recursive, and your results may be li
 To find a folder, use the `find()` method:
 
     $folder = $ad->containers()->find('Accounting');
+
+### Search
+
+### New Instance
+
+### Create

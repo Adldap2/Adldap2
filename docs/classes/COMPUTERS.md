@@ -20,7 +20,12 @@ To retrieve information on a specific computer, use the `find()` method:
     
 You can also customize the fields that are returned by passing in field array in the second parameter:
 
-    $fields = array('operatingAystem', 'operatingsystemversion');
+    $fields = array('operatingsystem', 'operatingsystemversion');
     
     $computer = $ad->computer()->find('WIN-PC', $fields);
 
+### Search
+
+### New Instance
+
+### Create

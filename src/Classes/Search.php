@@ -101,9 +101,7 @@ class Search extends AbstractBase
                 $this->getAdldap()->getConnection()->sort($results, $this->sortByField);
             }
 
-            $objects = $this->processResults($results);
-
-            return $objects;
+            return $this->processResults($results);
         }
 
         return false;

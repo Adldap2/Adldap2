@@ -2,6 +2,7 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Query\Builder;
 use Adldap\Adldap;
 
 abstract class AbstractBase
@@ -21,6 +22,8 @@ abstract class AbstractBase
     public function __construct(Adldap $adldap)
     {
         $this->adldap = $adldap;
+
+        $this->boot();
     }
 
     /**
@@ -31,5 +34,23 @@ abstract class AbstractBase
     public function getAdldap()
     {
         return $this->adldap;
+    }
+
+    /**
+     * Overridable method that is called upon construct.
+     */
+    public function boot()
+    {
+        //
+    }
+
+    /**
+     * Returns a new query builder instance.
+     *
+     * @return Builder
+     */
+    public function newBuilder()
+    {
+        return new Builder();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Adldap;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
@@ -64,15 +63,13 @@ class Search extends AbstractBase
     protected $sortByField = '';
 
     /**
-     * Constructor.
+     * Sets the query builder upon construct.
      *
-     * @param Adldap $adldap
+     * @return void
      */
-    public function __construct(Adldap $adldap)
+    public function boot()
     {
-        parent::__construct($adldap);
-
-        $this->setQueryBuilder(new Builder($adldap->getConnection()));
+        $this->setQueryBuilder($this->newBuilder());
     }
 
     /**

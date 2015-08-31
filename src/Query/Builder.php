@@ -366,7 +366,6 @@ class Builder
     {
         return $this->setDn($dn)
             ->read(true)
-            ->where(ActiveDirectory::OBJECT_CLASS, '*')
             ->first();
     }
 
@@ -852,7 +851,7 @@ class Builder
      *
      * @return Entry
      */
-    public function newLdapEntry(array $attributes)
+    public function newLdapEntry(array $attributes = [])
     {
         $attribute = ActiveDirectory::OBJECT_CATEGORY;
 

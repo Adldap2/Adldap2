@@ -403,6 +403,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users user principal name.
+     *
+     * @param string $userPrincipalName
+     *
+     * @return User
+     */
+    public function setUserPrincipalName($userPrincipalName)
+    {
+        return $this->setAttribute(ActiveDirectory::USER_PRINCIPAL_NAME, $userPrincipalName, 0);
+    }
+    
+    /**
      * Returns the users proxy addresses.
      *
      * https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx

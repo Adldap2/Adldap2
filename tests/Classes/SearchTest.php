@@ -27,7 +27,6 @@ class SearchTest extends UnitTestCase
     {
         $search = new Search($this->preparedAdldapMock());
 
-        $this->assertEquals('dc=corp,dc=org', $search->getBaseDn());
         $this->assertEquals('', $search->getQuery());
         $this->assertInstanceOf('Adldap\Adldap', $search->getAdldap());
         $this->assertInstanceOf('Adldap\Query\Builder', $search->getQueryBuilder());

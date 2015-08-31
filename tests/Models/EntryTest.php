@@ -2,14 +2,18 @@
 
 namespace Adldap\tests\Models;
 
+use Adldap\Query\Grammar;
+use Adldap\Query\Builder;
 use Adldap\Models\Entry;
 use Adldap\Tests\UnitTestCase;
 
 class EntryTest extends UnitTestCase
 {
-    protected function newAdldapPartialMock()
+    protected function newBuilder($connection = null)
     {
-        return $this->mock('Adldap\Adldap')->makePartial();
+        if(is_null($connection)) $connection = $this->newConnectionMock();
+
+        return new Builder($connection, new Grammar());
     }
 
     protected function newConnectionMock()
@@ -24,7 +28,7 @@ class EntryTest extends UnitTestCase
             'samaccountname' => 'Account Name',
         ];
 
-        $entry = new Entry($attributes, $this->newAdldapPartialMock());
+        $entry = new Entry($attributes, $this->newBuilder());
 
         $this->assertEquals($attributes, $entry->getAttributes());
     }
@@ -34,9 +38,15 @@ class EntryTest extends UnitTestCase
         $attributes = [
             'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
+            'dn'            => ['dn'],
         ];
 
-        $entry = new Entry([], $this->newAdldapPartialMock());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
+
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -51,7 +61,12 @@ class EntryTest extends UnitTestCase
             'samaccountname' => ['Account Name'],
         ];
 
-        $entry = new Entry([], $this->newAdldapPartialMock());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
+
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -70,16 +85,15 @@ class EntryTest extends UnitTestCase
             'dn'             => 'dc=corp,dc=org',
         ];
 
-        $adldap = $this->newAdldapPartialMock();
-
         $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', ['cn' => []]])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap->setConnection($connection);
-
-        $entry = new Entry([], $adldap);
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -94,16 +108,15 @@ class EntryTest extends UnitTestCase
             'dn'             => 'dc=corp,dc=org',
         ];
 
-        $adldap = $this->newAdldapPartialMock();
-
         $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
         $connection->shouldReceive('modAdd')->once()->withArgs(['dc=corp,dc=org', ['givenName' => 'John Doe']])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap->setConnection($connection);
-
-        $entry = new Entry([], $adldap);
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -117,7 +130,12 @@ class EntryTest extends UnitTestCase
             'samaccountname' => ['Account Name'],
         ];
 
-        $entry = new Entry([], $this->newAdldapPartialMock());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
+
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -145,10 +163,6 @@ class EntryTest extends UnitTestCase
 
     public function testCreate()
     {
-        $adldap = $this->newAdldapPartialMock();
-
-        $connection = $this->newConnectionMock();
-
         $attributes = [
             'cn' => 'John Doe',
             'givenname' => 'John',
@@ -164,23 +178,25 @@ class EntryTest extends UnitTestCase
             ]
         ];
 
-        $connection->shouldReceive('add')->once()->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->once()->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn('resource');
-        $connection->shouldReceive('getEntries')->once()->andReturn($returnedRaw);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection = $this->newConnectionMock();
 
-        $adldap->setConnection($connection);
+        $connection->shouldReceive('add')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
-        $entry = new Entry($attributes, $adldap);
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn([$attributes]);
+
+        $connection->shouldReceive('close')->andReturn(true);
+
+        $entry = new Entry($attributes, $this->newBuilder($connection));
 
         $entry->setDn('cn=John Doe,ou=Accounting,dc=corp,dc=org');
 
-        $returned = $entry->create();
-
-        $this->assertInstanceOf('Adldap\Models\Entry', $returned);
-        $this->assertEquals($attributes['cn'], $returned->getCommonName());
-        $this->assertEquals($attributes['sn'], $returned->sn[0]);
-        $this->assertEquals($attributes['givenname'], $returned->givenname[0]);
+        $this->assertTrue($entry->create());
+        $this->assertEquals($attributes['cn'], $entry->getCommonName());
+        $this->assertEquals($attributes['sn'], $entry->sn[0]);
+        $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
     }
 
     public function testUpdate()
@@ -189,16 +205,17 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
+        $attributes = ['dn' => $dn];
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($attributes);
+
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap = $this->newAdldapPartialMock();
+        $entry = new Entry([], $this->newBuilder($connection));
 
-        $adldap->setConnection($connection);
-
-        $entry = new Entry([], $adldap);
-
-        $entry->setRawAttributes(['dn' => $dn]);
+        $entry->setRawAttributes($attributes);
 
         $this->assertTrue($entry->update());
     }
@@ -227,22 +244,20 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('add')->once()->withArgs([$dn, $attributes])->andReturn(true);
         $connection->shouldReceive('read')->once()->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->once()->andReturn($returnedRaw);
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap = $this->newAdldapPartialMock();
-
-        $adldap->setConnection($connection);
-
-        $entry = new Entry($attributes, $adldap);
+        $entry = new Entry($attributes, $this->newBuilder($connection));
 
         $entry->setDn($dn);
 
-        $returned = $entry->save();
-
-        $this->assertInstanceOf('Adldap\Models\Entry', $returned);
-        $this->assertEquals($attributes['cn'], $returned->getCommonName());
-        $this->assertEquals($attributes['sn'], $returned->sn[0]);
-        $this->assertEquals($attributes['givenname'], $returned->givenname[0]);
+        $this->assertTrue($entry->save());
+        $this->assertEquals($attributes['cn'], $entry->getCommonName());
+        $this->assertEquals($attributes['sn'], $entry->sn[0]);
+        $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
     }
 
     public function testSaveForUpdate()
@@ -251,14 +266,15 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
+        $returnedRaw = [['dn' => $dn]];
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap = $this->newAdldapPartialMock();
-
-        $adldap->setConnection($connection);
-
-        $entry = new Entry([], $adldap);
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 
@@ -267,7 +283,7 @@ class EntryTest extends UnitTestCase
 
     public function testDeleteFailure()
     {
-        $entry = new Entry([], $this->newAdldapPartialMock());
+        $entry = new Entry([], $this->newBuilder());
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
@@ -280,14 +296,15 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
+        $returnedRaw = [['dn' => $dn]];
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
         $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap = $this->newAdldapPartialMock();
-
-        $adldap->setConnection($connection);
-
-        $entry = new Entry([], $adldap);
+        $entry = new Entry([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 

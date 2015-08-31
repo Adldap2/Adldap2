@@ -234,9 +234,7 @@ class Builder
         }
 
         if ($results) {
-            if (!empty($this->sortByField)) {
-                $this->connection->sort($results, $this->sortByField);
-            }
+            $this->processSort($results);
 
             return $this->processResults($results);
         }
@@ -266,6 +264,8 @@ class Builder
             $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
 
             if ($results) {
+                $this->processSort($results);
+
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
                 $pages[] = $results;
@@ -832,6 +832,20 @@ class Builder
 
         // Looks like we don't have any results, return false
         return false;
+    }
+
+    /**
+     * Sorts LDAP search results.
+     *
+     * @param $results
+     *
+     * @return void
+     */
+    private function processSort($results)
+    {
+        if (!empty($this->sortByField)) {
+            $this->connection->sort($results, $this->sortByField);
+        }
     }
 
     /**

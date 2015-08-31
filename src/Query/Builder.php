@@ -135,6 +135,16 @@ class Builder
     }
 
     /**
+     * Returns a new Query Builder instance.
+     *
+     * @return Builder
+     */
+    public function newInstance()
+    {
+        return new self($this->connection, $this->grammar);
+    }
+
+    /**
      * Returns the current query.
      *
      * @return string

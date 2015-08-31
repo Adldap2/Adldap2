@@ -243,9 +243,11 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $this->attributes = $attributes;
 
-        $this->exists = true;
-
         $this->syncOriginal();
+
+        $query = $this->query->newInstance();
+
+        $this->exists = (bool) $query->raw(true)->findByDn($this->getDn());
 
         return $this;
     }

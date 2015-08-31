@@ -3,8 +3,6 @@
 namespace Adldap\Classes;
 
 use Adldap\Adldap;
-use Adldap\Query\Builder;
-use Adldap\Query\Grammar;
 
 abstract class AbstractBase
 {
@@ -43,25 +41,5 @@ abstract class AbstractBase
     public function boot()
     {
         //
-    }
-
-    /**
-     * Returns a new query builder instance.
-     *
-     * @return Builder
-     */
-    public function newBuilder()
-    {
-        return new Builder($this->newGrammar());
-    }
-
-    /**
-     * Returns a new query grammar instance.
-     *
-     * @return Grammar
-     */
-    public function newGrammar()
-    {
-        return new Grammar();
     }
 }

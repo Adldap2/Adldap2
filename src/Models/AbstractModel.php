@@ -148,7 +148,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Syncs the original attributes with
+     * Synchronizes the original attributes with
      * the model's current attributes.
      *
      * @return $this
@@ -158,6 +158,25 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $this->original = $this->attributes;
 
         return $this;
+    }
+
+    /**
+     * Re-sets the models raw attributes by looking up the
+     * current models DN in AD.
+     *
+     * @return bool
+     */
+    public function syncRaw()
+    {
+        $model = $this->query->findByDn($this->getDn());
+
+        if($model instanceof $this) {
+            $this->setRawAttributes($model->getAttributes());
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -669,12 +688,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             $updated = $this->query->getConnection()->modifyBatch($dn, $modifications);
 
             if($updated) {
-                $modified = $this->query->findByDn($this->getDn());
-
-                // If the entry was successfully updated, we'll try to find
-                // the modified record and set the current models raw
-                // attributes to the returned models attributes
-                if($modified instanceof $this) $this->setRawAttributes($modified->getAttributes());
+                $this->syncRaw();
 
                 return true;
             }
@@ -726,12 +740,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $created = $this->query->getConnection()->add($dn, $attributes);
 
         if($created) {
-            $new = $this->query->findByDn($this->getDn());
-
-            // If the entry was successfully created, we'll try to find
-            // the new record and set the current models raw
-            // attributes to the returned models attributes
-            if($new instanceof $this) $this->setRawAttributes($new->getAttributes());
+            $this->syncRaw();
 
             return true;
         }

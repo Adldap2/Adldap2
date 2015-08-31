@@ -2,13 +2,13 @@
 
 namespace Adldap\Query;
 
-use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Classes\Utilities;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
+use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Classes\Utilities;
-use Adldap\Connections\ConnectionInterface;
 
 class Builder
 {
@@ -713,10 +713,10 @@ class Builder
             $category = Utilities::explodeDn($attributes[$attribute][0]);
 
             // Make sure the category string exists in the attribute array
-            if(array_key_exists(0, $category)) {
+            if (array_key_exists(0, $category)) {
                 $category = strtolower($category[0]);
 
-                if(array_key_exists($category, $this->mappings)) {
+                if (array_key_exists($category, $this->mappings)) {
                     $model = $this->mappings[$category];
 
                     return (new $model([], $this))->setRawAttributes($attributes);

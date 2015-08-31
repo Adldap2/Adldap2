@@ -63,7 +63,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Group($attributes, $this->getAdldap()))
+        return (new Group($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::OBJECT_CATEGORY_GROUP,

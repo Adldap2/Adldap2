@@ -61,7 +61,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
      */
     public function newInstance(array $attributes = [])
     {
-        return (new User($attributes, $this->getAdldap()))
+        return (new User($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

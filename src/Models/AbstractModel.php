@@ -2,11 +2,11 @@
 
 namespace Adldap\Models;
 
+use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Query\Builder;
-use Adldap\Classes\Utilities;
 use Adldap\Objects\DistinguishedName;
+use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
 use ArrayAccess;
 use JsonSerializable;
@@ -170,7 +170,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $model = $this->query->findByDn($this->getDn());
 
-        if($model instanceof $this) {
+        if ($model instanceof $this) {
             $this->setRawAttributes($model->getAttributes());
 
             return true;
@@ -687,7 +687,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if (count($modifications) > 0) {
             $updated = $this->query->getConnection()->modifyBatch($dn, $modifications);
 
-            if($updated) {
+            if ($updated) {
                 $this->syncRaw();
 
                 return true;
@@ -739,7 +739,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         $created = $this->query->getConnection()->add($dn, $attributes);
 
-        if($created) {
+        if ($created) {
             $this->syncRaw();
 
             return true;
@@ -795,7 +795,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         $deleted = $this->query->getConnection()->delete($dn);
 
-        if($deleted) {
+        if ($deleted) {
             // We'll set the exists property to false on delete
             // so the dev can run create operations
             $this->exists = false;

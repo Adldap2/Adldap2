@@ -76,8 +76,8 @@ class Search extends AbstractBase
     /**
      * Handle dynamic method calls on the search object.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param string $method
+     * @param array  $parameters
      *
      * @return mixed
      */

@@ -666,7 +666,21 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $dn = $this->getDn();
 
         if (count($modifications) > 0) {
-            return $this->query->getConnection()->modifyBatch($dn, $modifications);
+            $updated = $this->query->getConnection()->modifyBatch($dn, $modifications);
+
+            if($updated) {
+                $modified = $this->query->findByDn($this->getDn());
+
+                // If the entry was successfully updated, we'll try to find
+                // the modified record and set the current models raw
+                // attributes to the returned models attributes
+                if($modified instanceof $this) $this->setRawAttributes($modified->getAttributes());
+
+                return true;
+            }
+
+            // Modification failed
+            return false;
         }
 
         // We need to return true here because modify batch will
@@ -712,9 +726,12 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $created = $this->query->getConnection()->add($dn, $attributes);
 
         if($created) {
-            // If the entry was successfully created, we'll set the exists attribute
-            // to true so the dev can run update operations on the current model
-            $this->exists = true;
+            $new = $this->query->findByDn($this->getDn());
+
+            // If the entry was successfully created, we'll try to find
+            // the new record and set the current models raw
+            // attributes to the returned models attributes
+            if($new instanceof $this) $this->setRawAttributes($new->getAttributes());
 
             return true;
         }

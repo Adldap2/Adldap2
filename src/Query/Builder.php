@@ -591,7 +591,6 @@ class Builder
         $this->orWhere($field, Operator::$has);
 
         return $this;
-
     }
 
     /**

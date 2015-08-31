@@ -352,4 +352,81 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals($expected, $b->getQuery());
     }
+
+    public function testBuiltWhereHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereHas('field');
+
+        $expected = '(field=*)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereNotHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotHas('field');
+
+        $expected = '(!(field=*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereNotContains()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotContains('field', 'value');
+
+        $expected = '(!(field=*\76\61\6c\75\65*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereApproximatelyEquals()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereApproximatelyEquals('field', 'value');
+
+        $expected = '(field~=\76\61\6c\75\65)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereHas('field');
+
+        $expected = '(&(|(field=*)))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereNotHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereNotHas('field');
+
+        $expected = '(&(|(!(field=*))))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereApproximatelyEquals()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereApproximatelyEquals('field', 'value');
+
+        $expected = '(&(|(field~=\76\61\6c\75\65)))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
 }

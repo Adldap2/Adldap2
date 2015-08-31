@@ -619,7 +619,7 @@ class Builder
      */
     public function orWhereEquals($field, $value)
     {
-        $this->orWhere($field, '=', $value);
+        $this->orWhere($field, Operator::$equals, $value);
 
         return $this;
     }

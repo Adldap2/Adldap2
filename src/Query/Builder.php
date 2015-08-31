@@ -441,7 +441,22 @@ class Builder
      */
     public function whereEquals($field, $value)
     {
-        $this->where($field, '=', $value);
+        $this->where($field, Operator::$equals, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where approximately equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereApproximatelyEquals($field, $value)
+    {
+        $this->where($field, Operator::$approximatelyEquals, $value);
 
         return $this;
     }
@@ -455,7 +470,21 @@ class Builder
      */
     public function whereHas($field)
     {
-        $this->where($field, '*');
+        $this->where($field, Operator::$has);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where not has clause to the current query.
+     *
+     * @param string $field
+     *
+     * @return Builder
+     */
+    public function whereNotHas($field)
+    {
+        $this->where($field, Operator::$notHas);
 
         return $this;
     }
@@ -476,6 +505,21 @@ class Builder
     }
 
     /**
+     * Adds a where contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereNotContains($field, $value)
+    {
+        $this->where($field, Operator::$notContains, $value);
+
+        return $this;
+    }
+
+    /**
      * Adds a where starts with clause to the current query.
      *
      * @param string $field
@@ -486,6 +530,21 @@ class Builder
     public function whereStartsWith($field, $value)
     {
         $this->where($field, Operator::$startsWith, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a where *not* starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereNotStartsWith($field, $value)
+    {
+        $this->where($field, Operator::$notStartsWith, $value);
 
         return $this;
     }
@@ -522,6 +581,35 @@ class Builder
     }
 
     /**
+     * Adds an or where has clause to the current query.
+     *
+     * @param string $field
+     *
+     * @return Builder
+     */
+    public function orWhereHas($field)
+    {
+        $this->orWhere($field, Operator::$notHas);
+
+        return $this;
+
+    }
+
+    /**
+     * Adds a where not has clause to the current query.
+     *
+     * @param string $field
+     *
+     * @return Builder
+     */
+    public function orWhereNotHas($field)
+    {
+        $this->orWhere($field, Operator::$notHas);
+
+        return $this;
+    }
+
+    /**
      * Adds an or where equals clause to the current query.
      *
      * @param string $field
@@ -532,6 +620,21 @@ class Builder
     public function orWhereEquals($field, $value)
     {
         $this->orWhere($field, '=', $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a or where approximately equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereApproximatelyEquals($field, $value)
+    {
+        $this->orWhere($field, Operator::$approximatelyEquals, $value);
 
         return $this;
     }
@@ -552,6 +655,21 @@ class Builder
     }
 
     /**
+     * Adds an or where *not* contains clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereNotContains($field, $value)
+    {
+        $this->orWhere($field, Operator::$notContains, $value);
+
+        return $this;
+    }
+
+    /**
      * Adds an or where starts with clause to the current query.
      *
      * @param string $field
@@ -567,6 +685,21 @@ class Builder
     }
 
     /**
+     * Adds an or where *not* starts with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereNotStartsWith($field, $value)
+    {
+        $this->orWhere($field, Operator::$notStartsWith, $value);
+
+        return $this;
+    }
+
+    /**
      * Adds an or where ends with clause to the current query.
      *
      * @param string $field
@@ -577,6 +710,21 @@ class Builder
     public function orWhereEndsWith($field, $value)
     {
         $this->orWhere($field, Operator::$endsWith, $value);
+
+        return $this;
+    }
+
+    /**
+     * Adds an or where *not* ends with clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereNotEndsWith($field, $value)
+    {
+        $this->orWhere($field, Operator::$notEndsWith, $value);
 
         return $this;
     }

@@ -287,7 +287,7 @@ class Builder
     public function first()
     {
         $results = $this->get();
-
+        
         if (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }

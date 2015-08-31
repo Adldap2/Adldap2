@@ -666,13 +666,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $dn = $this->getDn();
 
         if (count($modifications) > 0) {
-            $modified = $this->query->getConnection()->modifyBatch($dn, $modifications);
-
-            if ($modified) {
-                return $this->query->findByDn($dn);
-            }
-
-            return false;
+            return $this->query->getConnection()->modifyBatch($dn, $modifications);
         }
 
         // We need to return true here because modify batch will
@@ -715,10 +709,14 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         // as it's inserted independently.
         unset($attributes['dn']);
 
-        $added = $this->query->getConnection()->add($dn, $attributes);
+        $created = $this->query->getConnection()->add($dn, $attributes);
 
-        if ($added) {
-            return $this->query->findByDn($dn);
+        if($created) {
+            // If the entry was successfully created, we'll set the exists attribute
+            // to true so the dev can run update operations on the current model
+            $this->exists = true;
+
+            return true;
         }
 
         return false;
@@ -769,7 +767,17 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             throw new AdldapException($message);
         }
 
-        return $this->query->getConnection()->delete($dn);
+        $deleted = $this->query->getConnection()->delete($dn);
+
+        if($deleted) {
+            // We'll set the exists property to false on delete
+            // so the dev can run create operations
+            $this->exists = false;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

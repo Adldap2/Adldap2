@@ -589,7 +589,7 @@ class Builder
      */
     public function orWhereHas($field)
     {
-        $this->orWhere($field, Operator::$notHas);
+        $this->orWhere($field, Operator::$has);
 
         return $this;
 

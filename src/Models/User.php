@@ -413,7 +413,7 @@ class User extends Entry
     {
         return $this->setAttribute(ActiveDirectory::USER_PRINCIPAL_NAME, $userPrincipalName, 0);
     }
-    
+
     /**
      * Returns the users proxy addresses.
      *

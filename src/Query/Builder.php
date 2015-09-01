@@ -2,7 +2,6 @@
 
 namespace Adldap\Query;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Adldap\Classes\Utilities;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
@@ -10,6 +9,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class Builder
 {
@@ -296,9 +296,9 @@ class Builder
     {
         $results = $this->get();
 
-        if($results instanceof ArrayCollection) {
+        if ($results instanceof ArrayCollection) {
             return $results->first();
-        } elseif(is_array($results) && array_key_exists(0, $results)) {
+        } elseif (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 

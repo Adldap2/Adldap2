@@ -49,7 +49,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CLASS, '=', ActiveDirectory::CONTACT);
+            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::CONTACT);
     }
 
     /**

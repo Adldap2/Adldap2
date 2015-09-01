@@ -59,7 +59,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
 
         return $this->getAdldap()
             ->search()
-            ->where($personCategory, '=', $person);
+            ->whereEquals($personCategory, $person);
     }
 
     /**

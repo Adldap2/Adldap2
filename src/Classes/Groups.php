@@ -51,7 +51,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_GROUP);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_GROUP);
     }
 
     /**

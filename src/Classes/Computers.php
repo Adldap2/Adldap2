@@ -49,7 +49,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::COMPUTER);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::COMPUTER);
     }
 
     /**

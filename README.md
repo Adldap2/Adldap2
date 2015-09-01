@@ -66,6 +66,24 @@ You're good to go!
 - [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
 - [Kohana](https://github.com/Adldap2/Adldap2-Kohana)
 
+## Versioning
+
+Adldap2 is versioned under the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
+
+Releases will be numbered with the following format:
+
+`<major>.<minor>.<patch>`
+
+And constructed with the following guidelines:
+
+* Breaking backward compatibility bumps the major and resets the minor and patch.
+* New additions without breaking backward compatibility bumps the minor and resets the patch.
+* Bug fixes and misc changes bumps the patch.
+
+Minor versions are not maintained individually, and you're encouraged to upgrade through to the next minor version.
+
+Major versions are maintained individually through separate branches.
+
 ## Need to test an LDAP connection?
 
 If you need to test something with access to an LDAP server, the generous folks at [Georgia Tech](http://drupal.gatech.edu/handbook/public-ldap-server) have you covered.

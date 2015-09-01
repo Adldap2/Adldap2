@@ -57,6 +57,13 @@ class Builder
     public $orWheres = [];
 
     /**
+     * Stores the raw filters on the current query.
+     *
+     * @var array
+     */
+    public $filters = [];
+
+    /**
      * Stores the field to sort search results by.
      *
      * @var string
@@ -380,7 +387,7 @@ class Builder
             ->setDn(null)
             ->read()
             ->raw()
-            ->where(ActiveDirectory::OBJECT_CLASS, '*')
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
 
         $key = ActiveDirectory::DEFAULT_NAMING_CONTEXT;
@@ -410,6 +417,20 @@ class Builder
         } elseif (is_string($fields)) {
             $this->addSelect($fields);
         }
+
+        return $this;
+    }
+
+    /**
+     * Adds a raw filter to the current query.
+     *
+     * @param string $filter
+     *
+     * @return Builder
+     */
+    public function rawFilter($filter)
+    {
+        $this->filters[] = $filter;
 
         return $this;
     }

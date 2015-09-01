@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Adldap\Classes\Utilities;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
@@ -221,7 +222,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return array|bool
+     * @return array|ArrayCollection|bool
      */
     public function query($query)
     {
@@ -289,13 +290,15 @@ class Builder
     /**
      * Returns the first entry in a search result.
      *
-     * @return array|bool
+     * @return Entry|bool
      */
     public function first()
     {
         $results = $this->get();
 
-        if (is_array($results) && array_key_exists(0, $results)) {
+        if($results instanceof ArrayCollection) {
+            return $results->first();
+        } elseif(is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 
@@ -897,6 +900,18 @@ class Builder
     }
 
     /**
+     * Returns a new doctrine array collection instance.
+     *
+     * @param array $elements
+     *
+     * @return ArrayCollection
+     */
+    public function newCollection(array $elements = [])
+    {
+        return new ArrayCollection($elements);
+    }
+
+    /**
      * Adds the inserted field to the selects property.
      *
      * @param string $field
@@ -951,9 +966,11 @@ class Builder
     /**
      * Processes LDAP search results into a nice array.
      *
+     * If raw is not set to true, an ArrayCollection is returned.
+     *
      * @param resource $results
      *
-     * @return array
+     * @return array|ArrayCollection
      */
     private function processResults($results)
     {
@@ -962,15 +979,15 @@ class Builder
         if ($this->raw === true) {
             return $entries;
         } else {
-            $objects = [];
+            $models = [];
 
             if (array_key_exists('count', $entries)) {
                 for ($i = 0; $i < $entries['count']; $i++) {
-                    $objects[] = $this->newLdapEntry($entries[$i]);
+                    $models[] = $this->newLdapEntry($entries[$i]);
                 }
             }
 
-            return $objects;
+            return $this->newCollection($models);
         }
     }
 

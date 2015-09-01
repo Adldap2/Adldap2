@@ -365,7 +365,7 @@ class Builder
     public function findByDn($dn)
     {
         return $this->setDn($dn)
-            ->read(true)
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
     }
 

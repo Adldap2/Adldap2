@@ -959,7 +959,7 @@ class Builder
     {
         $entries = $this->connection->getEntries($results);
 
-        if ($this->raw) {
+        if ($this->raw === true) {
             return $entries;
         } else {
             $objects = [];

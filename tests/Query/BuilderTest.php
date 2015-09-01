@@ -470,4 +470,16 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals($expected, $b->getQuery());
     }
+
+    public function testNewCollection()
+    {
+        $b = $this->newBuilder();
+
+        $elements = ['e1', 'e2', 'e3'];
+
+        $collection = $b->newCollection($elements);
+
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $collection);
+        $this->assertEquals($elements, $collection->toArray());
+    }
 }

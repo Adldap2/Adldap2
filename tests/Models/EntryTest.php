@@ -35,7 +35,7 @@ class EntryTest extends UnitTestCase
 
     public function testSetRawAttributes()
     {
-        $attributes = [
+        $rawAttributes = [
             'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
             'dn'            => ['dn'],
@@ -44,14 +44,14 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('read')->once()->andReturn($connection);
-        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$rawAttributes]);
 
         $entry = new Entry([], $this->newBuilder($connection));
 
-        $entry->setRawAttributes($attributes);
+        $entry->setRawAttributes($rawAttributes);
 
         $this->assertTrue($entry->exists);
-        $this->assertEquals($attributes, $entry->getAttributes());
+        $this->assertEquals($rawAttributes, $entry->getAttributes());
     }
 
     public function testSetAttribute()
@@ -181,11 +181,11 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('add')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn($connection);
+        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
-        $connection->shouldReceive('getEntries')->andReturn([$attributes]);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('close')->andReturn(true);
 
@@ -241,9 +241,9 @@ class EntryTest extends UnitTestCase
             ]
         ];
 
-        $connection->shouldReceive('add')->once()->withArgs([$dn, $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->once()->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
-        $connection->shouldReceive('getEntries')->once()->andReturn($returnedRaw);
+        $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);

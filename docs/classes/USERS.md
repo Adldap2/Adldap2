@@ -6,6 +6,12 @@ To retrieve all users on AD, use the `all()` method:
 
     $users = $ad->users()->all();
 
+### Search
+
+To search for only users, call the `search()` method:
+
+    $users = $ad->users()->search()->whereStartsWith('cn', 'John')->get();
+
 ### Find
 
 To retrieve all information on a user, use `find()` method:

@@ -168,7 +168,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function syncRaw()
     {
-        $model = $this->query->findByDn($this->getDn());
+        $query = $this->query->newInstance();
+
+        $model = $query->findByDn($this->getDn());
 
         if ($model instanceof $this) {
             $this->setRawAttributes($model->getAttributes());
@@ -264,9 +266,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         $this->syncOriginal();
 
-        $query = $this->query->newInstance();
-
-        $this->exists = (bool) $query->raw(true)->findByDn($this->getDn());
+        // Set exists to true since raw attributes are only
+        // set in the case of attributes being loaded by
+        // query results
+        $this->exists = true;
 
         return $this;
     }

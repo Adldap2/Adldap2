@@ -29,7 +29,9 @@ class Group extends Entry
             unset($dns['count']);
 
             foreach ($dns as $dn) {
-                $members[] = $this->getAdldap()->search()->findByDn($dn);
+                $query = $this->query->newInstance();
+
+                $members[] = $query->findByDn($dn);
             }
         }
 

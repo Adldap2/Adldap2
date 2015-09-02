@@ -43,7 +43,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
     /**
      * Creates a new search limited to computers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {

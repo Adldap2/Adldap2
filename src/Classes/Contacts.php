@@ -43,7 +43,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     /**
      * Creates a new search limited to contacts only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {

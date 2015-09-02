@@ -43,7 +43,7 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
     /**
      * Creates a new search limited to containers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {

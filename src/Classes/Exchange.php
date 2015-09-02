@@ -60,7 +60,7 @@ class Exchange extends AbstractBase implements QueryableInterface
     /**
      * Creates a new search limited to exchange servers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {

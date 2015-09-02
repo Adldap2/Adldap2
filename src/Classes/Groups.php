@@ -45,7 +45,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
     /**
      * Creates a new search limited to contacts only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {

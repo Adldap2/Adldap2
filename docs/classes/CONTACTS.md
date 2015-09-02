@@ -49,5 +49,3 @@ To create a contact, use the `create()` method:
    {
         // Contact was saved!
    }
-
-### Get Primary Group

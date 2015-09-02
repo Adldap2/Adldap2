@@ -49,6 +49,3 @@ To create a group, use the `create()` method:
     {
         // Group has been created!
     }
-
-### Get Primary Group
-

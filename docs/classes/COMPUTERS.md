@@ -32,4 +32,33 @@ You can also customize the fields that are returned by passing in field array in
 
 ### New Instance
 
+To create a new Computer instance, call the `newInstance()` method:
+
+    $attributes = [
+        'cn' => 'COMP-101',
+    ];
+
+    $computer = $ad->computers()->newInstance($attributes);
+    
+    if($computer->save())
+    {
+        // Computer was created!
+    } else 
+    {
+        // There was an issue creating this computer
+    }
+
 ### Create
+
+To create a Computer, call the `create()` method:
+
+    $attributes = [
+        'cn' => 'COMP-101',
+        'dn' => 'cn=COMP-101,dc=corp,dc=acme,dc=org',
+    ];
+
+    if($ad->computers()->create($attributes))
+    {
+        // Computer was created!
+    }
+    

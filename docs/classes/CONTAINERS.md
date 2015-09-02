@@ -24,4 +24,34 @@ To find a folder, use the `find()` method:
 
 ### New Instance
 
+To create a new Container instance, call the `newInstance()` method:
+
+    $attributes = [
+        'cn' => 'Accounting',
+    ];
+
+    $container = $ad->containers()->newInstance($attributes);
+    
+    if($container->save())
+    {
+        // Container was created!
+    } else 
+    {
+        // There was an issue creating this container
+    }
+
 ### Create
+
+To create a Container, call the `create()` method:
+
+    $attributes = [
+        'cn' => 'Accounting,
+        'dn' => 'cn=Accounting,dc=corp,dc=acme,dc=org',
+    ];
+
+    if($ad->containers()->create($attributes))
+    {
+        // Container was created!
+    }
+    
+

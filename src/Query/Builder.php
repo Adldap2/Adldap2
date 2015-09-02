@@ -79,7 +79,7 @@ class Builder
     protected $dn;
 
     /**
-     * The model class mappings.
+     * The object category model class mappings.
      *
      * @var array
      */
@@ -895,7 +895,7 @@ class Builder
             }
         }
 
-        // A default entry object if the object category isn't recognized.
+        // A default entry object if the object category isn't found
         return (new Entry([], $this))->setRawAttributes($attributes);
     }
 

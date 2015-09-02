@@ -87,8 +87,8 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      *
      * http://support.microsoft.com/?kbid=321360.
      *
-     * @param string $group
-     * @param string $user
+     * @param string $group The name of the group
+     * @param string $user The username of the user
      *
      * @return bool
      */

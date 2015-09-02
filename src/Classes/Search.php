@@ -38,8 +38,11 @@ class Search extends AbstractBase
         // Get the configuration Base DN
         $baseDn = $this->getAdldap()->getConfiguration()->getBaseDn();
 
-        // Set the Base DN on the Builder and return the Builder instance
-        return $builder->setDn($baseDn);
+        // Set the Base DN on the Builder
+        $builder->setDn($baseDn);
+
+        // Return the new Builder instance
+        return $builder;
     }
 
     /**

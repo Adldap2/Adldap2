@@ -30,8 +30,6 @@ You can also customize the fields that are returned by passing in field array in
     
     $computer = $ad->computers()->find('WIN-PC', $fields);
 
-### Search
-
 ### New Instance
 
 ### Create

@@ -31,7 +31,11 @@ class Group extends Entry
             foreach ($dns as $dn) {
                 $query = $this->query->newInstance();
 
-                $members[] = $query->findByDn($dn);
+                $member = $query->findByDn($dn);
+
+                if($member instanceof AbstractModel) {
+                    $members[] = $member;
+                }
             }
         }
 

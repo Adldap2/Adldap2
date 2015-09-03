@@ -981,7 +981,7 @@ class Builder
         } else {
             $models = [];
 
-            if (array_key_exists('count', $entries)) {
+            if (is_array($entries) && array_key_exists('count', $entries)) {
                 for ($i = 0; $i < $entries['count']; $i++) {
                     $models[] = $this->newLdapEntry($entries[$i]);
                 }

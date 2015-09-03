@@ -1008,7 +1008,13 @@ class Builder
 
             // Go through each page and process the results into an objects array
             foreach ($pages as $results) {
-                $objects = array_merge($objects, $this->processResults($results));
+                $processed = $this->processResults($results);
+
+                if($processed instanceof ArrayCollection) {
+                    $processed = $processed->toArray();
+                }
+
+                $objects = array_merge($objects, $processed);
             }
 
             // Return a new Paginator instance

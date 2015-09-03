@@ -1010,7 +1010,7 @@ class Builder
             foreach ($pages as $results) {
                 $processed = $this->processResults($results);
 
-                if($processed instanceof ArrayCollection) {
+                if ($processed instanceof ArrayCollection) {
                     $processed = $processed->toArray();
                 }
 

@@ -33,7 +33,7 @@ class Group extends Entry
 
                 $member = $query->findByDn($dn);
 
-                if($member instanceof AbstractModel) {
+                if ($member instanceof AbstractModel) {
                     $members[] = $member;
                 }
             }

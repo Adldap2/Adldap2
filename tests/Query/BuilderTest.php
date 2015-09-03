@@ -8,11 +8,18 @@ use Adldap\Tests\UnitTestCase;
 
 class BuilderTest extends UnitTestCase
 {
-    protected function newBuilder()
+    protected function newBuilder($connection = null)
     {
-        $connection = $this->mock('Adldap\Connections\ConnectionInterface');
+        if(is_null($connection)) {
+            $connection = $this->newConnectionMock();
+        }
 
         return new Builder($connection, new Grammar());
+    }
+
+    protected function newConnectionMock()
+    {
+        return $this->mock('Adldap\Connections\ConnectionInterface');
     }
 
     public function testConstruct()
@@ -481,5 +488,47 @@ class BuilderTest extends UnitTestCase
 
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $collection);
         $this->assertEquals($elements, $collection->toArray());
+    }
+
+    public function testPaginateWithNoResults()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, '']);
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn(null);
+
+        $b = $this->newBuilder($connection);
+
+        $this->assertFalse($b->where('field', '=', 'value')->paginate(50));
+    }
+
+    public function testPaginateWithResults()
+    {
+        $connection = $this->newConnectionMock();
+
+        $rawEntries = [
+            'count' => 1,
+            [
+                'cn' => ['Test'],
+                'dn' => 'cn=Test,dc=corp,dc=acme,dc=org',
+            ],
+        ];
+
+        $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, '']);
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn('resource');
+        $connection->shouldReceive('controlPagedResultResponse')->withArgs(['resource', '']);
+        $connection->shouldReceive('getEntries')->andReturn($rawEntries);
+
+        $b = $this->newBuilder($connection);
+
+        $paginator = $b->where('field', '=', 'value')->paginate(50);
+
+        $this->assertInstanceOf('Adldap\Objects\Paginator', $paginator);
+
+        foreach($paginator as $model) {
+            $this->assertInstanceOf('Adldap\Models\AbstractModel', $model);
+            $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
+            $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
+        }
     }
 }

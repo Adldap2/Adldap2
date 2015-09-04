@@ -580,14 +580,14 @@ class User extends Entry
      */
     public function setPassword($password)
     {
-        $connection = $this->getAdldap()->getConnection();
+        $connection = $this->query->getConnection();
 
         if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to set passwords.';
 
             throw new AdldapException($message);
         }
-
+        
         $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
 
         $result = $this->save();
@@ -627,7 +627,7 @@ class User extends Entry
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        $connection = $this->getAdldap()->getConnection();
+        $connection = $this->query->getConnection();
 
         if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to change passwords.';

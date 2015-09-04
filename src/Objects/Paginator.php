@@ -2,10 +2,11 @@
 
 namespace Adldap\Objects;
 
+use Countable;
 use ArrayIterator;
 use IteratorAggregate;
 
-class Paginator implements IteratorAggregate
+class Paginator implements Countable, IteratorAggregate
 {
     /**
      * The complete results array.

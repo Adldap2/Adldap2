@@ -65,7 +65,7 @@ class BuilderTest extends UnitTestCase
 
         $b->select('');
 
-        $expected = [];
+        $expected = ['', 'objectcategory', 'dn'];
 
         $this->assertEquals($expected, $b->getSelects());
     }
@@ -524,6 +524,8 @@ class BuilderTest extends UnitTestCase
         $paginator = $b->where('field', '=', 'value')->paginate(50);
 
         $this->assertInstanceOf('Adldap\Objects\Paginator', $paginator);
+        $this->assertEquals(1, $paginator->getPages());
+        $this->assertEquals(1, $paginator->count());
 
         foreach($paginator as $model) {
             $this->assertInstanceOf('Adldap\Models\AbstractModel', $model);

@@ -10,6 +10,7 @@ use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 
 class Builder
 {
@@ -70,6 +71,13 @@ class Builder
      * @var string
      */
     protected $sortByField = '';
+
+    /**
+     * Stores the direction to sort the results by.
+     *
+     * @var string
+     */
+    protected $sortByDirection = '';
 
     /**
      * The distinguished name to perform searches upon.
@@ -240,11 +248,8 @@ class Builder
             // Read and recursive is false, we'll return a listing
             $results = $this->connection->listing($dn, $query, $selects);
         }
-
         if ($results) {
-            $this->processSort($results);
-
-            return $this->processResults($results);
+            return $this->newCollection($this->processResults($results));
         }
 
         return false;
@@ -272,8 +277,6 @@ class Builder
             $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
 
             if ($results) {
-                $this->processSort($results);
-
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
                 $pages[] = $results;
@@ -416,10 +419,10 @@ class Builder
     {
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->addSelect($field);
+                $this->selects[] = $field;
             }
         } elseif (is_string($fields)) {
-            $this->addSelect($fields);
+            $this->selects[] = $fields;
         }
 
         return $this;
@@ -450,7 +453,11 @@ class Builder
      */
     public function where($field, $operator = null, $value = null)
     {
-        $this->addWhere($field, $operator, $value);
+        $this->wheres[] = [
+            self::$whereFieldKey    => $field,
+            self::$whereOperatorKey => $this->getOperator($operator),
+            self::$whereValueKey    => Utilities::escape($value),
+        ];
 
         return $this;
     }
@@ -599,7 +606,11 @@ class Builder
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        $this->addOrWhere($field, $operator, $value);
+        $this->orWheres[] = [
+            self::$whereFieldKey    => $field,
+            self::$whereOperatorKey => $this->getOperator($operator),
+            self::$whereValueKey    => Utilities::escape($value),
+        ];
 
         return $this;
     }
@@ -811,12 +822,17 @@ class Builder
      * specified field and direction.
      *
      * @param string $field
+     * @param string $direction
      *
      * @return Builder
      */
-    public function sortBy($field)
+    public function sortBy($field, $direction = 'asc')
     {
         $this->sortByField = $field;
+
+        if($direction === 'asc' || $direction === 'desc') {
+            $this->sortByDirection = $direction;
+        }
 
         return $this;
     }
@@ -912,58 +928,6 @@ class Builder
     }
 
     /**
-     * Adds the inserted field to the selects property.
-     *
-     * @param string $field
-     */
-    private function addSelect($field)
-    {
-        // We'll make sure the field isn't empty
-        // before we add it to the selects
-        if (!empty($field)) {
-            $this->selects[] = $field;
-        }
-    }
-
-    /**
-     * Adds the inserted field, operator and value
-     * to the wheres property array.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param null   $value
-     *
-     * @throws InvalidQueryOperatorException
-     */
-    private function addWhere($field, $operator, $value = null)
-    {
-        $this->wheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
-    }
-
-    /**
-     * Adds the inserted field, operator and value
-     * to the orWheres property array.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param null   $value
-     *
-     * @throws InvalidQueryOperatorException
-     */
-    private function addOrWhere($field, $operator, $value = null)
-    {
-        $this->orWheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
-    }
-
-    /**
      * Processes LDAP search results into a nice array.
      *
      * If raw is not set to true, an ArrayCollection is returned.
@@ -987,7 +951,7 @@ class Builder
                 }
             }
 
-            return $this->newCollection($models);
+            return $models;
         }
     }
 
@@ -1010,12 +974,10 @@ class Builder
             foreach ($pages as $results) {
                 $processed = $this->processResults($results);
 
-                if ($processed instanceof ArrayCollection) {
-                    $processed = $processed->toArray();
-                }
-
                 $objects = array_merge($objects, $processed);
             }
+
+            $objects = $this->processSort($objects);
 
             // Return a new Paginator instance
             return new Paginator($objects, $perPage, $currentPage, count($pages));
@@ -1028,15 +990,19 @@ class Builder
     /**
      * Sorts LDAP search results.
      *
-     * @param $results
+     * @param array $models
      *
-     * @return void
+     * @return array
      */
-    private function processSort($results)
+    private function processSort(array $models = [])
     {
-        if (!empty($this->sortByField)) {
-            $this->connection->sort($results, $this->sortByField);
-        }
+        $collection = $this->newCollection($models);
+
+        $sort = [$this->sortByField => $this->sortByDirection];
+
+        $criteria = (new Criteria())->orderBy($sort);
+
+        return $collection->matching($criteria)->toArray();
     }
 
     /**

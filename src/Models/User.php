@@ -668,4 +668,9 @@ class User extends Entry
 
         return $result;
     }
+    
+    public function getThumbnail()
+    {
+        return $this->getAttribute(ActiveDirectory::THUMBNAIL, 0);
+    }
 }

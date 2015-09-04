@@ -69,6 +69,7 @@ class ActiveDirectory
     const OBJECT_CATEGORY_PERSON = 'person';
     const OBJECT_CATEGORY_PRINTER = 'print-queue';
     const OBJECT_CLASS = 'objectclass';
+    const OBJECT_CLASS_PRINTER = 'printqueue';
     const OBJECT_GUID = 'objectguid';
     const OBJECT_SID = 'objectsid';
     const OPERATING_SYSTEM = 'operatingsystem';

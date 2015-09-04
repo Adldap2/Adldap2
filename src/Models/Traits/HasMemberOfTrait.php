@@ -40,7 +40,9 @@ trait HasMemberOfTrait
             unset($dns['count']);
 
             foreach ($dns as $key => $dn) {
-                $groups[] = $this->getAdldap()->search()->findByDn($dn);
+                $query = $this->query->newInstance();
+
+                $groups[] = $query->search()->findByDn($dn);
             }
         }
 

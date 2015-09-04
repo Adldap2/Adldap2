@@ -830,7 +830,7 @@ class Builder
     {
         $this->sortByField = $field;
 
-        if($direction === 'asc' || $direction === 'desc') {
+        if ($direction === 'asc' || $direction === 'desc') {
             $this->sortByDirection = $direction;
         }
 

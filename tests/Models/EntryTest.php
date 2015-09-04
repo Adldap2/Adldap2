@@ -2,25 +2,11 @@
 
 namespace Adldap\tests\Models;
 
-use Adldap\Query\Grammar;
-use Adldap\Query\Builder;
 use Adldap\Models\Entry;
 use Adldap\Tests\UnitTestCase;
 
 class EntryTest extends UnitTestCase
 {
-    protected function newBuilder($connection = null)
-    {
-        if(is_null($connection)) $connection = $this->newConnectionMock();
-
-        return new Builder($connection, new Grammar());
-    }
-
-    protected function newConnectionMock()
-    {
-        return $this->mock('Adldap\Connections\Ldap');
-    }
-
     public function testConstruct()
     {
         $attributes = [

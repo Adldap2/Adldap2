@@ -28,7 +28,7 @@ interface QueryableInterface
     /**
      * Creates a new Search limited to the current classes object type.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search();
 }

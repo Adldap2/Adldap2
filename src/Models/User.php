@@ -587,30 +587,8 @@ class User extends Entry
 
             throw new AdldapException($message);
         }
-        
-        $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
 
-        $result = $this->save();
-
-        if ($result === false) {
-            $err = $connection->errNo();
-
-            if ($err) {
-                $error = $connection->err2Str($err);
-
-                $msg = 'Error '.$err.': '.$error.'.';
-
-                if ($err == 53) {
-                    $msg .= ' Your password might not match the password policy.';
-                }
-
-                throw new AdldapException($msg);
-            } else {
-                return false;
-            }
-        }
-
-        return $result;
+        return $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
     }
 
     /**
@@ -640,7 +618,7 @@ class User extends Entry
         $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, Utilities::encodePassword($oldPassword));
         $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($newPassword));
 
-        $result = $this->save();
+        $result = $this->update();
 
         if ($result === false) {
             $error = $connection->getExtendedError();

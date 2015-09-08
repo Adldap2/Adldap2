@@ -42,7 +42,7 @@ trait HasMemberOfTrait
             foreach ($dns as $key => $dn) {
                 $query = $this->query->newInstance();
 
-                $groups[] = $query->search()->findByDn($dn);
+                $groups[] = $query->findByDn($dn);
             }
         }
 

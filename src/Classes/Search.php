@@ -84,7 +84,7 @@ class Search extends AbstractBase
      *
      * @return mixed
      */
-    public function __call($method, array $parameters = [])
+    public function __call($method, $parameters)
     {
         return call_user_func_array([$this->query, $method], $parameters);
     }

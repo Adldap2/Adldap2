@@ -588,7 +588,7 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        return $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
+        return $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_REPLACE, Utilities::encodePassword($password));
     }
 
     /**

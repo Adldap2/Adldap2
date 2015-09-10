@@ -37,8 +37,6 @@ trait HasMemberOfTrait
         $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
 
         if (is_array($dns)) {
-            unset($dns['count']);
-
             foreach ($dns as $key => $dn) {
                 $query = $this->query->newInstance();
 

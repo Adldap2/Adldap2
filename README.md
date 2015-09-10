@@ -44,6 +44,9 @@ To use Adldap2, your sever must support:
 
 ## Optional Requirements
 
+> **Note: Adldap makes use of `ldap_modify_batch()` for processing modifications to entries**. Your server
+must be on **PHP >= 5.4.26, >= 5.5.10, >= 5.6.0** to make modifications.
+
 If your AD server requires SSL, your server must support the following libraries:
 
 - PHP SSL Libraries (http://php.net/openssl)

@@ -260,7 +260,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setRawAttributes(array $attributes = [])
     {
-        $this->attributes = $attributes;
+        $this->attributes = $this->filterRawAttributes($attributes);
 
         $this->syncOriginal();
 
@@ -270,6 +270,27 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $this->exists = true;
 
         return $this;
+    }
+
+    /**
+     * Filters the count key recursively from raw LDAP attributes.
+     *
+     * @param array  $attributes
+     * @param string $key
+     *
+     * @return array
+     */
+    public function filterRawAttributes(array $attributes = [], $key = 'count')
+    {
+        unset($attributes[$key]);
+
+        foreach ($attributes as &$value) {
+            if (is_array($value)) {
+                $value = $this->filterRawAttributes($value, $key);
+            }
+        }
+
+        return $attributes;
     }
 
     /**
@@ -324,10 +345,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             if (array_key_exists($key, $this->original)) {
                 if (is_array($value)) {
                     if (count(array_diff($value, $this->original[$key])) > 0) {
-                        // Make sure we remove the count key as we don't
-                        // want to push that attribute into AD
-                        unset($value['count']);
-
                         // If the value of the set attribute is an array and the differences
                         // are greater than zero, we'll replace the attribute.
                         $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);

@@ -2,6 +2,7 @@
 
 namespace Adldap\Models\Traits;
 
+use Adldap\Classes\Utilities;
 use Adldap\Models\Group;
 use Adldap\Schemas\ActiveDirectory;
 
@@ -13,6 +14,14 @@ trait HasMemberOfTrait
     public function getGroups()
     {
         return $this->getMemberOf();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGroupNames()
+    {
+        return $this->getMemberOfNames();
     }
 
     /**
@@ -45,6 +54,30 @@ trait HasMemberOfTrait
         }
 
         return $groups;
+    }
+
+    /**
+     * Returns the models memberOf names only.
+     *
+     * @return array
+     */
+    public function getMemberOfNames()
+    {
+        $names = [];
+
+        $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
+
+        if(is_array($dns)) {
+            foreach ($dns as $dn) {
+                $exploded = Utilities::explodeDn($dn);
+
+                if (array_key_exists(0, $exploded)) {
+                    $names[] = $exploded[0];
+                }
+            }
+        }
+
+        return $names;
     }
 
     /**

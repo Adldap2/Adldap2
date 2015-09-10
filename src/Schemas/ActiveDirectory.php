@@ -110,6 +110,7 @@ class ActiveDirectory
     const STREET_ADDRESS = 'streetaddress';
     const SYSTEM_FLAGS = 'systemflags';
     const TELEPHONE = 'telephonenumber';
+    const THUMBNAIL = 'thumbnailphoto';
     const TITLE = 'title';
     const TOP = 'top';
     const TRUE = 'TRUE';

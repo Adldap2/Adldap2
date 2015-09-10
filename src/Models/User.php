@@ -566,6 +566,16 @@ class User extends Entry
     }
 
     /**
+     * Returns the users thumbnail photo.
+     *
+     * @return mixed
+     */
+    public function getThumbnail()
+    {
+        return $this->getAttribute(ActiveDirectory::THUMBNAIL, 0);
+    }
+
+    /**
      * Enables the current user.
      *
      * @throws AdldapException

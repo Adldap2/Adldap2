@@ -67,7 +67,7 @@ trait HasMemberOfTrait
 
         $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
 
-        if(is_array($dns)) {
+        if (is_array($dns)) {
             foreach ($dns as $dn) {
                 $exploded = Utilities::explodeDn($dn);
 

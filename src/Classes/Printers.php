@@ -38,6 +38,7 @@ class Printers extends AbstractBase implements QueryableInterface
 
         return $search->get();
     }
+
     /**
      * Creates a new search limited to printers only.
      *

@@ -367,6 +367,30 @@ class User extends Entry
     }
 
     /**
+     * Returns the users other mailbox attribute.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
+     *
+     * @return array
+     */
+    public function getOtherMailbox()
+    {
+        return $this->getAttribute(ActiveDirectory::OTHER_MAILBOX);
+    }
+
+    /**
+     * Sets the users other mailboxes.
+     *
+     * @param array $otherMailbox
+     *
+     * @return User
+     */
+    public function setOtherMailbox($otherMailbox = [])
+    {
+        return $this->setAttribute(ActiveDirectory::OTHER_MAILBOX, $otherMailbox);
+    }
+
+    /**
      * Returns the users mailbox store DN.
      *
      * https://msdn.microsoft.com/en-us/library/aa487565(v=exchg.65).aspx

@@ -313,4 +313,39 @@ class EntryTest extends UnitTestCase
         $this->assertFalse($entry->convertStringToBool('FALSE'));
         $this->assertFalse($entry->convertStringToBool('FAlse'));
     }
+
+    public function testFilterRawAttributes()
+    {
+        $rawAttributes = [
+            'count' => 1,
+            'test' => [
+                'count' => 1,
+                'test' => [
+                    'count' => 1,
+                    'test' => [
+                        'count' => 1,
+                        'test' => [
+                            'count' => 1
+                        ],
+                    ]
+                ]
+            ]
+        ];
+
+        $expected = [
+            'test' => [
+                'test' => [
+                    'test' => [
+                        'test' => []
+                    ]
+                ]
+            ]
+        ];
+
+        $entry = new Entry([], $this->newBuilder());
+
+        $entry->setRawAttributes($rawAttributes);
+
+        $this->assertEquals($expected, $entry->getAttributes());
+    }
 }

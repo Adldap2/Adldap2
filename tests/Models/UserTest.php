@@ -21,7 +21,7 @@ class UserTest extends UnitTestCase
         $expected = [
             [
                 'attrib'    => 'unicodepwd',
-                'modtype'   => 1,
+                'modtype'   => 3,
                 'values'    => [Utilities::encodePassword('')],
             ]
         ];

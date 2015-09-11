@@ -163,7 +163,7 @@ class Builder
     /**
      * Returns the current query.
      *
-     * @return string
+     * @return array|ArrayCollection|bool
      */
     public function get()
     {

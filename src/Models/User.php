@@ -588,6 +588,28 @@ class User extends Entry
     }
 
     /**
+     * Returns the distinguished name of the user who is the user's manager.
+     *
+     * @return string
+     */
+    public function getManager()
+    {
+        return $this->getAttribute(ActiveDirectory::MANAGER, 0);
+    }
+
+    /**
+     * Sets the distinguished name of the user who is the user's manager.
+     *
+     * @param string $managerDn
+     *
+     * @return User
+     */
+    public function setManager($managerDn)
+    {
+        return $this->setAttribute(ActiveDirectory::MANAGER, $managerDn, 0);
+    }
+
+    /**
      * Enables the current user.
      *
      * @throws AdldapException

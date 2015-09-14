@@ -555,6 +555,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users account expiry date.
+     *
+     * @param float $expiryTime
+     *
+     * @return User
+     */
+    public function setAccountExpiry($expiryTime)
+    {
+        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, Utilities::convertUnixTimeToWindowsTime($expiryTime), 0);
+    }
+
+    /**
      * Returns an array of address book DNs
      * that the user is listed to be shown in.
      *

@@ -236,6 +236,18 @@ class Utilities
     }
 
     /**
+     * Convert a Unix timestamp to Windows timestamp
+     *
+     * @param float $unixTime
+     *
+     * @return float
+     */
+    public static function convertUnixTimeToWindowsTime($unixTime)
+    {
+        return ($unixTime + 11644473600) * 10000000;
+    }
+
+    /**
      * Converts an ignore string into an array.
      *
      * @param string $ignore

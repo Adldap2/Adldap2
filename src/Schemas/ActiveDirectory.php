@@ -53,6 +53,7 @@ class ActiveDirectory
     const LOCALE = 'l';
     const LOCATION = 'location';
     const LOCKOUT_TIME = 'lockouttime';
+    const MANAGER = 'manager';
     const MAX_PASSWORD_AGE = 'maxpwdage';
     const MEMBER = 'member';
     const MEMBER_OF = 'memberof';

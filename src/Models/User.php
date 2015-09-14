@@ -555,6 +555,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users account expiry date.
+     *
+     * @param float $expiryTime
+     *
+     * @return User
+     */
+    public function setAccountExpiry($expiryTime)
+    {
+        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, Utilities::convertUnixTimeToWindowsTime($expiryTime), 0);
+    }
+
+    /**
      * Returns an array of address book DNs
      * that the user is listed to be shown in.
      *
@@ -573,6 +585,28 @@ class User extends Entry
     public function getThumbnail()
     {
         return $this->getAttribute(ActiveDirectory::THUMBNAIL, 0);
+    }
+
+    /**
+     * Returns the distinguished name of the user who is the user's manager.
+     *
+     * @return string
+     */
+    public function getManager()
+    {
+        return $this->getAttribute(ActiveDirectory::MANAGER, 0);
+    }
+
+    /**
+     * Sets the distinguished name of the user who is the user's manager.
+     *
+     * @param string $managerDn
+     *
+     * @return User
+     */
+    public function setManager($managerDn)
+    {
+        return $this->setAttribute(ActiveDirectory::MANAGER, $managerDn, 0);
     }
 
     /**

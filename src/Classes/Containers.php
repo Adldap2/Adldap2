@@ -43,13 +43,13 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
     /**
      * Creates a new search limited to containers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_CONTAINER);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_CONTAINER);
     }
 
     /**
@@ -61,7 +61,7 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Container($attributes, $this->getAdldap()))
+        return (new Container($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
     }
 

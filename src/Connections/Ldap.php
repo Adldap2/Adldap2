@@ -237,6 +237,39 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Returns the next entry from the
+     * current connection.
+     *
+     * @param $entry
+     *
+     * @return resource
+     */
+    public function getNextEntry($entry)
+    {
+        if ($this->suppressErrors) {
+            return @ldap_next_entry($this->getConnection(), $entry);
+        }
+
+        return ldap_next_entry($this->getConnection(), $entry);
+    }
+
+    /**
+     * Retrieves the attributes from the specified ldap entry.
+     *
+     * @param $entry
+     *
+     * @return array
+     */
+    public function getAttributes($entry)
+    {
+        if ($this->suppressErrors) {
+            return @ldap_get_attributes($this->getConnection(), $entry);
+        }
+
+        return ldap_get_attributes($this->getConnection(), $entry);
+    }
+
+    /**
      * Returns the count of the returned entries
      * from the specified search results.
      *

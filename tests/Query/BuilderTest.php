@@ -8,16 +8,25 @@ use Adldap\Tests\UnitTestCase;
 
 class BuilderTest extends UnitTestCase
 {
-    protected function newBuilder()
+    protected function newBuilder($connection = null)
     {
-        return new Builder(new Grammar());
+        if(is_null($connection)) {
+            $connection = $this->newConnectionMock();
+        }
+
+        return new Builder($connection, new Grammar());
+    }
+
+    protected function newConnectionMock()
+    {
+        return $this->mock('Adldap\Connections\ConnectionInterface');
     }
 
     public function testConstruct()
     {
         $b = $this->newBuilder();
 
-        $this->assertEmpty($b->get());
+        $this->assertEmpty($b->getQuery());
     }
 
     public function testSelectArray()
@@ -56,7 +65,7 @@ class BuilderTest extends UnitTestCase
 
         $b->select('');
 
-        $expected = [];
+        $expected = ['', 'objectcategory', 'dn'];
 
         $this->assertEquals($expected, $b->getSelects());
     }
@@ -232,7 +241,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(field=\76\61\6c\75\65)';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltWheres()
@@ -245,7 +254,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(&(field=\76\61\6c\75\65)(other=\76\61\6c\75\65))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltWhereStartsWith()
@@ -256,7 +265,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(field=\76\61\6c\75\65*)';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltWhereEndsWith()
@@ -267,7 +276,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(field=*\76\61\6c\75\65)';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltWhereContains()
@@ -278,7 +287,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(field=*\76\61\6c\75\65*)';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltOrWhere()
@@ -287,9 +296,9 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhere('field', '=' , 'value');
 
-        $expected = '(&(|(field=\76\61\6c\75\65)))';
+        $expected = '(|(field=\76\61\6c\75\65))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltOrWheres()
@@ -302,7 +311,7 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(&(|(field=\76\61\6c\75\65)(other=\76\61\6c\75\65)))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltOrWhereStartsWith()
@@ -311,9 +320,9 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereStartsWith('field', 'value');
 
-        $expected = '(&(|(field=\76\61\6c\75\65*)))';
+        $expected = '(|(field=\76\61\6c\75\65*))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltOrWhereEndsWith()
@@ -322,9 +331,9 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereEndsWith('field', 'value');
 
-        $expected = '(&(|(field=*\76\61\6c\75\65)))';
+        $expected = '(|(field=*\76\61\6c\75\65))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltOrWhereContains()
@@ -333,9 +342,9 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereContains('field', 'value');
 
-        $expected = '(&(|(field=*\76\61\6c\75\65*)))';
+        $expected = '(|(field=*\76\61\6c\75\65*))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
     }
 
     public function testBuiltWhereAndOrWheres()
@@ -348,6 +357,180 @@ class BuilderTest extends UnitTestCase
 
         $expected = '(&(field=\76\61\6c\75\65)(|(or=\76\61\6c\75\65)))';
 
-        $this->assertEquals($expected, $b->get());
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereHas('field');
+
+        $expected = '(field=*)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereNotHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotHas('field');
+
+        $expected = '(!(field=*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereNotContains()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotContains('field', 'value');
+
+        $expected = '(!(field=*\76\61\6c\75\65*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltWhereApproximatelyEquals()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereApproximatelyEquals('field', 'value');
+
+        $expected = '(field~=\76\61\6c\75\65)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereHas('field');
+
+        $expected = '(|(field=*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereNotHas()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereNotHas('field');
+
+        $expected = '(|(!(field=*)))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltOrWhereApproximatelyEquals()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereApproximatelyEquals('field', 'value');
+
+        $expected = '(|(field~=\76\61\6c\75\65))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltRawFilter()
+    {
+        $b = $this->newBuilder();
+
+        $filter = '(field=value)';
+
+        $b->rawFilter($filter);
+
+        $this->assertEquals($filter, $b->getQuery());
+    }
+
+    public function testBuiltRawFilterWithWheres()
+    {
+        $b = $this->newBuilder();
+
+        $b->rawFilter('(field=value)');
+
+        $b->where('field', '=', 'value');
+
+        $b->orWhere('field', '=', 'value');
+
+        $expected = '(&(field=value)(field=\76\61\6c\75\65)(|(field=\76\61\6c\75\65)))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testBuiltRawFilterMultiple()
+    {
+        $b = $this->newBuilder();
+
+        $b->rawFilter('(field=value)');
+
+        $b->rawFilter('(|(field=value))');
+
+        $b->rawFilter('(field=value)');
+
+        $expected = '(&(field=value)(|(field=value))(field=value))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function testNewCollection()
+    {
+        $b = $this->newBuilder();
+
+        $elements = ['e1', 'e2', 'e3'];
+
+        $collection = $b->newCollection($elements);
+
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $collection);
+        $this->assertEquals($elements, $collection->toArray());
+    }
+
+    public function testPaginateWithNoResults()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, '']);
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn(null);
+
+        $b = $this->newBuilder($connection);
+
+        $this->assertFalse($b->where('field', '=', 'value')->paginate(50));
+    }
+
+    public function testPaginateWithResults()
+    {
+        $connection = $this->newConnectionMock();
+
+        $rawEntries = [
+            'count' => 1,
+            [
+                'cn' => ['Test'],
+                'dn' => 'cn=Test,dc=corp,dc=acme,dc=org',
+            ],
+        ];
+
+        $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, '']);
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn('resource');
+        $connection->shouldReceive('controlPagedResultResponse')->withArgs(['resource', '']);
+        $connection->shouldReceive('getEntries')->andReturn($rawEntries);
+
+        $b = $this->newBuilder($connection);
+
+        $paginator = $b->where('field', '=', 'value')->paginate(50);
+
+        $this->assertInstanceOf('Adldap\Objects\Paginator', $paginator);
+        $this->assertEquals(1, $paginator->getPages());
+        $this->assertEquals(1, $paginator->count());
+
+        foreach($paginator as $model) {
+            $this->assertInstanceOf('Adldap\Models\AbstractModel', $model);
+            $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
+            $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
+        }
     }
 }

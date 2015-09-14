@@ -50,7 +50,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
     /**
      * Creates a new search limited to users only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {
@@ -59,7 +59,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
 
         return $this->getAdldap()
             ->search()
-            ->where($personCategory, '=', $person);
+            ->whereEquals($personCategory, $person);
     }
 
     /**
@@ -71,7 +71,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      */
     public function newInstance(array $attributes = [])
     {
-        return (new User($attributes, $this->getAdldap()))
+        return (new User($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

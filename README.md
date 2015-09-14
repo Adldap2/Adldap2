@@ -44,6 +44,9 @@ To use Adldap2, your sever must support:
 
 ## Optional Requirements
 
+> **Note: Adldap makes use of `ldap_modify_batch()` for processing modifications to entries**. Your server
+must be on **PHP >= 5.4.26 || >= 5.5.10 || >= 5.6.0** to make modifications.
+
 If your AD server requires SSL, your server must support the following libraries:
 
 - PHP SSL Libraries (http://php.net/openssl)
@@ -55,7 +58,7 @@ have to require the files inside the project `src/` directory yourself.
 
 Insert Adldap into your `composer.json` file:
 
-    "adldap2/adldap2": "5.0.*"
+    "adldap2/adldap2": "5.1.*"
    
 Run `composer update`
 
@@ -65,6 +68,24 @@ You're good to go!
 
 - [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
 - [Kohana](https://github.com/Adldap2/Adldap2-Kohana)
+
+## Versioning
+
+Adldap2 is versioned under the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
+
+Releases will be numbered with the following format:
+
+`<major>.<minor>.<patch>`
+
+And constructed with the following guidelines:
+
+* Breaking backward compatibility bumps the major and resets the minor and patch.
+* New additions without breaking backward compatibility bumps the minor and resets the patch.
+* Bug fixes and misc changes bumps the patch.
+
+Minor versions are not maintained individually, and you're encouraged to upgrade through to the next minor version.
+
+Major versions are maintained individually through separate branches.
 
 ## Need to test an LDAP connection?
 

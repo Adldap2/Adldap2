@@ -43,13 +43,13 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
     /**
      * Creates a new search limited to computers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::COMPUTER);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::COMPUTER);
     }
 
     /**
@@ -61,7 +61,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
      */
     public function newInstance(array $attributes = [])
     {
-        return (new Computer($attributes, $this->getAdldap()))
+        return (new Computer($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

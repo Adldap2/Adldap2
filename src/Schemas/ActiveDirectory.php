@@ -69,6 +69,7 @@ class ActiveDirectory
     const OBJECT_CATEGORY_PERSON = 'person';
     const OBJECT_CATEGORY_PRINTER = 'print-queue';
     const OBJECT_CLASS = 'objectclass';
+    const OBJECT_CLASS_PRINTER = 'printqueue';
     const OBJECT_GUID = 'objectguid';
     const OBJECT_SID = 'objectsid';
     const OPERATING_SYSTEM = 'operatingsystem';
@@ -77,6 +78,7 @@ class ActiveDirectory
     const ORGANIZATIONAL_PERSON = 'organizationalperson';
     const ORGANIZATIONAL_UNIT_LONG = 'organizationalunit';
     const ORGANIZATIONAL_UNIT_SHORT = 'ou';
+    const OTHER_MAILBOX = 'othermailbox';
     const PASSWORD_LAST_SET = 'pwdlastset';
     const PERSON = 'person';
     const PHYSICAL_DELIVERY_OFFICE_NAME = 'physicaldeliveryofficename';
@@ -108,6 +110,7 @@ class ActiveDirectory
     const STREET_ADDRESS = 'streetaddress';
     const SYSTEM_FLAGS = 'systemflags';
     const TELEPHONE = 'telephonenumber';
+    const THUMBNAIL = 'thumbnailphoto';
     const TITLE = 'title';
     const TOP = 'top';
     const TRUE = 'TRUE';

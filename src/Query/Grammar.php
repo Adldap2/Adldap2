@@ -27,16 +27,20 @@ class Grammar
      */
     public function compileQuery(Builder $builder)
     {
-        $query = '';
+        $query = implode(null, $builder->filters);
 
         $query = $this->compileWheres($builder, $query);
 
         $query = $this->compileOrWheres($builder, $query);
 
-        // Make sure we wrap the query in an 'and' if using multiple
-        // wheres or if we have any orWheres. For example:
-        // (&(cn=John*)(|(description=User*)))
-        if (count($builder->wheres) > 1 || count($builder->orWheres) > 0) {
+        // Count the total amount of filters
+        $total = count($builder->wheres)
+            + count($builder->orWheres)
+            + count($builder->filters);
+
+        // Make sure we wrap the query in an 'and'
+        // if using multiple filters
+        if ($total > 1) {
             $query = $this->compileAnd($query);
         }
 

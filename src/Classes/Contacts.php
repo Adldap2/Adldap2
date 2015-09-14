@@ -43,13 +43,13 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     /**
      * Creates a new search limited to contacts only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CLASS, '=', ActiveDirectory::CONTACT);
+            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::CONTACT);
     }
 
     /**
@@ -61,7 +61,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
      */
     public function newInstance(array $attributes = [])
     {
-        return (new User($attributes, $this->getAdldap()))
+        return (new User($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,

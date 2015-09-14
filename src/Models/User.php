@@ -367,6 +367,30 @@ class User extends Entry
     }
 
     /**
+     * Returns the users other mailbox attribute.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
+     *
+     * @return array
+     */
+    public function getOtherMailbox()
+    {
+        return $this->getAttribute(ActiveDirectory::OTHER_MAILBOX);
+    }
+
+    /**
+     * Sets the users other mailboxes.
+     *
+     * @param array $otherMailbox
+     *
+     * @return User
+     */
+    public function setOtherMailbox($otherMailbox = [])
+    {
+        return $this->setAttribute(ActiveDirectory::OTHER_MAILBOX, $otherMailbox);
+    }
+
+    /**
      * Returns the users mailbox store DN.
      *
      * https://msdn.microsoft.com/en-us/library/aa487565(v=exchg.65).aspx
@@ -542,6 +566,16 @@ class User extends Entry
     }
 
     /**
+     * Returns the users thumbnail photo.
+     *
+     * @return mixed
+     */
+    public function getThumbnail()
+    {
+        return $this->getAttribute(ActiveDirectory::THUMBNAIL, 0);
+    }
+
+    /**
      * Enables the current user.
      *
      * @throws AdldapException
@@ -580,7 +614,7 @@ class User extends Entry
      */
     public function setPassword($password)
     {
-        $connection = $this->getAdldap()->getConnection();
+        $connection = $this->query->getConnection();
 
         if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to set passwords.';
@@ -588,29 +622,7 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($password));
-
-        $result = $this->save();
-
-        if ($result === false) {
-            $err = $connection->errNo();
-
-            if ($err) {
-                $error = $connection->err2Str($err);
-
-                $msg = 'Error '.$err.': '.$error.'.';
-
-                if ($err == 53) {
-                    $msg .= ' Your password might not match the password policy.';
-                }
-
-                throw new AdldapException($msg);
-            } else {
-                return false;
-            }
-        }
-
-        return $result;
+        return $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_REPLACE, Utilities::encodePassword($password));
     }
 
     /**
@@ -627,7 +639,7 @@ class User extends Entry
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        $connection = $this->getAdldap()->getConnection();
+        $connection = $this->query->getConnection();
 
         if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
             $message = 'SSL or TLS must be configured on your web server and enabled to change passwords.';
@@ -640,7 +652,7 @@ class User extends Entry
         $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, Utilities::encodePassword($oldPassword));
         $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($newPassword));
 
-        $result = $this->save();
+        $result = $this->update();
 
         if ($result === false) {
             $error = $connection->getExtendedError();

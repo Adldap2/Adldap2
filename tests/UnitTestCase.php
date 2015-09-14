@@ -2,6 +2,8 @@
 
 namespace Adldap\Tests;
 
+use Adldap\Query\Grammar;
+use Adldap\Query\Builder;
 use Mockery;
 
 class UnitTestCase extends \PHPUnit_Framework_TestCase
@@ -36,8 +38,32 @@ class UnitTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Mockery\MockInterface
      */
-    public function mock($class)
+    protected function mock($class)
     {
         return Mockery::mock($class);
+    }
+
+    /**
+     * Returns a new Builder instance.
+     *
+     * @param null $connection
+     *
+     * @return Builder
+     */
+    protected function newBuilder($connection = null)
+    {
+        if(is_null($connection)) $connection = $this->newConnectionMock();
+
+        return new Builder($connection, new Grammar());
+    }
+
+    /**
+     * Returns a new connection mock.
+     *
+     * @return Mockery\MockInterface
+     */
+    protected function newConnectionMock()
+    {
+        return $this->mock('Adldap\Connections\Ldap');
     }
 }

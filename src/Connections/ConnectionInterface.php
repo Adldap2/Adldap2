@@ -192,6 +192,24 @@ interface ConnectionInterface
     public function getFirstEntry($searchResult);
 
     /**
+     * Retrieves the next entry from a search result.
+     *
+     * @param $entry
+     *
+     * @return mixed
+     */
+    public function getNextEntry($entry);
+
+    /**
+     * Retrieves the ldap entry's attributes.
+     *
+     * @param $entry
+     *
+     * @return mixed
+     */
+    public function getAttributes($entry);
+
+    /**
      * Retrieve the last error on the current
      * connection.
      *

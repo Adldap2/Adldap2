@@ -60,13 +60,13 @@ class Exchange extends AbstractBase implements QueryableInterface
     /**
      * Creates a new search limited to exchange servers only.
      *
-     * @return Search
+     * @return \Adldap\Query\Builder
      */
     public function search()
     {
         return $this->getAdldap()
             ->search()
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_SERVER);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_SERVER);
     }
 
     /**

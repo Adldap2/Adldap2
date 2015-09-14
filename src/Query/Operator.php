@@ -12,6 +12,13 @@ class Operator
     public static $has = '*';
 
     /**
+     * The custom `notHas` operator.
+     *
+     * @var string
+     */
+    public static $notHas = '!*';
+
+    /**
      * The equals operator.
      *
      * @var string

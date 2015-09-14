@@ -164,7 +164,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapGroups instance.
+     * Returns a new Groups instance.
      *
      * @return Classes\Groups
      */
@@ -174,7 +174,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapUsers instance.
+     * Returns a new Users instance.
      *
      * @return Classes\Users
      */
@@ -184,7 +184,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapFolders instance.
+     * Returns a new Folders instance.
      *
      * @return Classes\Containers
      */
@@ -194,7 +194,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapContacts instance.
+     * Returns a new Contacts instance.
      *
      * @return Classes\Contacts
      */
@@ -204,7 +204,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapExchange instance.
+     * Returns a new Exchange instance.
      *
      * @return Classes\Exchange
      */
@@ -214,7 +214,7 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapComputers instance.
+     * Returns a new Computers instance.
      *
      * @return Classes\Computers
      */
@@ -224,7 +224,17 @@ class Adldap
     }
 
     /**
-     * Returns a new AdldapSearch instance.
+     * Returns a new Printers instance.
+     *
+     * @return Classes\Printers
+     */
+    public function printers()
+    {
+        return new Classes\Printers($this);
+    }
+
+    /**
+     * Returns a new Search instance.
      *
      * @return Classes\Search
      */

@@ -283,7 +283,7 @@ class Adldap
      *
      * @return bool
      */
-    public function authenticate($username, $password, $preventRebind = false)
+    public function authenticate($username, $password, $preventRebind = true)
     {
         $auth = false;
 
@@ -315,7 +315,11 @@ class Adldap
             $adminUsername = $this->configuration->getAdminUsername();
             $adminPassword = $this->configuration->getAdminPassword();
 
-            $this->bindUsingCredentials($adminUsername, $adminPassword);
+            if (empty($adminUsername) || empty($adminPassword)) {
+                throw new AdldapException('Can\'t rebind. Adminusername or password is missing');
+            }
+            
+            $auth = $this->bindUsingCredentials($adminUsername, $adminPassword);
 
             if (!$this->connection->isBound()) {
                 throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->connection->getLastError());

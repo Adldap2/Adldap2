@@ -315,7 +315,7 @@ class Adldap
             $adminUsername = $this->configuration->getAdminUsername();
             $adminPassword = $this->configuration->getAdminPassword();
 
-            if(empty($adminUsername) || empty($adminPassword)) {
+            if (empty($adminUsername) || empty($adminPassword)) {
                 throw new AdldapException('Can\'t rebind. Adminusername or password is missing');
             }
             

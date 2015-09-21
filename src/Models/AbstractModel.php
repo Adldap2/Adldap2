@@ -8,6 +8,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
+use DateTime;
 use ArrayAccess;
 use JsonSerializable;
 
@@ -19,6 +20,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * @var bool
      */
     public $exists = false;
+
+    /**
+     * The default output date format for all time related methods.
+     *
+     * @var string
+     */
+    public $dateFormat = 'Y-m-d H:i:s';
 
     /**
      * The current LDAP connection instance.
@@ -489,7 +497,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the model's `when created` time.
+     * Returns the model's `whenCreated` time.
      *
      * https://msdn.microsoft.com/en-us/library/ms680924(v=vs.85).aspx
      *
@@ -501,7 +509,29 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the model's `when changed` time.
+     * Returns the created at time in a mysql formatted date.
+     *
+     * @return string
+     */
+    public function getCreatedAtDate()
+    {
+        $timestamp = $this->getCreatedAtTimestamp();
+
+        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+    }
+
+    /**
+     * Returns the created at time in a unix timestamp format.
+     *
+     * @return float
+     */
+    public function getCreatedAtTimestamp()
+    {
+        return Utilities::convertWindowsTimeToUnixTime($this->getCreatedAt());
+    }
+
+    /**
+     * Returns the model's `whenChanged` time.
      *
      * https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
      *

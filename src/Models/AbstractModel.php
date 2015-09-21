@@ -394,6 +394,17 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns true / false if the current model is writeable
+     * by checking its instance type integer.
+     *
+     * @return bool
+     */
+    public function isWriteable()
+    {
+        return (int) $this->getInstanceType() === 4;
+    }
+
+    /**
      * Returns the model's name. An AD alias for the CN attribute.
      *
      * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx

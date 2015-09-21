@@ -543,6 +543,28 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the updated at time in a mysql formatted date.
+     *
+     * @return string
+     */
+    public function getUpdatedAtDate()
+    {
+        $timestamp = $this->getUpdatedAtTimestamp();
+
+        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+    }
+
+    /**
+     * Returns the updated at time in a unix timestamp format.
+     *
+     * @return float
+     */
+    public function getUpdatedAtTimestamp()
+    {
+        return Utilities::convertWindowsTimeToUnixTime($this->getUpdatedAt());
+    }
+
+    /**
      * Returns the Container of the current Model.
      *
      * https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx

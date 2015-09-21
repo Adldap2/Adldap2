@@ -101,7 +101,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
         if ($group instanceof Group && $user instanceof User) {
             $sid = Utilities::binarySidToText($group->getSid());
 
-            $result = $this->adldap->search()
+            $result = $this->getAdldap()->search()
                     ->where(ActiveDirectory::OBJECT_SID, '=', $sid)
                     ->first();
 

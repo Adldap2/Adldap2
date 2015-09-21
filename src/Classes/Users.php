@@ -123,7 +123,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
                 $status['has_expired'] = true;
             }
 
-            $result = $this->adldap->search()
+            $result = $this->getAdldap()->search()
                 ->where(ActiveDirectory::OBJECT_CLASS, '*')
                 ->first();
 

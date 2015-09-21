@@ -8,8 +8,10 @@ When receiving search results from Adldap, you will always have an array of mode
 
 - [User](https://github.com/Adldap2/Adldap2/blob/master/docs/models/USER.md)
 - [Group](https://github.com/Adldap2/Adldap2/blob/master/docs/models/GROUP.md)
+- [Organizational Unit](https://github.com/Adldap2/Adldap2/blob/master/docs/models/OU.md)
 - [Container](https://github.com/Adldap2/Adldap2/blob/master/docs/models/CONTAINER.md)
 - [Computer](https://github.com/Adldap2/Adldap2/blob/master/docs/models/COMPUTER.md)
+- [Printer](https://github.com/Adldap2/Adldap2/blob/master/docs/models/PRINTER.md)
 - [Exchange Server](https://github.com/Adldap2/Adldap2/blob/master/docs/models/EXCHANGE-SERVER.md)
 - [Entry](https://github.com/Adldap2/Adldap2/blob/master/docs/models/ENTRY.md)
 

@@ -8,8 +8,8 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
-use DateTime;
 use ArrayAccess;
+use DateTime;
 use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable

@@ -788,9 +788,10 @@ class Builder
         $selects = $this->selects;
 
         if (count($selects) > 0) {
-            // Always make sure object category and distinguished
+            // Always make sure object category, class, and distinguished
             // name are included in the selected fields
             $selects[] = ActiveDirectory::OBJECT_CATEGORY;
+            $selects[] = ActiveDirectory::OBJECT_CLASS;
             $selects[] = ActiveDirectory::DISTINGUISHED_NAME;
         }
 

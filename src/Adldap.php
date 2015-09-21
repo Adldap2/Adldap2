@@ -234,6 +234,16 @@ class Adldap
     }
 
     /**
+     * Returns a new OrganizationalUnits instance.
+     *
+     * @return Classes\OrganizationalUnits
+     */
+    public function ous()
+    {
+        return new Classes\OrganizationalUnits($this);
+    }
+
+    /**
      * Returns a new Search instance.
      *
      * @return Classes\Search

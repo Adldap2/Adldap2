@@ -92,12 +92,13 @@ class Builder
      * @var array
      */
     protected $mappings = [
-        ActiveDirectory::OBJECT_CATEGORY_COMPUTER   => 'Adldap\Models\Computer',
-        ActiveDirectory::OBJECT_CATEGORY_PERSON     => 'Adldap\Models\User',
-        ActiveDirectory::OBJECT_CATEGORY_GROUP      => 'Adldap\Models\Group',
-        ActiveDirectory::MS_EXCHANGE_SERVER         => 'Adldap\Models\ExchangeServer',
-        ActiveDirectory::OBJECT_CATEGORY_CONTAINER  => 'Adldap\Models\Container',
-        ActiveDirectory::OBJECT_CATEGORY_PRINTER    => 'Adldap\Models\Printer',
+        ActiveDirectory::OBJECT_CATEGORY_COMPUTER               => 'Adldap\Models\Computer',
+        ActiveDirectory::OBJECT_CATEGORY_PERSON                 => 'Adldap\Models\User',
+        ActiveDirectory::OBJECT_CATEGORY_GROUP                  => 'Adldap\Models\Group',
+        ActiveDirectory::MS_EXCHANGE_SERVER                     => 'Adldap\Models\ExchangeServer',
+        ActiveDirectory::OBJECT_CATEGORY_CONTAINER              => 'Adldap\Models\Container',
+        ActiveDirectory::OBJECT_CATEGORY_PRINTER                => 'Adldap\Models\Printer',
+        ActiveDirectory::OBJECT_CATEGORY_ORGANIZATIONAL_UNIT    => 'Adldap\Models\OrganizationalUnit',
     ];
 
     /**

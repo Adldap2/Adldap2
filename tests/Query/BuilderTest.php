@@ -38,6 +38,7 @@ class BuilderTest extends UnitTestCase
         $expected = [
             'testing',
             'objectcategory',
+            'objectclass',
             'dn',
         ];
 
@@ -53,6 +54,7 @@ class BuilderTest extends UnitTestCase
         $expected = [
             'testing',
             'objectcategory',
+            'objectclass',
             'dn',
         ];
 
@@ -65,7 +67,12 @@ class BuilderTest extends UnitTestCase
 
         $b->select('');
 
-        $expected = ['', 'objectcategory', 'dn'];
+        $expected = [
+            '',
+            'objectcategory',
+            'objectclass',
+            'dn'
+        ];
 
         $this->assertEquals($expected, $b->getSelects());
     }

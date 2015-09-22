@@ -2,6 +2,8 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Schemas\ActiveDirectory;
+
 interface QueryableInterface
 {
     /**
@@ -20,10 +22,11 @@ interface QueryableInterface
      * @param array     $fields
      * @param bool|true $sorted
      * @param string    $sortBy
+     * @param string    $sortDirection
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn');
+    public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'desc');
 
     /**
      * Creates a new Search limited to the current classes object type.

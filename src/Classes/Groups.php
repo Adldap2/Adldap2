@@ -28,15 +28,16 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      * @param array     $fields
      * @param bool|true $sorted
      * @param string    $sortBy
+     * @param string    $sortDirection
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn')
+    public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'asc')
     {
         $search = $this->search()->select($fields);
 
         if ($sorted) {
-            $search->sortBy($sortBy);
+            $search->sortBy($sortBy, $sortDirection);
         }
 
         return $search->get();

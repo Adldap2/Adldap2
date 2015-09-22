@@ -66,6 +66,14 @@ class Builder
     public $filters = [];
 
     /**
+     * Stores the bool to determine whether or
+     * not the current query is paginated.
+     *
+     * @var bool
+     */
+    public $paginated = false;
+
+    /**
      * Stores the field to sort search results by.
      *
      * @var string
@@ -267,6 +275,9 @@ class Builder
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
+        // Set the current query to paginated
+        $this->paginated = true;
+
         // Stores all LDAP entries in a page array
         $pages = [];
 
@@ -280,6 +291,7 @@ class Builder
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
+                // We'll collect the results into the pages array
                 $pages[] = $results;
             }
         } while ($cookie !== null && !empty($cookie));
@@ -952,6 +964,10 @@ class Builder
                     $models[] = $this->newLdapEntry($entries[$i]);
                 }
             }
+
+            // If the current query isn't paginated, we'll
+            // sort the models array here
+            if (!$this->paginated) $models = $this->processSort($models);
 
             return $models;
         }

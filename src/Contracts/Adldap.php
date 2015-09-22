@@ -34,12 +34,14 @@ interface Adldap
      * @return bool|ConnectionInterface
      */
     public function getConnection();
+
     /**
      * Sets the connection property.
      *
      * @param ConnectionInterface $connection
      */
     public function setConnection(ConnectionInterface $connection);
+
     /**
      * Returns the configuration object.
      *
@@ -53,6 +55,7 @@ interface Adldap
      * @param Configuration $configuration
      */
     public function setConfiguration(Configuration $configuration);
+
     /**
      * Returns the filtered REMOTE_USER server variable.
      *

@@ -4,10 +4,10 @@ namespace Adldap;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Adldap as AdldapContract;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Contracts\Adldap as AdldapContract;
 
 class Adldap implements AdldapContract
 {
@@ -26,7 +26,7 @@ class Adldap implements AdldapContract
     protected $configuration;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __construct($configuration, $connection = null, $autoConnect = true)
     {
@@ -80,7 +80,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __destruct()
     {
@@ -90,7 +90,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConnection()
     {
@@ -102,7 +102,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setConnection(ConnectionInterface $connection)
     {
@@ -110,7 +110,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfiguration()
     {
@@ -118,7 +118,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setConfiguration(Configuration $configuration)
     {
@@ -126,7 +126,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRemoteUserInput()
     {
@@ -134,7 +134,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getKerberosAuthInput()
     {
@@ -142,7 +142,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function groups()
     {
@@ -150,7 +150,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function users()
     {
@@ -158,7 +158,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function containers()
     {
@@ -166,7 +166,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function contacts()
     {
@@ -174,7 +174,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function exchange()
     {
@@ -182,7 +182,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function computers()
     {
@@ -190,7 +190,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function printers()
     {
@@ -198,7 +198,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function ous()
     {
@@ -206,7 +206,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function search()
     {
@@ -214,7 +214,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function connect()
     {
@@ -239,7 +239,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
@@ -284,7 +284,7 @@ class Adldap implements AdldapContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRootDse()
     {

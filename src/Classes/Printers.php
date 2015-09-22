@@ -29,7 +29,7 @@ class Printers extends AbstractBase implements QueryableInterface
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = 'cn', $sortDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'asc')
     {
         $search = $this->search()->select($fields);
 

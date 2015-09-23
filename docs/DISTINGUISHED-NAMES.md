@@ -86,7 +86,8 @@ $dn->addDc('corp');
 $dn->addDc('acme');
 $dn->addDc('org');
 
-echo $dn->get(); // Returns 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org'
+// Returns 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org'
+echo $dn->get();
 
 // The DistinguishedName object also contains the __toString() magic method
 // so you can also just echo the object itself

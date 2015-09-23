@@ -37,7 +37,7 @@ try
     
     $record->getDn();
     
-} catch(Adldap\Exceptions\ModelNotFoundException $e)
+} catch (Adldap\Exceptions\ModelNotFoundException $e)
 {
     // Record wasn't found!
 }

@@ -9,89 +9,108 @@ creating DN strings.
 
 To create a new DN, construct a new `\Adldap\Objects\DistinguishedName` instance:
 
-    $dn = new \Adldap\Objects\DinstinguishedName();
+```php
+$dn = new \Adldap\Objects\DinstinguishedName();
+```
     
 You can also pass in a current DN string and start modifying it:
 
-    $currentDn = 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org';
+```php
+$currentDn = 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org';
 
-    $dn = new \Adldap\Objects\DinstinguishedName($currentDn);
+$dn = new \Adldap\Objects\DinstinguishedName($currentDn);
+```
     
 #### Adding / Removing a Domain Component
 
-    // Add Domain Component
-    $dn->addDc('corp');
-    
-    // Remove Domain Component
-    $dn->removeDc('corp');
+```php
+// Add Domain Component
+$dn->addDc('corp');
+
+// Remove Domain Component
+$dn->removeDc('corp');
+```
 
 #### Adding / Removing an Organizational Unit
 
-    // Add Organizational Unit
-    $dn->addOu('Accounting');
-        
-    // Remove Organizational Unit
-    $dn->removeOu('Accounting');
+```php
+// Add Organizational Unit
+$dn->addOu('Accounting');
+    
+// Remove Organizational Unit
+$dn->removeOu('Accounting');
+```
 
 #### Adding / Removing Common Names
 
-    // Add Common Name
-    $dn->addCn('John Doe');
-        
-    // Remove Common Name
-    $dn->removeCn('John Doe');   
+```php
+// Add Common Name
+$dn->addCn('John Doe');
+    
+// Remove Common Name
+$dn->removeCn('John Doe');   
+```
 
 #### Setting a base
 
 If you'd like to set the base DN, such as a domain component RDN, use the `setBase()` method:
 
-    $base = 'dc=corp,dc=acme,dc=org';
-    
-    $dn->setBase($base);
+```php
+$base = 'dc=corp,dc=acme,dc=org';
+
+$dn->setBase($base);
+```
 
 #### Creating a DN From A Model
 
 When you're creating a new AD record, you'll need to create a distinguished name as well. Let's go through an example of
 creating a new user.
 
-    $user = $ad->users()->newInstance();
-    
-    $user->setCommonName('John Doe');
-    $user->setFirstName('John');
-    $user->setLastName('Doe');
-   
+```php
+$user = $ad->users()->newInstance();
+
+$user->setCommonName('John Doe');
+$user->setFirstName('John');
+$user->setLastName('Doe');
+```
+
 So we've set the basic information on the user, but we run into trouble when we want to put the user into a certain container
 (such as 'Accounting') which is done through the DN. Let's go through this example:
 
-    $dn = $user->getDnBuilder();
-    
-    $dn->addCn($user->getCommonName());
-    $dn->addOu('Accounting');
-    $dn->addDc('corp');
-    $dn->addDc('acme');
-    $dn->addDc('org');
-    
-    echo $dn->get(); // Returns 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org'
-    
-    // The DistinguishedName object also contains the __toString() magic method
-    // so you can also just echo the object itself
-    echo $dn;
+```php
+$dn = $user->getDnBuilder();
+
+$dn->addCn($user->getCommonName());
+$dn->addOu('Accounting');
+$dn->addDc('corp');
+$dn->addDc('acme');
+$dn->addDc('org');
+
+echo $dn->get(); // Returns 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org'
+
+// The DistinguishedName object also contains the __toString() magic method
+// so you can also just echo the object itself
+echo $dn;
+```
     
 Now we've built a DN, and all we have to do is set it on the new user:    
-    
-    $user->setDn($dn);
-    
-    $user->save();
+
+```php
+$user->setDn($dn);
+
+$user->save();
+```
 
 #### Modifying a DN From A Model
 
 When you've received a model from a search result, you can build and modify the models DN like so:
 
-    $user = $ad->users()->find('jdoe');
-    
-    $dn = $user->getDnBuilder();
-    
-    $dn->addOu('Users');
-    
-    $user->setDn($dn)->save();
-    
+```php
+$user = $ad->users()->find('jdoe');
+
+$dn = $user->getDnBuilder();
+
+$dn->addOu('Users');
+
+$user->setDn($dn)->save();
+```

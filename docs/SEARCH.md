@@ -178,7 +178,15 @@ If you'd like to sort your returned results, call the `sortBy()` method like so:
 > Note: The sort by attribute also needs to be specified in your selects if you're specifying them.
     
     // Returned results will be sorted by the common name in a ascending order
-    $results = $ad->search()->select('cn')->where('cn', '=', 'John*')->sortBy('cn')->get();
+    $results = $ad->search()->select('cn')->where('cn', '=', 'John*')->sortBy('cn', 'asc')->get();
+
+You can also sort paginated results:
+
+     $paginator = $ad->search()
+                    ->select('cn')
+                    ->where('cn', '=', 'John*')
+                    ->sortBy('name', 'asc')
+                    ->paginate(25);
 
 #### Query
 
@@ -221,16 +229,19 @@ Paginating a search result will return a `Adldap\Objects\Paginator` instance. Th
 
     $results = $ad->search()->where('objectClass', '=', 'person')->paginate($perPage, $currentPage);
     
-    $results->getPages(); // Returns total number of pages, int
+    // Returns total number of pages, int
+    $results->getPages();
     
-    $results->getCurrentPage(); // Returns current page number, int
+    // Returns current page number, int
+    $results->getCurrentPage();
     
-    $results->getPerPage(); // Returns the amount of entries allowed per page, int
+    // Returns the amount of entries allowed per page, int
+    $results->getPerPage();
     
-    $results->count(); // Returns the total amount of retrieved entries, int
+    // Returns the total amount of retrieved entries, int
+    $results->count();
     
     // Iterate over the results like normal
-    
     foreach($results as $result)
     {
         echo $result->getCommonName();

@@ -95,11 +95,11 @@ Use the following configuration:
 
 ```php
 $config = [
-    'account_suffix' => '@gatech.edu',
-    'domain_controllers' => ['whitepages.gatech.edu'],
-    'base_dn' => 'dc=whitepages,dc=gatech,dc=edu',
-    'admin_username' => '',
-    'admin_password' => '',
+    'account_suffix'        => '@gatech.edu',
+    'domain_controllers'    => ['whitepages.gatech.edu'],
+    'base_dn'               => 'dc=whitepages,dc=gatech,dc=edu',
+    'admin_username'        => '',
+    'admin_password'        => '',
 ];
 
 $ad = new \Adldap\Adldap($config);

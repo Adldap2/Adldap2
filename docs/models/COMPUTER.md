@@ -4,24 +4,36 @@ The Computer model will be returned when an LDAP entry contains an object catego
 
 ##### Getting the computer's `operatingsystem` attribute:
 
-    $computer->getOperatingSystem();
+```php
+$computer->getOperatingSystem();
+```
    
 ##### Getting the computer's `operatingsystemversion` attribute:
 
-    $computer->getOperatingSystemVersion();
+```php
+$computer->getOperatingSystemVersion();
+```
     
 ##### Getting the computer's `operatingsystemservicepack` attribute:
 
-    $computer->getOperatingSystemServicePack();
+```php
+$computer->getOperatingSystemServicePack();
+```
     
 ##### Getting the computer's `dnshostname` attribute:
 
-    $computer->getDnsHostName();
+```php
+$computer->getDnsHostName();
+```
 
 ##### Getting the computer's `badpasswordtime` attribute:
 
-    $computer->getBadPasswordTime();
+```php
+$computer->getBadPasswordTime();
+```
 
 ##### Getting the computer's `accountexpires` attribute:
 
-    $computer->getAccountExpiry();
+```php
+$computer->getAccountExpiry();
+```

@@ -4,16 +4,24 @@ The Computer model will be returned when an LDAP entry contains an object catego
 
 ##### Getting the exchange servers `serialnumber` attribute:
 
-    $es->getSerialNumber();
-    
+```php
+$es->getSerialNumber();
+```
+ 
 ##### Getting the exchange servers `versionnumber` attribute:
 
-    $es->getVersionNumber();
+```php
+$es->getVersionNumber();
+```
 
 ##### Getting the exchange servers `admindisplayname` attribute:
 
-    $es->getAdminDisplayName();
+```php
+$es->getAdminDisplayName();
+```
     
 ##### Getting the exchange servers `messagetrackingenabled` attribute: 
-    
-    $es->getMessageTrackingEnabled();
+
+```php    
+$es->getMessageTrackingEnabled();
+```

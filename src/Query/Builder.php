@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use InvalidArgumentException;
 use Adldap\Classes\Utilities;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
@@ -34,6 +35,16 @@ class Builder
      * @var string
      */
     public static $whereValueKey = 'value';
+
+    /**
+     * The available binding types.
+     *
+     * @var array
+     */
+    public $bindings = [
+        'where'     => 'wheres',
+        'orWhere'   => 'orWheres',
+    ];
 
     /**
      * Stores the column selects to use in the query when assembled.
@@ -390,10 +401,31 @@ class Builder
      */
     public function findByDn($dn)
     {
-        return $this->setDn($dn)
+        return $this
+            ->setDn($dn)
             ->read(true)
             ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
+    }
+
+    /**
+     * Finds a record by its distinguished name.
+     *
+     * Fails upon no records returned.
+     *
+     * @param string $dn
+     *
+     * @return bool|Entry
+     *
+     * @throws ModelNotFoundException
+     */
+    public function findByDnOrFail($dn)
+    {
+        return $this
+            ->setDn($dn)
+            ->read(true)
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->firstOrFail();
     }
 
     /**
@@ -466,11 +498,15 @@ class Builder
      */
     public function where($field, $operator = null, $value = null)
     {
-        $this->wheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
+        // If the column is an array, we will assume it is an array of
+        // key-value pairs and can add them each as a where clause.
+        if (is_array($field)) {
+            foreach ($field as $key => $value) {
+                $this->whereEquals($key, $value);
+            }
+        } else {
+            $this->addBinding($field, $operator, $value, __FUNCTION__);
+        }
 
         return $this;
     }
@@ -619,11 +655,15 @@ class Builder
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        $this->orWheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
+        // If the column is an array, we will assume it is an array of
+        // key-value pairs and can add them each as a where clause.
+        if (is_array($field)) {
+            foreach ($field as $key => $value) {
+                $this->orWhereEquals($key, $value);
+            }
+        } else {
+            $this->addBinding($field, $operator, $value, __FUNCTION__);
+        }
 
         return $this;
     }
@@ -939,6 +979,33 @@ class Builder
     public function newCollection(array $elements = [])
     {
         return new ArrayCollection($elements);
+    }
+
+    /**
+     * Adds a binding to the query.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $value
+     * @param string $type
+     *
+     * @return Builder
+     *
+     * @throws InvalidQueryOperatorException
+     */
+    public function addBinding($field, $operator, $value, $type = 'where')
+    {
+        if (! array_key_exists($type, $this->bindings)) {
+            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+        }
+
+        $operator = $this->getOperator($operator);
+
+        $value = Utilities::escape($value);
+
+        $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
+
+        return $this;
     }
 
     /**

@@ -32,6 +32,8 @@ authentication and Active Directory management tools.
   - [Groups](https://github.com/adldap2/adldap2/tree/master/docs/classes/GROUPS.md)
   - [Containers](https://github.com/adldap2/adldap2/tree/master/docs/classes/CONTAINERS.md)
   - [Computers](https://github.com/adldap2/adldap2/tree/master/docs/classes/COMPUTERS.md)
+  - [Printers](https://github.com/adldap2/adldap2/tree/master/docs/classes/PRINTERS.md)
+  - [Organizational Units (OUs)](https://github.com/adldap2/adldap2/tree/master/docs/classes/ORGANIZATIONAL-UNITS.md)
   - [Exchange Servers](https://github.com/adldap2/adldap2/tree/master/docs/classes/EXCHANGE.md)
 - [Implementations](#implementations)
 

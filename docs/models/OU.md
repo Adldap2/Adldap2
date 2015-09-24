@@ -4,6 +4,7 @@ The container model will be returned when an AD result entry contains the object
 
 ##### Getting the organization units `ou` attribute:
     
-    // Returns the OU's name
-    $ou->getOu();
-
+```php
+// Returns the OU's name
+$ou->getOu();
+```

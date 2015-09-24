@@ -159,7 +159,7 @@ $model->getUpdatedAt();
 // Long Form
 $model->getDistinguishedName();
 
-$model->setDistinguishedName(cn=New Common Name,DC=corp,DC=acme,DC=org');
+$model->setDistinguishedName('cn=New Common Name,DC=corp,DC=acme,DC=org');
    
 // Short Form
 

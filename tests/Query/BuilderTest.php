@@ -103,6 +103,31 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($wheres, $b->getWheres());
     }
 
+    public function testWhereWithArray()
+    {
+        $b = $this->newBuilder();
+
+        $b->where([
+            'cn'    => 'test',
+            'name'  => 'test',
+        ]);
+
+        $wheres = [
+            [
+                'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+            [
+                'field'    => 'name',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
     public function testWhereContains()
     {
         $b = $this->newBuilder();
@@ -163,6 +188,31 @@ class BuilderTest extends UnitTestCase
         $wheres = [
             [
                 'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testOrWhereWithArray()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhere([
+            'cn'    => 'test',
+            'name'  => 'test',
+        ]);
+
+        $wheres = [
+            [
+                'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+            [
+                'field'    => 'name',
                 'operator' => '=',
                 'value'    => '\74\65\73\74',
             ],

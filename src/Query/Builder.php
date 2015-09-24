@@ -2,7 +2,6 @@
 
 namespace Adldap\Query;
 
-use InvalidArgumentException;
 use Adldap\Classes\Utilities;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
@@ -12,6 +11,7 @@ use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use InvalidArgumentException;
 
 class Builder
 {
@@ -415,9 +415,9 @@ class Builder
      *
      * @param string $dn
      *
-     * @return bool|Entry
-     *
      * @throws ModelNotFoundException
+     *
+     * @return bool|Entry
      */
     public function findByDnOrFail($dn)
     {
@@ -989,13 +989,13 @@ class Builder
      * @param string $value
      * @param string $type
      *
-     * @return Builder
-     *
      * @throws InvalidQueryOperatorException
+     *
+     * @return Builder
      */
     public function addBinding($field, $operator, $value, $type = 'where')
     {
-        if (! array_key_exists($type, $this->bindings)) {
+        if (!array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
 
@@ -1034,7 +1034,9 @@ class Builder
 
             // If the current query isn't paginated, we'll
             // sort the models array here
-            if (!$this->paginated) $models = $this->processSort($models);
+            if (!$this->paginated) {
+                $models = $this->processSort($models);
+            }
 
             return $models;
         }

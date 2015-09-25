@@ -42,8 +42,8 @@ class ActiveDirectory
     const FIRST_NAME = 'givenname';
     const GROUP_TYPE = 'grouptype';
     const HOME_MDB = 'homemdb';
-    const INITIALS = 'initials';
     const INFO = 'info';
+    const INITIALS = 'initials';
     const INSTANCE_TYPE = 'instancetype';
     const IS_CRITICAL_SYSTEM_OBJECT = 'iscriticalsystemobject';
     const LAST_LOGOFF = 'lastlogoff';

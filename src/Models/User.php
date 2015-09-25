@@ -136,6 +136,28 @@ class User extends Entry
     }
 
     /**
+     * Returns the users info.
+     *
+     * @return mixed
+     */
+    public function getInfo()
+    {
+        return $this->getAttribute(ActiveDirectory::INFO, 0);
+    }
+
+    /**
+     * Sets the users info.
+     *
+     * @param string $info
+     *
+     * @return User
+     */
+    public function setInfo($info)
+    {
+        return $this->setAttribute(ActiveDirectory::INFO, $info, 0);
+    }
+
+    /**
      * Returns the users initials.
      *
      * @return mixed
@@ -661,7 +683,7 @@ class User extends Entry
 
     /**
      * Change the password of the current user. This must be performed over SSL.
-     * 
+     *
      * @param string $oldPassword The new password
      * @param string $newPassword The old password
      *

@@ -236,7 +236,7 @@ class Utilities
     }
 
     /**
-     * Convert a Unix timestamp to Windows timestamp
+     * Convert a Unix timestamp to Windows timestamp.
      *
      * @param float $unixTime
      *

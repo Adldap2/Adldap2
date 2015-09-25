@@ -9,6 +9,7 @@ use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
 use ArrayAccess;
+use DateTime;
 use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable
@@ -19,6 +20,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * @var bool
      */
     public $exists = false;
+
+    /**
+     * The default output date format for all time related methods.
+     *
+     * @var string
+     */
+    public $dateFormat = 'Y-m-d H:i:s';
 
     /**
      * The current LDAP connection instance.
@@ -394,6 +402,17 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns true / false if the current model is writeable
+     * by checking its instance type integer.
+     *
+     * @return bool
+     */
+    public function isWriteable()
+    {
+        return (int) $this->getInstanceType() === 4;
+    }
+
+    /**
      * Returns the model's name. An AD alias for the CN attribute.
      *
      * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
@@ -478,7 +497,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the model's `when created` time.
+     * Returns the model's `whenCreated` time.
      *
      * https://msdn.microsoft.com/en-us/library/ms680924(v=vs.85).aspx
      *
@@ -490,7 +509,29 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the model's `when changed` time.
+     * Returns the created at time in a mysql formatted date.
+     *
+     * @return string
+     */
+    public function getCreatedAtDate()
+    {
+        $timestamp = $this->getCreatedAtTimestamp();
+
+        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+    }
+
+    /**
+     * Returns the created at time in a unix timestamp format.
+     *
+     * @return float
+     */
+    public function getCreatedAtTimestamp()
+    {
+        return Utilities::convertWindowsTimeToUnixTime($this->getCreatedAt());
+    }
+
+    /**
+     * Returns the model's `whenChanged` time.
      *
      * https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
      *
@@ -499,6 +540,28 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function getUpdatedAt()
     {
         return $this->getAttribute(ActiveDirectory::UPDATED_AT, 0);
+    }
+
+    /**
+     * Returns the updated at time in a mysql formatted date.
+     *
+     * @return string
+     */
+    public function getUpdatedAtDate()
+    {
+        $timestamp = $this->getUpdatedAtTimestamp();
+
+        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+    }
+
+    /**
+     * Returns the updated at time in a unix timestamp format.
+     *
+     * @return float
+     */
+    public function getUpdatedAtTimestamp()
+    {
+        return Utilities::convertWindowsTimeToUnixTime($this->getUpdatedAt());
     }
 
     /**

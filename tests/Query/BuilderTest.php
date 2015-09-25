@@ -38,6 +38,7 @@ class BuilderTest extends UnitTestCase
         $expected = [
             'testing',
             'objectcategory',
+            'objectclass',
             'dn',
         ];
 
@@ -53,6 +54,7 @@ class BuilderTest extends UnitTestCase
         $expected = [
             'testing',
             'objectcategory',
+            'objectclass',
             'dn',
         ];
 
@@ -65,7 +67,12 @@ class BuilderTest extends UnitTestCase
 
         $b->select('');
 
-        $expected = ['', 'objectcategory', 'dn'];
+        $expected = [
+            '',
+            'objectcategory',
+            'objectclass',
+            'dn'
+        ];
 
         $this->assertEquals($expected, $b->getSelects());
     }
@@ -88,6 +95,31 @@ class BuilderTest extends UnitTestCase
         $wheres = [
             [
                 'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+        ];
+
+        $this->assertEquals($wheres, $b->getWheres());
+    }
+
+    public function testWhereWithArray()
+    {
+        $b = $this->newBuilder();
+
+        $b->where([
+            'cn'    => 'test',
+            'name'  => 'test',
+        ]);
+
+        $wheres = [
+            [
+                'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+            [
+                'field'    => 'name',
                 'operator' => '=',
                 'value'    => '\74\65\73\74',
             ],
@@ -156,6 +188,31 @@ class BuilderTest extends UnitTestCase
         $wheres = [
             [
                 'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+        ];
+
+        $this->assertEquals($wheres, $b->getOrWheres());
+    }
+
+    public function testOrWhereWithArray()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhere([
+            'cn'    => 'test',
+            'name'  => 'test',
+        ]);
+
+        $wheres = [
+            [
+                'field'    => 'cn',
+                'operator' => '=',
+                'value'    => '\74\65\73\74',
+            ],
+            [
+                'field'    => 'name',
                 'operator' => '=',
                 'value'    => '\74\65\73\74',
             ],
@@ -532,5 +589,34 @@ class BuilderTest extends UnitTestCase
             $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
             $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
         }
+    }
+
+    public function testAddBinding()
+    {
+        $b = $this->newBuilder();
+
+        $b->addBinding('cn', '=', 'test', 'where');
+        $b->addBinding('cn', '=', 'test', 'orWhere');
+
+        $this->assertEquals(1, count($b->wheres));
+        $this->assertEquals(1, count($b->orWheres));
+
+        $where = [
+            'field' => 'cn',
+            'operator' => '=',
+            'value' => '\74\65\73\74',
+        ];
+
+        $this->assertEquals($where, $b->wheres[0]);
+        $this->assertEquals($where, $b->orWheres[0]);
+    }
+
+    public function testAddBindingInvalidArgumentException()
+    {
+        $b = $this->newBuilder();
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $b->addBinding('cn', '=', 'test', 'invalid binding');
     }
 }

@@ -4,15 +4,15 @@ namespace Adldap\Classes;
 
 use Adldap\Schemas\ActiveDirectory;
 
-class Printers extends AbstractBase implements QueryableInterface
+class OrganizationalUnits extends AbstractBase implements QueryableInterface
 {
     /**
-     * Finds a printer.
+     * Finds an organizational unit.
      *
      * @param string $name
      * @param array  $fields
      *
-     * @return bool|\Adldap\Models\User
+     * @return bool|\Adldap\Models\OrganizationalUnit
      */
     public function find($name, $fields = [])
     {
@@ -20,7 +20,7 @@ class Printers extends AbstractBase implements QueryableInterface
     }
 
     /**
-     * Returns all printers.
+     * Returns all organizational units.
      *
      * @param array     $fields
      * @param bool|true $sorted
@@ -41,7 +41,7 @@ class Printers extends AbstractBase implements QueryableInterface
     }
 
     /**
-     * Creates a new search limited to printers only.
+     * Returns a new search limited to organizational units.
      *
      * @return \Adldap\Query\Builder
      */
@@ -49,6 +49,6 @@ class Printers extends AbstractBase implements QueryableInterface
     {
         return $this->getAdldap()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::OBJECT_CLASS_PRINTER);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
     }
 }

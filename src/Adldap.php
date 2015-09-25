@@ -4,11 +4,12 @@ namespace Adldap;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Adldap as AdldapContract;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
-class Adldap
+class Adldap implements AdldapContract
 {
     /**
      * Holds the current ldap connection.
@@ -25,16 +26,7 @@ class Adldap
     protected $configuration;
 
     /**
-     * Constructor.
-     *
-     * Tries to bind to the AD domain over LDAP or LDAPs
-     *
-     * @param array|Configuration $configuration The Adldap configuration options array
-     * @param ConnectionInterface $connection    The connection you'd like to use
-     * @param bool                $autoConnect   Whether or not you want to connect on construct
-     *
-     * @throws AdldapException
-     * @throws InvalidArgumentException
+     * {@inheritdoc}
      */
     public function __construct($configuration, $connection = null, $autoConnect = true)
     {
@@ -88,9 +80,7 @@ class Adldap
     }
 
     /**
-     * Destructor.
-     *
-     * Closes the current LDAP connection if it exists.
+     * {@inheritdoc}
      */
     public function __destruct()
     {
@@ -100,9 +90,7 @@ class Adldap
     }
 
     /**
-     * Get the active LDAP Connection.
-     *
-     * @return bool|ConnectionInterface
+     * {@inheritdoc}
      */
     public function getConnection()
     {
@@ -114,9 +102,7 @@ class Adldap
     }
 
     /**
-     * Sets the connection property.
-     *
-     * @param ConnectionInterface $connection
+     * {@inheritdoc}
      */
     public function setConnection(ConnectionInterface $connection)
     {
@@ -124,9 +110,7 @@ class Adldap
     }
 
     /**
-     * Returns the configuration object.
-     *
-     * @return Configuration
+     * {@inheritdoc}
      */
     public function getConfiguration()
     {
@@ -134,9 +118,7 @@ class Adldap
     }
 
     /**
-     * Sets the configuration property.
-     *
-     * @param Configuration $configuration
+     * {@inheritdoc}
      */
     public function setConfiguration(Configuration $configuration)
     {
@@ -144,9 +126,7 @@ class Adldap
     }
 
     /**
-     * Returns the filtered REMOTE_USER server variable.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getRemoteUserInput()
     {
@@ -154,9 +134,7 @@ class Adldap
     }
 
     /**
-     * Returns the filtered KRB5CCNAME server variable.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getKerberosAuthInput()
     {
@@ -164,9 +142,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Groups instance.
-     *
-     * @return Classes\Groups
+     * {@inheritdoc}
      */
     public function groups()
     {
@@ -174,9 +150,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Users instance.
-     *
-     * @return Classes\Users
+     * {@inheritdoc}
      */
     public function users()
     {
@@ -184,9 +158,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Folders instance.
-     *
-     * @return Classes\Containers
+     * {@inheritdoc}
      */
     public function containers()
     {
@@ -194,9 +166,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Contacts instance.
-     *
-     * @return Classes\Contacts
+     * {@inheritdoc}
      */
     public function contacts()
     {
@@ -204,9 +174,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Exchange instance.
-     *
-     * @return Classes\Exchange
+     * {@inheritdoc}
      */
     public function exchange()
     {
@@ -214,9 +182,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Computers instance.
-     *
-     * @return Classes\Computers
+     * {@inheritdoc}
      */
     public function computers()
     {
@@ -224,9 +190,7 @@ class Adldap
     }
 
     /**
-     * Returns a new Printers instance.
-     *
-     * @return Classes\Printers
+     * {@inheritdoc}
      */
     public function printers()
     {
@@ -234,9 +198,15 @@ class Adldap
     }
 
     /**
-     * Returns a new Search instance.
-     *
-     * @return Classes\Search
+     * {@inheritdoc}
+     */
+    public function ous()
+    {
+        return new Classes\OrganizationalUnits($this);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function search()
     {
@@ -244,11 +214,7 @@ class Adldap
     }
 
     /**
-     * Connects and Binds to the Domain Controller.
-     *
-     * @throws AdldapException
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function connect()
     {
@@ -273,15 +239,7 @@ class Adldap
     }
 
     /**
-     * Authenticates a user using the specified credentials.
-     *
-     * @param string $username      The users AD username
-     * @param string $password      The users AD password
-     * @param bool   $preventRebind
-     *
-     * @throws AdldapException
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function authenticate($username, $password, $preventRebind = false)
     {
@@ -326,9 +284,7 @@ class Adldap
     }
 
     /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @return array|bool
+     * {@inheritdoc}
      */
     public function getRootDse()
     {

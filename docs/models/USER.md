@@ -6,108 +6,152 @@ The user model will be returned when an AD result entry contains the object cate
 
 ##### Getting / setting the users' `title` attribute:
 
-    $user->getTitle();
-    
-    $user->setTitle('Manager');
+```php
+$user->getTitle();
+
+$user->setTitle('Manager');
+```
 
 ##### Getting / setting the users' `department` attribute:
 
-    $user->getDepartment();
-    
-    $user->setDepartment('Accounting');
+```php
+$user->getDepartment();
+
+$user->setDepartment('Accounting');
+```
 
 ##### Getting / setting the users' `givenName` attribute:
 
-    $user->getFirstName();
-    
-    $user->setFirstName('John');
+```php
+$user->getFirstName();
+
+$user->setFirstName('John');
+```
 
 ##### Getting / setting the users' `surname` attribute:
 
-    $user->getLastName();
-    
-    $user->setLastName('Doe');
+```php
+$user->getLastName();
+
+$user->setLastName('Doe');
+```
 
 ##### Getting / setting the users' `telephone` attribute:
 
-    $user->getTelephoneNumber();
-    
-    $user->setTelephoneNumber('555 555-5555');
+```php
+$user->getTelephoneNumber();
+
+$user->setTelephoneNumber('555 555-5555');
+```
 
 ##### Getting / setting the users' `company` attribute:
 
-    $user->getCompany();
-    
-    $user->setCompany('Acme');
+```php
+$user->getCompany();
+
+$user->setCompany('Acme');
+```
 
 ##### Getting / setting the users' `mail` attribute:
 
-    $user->getEmail();
-    
-    $user->setEmail('jdoe@acme.org');
+```php
+$user->getEmail();
+
+$user->setEmail('jdoe@acme.org');
+```
 
 ##### Getting / setting the users' `mail` attribute (multiple):
 
-    $user->getEmails();
-    
-    $user->setEmails(['jdoe@acme.org', 'johndoe@otheremail.com']);
-    
+```php
+$user->getEmails();
+
+$user->setEmails(['jdoe@acme.org', 'johndoe@otheremail.com']);
+```
+
 ##### Getting / setting the users' `useraccountcontrol` attribute:
 
-    $user->getUserAccountControl();
+```php
+$user->getUserAccountControl();
+
+$user->setUserAccountControl(new AccountControl());
+```
     
-    $user->setUserAccountControl(new AccountControl());
-        
 [More about this here](https://github.com/Adldap2/Adldap2/blob/master/docs/models/user/ACCOUNT-CONTROL.md)
 
 ##### Getting the users' `homeMdb` attribute:
 
-    $user->getHomeMb();
-    
+```php
+$user->getHomeMb();
+```
+
 ##### Getting the users' `mailnickname` attribute:
 
-    $user->getMailNickname();
-    
+```php
+$user->getMailNickname();
+```
+
 ##### Getting the users' `userprincipalname` attribute:
 
-    $user->getUserPrincipalName();
-    
+```php
+$user->getUserPrincipalName();
+```
+
 ##### Getting the users' `proxyaddresses` attribute:
 
-    $user->getProxyAddresses();
-    
+```php
+$user->getProxyAddresses();
+```
+
 ##### Getting the users' `scriptpath` attribute:
 
-    $user->getScriptPath();
-    
+```php
+$user->getScriptPath();
+```
+
 ##### Getting the users' `badpwdcount` attribute:
 
-    $user->getBadPasswordCount();
-    
+```php
+$user->getBadPasswordCount();
+```
+
 ##### Getting the users' `badpasswordtime` attribute:
 
-    $user->getBadPasswordTime();
-    
+```php
+$user->getBadPasswordTime();
+```
+
 ##### Getting the users' `pwdlastset` attribute:
 
-    $user->getPasswordLastSet();
-    
+```php
+$user->getPasswordLastSet();
+```
+
 ##### Getting the users' `lockouttime` attribute:
 
-    $user->getLockoutTime();
-    
+```php
+$user->getLockoutTime();
+```
+
 ##### Getting the users' `profilepath` attribute:
 
-    $user->getProfilePath();
-    
+```php
+$user->getProfilePath();
+```
+
 ##### Getting the users' `legacyexchangedn` attribute:
 
-    $user->getLegacyExchangeDn();
+```php
+$user->getLegacyExchangeDn();
+```
 
 ##### Getting the users' `accountexpires` attribute:
 
-    $user->getAccountExpiry();
-    
+```php
+$user->getAccountExpiry();
+```
+
 ##### Getting the users' `showinaddressbook` attribute:
 
-    $user->getShowInAddressBook();
+```php
+$user->getShowInAddressBook();
+```

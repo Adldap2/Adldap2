@@ -67,6 +67,7 @@ class ActiveDirectory
     const OBJECT_CATEGORY_EXCHANGE_SERVER = 'msExchExchangeServer';
     const OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP = 'msExchStorageGroup';
     const OBJECT_CATEGORY_GROUP = 'group';
+    const OBJECT_CATEGORY_ORGANIZATIONAL_UNIT = 'organizational-unit';
     const OBJECT_CATEGORY_PERSON = 'person';
     const OBJECT_CATEGORY_PRINTER = 'print-queue';
     const OBJECT_CLASS = 'objectclass';

@@ -11,6 +11,7 @@ use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use InvalidArgumentException;
 
 class Builder
 {
@@ -34,6 +35,16 @@ class Builder
      * @var string
      */
     public static $whereValueKey = 'value';
+
+    /**
+     * The available binding types.
+     *
+     * @var array
+     */
+    public $bindings = [
+        'where'     => 'wheres',
+        'orWhere'   => 'orWheres',
+    ];
 
     /**
      * Stores the column selects to use in the query when assembled.
@@ -66,6 +77,14 @@ class Builder
     public $filters = [];
 
     /**
+     * Stores the bool to determine whether or
+     * not the current query is paginated.
+     *
+     * @var bool
+     */
+    public $paginated = false;
+
+    /**
      * Stores the field to sort search results by.
      *
      * @var string
@@ -92,12 +111,13 @@ class Builder
      * @var array
      */
     protected $mappings = [
-        ActiveDirectory::OBJECT_CATEGORY_COMPUTER   => 'Adldap\Models\Computer',
-        ActiveDirectory::OBJECT_CATEGORY_PERSON     => 'Adldap\Models\User',
-        ActiveDirectory::OBJECT_CATEGORY_GROUP      => 'Adldap\Models\Group',
-        ActiveDirectory::MS_EXCHANGE_SERVER         => 'Adldap\Models\ExchangeServer',
-        ActiveDirectory::OBJECT_CATEGORY_CONTAINER  => 'Adldap\Models\Container',
-        ActiveDirectory::OBJECT_CATEGORY_PRINTER    => 'Adldap\Models\Printer',
+        ActiveDirectory::OBJECT_CATEGORY_COMPUTER               => 'Adldap\Models\Computer',
+        ActiveDirectory::OBJECT_CATEGORY_PERSON                 => 'Adldap\Models\User',
+        ActiveDirectory::OBJECT_CATEGORY_GROUP                  => 'Adldap\Models\Group',
+        ActiveDirectory::MS_EXCHANGE_SERVER                     => 'Adldap\Models\ExchangeServer',
+        ActiveDirectory::OBJECT_CATEGORY_CONTAINER              => 'Adldap\Models\Container',
+        ActiveDirectory::OBJECT_CATEGORY_PRINTER                => 'Adldap\Models\Printer',
+        ActiveDirectory::OBJECT_CATEGORY_ORGANIZATIONAL_UNIT    => 'Adldap\Models\OrganizationalUnit',
     ];
 
     /**
@@ -266,6 +286,9 @@ class Builder
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
+        // Set the current query to paginated
+        $this->paginated = true;
+
         // Stores all LDAP entries in a page array
         $pages = [];
 
@@ -279,6 +302,7 @@ class Builder
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
+                // We'll collect the results into the pages array
                 $pages[] = $results;
             }
         } while ($cookie !== null && !empty($cookie));
@@ -377,10 +401,31 @@ class Builder
      */
     public function findByDn($dn)
     {
-        return $this->setDn($dn)
+        return $this
+            ->setDn($dn)
             ->read(true)
             ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
+    }
+
+    /**
+     * Finds a record by its distinguished name.
+     *
+     * Fails upon no records returned.
+     *
+     * @param string $dn
+     *
+     * @throws ModelNotFoundException
+     *
+     * @return bool|Entry
+     */
+    public function findByDnOrFail($dn)
+    {
+        return $this
+            ->setDn($dn)
+            ->read(true)
+            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->firstOrFail();
     }
 
     /**
@@ -453,11 +498,15 @@ class Builder
      */
     public function where($field, $operator = null, $value = null)
     {
-        $this->wheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
+        // If the column is an array, we will assume it is an array of
+        // key-value pairs and can add them each as a where clause.
+        if (is_array($field)) {
+            foreach ($field as $key => $value) {
+                $this->whereEquals($key, $value);
+            }
+        } else {
+            $this->addBinding($field, $operator, $value, __FUNCTION__);
+        }
 
         return $this;
     }
@@ -606,11 +655,15 @@ class Builder
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        $this->orWheres[] = [
-            self::$whereFieldKey    => $field,
-            self::$whereOperatorKey => $this->getOperator($operator),
-            self::$whereValueKey    => Utilities::escape($value),
-        ];
+        // If the column is an array, we will assume it is an array of
+        // key-value pairs and can add them each as a where clause.
+        if (is_array($field)) {
+            foreach ($field as $key => $value) {
+                $this->orWhereEquals($key, $value);
+            }
+        } else {
+            $this->addBinding($field, $operator, $value, __FUNCTION__);
+        }
 
         return $this;
     }
@@ -788,9 +841,10 @@ class Builder
         $selects = $this->selects;
 
         if (count($selects) > 0) {
-            // Always make sure object category and distinguished
+            // Always make sure object category, class, and distinguished
             // name are included in the selected fields
             $selects[] = ActiveDirectory::OBJECT_CATEGORY;
+            $selects[] = ActiveDirectory::OBJECT_CLASS;
             $selects[] = ActiveDirectory::DISTINGUISHED_NAME;
         }
 
@@ -928,6 +982,33 @@ class Builder
     }
 
     /**
+     * Adds a binding to the query.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $value
+     * @param string $type
+     *
+     * @throws InvalidQueryOperatorException
+     *
+     * @return Builder
+     */
+    public function addBinding($field, $operator, $value, $type = 'where')
+    {
+        if (!array_key_exists($type, $this->bindings)) {
+            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+        }
+
+        $operator = $this->getOperator($operator);
+
+        $value = Utilities::escape($value);
+
+        $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
+
+        return $this;
+    }
+
+    /**
      * Processes LDAP search results into a nice array.
      *
      * If raw is not set to true, an ArrayCollection is returned.
@@ -949,6 +1030,12 @@ class Builder
                 for ($i = 0; $i < $entries['count']; $i++) {
                     $models[] = $this->newLdapEntry($entries[$i]);
                 }
+            }
+
+            // If the current query isn't paginated, we'll
+            // sort the models array here
+            if (!$this->paginated) {
+                $models = $this->processSort($models);
             }
 
             return $models;

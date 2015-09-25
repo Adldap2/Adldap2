@@ -4,9 +4,12 @@ The container model will be returned when an AD result entry contains the object
 
 ##### Getting the containers `systemflags` attribute:
 
-    $container->getSystemFlags();
-    
+```php
+$container->getSystemFlags();
+```    
 ##### Getting the containers `iscriticalsystemobject` attribute:
 
-    $container->isCriticalSystemObject(); // Returns bool
-
+```php
+// Returns bool
+$container->isCriticalSystemObject(); 
+```

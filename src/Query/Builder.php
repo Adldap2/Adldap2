@@ -396,14 +396,16 @@ class Builder
      * Finds a record by its distinguished name.
      *
      * @param string $dn
+     * @param array  $fields
      *
      * @return bool|Entry
      */
-    public function findByDn($dn)
+    public function findByDn($dn, $fields = [])
     {
         return $this
             ->setDn($dn)
             ->read(true)
+            ->select($fields)
             ->whereHas(ActiveDirectory::OBJECT_CLASS)
             ->first();
     }

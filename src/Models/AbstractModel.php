@@ -888,6 +888,19 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Moves the current model to a new RDN and new parent.
+     *
+     * @param string $rdn
+     * @param string $newParentDn
+     *
+     * @return bool
+     */
+    public function move($rdn, $newParentDn)
+    {
+        return $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn);
+    }
+
+    /**
      * Converts the inserted string boolean to a PHP boolean.
      *
      * @param string $bool

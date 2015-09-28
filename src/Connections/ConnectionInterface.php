@@ -354,7 +354,7 @@ interface ConnectionInterface
      * @param string $newParent
      * @param bool   $deleteOldRdn
      *
-     * @return mixed
+     * @return bool
      */
     public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false);
 
@@ -365,7 +365,7 @@ interface ConnectionInterface
      * @param string $dn
      * @param array  $entry
      *
-     * @return mixed
+     * @return bool
      */
     public function modify($dn, array $entry);
 

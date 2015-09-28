@@ -348,4 +348,27 @@ class EntryTest extends UnitTestCase
 
         $this->assertEquals($expected, $entry->getAttributes());
     }
+
+    public function testMove()
+    {
+        $rawAttributes = [
+            'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',
+        ];
+
+        $connection = $this->newConnectionMock();
+
+        $args = [
+            'cn=Doe,dc=corp,dc=acme,dc=org',
+            'cn=John',
+            'ou=Accounts,dc=corp,dc=amce,dc=org',
+        ];
+
+        $connection->shouldReceive('rename')->once()->withArgs($args)->andReturn(true);
+
+        $entry = new Entry([], $this->newBuilder($connection));
+
+        $entry->setRawAttributes($rawAttributes);
+
+        $this->assertTrue($entry->move($args[1], $args[2]));
+    }
 }

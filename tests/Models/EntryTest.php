@@ -361,6 +361,7 @@ class EntryTest extends UnitTestCase
             'cn=Doe,dc=corp,dc=acme,dc=org',
             'cn=John',
             'ou=Accounts,dc=corp,dc=amce,dc=org',
+            false,
         ];
 
         $connection->shouldReceive('rename')->once()->withArgs($args)->andReturn(true);

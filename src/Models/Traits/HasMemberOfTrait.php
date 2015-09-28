@@ -11,9 +11,9 @@ trait HasMemberOfTrait
     /**
      * {@inheritdoc}
      */
-    public function getGroups()
+    public function getGroups($fields = [])
     {
-        return $this->getMemberOf();
+        return $this->getMemberOf($fields);
     }
 
     /**
@@ -37,9 +37,11 @@ trait HasMemberOfTrait
      *
      * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
      *
+     * @param array $fields
+     *
      * @return array
      */
-    public function getMemberOf()
+    public function getMemberOf($fields = [])
     {
         $groups = [];
 
@@ -49,7 +51,9 @@ trait HasMemberOfTrait
             foreach ($dns as $key => $dn) {
                 $query = $this->query->newInstance();
 
-                $groups[] = $query->findByDn($dn);
+                $groups[] = $query
+                    ->select($fields)
+                    ->findByDn($dn);
             }
         }
 

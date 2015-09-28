@@ -2,9 +2,10 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Models\OrganizationalUnit;
 use Adldap\Schemas\ActiveDirectory;
 
-class OrganizationalUnits extends AbstractBase implements QueryableInterface
+class OrganizationalUnits extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds an organizational unit.
@@ -50,5 +51,33 @@ class OrganizationalUnits extends AbstractBase implements QueryableInterface
         return $this->getAdldap()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
+    }
+
+    /**
+     * Creates a new Organizational Unit instance.
+     *
+     * @param array $attributes
+     *
+     * @return OrganizationalUnit
+     */
+    public function newInstance(array $attributes = [])
+    {
+        return (new OrganizationalUnit($attributes, $this->search()))
+            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
+                ActiveDirectory::TOP,
+                ActiveDirectory::ORGANIZATIONAL_UNIT_LONG,
+            ]);
+    }
+
+    /**
+     * Creates and saves a new Organizational Unit instance, then returns the result.
+     *
+     * @param array $attributes
+     *
+     * @return bool
+     */
+    public function create(array $attributes = [])
+    {
+        return $this->newInstance($attributes)->save();
     }
 }

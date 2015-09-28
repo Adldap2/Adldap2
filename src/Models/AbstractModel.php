@@ -527,7 +527,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getCreatedAtTimestamp()
     {
-        return Utilities::convertWindowsTimeToUnixTime($this->getCreatedAt());
+        return DateTime::createFromFormat('YmdHis.0Z', $this->getCreatedAt())->getTimestamp();
     }
 
     /**
@@ -561,7 +561,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getUpdatedAtTimestamp()
     {
-        return Utilities::convertWindowsTimeToUnixTime($this->getUpdatedAt());
+        return DateTime::createFromFormat('YmdHis.0Z', $this->getUpdatedAt())->getTimestamp();
     }
 
     /**

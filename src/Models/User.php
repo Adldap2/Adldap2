@@ -6,6 +6,7 @@ use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
+use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\AccountControl;
@@ -13,6 +14,8 @@ use Adldap\Schemas\ActiveDirectory;
 
 class User extends Entry
 {
+    use HasDescriptionTrait;
+
     use HasMemberOfTrait;
 
     use HasLastLogonAndLogOffTrait;

@@ -286,6 +286,9 @@ $results->getCurrentPage();
 // Returns the amount of entries allowed per page, int
 $results->getPerPage();
 
+// Returns all of the results in the entire paginated result
+$results->getResults();
+
 // Returns the total amount of retrieved entries, int
 $results->count();
 

@@ -84,6 +84,13 @@ class Configuration
     protected $domainControllers = [];
 
     /**
+     * The domain controller selected to connect to.
+     *
+     * @var string
+     */
+    protected $domainControllerSelected;
+
+    /**
      * The LDAP account suffix.
      *
      * @var string
@@ -413,6 +420,26 @@ class Configuration
     public function getAdminPassword()
     {
         return $this->adminPassword;
+    }
+
+    /**
+     * Sets the domain controller selected random.
+     *
+     * @param string $domainController
+     */
+    public function setDomainControllerSelected($domainController)
+    {
+        $this->domainControllerSelected = (string) $domainController;
+    }
+
+    /**
+     * Returns the domain controller selected to etablish the connection.
+     *
+     * @return string
+     */
+    public function getDomainControllerSelected()
+    {
+        return $this->domainControllerSelected;
     }
 
     /**

@@ -588,7 +588,7 @@ class User extends Entry
      */
     public function setAccountExpiry($expiryTime)
     {
-        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, Utilities::convertUnixTimeToWindowsTime($expiryTime), 0);
+        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, (string) Utilities::convertUnixTimeToWindowsTime($expiryTime), 0);
     }
 
     /**

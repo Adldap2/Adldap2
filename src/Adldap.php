@@ -222,7 +222,8 @@ class Adldap implements AdldapContract
         $controllers = $this->configuration->getDomainControllers();
 
         // Select a random domain controller
-        $domainController = $controllers[array_rand($controllers)];
+        $this->configuration->setDomainControllerSelected($controllers[array_rand($controllers)]);
+        $domainController = $this->configuration->getDomainControllerSelected();
 
         // Get the LDAP port
         $port = $this->configuration->getPort();

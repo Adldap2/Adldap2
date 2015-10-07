@@ -350,10 +350,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         $dirty = [];
 
         foreach ($this->attributes as $key => $value) {
-            if (! array_key_exists($key, $this->original)) {
+            if (!array_key_exists($key, $this->original)) {
                 $dirty[$key] = $value;
             } elseif ($value !== $this->original[$key] &&
-                ! $this->originalIsNumericallyEquivalent($key)) {
+                !$this->originalIsNumericallyEquivalent($key)) {
                 $dirty[$key] = $value;
             }
         }
@@ -401,7 +401,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
                             // developer is trying to replace all attributes.
                             $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                         }
-                    } elseif(!empty($filtered)) {
+                    } elseif (!empty($filtered)) {
                         // If the key doesn't exist originally and the array
                         // isn't empty, we'll assume the developer is
                         // looking to add attributes to the entry.

@@ -133,7 +133,7 @@ class EntryTest extends UnitTestCase
 
         // Removed 'cn' attribute
         $this->assertEquals('cn', $modifications[0]['attrib']);
-        $this->assertEquals(null, $modifications[0]['values']);
+        $this->assertFalse(isset($modifications[0]['values']));
         $this->assertEquals(18, $modifications[0]['modtype']);
 
         // Modified 'samaccountname' attribute

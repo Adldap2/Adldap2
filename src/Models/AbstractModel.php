@@ -387,8 +387,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
                     break;
                 case is_array($value):
+                    $filtered = array_filter($value);
+
                     if (array_key_exists($key, $this->original)) {
-                        if (empty(array_filter($value))) {
+                        if (empty($filtered)) {
                             // If the key exists originally and the array is
                             // empty then we can assume the developer is
                             // looking to completely remove all values
@@ -399,7 +401,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
                             // developer is trying to replace all attributes.
                             $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                         }
-                    } elseif(!empty(array_filter($value))) {
+                    } elseif(!empty($filtered)) {
                         // If the key doesn't exist originally and the array
                         // isn't empty, we'll assume the developer is
                         // looking to add attributes to the entry.

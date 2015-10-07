@@ -341,7 +341,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the objects modifications.
+     * Get the attributes that have been changed since last sync.
      *
      * @return array
      */

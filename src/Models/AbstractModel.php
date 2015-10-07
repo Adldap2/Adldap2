@@ -345,31 +345,85 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @return array
      */
+    public function getDirty()
+    {
+        $dirty = [];
+
+        foreach ($this->attributes as $key => $value) {
+            if (! array_key_exists($key, $this->original)) {
+                $dirty[$key] = $value;
+            } elseif ($value !== $this->original[$key] &&
+                ! $this->originalIsNumericallyEquivalent($key)) {
+                $dirty[$key] = $value;
+            }
+        }
+
+        return $dirty;
+    }
+
+    /**
+     * Sets and returns the models modifications.
+     *
+     * @return array
+     */
     public function getModifications()
     {
-        foreach ($this->attributes as $key => $value) {
-            // If the key still exists inside the original attributes,
-            // the developer is modifying an attribute.
-            if (array_key_exists($key, $this->original)) {
-                if (is_array($value)) {
-                    if (count(array_diff($value, $this->original[$key])) > 0) {
-                        // If the value of the set attribute is an array and the differences
-                        // are greater than zero, we'll replace the attribute.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+        $dirty = $this->getDirty();
+
+        foreach ($dirty as $key => $value) {
+            switch ($value) {
+                case null:
+                    // If the attribute exists originally and it's null
+                    // then we'll assume the developer wants
+                    // the attribute removed.
+                    if (array_key_exists($key, $this->original)) {
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE_ALL);
                     }
-                } elseif ($value !== $this->original[$key]) {
-                    if (is_null($value)) {
-                        // If the value is set to null, then we'll
-                        // assume they want the attribute removed
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE, $value);
+
+                    // Since the value is null and the attribute doesn't
+                    // exist originally then we can ignore adding it
+                    // to modifications since we can't push
+                    // null attributes to LDAP.
+
+                    break;
+                case is_array($value):
+                    if (array_key_exists($key, $this->original)) {
+                        if (empty(array_filter($value))) {
+                            // If the key exists originally and the array is
+                            // empty then we can assume the developer is
+                            // looking to completely remove all values
+                            // of the specified attribute.
+                            $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE_ALL);
+                        } else {
+                            // If the array isn't empty then we can assume the
+                            // developer is trying to replace all attributes.
+                            $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                        }
+                    } elseif(!empty(array_filter($value))) {
+                        // If the key doesn't exist originally and the array
+                        // isn't empty, we'll assume the developer is
+                        // looking to add attributes to the entry.
+                        $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
+                    }
+
+                    // If the key doesn't exist originally but the array is
+                    // empty we'll ignore adding it to the modifications.
+
+                    break;
+                default:
+                    if (array_key_exists($key, $this->original)) {
+                        // If the key exists originally then we'll assume
+                        // the developer is looking to replace the
+                        // attribute with the specified value.
+                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
                     } else {
-                        // If the value doesn't equal it's original, we'll replace it.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
+                        // If the key does not exist originally then we'll assume
+                        // the developer is looking to add the
+                        // attribute with the specified value
+                        $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
                     }
-                }
-            } else {
-                // The value doesn't exist at all, we'll add it.
-                $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
+
+                    break;
             }
         }
 
@@ -385,18 +439,26 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @return $this
      */
-    public function setModification($key, $type, $values)
+    public function setModification($key, $type, $values = null)
     {
-        // We need to make sure the values given are always in an array.
-        if (!is_array($values)) {
-            $values = [$values];
-        }
-
-        $this->modifications[] = [
+        $modification = [
             'attrib'  => $key,
             'modtype' => $type,
-            'values'  => $values,
         ];
+
+        // If values is null then we must be deleting the attribute
+        // and we don't need to include the values
+        // key in the modification.
+        if (!is_null($values)) {
+            // Make sure values are always inside an array.
+            if (!is_array($values)) {
+                $values = [$values];
+            }
+
+            $modification['values'] = $values;
+        }
+
+        $this->modifications[] = $modification;
 
         return $this;
     }
@@ -899,6 +961,22 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function move($rdn, $newParentDn, $deleteOldRdn = false)
     {
         return $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
+    }
+
+    /**
+     * Determine if the new and old values for a given key are numerically equivalent.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function originalIsNumericallyEquivalent($key)
+    {
+        $current = $this->attributes[$key];
+
+        $original = $this->original[$key];
+
+        return is_numeric($current) && is_numeric($original) && strcmp((string) $current, (string) $original) === 0;
     }
 
     /**

@@ -373,10 +373,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         foreach ($dirty as $key => $value) {
             switch ($value) {
                 case null:
-                    // If the attribute exists originally and it's null
-                    // then we'll assume the developer wants
-                    // the attribute removed.
                     if (array_key_exists($key, $this->original)) {
+                        // If the attribute exists originally and it's null
+                        // then we'll assume the developer wants
+                        // the attribute removed.
                         $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE_ALL);
                     }
 

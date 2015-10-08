@@ -635,6 +635,28 @@ class User extends Entry
     }
 
     /**
+     * Return the employee ID.
+     *
+     * @return User
+     */
+    public function getEmployeeId()
+    {
+        return $this->getAttribute(ActiveDirectory::EMPLOYEE_ID, 0);
+    }
+
+    /**
+     * Sets the employee ID.
+     *
+     * @param string $employeeId
+     *
+     * @return User
+     */
+    public function setEmployeeId($employeeId)
+    {
+        return $this->setAttribute(ActiveDirectory::EMPLOYEE_ID, $employeeId, 0);
+    }
+
+    /**
      * Enables the current user.
      *
      * @throws AdldapException

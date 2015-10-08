@@ -114,6 +114,7 @@ class EntryTest extends UnitTestCase
         $attributes = [
             'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
+            'name'           => ['Name'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -128,23 +129,29 @@ class EntryTest extends UnitTestCase
         $entry->cn = null;
         $entry->samaccountname = 'Changed';
         $entry->test = 'New Attribute';
+        $entry->setName('New Name');
 
         $modifications = $entry->getModifications();
 
         // Removed 'cn' attribute
         $this->assertEquals('cn', $modifications[0]['attrib']);
-        $this->assertEquals([null], $modifications[0]['values']);
-        $this->assertEquals(2, $modifications[0]['modtype']);
+        $this->assertFalse(isset($modifications[0]['values']));
+        $this->assertEquals(18, $modifications[0]['modtype']);
 
         // Modified 'samaccountname' attribute
         $this->assertEquals('samaccountname', $modifications[1]['attrib']);
         $this->assertEquals(['Changed'], $modifications[1]['values']);
         $this->assertEquals(3, $modifications[1]['modtype']);
 
+        // Modified 'name' attribute
+        $this->assertEquals('name', $modifications[2]['attrib']);
+        $this->assertEquals(['New Name'], $modifications[2]['values']);
+        $this->assertEquals(3, $modifications[2]['modtype']);
+
         // New 'test' attribute
-        $this->assertEquals('test', $modifications[2]['attrib']);
-        $this->assertEquals(['New Attribute'], $modifications[2]['values']);
-        $this->assertEquals(1, $modifications[2]['modtype']);
+        $this->assertEquals('test', $modifications[3]['attrib']);
+        $this->assertEquals(['New Attribute'], $modifications[3]['values']);
+        $this->assertEquals(1, $modifications[3]['modtype']);
     }
 
     public function testCreate()

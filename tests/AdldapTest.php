@@ -75,6 +75,7 @@ class AdldapTest extends UnitTestCase
         $config = $this->mock('Adldap\Connections\Configuration');
 
         $config->shouldReceive('getDomainControllers')->once()->andReturn(['dc1', 'dc2']);
+        $config->shouldReceive('setDomainControllerSelected')->once();
         $config->shouldReceive('getPort')->once()->andReturn(389);
         $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
         $config->shouldReceive('getAdminUsername')->once()->andReturn('username');

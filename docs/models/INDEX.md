@@ -212,6 +212,6 @@ $model->getAttribute('samAccountName');
 
 // Or retrieving a sub-attribute if the attribute is an array
 
-// Getting the 5th group that the model is apart of
-$model->getAttribute('memberOf', 5); 
+// Getting the 1st group that the model is apart of
+$model->getAttribute('memberOf', 0); 
 ```

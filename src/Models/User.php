@@ -582,13 +582,17 @@ class User extends Entry
     /**
      * Sets the users account expiry date.
      *
+     * https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
+     *
      * @param float $expiryTime
      *
      * @return User
      */
     public function setAccountExpiry($expiryTime)
     {
-        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, (string) Utilities::convertUnixTimeToWindowsTime($expiryTime), 0);
+        $time = is_null($expiryTime) ? '9223372036854775807' : (string) Utilities::convertUnixTimeToWindowsTime($expiryTime);
+
+        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, $time, 0);
     }
 
     /**

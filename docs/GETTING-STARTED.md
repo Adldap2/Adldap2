@@ -25,6 +25,9 @@ pass in `true` into the third parameter:
         // Uh oh, looks like the username or password is incorrect
     }
 
+> *Note*: Keep in mind if you authenticate but not bind the user to your server, all operations will be
+ran under the configurations administrator credentials.
+
 ## Connecting Manually
 
 If you'd like to connect manually instead of connecting immediately when Adldap is constructed, pass in `false` in the third paramter:

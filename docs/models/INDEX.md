@@ -36,7 +36,7 @@ Adldap is smart enough to know that if an attribute doesn't exist, then it will 
 ### Saving / Updating
 
 When you've made your modifications, just call the `save()` method. It will return true or false if the record has been
-saved or not:
+saved successfully:
 
 ```php
 $user->setFirstName('First Name');

@@ -190,8 +190,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Retrieves the specified key from the attribute array.
      *
-     * If a sub-key is specified, it will try
-     * and retrieve it from the parent keys array.
+     * If a sub-key is specified, it will try and
+     * retrieve it from the parent keys array.
      *
      * @param int|string $key
      * @param int|string $subKey
@@ -838,13 +838,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
                 return true;
             }
 
-            // Modification failed
+            // Modification failed, return false.
             return false;
         }
 
         // We need to return true here because modify batch will
         // return false if no modifications are made
-        // but this may not always be the case
+        // but this may not always be the case.
         return true;
     }
 
@@ -942,7 +942,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         if ($deleted) {
             // We'll set the exists property to false on delete
-            // so the dev can run create operations
+            // so the dev can run create operations.
             $this->exists = false;
 
             return true;

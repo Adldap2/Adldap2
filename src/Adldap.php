@@ -55,10 +55,10 @@ class Adldap implements AdldapContract
 
         // If we dev wants to connect automatically, we'll construct
         // a new Connection and try to connect using the
-        // supplied configuration object
+        // supplied configuration object.
         if ($autoConnect === true) {
             // Set the beginning protocol options on the connection
-            // if they're set in the configuration
+            // if they're set in the configuration.
             if ($this->configuration->getUseSSL()) {
                 $this->connection->useSSL();
             } elseif ($this->configuration->getUseTLS()) {
@@ -72,7 +72,7 @@ class Adldap implements AdldapContract
                 $this->connection->useSSO();
             }
 
-            // Looks like we're all set. Let's try and connect
+            // Looks like we're all set. Let's try and connect.
             $this->connect();
         }
     }

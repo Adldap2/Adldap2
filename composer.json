@@ -1,13 +1,15 @@
 {
     "name": "adldap2/adldap2",
     "type": "library",
-    "description": "A PHP LDAP Library for Active Directory Manipulation",
+    "description": "A PHP LDAP Library for Active Directory Manipulation.",
     "keywords": [
         "active directory",
         "directory",
         "ad",
         "ldap",
-        "windows"
+        "windows",
+        "adldap",
+        "adldap2"
     ],
     "license": "LGPL-2.1",
     "support": {

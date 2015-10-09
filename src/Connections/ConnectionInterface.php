@@ -274,7 +274,7 @@ interface ConnectionInterface
      * @param string $password
      * @param bool   $sasl
      *
-     * @return mixed
+     * @return bool
      */
     public function bind($username, $password, $sasl = false);
 

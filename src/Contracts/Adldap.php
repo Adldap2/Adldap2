@@ -145,15 +145,15 @@ interface Adldap
     /**
      * Authenticates a user using the specified credentials.
      *
-     * @param string $username      The users AD username
-     * @param string $password      The users AD password
-     * @param bool   $preventRebind
+     * @param string $username The users AD username.
+     * @param string $password The users AD password.
+     * @param bool   $bindAsUser Whether or not to bind as the user.
      *
      * @throws \Adldap\Exceptions\AdldapException
      *
      * @return bool
      */
-    public function authenticate($username, $password, $preventRebind = false);
+    public function authenticate($username, $password, $bindAsUser = false);
 
     /**
      * Get the RootDSE properties from a domain controller.

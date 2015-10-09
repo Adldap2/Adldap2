@@ -311,7 +311,7 @@ class Adldap implements AdldapContract
 
         putenv($key.$kerberosCredentials);
 
-        if (!$this->connection->bind(null, null, true)) {
+        if ($this->connection->bind(null, null, true) == false) {
             $message = 'Bind to Active Directory failed. AD said: '.$this->connection->getLastError();
 
             throw new AdldapException($message);
@@ -333,10 +333,12 @@ class Adldap implements AdldapContract
      */
     private function bindUsingCredentials($username, $password)
     {
-        // Allow binding with null credentials
         if (empty($username)) {
+            // Allow binding with null credentials.
             $username = null;
         } else {
+            // If the username isn't empty, we'll append the configured
+            // account suffix to bind to the LDAP server.
             $username .= $this->configuration->getAccountSuffix();
         }
 
@@ -344,10 +346,10 @@ class Adldap implements AdldapContract
             $password = null;
         }
 
-        if (!$this->connection->bind($username, $password)) {
+        if ($this->connection->bind($username, $password) === false) {
             $error = $this->connection->getLastError();
 
-            if ($this->connection->isUsingSSL() && !$this->connection->isUsingTLS()) {
+            if ($this->connection->isUsingSSL() && $this->connection->isUsingTLS() === false) {
                 $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: '.$error;
             } else {
                 $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;

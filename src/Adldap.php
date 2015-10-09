@@ -242,7 +242,7 @@ class Adldap implements AdldapContract
     /**
      * {@inheritdoc}
      */
-    public function authenticate($username, $password, $preventRebind = false)
+    public function authenticate($username, $password, $bindAsUser = false)
     {
         $auth = false;
 
@@ -262,22 +262,25 @@ class Adldap implements AdldapContract
                 $auth = $this->bindUsingCredentials($username, $password);
             }
         } catch (AdldapException $e) {
-            if ($preventRebind === true) {
+            if ($bindAsUser === true) {
                 // Binding failed and we're not allowed
                 // to rebind, we'll return false
                 return $auth;
             }
         }
 
-        // If we're allowed to rebind, we'll rebind as administrator
-        if ($preventRebind === false) {
+        // If we're not allowed to bind as the
+        // user, we'll rebind as administrator.
+        if ($bindAsUser === false) {
             $adminUsername = $this->configuration->getAdminUsername();
             $adminPassword = $this->configuration->getAdminPassword();
 
             $this->bindUsingCredentials($adminUsername, $adminPassword);
 
-            if (!$this->connection->isBound()) {
-                throw new AdldapException('Rebind to Active Directory failed. AD said: '.$this->connection->getLastError());
+            if ($this->connection->isBound() === false) {
+                $error = $this->connection->getLastError();
+
+                throw new AdldapException("Rebind to Active Directory failed. AD said: $error");
             }
         }
 

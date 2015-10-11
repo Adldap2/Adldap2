@@ -24,6 +24,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * The default output date format for all time related methods.
      *
+     * Default format is suited for MySQL timestamps.
+     *
      * @var string
      */
     public $dateFormat = 'Y-m-d H:i:s';

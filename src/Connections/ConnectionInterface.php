@@ -3,10 +3,9 @@
 namespace Adldap\Connections;
 
 /**
- * The Connection interface used for making
- * connections. Implementing this interface
- * on connection classes helps unit and functional
- * testing classes that require a connection.
+ * The Connection interface used for making connections. Implementing
+ * this interface on connection classes helps unit and functional
+ * test classes that require a connection.
  *
  * Interface ConnectionInterface
  */

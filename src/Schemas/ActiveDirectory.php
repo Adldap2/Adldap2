@@ -84,6 +84,7 @@ class ActiveDirectory
     const OTHER_MAILBOX = 'othermailbox';
     const PASSWORD_LAST_SET = 'pwdlastset';
     const PERSON = 'person';
+    const PERSONAL_TITLE = 'personaltitle';
     const PHYSICAL_DELIVERY_OFFICE_NAME = 'physicaldeliveryofficename';
     const PORT_NAME = 'portname';
     const POSTAL_CODE = 'postalcode';

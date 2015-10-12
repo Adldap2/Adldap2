@@ -2,11 +2,11 @@
 
 namespace Adldap;
 
+use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Contracts\Adldap as AdldapContract;
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Adldap implements AdldapContract
@@ -337,7 +337,7 @@ class Adldap implements AdldapContract
     private function bindUsingCredentials($username, $password)
     {
         if (empty($username)) {
-            // Allow binding with null credentials.
+            // Allow binding with null username.
             $username = null;
         } else {
             // If the username isn't empty, we'll append the configured
@@ -346,6 +346,7 @@ class Adldap implements AdldapContract
         }
 
         if (empty($password)) {
+            // Allow binding with null password
             $password = null;
         }
 

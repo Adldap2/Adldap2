@@ -302,7 +302,7 @@ class Grammar
         }
 
         // Make sure we wrap the query in an 'and' if using
-        // multiple wheres. For example (&QUERY)
+        // multiple wheres. For example (&QUERY).
         if (count($builder->orWheres) > 0) {
             $query .= $this->compileOr($ors);
         }
@@ -320,29 +320,29 @@ class Grammar
      */
     protected function compileWhere(array $where = [])
     {
-        // The compile function prefix
+        // The compile function prefix.
         $prefix = 'compile';
 
-        // Make sure the operator key exists inside the where clause
+        // Make sure the operator key exists inside the where clause.
         if (array_key_exists(Builder::$whereOperatorKey, $where)) {
-            // Get the operator from the where
+            // Get the operator from the where.
             $operator = $where[Builder::$whereOperatorKey];
 
-            // Get the name of the operator
+            // Get the name of the operator.
             $name = array_search($operator, Operator::all());
 
             if ($name !== false) {
                 // If the name was found we'll camel case it
-                // to run it through the compile method
+                // to run it through the compile method.
                 $method = $prefix.ucfirst($name);
 
-                // Make sure the compile method exists for the operator
+                // Make sure the compile method exists for the operator.
                 if (method_exists($this, $method)) {
                     return $this->{$method}($where[Builder::$whereFieldKey], $where[Builder::$whereValueKey]);
                 }
             }
         }
 
-        return;
+        return null;
     }
 }

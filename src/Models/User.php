@@ -667,6 +667,37 @@ class User extends Entry
      *
      * @return User
      */
+
+    /**
+     * Return the personal title.
+     *
+     * @return User
+     */
+    public function getPersonalTitle()
+    {
+        return $this->getAttribute(ActiveDirectory::PERSONAL_TITLE, 0);
+    }
+
+    /**
+     * Sets the personal title.
+     *
+     * @param string $personalTitle
+     *
+     * @return User
+     */
+    public function setPersonalTitle($personalTitle)
+    {
+        return $this->setAttribute(ActiveDirectory::PERSONAL_TITLE, $personalTitle, 0);
+    }
+
+    /**
+     * Enables the current user.
+     *
+     * @throws AdldapException
+     *
+     * @return User
+     */
+
     public function enable()
     {
         $this->enabled = 1;

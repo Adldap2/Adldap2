@@ -323,7 +323,9 @@ class Adldap implements AdldapContract
         putenv($key.$kerberosCredentials);
 
         if ($this->connection->bind(null, null, true) === false) {
-            $message = 'Bind to Active Directory failed. AD said: '.$this->connection->getLastError();
+            $error = $this->connection->getLastError();
+
+            $message = "Bind to Active Directory failed. AD said: $error";
 
             throw new AdldapException($message);
         }

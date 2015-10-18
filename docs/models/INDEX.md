@@ -76,6 +76,18 @@ if($user->createAttribute('memberOf', $groups))
 }
 ```
 
+### Manually Updating Attributes
+
+If you'd like to manually update attributes on an exisiting record, use the `updateAttribute()` method:
+
+```php
+if($user->updateAttribute('cn', 'John Doe'))
+{
+    // Successfully updated attribute
+    echo $user->cn; // John Doe
+}
+```
+
 ### Manually Deleting Attributes
 
 To manually remove / delete attributes, use the `deleteAttribute()` method:

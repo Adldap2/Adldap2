@@ -343,6 +343,6 @@ class Grammar
             }
         }
 
-        return null;
+        return;
     }
 }

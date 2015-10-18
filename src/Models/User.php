@@ -697,7 +697,6 @@ class User extends Entry
      *
      * @return User
      */
-
     public function enable()
     {
         $this->enabled = 1;

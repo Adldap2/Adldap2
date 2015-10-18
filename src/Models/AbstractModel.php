@@ -276,7 +276,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         // Set exists to true since raw attributes are only
         // set in the case of attributes being loaded by
-        // query results
+        // query results.
         $this->exists = true;
 
         return $this;
@@ -316,7 +316,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         if (array_key_exists($key, $this->attributes)) {
             // If a sub key is given, we'll check if it
-            // exists in the nested attribute array
+            // exists in the nested attribute array.
             if (!is_null($subKey)) {
                 if (is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
                     return true;
@@ -896,6 +896,33 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Updates the specified attribute with the specified value.
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function updateAttribute($attribute, $value)
+    {
+        if ($this->exists) {
+            $modify = [$attribute => $value];
+
+            $updated = $this->query->getConnection()->modReplace($this->getDn(), $modify);
+
+            if ($updated) {
+                // If the models attribute was successfully updated, we'll
+                // resynchronize the models raw attributes.
+                $this->syncRaw();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Deletes an attribute on the current entry.
      *
      * @param string $attribute
@@ -909,7 +936,15 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             // for the attribute so AD knows to remove it.
             $remove = [$attribute => []];
 
-            return $this->query->getConnection()->modDelete($this->getDn(), $remove);
+            $deleted = $this->query->getConnection()->modDelete($this->getDn(), $remove);
+
+            if ($deleted) {
+                // If the models attribute was successfully deleted, we'll
+                // resynchronize the models raw attributes.
+                $this->syncRaw();
+
+                return true;
+            }
         }
 
         return false;

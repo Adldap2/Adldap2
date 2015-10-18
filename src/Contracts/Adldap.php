@@ -136,11 +136,14 @@ interface Adldap
     /**
      * Connects and Binds to the Domain Controller.
      *
+     * @param string|null $username
+     * @param string|null $password
+     *
      * @throws \Adldap\Exceptions\AdldapException
      *
      * @return bool
      */
-    public function connect();
+    public function connect($username = null, $password = null);
 
     /**
      * Authenticates a user using the specified credentials.

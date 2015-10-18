@@ -57,21 +57,6 @@ class Adldap implements AdldapContract
         // a new Connection and try to connect using the
         // supplied configuration object.
         if ($autoConnect === true) {
-            // Set the beginning protocol options on the connection
-            // if they're set in the configuration.
-            if ($this->configuration->getUseSSL()) {
-                $this->connection->useSSL();
-            } elseif ($this->configuration->getUseTLS()) {
-                $this->connection->useTLS();
-            }
-
-            // If we've set SSO to true, we'll make sure we check if
-            // SSO is supported, and if so we'll bind it to
-            // the current LDAP connection.
-            if ($this->configuration->getUseSSO() && $this->connection->isSaslSupported()) {
-                $this->connection->useSSO();
-            }
-
             // Looks like we're all set. Let's try and connect.
             $this->connect();
         }
@@ -214,29 +199,52 @@ class Adldap implements AdldapContract
     /**
      * {@inheritdoc}
      */
-    public function connect()
+    public function connect($username = null, $password = null)
     {
-        // Retrieve the controllers from the configuration
+        // Set the beginning protocol options on the connection
+        // if they're set in the configuration.
+        if ($this->configuration->getUseSSL()) {
+            $this->connection->useSSL();
+        } elseif ($this->configuration->getUseTLS()) {
+            $this->connection->useTLS();
+        }
+
+        // If we've set SSO to true, we'll make sure we check if
+        // SSO is supported, and if so we'll bind it to
+        // the current LDAP connection.
+        if ($this->configuration->getUseSSO() && $this->connection->isSaslSupported()) {
+            $this->connection->useSSO();
+        }
+
+        // Retrieve the controllers from the configuration.
         $controllers = $this->configuration->getDomainControllers();
 
-        // Select a random domain controller
+        // Select a random domain controller.
         $controller = $controllers[array_rand($controllers)];
 
-        // Set the controller selected
+        // Set the controller selected in the configuration so devs
+        // can retrieve the domain controller in use if needed.
         $this->configuration->setDomainControllerSelected($controller);
 
-        // Get the LDAP port
+        // Get the LDAP port.
         $port = $this->configuration->getPort();
 
-        // Create the LDAP connection
+        // Create the LDAP connection.
         $this->connection->connect($controller, $port);
 
-        // Set the LDAP options
+        // Set the LDAP options.
         $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
         $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->getFollowReferrals());
 
-        // Authenticate to the server
-        return $this->authenticate($this->configuration->getAdminUsername(), $this->configuration->getAdminPassword(), true);
+        // If both the username and password are null, we'll connect to the server
+        // using the configured administrator username and password.
+        if (is_null($username) && is_null($password)) {
+            $username = $this->configuration->getAdminUsername();
+            $password = $this->configuration->getAdminPassword();
+        }
+
+        // Authenticate to the server and bind as the specified user.
+        return $this->authenticate($username, $password, true);
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace Adldap;
 
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Contracts\Adldap as AdldapContract;
+use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Adldap implements AdldapContract

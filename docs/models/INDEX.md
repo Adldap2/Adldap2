@@ -101,7 +101,7 @@ if($user->deleteAttribute('memberOf'))
 
 ### Manually Creating a new Model Instance
 
-To manually create a new model instance, you need to inject the current Adldap instance into the Models second parameter:
+To manually create a new model instance, you need to inject a new Query Builder instance into the Models second parameter:
 
 ```php
 $adldap = new Adldap\Adldap($config);

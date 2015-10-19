@@ -37,6 +37,8 @@ abstract class AbstractBase
 
     /**
      * Overridable method that is called upon construct.
+     *
+     * @return void
      */
     public function boot()
     {

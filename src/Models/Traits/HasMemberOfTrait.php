@@ -87,6 +87,8 @@ trait HasMemberOfTrait
     /**
      * Sets the models's group DN's the entry is a member of.
      *
+     * @depreciated
+     *
      * @param array $groups
      *
      * @return \Adldap\Models\Entry

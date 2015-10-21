@@ -139,7 +139,7 @@ trait HasMemberOfTrait
     /**
      * Sets the models's group DN's the entry is a member of.
      *
-     * @depreciated
+     * @depreciated Depreciated since 5.1.22.
      *
      * @param array $groups
      *

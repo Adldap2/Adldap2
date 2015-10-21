@@ -44,4 +44,16 @@ class BatchModificationTest extends UnitTestCase
 
         $this->assertEquals(LDAP_MODIFY_BATCH_REMOVE_ALL, $modification->getType());
     }
+
+    public function testBuildWithoutOriginalAndNullValue()
+    {
+        $modification = new BatchModification();
+
+        $modification->setAttribute('cn');
+        $modification->setValues([null]);
+
+        $modification->build();
+
+        $this->assertNull($modification->getType());
+    }
 }

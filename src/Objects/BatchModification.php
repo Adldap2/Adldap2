@@ -160,7 +160,7 @@ class BatchModification
         $modtype = $this->type;
         $values = $this->values;
 
-        switch($modtype) {
+        switch ($modtype) {
             case LDAP_MODIFY_BATCH_REMOVE_ALL:
                 // A values key cannot be provided when
                 // a remove all type is selected.
@@ -173,7 +173,7 @@ class BatchModification
                 return compact('attrib', 'modtype', 'values');
             default:
                 // If the modtype isn't recognized, we'll return null.
-                return null;
+                return;
         }
     }
 }

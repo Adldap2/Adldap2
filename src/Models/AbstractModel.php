@@ -213,7 +213,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             }
         }
 
-        return null;
+        return;
     }
 
     /**

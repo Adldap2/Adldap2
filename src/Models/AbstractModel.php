@@ -373,13 +373,21 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $dirty = $this->getDirty();
 
-        foreach ($dirty as $key => $values) {
+        foreach ($dirty as $attribute => $values) {
             if (!is_array($values)) {
                 // Make sure values is always an array.
                 $values = [$values];
             }
 
-            $modification = new BatchModification($this->{$key}, $key, $values);
+            $modification = new BatchModification();
+
+            if (array_key_exists($attribute, $this->original)) {
+                $modification->setOriginal($this->original[$attribute]);
+            }
+
+            $modification->setAttribute($attribute);
+            $modification->setValues($values);
+            $modification->build();
 
             $this->addModification($modification);
         }
@@ -410,7 +418,11 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function addModification(BatchModification $modification)
     {
-        $this->modifications[] = $modification->get();
+        $batch = $modification->get();
+
+        if (is_array($batch)) {
+            $this->modifications[] = $batch;
+        }
 
         return $this;
     }

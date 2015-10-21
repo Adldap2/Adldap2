@@ -85,6 +85,15 @@ class BatchModificationTest extends UnitTestCase
         $this->assertNull($modification->get());
     }
 
+    public function testSetValues()
+    {
+        $modification = new BatchModification();
+
+        $modification->setValues(['test']);
+
+        $this->assertEquals(['test'], $modification->getValues());
+    }
+
     public function testSetValuesWithNonArray()
     {
         $modification = new BatchModification();
@@ -98,5 +107,32 @@ class BatchModificationTest extends UnitTestCase
         }
 
         $this->assertTrue($passes);
+    }
+
+    public function testSetType()
+    {
+        $modification = new BatchModification();
+
+        $modification->setType(1);
+
+        $this->assertEquals(1, $modification->getType());
+    }
+
+    public function testSetAttribute()
+    {
+        $modification = new BatchModification();
+
+        $modification->setAttribute('test');
+
+        $this->assertEquals('test', $modification->getAttribute());
+    }
+
+    public function testSetOriginal()
+    {
+        $modification = new BatchModification();
+
+        $modification->setOriginal(['testing']);
+
+        $this->assertEquals(['testing'], $modification->getOriginal());
     }
 }

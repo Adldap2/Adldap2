@@ -3,6 +3,7 @@
 namespace Adldap\Models\Traits;
 
 use Adldap\Classes\Utilities;
+use Adldap\Models\AbstractModel;
 use Adldap\Models\Group;
 use Adldap\Schemas\ActiveDirectory;
 
@@ -77,14 +78,6 @@ trait HasMemberOfTrait
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setGroups(array $groups)
-    {
-        return $this->setMemberOf($groups);
-    }
-
-    /**
      * Returns an array of groups the model is a member of.
      *
      * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
@@ -137,20 +130,6 @@ trait HasMemberOfTrait
     }
 
     /**
-     * Sets the models's group DN's the entry is a member of.
-     *
-     * @depreciated Depreciated since 5.1.22.
-     *
-     * @param array $groups
-     *
-     * @return \Adldap\Models\Entry
-     */
-    public function setMemberOf(array $groups)
-    {
-        return $this->setAttribute(ActiveDirectory::MEMBER_OF, $groups);
-    }
-
-    /**
      * Returns true / false if the current model
      * is in the specified group.
      *
@@ -168,7 +147,7 @@ trait HasMemberOfTrait
             }
         } elseif (is_string($group)) {
             foreach ($groups as $model) {
-                if ($group == $model->getName()) {
+                if ($model instanceof AbstractModel && $group == $model->getName()) {
                     return true;
                 }
             }

@@ -165,6 +165,8 @@ class BatchModification
                 // A values key cannot be provided when
                 // a remove all type is selected.
                 return compact('attrib', 'modtype');
+            case LDAP_MODIFY_BATCH_REMOVE:
+                return compact('attrib', 'modtype', 'values');
             case LDAP_MODIFY_BATCH_ADD:
                 return compact('attrib', 'modtype', 'values');
             case LDAP_MODIFY_BATCH_REPLACE:

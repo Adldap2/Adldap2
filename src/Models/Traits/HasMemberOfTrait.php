@@ -54,7 +54,7 @@ trait HasMemberOfTrait
 
         if ($group instanceof Group) {
             // If the group is Group model instance, we can
-            // add the current models DN to the group.
+            // remove the current models DN from the group.
             return $group->removeMember($this->getDn());
         }
 

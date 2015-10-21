@@ -43,6 +43,16 @@ class BatchModification
     }
 
     /**
+     * Returns the original value of the attribute before modification.
+     *
+     * @return mixed
+     */
+    public function getOriginal()
+    {
+        return $this->original;
+    }
+
+    /**
      * Sets the attribute of the modification.
      *
      * @param string $attribute
@@ -50,6 +60,16 @@ class BatchModification
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+    }
+
+    /**
+     * Returns the attribute of the modification.
+     *
+     * @return string
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
     }
 
     /**
@@ -63,6 +83,16 @@ class BatchModification
     }
 
     /**
+     * Returns the values of the modification.
+     *
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
      * Sets the type of the modification.
      *
      * @param int $type
@@ -70,6 +100,16 @@ class BatchModification
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * Returns the type of the modification.
+     *
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

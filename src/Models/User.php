@@ -692,34 +692,6 @@ class User extends Entry
     }
 
     /**
-     * Enables the current user.
-     *
-     * @throws AdldapException
-     *
-     * @return User
-     */
-    public function enable()
-    {
-        $this->enabled = 1;
-
-        return $this;
-    }
-
-    /**
-     * Disables the current user.
-     *
-     * @throws AdldapException
-     *
-     * @return User
-     */
-    public function disable()
-    {
-        $this->enabled = 0;
-
-        return $this;
-    }
-
-    /**
      * Sets the password on the current user.
      *
      * @param string $password

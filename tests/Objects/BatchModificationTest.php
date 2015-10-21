@@ -56,4 +56,47 @@ class BatchModificationTest extends UnitTestCase
 
         $this->assertNull($modification->getType());
     }
+
+    public function testGet()
+    {
+        $modification = new BatchModification();
+
+        $modification->setValues(['test']);
+        $modification->setAttribute('cn');
+        $modification->setType(3);
+
+        $expected = [
+            'attrib' => 'cn',
+            'modtype' => 3,
+            'values' => ['test'],
+        ];
+
+        $this->assertEquals($expected, $modification->get());
+    }
+
+    public function testGetWithInvalidType()
+    {
+        $modification = new BatchModification();
+
+        $modification->setValues(['test']);
+        $modification->setAttribute('cn');
+        $modification->setType(100);
+
+        $this->assertNull($modification->get());
+    }
+
+    public function testSetValuesWithNonArray()
+    {
+        $modification = new BatchModification();
+
+        try {
+            $modification->setValues('');
+
+            $passes = false;
+        } catch (\Exception $e) {
+            $passes = true;
+        }
+
+        $this->assertTrue($passes);
+    }
 }

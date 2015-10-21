@@ -9,6 +9,58 @@ use Adldap\Schemas\ActiveDirectory;
 trait HasMemberOfTrait
 {
     /**
+     * Adds the current model to the specified group.
+     *
+     * @param string|Group $group
+     *
+     * @return bool
+     */
+    public function addGroup($group)
+    {
+        if (is_string($group)) {
+            // If the group is a string, we'll assume the dev is passing
+            // in a DN string of the group. We'll try to locate it.
+            $query = $this->query->newInstance();
+
+            $group = $query->findByDn($group);
+        }
+
+        if ($group instanceof Group) {
+            // If the group is Group model instance, we can
+            // add the current models DN to the group.
+            return $group->addMember($this->getDn());
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes the current model from the specified group.
+     *
+     * @param string|Group $group
+     *
+     * @return bool
+     */
+    public function removeGroup($group)
+    {
+        if (is_string($group)) {
+            // If the group is a string, we'll assume the dev is passing
+            // in a DN string of the group. We'll try to locate it.
+            $query = $this->query->newInstance();
+
+            $group = $query->findByDn($group);
+        }
+
+        if ($group instanceof Group) {
+            // If the group is Group model instance, we can
+            // add the current models DN to the group.
+            return $group->removeMember($this->getDn());
+        }
+
+        return false;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getGroups($fields = [])

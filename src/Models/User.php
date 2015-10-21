@@ -10,6 +10,7 @@ use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\AccountControl;
+use Adldap\Objects\BatchModification;
 use Adldap\Schemas\ActiveDirectory;
 
 class User extends Entry
@@ -737,7 +738,12 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        return $this->setModification(ActiveDirectory::UNICODE_PASSWORD, LDAP_MODIFY_BATCH_REPLACE, Utilities::encodePassword($password));
+        $modification = new BatchModification();
+        $modification->setAttribute(ActiveDirectory::UNICODE_PASSWORD);
+        $modification->setType(LDAP_MODIFY_BATCH_REPLACE);
+        $modification->setValues([Utilities::encodePassword($password)]);
+
+        return $this->addModification($modification);
     }
 
     /**
@@ -764,8 +770,18 @@ class User extends Entry
 
         $attribute = ActiveDirectory::UNICODE_PASSWORD;
 
-        $this->setModification($attribute, LDAP_MODIFY_BATCH_REMOVE, Utilities::encodePassword($oldPassword));
-        $this->setModification($attribute, LDAP_MODIFY_BATCH_ADD, Utilities::encodePassword($newPassword));
+        $remove = new BatchModification();
+        $remove->setAttribute($attribute);
+        $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
+        $remove->setValues([Utilities::encodePassword($oldPassword)]);
+
+        $add = new BatchModification();
+        $add->setAttribute($attribute);
+        $add->setType(LDAP_MODIFY_BATCH_ADD);
+        $add->setValues([Utilities::encodePassword($newPassword)]);
+
+        $this->addModification($remove);
+        $this->addModification($add);
 
         $result = $this->update();
 

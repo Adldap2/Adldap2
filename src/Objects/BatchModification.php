@@ -33,20 +33,6 @@ class BatchModification
     protected $type;
 
     /**
-     * Constructor.
-     *
-     * @param mixed|null $original
-     * @param int|string $attribute
-     * @param array      $values
-     */
-    public function __construct($original = null, $attribute, array $values = [])
-    {
-        $this->setOriginal($original);
-        $this->setAttribute($attribute);
-        $this->setValues($values);
-    }
-
-    /**
      * Sets the original value of the attribute before modification.
      *
      * @param null $original
@@ -93,7 +79,7 @@ class BatchModification
      */
     public function build()
     {
-        $filtered = array_filter($this->values);
+        $filtered = array_diff(array_map('trim', $this->values), ['']);
 
         if (is_null($this->original)) {
             // If the original value is null, we'll assume
@@ -126,24 +112,26 @@ class BatchModification
     /**
      * Returns the built batch modification array.
      *
-     * @return array
+     * @return array|null
      */
     public function get()
     {
-        $this->build();
-
         $attrib = $this->attribute;
         $modtype = $this->type;
+        $values = $this->values;
 
         switch($modtype) {
             case LDAP_MODIFY_BATCH_REMOVE_ALL:
                 // A values key cannot be provided when
                 // a remove all type is selected.
                 return compact('attrib', 'modtype');
-            default:
-                $values = $this->values;
-
+            case LDAP_MODIFY_BATCH_ADD:
                 return compact('attrib', 'modtype', 'values');
+            case LDAP_MODIFY_BATCH_REPLACE:
+                return compact('attrib', 'modtype', 'values');
+            default:
+                // If the modtype isn't recognized, we'll return null.
+                return null;
         }
     }
 }

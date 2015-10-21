@@ -112,6 +112,8 @@ class Configuration
     private $adminPassword;
 
     /**
+     * Constructor.
+     *
      * @param array|Traversable $options
      *
      * @throws InvalidArgumentException

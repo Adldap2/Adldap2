@@ -5,6 +5,7 @@ namespace Adldap\Models;
 use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
@@ -372,97 +373,44 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $dirty = $this->getDirty();
 
-        foreach ($dirty as $key => $value) {
-            switch ($value) {
-                case null:
-                    if (array_key_exists($key, $this->original)) {
-                        // If the attribute exists originally and it's null
-                        // then we'll assume the developer wants
-                        // the attribute removed.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE_ALL);
-                    }
-
-                    // Since the value is null and the attribute doesn't
-                    // exist originally then we can ignore adding it
-                    // to modifications since we can't push
-                    // null attributes to LDAP.
-
-                    break;
-                case is_array($value):
-                    $filtered = array_filter($value);
-
-                    if (array_key_exists($key, $this->original)) {
-                        if (empty($filtered)) {
-                            // If the key exists originally and the array is
-                            // empty then we can assume the developer is
-                            // looking to completely remove all values
-                            // of the specified attribute.
-                            $this->setModification($key, LDAP_MODIFY_BATCH_REMOVE_ALL);
-                        } else {
-                            // If the array isn't empty then we can assume the
-                            // developer is trying to replace all attributes.
-                            $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
-                        }
-                    } elseif (!empty($filtered)) {
-                        // If the key doesn't exist originally and the array
-                        // isn't empty, we'll assume the developer is
-                        // looking to add attributes to the entry.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
-                    }
-
-                    // If the key doesn't exist originally but the array is
-                    // empty we'll ignore adding it to the modifications.
-
-                    break;
-                default:
-                    if (array_key_exists($key, $this->original)) {
-                        // If the key exists originally then we'll assume
-                        // the developer is looking to replace the
-                        // attribute with the specified value.
-                        $this->setModification($key, LDAP_MODIFY_BATCH_REPLACE, $value);
-                    } else {
-                        // If the key does not exist originally then we'll assume
-                        // the developer is looking to add the
-                        // attribute with the specified value
-                        $this->setModification($key, LDAP_MODIFY_BATCH_ADD, $value);
-                    }
-
-                    break;
+        foreach ($dirty as $key => $values) {
+            if (!is_array($values)) {
+                // Make sure values is always an array.
+                $values = [$values];
             }
+
+            $modification = new BatchModification($this->{$key}, $key, $values);
+
+            $this->addModification($modification);
         }
 
         return $this->modifications;
     }
 
     /**
-     * Sets a modification in the objects modifications array.
+     * Sets the models modifications array.
      *
-     * @param int|string $key
-     * @param int        $type
-     * @param mixed      $values
+     * @param array $modifications
      *
      * @return $this
      */
-    public function setModification($key, $type, $values = null)
+    public function setModifications(array $modifications = [])
     {
-        $modification = [
-            'attrib'  => $key,
-            'modtype' => $type,
-        ];
+        $this->modifications = $modifications;
 
-        // If values is null then we must be deleting the attribute
-        // and we don't need to include the values
-        // key in the modification.
-        if (!is_null($values)) {
-            // Make sure values are always inside an array.
-            if (!is_array($values)) {
-                $values = [$values];
-            }
+        return $this;
+    }
 
-            $modification['values'] = $values;
-        }
-
-        $this->modifications[] = $modification;
+    /**
+     * Adds a modification to the models modifications array.
+     *
+     * @param BatchModification $modification
+     *
+     * @return $this
+     */
+    public function addModification(BatchModification $modification)
+    {
+        $this->modifications[] = $modification->get();
 
         return $this;
     }

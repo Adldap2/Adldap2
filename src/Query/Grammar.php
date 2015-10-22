@@ -33,13 +33,13 @@ class Grammar
 
         $query = $this->compileOrWheres($builder, $query);
 
-        // Count the total amount of filters
+        // Count the total amount of filters.
         $total = count($builder->wheres)
             + count($builder->orWheres)
             + count($builder->filters);
 
         // Make sure we wrap the query in an 'and'
-        // if using multiple filters
+        // if using multiple filters.
         if ($total > 1) {
             $query = $this->compileAnd($query);
         }

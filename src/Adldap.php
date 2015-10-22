@@ -222,7 +222,7 @@ class Adldap implements AdldapContract
         // Select a random domain controller.
         $controller = $controllers[array_rand($controllers)];
 
-        // Set the controller selected in the configuration so devs
+        // Set the controller selected in the configuration so developers
         // can retrieve the domain controller in use if needed.
         $this->configuration->setDomainControllerSelected($controller);
 

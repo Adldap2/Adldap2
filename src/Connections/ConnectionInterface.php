@@ -249,12 +249,12 @@ interface ConnectionInterface
      * Connects to the specified hostname using the
      * specified port.
      *
-     * @param string $hostname
-     * @param int    $port
+     * @param string|array $hostname
+     * @param int          $port
      *
      * @return mixed
      */
-    public function connect($hostname, $port = 389);
+    public function connect($hostname = [], $port = 389);
 
     /**
      * Starts a connection using TLS.

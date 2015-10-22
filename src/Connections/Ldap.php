@@ -370,12 +370,12 @@ class Ldap implements ConnectionInterface
      * Connects to the specified hostname
      * using the PHP ldap protocol.
      *
-     * @param string $hostname
-     * @param string $port
+     * @param string|array $hostname
+     * @param string       $port
      *
      * @return resource
      */
-    public function connect($hostname, $port = '389')
+    public function connect($hostname = [], $port = '389')
     {
         $protocol = $this::PROTOCOL;
 
@@ -383,7 +383,11 @@ class Ldap implements ConnectionInterface
             $protocol = $this::PROTOCOL_SSL;
         }
 
-        return $this->connection = ldap_connect($protocol.$hostname, $port);
+        if (is_array($hostname)) {
+            $hostname = $protocol.implode(' '.$protocol, $hostname);
+        }
+
+        return $this->connection = ldap_connect($hostname, $port);
     }
 
     /**

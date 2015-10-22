@@ -888,6 +888,9 @@ class Builder
     {
         $this->sortByField = $field;
 
+        // Lowercase direction for comparisons.
+        $direction = strtolower($direction);
+
         if ($direction === 'asc' || $direction === 'desc') {
             $this->sortByDirection = $direction;
         }
@@ -969,7 +972,7 @@ class Builder
             }
         }
 
-        // A default entry object if the object category isn't found
+        // A default entry object if the object category isn't found.
         return (new Entry([], $this))->setRawAttributes($attributes);
     }
 

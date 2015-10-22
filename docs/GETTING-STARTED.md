@@ -3,15 +3,19 @@
 ## Authenticating Users
 
 To authenticate a user against your a AD server, use the `authenticate()` method on the Adldap instance:
-
-    $ad = new Adldap($config);
     
-    if($ad->authenticate($username, $password)
-    {
-        // User passed authentication
-    } else
-    {
-        // Uh oh, looks like the username or password is incorrect
+    try {
+        $ad = new Adldap($config);
+        
+        if($ad->authenticate($username, $password)
+        {
+            // User passed authentication
+        } else
+        {
+            // Uh oh, looks like the username or password is incorrect
+        }
+    } catch (Adldap\Exceptions\AdldapException $e) {
+        // Binding failed!
     }
 
 If you'd like to *bind* a user to your AD server so all operations ran through Adldap are run as the authenticated user,
@@ -59,7 +63,11 @@ Then in some other file:
     
     $ad->setConnection(new CustomConnection());
     
-    $ad->connect();
+    try {
+        $ad->connect();
+    } catch (Adldap\Exceptions\AdldapException $e) {
+        // Binding failed!
+    }
 
 ## Changing Configurations
 

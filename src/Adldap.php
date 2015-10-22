@@ -254,27 +254,19 @@ class Adldap implements AdldapContract
     {
         $auth = false;
 
-        try {
-            if ($this->configuration->getUseSSO()) {
-                // If SSO is enabled, we'll try binding over kerberos
-                $remoteUser = $this->getRemoteUserInput();
-                $kerberos = $this->getKerberosAuthInput();
+        if ($this->configuration->getUseSSO()) {
+            // If SSO is enabled, we'll try binding over kerberos
+            $remoteUser = $this->getRemoteUserInput();
+            $kerberos = $this->getKerberosAuthInput();
 
-                // If the remote user input equals the username we're
-                // trying to authenticate, we'll perform the bind
-                if ($remoteUser == $username) {
-                    $auth = $this->bindUsingKerberos($kerberos);
-                }
-            } else {
-                // Looks like SSO isn't enabled, we'll bind regularly instead
-                $auth = $this->bindUsingCredentials($username, $password);
+            // If the remote user input equals the username we're
+            // trying to authenticate, we'll perform the bind
+            if ($remoteUser == $username) {
+                $auth = $this->bindUsingKerberos($kerberos);
             }
-        } catch (AdldapException $e) {
-            if ($bindAsUser === true) {
-                // Binding failed and we're not allowed
-                // to rebind, we'll return false
-                return $auth;
-            }
+        } else {
+            // Looks like SSO isn't enabled, we'll bind regularly instead.
+            $auth = $this->bindUsingCredentials($username, $password);
         }
 
         // If we're not allowed to bind as the

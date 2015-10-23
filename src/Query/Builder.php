@@ -268,6 +268,7 @@ class Builder
             // Read and recursive is false, we'll return a listing
             $results = $this->connection->listing($dn, $query, $selects);
         }
+
         if ($results) {
             return $this->newCollection($this->processResults($results));
         }

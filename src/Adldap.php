@@ -5,6 +5,7 @@ namespace Adldap;
 use Adldap\Exceptions\Auth\PasswordRequiredException;
 use Adldap\Exceptions\Auth\UsernameRequiredException;
 use Adldap\Exceptions\Auth\BindException;
+use Adldap\Exceptions\ConnectionException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
@@ -217,21 +218,23 @@ class Adldap implements AdldapContract
         $port = $this->configuration->getPort();
 
         // Connect to the LDAP server.
-        $this->connection->connect($controllers, $port);
+        if ($this->connection->connect($controllers, $port)) {
+            // Set the LDAP options.
+            $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
+            $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->getFollowReferrals());
 
-        // Set the LDAP options.
-        $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
-        $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->getFollowReferrals());
+            // If both the username and password are null, we'll connect to the server
+            // using the configured administrator username and password.
+            if (is_null($username) && is_null($password)) {
+                $username = $this->configuration->getAdminUsername();
+                $password = $this->configuration->getAdminPassword();
+            }
 
-        // If both the username and password are null, we'll connect to the server
-        // using the configured administrator username and password.
-        if (is_null($username) && is_null($password)) {
-            $username = $this->configuration->getAdminUsername();
-            $password = $this->configuration->getAdminPassword();
+            // Bind to the server with the specified username and password.
+            $this->bindUsingCredentials($username, $password);
+        } else {
+            throw new ConnectionException('Unable to connect to LDAP server.');
         }
-
-        // Authenticate to the server and bind as the specified user.
-        return $this->authenticate($username, $password, true);
     }
 
     /**

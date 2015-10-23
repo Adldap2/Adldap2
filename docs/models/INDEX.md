@@ -91,7 +91,7 @@ if($user->updateAttribute('cn', 'John Doe'))
 To manually remove / delete attributes, use the `deleteAttribute()` method:
 
 ```php
-if($user->deleteAttribute('memberOf'))
+if($user->deleteAttribute('description'))
 {
     // Successfully removed attribute
 }

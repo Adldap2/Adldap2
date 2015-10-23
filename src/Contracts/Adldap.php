@@ -141,9 +141,10 @@ interface Adldap
      * @param string|null $username
      * @param string|null $password
      *
-     * @throws \Adldap\Exceptions\AdldapException
+     * @throws \Adldap\Exceptions\ConnectionException
+     * @throws \Adldap\Exceptions\Auth\BindException
      *
-     * @return bool
+     * @return void
      */
     public function connect($username = null, $password = null);
 

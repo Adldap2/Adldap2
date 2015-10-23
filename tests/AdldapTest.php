@@ -96,7 +96,7 @@ class AdldapTest extends UnitTestCase
 
         $ad->setConnection($connection);
 
-        $this->assertTrue($ad->connect());
+        $this->assertNull($ad->connect());
     }
 
     public function testGroups()
@@ -159,6 +159,8 @@ class AdldapTest extends UnitTestCase
         ];
 
         $ad = new \Adldap\Adldap($config);
+
+        $ad->connect();
 
         $this->assertTrue($ad->getConnection()->isBound());
     }

@@ -33,6 +33,23 @@ $user->surname = 'Doe';
 
 Adldap is smart enough to know that if an attribute doesn't exist, then it will add it to the entry.
 
+If you set an attribute to `null`, then Adldap will know you'd like to remove the attribute if it exists.
+For example:
+
+```php
+$user = $ad->users()->find('jdoe');
+
+echo $user->getCommonName(); // Returns 'jdoe'
+
+$user->setCommonName(null);
+
+if ($user->save()) {
+    // Saved successfully
+    
+    echo $user->getCommonName(); // Returns 'null'
+}
+```
+
 ### Saving / Updating
 
 When you've made your modifications, just call the `save()` method. It will return true or false if the record has been

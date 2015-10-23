@@ -2,11 +2,13 @@
 
 namespace Adldap;
 
+use Adldap\Exceptions\Auth\PasswordRequiredException;
+use Adldap\Exceptions\Auth\UsernameRequiredException;
+use Adldap\Exceptions\Auth\BindException;
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Contracts\Adldap as AdldapContract;
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Adldap implements AdldapContract
@@ -28,7 +30,7 @@ class Adldap implements AdldapContract
     /**
      * {@inheritdoc}
      */
-    public function __construct($configuration, $connection = null, $autoConnect = true)
+    public function __construct($configuration, $connection = null)
     {
         if (is_array($configuration)) {
             // If we've been given an array, we'll create
@@ -52,14 +54,6 @@ class Adldap implements AdldapContract
 
         // Set the connection
         $this->setConnection($connection);
-
-        // If we dev wants to connect automatically, we'll construct
-        // a new Connection and try to connect using the
-        // supplied configuration object.
-        if ($autoConnect === true) {
-            // Looks like we're all set. Let's try and connect.
-            $this->connect();
-        }
     }
 
     /**
@@ -245,7 +239,13 @@ class Adldap implements AdldapContract
      */
     public function authenticate($username, $password, $bindAsUser = false)
     {
-        $auth = false;
+        if (empty($username)) {
+            // Check for an empty username.
+            throw new UsernameRequiredException('A username must be specified.');
+        } elseif (empty($password)) {
+            // Check for an empty password.
+            throw new PasswordRequiredException('A password must be specified.');
+        }
 
         if ($this->configuration->getUseSSO()) {
             // If SSO is enabled, we'll try binding over kerberos
@@ -253,31 +253,23 @@ class Adldap implements AdldapContract
             $kerberos = $this->getKerberosAuthInput();
 
             // If the remote user input equals the username we're
-            // trying to authenticate, we'll perform the bind
+            // trying to authenticate, we'll perform the bind.
             if ($remoteUser == $username) {
-                $auth = $this->bindUsingKerberos($kerberos);
+                $this->bindUsingKerberos($kerberos);
             }
         } else {
             // Looks like SSO isn't enabled, we'll bind regularly instead.
-            $auth = $this->bindUsingCredentials($username, $password);
+            $this->bindUsingCredentials($username, $password);
         }
 
-        // If we're not allowed to bind as the
-        // user, we'll rebind as administrator.
+        // If we're not allowed to bind as the user,
+        // we'll rebind as administrator.
         if ($bindAsUser === false) {
             $adminUsername = $this->configuration->getAdminUsername();
             $adminPassword = $this->configuration->getAdminPassword();
 
             $this->bindUsingCredentials($adminUsername, $adminPassword);
-
-            if ($this->connection->isBound() === false) {
-                $error = $this->connection->getLastError();
-
-                throw new AdldapException("Rebind to Active Directory failed. AD said: $error");
-            }
         }
-
-        return $auth;
     }
 
     /**
@@ -293,13 +285,53 @@ class Adldap implements AdldapContract
     }
 
     /**
+     * Binds to the current connection using the
+     * inserted credentials.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @returns void
+     *
+     * @throws BindException
+     */
+    public function bindUsingCredentials($username, $password)
+    {
+        if (empty($username)) {
+            // Allow binding with null username.
+            $username = null;
+        } else {
+            // If the username isn't empty, we'll append the configured
+            // account suffix to bind to the LDAP server.
+            $username .= $this->configuration->getAccountSuffix();
+        }
+
+        if (empty($password)) {
+            // Allow binding with null password.
+            $password = null;
+        }
+
+        if ($this->connection->bind($username, $password) === false) {
+            $error = $this->connection->getLastError();
+
+            if ($this->connection->isUsingSSL() && $this->connection->isUsingTLS() === false) {
+                $message = 'Bind to Active Directory failed. Either the LDAP SSL connection failed or the login credentials are incorrect. AD said: '.$error;
+            } else {
+                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;
+            }
+
+            throw new BindException($message);
+        }
+    }
+
+    /**
      * Binds to the current connection using kerberos.
      *
      * @param string $kerberosCredentials
      *
-     * @returns bool
+     * @returns void
      *
-     * @throws AdldapException
+     * @throws BindException
      */
     private function bindUsingKerberos($kerberosCredentials)
     {
@@ -312,51 +344,7 @@ class Adldap implements AdldapContract
 
             $message = "Bind to Active Directory failed. AD said: $error";
 
-            throw new AdldapException($message);
+            throw new BindException($message);
         }
-
-        return true;
-    }
-
-    /**
-     * Binds to the current connection using the
-     * inserted credentials.
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @returns bool
-     *
-     * @throws AdldapException
-     */
-    private function bindUsingCredentials($username, $password)
-    {
-        if (empty($username)) {
-            // Allow binding with null username.
-            $username = null;
-        } else {
-            // If the username isn't empty, we'll append the configured
-            // account suffix to bind to the LDAP server.
-            $username .= $this->configuration->getAccountSuffix();
-        }
-
-        if (empty($password)) {
-            // Allow binding with null password
-            $password = null;
-        }
-
-        if ($this->connection->bind($username, $password) === false) {
-            $error = $this->connection->getLastError();
-
-            if ($this->connection->isUsingSSL() && $this->connection->isUsingTLS() === false) {
-                $message = 'Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: '.$error;
-            } else {
-                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;
-            }
-
-            throw new AdldapException($message);
-        }
-
-        return true;
     }
 }

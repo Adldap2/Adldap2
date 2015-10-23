@@ -14,12 +14,11 @@ interface Adldap
      *
      * @param array|Configuration $configuration The Adldap configuration options array
      * @param ConnectionInterface $connection    The connection you'd like to use
-     * @param bool                $autoConnect   Whether or not you want to connect on construct
      *
      * @throws \Adldap\Exceptions\AdldapException
      * @throws \InvalidArgumentException
      */
-    public function __construct($configuration, $connection = null, $autoConnect = true);
+    public function __construct($configuration, $connection = null);
 
     /**
      * Destructor.
@@ -136,6 +135,9 @@ interface Adldap
     /**
      * Connects and Binds to the Domain Controller.
      *
+     * If no username or password is specified, then the
+     * configured administrator credentials are used.
+     *
      * @param string|null $username
      * @param string|null $password
      *
@@ -152,7 +154,9 @@ interface Adldap
      * @param string $password   The users AD password.
      * @param bool   $bindAsUser Whether or not to bind as the user.
      *
-     * @throws \Adldap\Exceptions\AdldapException
+     * @throws \Adldap\Exceptions\Auth\BindException
+     * @throws \Adldap\Exceptions\Auth\UsernameRequiredException
+     * @throws \Adldap\Exceptions\Auth\PasswordRequiredException
      *
      * @return bool
      */

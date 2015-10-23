@@ -66,11 +66,9 @@ if($user->delete())
 If you'd like to manually create a new attribute on an existing record, use the `createAttribute()` method:
 
 ```php
-$groups = [
-    'CN=Accounting,OU=Groups,DC=corp,DC=acme,DC=org',
-];
+$description = 'The users description.';
 
-if($user->createAttribute('memberOf', $groups))
+if($user->createAttribute('description', $description))
 {
     // Successfully created attribute
 }

@@ -1,21 +1,44 @@
 # Getting Started
 
+## Connecting
+
+To connect to your server, call the `connect()` method:
+
+```php
+try {
+    $ad = new Adldap($config);
+    
+    $ad->connect();
+    
+    // Successfully bound to server!
+} catch (Adldap\Exceptions\Auth\BindException $e) {
+    // Binding Failed!
+}
+```
+
+If you would like to bind with different credentials than inside your configuration, insert a username and password as
+the first and second paramter in the `connect()` method:
+
+```php
+try {
+    $ad = new Adldap($config);
+     
+    $ad->connect('admin', 'password123');
+
+    // Successfully bound to server!
+} catch (Adldap\Exceptions\Auth\BindException $e) {
+    // Binding Failed!
+}
+```
+
 ## Authenticating Users
 
 To authenticate a user against your a AD server, use the `authenticate()` method on the Adldap instance:
     
     try {
-        $ad = new Adldap($config);
-        
-        if($ad->authenticate($username, $password)
-        {
-            // User passed authentication
-        } else
-        {
-            // Uh oh, looks like the username or password is incorrect
-        }
-    } catch (Adldap\Exceptions\AdldapException $e) {
-        // Binding failed!
+        $adldap->authenticate($username, $password);
+    } catch (Adldap\Exceptions\Auth\BindException $e) {
+        // Authentication Failed!
     }
 
 If you'd like to *bind* a user to your AD server so all operations ran through Adldap are run as the authenticated user,

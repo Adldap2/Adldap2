@@ -106,7 +106,7 @@ class AdldapTest extends UnitTestCase
         $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
 
         $ad->authenticate(' ', 'password');
-}
+    }
 
     public function testAuthPasswordFailure()
     {
@@ -115,6 +115,24 @@ class AdldapTest extends UnitTestCase
         $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
 
         $ad->authenticate('username', ' ');
+    }
+
+    public function testAuthFailureException()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
+        $connection->shouldReceive('getLastError')->once()->andReturn('');
+        $connection->shouldReceive('close')->once();
+
+        $ad = new Adldap([], $connection);
+
+        $this->setExpectedException('Adldap\Exceptions\Auth\AuthException');
+
+        $ad->authenticate('username', 'password');
     }
 
     public function testGroups()

@@ -45,15 +45,15 @@ class Adldap implements AdldapContract
             throw new InvalidArgumentException($message);
         }
 
-        // Set the configuration
+        // Set the configuration.
         $this->setConfiguration($configuration);
 
-        // Create a new LDAP Connection if one isn't set
-        if (!$connection) {
+        // Create a new LDAP Connection instance if one isn't set.
+        if (!$connection instanceof ConnectionInterface) {
             $connection = new Connections\Ldap();
         }
 
-        // Set the connection
+        // Set the connection.
         $this->setConnection($connection);
     }
 

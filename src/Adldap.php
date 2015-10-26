@@ -2,6 +2,7 @@
 
 namespace Adldap;
 
+use Adldap\Exceptions\Auth\AuthException;
 use Adldap\Exceptions\Auth\PasswordRequiredException;
 use Adldap\Exceptions\Auth\UsernameRequiredException;
 use Adldap\Exceptions\Auth\BindException;
@@ -242,27 +243,37 @@ class Adldap implements AdldapContract
      */
     public function authenticate($username, $password, $bindAsUser = false)
     {
-        if (empty($username)) {
+        if (trim($username) == '') {
             // Check for an empty username.
             throw new UsernameRequiredException('A username must be specified.');
-        } elseif (empty($password)) {
+        }
+
+        if (trim($password) == '') {
             // Check for an empty password.
             throw new PasswordRequiredException('A password must be specified.');
         }
 
-        if ($this->configuration->getUseSSO()) {
-            // If SSO is enabled, we'll try binding over kerberos
-            $remoteUser = $this->getRemoteUserInput();
-            $kerberos = $this->getKerberosAuthInput();
+        try {
+            if ($this->configuration->getUseSSO()) {
+                // If SSO is enabled, we'll try binding over kerberos
+                $remoteUser = $this->getRemoteUserInput();
+                $kerberos = $this->getKerberosAuthInput();
 
-            // If the remote user input equals the username we're
-            // trying to authenticate, we'll perform the bind.
-            if ($remoteUser == $username) {
-                $this->bindUsingKerberos($kerberos);
+                // If the remote user input equals the username we're
+                // trying to authenticate, we'll perform the bind.
+                if ($remoteUser == $username) {
+                    $this->bindUsingKerberos($kerberos);
+                }
+            } else {
+                // Looks like SSO isn't enabled, we'll bind regularly instead.
+                $this->bindUsingCredentials($username, $password);
             }
-        } else {
-            // Looks like SSO isn't enabled, we'll bind regularly instead.
-            $this->bindUsingCredentials($username, $password);
+        } catch (BindException $e) {
+            // We'll catch the BindException here to throw a new
+            // more description exception allowing developers
+            // to essentially catch a username / password
+            // failure.
+            throw new AuthException($e->getMessage());
         }
 
         // If we're not allowed to bind as the user,
@@ -271,6 +282,8 @@ class Adldap implements AdldapContract
             $adminUsername = $this->configuration->getAdminUsername();
             $adminPassword = $this->configuration->getAdminPassword();
 
+            // We won't catch any BindException here so
+            // developers can catch rebind failures.
             $this->bindUsingCredentials($adminUsername, $adminPassword);
         }
     }

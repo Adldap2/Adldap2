@@ -224,15 +224,14 @@ class Adldap implements AdldapContract
             $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
             $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->getFollowReferrals());
 
-            // If both the username and password are null, we'll connect to the server
-            // using the configured administrator username and password.
             if (is_null($username) && is_null($password)) {
-                $username = $this->configuration->getAdminUsername();
-                $password = $this->configuration->getAdminPassword();
+                // If both the username and password are null, we'll connect to the server
+                // using the configured administrator username and password.
+                $this->bindAsAdministrator();
+            } else {
+                // Bind to the server with the specified username and password otherwise.
+                $this->bindUsingCredentials($username, $password);
             }
-
-            // Bind to the server with the specified username and password.
-            $this->bindUsingCredentials($username, $password);
         } else {
             throw new ConnectionException('Unable to connect to LDAP server.');
         }
@@ -279,12 +278,9 @@ class Adldap implements AdldapContract
         // If we're not allowed to bind as the user,
         // we'll rebind as administrator.
         if ($bindAsUser === false) {
-            $adminUsername = $this->configuration->getAdminUsername();
-            $adminPassword = $this->configuration->getAdminPassword();
-
             // We won't catch any BindException here so
             // developers can catch rebind failures.
-            $this->bindUsingCredentials($adminUsername, $adminPassword);
+            $this->bindAsAdministrator();
         }
     }
 
@@ -338,6 +334,21 @@ class Adldap implements AdldapContract
 
             throw new BindException($message);
         }
+    }
+
+
+    /**
+     * Binds to the current LDAP server using the
+     * configuration administrator credentials.
+     *
+     * @throws BindException
+     */
+    private function bindAsAdministrator()
+    {
+        $adminUsername = $this->configuration->getAdminUsername();
+        $adminPassword = $this->configuration->getAdminPassword();
+
+        $this->bindUsingCredentials($adminUsername, $adminPassword);
     }
 
     /**

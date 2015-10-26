@@ -15,6 +15,8 @@ try {
     // Successfully bound to server!
 } catch (Adldap\Exceptions\Auth\BindException $e) {
     // Binding Failed!
+} catch (Adldap\Exceptions\ConnectionException $e) {
+    // Couldn't connect to the LDAP server!
 }
 ```
 
@@ -30,6 +32,8 @@ try {
     // Successfully bound to server!
 } catch (Adldap\Exceptions\Auth\BindException $e) {
     // Binding Failed!
+} catch (Adldap\Exceptions\ConnectionException $e) {
+    // Couldn't connect to the LDAP server!
 }
 ```
 

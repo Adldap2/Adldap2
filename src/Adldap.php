@@ -2,15 +2,15 @@
 
 namespace Adldap;
 
-use Adldap\Exceptions\Auth\AuthException;
-use Adldap\Exceptions\Auth\PasswordRequiredException;
-use Adldap\Exceptions\Auth\UsernameRequiredException;
-use Adldap\Exceptions\Auth\BindException;
-use Adldap\Exceptions\ConnectionException;
-use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Contracts\Adldap as AdldapContract;
+use Adldap\Exceptions\Auth\AuthException;
+use Adldap\Exceptions\Auth\BindException;
+use Adldap\Exceptions\Auth\PasswordRequiredException;
+use Adldap\Exceptions\Auth\UsernameRequiredException;
+use Adldap\Exceptions\ConnectionException;
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Schemas\ActiveDirectory;
 
 class Adldap implements AdldapContract
@@ -335,7 +335,6 @@ class Adldap implements AdldapContract
             throw new BindException($message);
         }
     }
-
 
     /**
      * Binds to the current LDAP server using the

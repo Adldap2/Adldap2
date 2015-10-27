@@ -48,7 +48,7 @@ class Containers extends AbstractBase implements QueryableInterface, CreateableI
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_CONTAINER);
     }

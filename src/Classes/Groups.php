@@ -50,7 +50,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_GROUP);
     }
@@ -97,12 +97,12 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
     {
         $group = $this->find($group);
 
-        $user = $this->getAdldap()->users()->find($user);
+        $user = $this->getManager()->users()->find($user);
 
         if ($group instanceof Group && $user instanceof User) {
             $sid = Utilities::binarySidToText($group->getSid());
 
-            $result = $this->getAdldap()->search()
+            $result = $this->getManager()->search()
                     ->where(ActiveDirectory::OBJECT_SID, '=', $sid)
                     ->first();
 

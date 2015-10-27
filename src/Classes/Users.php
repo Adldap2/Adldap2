@@ -55,10 +55,10 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      */
     public function search()
     {
-        $personCategory = $this->getAdldap()->getConfiguration()->getPersonFilter('category');
-        $person = $this->getAdldap()->getConfiguration()->getPersonFilter('person');
+        $personCategory = $this->getManager()->getConfiguration()->getPersonFilter('category');
+        $person = $this->getManager()->getConfiguration()->getPersonFilter('person');
 
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals($personCategory, $person);
     }
@@ -124,7 +124,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
                 $status['has_expired'] = true;
             }
 
-            $result = $this->getAdldap()->search()
+            $result = $this->getManager()->search()
                 ->where(ActiveDirectory::OBJECT_CLASS, '*')
                 ->first();
 

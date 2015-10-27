@@ -48,7 +48,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::CONTACT);
     }

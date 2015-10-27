@@ -65,7 +65,7 @@ class Exchange extends AbstractBase implements QueryableInterface
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_SERVER);
     }
@@ -79,7 +79,7 @@ class Exchange extends AbstractBase implements QueryableInterface
      */
     public function storageGroups($exchangeServer)
     {
-        return $this->getAdldap()->search()
+        return $this->getManager()->search()
             ->setDn($exchangeServer)
             ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP)
             ->get();
@@ -94,7 +94,7 @@ class Exchange extends AbstractBase implements QueryableInterface
      */
     public function storageDatabases($storageGroup)
     {
-        return $this->getAdldap()->search()
+        return $this->getManager()->search()
             ->setDn($storageGroup)
             ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB)
             ->get();
@@ -107,7 +107,7 @@ class Exchange extends AbstractBase implements QueryableInterface
      */
     private function getConfigurationNamingContext()
     {
-        $result = $this->getAdldap()->getRootDse();
+        $result = $this->getManager()->getRootDse();
 
         if ($result instanceof Entry) {
             return $result->getAttribute(ActiveDirectory::CONFIGURATION_NAMING_CONTEXT, 0);

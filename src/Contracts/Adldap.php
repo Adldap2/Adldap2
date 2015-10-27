@@ -21,13 +21,6 @@ interface Adldap
     public function __construct($configuration, $connection = null);
 
     /**
-     * Destructor.
-     *
-     * Closes the current LDAP connection if it exists.
-     */
-    public function __destruct();
-
-    /**
      * Get the active LDAP Connection.
      *
      * @return bool|ConnectionInterface
@@ -56,117 +49,17 @@ interface Adldap
     public function setConfiguration(Configuration $configuration);
 
     /**
-     * Returns the filtered REMOTE_USER server variable.
+     * Connects and binds to the configured LDAP server.
      *
-     * @return mixed
-     */
-    public function getRemoteUserInput();
-
-    /**
-     * Returns the filtered KRB5CCNAME server variable.
-     *
-     * @return mixed
-     */
-    public function getKerberosAuthInput();
-
-    /**
-     * Returns a new Groups instance.
-     *
-     * @return \Adldap\Classes\Groups
-     */
-    public function groups();
-
-    /**
-     * Returns a new Users instance.
-     *
-     * @return \Adldap\Classes\Users
-     */
-    public function users();
-
-    /**
-     * Returns a new Folders instance.
-     *
-     * @return \Adldap\Classes\Containers
-     */
-    public function containers();
-
-    /**
-     * Returns a new Contacts instance.
-     *
-     * @return \Adldap\Classes\Contacts
-     */
-    public function contacts();
-
-    /**
-     * Returns a new Exchange instance.
-     *
-     * @return \Adldap\Classes\Exchange
-     */
-    public function exchange();
-
-    /**
-     * Returns a new Computers instance.
-     *
-     * @return \Adldap\Classes\Computers
-     */
-    public function computers();
-
-    /**
-     * Returns a new Printers instance.
-     *
-     * @return \Adldap\Classes\Printers
-     */
-    public function printers();
-
-    /**
-     * Returns a new OrganizationalUnits instance.
-     *
-     * @return \Adldap\Classes\OrganizationalUnits
-     */
-    public function ous();
-
-    /**
-     * Returns a new Search instance.
-     *
-     * @return \Adldap\Classes\Search
-     */
-    public function search();
-
-    /**
-     * Connects and Binds to the Domain Controller.
-     *
-     * If no username or password is specified, then the
-     * configured administrator credentials are used.
+     * Returns a new connection Manager instance on success.
      *
      * @param string|null $username
      * @param string|null $password
      *
+     * @return \Adldap\Connections\Manager
+     *
      * @throws \Adldap\Exceptions\ConnectionException
      * @throws \Adldap\Exceptions\Auth\BindException
-     *
-     * @return void
      */
     public function connect($username = null, $password = null);
-
-    /**
-     * Authenticates a user using the specified credentials.
-     *
-     * @param string $username   The users AD username.
-     * @param string $password   The users AD password.
-     * @param bool   $bindAsUser Whether or not to bind as the user.
-     *
-     * @throws \Adldap\Exceptions\Auth\BindException
-     * @throws \Adldap\Exceptions\Auth\UsernameRequiredException
-     * @throws \Adldap\Exceptions\Auth\PasswordRequiredException
-     *
-     * @return bool
-     */
-    public function authenticate($username, $password, $bindAsUser = false);
-
-    /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @return array|bool
-     */
-    public function getRootDse();
 }

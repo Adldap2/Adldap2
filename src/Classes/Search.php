@@ -33,10 +33,10 @@ class Search extends AbstractBase
     public function newQueryBuilder()
     {
         // Create a new Builder.
-        $builder = new Builder($this->getAdldap()->getConnection(), $this->newGrammar());
+        $builder = new Builder($this->getManager()->getConnection(), $this->newGrammar());
 
         // Get the configuration Base DN.
-        $baseDn = $this->getAdldap()->getConfiguration()->getBaseDn();
+        $baseDn = $this->getManager()->getConfiguration()->getBaseDn();
 
         // Set the Base DN on the Builder.
         $builder->setDn($baseDn);

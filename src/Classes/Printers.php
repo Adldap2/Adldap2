@@ -47,7 +47,7 @@ class Printers extends AbstractBase implements QueryableInterface
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::OBJECT_CLASS_PRINTER);
     }

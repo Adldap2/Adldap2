@@ -2,25 +2,25 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Adldap;
+use Adldap\Connections\ManagerInterface;
 
 abstract class AbstractBase
 {
     /**
-     * The current Adldap connection via dependency injection.
+     * The current connection Manager instance.
      *
-     * @var Adldap
+     * @var ManagerInterface
      */
-    protected $adldap;
+    protected $manager;
 
     /**
      * Constructor.
      *
-     * @param Adldap $adldap
+     * @param ManagerInterface $manager
      */
-    public function __construct(Adldap $adldap)
+    public function __construct(ManagerInterface $manager)
     {
-        $this->adldap = $adldap;
+        $this->manager = $manager;
 
         $this->boot();
     }
@@ -28,11 +28,11 @@ abstract class AbstractBase
     /**
      * Returns the current Adldap instance.
      *
-     * @return Adldap
+     * @return ManagerInterface
      */
-    public function getAdldap()
+    public function getManager()
     {
-        return $this->adldap;
+        return $this->manager;
     }
 
     /**

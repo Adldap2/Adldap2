@@ -48,7 +48,7 @@ class OrganizationalUnits extends AbstractBase implements QueryableInterface, Cr
      */
     public function search()
     {
-        return $this->getAdldap()
+        return $this->getManager()
             ->search()
             ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
     }

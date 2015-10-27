@@ -35,7 +35,7 @@ class ManagerTest extends UnitTestCase
         $m->authenticate('username', ' ');
     }
 
-    public function testAuthFailureException()
+    public function testAuthFailure()
     {
         $connection = $this->newConnectionMock();
 
@@ -50,6 +50,55 @@ class ManagerTest extends UnitTestCase
         $m = new Manager($connection, new Configuration());
 
         $this->assertFalse($m->authenticate('username', 'password'));
+    }
+
+    public function testAuthPassesWithRebind()
+    {
+        $config = new Configuration();
+
+        $config->setAdminUsername('test');
+        $config->setAdminPassword('test');
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+
+        // Authenticates as the user
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
+
+        // Re-binds as the administrator
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(true);
+        $connection->shouldReceive('getLastError')->once()->andReturn('');
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = new Manager($connection, $config);
+
+        $this->assertTrue($m->authenticate('username', 'password'));
+    }
+
+    public function testAuthPassesWithoutRebind()
+    {
+        $config = new Configuration();
+
+        $config->setAdminUsername('test');
+        $config->setAdminPassword('test');
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
+        $connection->shouldReceive('getLastError')->once()->andReturn('');
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = new Manager($connection, $config);
+
+        $this->assertTrue($m->authenticate('username', 'password', true));
     }
 
     public function testGroups()

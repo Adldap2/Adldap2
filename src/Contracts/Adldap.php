@@ -78,10 +78,10 @@ interface Adldap
      * @param string|null $username
      * @param string|null $password
      *
-     * @return \Adldap\Connections\Manager
-     *
      * @throws \Adldap\Exceptions\ConnectionException
      * @throws \Adldap\Exceptions\Auth\BindException
+     *
+     * @return \Adldap\Connections\Manager
      */
     public function connect($username = null, $password = null);
 }

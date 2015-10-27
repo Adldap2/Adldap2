@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Auth\Guard;
 use Adldap\Classes\Computers;
 use Adldap\Classes\Contacts;
 use Adldap\Classes\Containers;
@@ -11,9 +12,6 @@ use Adldap\Classes\OrganizationalUnits;
 use Adldap\Classes\Printers;
 use Adldap\Classes\Search;
 use Adldap\Classes\Users;
-use Adldap\Exceptions\Auth\BindException;
-use Adldap\Exceptions\Auth\PasswordRequiredException;
-use Adldap\Exceptions\Auth\UsernameRequiredException;
 use Adldap\Exceptions\ConnectionException;
 
 class Manager implements ManagerInterface
@@ -45,27 +43,9 @@ class Manager implements ManagerInterface
      */
     public function __destruct()
     {
-        $connection = $this->getConnection();
-
-        if ($connection instanceof ConnectionInterface && $connection->isBound()) {
-            $connection->close();
+        if ($this->connection instanceof ConnectionInterface && $this->connection->isBound()) {
+            $this->connection->close();
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRemoteUserInput()
-    {
-        return filter_input(INPUT_SERVER, 'REMOTE_USER');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKerberosAuthInput()
-    {
-        return filter_input(INPUT_SERVER, 'KRB5CCNAME');
     }
 
     /**
@@ -189,26 +169,26 @@ class Manager implements ManagerInterface
      */
     public function connect($username = null, $password = null)
     {
-        $controllers = $this->getConfiguration()->getDomainControllers();
+        $controllers = $this->configuration->getDomainControllers();
 
-        $port = $this->getConfiguration()->getPort();
+        $port = $this->configuration->getPort();
 
         // Connect to the LDAP server.
-        if ($this->getConnection()->connect($controllers, $port)) {
+        if ($this->connection->connect($controllers, $port)) {
             $protocol = 3;
-            $followReferrals = $this->getConfiguration()->getFollowReferrals();
+            $followReferrals = $this->configuration->getFollowReferrals();
 
             // Set the LDAP options.
-            $this->getConnection()->setOption(LDAP_OPT_PROTOCOL_VERSION, $protocol);
-            $this->getConnection()->setOption(LDAP_OPT_REFERRALS, $followReferrals);
+            $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, $protocol);
+            $this->connection->setOption(LDAP_OPT_REFERRALS, $followReferrals);
 
             if (is_null($username) && is_null($password)) {
                 // If both the username and password are null, we'll connect to the server
                 // using the configured administrator username and password.
-                $this->bindAsAdministrator();
+                $this->auth()->bindAsAdministrator();
             } else {
                 // Bind to the server with the specified username and password otherwise.
-                $this->bindUsingCredentials($username, $password);
+                $this->auth()->bindUsingCredentials($username, $password);
             }
         } else {
             throw new ConnectionException('Unable to connect to LDAP server.');
@@ -218,82 +198,15 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function authenticate($username, $password, $bindAsUser = false)
+    public function auth()
     {
-        if (trim($username) == '') {
-            // Check for an empty username.
-            throw new UsernameRequiredException('A username must be specified.');
+        // Make sure the connection we've been given
+        // is bound before we try to binding to it.
+        if (!$this->connection->isBound()) {
+            throw new ConnectionException('No connection to an LDAP server is present.');
         }
 
-        if (trim($password) == '') {
-            // Check for an empty password.
-            throw new PasswordRequiredException('A password must be specified.');
-        }
-
-        try {
-            if ($this->getConfiguration()->getUseSSO()) {
-                // If SSO is enabled, we'll try binding over kerberos
-                $remoteUser = $this->getRemoteUserInput();
-                $kerberos = $this->getKerberosAuthInput();
-
-                // If the remote user input equals the username we're
-                // trying to authenticate, we'll perform the bind.
-                if ($remoteUser == $username) {
-                    $this->bindUsingKerberos($kerberos);
-                }
-            } else {
-                // Looks like SSO isn't enabled, we'll bind regularly instead.
-                $this->bindUsingCredentials($username, $password);
-            }
-        } catch (BindException $e) {
-            // We'll catch the BindException here to return false
-            // to allow developers to use a simple if / else
-            // using the authenticate method.
-            return false;
-        }
-
-        // If we're not allowed to bind as the user,
-        // we'll rebind as administrator.
-        if ($bindAsUser === false) {
-            // We won't catch any BindException here so
-            // developers can catch rebind failures.
-            $this->bindAsAdministrator();
-        }
-
-        // No bind exceptions, authentication passed.
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindUsingCredentials($username, $password)
-    {
-        if (empty($username)) {
-            // Allow binding with null username.
-            $username = null;
-        } else {
-            // If the username isn't empty, we'll append the configured
-            // account suffix to bind to the LDAP server.
-            $username .= $this->getConfiguration()->getAccountSuffix();
-        }
-
-        if (empty($password)) {
-            // Allow binding with null password.
-            $password = null;
-        }
-
-        if ($this->getConnection()->bind($username, $password) === false) {
-            $error = $this->getConnection()->getLastError();
-
-            if ($this->getConnection()->isUsingSSL() && $this->getConnection()->isUsingTLS() === false) {
-                $message = 'Bind to Active Directory failed. Either the LDAP SSL connection failed or the login credentials are incorrect. AD said: '.$error;
-            } else {
-                $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;
-            }
-
-            throw new BindException($message);
-        }
+        return new Guard($this->connection, $this->configuration);
     }
 
     /**
@@ -305,55 +218,17 @@ class Manager implements ManagerInterface
     {
         // Set the beginning protocol options on the connection
         // if they're set in the configuration.
-        if ($this->getConfiguration()->getUseSSL()) {
-            $this->getConnection()->useSSL();
-        } elseif ($this->getConfiguration()->getUseTLS()) {
-            $this->getConnection()->useTLS();
+        if ($this->configuration->getUseSSL()) {
+            $this->connection->useSSL();
+        } elseif ($this->configuration->getUseTLS()) {
+            $this->connection->useTLS();
         }
 
         // If we've set SSO to true, we'll make sure we check if
         // SSO is supported, and if so we'll bind it to
         // the current LDAP connection.
-        if ($this->getConfiguration()->getUseSSO() && $this->getConnection()->isSaslSupported()) {
-            $this->getConnection()->useSSO();
-        }
-    }
-
-    /**
-     * Binds to the current LDAP server using the
-     * configuration administrator credentials.
-     *
-     * @throws BindException
-     */
-    private function bindAsAdministrator()
-    {
-        $adminUsername = $this->getConfiguration()->getAdminUsername();
-        $adminPassword = $this->getConfiguration()->getAdminPassword();
-
-        $this->bindUsingCredentials($adminUsername, $adminPassword);
-    }
-
-    /**
-     * Binds to the current connection using kerberos.
-     *
-     * @param string $kerberosCredentials
-     *
-     * @returns void
-     *
-     * @throws BindException
-     */
-    private function bindUsingKerberos($kerberosCredentials)
-    {
-        $key = 'KRB5CCNAME=';
-
-        putenv($key.$kerberosCredentials);
-
-        if ($this->getConnection()->bind(null, null, true) === false) {
-            $error = $this->getConnection()->getLastError();
-
-            $message = "Bind to Active Directory failed. AD said: $error";
-
-            throw new BindException($message);
+        if ($this->configuration->getUseSSO() && $this->connection->isSaslSupported()) {
+            $this->connection->useSSO();
         }
     }
 }

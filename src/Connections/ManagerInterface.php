@@ -20,20 +20,6 @@ interface ManagerInterface
     public function __destruct();
 
     /**
-     * Returns the filtered REMOTE_USER server variable.
-     *
-     * @return mixed
-     */
-    public function getRemoteUserInput();
-
-    /**
-     * Returns the filtered KRB5CCNAME server variable.
-     *
-     * @return mixed
-     */
-    public function getKerberosAuthInput();
-
-    /**
      * Returns the current connection instance.
      *
      * @return ConnectionInterface
@@ -148,30 +134,11 @@ interface ManagerInterface
     public function connect($username = null, $password = null);
 
     /**
-     * Authenticates a user using the specified credentials.
+     * Returns a new Auth Guard instance.
      *
-     * @param string $username   The users AD username.
-     * @param string $password   The users AD password.
-     * @param bool   $bindAsUser Whether or not to bind as the user.
+     * @throws \Adldap\Exceptions\ConnectionException
      *
-     * @throws \Adldap\Exceptions\Auth\BindException
-     * @throws \Adldap\Exceptions\Auth\UsernameRequiredException
-     * @throws \Adldap\Exceptions\Auth\PasswordRequiredException
-     *
-     * @return bool
+     * @return \Adldap\Auth\Guard
      */
-    public function authenticate($username, $password, $bindAsUser = false);
-
-    /**
-     * Binds to the current connection using the
-     * inserted credentials.
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @returns void
-     *
-     * @throws \Adldap\Exceptions\Auth\BindException
-     */
-    public function bindUsingCredentials($username, $password);
+    public function auth();
 }

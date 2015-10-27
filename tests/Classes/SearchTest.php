@@ -7,34 +7,36 @@ use Adldap\Tests\UnitTestCase;
 
 class SearchTest extends UnitTestCase
 {
-    protected function preparedAdldapMock()
+    protected function preparedManagerMock()
     {
         $configuration = $this->mock('Adldap\Connections\Configuration');
 
         $configuration->shouldReceive('getBaseDn')->once()->andReturn('dc=corp,dc=org');
 
         $connection = $this->mock('Adldap\Connections\ConnectionInterface');
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $adldap = $this->mock('Adldap\Adldap');
+        $m = $this->mock('Adldap\Connections\Manager');
 
-        $adldap->shouldReceive('getConnection')->once()->andReturn($connection);
-        $adldap->shouldReceive('getConfiguration')->once()->andReturn($configuration);
+        $m->shouldReceive('getConnection')->once()->andReturn($connection);
+        $m->shouldReceive('getConfiguration')->once()->andReturn($configuration);
 
-        return $adldap;
+        return $m;
     }
 
     public function testConstructDefaults()
     {
-        $search = new Search($this->preparedAdldapMock());
+        $search = new Search($this->preparedManagerMock());
 
         $this->assertEquals('', $search->getQuery());
-        $this->assertInstanceOf('Adldap\Adldap', $search->getAdldap());
+        $this->assertInstanceOf('Adldap\Connections\Manager', $search->getManager());
         $this->assertInstanceOf('Adldap\Query\Builder', $search->getQueryBuilder());
     }
 
     public function testGetAndSetDn()
     {
-        $search = new Search($this->preparedAdldapMock());
+        $search = new Search($this->preparedManagerMock());
 
         $this->assertEquals('dc=corp,dc=org', $search->getDn());
 

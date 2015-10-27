@@ -90,98 +90,14 @@ class AdldapTest extends UnitTestCase
         $connection->shouldReceive('connect')->once()->andReturn(true);
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('bind')->once()->andReturn(true);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
         $ad->setConfiguration($config);
 
         $ad->setConnection($connection);
 
-        $this->assertNull($ad->connect());
-    }
-
-    public function testAuthUsernameFailure()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
-
-        $ad->authenticate(' ', 'password');
-    }
-
-    public function testAuthPasswordFailure()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
-
-        $ad->authenticate('username', ' ');
-    }
-
-    public function testAuthFailureException()
-    {
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
-        $connection->shouldReceive('getLastError')->once()->andReturn('');
-        $connection->shouldReceive('close')->once();
-
-        $ad = new Adldap([], $connection);
-
-        $this->setExpectedException('Adldap\Exceptions\Auth\AuthException');
-
-        $ad->authenticate('username', 'password');
-    }
-
-    public function testGroups()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Groups', $ad->groups());
-    }
-
-    public function testUsers()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Users', $ad->users());
-    }
-
-    public function testContainers()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Containers', $ad->containers());
-    }
-
-    public function testContacts()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Contacts', $ad->contacts());
-    }
-
-    public function testExchange()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Exchange', $ad->exchange());
-    }
-
-    public function testComputers()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Computers', $ad->computers());
-    }
-
-    public function testSearch()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $this->assertInstanceOf('Adldap\Classes\Search', $ad->search());
+        $this->assertInstanceOf('Adldap\Connections\Manager', $ad->connect());
     }
 
     public function testLiveConnection()

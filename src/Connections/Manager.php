@@ -45,8 +45,10 @@ class Manager implements ManagerInterface
      */
     public function __destruct()
     {
-        if ($this->connection instanceof ConnectionInterface) {
-            $this->connection->close();
+        $connection = $this->getConnection();
+
+        if ($connection instanceof ConnectionInterface && $connection->isBound()) {
+            $connection->close();
         }
     }
 

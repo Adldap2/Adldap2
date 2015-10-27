@@ -3,6 +3,7 @@
 namespace Adldap;
 
 use Adldap\Connections\Manager;
+use Adldap\Connections\ManagerInterface;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
@@ -11,18 +12,25 @@ use Adldap\Contracts\Adldap as AdldapContract;
 class Adldap implements AdldapContract
 {
     /**
-     * Holds the current ldap connection.
+     * Stores the current ldap connection instance.
      *
      * @var ConnectionInterface
      */
     protected $connection;
 
     /**
-     * Holds the current configuration instance.
+     * Stores the current configuration instance.
      *
      * @var Configuration
      */
     protected $configuration;
+
+    /**
+     * Stores the current manager instance.
+     *
+     * @var ManagerInterface
+     */
+    protected $manager;
 
     /**
      * {@inheritdoc}
@@ -92,9 +100,37 @@ class Adldap implements AdldapContract
     /**
      * {@inheritdoc}
      */
+    public function getManager()
+    {
+        if (!$this->manager instanceof ManagerInterface) {
+            $this->setManager($this->getDefaultManager());
+        }
+
+        return $this->manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultManager()
+    {
+        return new Manager($this->connection, $this->configuration);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setManager(ManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function connect($username = null, $password = null)
     {
-        $manager = new Manager($this->connection, $this->configuration);
+        $manager = $this->getManager();
 
         $manager->connect($username, $password);
 

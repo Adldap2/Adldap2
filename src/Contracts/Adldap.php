@@ -4,6 +4,7 @@ namespace Adldap\Contracts;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Connections\ManagerInterface;
 
 interface Adldap
 {
@@ -47,6 +48,27 @@ interface Adldap
      * @param Configuration $configuration
      */
     public function setConfiguration(Configuration $configuration);
+
+    /**
+     * Returns the current manager instance.
+     *
+     * @return ManagerInterface
+     */
+    public function getManager();
+
+    /**
+     * Returns a new instance of the default connection Manager.
+     *
+     * @return ManagerInterface
+     */
+    public function getDefaultManager();
+
+    /**
+     * Sets the connection manager.
+     *
+     * @param ManagerInterface $manager
+     */
+    public function setManager(ManagerInterface $manager);
 
     /**
      * Connects and binds to the configured LDAP server.

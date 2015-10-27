@@ -19,20 +19,30 @@ class ManagerTest extends UnitTestCase
 
     public function testAuthUsernameFailure()
     {
-        $m = new Manager(new Ldap(), new Configuration());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = new Manager($connection, new Configuration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
 
-        $m->authenticate(' ', 'password');
+        $m->auth()->attempt(' ', 'password');
     }
 
     public function testAuthPasswordFailure()
     {
-        $m = new Manager(new Ldap(), new Configuration());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = new Manager($connection, new Configuration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
 
-        $m->authenticate('username', ' ');
+        $m->auth()->attempt('username', ' ');
     }
 
     public function testAuthFailure()
@@ -42,6 +52,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('connect')->once()->andReturn(true);
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
         $connection->shouldReceive('getLastError')->once()->andReturn('');
         $connection->shouldReceive('isBound')->once()->andReturn(true);
@@ -49,7 +60,7 @@ class ManagerTest extends UnitTestCase
 
         $m = new Manager($connection, new Configuration());
 
-        $this->assertFalse($m->authenticate('username', 'password'));
+        $this->assertFalse($m->auth()->attempt('username', 'password'));
     }
 
     public function testAuthPassesWithRebind()
@@ -64,6 +75,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('connect')->once()->andReturn(true);
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
 
         // Authenticates as the user
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
@@ -76,7 +88,7 @@ class ManagerTest extends UnitTestCase
 
         $m = new Manager($connection, $config);
 
-        $this->assertTrue($m->authenticate('username', 'password'));
+        $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
     public function testAuthPassesWithoutRebind()
@@ -91,6 +103,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('connect')->once()->andReturn(true);
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
         $connection->shouldReceive('getLastError')->once()->andReturn('');
         $connection->shouldReceive('isBound')->once()->andReturn(true);
@@ -98,7 +111,7 @@ class ManagerTest extends UnitTestCase
 
         $m = new Manager($connection, $config);
 
-        $this->assertTrue($m->authenticate('username', 'password', true));
+        $this->assertTrue($m->auth()->attempt('username', 'password', true));
     }
 
     public function testGroups()

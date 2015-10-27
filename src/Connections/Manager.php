@@ -3,6 +3,7 @@
 namespace Adldap\Connections;
 
 use Adldap\Auth\Guard;
+use Adldap\Auth\GuardInterface;
 use Adldap\Classes\Computers;
 use Adldap\Classes\Contacts;
 use Adldap\Classes\Containers;
@@ -25,6 +26,11 @@ class Manager implements ManagerInterface
      * @var Configuration
      */
     protected $configuration;
+
+    /**
+     * @var GuardInterface
+     */
+    protected $guard;
 
     /**
      * {@inheritdoc}
@@ -79,6 +85,26 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function getGuard()
+    {
+        if (! $this->guard instanceof GuardInterface) {
+            $this->setGuard($this->getDefaultGuard($this->connection, $this->configuration));
+        }
+
+        return $this->guard;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultGuard(ConnectionInterface $connection, Configuration $configuration)
+    {
+        return new Guard($connection, $configuration);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setConnection(ConnectionInterface $connection)
     {
         $this->connection = $connection;
@@ -90,6 +116,14 @@ class Manager implements ManagerInterface
     public function setConfiguration(Configuration $configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGuard(GuardInterface $guard)
+    {
+        $this->guard = $guard;
     }
 
     /**
@@ -182,13 +216,16 @@ class Manager implements ManagerInterface
             $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, $protocol);
             $this->connection->setOption(LDAP_OPT_REFERRALS, $followReferrals);
 
+            // Get the default guard instance.
+            $guard = $this->getGuard();
+
             if (is_null($username) && is_null($password)) {
                 // If both the username and password are null, we'll connect to the server
                 // using the configured administrator username and password.
-                $this->auth()->bindAsAdministrator();
+                $guard->bindAsAdministrator();
             } else {
                 // Bind to the server with the specified username and password otherwise.
-                $this->auth()->bindUsingCredentials($username, $password);
+                $guard->bindUsingCredentials($username, $password);
             }
         } else {
             throw new ConnectionException('Unable to connect to LDAP server.');

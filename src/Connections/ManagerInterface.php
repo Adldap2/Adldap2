@@ -2,6 +2,8 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Auth\GuardInterface;
+
 interface ManagerInterface
 {
     /**
@@ -34,6 +36,23 @@ interface ManagerInterface
     public function getConfiguration();
 
     /**
+     * Returns the current Guard instance.
+     *
+     * @return \Adldap\Auth\Guard
+     */
+    public function getGuard();
+
+    /**
+     * Returns a new default Guard instance.
+     *
+     * @param ConnectionInterface $connection
+     * @param Configuration       $configuration
+     *
+     * @return \Adldap\Auth\Guard
+     */
+    public function getDefaultGuard(ConnectionInterface $connection, Configuration $configuration);
+
+    /**
      * Sets the current connection.
      *
      * @param ConnectionInterface $connection
@@ -46,6 +65,13 @@ interface ManagerInterface
      * @param Configuration $configuration
      */
     public function setConfiguration(Configuration $configuration);
+
+    /**
+     * Sets the current Guard instance.
+     *
+     * @param GuardInterface $guard
+     */
+    public function setGuard(GuardInterface $guard);
 
     /**
      * Get the RootDSE properties from a domain controller.

@@ -39,17 +39,23 @@ try {
 
 ## Authenticating Users
 
-To authenticate a user against your a AD server, use the `authenticate()` method on the Adldap instance:
+To authenticate a user against your a AD server, use the `auth()->attempt($username, $password)` method on the Adldap instance:
 
 ```php
 try {
-    $adldap->authenticate($username, $password);
+    if ($adldap->auth()->attempt($username, $password)) {
+        
+        // Authentication Passed!
+        
+    } else {
+        
+        // Authentication Failed!
+        
+    }
     
     // Authentication Passed!
-} catch (Adldap\Exceptions\Auth\AuthException $e) {
-    // Authentication Failed!
 } catch (Adldap\Exceptions\Auth\BindException $e) {
-    // Rebind to LDAP server failed!
+    // Rebind to LDAP server as Administrator failed!
 }
 ```
 
@@ -57,12 +63,14 @@ If you'd like to *bind* the authenticated user to your AD server so all operatio
 pass in `true` into the third parameter:
 
 ```php
-try {
-    $adldap->authenticate($username, $password, true);
+if ($adldap->auth()->attempt($username, $password, true)) {
     
-    // User passed authentication
-} catch (Adldap\Exceptions\Auth\AuthException $e) {
-    // Uh oh, looks like the username or password is incorrect
+    // Authentication Passed!
+    
+} else {
+    
+    // Authentication Failed!
+    
 }
 ```
 

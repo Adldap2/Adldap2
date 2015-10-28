@@ -2,7 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;
@@ -12,6 +11,7 @@ use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Utilities;
 
 class User extends Entry
 {

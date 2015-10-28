@@ -41,7 +41,7 @@ class Adldap implements AdldapContract
             // If we've been given an array, we'll create
             // a new Configuration instance.
             $configuration = new Configuration($configuration);
-        } elseif (! $configuration instanceof Configuration) {
+        } elseif (!$configuration instanceof Configuration) {
             // Otherwise, if the Configuration isn't a Configuration
             // object, we'll throw an exception.
             $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';

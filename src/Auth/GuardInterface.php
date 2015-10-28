@@ -11,7 +11,7 @@ interface GuardInterface
      * Constructor.
      *
      * @param ConnectionInterface $connection
-     * @param Configuration $configuration
+     * @param Configuration       $configuration
      */
     public function __construct(ConnectionInterface $connection, Configuration $configuration);
 

@@ -2,7 +2,6 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
 use Adldap\Classes\Computers;
@@ -12,9 +11,10 @@ use Adldap\Classes\Exchange;
 use Adldap\Classes\Groups;
 use Adldap\Classes\OrganizationalUnits;
 use Adldap\Classes\Printers;
-use Adldap\Search\Factory as SearchFactory;
 use Adldap\Classes\Users;
 use Adldap\Exceptions\ConnectionException;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Search\Factory as SearchFactory;
 
 class Manager implements ManagerInterface
 {
@@ -88,7 +88,7 @@ class Manager implements ManagerInterface
      */
     public function getGuard()
     {
-        if (! $this->guard instanceof GuardInterface) {
+        if (!$this->guard instanceof GuardInterface) {
             $this->setGuard($this->getDefaultGuard($this->connection, $this->configuration));
         }
 

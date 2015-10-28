@@ -390,7 +390,9 @@ class Ldap implements ConnectionInterface
         $this->connection = ldap_connect($hostname, $port);
 
         // If the connection was successful, we'll set bound to true.
-        if ($this->connection) $this->bound = true;
+        if ($this->connection) {
+            $this->bound = true;
+        }
 
         return $this->connection;
     }

@@ -2,11 +2,11 @@
 
 namespace Adldap\Classes;
 
-use Adldap\Utilities;
 use Adldap\Models\Entry;
 use Adldap\Models\Group;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Utilities;
 
 class Groups extends AbstractBase implements QueryableInterface, CreateableInterface
 {

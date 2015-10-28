@@ -2,12 +2,12 @@
 
 namespace Adldap\Query;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Objects\Paginator;
 use Adldap\Models\Entry;
+use Adldap\Objects\Paginator;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Utilities;
 use App\Models\Model;
 use Doctrine\Common\Collections\ArrayCollection;

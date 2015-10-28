@@ -2,10 +2,10 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Utilities;
 use Adldap\Models\AbstractModel;
 use Adldap\Models\Group;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Utilities;
 
 trait HasMemberOfTrait
 {

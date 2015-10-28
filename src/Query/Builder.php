@@ -2,13 +2,14 @@
 
 namespace Adldap\Query;
 
-use Adldap\Classes\Utilities;
-use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Models\Entry;
-use Adldap\Objects\Paginator;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Objects\Paginator;
+use Adldap\Models\Entry;
+use Adldap\Utilities;
+use App\Models\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use InvalidArgumentException;
@@ -961,14 +962,19 @@ class Builder
             // We'll explode the DN so we can grab it's object category.
             $category = Utilities::explodeDn($attributes[$attribute][0]);
 
-            // Make sure the category string exists in the attribute array
+            // Make sure the category string exists in the attribute array.
             if (array_key_exists(0, $category)) {
                 $category = strtolower($category[0]);
 
+                // Retrieve the category model mapping.
                 if (array_key_exists($category, $this->mappings)) {
                     $model = $this->mappings[$category];
 
-                    return (new $model([], $this))->setRawAttributes($attributes);
+                    // Check that the model actually exists
+                    // before trying to instantiate it.
+                    if (class_exists($model)) {
+                        return (new $model([], $this))->setRawAttributes($attributes);
+                    }
                 }
             }
         }

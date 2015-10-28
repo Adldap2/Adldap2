@@ -12,7 +12,7 @@ use Adldap\Classes\Exchange;
 use Adldap\Classes\Groups;
 use Adldap\Classes\OrganizationalUnits;
 use Adldap\Classes\Printers;
-use Adldap\Classes\Search;
+use Adldap\Search\Factory as SearchFactory;
 use Adldap\Classes\Users;
 use Adldap\Exceptions\ConnectionException;
 
@@ -42,7 +42,7 @@ class Manager implements ManagerInterface
         $this->setConfiguration($configuration);
 
         // Prepare the connection.
-        $this->prepare();
+        $this->prepareConnection();
     }
 
     /**
@@ -196,7 +196,7 @@ class Manager implements ManagerInterface
      */
     public function search()
     {
-        return new Search($this);
+        return new SearchFactory($this->connection, $this->configuration->getBaseDn());
     }
 
     /**
@@ -252,7 +252,7 @@ class Manager implements ManagerInterface
      *
      * @return void
      */
-    protected function prepare()
+    protected function prepareConnection()
     {
         // Set the beginning protocol options on the connection
         // if they're set in the configuration.

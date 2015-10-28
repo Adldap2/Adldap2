@@ -1,13 +1,25 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Search;
 
+use Adldap\Connections\Configuration;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Schemas\ActiveDirectory;
 
-class Search extends AbstractBase
+class Factory
 {
+    /**
+     * @var ConnectionInterface
+     */
+    protected $connection;
+
+    /**
+     * @var Configuration
+     */
+    protected $configuration;
+
     /**
      * Stores the current query builder instance.
      *
@@ -16,27 +28,29 @@ class Search extends AbstractBase
     protected $query;
 
     /**
-     * Sets the query builder upon construct.
+     * Constructor.
      *
-     * @return void
+     * @param ConnectionInterface $connection
+     * @param string              $baseDn
      */
-    public function boot()
+    public function __construct(ConnectionInterface $connection, $baseDn = '')
     {
-        $this->setQueryBuilder($this->newQueryBuilder());
+        $this->connection = $connection;
+
+        $this->setQueryBuilder($this->newQueryBuilder($baseDn));
     }
 
     /**
      * Returns a new query builder instance.
      *
+     * @param string $baseDn
+     *
      * @return Builder
      */
-    public function newQueryBuilder()
+    public function newQueryBuilder($baseDn = '')
     {
         // Create a new Builder.
-        $builder = new Builder($this->getManager()->getConnection(), $this->newGrammar());
-
-        // Get the configuration Base DN.
-        $baseDn = $this->getManager()->getConfiguration()->getBaseDn();
+        $builder = new Builder($this->connection, $this->newGrammar());
 
         // Set the Base DN on the Builder.
         $builder->setDn($baseDn);

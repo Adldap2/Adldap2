@@ -2,13 +2,13 @@
 
 namespace Adldap\Models;
 
-use Adldap\Classes\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Query\Builder;
+use Adldap\Utilities;
 use ArrayAccess;
 use DateTime;
 use JsonSerializable;

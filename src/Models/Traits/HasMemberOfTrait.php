@@ -2,7 +2,7 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Classes\Utilities;
+use Adldap\Utilities;
 use Adldap\Models\AbstractModel;
 use Adldap\Models\Group;
 use Adldap\Schemas\ActiveDirectory;

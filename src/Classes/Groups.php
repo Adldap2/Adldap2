@@ -2,6 +2,7 @@
 
 namespace Adldap\Classes;
 
+use Adldap\Utilities;
 use Adldap\Models\Entry;
 use Adldap\Models\Group;
 use Adldap\Models\User;

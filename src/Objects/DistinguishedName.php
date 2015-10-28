@@ -2,7 +2,7 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Classes\Utilities;
+use Adldap\Utilities;
 use Adldap\Schemas\ActiveDirectory;
 
 class DistinguishedName

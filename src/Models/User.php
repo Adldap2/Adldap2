@@ -2,7 +2,7 @@
 
 namespace Adldap\Models;
 
-use Adldap\Classes\Utilities;
+use Adldap\Utilities;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\PasswordPolicyException;
 use Adldap\Exceptions\WrongPasswordException;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Adldap\tests\Classes;
+namespace Adldap\Tests;
 
-use Adldap\Classes\Utilities;
+use Adldap\Utilities;
 use Adldap\Tests\UnitTestCase;
 
 class UtilitiesTest extends UnitTestCase
@@ -26,7 +26,7 @@ class UtilitiesTest extends UnitTestCase
 
     public function testEscapeManual()
     {
-        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
@@ -41,7 +41,7 @@ class UtilitiesTest extends UnitTestCase
 
     public function testEscapeManualWithIgnore()
     {
-        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
@@ -58,7 +58,7 @@ class UtilitiesTest extends UnitTestCase
 
     public function testEscapeManualWithIgnoreAndFlag()
     {
-        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
@@ -80,7 +80,7 @@ class UtilitiesTest extends UnitTestCase
     {
         $unescaped = 'testing';
 
-        $mockedUtilities = $this->mock('Adldap\Classes\Utilities')->makePartial();
+        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 

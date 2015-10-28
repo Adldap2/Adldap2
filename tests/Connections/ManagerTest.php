@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\tests\Connections;
+namespace Adldap\Tests\Connections;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
@@ -160,6 +160,6 @@ class ManagerTest extends UnitTestCase
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Classes\Search', $m->search());
+        $this->assertInstanceOf('Adldap\Search\Factory', $m->search());
     }
 }

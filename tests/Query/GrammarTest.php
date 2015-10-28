@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\tests\Query;
+namespace Adldap\Tests\Query;
 
 use Adldap\Query\Grammar;
 use Adldap\Tests\UnitTestCase;

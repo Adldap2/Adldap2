@@ -1,8 +1,8 @@
 <?php
 
-namespace Adldap\tests\Models;
+namespace Adldap\Tests\Models;
 
-use Adldap\Classes\Utilities;
+use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Tests\UnitTestCase;
 

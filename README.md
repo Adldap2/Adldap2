@@ -26,7 +26,7 @@ authentication and Active Directory management tools.
  - [Searching](https://github.com/adldap2/adldap2/tree/master/docs/SEARCH.md)
  - [Models](https://github.com/adldap2/adldap2/tree/master/docs/models/INDEX.md)
  - [Working with Distinguished Names](https://github.com/adldap2/adldap2/tree/master/docs/DISTINGUISHED-NAMES.md)
- - [API Documentation](http://adldap2.github.io/api)
+ - [API Documentation](http://adldap2.github.io/api/master/)
 - Classes
   - [Users](https://github.com/adldap2/adldap2/tree/master/docs/classes/USERS.md)
   - [Groups](https://github.com/adldap2/adldap2/tree/master/docs/classes/GROUPS.md)

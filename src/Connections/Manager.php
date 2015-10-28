@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
 use Adldap\Classes\Computers;
@@ -243,7 +244,7 @@ class Manager implements ManagerInterface
             throw new ConnectionException('No connection to an LDAP server is present.');
         }
 
-        return new Guard($this->connection, $this->configuration);
+        return $this->getGuard();
     }
 
     /**

@@ -535,6 +535,24 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
+    public function testBuiltWhereEnabled()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereEnabled();
+
+        $this->assertEquals('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))', $b->getQuery());
+    }
+
+    public function testBuiltWhereDisabled()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereDisabled();
+
+        $this->assertEquals('(UserAccountControl:1.2.840.113556.1.4.803:=2)', $b->getQuery());
+    }
+
     public function testNewCollection()
     {
         $b = $this->newBuilder();

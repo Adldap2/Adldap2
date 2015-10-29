@@ -651,6 +651,30 @@ class Builder
     }
 
     /**
+     * Adds a enabled filter to the current query.
+     * 
+     * @return Builder
+     */
+    public function whereEnabled()
+    {
+        $this->rawFilter('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))');
+
+        return $this;
+    }
+
+    /**
+     * Adds a disabled filter to the current query.
+     * 
+     * @return Builder
+     */
+    public function whereDisabled()
+    {
+        $this->rawFilter('(UserAccountControl:1.2.840.113556.1.4.803:=2)');
+
+        return $this;
+    }
+
+    /**
      * Adds an or where clause to the current query.
      *
      * @param string      $field

@@ -461,4 +461,20 @@ interface ConnectionInterface
      * @return mixed
      */
     public function err2Str($number);
+
+    /**
+     * Return the diagnostic Message.
+     *
+     * @return string $diagnosticMessage
+     */
+    public function getDiagnosticMessage();
+
+    /**
+     * Extract the diagnostic code from the message.
+     *
+     * @param string $message
+     *
+     * @return string
+     */
+    public function extractDiagnosticCode($message);
 }

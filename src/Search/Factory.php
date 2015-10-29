@@ -80,8 +80,9 @@ class Factory
     }
 
     /**
-     * Performs a global 'all' search query on the
-     * current connection.
+     * Performs a global 'all' search query on the current
+     * connection by performing a search for all entries
+     * that contain a common name attribute.
      *
      * @return array|bool
      */

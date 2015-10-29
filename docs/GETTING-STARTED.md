@@ -54,6 +54,10 @@ try {
     }
     
     // Authentication Passed!
+} catch (Adldap\Exceptions\Auth\UsernameRequiredException $e) {
+    // Username is required to authenticate!
+} catch (Adldap\Exceptions\Auth\PasswordRequiredException $e) {
+    // Password is required to authenticate!
 } catch (Adldap\Exceptions\Auth\BindException $e) {
     // Rebind to LDAP server as Administrator failed!
 }

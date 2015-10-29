@@ -659,7 +659,7 @@ class Builder
      */
     public function whereEnabled($enabled = true)
     {
-        if($enabled) {
+        if ($enabled) {
             $this->rawFilter('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))');
         } else {
             $this->rawFilter('(UserAccountControl:1.2.840.113556.1.4.803:=2)');

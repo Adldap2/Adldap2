@@ -64,11 +64,7 @@ class Ldap implements ConnectionInterface
     protected $suppressErrors = true;
 
     /**
-     * Returns true / false if the
-     * current connection instance is using
-     * SSL.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isUsingSSL()
     {
@@ -76,11 +72,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns true / false if the
-     * current connection instance is using
-     * TLS.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isUsingTLS()
     {
@@ -88,11 +80,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns true / false if the
-     * current connection instance is using
-     * SSO.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isUsingSSO()
     {
@@ -100,11 +88,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns true / false if the
-     * current connection instance is
-     * bound.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isBound()
     {
@@ -112,11 +96,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns true / false if the current
-     * LDAP connection has the ability to
-     * change passwords.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function canChangePasswords()
     {
@@ -128,10 +108,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Sets the suppressErrors property to true
-     * so any recoverable errors thrown will be suppressed.
-     *
-     * @return Ldap
+     * {@inheritdoc}
      */
     public function suppressErrors()
     {
@@ -141,10 +118,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Sets the suppressErrors property to true
-     * so any errors thrown will be shown.
-     *
-     * @return Ldap
+     * {@inheritdoc}
      */
     public function showErrors()
     {
@@ -154,10 +128,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Set's the current connection
-     * to use SSL.
-     *
-     * @return Ldap
+     * {@inheritdoc}
      */
     public function useSSL()
     {
@@ -167,10 +138,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Set's the current connection
-     * to use TLS.
-     *
-     * @return Ldap
+     * {@inheritdoc}
      */
     public function useTLS()
     {
@@ -180,10 +148,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Set's the current connection
-     * to use SSO.
-     *
-     * @return Ldap
+     * {@inheritdoc}
      */
     public function useSSO()
     {
@@ -193,9 +158,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns the current LDAP connection.
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function getConnection()
     {
@@ -203,12 +166,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Retrieves and returns the results of an
-     * LDAP search into an array format.
-     *
-     * @param $searchResults
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getEntries($searchResults)
     {
@@ -220,12 +178,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns the first entry from the specified
-     * search results.
-     *
-     * @param $searchResults
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function getFirstEntry($searchResults)
     {
@@ -237,12 +190,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns the next entry from the
-     * current connection.
-     *
-     * @param $entry
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function getNextEntry($entry)
     {
@@ -254,11 +202,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Retrieves the attributes from the specified ldap entry.
-     *
-     * @param $entry
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAttributes($entry)
     {
@@ -270,12 +214,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns the count of the returned entries
-     * from the specified search results.
-     *
-     * @param $searchResults
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function countEntries($searchResults)
     {
@@ -287,10 +226,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns the last error from
-     * the current LDAP connection.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLastError()
     {
@@ -302,12 +238,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Get all binary values from the specified result entry.
-     *
-     * @param $entry
-     * @param $attribute
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getValuesLen($entry, $attribute)
     {
@@ -319,13 +250,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Sets an option and value on the current
-     * LDAP connection.
-     *
-     * @param int   $option
-     * @param mixed $value
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function setOption($option, $value)
     {
@@ -337,11 +262,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Set a callback function to do re-binds on referral chasing.
-     *
-     * @param callable $callback
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function setRebindCallback(callable $callback)
     {
@@ -353,9 +274,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Starts the LDAP connection as TLS.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function startTLS()
     {
@@ -367,13 +286,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Connects to the specified hostname
-     * using the PHP ldap protocol.
-     *
-     * @param string|array $hostname
-     * @param string       $port
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function connect($hostname = [], $port = '389')
     {
@@ -398,10 +311,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Closes the current LDAP connection if
-     * it exists.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function close()
     {
@@ -415,15 +325,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Performs a search on the current connection
-     * with the specified distinguished name, filter
-     * and fields.
-     *
-     * @param string $dn
-     * @param string $filter
-     * @param array  $fields
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function search($dn, $filter, array $fields)
     {
@@ -435,13 +337,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Performs a single level search on the current connection.
-     *
-     * @param string $dn
-     * @param string $filter
-     * @param array  $attributes
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function listing($dn, $filter, array $attributes)
     {
@@ -453,13 +349,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Reads an entry on the current LDAP connection.
-     *
-     * @param $dn
-     * @param $filter
-     * @param array $fields
-     *
-     * @return resource
+     * {@inheritdoc}
      */
     public function read($dn, $filter, array $fields)
     {
@@ -471,12 +361,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Sorts an AD search result by the specified attribute.
-     *
-     * @param resource $result
-     * @param string   $attribute
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function sort($result, $attribute)
     {
@@ -488,14 +373,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Binds to the current LDAP connection. If SASL
-     * is true, we'll set up a SASL bind instead.
-     *
-     * @param string $username
-     * @param string $password
-     * @param bool   $sasl
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function bind($username, $password, $sasl = false)
     {
@@ -515,12 +393,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Adds entries to the current LDAP directory.
-     *
-     * @param string $dn
-     * @param array  $entry
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function add($dn, array $entry)
     {
@@ -532,11 +405,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Deletes an entry on the current LDAP directory.
-     *
-     * @param string $dn
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete($dn)
     {
@@ -548,14 +417,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Modify the name of an LDAP entry.
-     *
-     * @param string $dn
-     * @param string $newRdn
-     * @param string $newParent
-     * @param bool   $deleteOldRdn
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false)
     {
@@ -567,12 +429,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Modifies the specified LDAP entry.
-     *
-     * @param string $dn
-     * @param array  $entry
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function modify($dn, array $entry)
     {
@@ -584,12 +441,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Batch modifies the specified LDAP entry.
-     *
-     * @param string $dn
-     * @param array  $values
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function modifyBatch($dn, array $values)
     {
@@ -601,12 +453,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Add attribute values to current attributes.
-     *
-     * @param string $dn
-     * @param array  $entry
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function modAdd($dn, array $entry)
     {
@@ -618,12 +465,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Replaces attribute values with new ones.
-     *
-     * @param $dn
-     * @param array $entry
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function modReplace($dn, array $entry)
     {
@@ -635,12 +477,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Delete attribute values from current attributes.
-     *
-     * @param string $dn
-     * @param array  $entry
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function modDelete($dn, array $entry)
     {
@@ -652,15 +489,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Send LDAP pagination control.
-     *
-     * @param int    $pageSize
-     * @param bool   $isCritical
-     * @param string $cookie
-     *
-     * @throws AdldapException
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
     {
@@ -678,14 +507,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Retrieve a paginated result response.
-     *
-     * @param resource $result
-     * @param string   $cookie
-     *
-     * @throws AdldapException
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function controlPagedResultResponse($result, &$cookie)
     {
@@ -703,9 +525,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Return the LDAP error number of the last LDAP command.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function errNo()
     {
@@ -713,9 +533,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Return the extended LDAP error code of the last LDAP command.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getExtendedError()
     {
@@ -723,9 +541,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Return the extended LDAP error code of the last LDAP command.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getExtendedErrorCode()
     {
@@ -733,11 +549,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Convert LDAP error number into string error message.
-     *
-     * @param int $number
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function err2Str($number)
     {
@@ -745,9 +557,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Return the diagnostic Message.
-     *
-     * @return string $diagnosticMessage
+     * {@inheritdoc}
      */
     public function getDiagnosticMessage()
     {
@@ -757,11 +567,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Extract the diagnostic code from the message.
-     *
-     * @param string $message
-     *
-     * @return string $diagnosticCode
+     * {@inheritdoc}
      */
     public function extractDiagnosticCode($message)
     {

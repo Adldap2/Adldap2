@@ -742,22 +742,28 @@ class User extends Entry
 
         $attribute = ActiveDirectory::UNICODE_PASSWORD;
 
+        // Create batch modification for removing the old password.
         $remove = new BatchModification();
         $remove->setAttribute($attribute);
         $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
         $remove->setValues([Utilities::encodePassword($oldPassword)]);
 
+        // Create batch modification for adding the new password.
         $add = new BatchModification();
         $add->setAttribute($attribute);
         $add->setType(LDAP_MODIFY_BATCH_ADD);
         $add->setValues([Utilities::encodePassword($newPassword)]);
 
+        // Add the modifications.
         $this->addModification($remove);
         $this->addModification($add);
 
+        // Update the user.
         $result = $this->update();
 
         if ($result === false) {
+            // If the user failed to update, we'll see if we can
+            // figure out why by retrieving the extended error.
             $error = $connection->getExtendedError();
 
             if ($error) {

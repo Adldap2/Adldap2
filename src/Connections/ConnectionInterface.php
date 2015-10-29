@@ -458,14 +458,14 @@ interface ConnectionInterface
      *
      * @param int $number
      *
-     * @return mixed
+     * @return string
      */
     public function err2Str($number);
 
     /**
      * Return the diagnostic Message.
      *
-     * @return string $diagnosticMessage
+     * @return string
      */
     public function getDiagnosticMessage();
 

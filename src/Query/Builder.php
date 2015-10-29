@@ -651,6 +651,38 @@ class Builder
     }
 
     /**
+     * Adds a enabled filter to the current query.
+     *
+     * @param bool $enabled
+     * 
+     * @return Builder
+     */
+    public function whereEnabled($enabled = true)
+    {
+        if($enabled) {
+            $this->rawFilter('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))');
+        } else {
+            $this->rawFilter('(UserAccountControl:1.2.840.113556.1.4.803:=2)');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds a disabled filter to the current query.
+     *
+     * @param bool $disabled
+     * 
+     * @return Builder
+     */
+    public function whereDisabled($disabled = true)
+    {
+        $this->whereEnabled(!$disabled);
+
+        return $this;
+    }
+
+    /**
      * Adds an or where clause to the current query.
      *
      * @param string      $field

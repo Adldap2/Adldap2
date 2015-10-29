@@ -139,7 +139,7 @@ interface ManagerInterface
     /**
      * Returns a new Search instance.
      *
-     * @return \Adldap\Classes\Search
+     * @return \Adldap\Search\Factory
      */
     public function search();
 

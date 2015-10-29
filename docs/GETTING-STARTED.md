@@ -55,11 +55,17 @@ try {
     
     // Authentication Passed!
 } catch (Adldap\Exceptions\Auth\UsernameRequiredException $e) {
+
     // Username is required to authenticate!
+    
 } catch (Adldap\Exceptions\Auth\PasswordRequiredException $e) {
+
     // Password is required to authenticate!
+    
 } catch (Adldap\Exceptions\Auth\BindException $e) {
+
     // Rebind to LDAP server as Administrator failed!
+    
 }
 ```
 
@@ -67,14 +73,25 @@ If you'd like to *bind* the authenticated user to your AD server so all operatio
 pass in `true` into the third parameter:
 
 ```php
-if ($adldap->auth()->attempt($username, $password, true)) {
-    
-    // Authentication Passed!
-    
-} else {
-    
-    // Authentication Failed!
-    
+
+try {
+    if ($adldap->auth()->attempt($username, $password, true)) {
+        
+        // Authentication Passed!
+        
+    } else {
+        
+        // Authentication Failed!
+        
+    }
+} catch (Adldap\Exceptions\Auth\UsernameRequiredException $e) {
+
+  // Username is required to authenticate!
+  
+} catch (Adldap\Exceptions\Auth\PasswordRequiredException $e) {
+
+  // Password is required to authenticate!
+  
 }
 ```
 

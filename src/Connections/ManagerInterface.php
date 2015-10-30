@@ -113,7 +113,7 @@ interface ManagerInterface
      *
      * @return \Adldap\Scopes\ExchangeServers
      */
-    public function exchange();
+    public function exchangeServers();
 
     /**
      * Returns a new Computers instance.

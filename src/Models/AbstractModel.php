@@ -953,11 +953,11 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param string     $rdn
      * @param string     $newParentDn
-     * @param bool|false $deleteOldRdn
+     * @param bool|true  $deleteOldRdn
      *
      * @return bool
      */
-    public function move($rdn, $newParentDn, $deleteOldRdn = false)
+    public function move($rdn, $newParentDn, $deleteOldRdn = true)
     {
         return $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
     }

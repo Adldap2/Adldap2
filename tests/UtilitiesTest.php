@@ -85,8 +85,7 @@ class UtilitiesTest extends UnitTestCase
         $escape = '*^&.:foo()-=';
 
         $ignore = '*';
-
-        // Flag integer 2 means we're escaping a value for a distinguished name.
+        
         $flag = 3;
 
         $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);

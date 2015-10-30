@@ -64,30 +64,30 @@ class Utilities
             return self::escapeManualWithFlags($value, $ignore, $flags);
         }
 
-        // Convert ignore string into an array
+        // Convert ignore string into an array.
         $ignores = self::ignoreStrToArray($ignore);
 
-        // Convert the value to a hex string
+        // Convert the value to a hex string.
         $hex = bin2hex($value);
 
         // Separate the string, with the hex length of 2, and
-        // place a backslash on the end of each section
+        // place a backslash on the end of each section.
         $value = chunk_split($hex, 2, '\\');
 
         // We'll append a backslash at the front of the string
-        // and remove the ending backslash of the string
+        // and remove the ending backslash of the string.
         $value = '\\'.substr($value, 0, -1);
 
-        // Go through each character to ignore
+        // Go through each character to ignore.
         foreach ($ignores as $charToIgnore) {
-            // Convert the character to ignore to a hex
+            // Convert the character to ignore to a hex.
             $hexed = bin2hex($charToIgnore);
 
-            // Replace the hexed variant with the original character
+            // Replace the hexed variant with the original character.
             $value = str_replace('\\'.$hexed, $charToIgnore, $value);
         }
 
-        // Finally we can return the escaped value
+        // Finally we can return the escaped value.
         return $value;
     }
 
@@ -131,7 +131,7 @@ class Utilities
         }
 
         foreach ($escapes as $escape) {
-            // Make sure the escaped value isn't being ignored
+            // Make sure the escaped value isn't being ignored.
             if (!in_array($escape, $ignores)) {
                 $hexed = chunk_split(bin2hex($escape), 2, '\\');
 

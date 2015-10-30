@@ -1037,10 +1037,16 @@ class Builder
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
 
+        // Validate and retrieve the operator.
         $operator = $this->getOperator($operator);
 
+        // We'll escape the field to avoid allowing unsafe characters inside.
+        $field = Utilities::escape($field, null, 3);
+
+        // Completely escape the value.
         $value = Utilities::escape($value);
 
+        // Add the binding.
         $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
 
         return $this;

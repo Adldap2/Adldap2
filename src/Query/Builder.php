@@ -349,9 +349,7 @@ class Builder
         $record = $this->first();
 
         if ($record === false) {
-            $message = 'Unable to find record in Active Directory.';
-
-            throw new ModelNotFoundException($message);
+            throw new ModelNotFoundException('Unable to find record in Active Directory.');
         }
 
         return $record;

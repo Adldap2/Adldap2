@@ -642,8 +642,18 @@ class BuilderTest extends UnitTestCase
     {
         $b = $this->newBuilder();
 
-        $b->where('*^&.:foo()-=', '=', 'testing');
+        $field = '*^&.:foo()-=';
 
-        $this->assertEquals($b->getQuery(), '(\2a^&.:foo\28\29-\3d=\74\65\73\74\69\6e\67)');
+        $value = 'testing';
+
+        $b->where($field, '=', $value);
+
+        $utils = $this->mock('Adldap\Utilities')->makePartial()->shouldAllowMockingProtectedMethods();
+
+        $escapedField = $utils->escape($field, null, 3);
+
+        $escapedValue = $utils->escape($value);
+
+        $this->assertEquals($b->getQuery(), "($escapedField=$escapedValue)");
     }
 }

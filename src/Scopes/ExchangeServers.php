@@ -5,7 +5,7 @@ namespace Adldap\Scopes;
 use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
 
-class ExchangeServers extends AbstractBase implements QueryableInterface
+class ExchangeServers extends AbstractScope implements QueryableInterface
 {
     /**
      * Finds an exchange server.

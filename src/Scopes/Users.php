@@ -7,7 +7,7 @@ use Adldap\Models\Entry;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
-class Users extends AbstractBase implements QueryableInterface, CreateableInterface
+class Users extends AbstractScope implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds a user with the specified username.

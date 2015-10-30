@@ -5,7 +5,7 @@ namespace Adldap\Scopes;
 use Adldap\Models\OrganizationalUnit;
 use Adldap\Schemas\ActiveDirectory;
 
-class OrganizationalUnits extends AbstractBase implements QueryableInterface, CreateableInterface
+class OrganizationalUnits extends AbstractScope implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds an organizational unit.

@@ -4,7 +4,7 @@ namespace Adldap\Scopes;
 
 use Adldap\Connections\ManagerInterface;
 
-abstract class AbstractBase
+abstract class AbstractScope
 {
     /**
      * The current connection Manager instance.
@@ -26,7 +26,7 @@ abstract class AbstractBase
     }
 
     /**
-     * Returns the current Adldap instance.
+     * Returns the current Manager instance.
      *
      * @return ManagerInterface
      */

@@ -4,7 +4,7 @@ namespace Adldap\Scopes;
 
 use Adldap\Schemas\ActiveDirectory;
 
-class Printers extends AbstractBase implements QueryableInterface
+class Printers extends AbstractScope implements QueryableInterface
 {
     /**
      * Finds a printer.

@@ -5,7 +5,7 @@ namespace Adldap\Scopes;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 
-class Contacts extends AbstractBase implements QueryableInterface, CreateableInterface
+class Contacts extends AbstractScope implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds a contact.

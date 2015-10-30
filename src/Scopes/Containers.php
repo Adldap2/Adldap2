@@ -5,7 +5,7 @@ namespace Adldap\Scopes;
 use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;
 
-class Containers extends AbstractBase implements QueryableInterface, CreateableInterface
+class Containers extends AbstractScope implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds a container.

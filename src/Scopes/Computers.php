@@ -5,7 +5,7 @@ namespace Adldap\Scopes;
 use Adldap\Models\Computer;
 use Adldap\Schemas\ActiveDirectory;
 
-class Computers extends AbstractBase implements QueryableInterface, CreateableInterface
+class Computers extends AbstractScope implements QueryableInterface, CreateableInterface
 {
     /**
      * Finds a computer.

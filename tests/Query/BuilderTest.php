@@ -654,6 +654,6 @@ class BuilderTest extends UnitTestCase
 
         $escapedValue = $utils->escape($value);
 
-        $this->assertEquals($b->getQuery(), "($escapedField=$escapedValue)");
+        $this->assertEquals("($escapedField=$escapedValue)", $b->getQuery());
     }
 }

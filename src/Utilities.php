@@ -124,7 +124,7 @@ class Utilities
                 break;
             case 3:
                 // If both LDAP_ESCAPE_FILTER and LDAP_ESCAPE_DN are used
-                $escapes = array_merge($escapeFilter, $escapeDn);
+                $escapes = array_unique(array_merge($escapeDn, $escapeFilter));
                 break;
             default:
                 return false;
@@ -133,9 +133,7 @@ class Utilities
         foreach ($escapes as $escape) {
             // Make sure the escaped value isn't being ignored.
             if (!in_array($escape, $ignores)) {
-                $hexed = chunk_split(bin2hex($escape), 2, '\\');
-
-                $hexed = '\\'.substr($hexed, 0, -1);
+                $hexed = self::escape($escape);
 
                 $value = str_replace($escape, $hexed, $value);
             }

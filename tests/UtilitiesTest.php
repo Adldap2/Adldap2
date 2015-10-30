@@ -56,7 +56,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testEscapeManualWithIgnoreAndFlag()
+    public function testEscapeManualWithIgnoreAndFlagTwo()
     {
         $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
@@ -72,6 +72,26 @@ class UtilitiesTest extends UnitTestCase
         $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);
 
         $expected = '**\3c\3e!\3d\2c\23$%^testing';
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testEscapeManualWithIgnoreAndFlagThree()
+    {
+        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
+
+        $mockedUtilities->shouldAllowMockingProtectedMethods();
+
+        $escape = '*^&.:foo()-=';
+
+        $ignore = '*';
+
+        // Flag integer 2 means we're escaping a value for a distinguished name.
+        $flag = 3;
+
+        $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);
+
+        $expected = '*^&.:foo\28\29-\3d';
 
         $this->assertEquals($expected, $result);
     }

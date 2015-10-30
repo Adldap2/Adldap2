@@ -1,19 +1,19 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Scopes;
 
-use Adldap\Models\User;
+use Adldap\Models\Computer;
 use Adldap\Schemas\ActiveDirectory;
 
-class Contacts extends AbstractBase implements QueryableInterface, CreateableInterface
+class Computers extends AbstractBase implements QueryableInterface, CreateableInterface
 {
     /**
-     * Finds a contact.
+     * Finds a computer.
      *
      * @param string $name
      * @param array  $fields
      *
-     * @return bool|\Adldap\Models\User
+     * @return bool|\Adldap\Models\Computer
      */
     public function find($name, $fields = [])
     {
@@ -21,7 +21,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     }
 
     /**
-     * Returns all contacts.
+     * Returns all computers.
      *
      * @param array     $fields
      * @param bool|true $sorted
@@ -42,7 +42,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     }
 
     /**
-     * Creates a new search limited to contacts only.
+     * Creates a new search limited to computers only.
      *
      * @return \Adldap\Query\Builder
      */
@@ -50,29 +50,30 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
     {
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::CONTACT);
+            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::COMPUTER);
     }
 
     /**
-     * Returns a new User instance.
+     * Returns a new Computer instance.
      *
      * @param array $attributes
      *
-     * @return User
+     * @return Computer
      */
     public function newInstance(array $attributes = [])
     {
-        return (new User($attributes, $this->search()))
+        return (new Computer($attributes, $this->search()))
             ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
                 ActiveDirectory::TOP,
                 ActiveDirectory::PERSON,
                 ActiveDirectory::ORGANIZATIONAL_PERSON,
-                ActiveDirectory::CONTACT,
+                ActiveDirectory::USER,
+                ActiveDirectory::COMPUTER,
             ]);
     }
 
     /**
-     * Creates a new contact and returns the result.
+     * Creates a new Computer and returns the result.
      *
      * @param array $attributes
      *

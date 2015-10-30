@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Scopes;
 
 interface CreateableInterface
 {

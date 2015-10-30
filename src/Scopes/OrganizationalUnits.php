@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Scopes;
 
 use Adldap\Models\OrganizationalUnit;
 use Adldap\Schemas\ActiveDirectory;

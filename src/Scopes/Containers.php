@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Scopes;
 
 use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;

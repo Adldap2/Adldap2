@@ -83,56 +83,56 @@ interface ManagerInterface
     /**
      * Returns a new Groups instance.
      *
-     * @return \Adldap\Classes\Groups
+     * @return \Adldap\Scopes\Groups
      */
     public function groups();
 
     /**
      * Returns a new Users instance.
      *
-     * @return \Adldap\Classes\Users
+     * @return \Adldap\Scopes\Users
      */
     public function users();
 
     /**
      * Returns a new Folders instance.
      *
-     * @return \Adldap\Classes\Containers
+     * @return \Adldap\Scopes\Containers
      */
     public function containers();
 
     /**
      * Returns a new Contacts instance.
      *
-     * @return \Adldap\Classes\Contacts
+     * @return \Adldap\Scopes\Contacts
      */
     public function contacts();
 
     /**
      * Returns a new Exchange instance.
      *
-     * @return \Adldap\Classes\Exchange
+     * @return \Adldap\Scopes\ExchangeServers
      */
     public function exchange();
 
     /**
      * Returns a new Computers instance.
      *
-     * @return \Adldap\Classes\Computers
+     * @return \Adldap\Scopes\Computers
      */
     public function computers();
 
     /**
      * Returns a new Printers instance.
      *
-     * @return \Adldap\Classes\Printers
+     * @return \Adldap\Scopes\Printers
      */
     public function printers();
 
     /**
      * Returns a new OrganizationalUnits instance.
      *
-     * @return \Adldap\Classes\OrganizationalUnits
+     * @return \Adldap\Scopes\OrganizationalUnits
      */
     public function ous();
 

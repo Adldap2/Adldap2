@@ -4,14 +4,14 @@ namespace Adldap\Connections;
 
 use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
-use Adldap\Classes\Computers;
-use Adldap\Classes\Contacts;
-use Adldap\Classes\Containers;
-use Adldap\Classes\Exchange;
-use Adldap\Classes\Groups;
-use Adldap\Classes\OrganizationalUnits;
-use Adldap\Classes\Printers;
-use Adldap\Classes\Users;
+use Adldap\Scopes\Computers;
+use Adldap\Scopes\Contacts;
+use Adldap\Scopes\Containers;
+use Adldap\Scopes\ExchangeServers;
+use Adldap\Scopes\Groups;
+use Adldap\Scopes\OrganizationalUnits;
+use Adldap\Scopes\Printers;
+use Adldap\Scopes\Users;
 use Adldap\Exceptions\ConnectionException;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Search\Factory as SearchFactory;
@@ -162,9 +162,9 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function exchange()
+    public function exchangeServers()
     {
-        return new Exchange($this);
+        return new ExchangeServers($this);
     }
 
     /**

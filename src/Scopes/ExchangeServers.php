@@ -1,11 +1,11 @@
 <?php
 
-namespace Adldap\Classes;
+namespace Adldap\Scopes;
 
 use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
 
-class Exchange extends AbstractBase implements QueryableInterface
+class ExchangeServers extends AbstractBase implements QueryableInterface
 {
     /**
      * Finds an exchange server.

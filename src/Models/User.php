@@ -769,7 +769,7 @@ class User extends Entry
             if ($error) {
                 $errorCode = $connection->getExtendedErrorCode();
 
-                $message = 'Error: '.$error;
+                $message = "Error: $error";
 
                 if ($errorCode == '0000052D') {
                     $message = "Error: $errorCode. Your new password might not match the password policy.";

@@ -85,7 +85,7 @@ class UtilitiesTest extends UnitTestCase
         $escape = '*^&.:foo()-=';
 
         $ignore = '*';
-        
+
         $flag = 3;
 
         $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);

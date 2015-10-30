@@ -691,7 +691,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getSid()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_SID, 0);
+        return Utilities::binarySidToText($this->getAttribute(ActiveDirectory::OBJECT_SID, 0));
     }
 
     /**

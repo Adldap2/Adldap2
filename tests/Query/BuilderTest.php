@@ -637,4 +637,13 @@ class BuilderTest extends UnitTestCase
 
         $b->addBinding('cn', '=', 'test', 'invalid binding');
     }
+
+    public function testFieldIsEscaped()
+    {
+        $b = $this->newBuilder();
+
+        $b->where('*^&.:foo()-=', '=', 'testing');
+
+        $this->assertEquals($b->getQuery(), '(\2a^&.:foo\28\29-\3d=\74\65\73\74\69\6e\67)');
+    }
 }

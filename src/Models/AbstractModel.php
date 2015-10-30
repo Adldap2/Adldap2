@@ -951,9 +951,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Moves the current model to a new RDN and new parent.
      *
-     * @param string     $rdn
-     * @param string     $newParentDn
-     * @param bool|true  $deleteOldRdn
+     * @param string    $rdn
+     * @param string    $newParentDn
+     * @param bool|true $deleteOldRdn
      *
      * @return bool
      */

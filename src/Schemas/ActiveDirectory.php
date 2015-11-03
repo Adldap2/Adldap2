@@ -193,7 +193,7 @@ class ActiveDirectory implements SchemaInterface
 
     public function country()
     {
-        return self::ANR;
+        return self::COUNTRY;
     }
 
     public function createdAt()

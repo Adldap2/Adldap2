@@ -141,11 +141,6 @@ class ActiveDirectory implements SchemaInterface
         return self::ACCOUNT_TYPE;
     }
 
-    public function homeAddress()
-    {
-        return self::ADDRESS_HOME;
-    }
-
     public function adminDisplayName()
     {
         return self::ADMIN_DISPLAY_NAME;
@@ -199,11 +194,6 @@ class ActiveDirectory implements SchemaInterface
     public function createdAt()
     {
         return self::CREATED_AT;
-    }
-
-    public function updatedAt()
-    {
-        return self::UPDATED_AT;
     }
 
     public function defaultNamingContext()
@@ -276,9 +266,9 @@ class ActiveDirectory implements SchemaInterface
         return self::FALSE;
     }
 
-    public function true()
+    public function firstName()
     {
-        return self::TRUE;
+        return self::FIRST_NAME;
     }
 
     public function groupType()
@@ -286,9 +276,19 @@ class ActiveDirectory implements SchemaInterface
         return self::GROUP_TYPE;
     }
 
+    public function homeAddress()
+    {
+        return self::ADDRESS_HOME;
+    }
+
     public function homeMdb()
     {
         return self::HOME_MDB;
+    }
+
+    public function info()
+    {
+        return self::INFO;
     }
 
     public function initials()
@@ -344,6 +344,11 @@ class ActiveDirectory implements SchemaInterface
     public function lockoutTime()
     {
         return self::LOCKOUT_TIME;
+    }
+
+    public function manager()
+    {
+        return self::MANAGER;
     }
 
     public function maxPasswordAge()
@@ -431,6 +436,11 @@ class ActiveDirectory implements SchemaInterface
         return self::ORGANIZATIONAL_UNIT_SHORT;
     }
 
+    public function otherMailbox()
+    {
+        return self::OTHER_MAILBOX;
+    }
+
     public function passwordLastSet()
     {
         return self::PASSWORD_LAST_SET;
@@ -439,6 +449,11 @@ class ActiveDirectory implements SchemaInterface
     public function person()
     {
         return self::PERSON;
+    }
+
+    public function personalTitle()
+    {
+        return self::PERSONAL_TITLE;
     }
 
     public function physicalDeliveryOfficeName()
@@ -501,21 +516,6 @@ class ActiveDirectory implements SchemaInterface
         return self::PRINTER_NAME;
     }
 
-    public function printerShareName()
-    {
-        return self::PRINTER_SHARE_NAME;
-    }
-
-    public function printerStaplingSupported()
-    {
-        return self::PRINTER_STAPLING_SUPPORTED;
-    }
-
-    public function printerStartTime()
-    {
-        return self::PRINTER_START_TIME;
-    }
-
     public function printerOrientationSupported()
     {
         return self::PRINTER_ORIENTATION_SUPPORTED;
@@ -531,14 +531,39 @@ class ActiveDirectory implements SchemaInterface
         return self::PRINTER_PRINT_RATE_UNIT;
     }
 
+    public function printerShareName()
+    {
+        return self::PRINTER_SHARE_NAME;
+    }
+
+    public function printerStaplingSupported()
+    {
+        return self::PRINTER_STAPLING_SUPPORTED;
+    }
+
+    public function printerStartTime()
+    {
+        return self::PRINTER_START_TIME;
+    }
+
     public function priority()
     {
         return self::PRIORITY;
     }
 
-    public function systemFlags()
+    public function profilePath()
     {
-        return self::SYSTEM_FLAGS;
+        return self::PROFILE_PATH;
+    }
+
+    public function proxyAddresses()
+    {
+        return self::PROXY_ADDRESSES;
+    }
+
+    public function scriptPath()
+    {
+        return self::SCRIPT_PATH;
     }
 
     public function serialNumber()
@@ -551,13 +576,68 @@ class ActiveDirectory implements SchemaInterface
         return self::SERVER_NAME;
     }
 
-    public function versionNumber()
+    public function showInAddressBook()
     {
-        return self::VERSION_NUMBER;
+        return self::SHOW_IN_ADDRESS_BOOK;
+    }
+
+    public function streetAddress()
+    {
+        return self::STREET_ADDRESS;
+    }
+
+    public function systemFlags()
+    {
+        return self::SYSTEM_FLAGS;
+    }
+
+    public function telephone()
+    {
+        return self::TELEPHONE;
+    }
+
+    public function thumbnail()
+    {
+        return self::THUMBNAIL;
+    }
+
+    public function title()
+    {
+        return self::TITLE;
+    }
+
+    public function true()
+    {
+        return self::TRUE;
+    }
+
+    public function unicodePassword()
+    {
+        return self::UNICODE_PASSWORD;
+    }
+
+    public function updatedAt()
+    {
+        return self::UPDATED_AT;
     }
 
     public function url()
     {
         return self::URL;
+    }
+
+    public function userAccountControl()
+    {
+        return self::USER_ACCOUNT_CONTROL;
+    }
+
+    public function userPrincipalName()
+    {
+        return self::USER_PRINCIPAL_NAME;
+    }
+
+    public function versionNumber()
+    {
+        return self::VERSION_NUMBER;
     }
 }

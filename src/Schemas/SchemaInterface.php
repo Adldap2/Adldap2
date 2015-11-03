@@ -10,8 +10,6 @@ interface SchemaInterface
 
     public function accountType();
 
-    public function homeAddress();
-
     public function adminDisplayName();
 
     public function anr();
@@ -33,8 +31,6 @@ interface SchemaInterface
     public function country();
 
     public function createdAt();
-
-    public function updatedAt();
 
     public function defaultNamingContext();
 
@@ -64,11 +60,15 @@ interface SchemaInterface
 
     public function false();
 
-    public function true();
+    public function firstName();
 
     public function groupType();
 
+    public function homeAddress();
+
     public function homeMdb();
+
+    public function info();
 
     public function initials();
 
@@ -91,6 +91,8 @@ interface SchemaInterface
     public function location();
 
     public function lockoutTime();
+
+    public function manager();
 
     public function maxPasswordAge();
 
@@ -126,9 +128,13 @@ interface SchemaInterface
 
     public function organizationalUnitShort();
 
+    public function otherMailbox();
+
     public function passwordLastSet();
 
     public function person();
+
+    public function personalTitle();
 
     public function physicalDeliveryOfficeName();
 
@@ -154,27 +160,53 @@ interface SchemaInterface
 
     public function printerName();
 
-    public function printerShareName();
-
-    public function printerStaplingSupported();
-
-    public function printerStartTime();
-
     public function printerOrientationSupported();
 
     public function printerPrintRate();
 
     public function printerPrintRateUnit();
 
+    public function printerShareName();
+
+    public function printerStaplingSupported();
+
+    public function printerStartTime();
+
     public function priority();
 
-    public function systemFlags();
+    public function profilePath();
+
+    public function proxyAddresses();
+
+    public function scriptPath();
 
     public function serialNumber();
 
     public function serverName();
 
-    public function versionNumber();
+    public function showInAddressBook();
+
+    public function streetAddress();
+
+    public function systemFlags();
+
+    public function telephone();
+
+    public function thumbnail();
+
+    public function title();
+
+    public function true();
+
+    public function unicodePassword();
+
+    public function updatedAt();
 
     public function url();
+
+    public function userAccountControl();
+
+    public function userPrincipalName();
+
+    public function versionNumber();
 }

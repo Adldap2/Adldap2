@@ -9,7 +9,6 @@ use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Utilities;
-use App\Models\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use InvalidArgumentException;

@@ -5,7 +5,7 @@ namespace Adldap\Models;
 use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\BatchModification;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Group extends Entry
 {
@@ -24,7 +24,7 @@ class Group extends Entry
     {
         $members = [];
 
-        $dns = $this->getAttribute(ActiveDirectory::MEMBER);
+        $dns = $this->getAttribute(Schema::get()->member());
 
         if (is_array($dns)) {
             unset($dns['count']);
@@ -52,7 +52,7 @@ class Group extends Entry
      */
     public function setMembers(array $entries)
     {
-        $this->setAttribute(ActiveDirectory::MEMBER, $entries);
+        $this->setAttribute(Schema::get()->member(), $entries);
 
         return $this->save();
     }
@@ -71,7 +71,7 @@ class Group extends Entry
         }
 
         $modification = new BatchModification();
-        $modification->setAttribute(ActiveDirectory::MEMBER);
+        $modification->setAttribute(Schema::get()->member());
         $modification->setType(LDAP_MODIFY_BATCH_ADD);
         $modification->setValues([$entry]);
 
@@ -94,7 +94,7 @@ class Group extends Entry
         }
 
         $modification = new BatchModification();
-        $modification->setAttribute(ActiveDirectory::MEMBER);
+        $modification->setAttribute(Schema::get()->member());
         $modification->setType(LDAP_MODIFY_BATCH_REMOVE);
         $modification->setValues([$entry]);
 
@@ -111,7 +111,7 @@ class Group extends Entry
     public function removeMembers()
     {
         $modification = new BatchModification();
-        $modification->setAttribute(ActiveDirectory::MEMBER);
+        $modification->setAttribute(Schema::get()->member());
         $modification->setType(LDAP_MODIFY_BATCH_REMOVE_ALL);
 
         $this->addModification($modification);
@@ -128,6 +128,6 @@ class Group extends Entry
      */
     public function getGroupType()
     {
-        return $this->getAttribute(ActiveDirectory::GROUP_TYPE, 0);
+        return $this->getAttribute(Schema::get()->groupType(), 0);
     }
 }

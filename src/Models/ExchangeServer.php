@@ -2,7 +2,7 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class ExchangeServer extends Entry
 {
@@ -13,7 +13,7 @@ class ExchangeServer extends Entry
      */
     public function getSerialNumber()
     {
-        return $this->getAttribute(ActiveDirectory::SERIAL_NUMBER, 0);
+        return $this->getAttribute(Schema::get()->serialNumber(), 0);
     }
 
     /**
@@ -23,7 +23,7 @@ class ExchangeServer extends Entry
      */
     public function getVersionNumber()
     {
-        return $this->getAttribute(ActiveDirectory::VERSION_NUMBER, 0);
+        return $this->getAttribute(Schema::get()->versionNumber(), 0);
     }
 
     /**
@@ -33,7 +33,7 @@ class ExchangeServer extends Entry
      */
     public function getAdminDisplayName()
     {
-        return $this->getAttribute(ActiveDirectory::ADMIN_DISPLAY_NAME, 0);
+        return $this->getAttribute(Schema::get()->adminDisplayName(), 0);
     }
 
     /**
@@ -43,6 +43,6 @@ class ExchangeServer extends Entry
      */
     public function getMessageTrackingEnabled()
     {
-        return $this->convertStringToBool($this->getAttribute(ActiveDirectory::MESSAGE_TRACKING_ENABLED, 0));
+        return $this->convertStringToBool($this->getAttribute(Schema::get()->messageTrackingEnabled(), 0));
     }
 }

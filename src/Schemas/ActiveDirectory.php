@@ -201,6 +201,11 @@ class ActiveDirectory implements SchemaInterface
         return self::CREATED_AT;
     }
 
+    public function updatedAt()
+    {
+        return self::UPDATED_AT;
+    }
+
     public function defaultNamingContext()
     {
         return self::DEFAULT_NAMING_CONTEXT;
@@ -269,6 +274,11 @@ class ActiveDirectory implements SchemaInterface
     public function false()
     {
         return self::FALSE;
+    }
+
+    public function true()
+    {
+        return self::TRUE;
     }
 
     public function groupType()
@@ -499,5 +509,20 @@ class ActiveDirectory implements SchemaInterface
     public function printerPrintRate()
     {
         return self::PRINTER_PRINT_RATE;
+    }
+
+    public function systemFlags()
+    {
+        return self::SYSTEM_FLAGS;
+    }
+
+    public function serialNumber()
+    {
+        return self::SERIAL_NUMBER;
+    }
+
+    public function versionNumber()
+    {
+        return self::VERSION_NUMBER;
     }
 }

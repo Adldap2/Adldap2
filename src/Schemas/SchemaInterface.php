@@ -34,6 +34,8 @@ interface SchemaInterface
 
     public function createdAt();
 
+    public function updatedAt();
+
     public function defaultNamingContext();
 
     public function department();
@@ -61,6 +63,8 @@ interface SchemaInterface
     public function employeeNumber();
 
     public function false();
+
+    public function true();
 
     public function groupType();
 
@@ -153,4 +157,10 @@ interface SchemaInterface
     public function printerOrientationSupported();
 
     public function printerPrintRate();
+
+    public function systemFlags();
+
+    public function serialNumber();
+
+    public function versionNumber();
 }

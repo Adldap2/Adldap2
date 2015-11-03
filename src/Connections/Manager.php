@@ -13,7 +13,7 @@ use Adldap\Scopes\OrganizationalUnits;
 use Adldap\Scopes\Printers;
 use Adldap\Scopes\Users;
 use Adldap\Exceptions\ConnectionException;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;
 
 class Manager implements ManagerInterface
@@ -63,7 +63,7 @@ class Manager implements ManagerInterface
         return $this->search()
             ->setDn(null)
             ->read(true)
-            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->whereHas(Schema::get()->objectClass())
             ->first();
     }
 

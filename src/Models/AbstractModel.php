@@ -7,7 +7,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 use ArrayAccess;
 use DateTime;
@@ -447,7 +447,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getName()
     {
-        return $this->getAttribute(ActiveDirectory::NAME, 0);
+        return $this->getAttribute(Schema::get()->name(), 0);
     }
 
     /**
@@ -459,7 +459,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setName($name)
     {
-        return $this->setAttribute(ActiveDirectory::NAME, $name, 0);
+        return $this->setAttribute(Schema::get()->name(), $name, 0);
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getCommonName()
     {
-        return $this->getAttribute(ActiveDirectory::COMMON_NAME, 0);
+        return $this->getAttribute(Schema::get()->commonName(), 0);
     }
 
     /**
@@ -483,7 +483,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setCommonName($name)
     {
-        return $this->setAttribute(ActiveDirectory::COMMON_NAME, $name, 0);
+        return $this->setAttribute(Schema::get()->commonName(), $name, 0);
     }
 
     /**
@@ -495,7 +495,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getAccountName()
     {
-        return $this->getAttribute(ActiveDirectory::ACCOUNT_NAME, 0);
+        return $this->getAttribute(Schema::get()->accountName(), 0);
     }
 
     /**
@@ -507,7 +507,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setAccountName($accountName)
     {
-        return $this->setAttribute(ActiveDirectory::ACCOUNT_NAME, $accountName, 0);
+        return $this->setAttribute(Schema::get()->accountName(), $accountName, 0);
     }
 
     /**
@@ -519,7 +519,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getAccountType()
     {
-        return $this->getAttribute(ActiveDirectory::ACCOUNT_TYPE, 0);
+        return $this->getAttribute(Schema::get()->accountType(), 0);
     }
 
     /**
@@ -531,7 +531,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getCreatedAt()
     {
-        return $this->getAttribute(ActiveDirectory::CREATED_AT, 0);
+        return $this->getAttribute(Schema::get()->createdAt(), 0);
     }
 
     /**
@@ -565,7 +565,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getUpdatedAt()
     {
-        return $this->getAttribute(ActiveDirectory::UPDATED_AT, 0);
+        return $this->getAttribute(Schema::get()->updatedAt(), 0);
     }
 
     /**
@@ -635,7 +635,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getObjectCategoryDn()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_CATEGORY, 0);
+        return $this->getAttribute(Schema::get()->objectCategory(), 0);
     }
 
     /**
@@ -647,7 +647,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getObjectSid()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_SID, 0);
+        return $this->getAttribute(Schema::get()->objectSid(), 0);
     }
 
     /**
@@ -659,7 +659,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getPrimaryGroupId()
     {
-        return $this->getAttribute(ActiveDirectory::PRIMARY_GROUP_ID, 0);
+        return $this->getAttribute(Schema::get()->primaryGroupId(), 0);
     }
 
     /**
@@ -671,7 +671,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getInstanceType()
     {
-        return $this->getAttribute(ActiveDirectory::INSTANCE_TYPE, 0);
+        return $this->getAttribute(Schema::get()->instanceType(), 0);
     }
 
     /**
@@ -681,7 +681,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getGuid()
     {
-        return $this->getAttribute(ActiveDirectory::OBJECT_GUID, 0);
+        return $this->getAttribute(Schema::get()->objectGuid(), 0);
     }
 
     /**
@@ -691,7 +691,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getSid()
     {
-        return Utilities::binarySidToText($this->getAttribute(ActiveDirectory::OBJECT_SID, 0));
+        return Utilities::binarySidToText($this->getAttribute(Schema::get()->objectSid(), 0));
     }
 
     /**
@@ -701,7 +701,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getMaxPasswordAge()
     {
-        return $this->getAttribute(ActiveDirectory::MAX_PASSWORD_AGE, 0);
+        return $this->getAttribute(Schema::get()->maxPasswordAge(), 0);
     }
 
     /**
@@ -713,7 +713,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute(ActiveDirectory::DISTINGUISHED_NAME);
+        return $this->getAttribute(Schema::get()->distinguishedName());
     }
 
     /**
@@ -725,7 +725,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setDistinguishedName($dn)
     {
-        return $this->setAttribute(ActiveDirectory::DISTINGUISHED_NAME, (string) $dn);
+        return $this->setAttribute(Schema::get()->distinguishedName(), (string) $dn);
     }
 
     /**
@@ -989,9 +989,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $bool = strtoupper($bool);
 
-        if ($bool === ActiveDirectory::FALSE) {
+        if ($bool === Schema::get()->false()) {
             return false;
-        } elseif ($bool === ActiveDirectory::TRUE) {
+        } elseif ($bool === Schema::get()->true()) {
             return true;
         } else {
             return;

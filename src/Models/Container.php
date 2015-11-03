@@ -4,7 +4,7 @@ namespace Adldap\Models;
 
 use Adldap\Models\Traits\HasCriticalSystemObjectTrait;
 use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Container extends Entry
 {
@@ -21,6 +21,6 @@ class Container extends Entry
      */
     public function getSystemFlags()
     {
-        return $this->getAttribute(ActiveDirectory::SYSTEM_FLAGS, 0);
+        return $this->getAttribute(Schema::get()->systemFlags(), 0);
     }
 }

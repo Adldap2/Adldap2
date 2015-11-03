@@ -8,6 +8,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -363,7 +364,7 @@ class Builder
      */
     public function find($anr)
     {
-        return $this->whereEquals(ActiveDirectory::ANR, $anr)->first();
+        return $this->whereEquals(Schema::get()->anr(), $anr)->first();
     }
 
     /**
@@ -405,7 +406,23 @@ class Builder
             ->setDn($dn)
             ->read(true)
             ->select($fields)
-            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->whereHas(Schema::get()->objectClass())
+            ->first();
+    }
+
+    /**
+     * Finds a record by its Object SID.
+     *
+     * @param string $sid
+     * @param array  $fields
+     *
+     * @return bool|Entry
+     */
+    public function findBySid($sid, $fields = [])
+    {
+        return $this
+            ->select($fields)
+            ->whereEquals(Schema::get()->objectSid(), $sid)
             ->first();
     }
 

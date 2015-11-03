@@ -10,7 +10,7 @@ use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 
 class User extends Entry
@@ -28,7 +28,7 @@ class User extends Entry
      */
     public function getDisplayName()
     {
-        return $this->getAttribute(ActiveDirectory::DISPLAY_NAME, 0);
+        return $this->getAttribute(Schema::get()->displayName(), 0);
     }
 
     /**
@@ -40,7 +40,7 @@ class User extends Entry
      */
     public function setDisplayName($displayName)
     {
-        return $this->setAttribute(ActiveDirectory::DISPLAY_NAME, $displayName, 0);
+        return $this->setAttribute(Schema::get()->displayName(), $displayName, 0);
     }
 
     /**
@@ -52,7 +52,7 @@ class User extends Entry
      */
     public function getTitle()
     {
-        return $this->getAttribute(ActiveDirectory::TITLE, 0);
+        return $this->getAttribute(Schema::get()->title(), 0);
     }
 
     /**
@@ -64,7 +64,7 @@ class User extends Entry
      */
     public function setTitle($title)
     {
-        return $this->setAttribute(ActiveDirectory::TITLE, $title, 0);
+        return $this->setAttribute(Schema::get()->title(), $title, 0);
     }
 
     /**
@@ -76,7 +76,7 @@ class User extends Entry
      */
     public function getDepartment()
     {
-        return $this->getAttribute(ActiveDirectory::DEPARTMENT, 0);
+        return $this->getAttribute(Schema::get()->department(), 0);
     }
 
     /**
@@ -88,7 +88,7 @@ class User extends Entry
      */
     public function setDepartment($department)
     {
-        return $this->setAttribute(ActiveDirectory::DEPARTMENT, $department, 0);
+        return $this->setAttribute(Schema::get()->department(), $department, 0);
     }
 
     /**
@@ -100,7 +100,7 @@ class User extends Entry
      */
     public function getFirstName()
     {
-        return $this->getAttribute(ActiveDirectory::FIRST_NAME, 0);
+        return $this->getAttribute(Schema::get()->firstName(), 0);
     }
 
     /**
@@ -112,7 +112,7 @@ class User extends Entry
      */
     public function setFirstName($firstName)
     {
-        return $this->setAttribute(ActiveDirectory::FIRST_NAME, $firstName, 0);
+        return $this->setAttribute(Schema::get()->firstName(), $firstName, 0);
     }
 
     /**
@@ -124,7 +124,7 @@ class User extends Entry
      */
     public function getLastName()
     {
-        return $this->getAttribute(ActiveDirectory::LAST_NAME, 0);
+        return $this->getAttribute(Schema::get()->lastName(), 0);
     }
 
     /**
@@ -136,7 +136,7 @@ class User extends Entry
      */
     public function setLastName($lastName)
     {
-        return $this->setAttribute(ActiveDirectory::LAST_NAME, $lastName, 0);
+        return $this->setAttribute(Schema::get()->lastName(), $lastName, 0);
     }
 
     /**
@@ -146,7 +146,7 @@ class User extends Entry
      */
     public function getInfo()
     {
-        return $this->getAttribute(ActiveDirectory::INFO, 0);
+        return $this->getAttribute(Schema::get()->info(), 0);
     }
 
     /**
@@ -158,7 +158,7 @@ class User extends Entry
      */
     public function setInfo($info)
     {
-        return $this->setAttribute(ActiveDirectory::INFO, $info, 0);
+        return $this->setAttribute(Schema::get()->info(), $info, 0);
     }
 
     /**
@@ -168,7 +168,7 @@ class User extends Entry
      */
     public function getInitials()
     {
-        return $this->getAttribute(ActiveDirectory::INITIALS, 0);
+        return $this->getAttribute(Schema::get()->initials(), 0);
     }
 
     /**
@@ -180,7 +180,7 @@ class User extends Entry
      */
     public function setInitials($initials)
     {
-        return $this->setAttribute(ActiveDirectory::INITIALS, $initials, 0);
+        return $this->setAttribute(Schema::get()->initials(), $initials, 0);
     }
 
     /**
@@ -190,7 +190,7 @@ class User extends Entry
      */
     public function getCountry()
     {
-        return $this->getAttribute(ActiveDirectory::COUNTRY, 0);
+        return $this->getAttribute(Schema::get()->country(), 0);
     }
 
     /**
@@ -202,7 +202,7 @@ class User extends Entry
      */
     public function setCountry($country)
     {
-        return $this->setAttribute(ActiveDirectory::COUNTRY, $country, 0);
+        return $this->setAttribute(Schema::get()->country(), $country, 0);
     }
 
     /**
@@ -212,7 +212,7 @@ class User extends Entry
      */
     public function getStreetAddress()
     {
-        return $this->getAttribute(ActiveDirectory::STREET_ADDRESS, 0);
+        return $this->getAttribute(Schema::get()->streetAddress(), 0);
     }
 
     /**
@@ -224,7 +224,7 @@ class User extends Entry
      */
     public function setStreetAddress($address)
     {
-        return $this->setAttribute(ActiveDirectory::STREET_ADDRESS, $address, 0);
+        return $this->setAttribute(Schema::get()->streetAddress(), $address, 0);
     }
 
     /**
@@ -234,7 +234,7 @@ class User extends Entry
      */
     public function getPostalCode()
     {
-        return $this->getAttribute(ActiveDirectory::POSTAL_CODE, 0);
+        return $this->getAttribute(Schema::get()->postalCode(), 0);
     }
 
     /**
@@ -246,7 +246,7 @@ class User extends Entry
      */
     public function setPostalCode($postalCode)
     {
-        return $this->setAttribute(ActiveDirectory::POSTAL_CODE, $postalCode, 0);
+        return $this->setAttribute(Schema::get()->postalCode(), $postalCode, 0);
     }
 
     /**
@@ -256,7 +256,7 @@ class User extends Entry
      */
     public function getPhysicalDeliveryOfficeName()
     {
-        return $this->getAttribute(ActiveDirectory::PHYSICAL_DELIVERY_OFFICE_NAME, 0);
+        return $this->getAttribute(Schema::get()->physicalDeliveryOfficeName(), 0);
     }
 
     /**
@@ -268,7 +268,7 @@ class User extends Entry
      */
     public function setPhysicalDeliveryOfficeName($deliveryOffice)
     {
-        return $this->setAttribute(ActiveDirectory::PHYSICAL_DELIVERY_OFFICE_NAME, $deliveryOffice, 0);
+        return $this->setAttribute(Schema::get()->physicalDeliveryOfficeName(), $deliveryOffice, 0);
     }
 
     /**
@@ -280,7 +280,7 @@ class User extends Entry
      */
     public function getTelephoneNumber()
     {
-        return $this->getAttribute(ActiveDirectory::TELEPHONE, 0);
+        return $this->getAttribute(Schema::get()->telephone(), 0);
     }
 
     /**
@@ -292,7 +292,7 @@ class User extends Entry
      */
     public function setTelephoneNumber($number)
     {
-        return $this->setAttribute(ActiveDirectory::TELEPHONE, $number, 0);
+        return $this->setAttribute(Schema::get()->telephone(), $number, 0);
     }
 
     /**
@@ -302,7 +302,7 @@ class User extends Entry
      */
     public function getLocale()
     {
-        return $this->getAttribute(ActiveDirectory::LOCALE, 0);
+        return $this->getAttribute(Schema::get()->locale(), 0);
     }
 
     /**
@@ -314,7 +314,7 @@ class User extends Entry
      */
     public function setLocale($locale)
     {
-        return $this->setAttribute(ActiveDirectory::LOCALE, $locale, 0);
+        return $this->setAttribute(Schema::get()->locale(), $locale, 0);
     }
 
     /**
@@ -326,7 +326,7 @@ class User extends Entry
      */
     public function getCompany()
     {
-        return $this->getAttribute(ActiveDirectory::COMPANY, 0);
+        return $this->getAttribute(Schema::get()->company(), 0);
     }
 
     /**
@@ -338,7 +338,7 @@ class User extends Entry
      */
     public function setCompany($company)
     {
-        return $this->setAttribute(ActiveDirectory::COMPANY, $company, 0);
+        return $this->setAttribute(Schema::get()->company(), $company, 0);
     }
 
     /**
@@ -350,7 +350,7 @@ class User extends Entry
      */
     public function getEmail()
     {
-        return $this->getAttribute(ActiveDirectory::EMAIL, 0);
+        return $this->getAttribute(Schema::get()->email(), 0);
     }
 
     /**
@@ -365,7 +365,7 @@ class User extends Entry
      */
     public function setEmail($email)
     {
-        return $this->setAttribute(ActiveDirectory::EMAIL, $email, 0);
+        return $this->setAttribute(Schema::get()->email(), $email, 0);
     }
 
     /**
@@ -377,7 +377,7 @@ class User extends Entry
      */
     public function getEmails()
     {
-        return $this->getAttribute(ActiveDirectory::EMAIL);
+        return $this->getAttribute(Schema::get()->email());
     }
 
     /**
@@ -389,7 +389,7 @@ class User extends Entry
      */
     public function setEmails(array $emails = [])
     {
-        return $this->setAttribute(ActiveDirectory::EMAIL, $emails);
+        return $this->setAttribute(Schema::get()->email(), $emails);
     }
 
     /**
@@ -401,7 +401,7 @@ class User extends Entry
      */
     public function getOtherMailbox()
     {
-        return $this->getAttribute(ActiveDirectory::OTHER_MAILBOX);
+        return $this->getAttribute(Schema::get()->otherMailbox());
     }
 
     /**
@@ -413,7 +413,7 @@ class User extends Entry
      */
     public function setOtherMailbox($otherMailbox = [])
     {
-        return $this->setAttribute(ActiveDirectory::OTHER_MAILBOX, $otherMailbox);
+        return $this->setAttribute(Schema::get()->otherMailbox(), $otherMailbox);
     }
 
     /**
@@ -425,7 +425,7 @@ class User extends Entry
      */
     public function getHomeMdb()
     {
-        return $this->getAttribute(ActiveDirectory::HOME_MDB, 0);
+        return $this->getAttribute(Schema::get()->homeMdb(), 0);
     }
 
     /**
@@ -435,7 +435,7 @@ class User extends Entry
      */
     public function getMailNickname()
     {
-        return $this->getAttribute(ActiveDirectory::EMAIL_NICKNAME, 0);
+        return $this->getAttribute(Schema::get()->emailNickname(), 0);
     }
 
     /**
@@ -449,7 +449,7 @@ class User extends Entry
      */
     public function getUserPrincipalName()
     {
-        return $this->getAttribute(ActiveDirectory::USER_PRINCIPAL_NAME, 0);
+        return $this->getAttribute(Schema::get()->userPrincipalName(), 0);
     }
 
     /**
@@ -461,7 +461,7 @@ class User extends Entry
      */
     public function setUserPrincipalName($userPrincipalName)
     {
-        return $this->setAttribute(ActiveDirectory::USER_PRINCIPAL_NAME, $userPrincipalName, 0);
+        return $this->setAttribute(Schema::get()->userPrincipalName(), $userPrincipalName, 0);
     }
 
     /**
@@ -473,7 +473,7 @@ class User extends Entry
      */
     public function getProxyAddresses()
     {
-        return $this->getAttribute(ActiveDirectory::PROXY_ADDRESSES);
+        return $this->getAttribute(Schema::get()->proxyAddresses());
     }
 
     /**
@@ -485,7 +485,7 @@ class User extends Entry
      */
     public function getScriptPath()
     {
-        return $this->getAttribute(ActiveDirectory::SCRIPT_PATH, 0);
+        return $this->getAttribute(Schema::get()->scriptPath(), 0);
     }
 
     /**
@@ -495,7 +495,7 @@ class User extends Entry
      */
     public function getBadPasswordCount()
     {
-        return $this->getAttribute(ActiveDirectory::BAD_PASSWORD_COUNT, 0);
+        return $this->getAttribute(Schema::get()->badPasswordCount(), 0);
     }
 
     /**
@@ -505,7 +505,7 @@ class User extends Entry
      */
     public function getBadPasswordTime()
     {
-        return $this->getAttribute(ActiveDirectory::BAD_PASSWORD_TIME, 0);
+        return $this->getAttribute(Schema::get()->badPasswordTime(), 0);
     }
 
     /**
@@ -515,7 +515,7 @@ class User extends Entry
      */
     public function getPasswordLastSet()
     {
-        return $this->getAttribute(ActiveDirectory::PASSWORD_LAST_SET, 0);
+        return $this->getAttribute(Schema::get()->passwordLastSet(), 0);
     }
 
     /**
@@ -525,7 +525,7 @@ class User extends Entry
      */
     public function getLockoutTime()
     {
-        return $this->getAttribute(ActiveDirectory::LOCKOUT_TIME, 0);
+        return $this->getAttribute(Schema::get()->lockoutTime(), 0);
     }
 
     /**
@@ -535,7 +535,7 @@ class User extends Entry
      */
     public function getUserAccountControl()
     {
-        return $this->getAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, 0);
+        return $this->getAttribute(Schema::get()->userAccountControl(), 0);
     }
 
     /**
@@ -547,7 +547,7 @@ class User extends Entry
      */
     public function setUserAccountControl($accountControl)
     {
-        return $this->setAttribute(ActiveDirectory::USER_ACCOUNT_CONTROL, (string) $accountControl);
+        return $this->setAttribute(Schema::get()->userAccountControl(), (string) $accountControl);
     }
 
     /**
@@ -557,7 +557,7 @@ class User extends Entry
      */
     public function getProfilePath()
     {
-        return $this->getAttribute(ActiveDirectory::PROFILE_PATH, 0);
+        return $this->getAttribute(Schema::get()->profilePath(), 0);
     }
 
     /**
@@ -567,7 +567,7 @@ class User extends Entry
      */
     public function getLegacyExchangeDn()
     {
-        return $this->getAttribute(ActiveDirectory::LEGACY_EXCHANGE_DN, 0);
+        return $this->getAttribute(Schema::get()->legacyExchangeDn(), 0);
     }
 
     /**
@@ -577,7 +577,7 @@ class User extends Entry
      */
     public function getAccountExpiry()
     {
-        return $this->getAttribute(ActiveDirectory::ACCOUNT_EXPIRES, 0);
+        return $this->getAttribute(Schema::get()->accountExpires(), 0);
     }
 
     /**
@@ -593,7 +593,7 @@ class User extends Entry
     {
         $time = is_null($expiryTime) ? '9223372036854775807' : (string) Utilities::convertUnixTimeToWindowsTime($expiryTime);
 
-        return $this->setAttribute(ActiveDirectory::ACCOUNT_EXPIRES, $time, 0);
+        return $this->setAttribute(Schema::get()->accountExpires(), $time, 0);
     }
 
     /**
@@ -604,7 +604,7 @@ class User extends Entry
      */
     public function getShowInAddressBook()
     {
-        return $this->getAttribute(ActiveDirectory::SHOW_IN_ADDRESS_BOOK);
+        return $this->getAttribute(Schema::get()->showInAddressBook());
     }
 
     /**
@@ -614,7 +614,7 @@ class User extends Entry
      */
     public function getThumbnail()
     {
-        return $this->getAttribute(ActiveDirectory::THUMBNAIL, 0);
+        return $this->getAttribute(Schema::get()->thumbnail(), 0);
     }
 
     /**
@@ -624,7 +624,7 @@ class User extends Entry
      */
     public function getManager()
     {
-        return $this->getAttribute(ActiveDirectory::MANAGER, 0);
+        return $this->getAttribute(Schema::get()->manager(), 0);
     }
 
     /**
@@ -636,7 +636,7 @@ class User extends Entry
      */
     public function setManager($managerDn)
     {
-        return $this->setAttribute(ActiveDirectory::MANAGER, $managerDn, 0);
+        return $this->setAttribute(Schema::get()->manager(), $managerDn, 0);
     }
 
     /**
@@ -646,7 +646,7 @@ class User extends Entry
      */
     public function getEmployeeId()
     {
-        return $this->getAttribute(ActiveDirectory::EMPLOYEE_ID, 0);
+        return $this->getAttribute(Schema::get()->employeeId(), 0);
     }
 
     /**
@@ -658,7 +658,7 @@ class User extends Entry
      */
     public function setEmployeeId($employeeId)
     {
-        return $this->setAttribute(ActiveDirectory::EMPLOYEE_ID, $employeeId, 0);
+        return $this->setAttribute(Schema::get()->employeeId(), $employeeId, 0);
     }
 
     /**
@@ -676,7 +676,7 @@ class User extends Entry
      */
     public function getPersonalTitle()
     {
-        return $this->getAttribute(ActiveDirectory::PERSONAL_TITLE, 0);
+        return $this->getAttribute(Schema::get()->personalTitle(), 0);
     }
 
     /**
@@ -688,7 +688,7 @@ class User extends Entry
      */
     public function setPersonalTitle($personalTitle)
     {
-        return $this->setAttribute(ActiveDirectory::PERSONAL_TITLE, $personalTitle, 0);
+        return $this->setAttribute(Schema::get()->personalTitle(), $personalTitle, 0);
     }
 
     /**
@@ -711,7 +711,7 @@ class User extends Entry
         }
 
         $modification = new BatchModification();
-        $modification->setAttribute(ActiveDirectory::UNICODE_PASSWORD);
+        $modification->setAttribute(Schema::get()->unicodePassword());
         $modification->setType(LDAP_MODIFY_BATCH_REPLACE);
         $modification->setValues([Utilities::encodePassword($password)]);
 
@@ -740,7 +740,7 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        $attribute = ActiveDirectory::UNICODE_PASSWORD;
+        $attribute = Schema::get()->unicodePassword();
 
         // Create batch modification for removing the old password.
         $remove = new BatchModification();

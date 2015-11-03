@@ -6,4 +6,5 @@ use Adldap\Exceptions\AdldapException;
 
 class BindException extends AdldapException
 {
+    //
 }

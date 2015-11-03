@@ -2,7 +2,7 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class OrganizationalUnit extends AbstractModel
 {
@@ -13,6 +13,6 @@ class OrganizationalUnit extends AbstractModel
      */
     public function getOu()
     {
-        return $this->getAttribute(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, 0);
+        return $this->getAttribute(Schema::get()->organizationalUnitShort(), 0);
     }
 }

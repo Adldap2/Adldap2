@@ -154,13 +154,27 @@ interface SchemaInterface
 
     public function printerName();
 
+    public function printerShareName();
+
+    public function printerStaplingSupported();
+
+    public function printerStartTime();
+
     public function printerOrientationSupported();
 
     public function printerPrintRate();
+
+    public function printerPrintRateUnit();
+
+    public function priority();
 
     public function systemFlags();
 
     public function serialNumber();
 
+    public function serverName();
+
     public function versionNumber();
+
+    public function url();
 }

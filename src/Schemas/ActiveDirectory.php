@@ -501,6 +501,21 @@ class ActiveDirectory implements SchemaInterface
         return self::PRINTER_NAME;
     }
 
+    public function printerShareName()
+    {
+        return self::PRINTER_SHARE_NAME;
+    }
+
+    public function printerStaplingSupported()
+    {
+        return self::PRINTER_STAPLING_SUPPORTED;
+    }
+
+    public function printerStartTime()
+    {
+        return self::PRINTER_START_TIME;
+    }
+
     public function printerOrientationSupported()
     {
         return self::PRINTER_ORIENTATION_SUPPORTED;
@@ -509,6 +524,16 @@ class ActiveDirectory implements SchemaInterface
     public function printerPrintRate()
     {
         return self::PRINTER_PRINT_RATE;
+    }
+
+    public function printerPrintRateUnit()
+    {
+        return self::PRINTER_PRINT_RATE_UNIT;
+    }
+
+    public function priority()
+    {
+        return self::PRIORITY;
     }
 
     public function systemFlags()
@@ -521,8 +546,18 @@ class ActiveDirectory implements SchemaInterface
         return self::SERIAL_NUMBER;
     }
 
+    public function serverName()
+    {
+        return self::SERVER_NAME;
+    }
+
     public function versionNumber()
     {
         return self::VERSION_NUMBER;
+    }
+
+    public function url()
+    {
+        return self::URL;
     }
 }

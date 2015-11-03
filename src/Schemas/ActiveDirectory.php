@@ -7,7 +7,7 @@ namespace Adldap\Schemas;
  *
  * The active directory attribute schema for easy auto completion retrieval.
  */
-class ActiveDirectory
+class ActiveDirectory implements SchemaInterface
 {
     const ACCOUNT_EXPIRES = 'accountexpires';
     const ACCOUNT_NAME = 'samaccountname';
@@ -125,4 +125,379 @@ class ActiveDirectory
     const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
     const USER_PRINCIPAL_NAME = 'userprincipalname';
     const VERSION_NUMBER = 'versionnumber';
+
+    public function accountExpires()
+    {
+        return self::ACCOUNT_EXPIRES;
+    }
+
+    public function accountName()
+    {
+        return self::ACCOUNT_NAME;
+    }
+
+    public function accountType()
+    {
+        return self::ACCOUNT_TYPE;
+    }
+
+    public function homeAddress()
+    {
+        return self::ADDRESS_HOME;
+    }
+
+    public function adminDisplayName()
+    {
+        return self::ADMIN_DISPLAY_NAME;
+    }
+
+    public function anr()
+    {
+        return self::ANR;
+    }
+
+    public function badPasswordCount()
+    {
+        return self::BAD_PASSWORD_COUNT;
+    }
+
+    public function badPasswordTime()
+    {
+        return self::BAD_PASSWORD_TIME;
+    }
+
+    public function commonName()
+    {
+        return self::COMMON_NAME;
+    }
+
+    public function company()
+    {
+        return self::COMPANY;
+    }
+
+    public function computer()
+    {
+        return self::COMPUTER;
+    }
+
+    public function configurationNamingContext()
+    {
+        return self::CONFIGURATION_NAMING_CONTEXT;
+    }
+
+    public function contact()
+    {
+        return self::CONTACT;
+    }
+
+    public function country()
+    {
+        return self::ANR;
+    }
+
+    public function createdAt()
+    {
+        return self::CREATED_AT;
+    }
+
+    public function defaultNamingContext()
+    {
+        return self::DEFAULT_NAMING_CONTEXT;
+    }
+
+    public function department()
+    {
+        return self::DEPARTMENT;
+    }
+
+    public function description()
+    {
+        return self::DESCRIPTION;
+    }
+
+    public function displayName()
+    {
+        return self::DISPLAY_NAME;
+    }
+
+    public function distinguishedName()
+    {
+        return self::DISTINGUISHED_NAME;
+    }
+
+    public function dnsHostName()
+    {
+        return self::DNS_HOST_NAME;
+    }
+
+    public function domainComponent()
+    {
+        return self::DOMAIN_COMPONENT;
+    }
+
+    public function driverName()
+    {
+        return self::DRIVER_NAME;
+    }
+
+    public function driverVersion()
+    {
+        return self::DRIVER_VERSION;
+    }
+
+    public function email()
+    {
+        return self::EMAIL;
+    }
+
+    public function emailNickname()
+    {
+        return self::EMAIL_NICKNAME;
+    }
+
+    public function employeeId()
+    {
+        return self::EMPLOYEE_ID;
+    }
+
+    public function employeeNumber()
+    {
+        return self::EMPLOYEE_NUMBER;
+    }
+
+    public function false()
+    {
+        return self::FALSE;
+    }
+
+    public function groupType()
+    {
+        return self::GROUP_TYPE;
+    }
+
+    public function homeMdb()
+    {
+        return self::HOME_MDB;
+    }
+
+    public function initials()
+    {
+        return self::INITIALS;
+    }
+
+    public function instanceType()
+    {
+        return self::INSTANCE_TYPE;
+    }
+
+    public function isCriticalSystemObject()
+    {
+        return self::IS_CRITICAL_SYSTEM_OBJECT;
+    }
+
+    public function lastLogOff()
+    {
+        return self::LAST_LOGOFF;
+    }
+
+    public function lastLogOn()
+    {
+        return self::LAST_LOGON;
+    }
+
+    public function lastLogOnTimestamp()
+    {
+        return self::LAST_LOGON_TIMESTAMP;
+    }
+
+    public function lastName()
+    {
+        return self::LAST_NAME;
+    }
+
+    public function legacyExchangeDn()
+    {
+        return self::LEGACY_EXCHANGE_DN;
+    }
+
+    public function locale()
+    {
+        return self::LOCALE;
+    }
+
+    public function location()
+    {
+        return self::LOCATION;
+    }
+
+    public function lockoutTime()
+    {
+        return self::LOCKOUT_TIME;
+    }
+
+    public function maxPasswordAge()
+    {
+        return self::MAX_PASSWORD_AGE;
+    }
+
+    public function member()
+    {
+        return self::MEMBER;
+    }
+
+    public function memberOf()
+    {
+        return self::MEMBER_OF;
+    }
+
+    public function messageTrackingEnabled()
+    {
+        return self::MESSAGE_TRACKING_ENABLED;
+    }
+
+    public function msExchangeServer()
+    {
+        return self::MS_EXCHANGE_SERVER;
+    }
+
+    public function name()
+    {
+        return self::NAME;
+    }
+
+    public function objectCategory()
+    {
+        return self::ANR;
+    }
+
+    public function objectClass()
+    {
+        return self::OBJECT_CLASS;
+    }
+
+    public function objectClassPrinter()
+    {
+        return self::OBJECT_CLASS_PRINTER;
+    }
+
+    public function objectGuid()
+    {
+        return self::OBJECT_GUID;
+    }
+
+    public function objectSid()
+    {
+        return self::OBJECT_SID;
+    }
+
+    public function operatingSystem()
+    {
+        return self::OPERATING_SYSTEM;
+    }
+
+    public function operatingSystemServicePack()
+    {
+        return self::OPERATING_SYSTEM_SERVICE_PACK;
+    }
+
+    public function operatingSystemVersion()
+    {
+        return self::OPERATING_SYSTEM_VERSION;
+    }
+
+    public function organizationalPerson()
+    {
+        return self::ORGANIZATIONAL_PERSON;
+    }
+
+    public function organizationalUnit()
+    {
+        return self::ORGANIZATIONAL_UNIT_LONG;
+    }
+
+    public function organizationalUnitShort()
+    {
+        return self::ORGANIZATIONAL_UNIT_SHORT;
+    }
+
+    public function passwordLastSet()
+    {
+        return self::PASSWORD_LAST_SET;
+    }
+
+    public function person()
+    {
+        return self::PERSON;
+    }
+
+    public function physicalDeliveryOfficeName()
+    {
+        return self::PHYSICAL_DELIVERY_OFFICE_NAME;
+    }
+
+    public function portName()
+    {
+        return self::PORT_NAME;
+    }
+
+    public function postalCode()
+    {
+        return self::POSTAL_CODE;
+    }
+
+    public function primaryGroupId()
+    {
+        return self::PRIMARY_GROUP_ID;
+    }
+
+    public function printerBinNames()
+    {
+        return self::PRINTER_BIN_NAMES;
+    }
+
+    public function printerColorSupported()
+    {
+        return self::PRINTER_COLOR_SUPPORTED;
+    }
+
+    public function printerDuplexSupported()
+    {
+        return self::PRINTER_DUPLEX_SUPPORTED;
+    }
+
+    public function printerEndTime()
+    {
+        return self::PRINTER_END_TIME;
+    }
+
+    public function printerMaxResolutionSupported()
+    {
+        return self::PRINTER_MAX_RESOLUTION_SUPPORTED;
+    }
+
+    public function printerMediaSupported()
+    {
+        return self::PRINTER_MEDIA_SUPPORTED;
+    }
+
+    public function printerMemory()
+    {
+        return self::PRINTER_MEMORY;
+    }
+
+    public function printerName()
+    {
+        return self::PRINTER_NAME;
+    }
+
+    public function printerOrientationSupported()
+    {
+        return self::PRINTER_ORIENTATION_SUPPORTED;
+    }
+
+    public function printerPrintRate()
+    {
+        return self::PRINTER_PRINT_RATE;
+    }
 }

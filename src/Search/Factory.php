@@ -6,7 +6,7 @@ use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Factory
 {
@@ -38,6 +38,16 @@ class Factory
         $this->connection = $connection;
 
         $this->setQueryBuilder($this->newQueryBuilder($baseDn));
+    }
+
+    /**
+     * Sets the query property.
+     *
+     * @param Builder $query
+     */
+    public function setQueryBuilder(Builder $query)
+    {
+        $this->query = $query;
     }
 
     /**
@@ -88,7 +98,7 @@ class Factory
      */
     public function all()
     {
-        return $this->query->whereHas(ActiveDirectory::COMMON_NAME)->get();
+        return $this->query->whereHas(Schema::get()->commonName())->get();
     }
 
     /**
@@ -102,15 +112,5 @@ class Factory
     public function __call($method, $parameters)
     {
         return call_user_func_array([$this->query, $method], $parameters);
-    }
-
-    /**
-     * Sets the query property.
-     *
-     * @param Builder $query
-     */
-    private function setQueryBuilder(Builder $query)
-    {
-        $this->query = $query;
     }
 }

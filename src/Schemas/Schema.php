@@ -5,14 +5,14 @@ namespace Adldap\Schemas;
 class Schema
 {
     /**
-     * The current schema.
+     * The current LDAP attribute schema.
      *
      * @var SchemaInterface
      */
     protected static $current;
 
     /**
-     * Returns the current schema.
+     * Returns the current LDAP attribute schema.
      *
      * @return SchemaInterface
      */
@@ -26,6 +26,8 @@ class Schema
     }
 
     /**
+     * Sets the current LDAP attribute schema.
+     *
      * @param SchemaInterface $schema
      */
     public static function set(SchemaInterface $schema)
@@ -34,6 +36,8 @@ class Schema
     }
 
     /**
+     * Returns a new instance of the default schema.
+     *
      * @return SchemaInterface
      */
     public static function getDefault()

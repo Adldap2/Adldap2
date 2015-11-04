@@ -170,8 +170,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Re-sets the models raw attributes by looking up the
-     * current models DN in AD.
+     * Re-sets the models raw attributes by looking
+     * up the current models DN in AD.
      *
      * @return bool
      */

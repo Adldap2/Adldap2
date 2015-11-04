@@ -225,7 +225,7 @@ class DistinguishedName
      */
     public function assembleOus()
     {
-        return $this->assembleRdns(Schema::get()->organizationalUnit(), $this->organizationUnits);
+        return $this->assembleRdns(Schema::get()->organizationalUnitShort(), $this->organizationUnits);
     }
 
     /**

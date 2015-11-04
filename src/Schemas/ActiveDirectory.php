@@ -126,516 +126,897 @@ class ActiveDirectory implements SchemaInterface
     const USER_PRINCIPAL_NAME = 'userprincipalname';
     const VERSION_NUMBER = 'versionnumber';
 
+    /**
+     * {@inheritdoc}
+     */
     public function accountExpires()
     {
         return self::ACCOUNT_EXPIRES;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function accountName()
     {
         return self::ACCOUNT_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function accountType()
     {
         return self::ACCOUNT_TYPE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function adminDisplayName()
     {
         return self::ADMIN_DISPLAY_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function anr()
     {
         return self::ANR;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function badPasswordCount()
     {
         return self::BAD_PASSWORD_COUNT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function badPasswordTime()
     {
         return self::BAD_PASSWORD_TIME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function commonName()
     {
         return self::COMMON_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function company()
     {
         return self::COMPANY;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function computer()
     {
         return self::COMPUTER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configurationNamingContext()
     {
         return self::CONFIGURATION_NAMING_CONTEXT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function contact()
     {
         return self::CONTACT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function country()
     {
         return self::COUNTRY;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function createdAt()
     {
         return self::CREATED_AT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function defaultNamingContext()
     {
         return self::DEFAULT_NAMING_CONTEXT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function department()
     {
         return self::DEPARTMENT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function description()
     {
         return self::DESCRIPTION;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function displayName()
     {
         return self::DISPLAY_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function distinguishedName()
     {
         return self::DISTINGUISHED_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function dnsHostName()
     {
         return self::DNS_HOST_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function domainComponent()
     {
         return self::DOMAIN_COMPONENT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function driverName()
     {
         return self::DRIVER_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function driverVersion()
     {
         return self::DRIVER_VERSION;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function email()
     {
         return self::EMAIL;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function emailNickname()
     {
         return self::EMAIL_NICKNAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function employeeId()
     {
         return self::EMPLOYEE_ID;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function employeeNumber()
     {
         return self::EMPLOYEE_NUMBER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function false()
     {
         return self::FALSE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function firstName()
     {
         return self::FIRST_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function groupType()
     {
         return self::GROUP_TYPE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function homeAddress()
     {
         return self::ADDRESS_HOME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function homeMdb()
     {
         return self::HOME_MDB;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function info()
     {
         return self::INFO;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function initials()
     {
         return self::INITIALS;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function instanceType()
     {
         return self::INSTANCE_TYPE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isCriticalSystemObject()
     {
         return self::IS_CRITICAL_SYSTEM_OBJECT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function lastLogOff()
     {
         return self::LAST_LOGOFF;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function lastLogOn()
     {
         return self::LAST_LOGON;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function lastLogOnTimestamp()
     {
         return self::LAST_LOGON_TIMESTAMP;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function lastName()
     {
         return self::LAST_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function legacyExchangeDn()
     {
         return self::LEGACY_EXCHANGE_DN;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function locale()
     {
         return self::LOCALE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function location()
     {
         return self::LOCATION;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function lockoutTime()
     {
         return self::LOCKOUT_TIME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function manager()
     {
         return self::MANAGER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function maxPasswordAge()
     {
         return self::MAX_PASSWORD_AGE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function member()
     {
         return self::MEMBER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function memberOf()
     {
         return self::MEMBER_OF;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function messageTrackingEnabled()
     {
         return self::MESSAGE_TRACKING_ENABLED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function msExchangeServer()
     {
         return self::MS_EXCHANGE_SERVER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function name()
     {
         return self::NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function objectCategory()
     {
         return self::ANR;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function objectClass()
     {
         return self::OBJECT_CLASS;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function objectClassPrinter()
     {
         return self::OBJECT_CLASS_PRINTER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryComputer()
+    {
+        return self::OBJECT_CATEGORY_COMPUTER;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryContainer()
+    {
+        return self::OBJECT_CATEGORY_CONTAINER;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryExchangePrivateMdb()
+    {
+        return self::OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryExchangeServer()
+    {
+        return self::OBJECT_CATEGORY_EXCHANGE_SERVER;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryExchangeStorageGroup()
+    {
+        return self::OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryGroup()
+    {
+        return self::OBJECT_CATEGORY_GROUP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryOrganizationalUnit()
+    {
+        return self::OBJECT_CATEGORY_ORGANIZATIONAL_UNIT;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryPerson()
+    {
+        return self::OBJECT_CATEGORY_PERSON;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategoryPrinter()
+    {
+        return self::OBJECT_CATEGORY_PRINTER;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectGuid()
     {
         return self::OBJECT_GUID;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function objectSid()
     {
         return self::OBJECT_SID;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operatingSystem()
     {
         return self::OPERATING_SYSTEM;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operatingSystemServicePack()
     {
         return self::OPERATING_SYSTEM_SERVICE_PACK;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operatingSystemVersion()
     {
         return self::OPERATING_SYSTEM_VERSION;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function organizationalPerson()
     {
         return self::ORGANIZATIONAL_PERSON;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function organizationalUnit()
     {
         return self::ORGANIZATIONAL_UNIT_LONG;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function organizationalUnitShort()
     {
         return self::ORGANIZATIONAL_UNIT_SHORT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function otherMailbox()
     {
         return self::OTHER_MAILBOX;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function passwordLastSet()
     {
         return self::PASSWORD_LAST_SET;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function person()
     {
         return self::PERSON;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function personalTitle()
     {
         return self::PERSONAL_TITLE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function physicalDeliveryOfficeName()
     {
         return self::PHYSICAL_DELIVERY_OFFICE_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function portName()
     {
         return self::PORT_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postalCode()
     {
         return self::POSTAL_CODE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function primaryGroupId()
     {
         return self::PRIMARY_GROUP_ID;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerBinNames()
     {
         return self::PRINTER_BIN_NAMES;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerColorSupported()
     {
         return self::PRINTER_COLOR_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerDuplexSupported()
     {
         return self::PRINTER_DUPLEX_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerEndTime()
     {
         return self::PRINTER_END_TIME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerMaxResolutionSupported()
     {
         return self::PRINTER_MAX_RESOLUTION_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerMediaSupported()
     {
         return self::PRINTER_MEDIA_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerMemory()
     {
         return self::PRINTER_MEMORY;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerName()
     {
         return self::PRINTER_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerOrientationSupported()
     {
         return self::PRINTER_ORIENTATION_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerPrintRate()
     {
         return self::PRINTER_PRINT_RATE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerPrintRateUnit()
     {
         return self::PRINTER_PRINT_RATE_UNIT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerShareName()
     {
         return self::PRINTER_SHARE_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerStaplingSupported()
     {
         return self::PRINTER_STAPLING_SUPPORTED;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printerStartTime()
     {
         return self::PRINTER_START_TIME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function priority()
     {
         return self::PRIORITY;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function profilePath()
     {
         return self::PROFILE_PATH;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function proxyAddresses()
     {
         return self::PROXY_ADDRESSES;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function scriptPath()
     {
         return self::SCRIPT_PATH;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function serialNumber()
     {
         return self::SERIAL_NUMBER;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function serverName()
     {
         return self::SERVER_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function showInAddressBook()
     {
         return self::SHOW_IN_ADDRESS_BOOK;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function streetAddress()
     {
         return self::STREET_ADDRESS;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function systemFlags()
     {
         return self::SYSTEM_FLAGS;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function telephone()
     {
         return self::TELEPHONE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function thumbnail()
     {
         return self::THUMBNAIL;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function title()
     {
         return self::TITLE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function true()
     {
         return self::TRUE;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function unicodePassword()
     {
         return self::UNICODE_PASSWORD;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function updatedAt()
     {
         return self::UPDATED_AT;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function url()
     {
         return self::URL;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function userAccountControl()
     {
         return self::USER_ACCOUNT_CONTROL;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function userPrincipalName()
     {
         return self::USER_PRINCIPAL_NAME;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function versionNumber()
     {
         return self::VERSION_NUMBER;

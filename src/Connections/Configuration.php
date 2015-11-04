@@ -420,7 +420,7 @@ class Configuration
     protected function fill(array $options = [])
     {
         foreach ($options as $key => $value) {
-            $method = 'set' . $this->normalizeKey($key);
+            $method = 'set'.$this->normalizeKey($key);
 
             if (method_exists($this, $method)) {
                 $this->$method($value);

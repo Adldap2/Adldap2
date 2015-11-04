@@ -1031,6 +1031,7 @@ class Builder
      * @param string $value
      * @param string $type
      *
+     * @throws InvalidArgumentException
      * @throws InvalidQueryOperatorException
      *
      * @return Builder
@@ -1100,8 +1101,8 @@ class Builder
                 }
             }
 
-            // If the current query isn't paginated, we'll
-            // sort the models array here
+            // If the current query isn't paginated,
+            // we'll sort the models array here.
             if (!$this->paginated) {
                 $models = $this->processSort($models);
             }

@@ -300,22 +300,49 @@ interface SchemaInterface
      */
     public function objectClassPrinter();
 
+    /**
+     * @return string
+     */
     public function objectCategoryComputer();
 
+    /**
+     * @return string
+     */
     public function objectCategoryContainer();
 
+    /**
+     * @return string
+     */
     public function objectCategoryExchangePrivateMdb();
 
+    /**
+     * @return string
+     */
     public function objectCategoryExchangeServer();
 
+    /**
+     * @return string
+     */
     public function objectCategoryExchangeStorageGroup();
 
+    /**
+     * @return string
+     */
     public function objectCategoryGroup();
 
+    /**
+     * @return string
+     */
     public function objectCategoryOrganizationalUnit();
 
+    /**
+     * @return string
+     */
     public function objectCategoryPerson();
 
+    /**
+     * @return string
+     */
     public function objectCategoryPrinter();
 
     /**

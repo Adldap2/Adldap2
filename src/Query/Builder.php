@@ -151,7 +151,27 @@ class Builder
      */
     public function __construct(ConnectionInterface $connection, Grammar $grammar)
     {
+        $this->setConnection($connection);
+        $this->setGrammar($grammar);
+    }
+
+    /**
+     * Sets the current connection.
+     *
+     * @param ConnectionInterface $connection
+     */
+    public function setConnection(ConnectionInterface $connection)
+    {
         $this->connection = $connection;
+    }
+
+    /**
+     * Sets the current filter grammar.
+     *
+     * @param Grammar $grammar
+     */
+    public function setGrammar(Grammar $grammar)
+    {
         $this->grammar = $grammar;
     }
 

@@ -246,6 +246,24 @@ class Utilities
     }
 
     /**
+     * Validates that the inserted string is an object SID.
+     *
+     * @param string $sid
+     *
+     * @return bool
+     */
+    public static function validateSid($sid)
+    {
+        preg_match("/^S-1-[0-5]-\d{2}-\d{10}-\d{10}-\d{9}-[1-9]\d{3}/", $sid, $matches);
+
+        if (count($matches) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Converts an ignore string into an array.
      *
      * @param string $ignore

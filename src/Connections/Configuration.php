@@ -146,26 +146,6 @@ class Configuration
     }
 
     /**
-     * Sets the user ID key option.
-     *
-     * @param $key
-     */
-    public function setUserIdKey($key)
-    {
-        $this->userIdKey = $key;
-    }
-
-    /**
-     * Sets the person search filter.
-     *
-     * @param array $personFilter
-     */
-    public function setPersonFilter(array $personFilter)
-    {
-        $this->personFilter = $personFilter;
-    }
-
-    /**
      * Sets the port option to use when connecting.
      *
      * @param $port

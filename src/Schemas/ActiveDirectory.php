@@ -539,7 +539,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategory()
     {
-        return self::ANR;
+        return self::OBJECT_CATEGORY;
     }
 
     /**

@@ -545,22 +545,6 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function objectClass()
-    {
-        return self::OBJECT_CLASS;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function objectClassPrinter()
-    {
-        return self::OBJECT_CLASS_PRINTER;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function objectCategoryComputer()
     {
         return self::OBJECT_CATEGORY_COMPUTER;
@@ -628,6 +612,22 @@ class ActiveDirectory implements SchemaInterface
     public function objectCategoryPrinter()
     {
         return self::OBJECT_CATEGORY_PRINTER;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClass()
+    {
+        return self::OBJECT_CLASS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassPrinter()
+    {
+        return self::OBJECT_CLASS_PRINTER;
     }
 
     /**
@@ -969,6 +969,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function top()
+    {
+        return self::TOP;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function true()
     {
         return self::TRUE;
@@ -996,6 +1004,14 @@ class ActiveDirectory implements SchemaInterface
     public function url()
     {
         return self::URL;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function user()
+    {
+        return self::USER;
     }
 
     /**

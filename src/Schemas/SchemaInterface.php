@@ -293,16 +293,6 @@ interface SchemaInterface
     /**
      * @return string
      */
-    public function objectClass();
-
-    /**
-     * @return string
-     */
-    public function objectClassPrinter();
-
-    /**
-     * @return string
-     */
     public function objectCategoryComputer();
 
     /**
@@ -344,6 +334,16 @@ interface SchemaInterface
      * @return string
      */
     public function objectCategoryPrinter();
+
+    /**
+     * @return string
+     */
+    public function objectClass();
+
+    /**
+     * @return string
+     */
+    public function objectClassPrinter();
 
     /**
      * @return string
@@ -555,6 +555,8 @@ interface SchemaInterface
      */
     public function title();
 
+    public function top();
+
     /**
      * @return string
      */
@@ -574,6 +576,11 @@ interface SchemaInterface
      * @return string
      */
     public function url();
+
+    /**
+     * @return string
+     */
+    public function user();
 
     /**
      * @return string

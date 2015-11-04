@@ -113,16 +113,6 @@ class Configuration
      */
     public function __construct($options = [])
     {
-        if (!is_array($options) && !$options instanceof Traversable) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    '%s expects an array or Traversable argument; received "%s"',
-                    __METHOD__,
-                    (is_object($options) ? get_class($options) : gettype($options))
-                )
-            );
-        }
-
         $this->fill($options);
     }
 
@@ -415,10 +405,20 @@ class Configuration
     /**
      * Fills each configuration option with the supplied array.
      *
-     * @param array $options
+     * @param array|Traversable $options
      */
-    protected function fill(array $options = [])
+    protected function fill($options = [])
     {
+        if (!is_array($options) && !$options instanceof Traversable) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s expects an array or Traversable argument; received "%s"',
+                    __METHOD__,
+                    (is_object($options) ? get_class($options) : gettype($options))
+                )
+            );
+        }
+
         foreach ($options as $key => $value) {
             $method = 'set'.$this->normalizeKey($key);
 

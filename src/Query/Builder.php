@@ -7,7 +7,6 @@ use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,21 +104,6 @@ class Builder
      * @var string|null
      */
     protected $dn;
-
-    /**
-     * The object category model class mappings.
-     *
-     * @var array
-     */
-    protected $mappings = [
-        ActiveDirectory::OBJECT_CATEGORY_COMPUTER               => 'Adldap\Models\Computer',
-        ActiveDirectory::OBJECT_CATEGORY_PERSON                 => 'Adldap\Models\User',
-        ActiveDirectory::OBJECT_CATEGORY_GROUP                  => 'Adldap\Models\Group',
-        ActiveDirectory::MS_EXCHANGE_SERVER                     => 'Adldap\Models\ExchangeServer',
-        ActiveDirectory::OBJECT_CATEGORY_CONTAINER              => 'Adldap\Models\Container',
-        ActiveDirectory::OBJECT_CATEGORY_PRINTER                => 'Adldap\Models\Printer',
-        ActiveDirectory::OBJECT_CATEGORY_ORGANIZATIONAL_UNIT    => 'Adldap\Models\OrganizationalUnit',
-    ];
 
     /**
      * Stores the bool to determine whether or not
@@ -444,7 +428,7 @@ class Builder
             ->setDn($dn)
             ->read(true)
             ->select($fields)
-            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->whereHas(Schema::get()->objectClass())
             ->firstOrFail();
     }
 
@@ -455,14 +439,16 @@ class Builder
      */
     public function findBaseDn()
     {
+        $schema = Schema::get();
+
         $result = $this
             ->setDn(null)
             ->read()
             ->raw()
-            ->whereHas(ActiveDirectory::OBJECT_CLASS)
+            ->whereHas($schema->objectClass())
             ->first();
 
-        $key = ActiveDirectory::DEFAULT_NAMING_CONTEXT;
+        $key = $schema->defaultNamingContext();
 
         if (is_array($result) && array_key_exists($key, $result)) {
             if (array_key_exists(0, $result[$key])) {
@@ -884,12 +870,14 @@ class Builder
     {
         $selects = $this->selects;
 
+        $schema = Schema::get();
+
         if (count($selects) > 0) {
             // Always make sure object category, class, and distinguished
             // name are included in the selected fields.
-            $selects[] = ActiveDirectory::OBJECT_CATEGORY;
-            $selects[] = ActiveDirectory::OBJECT_CLASS;
-            $selects[] = ActiveDirectory::DISTINGUISHED_NAME;
+            $selects[] = $schema->objectCategory();
+            $selects[] = $schema->objectClass();
+            $selects[] = $schema->distinguishedName();
         }
 
         return $selects;
@@ -994,7 +982,7 @@ class Builder
      */
     public function newLdapEntry(array $attributes = [])
     {
-        $attribute = ActiveDirectory::OBJECT_CATEGORY;
+        $attribute = Schema::get()->objectCategory();
 
         if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
             // We'll explode the DN so we can grab it's object category.
@@ -1004,9 +992,11 @@ class Builder
             if (array_key_exists(0, $category)) {
                 $category = strtolower($category[0]);
 
+                $mappings = $this->map();
+
                 // Retrieve the category model mapping.
-                if (array_key_exists($category, $this->mappings)) {
-                    $model = $this->mappings[$category];
+                if (array_key_exists($category, $mappings)) {
+                    $model = $mappings[$category];
 
                     // Check that the model actually exists
                     // before trying to instantiate it.
@@ -1064,6 +1054,26 @@ class Builder
         $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
 
         return $this;
+    }
+
+    /**
+     * Returns the object category model class mappings.
+     *
+     * @return array
+     */
+    protected function map()
+    {
+        $schema = Schema::get();
+
+        return [
+            $schema->objectCategoryComputer()           => 'Adldap\Models\Computer',
+            $schema->objectCategoryPerson()             => 'Adldap\Models\User',
+            $schema->objectCategoryGroup()              => 'Adldap\Models\Group',
+            $schema->objectCategoryExchangeServer()     => 'Adldap\Models\ExchangeServer',
+            $schema->objectCategoryContainer()          => 'Adldap\Models\Container',
+            $schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
+            $schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
+        ];
     }
 
     /**

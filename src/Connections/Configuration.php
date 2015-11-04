@@ -123,12 +123,7 @@ class Configuration
             );
         }
 
-        foreach ($options as $key => $value) {
-            $method = 'set'.$this->normalizeKey($key);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
+        $this->fill($options);
     }
 
     /**
@@ -415,6 +410,22 @@ class Configuration
     public function getAdminPassword()
     {
         return $this->adminPassword;
+    }
+
+    /**
+     * Fills each configuration option with the supplied array.
+     *
+     * @param array $options
+     */
+    protected function fill(array $options = [])
+    {
+        foreach ($options as $key => $value) {
+            $method = 'set' . $this->normalizeKey($key);
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
     }
 
     /**

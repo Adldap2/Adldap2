@@ -2,7 +2,7 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 trait HasDescriptionTrait
 {
@@ -15,7 +15,7 @@ trait HasDescriptionTrait
      */
     public function getDescription()
     {
-        return $this->getAttribute(ActiveDirectory::DESCRIPTION, 0);
+        return $this->getAttribute(Schema::get()->description(), 0);
     }
 
     /**
@@ -27,6 +27,6 @@ trait HasDescriptionTrait
      */
     public function setDescription($description)
     {
-        return $this->setAttribute(ActiveDirectory::DESCRIPTION, $description, 0);
+        return $this->setAttribute(Schema::get()->description(), $description, 0);
     }
 }

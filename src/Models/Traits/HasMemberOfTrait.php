@@ -4,7 +4,7 @@ namespace Adldap\Models\Traits;
 
 use Adldap\Models\AbstractModel;
 use Adldap\Models\Group;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 
 trait HasMemberOfTrait
@@ -90,7 +90,7 @@ trait HasMemberOfTrait
     {
         $groups = [];
 
-        $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
+        $dns = $this->getAttribute(Schema::get()->memberOf());
 
         if (is_array($dns)) {
             foreach ($dns as $key => $dn) {
@@ -114,7 +114,7 @@ trait HasMemberOfTrait
     {
         $names = [];
 
-        $dns = $this->getAttribute(ActiveDirectory::MEMBER_OF);
+        $dns = $this->getAttribute(Schema::get()->memberOf());
 
         if (is_array($dns)) {
             foreach ($dns as $dn) {

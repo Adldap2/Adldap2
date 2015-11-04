@@ -2,7 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\Schema;
 
 class Printer extends Entry

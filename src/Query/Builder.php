@@ -1142,11 +1142,11 @@ class Builder
      */
     private function processPaginatedResults($pages, $perPage = 50, $currentPage = 0)
     {
-        // Make sure we have at least one page of results
+        // Make sure we have at least one page of results.
         if (count($pages) > 0) {
             $objects = [];
 
-            // Go through each page and process the results into an objects array
+            // Go through each page and process the results into an objects array.
             foreach ($pages as $results) {
                 $processed = $this->processResults($results);
 
@@ -1155,7 +1155,7 @@ class Builder
 
             $objects = $this->processSort($objects);
 
-            // Return a new Paginator instance
+            // Return a new Paginator instance.
             return new Paginator($objects, $perPage, $currentPage, count($pages));
         }
 

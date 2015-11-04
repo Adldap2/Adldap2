@@ -52,8 +52,9 @@ class Adldap implements AdldapContract
         // Set the configuration.
         $this->setConfiguration($configuration);
 
-        // Create a new LDAP Connection instance if one isn't set.
         if (!$connection instanceof ConnectionInterface) {
+            // Create a new LDAP Connection instance if
+            // one hasn't been instantiated yet.
             $connection = new Connections\Ldap();
         }
 

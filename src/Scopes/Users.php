@@ -6,6 +6,7 @@ use Adldap\Exceptions\AdldapException;
 use Adldap\Models\Entry;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Users extends AbstractScope implements QueryableInterface, CreateableInterface
 {
@@ -55,12 +56,12 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
      */
     public function search()
     {
-        $personCategory = $this->getManager()->getConfiguration()->getPersonFilter('category');
-        $person = $this->getManager()->getConfiguration()->getPersonFilter('person');
+        $schema = Schema::get();
 
-        return $this->getManager()
+        return $this
+            ->getManager()
             ->search()
-            ->whereEquals($personCategory, $person);
+            ->whereEquals($schema->objectCategory(), $schema->person());
     }
 
     /**
@@ -124,8 +125,10 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
                 $status['has_expired'] = true;
             }
 
-            $result = $this->getManager()->search()
-                ->where(ActiveDirectory::OBJECT_CLASS, '*')
+            $result = $this
+                ->getManager()
+                ->search()
+                ->where(Schema::get()->objectClass(), '*')
                 ->first();
 
             if ($result instanceof Entry && $status['expires'] === true) {

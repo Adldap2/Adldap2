@@ -5,7 +5,7 @@ namespace Adldap\Connections;
 use Adldap\Exceptions\ConfigurationException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Traversable;
 
 class Configuration
@@ -26,23 +26,6 @@ class Configuration
      * @var bool
      */
     protected $followReferrals = false;
-
-    /**
-     * The user ID key to use for performing searches upon.
-     *
-     * @var string
-     */
-    protected $userIdKey = ActiveDirectory::ACCOUNT_NAME;
-
-    /**
-     * The attribute (index 0) and value (index 1) used to identify a person in the AD schema.
-     *
-     * @var array
-     */
-    protected $personFilter = [
-        'category' => ActiveDirectory::OBJECT_CATEGORY,
-        'person'   => ActiveDirectory::PERSON,
-    ];
 
     /**
      * The LDAP port to use when connecting to
@@ -173,16 +156,6 @@ class Configuration
     }
 
     /**
-     * Returns the user ID key option.
-     *
-     * @return string
-     */
-    public function getUserIdKey()
-    {
-        return $this->userIdKey;
-    }
-
-    /**
      * Sets the person search filter.
      *
      * @param array $personFilter
@@ -190,28 +163,6 @@ class Configuration
     public function setPersonFilter(array $personFilter)
     {
         $this->personFilter = $personFilter;
-    }
-
-    /**
-     * Get the person search filter.
-     * An optional parameter may be used to specify the desired part.
-     * Without a parameter, returns an imploded string of the form "category=person".
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function getPersonFilter($key = null)
-    {
-        if ($key == 'category') {
-            return $this->personFilter['category'];
-        }
-
-        if ($key == 'person') {
-            return $this->personFilter['person'];
-        }
-
-        return implode('=', $this->personFilter);
     }
 
     /**

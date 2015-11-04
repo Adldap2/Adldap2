@@ -2,7 +2,7 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 
 class DistinguishedName
@@ -215,7 +215,7 @@ class DistinguishedName
      */
     public function assembleCns()
     {
-        return $this->assembleRdns(ActiveDirectory::COMMON_NAME, $this->commonNames);
+        return $this->assembleRdns(Schema::get()->commonName(), $this->commonNames);
     }
 
     /**
@@ -225,7 +225,7 @@ class DistinguishedName
      */
     public function assembleOus()
     {
-        return $this->assembleRdns(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, $this->organizationUnits);
+        return $this->assembleRdns(Schema::get()->organizationalUnit(), $this->organizationUnits);
     }
 
     /**
@@ -235,7 +235,7 @@ class DistinguishedName
      */
     public function assembleDcs()
     {
-        return $this->assembleRdns(ActiveDirectory::DOMAIN_COMPONENT, $this->domainComponents);
+        return $this->assembleRdns(Schema::get()->domainComponent(), $this->domainComponents);
     }
 
     /**

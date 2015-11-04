@@ -3,7 +3,7 @@
 namespace Adldap\Scopes;
 
 use Adldap\Models\Computer;
-use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Computers extends AbstractScope implements QueryableInterface, CreateableInterface
 {
@@ -30,7 +30,7 @@ class Computers extends AbstractScope implements QueryableInterface, CreateableI
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = null, $sortDirection = 'asc')
     {
         $search = $this->search()->select($fields);
 
@@ -48,9 +48,11 @@ class Computers extends AbstractScope implements QueryableInterface, CreateableI
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::COMPUTER);
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryComputer());
     }
 
     /**
@@ -62,13 +64,15 @@ class Computers extends AbstractScope implements QueryableInterface, CreateableI
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new Computer($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
-                ActiveDirectory::TOP,
-                ActiveDirectory::PERSON,
-                ActiveDirectory::ORGANIZATIONAL_PERSON,
-                ActiveDirectory::USER,
-                ActiveDirectory::COMPUTER,
+            ->setAttribute($schema->objectClass(), [
+                $schema->top(),
+                $schema->person(),
+                $schema->organizationalPerson(),
+                $schema->user(),
+                $schema->computer(),
             ]);
     }
 

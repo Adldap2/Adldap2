@@ -73,12 +73,14 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new User($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
-                ActiveDirectory::TOP,
-                ActiveDirectory::PERSON,
-                ActiveDirectory::ORGANIZATIONAL_PERSON,
-                ActiveDirectory::USER,
+            ->setAttribute($schema->objectClass(), [
+                $schema->top(),
+                $schema->person(),
+                $schema->organizationalPerson(),
+                $schema->user(),
             ]);
     }
 

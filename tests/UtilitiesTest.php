@@ -125,4 +125,15 @@ class UtilitiesTest extends UnitTestCase
 
         $this->assertEquals($expected, bin2hex($encoded));
     }
+
+    public function testIsValidSid()
+    {
+        $sid1 = 'S-1-5-21-3623811015-3361044348-30300820-1013';
+        $sid2 = 'S-1-5-21-362381101-336104434-3030082-101';
+
+        $this->assertTrue(Utilities::isValidSid($sid1));
+        $this->assertTrue(Utilities::isValidSid($sid2));
+
+        $this->assertFalse(Utilities::isValidSid('Invalid SID'));
+    }
 }

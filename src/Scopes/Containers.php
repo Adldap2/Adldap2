@@ -29,7 +29,7 @@ class Containers extends AbstractScope implements QueryableInterface, Createable
      * @param string $sortBy
      * @param string $sortDirection
      *
-     * @return array|bool
+     * @return \Doctrine\Common\Collections\ArrayCollection|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::NAME, $sortDirection = 'asc')
     {

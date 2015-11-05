@@ -24,7 +24,7 @@ interface QueryableInterface
      * @param string    $sortBy
      * @param string    $sortDirection
      *
-     * @return array|bool
+     * @return \Doctrine\Common\Collections\ArrayCollection|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'desc');
 

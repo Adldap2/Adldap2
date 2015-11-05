@@ -36,7 +36,7 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
      *
      * @throws AdldapException
      *
-     * @return array|bool
+     * @return \Doctrine\Common\Collections\ArrayCollection|bool
      */
     public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'asc')
     {

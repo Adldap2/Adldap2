@@ -65,12 +65,14 @@ class Contacts extends AbstractScope implements QueryableInterface, CreateableIn
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new User($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
-                ActiveDirectory::TOP,
-                ActiveDirectory::PERSON,
-                ActiveDirectory::ORGANIZATIONAL_PERSON,
-                ActiveDirectory::CONTACT,
+            ->setAttribute($schema->objectClass(), [
+                $schema->top(),
+                $schema->person(),
+                $schema->organizationalPerson(),
+                $schema->contact(),
             ]);
     }
 

@@ -14,6 +14,7 @@ use Adldap\Scopes\Groups;
 use Adldap\Scopes\OrganizationalUnits;
 use Adldap\Scopes\Printers;
 use Adldap\Scopes\Users;
+use Adldap\Models\Factory as ModelFactory;
 use Adldap\Search\Factory as SearchFactory;
 
 class Manager implements ManagerInterface
@@ -130,65 +131,9 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function groups()
+    public function create()
     {
-        return new Groups($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function users()
-    {
-        return new Users($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function containers()
-    {
-        return new Containers($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function contacts()
-    {
-        return new Contacts($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function exchangeServers()
-    {
-        return new ExchangeServers($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function computers()
-    {
-        return new Computers($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function printers()
-    {
-        return new Printers($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function ous()
-    {
-        return new OrganizationalUnits($this);
+        return new ModelFactory($this->search()->getQueryBuilder());
     }
 
     /**

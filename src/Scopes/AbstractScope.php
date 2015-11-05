@@ -21,8 +21,6 @@ abstract class AbstractScope
     public function __construct(ManagerInterface $manager)
     {
         $this->manager = $manager;
-
-        $this->boot();
     }
 
     /**
@@ -33,15 +31,5 @@ abstract class AbstractScope
     public function getManager()
     {
         return $this->manager;
-    }
-
-    /**
-     * Overridable method that is called upon construct.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
     }
 }

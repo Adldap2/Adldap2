@@ -8,6 +8,7 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Schemas\Schema;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -144,6 +145,13 @@ class Builder
     protected $grammar;
 
     /**
+     * Stores the current schema instance.
+     *
+     * @var \Adldap\Schemas\SchemaInterface
+     */
+    protected $schema;
+
+    /**
      * Constructor.
      *
      * @param ConnectionInterface $connection
@@ -153,6 +161,7 @@ class Builder
     {
         $this->setConnection($connection);
         $this->setGrammar($grammar);
+        $this->setSchema(Schema::get());
     }
 
     /**
@@ -173,6 +182,16 @@ class Builder
     public function setGrammar(Grammar $grammar)
     {
         $this->grammar = $grammar;
+    }
+
+    /**
+     * Sets the current schema.
+     *
+     * @param SchemaInterface $schema
+     */
+    public function setSchema(SchemaInterface $schema)
+    {
+        $this->schema = $schema;
     }
 
     /**
@@ -368,7 +387,7 @@ class Builder
      */
     public function find($anr)
     {
-        return $this->whereEquals(Schema::get()->anr(), $anr)->first();
+        return $this->whereEquals($this->schema->anr(), $anr)->first();
     }
 
     /**
@@ -410,7 +429,7 @@ class Builder
             ->setDn($dn)
             ->read(true)
             ->select($fields)
-            ->whereHas(Schema::get()->objectClass())
+            ->whereHas($this->schema->objectClass())
             ->first();
     }
 
@@ -425,8 +444,9 @@ class Builder
     public function findBySid($sid, $fields = [])
     {
         return $this
+            ->newInstance()
             ->select($fields)
-            ->whereEquals(Schema::get()->objectSid(), $sid)
+            ->whereEquals($this->schema->objectSid(), $sid)
             ->first();
     }
 
@@ -448,7 +468,7 @@ class Builder
             ->setDn($dn)
             ->read(true)
             ->select($fields)
-            ->whereHas(Schema::get()->objectClass())
+            ->whereHas($this->schema->objectClass())
             ->firstOrFail();
     }
 
@@ -459,7 +479,7 @@ class Builder
      */
     public function findBaseDn()
     {
-        $schema = Schema::get();
+        $schema = $this->schema;
 
         $result = $this
             ->setDn(null)
@@ -890,7 +910,7 @@ class Builder
     {
         $selects = $this->selects;
 
-        $schema = Schema::get();
+        $schema = $this->schema;
 
         if (count($selects) > 0) {
             // Always make sure object category, class, and distinguished
@@ -1002,7 +1022,7 @@ class Builder
      */
     public function newLdapEntry(array $attributes = [])
     {
-        $attribute = Schema::get()->objectCategory();
+        $attribute = $this->schema->objectCategory();
 
         if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
             // We'll explode the DN so we can grab it's object category.
@@ -1084,7 +1104,7 @@ class Builder
      */
     protected function map()
     {
-        $schema = Schema::get();
+        $schema = $this->schema;
 
         return [
             $schema->objectCategoryComputer()           => 'Adldap\Models\Computer',

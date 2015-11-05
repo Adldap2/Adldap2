@@ -7,6 +7,7 @@ use Adldap\Connections\ConnectionInterface;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Schemas\Schema;
+use Adldap\Schemas\SchemaInterface;
 
 class Factory
 {
@@ -28,6 +29,13 @@ class Factory
     protected $query;
 
     /**
+     * Stores the current schema instance.
+     *
+     * @var \Adldap\Schemas\SchemaInterface
+     */
+    protected $schema;
+
+    /**
      * Constructor.
      *
      * @param ConnectionInterface $connection
@@ -38,6 +46,8 @@ class Factory
         $this->connection = $connection;
 
         $this->setQueryBuilder($this->newQueryBuilder($baseDn));
+
+        $this->setSchema(Schema::get());
     }
 
     /**
@@ -48,6 +58,16 @@ class Factory
     public function setQueryBuilder(Builder $query)
     {
         $this->query = $query;
+    }
+
+    /**
+     * Sets the schema property.
+     *
+     * @param SchemaInterface $schema
+     */
+    public function setSchema(SchemaInterface $schema)
+    {
+        $this->schema = $schema;
     }
 
     /**
@@ -99,6 +119,94 @@ class Factory
     public function all()
     {
         return $this->query->whereHas(Schema::get()->commonName())->get();
+    }
+
+    /**
+     * Returns a query builder limited to users.
+     *
+     * @return Builder
+     */
+    public function users()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->person());
+    }
+
+    /**
+     * Returns a query builder limited to printers.
+     *
+     * @return Builder
+     */
+    public function printers()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassPrinter());
+    }
+
+    /**
+     * Returns a query builder limited to organizational units.
+     *
+     * @return Builder
+     */
+    public function ous()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->organizationalUnit());
+    }
+
+    /**
+     * Returns a query builder limited to groups.
+     *
+     * @return Builder
+     */
+    public function groups()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryGroup());
+    }
+
+    /**
+     * Returns a query builder limited to exchange servers.
+     *
+     * @return Builder
+     */
+    public function exchangeServers()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangeServer());
+    }
+
+    /**
+     * Returns a query builder limited to exchange servers.
+     *
+     * @return Builder
+     */
+    public function containers()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryContainer());
+    }
+
+    /**
+     * Returns a query builder limited to exchange servers.
+     *
+     * @return Builder
+     */
+    public function contacts()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectClass(), $this->schema->contact());
+    }
+
+    /**
+     * Returns a query builder limited to exchange servers.
+     *
+     * @return Builder
+     */
+    public function computers()
+    {
+        return $this->query
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryComputer());
     }
 
     /**

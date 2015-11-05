@@ -118,63 +118,63 @@ class ManagerTest extends UnitTestCase
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Groups', $m->groups());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->groups());
     }
 
     public function testUsers()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Users', $m->users());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->users());
     }
 
     public function testContainers()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Containers', $m->containers());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->containers());
     }
 
     public function testContacts()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Contacts', $m->contacts());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function testExchangeServers()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\ExchangeServers', $m->exchangeServers());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->exchangeServers());
     }
 
     public function testComputers()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Computers', $m->computers());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->computers());
     }
 
     public function testOus()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Contacts', $m->contacts());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function test()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Contacts', $m->contacts());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function testPrinters()
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Scopes\Printers', $m->printers());
+        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->printers());
     }
 
     public function testSearch()

@@ -81,63 +81,14 @@ interface ManagerInterface
     public function getRootDse();
 
     /**
-     * Returns a new Groups instance.
+     * Returns a new Model factory instance.
      *
-     * @return \Adldap\Scopes\Groups
+     * @return \Adldap\Models\Factory
      */
-    public function groups();
+    public function create();
 
     /**
-     * Returns a new Users instance.
-     *
-     * @return \Adldap\Scopes\Users
-     */
-    public function users();
-
-    /**
-     * Returns a new Folders instance.
-     *
-     * @return \Adldap\Scopes\Containers
-     */
-    public function containers();
-
-    /**
-     * Returns a new Contacts instance.
-     *
-     * @return \Adldap\Scopes\Contacts
-     */
-    public function contacts();
-
-    /**
-     * Returns a new Exchange instance.
-     *
-     * @return \Adldap\Scopes\ExchangeServers
-     */
-    public function exchangeServers();
-
-    /**
-     * Returns a new Computers instance.
-     *
-     * @return \Adldap\Scopes\Computers
-     */
-    public function computers();
-
-    /**
-     * Returns a new Printers instance.
-     *
-     * @return \Adldap\Scopes\Printers
-     */
-    public function printers();
-
-    /**
-     * Returns a new OrganizationalUnits instance.
-     *
-     * @return \Adldap\Scopes\OrganizationalUnits
-     */
-    public function ous();
-
-    /**
-     * Returns a new Search instance.
+     * Returns a new Search factory instance.
      *
      * @return \Adldap\Search\Factory
      */

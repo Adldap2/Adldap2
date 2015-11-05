@@ -3,7 +3,6 @@
 namespace Adldap\Tests;
 
 use Adldap\Utilities;
-use Adldap\Tests\UnitTestCase;
 
 class UtilitiesTest extends UnitTestCase
 {
@@ -30,9 +29,11 @@ class UtilitiesTest extends UnitTestCase
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
+        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
+
         $escape = '<>!=,#$%^testing';
 
-        $result = $mockedUtilities->escapeManual($escape);
+        $result = $mockedUtilities->escape($escape);
 
         $expected = '\3c\3e\21\3d\2c\23\24\25\5e\74\65\73\74\69\6e\67';
 
@@ -45,11 +46,13 @@ class UtilitiesTest extends UnitTestCase
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
+        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
+
         $escape = '**<>!=,#$%^testing';
 
         $ignore = '*<>!';
 
-        $result = $mockedUtilities->escapeManual($escape, $ignore);
+        $result = $mockedUtilities->escape($escape, $ignore);
 
         $expected = '**<>!\3d\2c\23\24\25\5e\74\65\73\74\69\6e\67';
 
@@ -62,6 +65,8 @@ class UtilitiesTest extends UnitTestCase
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
+        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
+
         $escape = '**<>!=,#$%^testing';
 
         $ignore = '*';
@@ -69,7 +74,7 @@ class UtilitiesTest extends UnitTestCase
         // Flag integer 2 means we're escaping a value for a distinguished name.
         $flag = 2;
 
-        $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);
+        $result = $mockedUtilities->escape($escape, $ignore, $flag);
 
         $expected = '**\3c\3e!\3d\2c\23$%^testing';
 
@@ -82,13 +87,15 @@ class UtilitiesTest extends UnitTestCase
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
+        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
+
         $escape = '*^&.:foo()-=';
 
         $ignore = '*';
 
         $flag = 3;
 
-        $result = $mockedUtilities->escapeManual($escape, $ignore, $flag);
+        $result = $mockedUtilities->escape($escape, $ignore, $flag);
 
         $expected = '*^&.:foo\28\29-\3d';
 
@@ -103,7 +110,7 @@ class UtilitiesTest extends UnitTestCase
 
         $mockedUtilities->shouldAllowMockingProtectedMethods();
 
-        $escaped = $mockedUtilities->escapeManual($unescaped);
+        $escaped = $mockedUtilities->escape($unescaped);
 
         $this->assertEquals($unescaped, Utilities::unescape($escaped));
     }

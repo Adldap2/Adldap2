@@ -2,6 +2,7 @@
 
 namespace Adldap\Scopes;
 
+use Adldap\Schemas\Schema;
 use Adldap\Schemas\ActiveDirectory;
 
 class Printers extends AbstractScope implements QueryableInterface
@@ -47,8 +48,10 @@ class Printers extends AbstractScope implements QueryableInterface
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::OBJECT_CLASS_PRINTER);
+            ->whereEquals($schema->objectClass(), $schema->objectClassPrinter());
     }
 }

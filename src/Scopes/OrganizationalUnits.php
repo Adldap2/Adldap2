@@ -3,6 +3,7 @@
 namespace Adldap\Scopes;
 
 use Adldap\Models\OrganizationalUnit;
+use Adldap\Schemas\Schema;
 use Adldap\Schemas\ActiveDirectory;
 
 class OrganizationalUnits extends AbstractScope implements QueryableInterface, CreateableInterface
@@ -48,9 +49,11 @@ class OrganizationalUnits extends AbstractScope implements QueryableInterface, C
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
+            ->whereEquals($schema->objectCategory(), $schema->organizationalUnit());
     }
 
     /**
@@ -62,10 +65,12 @@ class OrganizationalUnits extends AbstractScope implements QueryableInterface, C
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new OrganizationalUnit($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
-                ActiveDirectory::TOP,
-                ActiveDirectory::ORGANIZATIONAL_UNIT_LONG,
+            ->setAttribute($schema->objectClass(), [
+                $schema->top(),
+                $schema->organizationalUnit(),
             ]);
     }
 

@@ -21,7 +21,7 @@ class Factory
     /**
      * Constructor.
      *
-     * @param Builder              $builder
+     * @param Builder $builder
      */
     public function __construct(Builder $builder)
     {

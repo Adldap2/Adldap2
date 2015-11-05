@@ -5,16 +5,8 @@ namespace Adldap\Connections;
 use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
 use Adldap\Exceptions\ConnectionException;
-use Adldap\Schemas\Schema;
-use Adldap\Scopes\Computers;
-use Adldap\Scopes\Contacts;
-use Adldap\Scopes\Containers;
-use Adldap\Scopes\ExchangeServers;
-use Adldap\Scopes\Groups;
-use Adldap\Scopes\OrganizationalUnits;
-use Adldap\Scopes\Printers;
-use Adldap\Scopes\Users;
 use Adldap\Models\Factory as ModelFactory;
+use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;
 
 class Manager implements ManagerInterface

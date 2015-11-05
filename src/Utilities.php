@@ -252,7 +252,7 @@ class Utilities
      *
      * @return bool
      */
-    public static function validateSid($sid)
+    public static function isValidSid($sid)
     {
         preg_match("/S-1-5-21-\d+-\d+\-\d+\-\d+/", $sid, $matches);
 

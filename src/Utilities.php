@@ -270,7 +270,7 @@ class Utilities
      *
      * @return array
      */
-    private static function ignoreStrToArray($ignore)
+    protected static function ignoreStrToArray($ignore)
     {
         $ignore = trim($ignore);
 

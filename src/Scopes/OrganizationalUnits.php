@@ -3,8 +3,8 @@
 namespace Adldap\Scopes;
 
 use Adldap\Models\OrganizationalUnit;
-use Adldap\Schemas\Schema;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class OrganizationalUnits extends AbstractScope implements QueryableInterface, CreateableInterface
 {

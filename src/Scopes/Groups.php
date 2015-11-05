@@ -7,7 +7,6 @@ use Adldap\Models\Group;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\Schema;
-use Adldap\Utilities;
 
 class Groups extends AbstractScope implements QueryableInterface, CreateableInterface
 {

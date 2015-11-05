@@ -6,6 +6,7 @@ use Adldap\Models\Entry;
 use Adldap\Models\Group;
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 
 class Groups extends AbstractScope implements QueryableInterface, CreateableInterface
@@ -51,9 +52,11 @@ class Groups extends AbstractScope implements QueryableInterface, CreateableInte
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_GROUP);
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryGroup());
     }
 
     /**
@@ -65,10 +68,12 @@ class Groups extends AbstractScope implements QueryableInterface, CreateableInte
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new Group($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, [
-                ActiveDirectory::TOP,
-                ActiveDirectory::OBJECT_CATEGORY_GROUP,
+            ->setAttribute($schema->objectClass(), [
+                $schema->top(),
+                $schema->objectCategoryGroup(),
             ]);
     }
 
@@ -101,11 +106,11 @@ class Groups extends AbstractScope implements QueryableInterface, CreateableInte
         $user = $this->getManager()->users()->find($user);
 
         if ($group instanceof Group && $user instanceof User) {
-            $sid = Utilities::binarySidToText($group->getSid());
-
-            $result = $this->getManager()->search()
-                    ->where(ActiveDirectory::OBJECT_SID, '=', $sid)
-                    ->first();
+            $result = $this
+                ->getManager()
+                ->search()
+                ->getQueryBuilder()
+                ->findBySid($group->getSid());
 
             if ($result instanceof Entry) {
                 return $result->getDn();

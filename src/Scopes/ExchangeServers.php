@@ -4,6 +4,7 @@ namespace Adldap\Scopes;
 
 use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class ExchangeServers extends AbstractScope implements QueryableInterface
 {
@@ -65,9 +66,11 @@ class ExchangeServers extends AbstractScope implements QueryableInterface
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_SERVER);
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangeServer());
     }
 
     /**
@@ -79,9 +82,11 @@ class ExchangeServers extends AbstractScope implements QueryableInterface
      */
     public function storageGroups($exchangeServer)
     {
+        $schema = Schema::get();
+
         return $this->getManager()->search()
             ->setDn($exchangeServer)
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP)
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangeStorageGroup())
             ->get();
     }
 
@@ -94,9 +99,11 @@ class ExchangeServers extends AbstractScope implements QueryableInterface
      */
     public function storageDatabases($storageGroup)
     {
+        $schema = Schema::get();
+
         return $this->getManager()->search()
             ->setDn($storageGroup)
-            ->where(ActiveDirectory::OBJECT_CATEGORY, '=', ActiveDirectory::OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB)
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangePrivateMdb())
             ->get();
     }
 
@@ -110,7 +117,7 @@ class ExchangeServers extends AbstractScope implements QueryableInterface
         $result = $this->getManager()->getRootDse();
 
         if ($result instanceof Entry) {
-            return $result->getAttribute(ActiveDirectory::CONFIGURATION_NAMING_CONTEXT, 0);
+            return $result->getAttribute(Schema::get()->configurationNamingContext(), 0);
         }
 
         return false;

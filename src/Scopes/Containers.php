@@ -4,6 +4,7 @@ namespace Adldap\Scopes;
 
 use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Containers extends AbstractScope implements QueryableInterface, CreateableInterface
 {
@@ -48,9 +49,11 @@ class Containers extends AbstractScope implements QueryableInterface, Createable
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CATEGORY, ActiveDirectory::OBJECT_CATEGORY_CONTAINER);
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryContainer());
     }
 
     /**
@@ -62,8 +65,10 @@ class Containers extends AbstractScope implements QueryableInterface, Createable
      */
     public function newInstance(array $attributes = [])
     {
+        $schema = Schema::get();
+
         return (new Container($attributes, $this->search()))
-            ->setAttribute(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::ORGANIZATIONAL_UNIT_LONG);
+            ->setAttribute($schema->objectClass(), $schema->organizationalUnit());
     }
 
     /**

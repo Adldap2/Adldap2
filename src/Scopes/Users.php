@@ -22,7 +22,7 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
     {
         return $this->search()
             ->select($fields)
-            ->whereEquals(ActiveDirectory::ACCOUNT_NAME, $username)
+            ->whereEquals(Schema::get()->accountName(), $username)
             ->first();
     }
 

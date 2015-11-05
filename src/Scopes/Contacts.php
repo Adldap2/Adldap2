@@ -4,6 +4,7 @@ namespace Adldap\Scopes;
 
 use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\Schema;
 
 class Contacts extends AbstractScope implements QueryableInterface, CreateableInterface
 {
@@ -48,9 +49,11 @@ class Contacts extends AbstractScope implements QueryableInterface, CreateableIn
      */
     public function search()
     {
+        $schema = Schema::get();
+
         return $this->getManager()
             ->search()
-            ->whereEquals(ActiveDirectory::OBJECT_CLASS, ActiveDirectory::CONTACT);
+            ->whereEquals($schema->objectClass(), $schema->contact());
     }
 
     /**

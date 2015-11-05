@@ -3,6 +3,7 @@
 namespace Adldap\Scopes;
 
 use Adldap\Models\Computer;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\Schema;
 
 class Computers extends AbstractScope implements QueryableInterface, CreateableInterface
@@ -30,7 +31,7 @@ class Computers extends AbstractScope implements QueryableInterface, CreateableI
      *
      * @return array|bool
      */
-    public function all($fields = [], $sorted = true, $sortBy = null, $sortDirection = 'asc')
+    public function all($fields = [], $sorted = true, $sortBy = ActiveDirectory::COMMON_NAME, $sortDirection = 'asc')
     {
         $search = $this->search()->select($fields);
 

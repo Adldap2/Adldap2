@@ -15,11 +15,7 @@ use Adldap\Utilities;
 
 class User extends Entry
 {
-    use HasDescriptionTrait;
-
-    use HasMemberOfTrait;
-
-    use HasLastLogonAndLogOffTrait;
+    use HasDescriptionTrait, HasMemberOfTrait, HasLastLogonAndLogOffTrait;
 
     /**
      * Returns the users display name.

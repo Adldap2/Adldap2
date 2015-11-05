@@ -5,7 +5,6 @@ namespace Adldap\Connections;
 use Adldap\Exceptions\ConfigurationException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Schemas\Schema;
 use Traversable;
 
 class Configuration

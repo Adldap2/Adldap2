@@ -474,7 +474,7 @@ interface ConnectionInterface
      *
      * @param string $message
      *
-     * @return string
+     * @return string|bool
      */
     public function extractDiagnosticCode($message);
 }

@@ -114,11 +114,11 @@ class CustomConnection extends Adldap\Connections\Ldap
 Then in some other file:
 
 ```php
-// Inserting in the second parameter
+// Inserting the connection in the second parameter
 $ad = new Adldap($config, new CustomConnection());
 
-// Or setting auto-connect to false and setting the connection later
-$ad = new Adldap($config, null);
+// Or setting it later
+$ad = new Adldap($config);
 
 $ad->setConnection(new CustomConnection());
 

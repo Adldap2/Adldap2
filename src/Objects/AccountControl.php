@@ -90,7 +90,7 @@ class AccountControl
      */
     public function runLoginScript()
     {
-        $this->applyValue(self::SCRIPT);
+        $this->applyValue(static::SCRIPT);
 
         return $this;
     }
@@ -102,7 +102,7 @@ class AccountControl
      */
     public function accountIsLocked()
     {
-        $this->applyValue(self::LOCKOUT);
+        $this->applyValue(static::LOCKOUT);
 
         return $this;
     }
@@ -114,7 +114,7 @@ class AccountControl
      */
     public function accountIsDisabled()
     {
-        $this->applyValue(self::ACCOUNTDISABLE);
+        $this->applyValue(static::ACCOUNTDISABLE);
 
         return $this;
     }
@@ -129,7 +129,7 @@ class AccountControl
      */
     public function accountIsTemporary()
     {
-        $this->applyValue(self::TEMP_DUPLICATE_ACCOUNT);
+        $this->applyValue(static::TEMP_DUPLICATE_ACCOUNT);
 
         return $this;
     }
@@ -141,7 +141,7 @@ class AccountControl
      */
     public function accountIsNormal()
     {
-        $this->applyValue(self::NORMAL_ACCOUNT);
+        $this->applyValue(static::NORMAL_ACCOUNT);
 
         return $this;
     }
@@ -153,7 +153,7 @@ class AccountControl
      */
     public function accountIsForInterdomain()
     {
-        $this->applyValue(self::INTERDOMAIN_TRUST_ACCOUNT);
+        $this->applyValue(static::INTERDOMAIN_TRUST_ACCOUNT);
 
         return $this;
     }
@@ -167,7 +167,7 @@ class AccountControl
      */
     public function accountIsForWorkstation()
     {
-        $this->applyValue(self::WORKSTATION_TRUST_ACCOUNT);
+        $this->applyValue(static::WORKSTATION_TRUST_ACCOUNT);
 
         return $this;
     }
@@ -179,7 +179,7 @@ class AccountControl
      */
     public function accountIsForServer()
     {
-        $this->applyValue(self::SERVER_TRUST_ACCOUNT);
+        $this->applyValue(static::SERVER_TRUST_ACCOUNT);
 
         return $this;
     }
@@ -191,7 +191,7 @@ class AccountControl
      */
     public function accountIsMnsLogon()
     {
-        $this->applyValue(self::MNS_LOGON_ACCOUNT);
+        $this->applyValue(static::MNS_LOGON_ACCOUNT);
 
         return $this;
     }
@@ -204,7 +204,7 @@ class AccountControl
      */
     public function accountDoesNotRequirePreAuth()
     {
-        $this->applyValue(self::DONT_REQ_PREAUTH);
+        $this->applyValue(static::DONT_REQ_PREAUTH);
 
         return $this;
     }
@@ -216,7 +216,7 @@ class AccountControl
      */
     public function accountRequiresSmartCard()
     {
-        $this->applyValue(self::SMARTCARD_REQUIRED);
+        $this->applyValue(static::SMARTCARD_REQUIRED);
 
         return $this;
     }
@@ -230,7 +230,7 @@ class AccountControl
      */
     public function accountIsReadOnly()
     {
-        $this->applyValue(self::PARTIAL_SECRETS_ACCOUNT);
+        $this->applyValue(static::PARTIAL_SECRETS_ACCOUNT);
 
         return $this;
     }
@@ -242,7 +242,7 @@ class AccountControl
      */
     public function homeFolderIsRequired()
     {
-        $this->applyValue(self::HOMEDIR_REQUIRED);
+        $this->applyValue(static::HOMEDIR_REQUIRED);
 
         return $this;
     }
@@ -254,7 +254,7 @@ class AccountControl
      */
     public function passwordIsNotRequired()
     {
-        $this->applyValue(self::PASSWD_NOTREQD);
+        $this->applyValue(static::PASSWD_NOTREQD);
 
         return $this;
     }
@@ -269,7 +269,7 @@ class AccountControl
      */
     public function passwordCannotBeChanged()
     {
-        $this->applyValue(self::PASSWD_NOTREQD);
+        $this->applyValue(static::PASSWD_NOTREQD);
 
         return $this;
     }
@@ -281,7 +281,7 @@ class AccountControl
      */
     public function passwordDoesNotExpire()
     {
-        $this->applyValue(self::DONT_EXPIRE_PASSWORD);
+        $this->applyValue(static::DONT_EXPIRE_PASSWORD);
 
         return $this;
     }
@@ -293,7 +293,7 @@ class AccountControl
      */
     public function passwordIsExpired()
     {
-        $this->applyValue(self::PASSWORD_EXPIRED);
+        $this->applyValue(static::PASSWORD_EXPIRED);
 
         return $this;
     }
@@ -305,7 +305,7 @@ class AccountControl
      */
     public function allowEncryptedTextPassword()
     {
-        $this->applyValue(self::ENCRYPTED_TEXT_PWD_ALLOWED);
+        $this->applyValue(static::ENCRYPTED_TEXT_PWD_ALLOWED);
 
         return $this;
     }
@@ -323,7 +323,7 @@ class AccountControl
      */
     public function trustForDelegation()
     {
-        $this->applyValue(self::TRUSTED_FOR_DELEGATION);
+        $this->applyValue(static::TRUSTED_FOR_DELEGATION);
 
         return $this;
     }
@@ -340,7 +340,7 @@ class AccountControl
      */
     public function trustToAuthForDelegation()
     {
-        $this->applyValue(self::TRUSTED_TO_AUTH_FOR_DELEGATION);
+        $this->applyValue(static::TRUSTED_TO_AUTH_FOR_DELEGATION);
 
         return $this;
     }
@@ -353,7 +353,7 @@ class AccountControl
      */
     public function doNotTrustForDelegation()
     {
-        $this->applyValue(self::NOT_DELEGATED);
+        $this->applyValue(static::NOT_DELEGATED);
 
         return $this;
     }
@@ -366,7 +366,7 @@ class AccountControl
      */
     public function useDesKeyOnly()
     {
-        $this->applyValue(self::USE_DES_KEY_ONLY);
+        $this->applyValue(static::USE_DES_KEY_ONLY);
 
         return $this;
     }

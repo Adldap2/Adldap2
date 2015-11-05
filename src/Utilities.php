@@ -39,8 +39,8 @@ class Utilities
      */
     public static function escape($value, $ignore = '', $flags = 0)
     {
-        if (!self::isEscapingSupported()) {
-            return self::escapeManual($value, $ignore, $flags);
+        if (!static::isEscapingSupported()) {
+            return static::escapeManual($value, $ignore, $flags);
         }
 
         return ldap_escape($value, $ignore, $flags);
@@ -61,11 +61,11 @@ class Utilities
         // to be escaped using the PHP flag values
         // and return the result.
         if ($flags) {
-            return self::escapeManualWithFlags($value, $ignore, $flags);
+            return static::escapeManualWithFlags($value, $ignore, $flags);
         }
 
         // Convert ignore string into an array.
-        $ignores = self::ignoreStrToArray($ignore);
+        $ignores = static::ignoreStrToArray($ignore);
 
         // Convert the value to a hex string.
         $hex = bin2hex($value);
@@ -105,7 +105,7 @@ class Utilities
     protected static function escapeManualWithFlags($value, $ignore = '', $flags = 0)
     {
         // Convert ignore string into an array
-        $ignores = self::ignoreStrToArray($ignore);
+        $ignores = static::ignoreStrToArray($ignore);
 
         // The escape characters for search filters
         $escapeFilter = ['\\', '*', '(', ')'];
@@ -133,7 +133,7 @@ class Utilities
         foreach ($escapes as $escape) {
             // Make sure the escaped value isn't being ignored.
             if (!in_array($escape, $ignores)) {
-                $hexed = self::escape($escape);
+                $hexed = static::escape($escape);
 
                 $value = str_replace($escape, $hexed, $value);
             }
@@ -181,7 +181,7 @@ class Utilities
         $subauth = [];
 
         for ($x = 0;$x < $subcount; $x++) {
-            $subauth[$x] = hexdec(self::littleEndian(substr($hex_sid, 16 + ($x * 8), 8)));
+            $subauth[$x] = hexdec(static::littleEndian(substr($hex_sid, 16 + ($x * 8), 8)));
 
             $result .= '-'.$subauth[$x];
         }

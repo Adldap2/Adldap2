@@ -18,11 +18,11 @@ class Schema
      */
     public static function get()
     {
-        if (!self::$current instanceof SchemaInterface) {
-            self::set(self::getDefault());
+        if (!static::$current instanceof SchemaInterface) {
+            static::set(static::getDefault());
         }
 
-        return self::$current;
+        return static::$current;
     }
 
     /**
@@ -32,7 +32,7 @@ class Schema
      */
     public static function set(SchemaInterface $schema)
     {
-        self::$current = $schema;
+        static::$current = $schema;
     }
 
     /**

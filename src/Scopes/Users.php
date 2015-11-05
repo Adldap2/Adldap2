@@ -130,7 +130,7 @@ class Users extends AbstractScope implements QueryableInterface, CreateableInter
             $result = $this
                 ->getManager()
                 ->search()
-                ->where(Schema::get()->objectClass(), '*')
+                ->whereHas(Schema::get()->objectClass())
                 ->first();
 
             if ($result instanceof Entry && $status['expires'] === true) {

@@ -785,4 +785,56 @@ class User extends Entry
 
         return $result;
     }
+
+    /**
+     * Determine a user's password expiry date.
+     *
+     * @return array|string
+     */
+    public function passwordExpiry()
+    {
+        $passwordLastSet = $this->getPasswordLastSet();
+
+        $status = [
+            'expires'     => true,
+            'has_expired' => false,
+        ];
+
+        // Check if the password expires
+        if ($this->getUserAccountControl() == '66048') {
+            $status['expires'] = false;
+        }
+
+        // Check if the password is expired
+        if ($passwordLastSet === '0') {
+            $status['has_expired'] = true;
+        }
+
+        $result = $this
+            ->query
+            ->newInstance()
+            ->whereHas(Schema::get()->objectClass())
+            ->first();
+
+        if ($result instanceof Entry && $status['expires'] === true) {
+            $maxPwdAge = $result->getMaxPasswordAge();
+
+            // See MSDN: http://msdn.microsoft.com/en-us/library/ms974598.aspx
+            if (bcmod($maxPwdAge, 4294967296) === '0') {
+                return 'Domain does not expire passwords';
+            }
+
+            // Add maxpwdage and pwdlastset and we get password expiration time in Microsoft's
+            // time units.  Because maxpwd age is negative we need to subtract it.
+            $pwdExpire = bcsub($passwordLastSet, $maxPwdAge);
+
+            // Convert MS's time to Unix time
+            $unixTime = bcsub(bcdiv($pwdExpire, '10000000'), '11644473600');
+
+            $status['expiry_timestamp'] = $unixTime;
+            $status['expiry_formatted'] = date('Y-m-d H:i:s', $unixTime);
+        }
+
+        return $status;
+    }
 }

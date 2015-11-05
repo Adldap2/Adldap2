@@ -254,7 +254,7 @@ class Utilities
      */
     public static function validateSid($sid)
     {
-        preg_match("/^S-1-[0-5]-\d{2}-\d{10}-\d{10}-\d{9}-[1-9]\d{3}/", $sid, $matches);
+        preg_match("/S-1-5-21-\d+-\d+\-\d+\-\d+/", $sid, $matches);
 
         if (count($matches) > 0) {
             return true;

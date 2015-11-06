@@ -35,7 +35,7 @@ class Utilities
      * @param string $ignore
      * @param $flags
      *
-     * @return string|bool
+     * @return string
      */
     public static function escape($value, $ignore = '', $flags = 0)
     {
@@ -53,7 +53,7 @@ class Utilities
      * @param string $ignore
      * @param int    $flags
      *
-     * @return string|bool
+     * @return string
      */
     protected static function escapeManual($value, $ignore = '', $flags = 0)
     {
@@ -100,7 +100,7 @@ class Utilities
      * @param string $ignore
      * @param int    $flags
      *
-     * @return string|bool
+     * @return string
      */
     protected static function escapeManualWithFlags($value, $ignore = '', $flags = 0)
     {
@@ -127,7 +127,8 @@ class Utilities
                 $escapes = array_unique(array_merge($escapeDn, $escapeFilter));
                 break;
             default:
-                return false;
+                // We've been given an invalid flag, we'll escape everything to be safe.
+                return static::escapeManual($value, $ignore);
         }
 
         foreach ($escapes as $escape) {

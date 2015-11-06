@@ -169,12 +169,12 @@ class Factory
     /**
      * Returns a query builder limited to exchange servers.
      *
-     * @return Builder
+     * @return Builder|bool
      */
     public function exchangeServers()
     {
         $namingContext = $this->getConfigurationNamingContext();
-
+        
         if (is_string($namingContext)) {
             return $this->query
                 ->setDn($namingContext)

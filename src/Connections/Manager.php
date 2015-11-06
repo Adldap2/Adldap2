@@ -51,18 +51,6 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getRootDse()
-    {
-        return $this->search()
-            ->setDn(null)
-            ->read(true)
-            ->whereHas(Schema::get()->objectClass())
-            ->first();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getConnection()
     {
         return $this->connection;

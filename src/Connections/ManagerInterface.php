@@ -74,13 +74,6 @@ interface ManagerInterface
     public function setGuard(GuardInterface $guard);
 
     /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @return array|bool
-     */
-    public function getRootDse();
-
-    /**
      * Returns a new Model factory instance.
      *
      * @return \Adldap\Models\Factory

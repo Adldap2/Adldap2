@@ -4,6 +4,7 @@ namespace Adldap\Search;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Models\AbstractModel;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Schemas\Schema;
@@ -118,7 +119,7 @@ class Factory
      */
     public function all()
     {
-        return $this->query->whereHas(Schema::get()->commonName())->get();
+        return $this->query->whereHas($this->schema->commonName())->get();
     }
 
     /**
@@ -172,8 +173,16 @@ class Factory
      */
     public function exchangeServers()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangeServer());
+        $namingContext = $this->getConfigurationNamingContext();
+
+        if (is_string($namingContext)) {
+            return $this->query
+                ->setDn($namingContext)
+                ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangeServer());
+        }
+
+        return false;
+
     }
 
     /**
@@ -207,6 +216,36 @@ class Factory
     {
         return $this->query
             ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryComputer());
+    }
+
+    /**
+     * Returns the current configuration naming context of the current domain.
+     *
+     * @return bool|string
+     */
+    protected function getConfigurationNamingContext()
+    {
+        $result = $this->getRootDse();
+
+        if ($result instanceof AbstractModel) {
+            return $result->getAttribute($this->schema->configurationNamingContext(), 0);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the RootDSE properties from a domain controller.
+     *
+     * @return AbstractModel|bool
+     */
+    protected function getRootDse()
+    {
+        return $this->query
+            ->setDn(null)
+            ->read(true)
+            ->whereHas($this->schema->objectClass())
+            ->first();
     }
 
     /**

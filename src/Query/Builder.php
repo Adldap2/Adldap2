@@ -2,81 +2,22 @@
 
 namespace Adldap\Query;
 
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Exceptions\InvalidQueryOperatorException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Models\Entry;
-use Adldap\Objects\Paginator;
-use Adldap\Schemas\Schema;
+use Adldap\Query\Bindings\Where;
+use Adldap\Query\Bindings\OrWhere;
+use Adldap\Query\Bindings\Select;
+use Adldap\Query\Bindings\Filter;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\SchemaInterface;
+use Adldap\Schemas\Schema;
+use Adldap\Objects\Paginator;
+use Adldap\Models\Entry;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
-use InvalidArgumentException;
 
 class Builder
 {
-    /**
-     * The field key for a where statement.
-     *
-     * @var string
-     */
-    public static $whereFieldKey = 'field';
-
-    /**
-     * The operator key for a where statement.
-     *
-     * @var string
-     */
-    public static $whereOperatorKey = 'operator';
-
-    /**
-     * The value key for a where statement.
-     *
-     * @var string
-     */
-    public static $whereValueKey = 'value';
-
-    /**
-     * The available binding types.
-     *
-     * @var array
-     */
-    public $bindings = [
-        'where'     => 'wheres',
-        'orWhere'   => 'orWheres',
-    ];
-
-    /**
-     * Stores the column selects to use in the query when assembled.
-     *
-     * @var array
-     */
-    public $selects = [];
-
-    /**
-     * Stores the current where filters
-     * on the current query.
-     *
-     * @var array
-     */
-    public $wheres = [];
-
-    /**
-     * Stores the current or where filters
-     * on the current query.
-     *
-     * @var array
-     */
-    public $orWheres = [];
-
-    /**
-     * Stores the raw filters on the current query.
-     *
-     * @var array
-     */
-    public $filters = [];
-
     /**
      * Stores the bool to determine whether or
      * not the current query is paginated.
@@ -84,6 +25,34 @@ class Builder
      * @var bool
      */
     public $paginated = false;
+
+    /**
+     * The select query bindings.
+     *
+     * @var array
+     */
+    protected $selects = [];
+
+    /**
+     * The where query bindings.
+     *
+     * @var array
+     */
+    protected $wheres = [];
+
+    /**
+     * The orWhere query bindings.
+     *
+     * @var array
+     */
+    protected $orWheres = [];
+
+    /**
+     * The filter query bindings.
+     *
+     * @var array
+     */
+    protected $filters = [];
 
     /**
      * Stores the field to sort search results by.
@@ -516,10 +485,10 @@ class Builder
     {
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->selects[] = $field;
+                $this->select($field);
             }
         } elseif (is_string($fields)) {
-            $this->selects[] = $fields;
+            $this->selects[] = new Select($fields);
         }
 
         return $this;
@@ -534,7 +503,7 @@ class Builder
      */
     public function rawFilter($filter)
     {
-        $this->filters[] = $filter;
+        $this->filters[] = new Filter($filter);
 
         return $this;
     }
@@ -542,9 +511,9 @@ class Builder
     /**
      * Adds a where clause to the current query.
      *
-     * @param string      $field
-     * @param string|null $operator
-     * @param string|null $value
+     * @param string $field
+     * @param string $operator
+     * @param string $value
      *
      * @return Builder
      */
@@ -557,7 +526,7 @@ class Builder
                 $this->whereEquals($key, $value);
             }
         } else {
-            $this->addBinding($field, $operator, $value, __FUNCTION__);
+            $this->wheres[] = new Where($field, $operator, $value);
         }
 
         return $this;
@@ -738,7 +707,7 @@ class Builder
                 $this->orWhereEquals($key, $value);
             }
         } else {
-            $this->addBinding($field, $operator, $value, __FUNCTION__);
+            $this->orWheres[] = new OrWhere($field, $operator, $value);
         }
 
         return $this;
@@ -900,7 +869,7 @@ class Builder
      */
     public function hasSelects()
     {
-        if (count($this->selects) > 0) {
+        if (count($this->getSelects()) > 0) {
             return true;
         }
 
@@ -921,16 +890,26 @@ class Builder
         if (count($selects) > 0) {
             // Always make sure object category, class, and distinguished
             // name are included in the selected fields.
-            $selects[] = $schema->objectCategory();
-            $selects[] = $schema->objectClass();
-            $selects[] = $schema->distinguishedName();
+            $selects[] = new Select($schema->objectCategory());
+            $selects[] = new Select($schema->objectClass());
+            $selects[] = new Select($schema->distinguishedName());
         }
 
         return $selects;
     }
 
     /**
-     * Returns the wheres on the current search object.
+     * Returns the filters on the current builder.
+     *
+     * @return array
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Returns the wheres on the current builder.
      *
      * @return array
      */
@@ -940,7 +919,7 @@ class Builder
     }
 
     /**
-     * Returns the or wheres on the current search object.
+     * Returns the or wheres on the current builder.
      *
      * @return array
      */
@@ -1070,49 +1049,16 @@ class Builder
     }
 
     /**
-     * Adds a binding to the query.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param string $value
-     * @param string $type
-     *
-     * @throws InvalidArgumentException
-     * @throws InvalidQueryOperatorException
-     *
-     * @return Builder
-     */
-    public function addBinding($field, $operator, $value, $type = 'where')
-    {
-        if (!array_key_exists($type, $this->bindings)) {
-            throw new InvalidArgumentException("Invalid binding type: {$type}.");
-        }
-
-        // Validate and retrieve the operator.
-        $operator = $this->getOperator($operator);
-
-        // We'll escape the field to avoid allowing unsafe characters inside.
-        $field = Utilities::escape($field, null, 3);
-
-        // Completely escape the value.
-        $value = Utilities::escape($value);
-
-        // Add the binding.
-        $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
-
-        return $this;
-    }
-
-    /**
      * Clears all query bindings.
      *
      * @return Builder
      */
     public function clearBindings()
     {
-        foreach ($this->bindings as $binding) {
-            $this->{$binding} = [];
-        }
+        $this->selects  = [];
+        $this->wheres   = [];
+        $this->orWheres = [];
+        $this->filters  = [];
 
         return $this;
     }
@@ -1219,33 +1165,5 @@ class Builder
         $criteria = (new Criteria())->orderBy($sort);
 
         return $collection->matching($criteria)->toArray();
-    }
-
-    /**
-     * Retrieves an operator from the available operators.
-     *
-     * Throws an AdldapException if no operator is found.
-     *
-     * @param string $operator
-     *
-     * @throws InvalidQueryOperatorException
-     *
-     * @return string
-     */
-    private function getOperator($operator)
-    {
-        $operators = Operator::all();
-
-        $key = array_search(strtolower($operator), $operators);
-
-        if ($key !== false && array_key_exists($key, $operators)) {
-            return $operators[$key];
-        }
-
-        $operators = implode(', ', $operators);
-
-        $message = "Operator: $operator cannot be used in an LDAP query. Available operators are: $operators";
-
-        throw new InvalidQueryOperatorException($message);
     }
 }

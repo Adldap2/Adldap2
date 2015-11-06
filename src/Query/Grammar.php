@@ -2,6 +2,8 @@
 
 namespace Adldap\Query;
 
+use Adldap\Query\Bindings\Where;
+
 class Grammar
 {
     /**
@@ -27,16 +29,16 @@ class Grammar
      */
     public function compileQuery(Builder $builder)
     {
-        $query = implode(null, $builder->filters);
+        $query = implode(null, $builder->getFilters());
 
         $query = $this->compileWheres($builder, $query);
 
         $query = $this->compileOrWheres($builder, $query);
 
         // Count the total amount of filters.
-        $total = count($builder->wheres)
-            + count($builder->orWheres)
-            + count($builder->filters);
+        $total = count($builder->getWheres())
+            + count($builder->getOrWheres())
+            + count($builder->getFilters());
 
         // Make sure we wrap the query in an 'and'
         // if using multiple filters.
@@ -278,7 +280,7 @@ class Grammar
      */
     protected function compileWheres(Builder $builder, $query = '')
     {
-        foreach ($builder->wheres as $where) {
+        foreach ($builder->getWheres() as $where) {
             $query .= $this->compileWhere($where);
         }
 
@@ -297,13 +299,13 @@ class Grammar
     {
         $ors = '';
 
-        foreach ($builder->orWheres as $where) {
+        foreach ($builder->getOrWheres() as $where) {
             $ors .= $this->compileWhere($where);
         }
 
         // Make sure we wrap the query in an 'and' if using
         // multiple wheres. For example (&QUERY).
-        if (count($builder->orWheres) > 0) {
+        if (count($builder->getOrWheres()) > 0) {
             $query .= $this->compileOr($ors);
         }
 
@@ -314,32 +316,29 @@ class Grammar
      * Assembles a single where query based
      * on its operator and returns it.
      *
-     * @param array $where
+     * @param Where $where
      *
      * @return string|null
      */
-    protected function compileWhere(array $where = [])
+    protected function compileWhere(Where $where)
     {
         // The compile function prefix.
         $prefix = 'compile';
 
-        // Make sure the operator key exists inside the where clause.
-        if (array_key_exists(Builder::$whereOperatorKey, $where)) {
-            // Get the operator from the where.
-            $operator = $where[Builder::$whereOperatorKey];
+        // Get the operator from the where.
+        $operator = $where->getOperator();
 
-            // Get the name of the operator.
-            $name = array_search($operator, Operator::all());
+        // Get the name of the operator.
+        $name = array_search($operator, Operator::all());
 
-            if ($name !== false) {
-                // If the name was found we'll camel case it
-                // to run it through the compile method.
-                $method = $prefix.ucfirst($name);
+        if ($name !== false) {
+            // If the name was found we'll camel case it
+            // to run it through the compile method.
+            $method = $prefix.ucfirst($name);
 
-                // Make sure the compile method exists for the operator.
-                if (method_exists($this, $method)) {
-                    return $this->{$method}($where[Builder::$whereFieldKey], $where[Builder::$whereValueKey]);
-                }
+            // Make sure the compile method exists for the operator.
+            if (method_exists($this, $method)) {
+                return $this->{$method}($where->getField(), $where->getValue());
             }
         }
 

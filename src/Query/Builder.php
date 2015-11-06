@@ -469,6 +469,7 @@ class Builder
     public function findByDnOrFail($dn, $fields = [])
     {
         return $this
+            ->clearBindings()
             ->setDn($dn)
             ->read(true)
             ->select($fields)
@@ -486,6 +487,7 @@ class Builder
         $schema = $this->schema;
 
         $result = $this
+            ->clearBindings()
             ->setDn(null)
             ->read()
             ->raw()

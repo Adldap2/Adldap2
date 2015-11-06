@@ -1032,7 +1032,7 @@ class Builder
             }
         }
 
-        // A default entry object if the object category isn't found.
+        // A default entry model if the object category isn't found.
         return (new Entry([], $this))->setRawAttributes($attributes);
     }
 
@@ -1064,7 +1064,7 @@ class Builder
     }
 
     /**
-     * Returns the object category model class mappings.
+     * Returns the object category model class mapping.
      *
      * @return array
      */

@@ -92,15 +92,11 @@ class BuilderTest extends UnitTestCase
 
         $b->where('cn', '=', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getWheres()[0];
 
-        $this->assertEquals($wheres, $b->getWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('=', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testWhereWithArray()
@@ -112,20 +108,18 @@ class BuilderTest extends UnitTestCase
             'name'  => 'test',
         ]);
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-            [
-                'field'    => 'name',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $whereOne = $b->getWheres()[0];
 
-        $this->assertEquals($wheres, $b->getWheres());
+        $this->assertEquals('cn', $whereOne->getField());
+        $this->assertEquals('=', $whereOne->getOperator());
+        $this->assertEquals('\74\65\73\74', $whereOne->getValue());
+
+        $whereTwo = $b->getWheres()[1];
+
+        $this->assertEquals('name', $whereTwo->getField());
+        $this->assertEquals('=', $whereTwo->getOperator());
+        $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
+
     }
 
     public function testWhereContains()
@@ -134,15 +128,11 @@ class BuilderTest extends UnitTestCase
 
         $b->whereContains('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'contains',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getWheres()[0];
 
-        $this->assertEquals($wheres, $b->getWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('contains', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testWhereStartsWith()
@@ -151,15 +141,11 @@ class BuilderTest extends UnitTestCase
 
         $b->whereStartsWith('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'starts_with',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getWheres()[0];
 
-        $this->assertEquals($wheres, $b->getWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('starts_with', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testWhereEndsWith()
@@ -168,15 +154,11 @@ class BuilderTest extends UnitTestCase
 
         $b->whereEndsWith('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'ends_with',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getWheres()[0];
 
-        $this->assertEquals($wheres, $b->getWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('ends_with', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testOrWhere()
@@ -185,15 +167,11 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhere('cn', '=', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getOrWheres()[0];
 
-        $this->assertEquals($wheres, $b->getOrWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('=', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testOrWhereWithArray()
@@ -205,20 +183,17 @@ class BuilderTest extends UnitTestCase
             'name'  => 'test',
         ]);
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-            [
-                'field'    => 'name',
-                'operator' => '=',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $whereOne = $b->getOrWheres()[0];
 
-        $this->assertEquals($wheres, $b->getOrWheres());
+        $this->assertEquals('cn', $whereOne->getField());
+        $this->assertEquals('=', $whereOne->getOperator());
+        $this->assertEquals('\74\65\73\74', $whereOne->getValue());
+
+        $whereTwo = $b->getOrWheres()[1];
+
+        $this->assertEquals('name', $whereTwo->getField());
+        $this->assertEquals('=', $whereTwo->getOperator());
+        $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
     }
 
     public function testOrWhereContains()
@@ -227,15 +202,11 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereContains('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'contains',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getOrWheres()[0];
 
-        $this->assertEquals($wheres, $b->getOrWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('contains', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testOrWhereStartsWith()
@@ -244,15 +215,11 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereStartsWith('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'starts_with',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getOrWheres()[0];
 
-        $this->assertEquals($wheres, $b->getOrWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('starts_with', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testOrWhereEndsWith()
@@ -261,15 +228,11 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhereEndsWith('cn', 'test');
 
-        $wheres = [
-            [
-                'field'    => 'cn',
-                'operator' => 'ends_with',
-                'value'    => '\74\65\73\74',
-            ],
-        ];
+        $where = $b->getOrWheres()[0];
 
-        $this->assertEquals($wheres, $b->getOrWheres());
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('ends_with', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
     public function testWhereInvalidOperator()

@@ -609,35 +609,6 @@ class BuilderTest extends UnitTestCase
         }
     }
 
-    public function testAddBinding()
-    {
-        $b = $this->newBuilder();
-
-        $b->addBinding('cn', '=', 'test', 'where');
-        $b->addBinding('cn', '=', 'test', 'orWhere');
-
-        $this->assertEquals(1, count($b->wheres));
-        $this->assertEquals(1, count($b->orWheres));
-
-        $where = [
-            'field' => 'cn',
-            'operator' => '=',
-            'value' => '\74\65\73\74',
-        ];
-
-        $this->assertEquals($where, $b->wheres[0]);
-        $this->assertEquals($where, $b->orWheres[0]);
-    }
-
-    public function testAddBindingInvalidArgumentException()
-    {
-        $b = $this->newBuilder();
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $b->addBinding('cn', '=', 'test', 'invalid binding');
-    }
-
     public function testFieldIsEscaped()
     {
         $b = $this->newBuilder();

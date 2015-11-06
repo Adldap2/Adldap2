@@ -688,16 +688,9 @@ class User extends Entry
     {
         $sid = $this->getSid();
 
-        $groupSid = substr_replace($sid, $this->getPrimaryGroupId(), strlen($sid)-4,4);
+        $groupSid = substr_replace($sid, $this->getPrimaryGroupId(), strlen($sid)-4, 4);
 
-        $schema = Schema::get();
-
-        return $this
-            ->query
-            ->newInstance()
-            ->whereEquals($schema->objectCategory(), $schema->objectCategoryGroup())
-            ->whereEquals($schema->objectSid(), $groupSid)
-            ->first();
+        return $this->query->findBySid($groupSid);
     }
 
     /**

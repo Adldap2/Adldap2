@@ -6,7 +6,6 @@ use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
 use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
-use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;
 
 class Manager implements ManagerInterface

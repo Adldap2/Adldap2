@@ -74,23 +74,6 @@ class ExchangeServers extends AbstractScope implements QueryableInterface
     }
 
     /**
-     * Returns a list of Storage Groups in Exchange for a given mail server.
-     *
-     * @param string $exchangeServer The full DN of an Exchange server.  You can use exchange_servers() to find the DN for your server
-     *
-     * @return bool|array
-     */
-    public function storageGroups($exchangeServer)
-    {
-        $schema = Schema::get();
-
-        return $this->getManager()->search()
-            ->setDn($exchangeServer)
-            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangeStorageGroup())
-            ->get();
-    }
-
-    /**
      * Returns a list of Databases within any given storage group in Exchange for a given mail server.
      *
      * @param string $storageGroup The full DN of an Storage Group.  You can use exchange_storage_groups() to find the DN

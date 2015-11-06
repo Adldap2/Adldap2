@@ -658,14 +658,6 @@ class User extends Entry
     }
 
     /**
-     * Enables the current user.
-     *
-     * @throws AdldapException
-     *
-     * @return User
-     */
-
-    /**
      * Return the personal title.
      *
      * @return User
@@ -685,6 +677,27 @@ class User extends Entry
     public function setPersonalTitle($personalTitle)
     {
         return $this->setAttribute(Schema::get()->personalTitle(), $personalTitle, 0);
+    }
+
+    /**
+     * Retrieves the primary group of the current user.
+     *
+     * @return Entry|bool
+     */
+    public function getPrimaryGroup()
+    {
+        $sid = $this->getSid();
+
+        $groupSid = substr_replace($sid, $this->getPrimaryGroupId(), strlen($sid)-4,4);
+
+        $schema = Schema::get();
+
+        return $this
+            ->query
+            ->newInstance()
+            ->whereEquals($schema->objectCategory(), $schema->objectCategoryGroup())
+            ->whereEquals($schema->objectSid(), $groupSid)
+            ->first();
     }
 
     /**

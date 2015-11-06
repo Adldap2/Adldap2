@@ -387,7 +387,10 @@ class Builder
      */
     public function find($anr)
     {
-        return $this->whereEquals($this->schema->anr(), $anr)->first();
+        return $this
+            ->clearBindings()
+            ->whereEquals($this->schema->anr(), $anr)
+            ->first();
     }
 
     /**
@@ -426,6 +429,7 @@ class Builder
     public function findByDn($dn, $fields = [])
     {
         return $this
+            ->clearBindings()
             ->setDn($dn)
             ->read(true)
             ->select($fields)
@@ -444,7 +448,7 @@ class Builder
     public function findBySid($sid, $fields = [])
     {
         return $this
-            ->newInstance()
+            ->clearBindings()
             ->select($fields)
             ->whereEquals($this->schema->objectSid(), $sid)
             ->first();
@@ -1093,6 +1097,20 @@ class Builder
 
         // Add the binding.
         $this->{$this->bindings[$type]}[] = compact('field', 'operator', 'value');
+
+        return $this;
+    }
+
+    /**
+     * Clears all query bindings.
+     *
+     * @return Builder
+     */
+    public function clearBindings()
+    {
+        foreach ($this->bindings as $binding) {
+            $this->{$binding} = [];
+        }
 
         return $this;
     }

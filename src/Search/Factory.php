@@ -169,7 +169,7 @@ class Factory
     /**
      * Returns a query builder limited to exchange servers.
      *
-     * @return Builder|bool
+     * @return Builder
      */
     public function exchangeServers()
     {

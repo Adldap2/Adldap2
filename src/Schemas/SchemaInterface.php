@@ -165,6 +165,8 @@ interface SchemaInterface
      */
     public function employeeNumber();
 
+    public function employeeType();
+
     /**
      * @return string
      */
@@ -529,6 +531,8 @@ interface SchemaInterface
      * @return string
      */
     public function showInAddressBook();
+
+    public function street();
 
     /**
      * @return string

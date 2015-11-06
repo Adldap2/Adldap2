@@ -9,129 +9,12 @@ namespace Adldap\Schemas;
  */
 class ActiveDirectory implements SchemaInterface
 {
-    const ACCOUNT_EXPIRES = 'accountexpires';
-    const ACCOUNT_NAME = 'samaccountname';
-    const ACCOUNT_TYPE = 'samaccounttype';
-    const ADDRESS_HOME = 'homepostaladdress';
-    const ADMIN_DISPLAY_NAME = 'admindisplayname';
-    const ANR = 'anr';
-    const BAD_PASSWORD_COUNT = 'badpwdcount';
-    const BAD_PASSWORD_TIME = 'badpasswordtime';
-    const COMMON_NAME = 'cn';
-    const COMPANY = 'company';
-    const COMPUTER = 'computer';
-    const CONFIGURATION_NAMING_CONTEXT = 'configurationnamingcontext';
-    const CONTACT = 'contact';
-    const COUNTRY = 'c';
-    const CREATED_AT = 'whencreated';
-    const DEFAULT_NAMING_CONTEXT = 'defaultnamingcontext';
-    const DEPARTMENT = 'department';
-    const DESCRIPTION = 'description';
-    const DISPLAY_NAME = 'displayname';
-    const DISTINGUISHED_NAME = 'dn';
-    const DNS_HOST_NAME = 'dnshostname';
-    const DOMAIN_COMPONENT = 'dc';
-    const DRIVER_NAME = 'drivername';
-    const DRIVER_VERSION = 'driverversion';
-    const EMAIL = 'mail';
-    const EMAIL_NICKNAME = 'mailnickname';
-    const EMPLOYEE_ID = 'employeeid';
-    const EMPLOYEE_NUMBER = 'employeenumber';
-    const EMPLOYEE_TYPE = 'employeetype';
-    const FALSE = 'FALSE';
-    const FIRST_NAME = 'givenname';
-    const GROUP_TYPE = 'grouptype';
-    const HOME_MDB = 'homemdb';
-    const INFO = 'info';
-    const INITIALS = 'initials';
-    const INSTANCE_TYPE = 'instancetype';
-    const IS_CRITICAL_SYSTEM_OBJECT = 'iscriticalsystemobject';
-    const LAST_LOGOFF = 'lastlogoff';
-    const LAST_LOGON = 'lastlogon';
-    const LAST_LOGON_TIMESTAMP = 'lastlogontimestamp';
-    const LAST_NAME = 'sn';
-    const LEGACY_EXCHANGE_DN = 'legacyexchangedn';
-    const LOCALE = 'l';
-    const LOCATION = 'location';
-    const LOCKOUT_TIME = 'lockouttime';
-    const MANAGER = 'manager';
-    const MAX_PASSWORD_AGE = 'maxpwdage';
-    const MEMBER = 'member';
-    const MEMBER_OF = 'memberof';
-    const MESSAGE_TRACKING_ENABLED = 'messagetrackingenabled';
-    const MS_EXCHANGE_SERVER = 'ms-exch-exchange-server';
-    const NAME = 'name';
-    const OBJECT_CATEGORY = 'objectcategory';
-    const OBJECT_CATEGORY_COMPUTER = 'computer';
-    const OBJECT_CATEGORY_CONTAINER = 'container';
-    const OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB = 'msexchprivatemdb';
-    const OBJECT_CATEGORY_EXCHANGE_SERVER = 'msExchExchangeServer';
-    const OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP = 'msExchStorageGroup';
-    const OBJECT_CATEGORY_GROUP = 'group';
-    const OBJECT_CATEGORY_ORGANIZATIONAL_UNIT = 'organizational-unit';
-    const OBJECT_CATEGORY_PERSON = 'person';
-    const OBJECT_CATEGORY_PRINTER = 'print-queue';
-    const OBJECT_CLASS = 'objectclass';
-    const OBJECT_CLASS_PRINTER = 'printqueue';
-    const OBJECT_GUID = 'objectguid';
-    const OBJECT_SID = 'objectsid';
-    const OPERATING_SYSTEM = 'operatingsystem';
-    const OPERATING_SYSTEM_SERVICE_PACK = 'operatingsystemservicepack';
-    const OPERATING_SYSTEM_VERSION = 'operatingsystemversion';
-    const ORGANIZATIONAL_PERSON = 'organizationalperson';
-    const ORGANIZATIONAL_UNIT_LONG = 'organizationalunit';
-    const ORGANIZATIONAL_UNIT_SHORT = 'ou';
-    const OTHER_MAILBOX = 'othermailbox';
-    const PASSWORD_LAST_SET = 'pwdlastset';
-    const PERSON = 'person';
-    const PERSONAL_TITLE = 'personaltitle';
-    const PHYSICAL_DELIVERY_OFFICE_NAME = 'physicaldeliveryofficename';
-    const PORT_NAME = 'portname';
-    const POSTAL_CODE = 'postalcode';
-    const PRIMARY_GROUP_ID = 'primarygroupid';
-    const PRINTER_BIN_NAMES = 'printbinnames';
-    const PRINTER_COLOR_SUPPORTED = 'printcolor';
-    const PRINTER_DUPLEX_SUPPORTED = 'printduplexsupported';
-    const PRINTER_END_TIME = 'printendtime';
-    const PRINTER_MAX_RESOLUTION_SUPPORTED = 'printmaxresolutionsupported';
-    const PRINTER_MEDIA_SUPPORTED = 'printmediasupported';
-    const PRINTER_MEMORY = 'printmemory';
-    const PRINTER_NAME = 'printername';
-    const PRINTER_ORIENTATION_SUPPORTED = 'printorientationssupported';
-    const PRINTER_PRINT_RATE = 'printrate';
-    const PRINTER_PRINT_RATE_UNIT = 'printrateunit';
-    const PRINTER_SHARE_NAME = 'printsharename';
-    const PRINTER_STAPLING_SUPPORTED = 'printstaplingsupported';
-    const PRINTER_START_TIME = 'printstarttime';
-    const PRIORITY = 'priority';
-    const PROFILE_PATH = 'profilepath';
-    const PROXY_ADDRESSES = 'proxyaddresses';
-    const SCRIPT_PATH = 'scriptpath';
-    const SERIAL_NUMBER = 'serialnumber';
-    const SERVER_NAME = 'servername';
-    const SHOW_IN_ADDRESS_BOOK = 'showinaddressbook';
-    const STREET = 'street';
-    const STREET_ADDRESS = 'streetaddress';
-    const SYSTEM_FLAGS = 'systemflags';
-    const TELEPHONE = 'telephonenumber';
-    const THUMBNAIL = 'thumbnailphoto';
-    const TITLE = 'title';
-    const TOP = 'top';
-    const TRUE = 'TRUE';
-    const UNICODE_PASSWORD = 'unicodepwd';
-    const UPDATED_AT = 'whenchanged';
-    const URL = 'url';
-    const USER = 'user';
-    const USER_ACCOUNT_CONTROL = 'useraccountcontrol';
-    const USER_PRINCIPAL_NAME = 'userprincipalname';
-    const VERSION_NUMBER = 'versionnumber';
-
     /**
      * {@inheritdoc}
      */
     public function accountExpires()
     {
-        return static::ACCOUNT_EXPIRES;
+        return 'accountexpires';
     }
 
     /**
@@ -139,7 +22,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function accountName()
     {
-        return static::ACCOUNT_NAME;
+        return 'samaccountname';
     }
 
     /**
@@ -147,7 +30,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function accountType()
     {
-        return static::ACCOUNT_TYPE;
+        return 'samaccounttype';
     }
 
     /**
@@ -155,7 +38,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function adminDisplayName()
     {
-        return static::ADMIN_DISPLAY_NAME;
+        return 'admindisplayname';
     }
 
     /**
@@ -163,7 +46,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function anr()
     {
-        return static::ANR;
+        return 'anr';
     }
 
     /**
@@ -171,7 +54,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function badPasswordCount()
     {
-        return static::BAD_PASSWORD_COUNT;
+        return 'badpwdcount';
     }
 
     /**
@@ -179,7 +62,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function badPasswordTime()
     {
-        return static::BAD_PASSWORD_TIME;
+        return 'badpasswordtime';
     }
 
     /**
@@ -187,7 +70,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function commonName()
     {
-        return static::COMMON_NAME;
+        return 'cn';
     }
 
     /**
@@ -195,7 +78,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function company()
     {
-        return static::COMPANY;
+        return 'company';
     }
 
     /**
@@ -203,7 +86,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function computer()
     {
-        return static::COMPUTER;
+        return 'computer';
     }
 
     /**
@@ -211,7 +94,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function configurationNamingContext()
     {
-        return static::CONFIGURATION_NAMING_CONTEXT;
+        return 'configurationnamingcontext';
     }
 
     /**
@@ -219,7 +102,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function contact()
     {
-        return static::CONTACT;
+        return 'contact';
     }
 
     /**
@@ -227,7 +110,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function country()
     {
-        return static::COUNTRY;
+        return 'c';
     }
 
     /**
@@ -235,7 +118,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function createdAt()
     {
-        return static::CREATED_AT;
+        return 'whencreated';
     }
 
     /**
@@ -243,7 +126,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function defaultNamingContext()
     {
-        return static::DEFAULT_NAMING_CONTEXT;
+        return 'defaultnamingcontext';
     }
 
     /**
@@ -251,7 +134,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function department()
     {
-        return static::DEPARTMENT;
+        return 'department';
     }
 
     /**
@@ -259,7 +142,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function description()
     {
-        return static::DESCRIPTION;
+        return 'description';
     }
 
     /**
@@ -267,7 +150,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function displayName()
     {
-        return static::DISPLAY_NAME;
+        return 'displayname';
     }
 
     /**
@@ -275,7 +158,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function distinguishedName()
     {
-        return static::DISTINGUISHED_NAME;
+        return 'dn';
     }
 
     /**
@@ -283,7 +166,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function dnsHostName()
     {
-        return static::DNS_HOST_NAME;
+        return 'dnshostname';
     }
 
     /**
@@ -291,7 +174,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function domainComponent()
     {
-        return static::DOMAIN_COMPONENT;
+        return 'dc';
     }
 
     /**
@@ -299,7 +182,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function driverName()
     {
-        return static::DRIVER_NAME;
+        return 'drivername';
     }
 
     /**
@@ -307,7 +190,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function driverVersion()
     {
-        return static::DRIVER_VERSION;
+        return 'driverversion';
     }
 
     /**
@@ -315,7 +198,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function email()
     {
-        return static::EMAIL;
+        return 'mail';
     }
 
     /**
@@ -323,7 +206,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function emailNickname()
     {
-        return static::EMAIL_NICKNAME;
+        return 'mailnickname';
     }
 
     /**
@@ -331,7 +214,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function employeeId()
     {
-        return static::EMPLOYEE_ID;
+        return 'employeeid';
     }
 
     /**
@@ -339,7 +222,15 @@ class ActiveDirectory implements SchemaInterface
      */
     public function employeeNumber()
     {
-        return static::EMPLOYEE_NUMBER;
+        return 'employeenumber';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function employeeType()
+    {
+        return 'employeetype';
     }
 
     /**
@@ -347,7 +238,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function false()
     {
-        return static::FALSE;
+        return 'FALSE';
     }
 
     /**
@@ -355,7 +246,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function firstName()
     {
-        return static::FIRST_NAME;
+        return 'givenname';
     }
 
     /**
@@ -363,7 +254,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function groupType()
     {
-        return static::GROUP_TYPE;
+        return 'grouptype';
     }
 
     /**
@@ -371,7 +262,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function homeAddress()
     {
-        return static::ADDRESS_HOME;
+        return 'homepostaladdress';
     }
 
     /**
@@ -379,7 +270,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function homeMdb()
     {
-        return static::HOME_MDB;
+        return 'homemdb';
     }
 
     /**
@@ -387,7 +278,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function info()
     {
-        return static::INFO;
+        return 'info';
     }
 
     /**
@@ -395,7 +286,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function initials()
     {
-        return static::INITIALS;
+        return 'initials';
     }
 
     /**
@@ -403,7 +294,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function instanceType()
     {
-        return static::INSTANCE_TYPE;
+        return 'instancetype';
     }
 
     /**
@@ -411,7 +302,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function isCriticalSystemObject()
     {
-        return static::IS_CRITICAL_SYSTEM_OBJECT;
+        return 'iscriticalsystemobject';
     }
 
     /**
@@ -419,7 +310,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function lastLogOff()
     {
-        return static::LAST_LOGOFF;
+        return 'lastlogoff';
     }
 
     /**
@@ -427,7 +318,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function lastLogOn()
     {
-        return static::LAST_LOGON;
+        return 'lastlogon';
     }
 
     /**
@@ -435,7 +326,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function lastLogOnTimestamp()
     {
-        return static::LAST_LOGON_TIMESTAMP;
+        return 'lastlogontimestamp';
     }
 
     /**
@@ -443,7 +334,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function lastName()
     {
-        return static::LAST_NAME;
+        return 'sn';
     }
 
     /**
@@ -451,7 +342,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function legacyExchangeDn()
     {
-        return static::LEGACY_EXCHANGE_DN;
+        return 'legacyexchangedn';
     }
 
     /**
@@ -459,7 +350,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function locale()
     {
-        return static::LOCALE;
+        return 'l';
     }
 
     /**
@@ -467,7 +358,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function location()
     {
-        return static::LOCATION;
+        return 'location';
     }
 
     /**
@@ -475,7 +366,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function lockoutTime()
     {
-        return static::LOCKOUT_TIME;
+        return 'lockouttime';
     }
 
     /**
@@ -483,7 +374,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function manager()
     {
-        return static::MANAGER;
+        return 'manager';
     }
 
     /**
@@ -491,7 +382,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function maxPasswordAge()
     {
-        return static::MAX_PASSWORD_AGE;
+        return 'maxpwdage';
     }
 
     /**
@@ -499,7 +390,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function member()
     {
-        return static::MEMBER;
+        return 'member';
     }
 
     /**
@@ -507,7 +398,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function memberOf()
     {
-        return static::MEMBER_OF;
+        return 'memberof';
     }
 
     /**
@@ -515,7 +406,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function messageTrackingEnabled()
     {
-        return static::MESSAGE_TRACKING_ENABLED;
+        return 'messagetrackingenabled';
     }
 
     /**
@@ -523,7 +414,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function msExchangeServer()
     {
-        return static::MS_EXCHANGE_SERVER;
+        return 'ms-exch-exchange-server';
     }
 
     /**
@@ -531,7 +422,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function name()
     {
-        return static::NAME;
+        return 'name';
     }
 
     /**
@@ -539,7 +430,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategory()
     {
-        return static::OBJECT_CATEGORY;
+        return 'objectcategory';
     }
 
     /**
@@ -547,7 +438,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryComputer()
     {
-        return static::OBJECT_CATEGORY_COMPUTER;
+        return 'computer';
     }
 
     /**
@@ -555,7 +446,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryContainer()
     {
-        return static::OBJECT_CATEGORY_CONTAINER;
+        return 'container';
     }
 
     /**
@@ -563,7 +454,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryExchangePrivateMdb()
     {
-        return static::OBJECT_CATEGORY_EXCHANGE_PRIVATE_MDB;
+        return 'msexchprivatemdb';
     }
 
     /**
@@ -571,7 +462,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryExchangeServer()
     {
-        return static::OBJECT_CATEGORY_EXCHANGE_SERVER;
+        return 'msExchExchangeServer';
     }
 
     /**
@@ -579,7 +470,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryExchangeStorageGroup()
     {
-        return static::OBJECT_CATEGORY_EXCHANGE_STORAGE_GROUP;
+        return 'msExchStorageGroup';
     }
 
     /**
@@ -587,7 +478,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryGroup()
     {
-        return static::OBJECT_CATEGORY_GROUP;
+        return 'group';
     }
 
     /**
@@ -595,7 +486,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryOrganizationalUnit()
     {
-        return static::OBJECT_CATEGORY_ORGANIZATIONAL_UNIT;
+        return 'organizational-unit';
     }
 
     /**
@@ -603,7 +494,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryPerson()
     {
-        return static::OBJECT_CATEGORY_PERSON;
+        return 'person';
     }
 
     /**
@@ -611,7 +502,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectCategoryPrinter()
     {
-        return static::OBJECT_CATEGORY_PRINTER;
+        return 'print-queue';
     }
 
     /**
@@ -619,7 +510,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectClass()
     {
-        return static::OBJECT_CLASS;
+        return 'objectclass';
     }
 
     /**
@@ -627,7 +518,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectClassPrinter()
     {
-        return static::OBJECT_CLASS_PRINTER;
+        return 'printqueue';
     }
 
     /**
@@ -635,7 +526,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectGuid()
     {
-        return static::OBJECT_GUID;
+        return 'objectguid';
     }
 
     /**
@@ -643,7 +534,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function objectSid()
     {
-        return static::OBJECT_SID;
+        return 'objectsid';
     }
 
     /**
@@ -651,7 +542,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function operatingSystem()
     {
-        return static::OPERATING_SYSTEM;
+        return 'operatingsystem';
     }
 
     /**
@@ -659,7 +550,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function operatingSystemServicePack()
     {
-        return static::OPERATING_SYSTEM_SERVICE_PACK;
+        return 'operatingsystemservicepack';
     }
 
     /**
@@ -667,7 +558,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function operatingSystemVersion()
     {
-        return static::OPERATING_SYSTEM_VERSION;
+        return 'operatingsystemversion';
     }
 
     /**
@@ -675,7 +566,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function organizationalPerson()
     {
-        return static::ORGANIZATIONAL_PERSON;
+        return 'organizationalperson';
     }
 
     /**
@@ -683,7 +574,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function organizationalUnit()
     {
-        return static::ORGANIZATIONAL_UNIT_LONG;
+        return 'organizationalunit';
     }
 
     /**
@@ -691,7 +582,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function organizationalUnitShort()
     {
-        return static::ORGANIZATIONAL_UNIT_SHORT;
+        return 'ou';
     }
 
     /**
@@ -699,7 +590,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function otherMailbox()
     {
-        return static::OTHER_MAILBOX;
+        return 'othermailbox';
     }
 
     /**
@@ -707,7 +598,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function passwordLastSet()
     {
-        return static::PASSWORD_LAST_SET;
+        return 'pwdlastset';
     }
 
     /**
@@ -715,7 +606,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function person()
     {
-        return static::PERSON;
+        return 'person';
     }
 
     /**
@@ -723,7 +614,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function personalTitle()
     {
-        return static::PERSONAL_TITLE;
+        return 'personaltitle';
     }
 
     /**
@@ -731,7 +622,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function physicalDeliveryOfficeName()
     {
-        return static::PHYSICAL_DELIVERY_OFFICE_NAME;
+        return 'physicaldeliveryofficename';
     }
 
     /**
@@ -739,7 +630,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function portName()
     {
-        return static::PORT_NAME;
+        return 'portname';
     }
 
     /**
@@ -747,7 +638,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function postalCode()
     {
-        return static::POSTAL_CODE;
+        return 'postalcode';
     }
 
     /**
@@ -755,7 +646,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function primaryGroupId()
     {
-        return static::PRIMARY_GROUP_ID;
+        return 'primarygroupid';
     }
 
     /**
@@ -763,7 +654,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerBinNames()
     {
-        return static::PRINTER_BIN_NAMES;
+        return 'printbinnames';
     }
 
     /**
@@ -771,7 +662,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerColorSupported()
     {
-        return static::PRINTER_COLOR_SUPPORTED;
+        return 'printcolor';
     }
 
     /**
@@ -779,7 +670,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerDuplexSupported()
     {
-        return static::PRINTER_DUPLEX_SUPPORTED;
+        return 'printduplexsupported';
     }
 
     /**
@@ -787,7 +678,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerEndTime()
     {
-        return static::PRINTER_END_TIME;
+        return 'printendtime';
     }
 
     /**
@@ -795,7 +686,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerMaxResolutionSupported()
     {
-        return static::PRINTER_MAX_RESOLUTION_SUPPORTED;
+        return 'printmaxresolutionsupported';
     }
 
     /**
@@ -803,7 +694,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerMediaSupported()
     {
-        return static::PRINTER_MEDIA_SUPPORTED;
+        return 'printmediasupported';
     }
 
     /**
@@ -811,7 +702,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerMemory()
     {
-        return static::PRINTER_MEMORY;
+        return 'printmemory';
     }
 
     /**
@@ -819,7 +710,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerName()
     {
-        return static::PRINTER_NAME;
+        return 'printername';
     }
 
     /**
@@ -827,7 +718,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerOrientationSupported()
     {
-        return static::PRINTER_ORIENTATION_SUPPORTED;
+        return 'printorientationssupported';
     }
 
     /**
@@ -835,7 +726,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerPrintRate()
     {
-        return static::PRINTER_PRINT_RATE;
+        return 'printrate';
     }
 
     /**
@@ -843,7 +734,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerPrintRateUnit()
     {
-        return static::PRINTER_PRINT_RATE_UNIT;
+        return 'printrateunit';
     }
 
     /**
@@ -851,7 +742,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerShareName()
     {
-        return static::PRINTER_SHARE_NAME;
+        return 'printsharename';
     }
 
     /**
@@ -859,7 +750,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerStaplingSupported()
     {
-        return static::PRINTER_STAPLING_SUPPORTED;
+        return 'printstaplingsupported';
     }
 
     /**
@@ -867,7 +758,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function printerStartTime()
     {
-        return static::PRINTER_START_TIME;
+        return 'printstarttime';
     }
 
     /**
@@ -875,7 +766,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function priority()
     {
-        return static::PRIORITY;
+        return 'priority';
     }
 
     /**
@@ -883,7 +774,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function profilePath()
     {
-        return static::PROFILE_PATH;
+        return 'profilepath';
     }
 
     /**
@@ -891,7 +782,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function proxyAddresses()
     {
-        return static::PROXY_ADDRESSES;
+        return 'proxyaddresses';
     }
 
     /**
@@ -899,7 +790,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function scriptPath()
     {
-        return static::SCRIPT_PATH;
+        return 'scriptpath';
     }
 
     /**
@@ -907,7 +798,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function serialNumber()
     {
-        return static::SERIAL_NUMBER;
+        return 'serialnumber';
     }
 
     /**
@@ -915,7 +806,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function serverName()
     {
-        return static::SERVER_NAME;
+        return 'servername';
     }
 
     /**
@@ -923,7 +814,15 @@ class ActiveDirectory implements SchemaInterface
      */
     public function showInAddressBook()
     {
-        return static::SHOW_IN_ADDRESS_BOOK;
+        return 'showinaddressbook';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function street()
+    {
+        return 'street';
     }
 
     /**
@@ -931,7 +830,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function streetAddress()
     {
-        return static::STREET_ADDRESS;
+        return 'streetaddress';
     }
 
     /**
@@ -939,7 +838,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function systemFlags()
     {
-        return static::SYSTEM_FLAGS;
+        return 'systemflags';
     }
 
     /**
@@ -947,7 +846,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function telephone()
     {
-        return static::TELEPHONE;
+        return 'telephonenumber';
     }
 
     /**
@@ -955,7 +854,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function thumbnail()
     {
-        return static::THUMBNAIL;
+        return 'thumbnailphoto';
     }
 
     /**
@@ -963,7 +862,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function title()
     {
-        return static::TITLE;
+        return 'title';
     }
 
     /**
@@ -971,7 +870,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function top()
     {
-        return static::TOP;
+        return 'top';
     }
 
     /**
@@ -979,7 +878,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function true()
     {
-        return static::TRUE;
+        return 'TRUE';
     }
 
     /**
@@ -987,7 +886,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function unicodePassword()
     {
-        return static::UNICODE_PASSWORD;
+        return 'unicodepwd';
     }
 
     /**
@@ -995,7 +894,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function updatedAt()
     {
-        return static::UPDATED_AT;
+        return 'whenchanged';
     }
 
     /**
@@ -1003,7 +902,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function url()
     {
-        return static::URL;
+        return 'url';
     }
 
     /**
@@ -1011,7 +910,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function user()
     {
-        return static::USER;
+        return 'user';
     }
 
     /**
@@ -1019,7 +918,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function userAccountControl()
     {
-        return static::USER_ACCOUNT_CONTROL;
+        return 'useraccountcontrol';
     }
 
     /**
@@ -1027,7 +926,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function userPrincipalName()
     {
-        return static::USER_PRINCIPAL_NAME;
+        return 'userprincipalname';
     }
 
     /**
@@ -1035,6 +934,6 @@ class ActiveDirectory implements SchemaInterface
      */
     public function versionNumber()
     {
-        return static::VERSION_NUMBER;
+        return 'versionnumber';
     }
 }

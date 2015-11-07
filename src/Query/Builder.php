@@ -387,7 +387,7 @@ class Builder
      * Finds a record using ambiguous name resolution.
      *
      * @param string       $anr
-     * @parma array|string $columns
+     * @param array|string $columns
      *
      * @return Entry|bool
      */

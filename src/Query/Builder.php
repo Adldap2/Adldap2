@@ -311,11 +311,13 @@ class Builder
     /**
      * Returns the first entry in a search result.
      *
+     * @param array|string $columns
+     *
      * @return Entry|bool
      */
-    public function first()
+    public function first($columns = [])
     {
-        $results = $this->get();
+        $results = $this->select($columns)->get();
 
         if ($results instanceof ArrayCollection) {
             return $results->first();
@@ -332,13 +334,15 @@ class Builder
      *
      * If no entry is found, an exception is thrown.
      *
+     * @param array|string $columns
+     *
      * @throws ModelNotFoundException
      *
-     * @return array|bool
+     * @return Entry|bool
      */
-    public function firstOrFail()
+    public function firstOrFail($columns = [])
     {
-        $record = $this->first();
+        $record = $this->first($columns);
 
         if ($record === false) {
             throw new ModelNotFoundException('Unable to find record in Active Directory.');
@@ -348,40 +352,69 @@ class Builder
     }
 
     /**
+     * Finds a record by the specified attribute and value.
+     *
+     * @param string       $attribute
+     * @param string       $value
+     * @param array|string $columns
+     *
+     * @return Entry|bool
+     */
+    public function findBy($attribute, $value, $columns = [])
+    {
+        return $this->whereEquals($attribute, $value)->first($columns);
+    }
+
+    /**
+     * Finds a record by the specified attribute and value.
+     *
+     * If no record is found an exception is thrown.
+     *
+     * @param string       $attribute
+     * @param string       $value
+     * @param array|string $columns
+     *
+     * @return Entry|bool
+     *
+     * @throws ModelNotFoundException
+     */
+    public function findByOrFail($attribute, $value, $columns = [])
+    {
+        return $this->whereEquals($attribute, $value)->firstOrFail($columns);
+    }
+
+    /**
      * Finds a record using ambiguous name resolution.
      *
-     * @param string $anr
+     * @param string       $anr
+     * @parma array|string $columns
      *
-     * @return bool|Entry
+     * @return Entry|bool
      */
-    public function find($anr)
+    public function find($anr, $columns = [])
     {
-        return $this
-            ->clearBindings()
-            ->whereEquals($this->schema->anr(), $anr)
-            ->first();
+        return $this->findBy($this->schema->anr(), $anr, $columns);
     }
 
     /**
      * Finds a record using ambiguous name resolution. If a record
      * is not found, an exception is thrown.
      *
-     * @param string $anr
+     * @param string       $anr
+     * @param array|string $columns
      *
      * @throws ModelNotFoundException
      *
-     * @return array|bool
+     * @return Entry|bool
      */
-    public function findOrFail($anr)
+    public function findOrFail($anr, $columns = [])
     {
-        $entry = $this->find($anr);
+        $entry = $this->find($anr, $columns);
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
         if (!$entry instanceof Entry && !is_array($entry)) {
-            $message = 'Unable to find record in Active Directory.';
-
-            throw new ModelNotFoundException($message);
+            throw new ModelNotFoundException('Unable to find record in Active Directory.');
         }
 
         return $entry;
@@ -390,37 +423,18 @@ class Builder
     /**
      * Finds a record by its distinguished name.
      *
-     * @param string $dn
-     * @param array  $fields
+     * @param string       $dn
+     * @param array|string $columns
      *
      * @return bool|Entry
      */
-    public function findByDn($dn, $fields = [])
+    public function findByDn($dn, $columns = [])
     {
         return $this
-            ->clearBindings()
             ->setDn($dn)
             ->read(true)
-            ->select($fields)
             ->whereHas($this->schema->objectClass())
-            ->first();
-    }
-
-    /**
-     * Finds a record by its Object SID.
-     *
-     * @param string $sid
-     * @param array  $fields
-     *
-     * @return bool|Entry
-     */
-    public function findBySid($sid, $fields = [])
-    {
-        return $this
-            ->clearBindings()
-            ->select($fields)
-            ->whereEquals($this->schema->objectSid(), $sid)
-            ->first();
+            ->first($columns);
     }
 
     /**
@@ -428,22 +442,33 @@ class Builder
      *
      * Fails upon no records returned.
      *
-     * @param string $dn
-     * @param array  $fields
+     * @param string       $dn
+     * @param array|string $columns
      *
      * @throws ModelNotFoundException
      *
      * @return bool|Entry
      */
-    public function findByDnOrFail($dn, $fields = [])
+    public function findByDnOrFail($dn, $columns = [])
     {
         return $this
-            ->clearBindings()
             ->setDn($dn)
             ->read(true)
-            ->select($fields)
             ->whereHas($this->schema->objectClass())
-            ->firstOrFail();
+            ->firstOrFail($columns);
+    }
+
+    /**
+     * Finds a record by its Object SID.
+     *
+     * @param string       $sid
+     * @param array|string $columns
+     *
+     * @return bool|Entry
+     */
+    public function findBySid($sid, $columns = [])
+    {
+        return $this->findBy($this->schema->objectSid(), $sid, $columns);
     }
 
     /**
@@ -456,7 +481,6 @@ class Builder
         $schema = $this->schema;
 
         $result = $this
-            ->clearBindings()
             ->setDn(null)
             ->read()
             ->raw()

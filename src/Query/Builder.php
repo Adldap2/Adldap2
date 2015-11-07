@@ -2,16 +2,16 @@
 
 namespace Adldap\Query;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Query\Bindings\Where;
+use Adldap\Models\Entry;
+use Adldap\Objects\Paginator;
+use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
-use Adldap\Query\Bindings\Filter;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Schemas\SchemaInterface;
+use Adldap\Query\Bindings\Where;
 use Adldap\Schemas\Schema;
-use Adldap\Objects\Paginator;
-use Adldap\Models\Entry;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -374,9 +374,9 @@ class Builder
      * @param string       $value
      * @param array|string $columns
      *
-     * @return Entry|bool
-     *
      * @throws ModelNotFoundException
+     *
+     * @return Entry|bool
      */
     public function findByOrFail($attribute, $value, $columns = [])
     {
@@ -1079,10 +1079,10 @@ class Builder
      */
     public function clearBindings()
     {
-        $this->selects  = [];
-        $this->wheres   = [];
+        $this->selects = [];
+        $this->wheres = [];
         $this->orWheres = [];
-        $this->filters  = [];
+        $this->filters = [];
 
         return $this;
     }

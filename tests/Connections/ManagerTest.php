@@ -144,7 +144,21 @@ class ManagerTest extends UnitTestCase
 
     public function testExchangeServers()
     {
-        $m = new Manager(new Ldap(), new Configuration());
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([
+            'count' => 1,
+            [
+                'cn' => ['Test'],
+                'dn' => 'cn=Test,dc=corp,dc=acme,dc=org',
+                'configurationnamingcontext' => ['Test'],
+            ],
+        ]);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = new Manager($connection, new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->exchangeServers());
     }

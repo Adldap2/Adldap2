@@ -4,11 +4,11 @@ namespace Adldap\Search;
 
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\AbstractModel;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Schemas\Schema;
-use Adldap\Contracts\Schemas\SchemaInterface;
 
 class Factory
 {

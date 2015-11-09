@@ -3,9 +3,9 @@
 namespace Adldap\Connections;
 
 use Adldap\Auth\Guard;
+use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
-use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Search\Factory as SearchFactory;

@@ -116,7 +116,7 @@ class Builder
     /**
      * Stores the current schema instance.
      *
-     * @var \Adldap\Schemas\SchemaInterface
+     * @var SchemaInterface
      */
     protected $schema;
 

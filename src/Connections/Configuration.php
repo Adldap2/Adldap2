@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Exceptions\ConfigurationException;
 use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Objects\DistinguishedName;

@@ -64,6 +64,6 @@ class UnitTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function newConnectionMock()
     {
-        return $this->mock('Adldap\Connections\Ldap');
+        return $this->mock('Adldap\Contracts\Connections\ConnectionInterface');
     }
 }

@@ -4,7 +4,7 @@ namespace Adldap\Models;
 
 use Adldap\Query\Builder;
 use Adldap\Schemas\Schema;
-use Adldap\Schemas\SchemaInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 class Factory
 {
@@ -14,7 +14,7 @@ class Factory
     protected $query;
 
     /**
-     * @var \Adldap\Schemas\SchemaInterface
+     * @var SchemaInterface
      */
     protected $schema;
 

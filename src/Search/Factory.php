@@ -32,7 +32,7 @@ class Factory
     /**
      * Stores the current schema instance.
      *
-     * @var \Adldap\Schemas\SchemaInterface
+     * @var \Adldap\Contracts\Schemas\SchemaInterface
      */
     protected $schema;
 

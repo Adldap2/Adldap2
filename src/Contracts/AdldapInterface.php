@@ -6,7 +6,7 @@ use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\ManagerInterface;
 
-interface Adldap
+interface AdldapInterface
 {
     /**
      * Constructor.

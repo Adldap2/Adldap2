@@ -6,10 +6,10 @@ use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Manager;
 use Adldap\Connections\ManagerInterface;
-use Adldap\Contracts\Adldap as AdldapContract;
+use Adldap\Contracts\AdldapInterface;
 use Adldap\Exceptions\InvalidArgumentException;
 
-class Adldap implements AdldapContract
+class Adldap implements AdldapInterface
 {
     /**
      * Stores the current ldap connection instance.

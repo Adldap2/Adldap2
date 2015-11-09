@@ -2,6 +2,8 @@
 
 namespace Adldap\Schemas;
 
+use Adldap\Contracts\Schemas\SchemaInterface;
+
 class Schema
 {
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Auth;
+namespace Adldap\Contracts\Auth;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\ConnectionInterface;

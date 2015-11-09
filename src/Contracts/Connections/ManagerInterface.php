@@ -2,8 +2,8 @@
 
 namespace Adldap\Contracts\Connections;
 
-use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Connections\Configuration;
+use Adldap\Contracts\Auth\GuardInterface;
 
 interface ManagerInterface
 {

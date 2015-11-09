@@ -1059,8 +1059,8 @@ class Builder
     /**
      * Creates a new model instance.
      *
-     * @param array        $attributes
-     * @param string|null  $model
+     * @param array       $attributes
+     * @param string|null $model
      *
      * @return mixed|Entry
      */

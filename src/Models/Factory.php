@@ -2,9 +2,9 @@
 
 namespace Adldap\Models;
 
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Query\Builder;
 use Adldap\Schemas\Schema;
-use Adldap\Contracts\Schemas\SchemaInterface;
 
 class Factory
 {

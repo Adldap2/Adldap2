@@ -2,7 +2,8 @@
 
 namespace Adldap\Query;
 
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
@@ -11,7 +12,6 @@ use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
 use Adldap\Schemas\Schema;
-use Adldap\Schemas\SchemaInterface;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;

@@ -3,8 +3,8 @@
 namespace Adldap\Contracts;
 
 use Adldap\Connections\Configuration;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Connections\ManagerInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ManagerInterface;
 
 interface AdldapInterface
 {

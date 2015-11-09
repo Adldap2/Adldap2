@@ -3,7 +3,7 @@
 namespace Adldap\Contracts\Auth;
 
 use Adldap\Connections\Configuration;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 interface GuardInterface
 {

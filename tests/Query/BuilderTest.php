@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests\Query;
 
+use Adldap\Schemas\Schema;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Tests\UnitTestCase;
@@ -19,7 +20,7 @@ class BuilderTest extends UnitTestCase
 
     protected function newConnectionMock()
     {
-        return $this->mock('Adldap\Connections\ConnectionInterface');
+        return $this->mock('Adldap\Contracts\Connections\ConnectionInterface');
     }
 
     public function testConstruct()

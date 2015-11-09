@@ -3,9 +3,9 @@
 namespace Adldap;
 
 use Adldap\Connections\Configuration;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ManagerInterface;
 use Adldap\Connections\Manager;
-use Adldap\Connections\ManagerInterface;
 use Adldap\Contracts\AdldapInterface;
 use Adldap\Exceptions\InvalidArgumentException;
 

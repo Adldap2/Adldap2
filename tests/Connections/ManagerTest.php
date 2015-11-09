@@ -13,7 +13,7 @@ class ManagerTest extends UnitTestCase
     {
         $m = new Manager(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Connections\ConnectionInterface', $m->getConnection());
+        $this->assertInstanceOf('Adldap\Contracts\Connections\ConnectionInterface', $m->getConnection());
         $this->assertInstanceOf('Adldap\Connections\Configuration', $m->getConfiguration());
     }
 

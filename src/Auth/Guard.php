@@ -3,7 +3,7 @@
 namespace Adldap\Auth;
 
 use Adldap\Connections\Configuration;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Exceptions\Auth\BindException;
 use Adldap\Exceptions\Auth\PasswordRequiredException;

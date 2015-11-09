@@ -1047,17 +1047,30 @@ class Builder
                 if (array_key_exists($category, $mappings)) {
                     $model = $mappings[$category];
 
-                    // Check that the model actually exists
-                    // before trying to instantiate it.
-                    if (class_exists($model)) {
-                        return (new $model([], $this))->setRawAttributes($attributes);
-                    }
+                    return $this->newModel([], $model)->setRawAttributes($attributes);
                 }
             }
         }
 
         // A default entry model if the object category isn't found.
         return (new Entry([], $this))->setRawAttributes($attributes);
+    }
+
+    /**
+     * Creates a new model instance.
+     *
+     * @param array        $attributes
+     * @param string|null  $model
+     *
+     * @return mixed|Entry
+     */
+    public function newModel($attributes = [], $model = null)
+    {
+        if (!is_null($model) && class_exists($model)) {
+            return new $model($attributes, $this);
+        }
+
+        return new Entry($attributes, $this);
     }
 
     /**
@@ -1094,16 +1107,14 @@ class Builder
      */
     protected function map()
     {
-        $schema = $this->schema;
-
         return [
-            $schema->objectCategoryComputer()           => 'Adldap\Models\Computer',
-            $schema->objectCategoryPerson()             => 'Adldap\Models\User',
-            $schema->objectCategoryGroup()              => 'Adldap\Models\Group',
-            $schema->objectCategoryExchangeServer()     => 'Adldap\Models\ExchangeServer',
-            $schema->objectCategoryContainer()          => 'Adldap\Models\Container',
-            $schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
-            $schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
+            $this->schema->objectCategoryComputer()           => 'Adldap\Models\Computer',
+            $this->schema->objectCategoryPerson()             => 'Adldap\Models\User',
+            $this->schema->objectCategoryGroup()              => 'Adldap\Models\Group',
+            $this->schema->objectCategoryExchangeServer()     => 'Adldap\Models\ExchangeServer',
+            $this->schema->objectCategoryContainer()          => 'Adldap\Models\Container',
+            $this->schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
+            $this->schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
         ];
     }
 

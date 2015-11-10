@@ -2,14 +2,14 @@
 
 namespace Adldap;
 
-use Adldap\Schemas\Schema;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Manager;
 use Adldap\Contracts\AdldapInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\InvalidArgumentException;
+use Adldap\Schemas\Schema;
 
 class Adldap implements AdldapInterface
 {
@@ -67,7 +67,7 @@ class Adldap implements AdldapInterface
             $connection = new Connections\Ldap();
         }
 
-        if(!$schema instanceof SchemaInterface) {
+        if (!$schema instanceof SchemaInterface) {
             // Create a new LDAP Schema instance if
             // one hasn't been instantiated yet.
             $schema = Schema::get();

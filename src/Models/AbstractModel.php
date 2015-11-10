@@ -2,11 +2,11 @@
 
 namespace Adldap\Models;
 
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Objects\DistinguishedName;
 use Adldap\Objects\BatchModification;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use ArrayAccess;
 use JsonSerializable;
@@ -65,8 +65,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Constructor.
      *
-     * @param array           $attributes
-     * @param Builder         $builder
+     * @param array   $attributes
+     * @param Builder $builder
      */
     public function __construct(array $attributes = [], Builder $builder)
     {

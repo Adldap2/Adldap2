@@ -164,13 +164,23 @@ class Builder
     }
 
     /**
+     * Returns the current schema.
+     *
+     * @return SchemaInterface
+     */
+    public function getSchema()
+    {
+        return $this->schema;
+    }
+
+    /**
      * Returns a new Query Builder instance.
      *
      * @return Builder
      */
     public function newInstance()
     {
-        return new self($this->connection, $this->grammar);
+        return new self($this->connection, $this->grammar, $this->schema);
     }
 
     /**

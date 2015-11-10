@@ -44,20 +44,8 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($configuration, $connection = null, SchemaInterface $schema = null)
+    public function __construct($configuration = [], $connection = null, SchemaInterface $schema = null)
     {
-        if (is_array($configuration)) {
-            // If we've been given an array, we'll create
-            // a new Configuration instance.
-            $configuration = new Configuration($configuration);
-        } elseif (!$configuration instanceof Configuration) {
-            // Otherwise, if the Configuration isn't a Configuration
-            // object, we'll throw an exception.
-            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';
-
-            throw new InvalidArgumentException($message);
-        }
-
         // Set the configuration.
         $this->setConfiguration($configuration);
 
@@ -111,8 +99,20 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function setConfiguration(Configuration $configuration)
+    public function setConfiguration($configuration = [])
     {
+        if (is_array($configuration)) {
+            // If we've been given an array, we'll create
+            // a new Configuration instance.
+            $configuration = new Configuration($configuration);
+        } elseif (!$configuration instanceof Configuration) {
+            // Otherwise, if the Configuration isn't a Configuration
+            // object, we'll throw an exception.
+            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';
+
+            throw new InvalidArgumentException($message);
+        }
+
         $this->configuration = $configuration;
     }
 

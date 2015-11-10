@@ -21,7 +21,7 @@ interface AdldapInterface
      * @throws \Adldap\Exceptions\AdldapException
      * @throws \InvalidArgumentException
      */
-    public function __construct($configuration, $connection = null, SchemaInterface $schema = null);
+    public function __construct($configuration = [], $connection = null, SchemaInterface $schema = null);
 
     /**
      * Get the active LDAP Connection.
@@ -49,7 +49,7 @@ interface AdldapInterface
      *
      * @param Configuration $configuration
      */
-    public function setConfiguration(Configuration $configuration);
+    public function setConfiguration($configuration);
 
     /**
      * Sets the schema property.

@@ -19,10 +19,7 @@ class Users extends AbstractBase implements QueryableInterface, CreateableInterf
      */
     public function find($username, $fields = [])
     {
-        return $this->search()
-            ->select($fields)
-            ->whereEquals(ActiveDirectory::ACCOUNT_NAME, $username)
-            ->first();
+        return $this->search()->findBy(ActiveDirectory::ACCOUNT_NAME, $username, $fields);
     }
 
     /**

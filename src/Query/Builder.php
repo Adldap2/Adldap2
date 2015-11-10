@@ -183,11 +183,13 @@ class Builder
     /**
      * Returns the current query.
      *
+     * @param string|array $columns
+     *
      * @return array|ArrayCollection|bool
      */
-    public function get()
+    public function get($columns = [])
     {
-        return $this->query($this->getQuery());
+        return $this->select($columns)->query($this->getQuery());
     }
 
     /**
@@ -259,13 +261,13 @@ class Builder
         $selects = $this->getSelects();
 
         if ($this->read) {
-            // If read is true, we'll perform a read search, retrieving one record
+            // If read is true, we'll perform a read search, retrieving one record.
             $results = $this->connection->read($dn, $query, $selects);
         } elseif ($this->recursive) {
-            // If recursive is true, we'll perform a recursive search
+            // If recursive is true, we'll perform a recursive search.
             $results = $this->connection->search($dn, $query, $selects);
         } else {
-            // Read and recursive is false, we'll return a listing
+            // Read and recursive is false, we'll return a listing.
             $results = $this->connection->listing($dn, $query, $selects);
         }
         if ($results) {
@@ -286,10 +288,10 @@ class Builder
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
-        // Set the current query to paginated
+        // Set the current query to paginated.
         $this->paginated = true;
 
-        // Stores all LDAP entries in a page array
+        // Stores all LDAP entries in a page array.
         $pages = [];
 
         $cookie = '';
@@ -302,7 +304,7 @@ class Builder
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
-                // We'll collect the results into the pages array
+                // We'll collect the results into the pages array.
                 $pages[] = $results;
             }
         } while ($cookie !== null && !empty($cookie));
@@ -317,11 +319,13 @@ class Builder
     /**
      * Returns the first entry in a search result.
      *
+     * @param string|array $columns
+     *
      * @return Entry|bool
      */
-    public function first()
+    public function first($columns = [])
     {
-        $results = $this->get();
+        $results = $this->get($columns);
 
         if ($results instanceof ArrayCollection) {
             return $results->first();
@@ -365,6 +369,20 @@ class Builder
     public function find($anr)
     {
         return $this->whereEquals(ActiveDirectory::ANR, $anr)->first();
+    }
+
+    /**
+     * Finds a record by the specified attribute and value.
+     *
+     * @param string       $attribute
+     * @param string       $value
+     * @param array|string $columns
+     *
+     * @return Entry|bool
+     */
+    public function findBy($attribute, $value, $columns = [])
+    {
+        return $this->whereEquals($attribute, $value)->first($columns);
     }
 
     /**

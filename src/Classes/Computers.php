@@ -17,7 +17,7 @@ class Computers extends AbstractBase implements QueryableInterface, CreateableIn
      */
     public function find($name, $fields = [])
     {
-        return $this->search()->select($fields)->find($name);
+        return $this->search()->findBy(ActiveDirectory::COMMON_NAME, $name, $fields);
     }
 
     /**

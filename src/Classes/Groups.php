@@ -19,7 +19,7 @@ class Groups extends AbstractBase implements QueryableInterface, CreateableInter
      */
     public function find($name, $fields = [])
     {
-        return $this->search()->select($fields)->find($name);
+        return $this->search()->findBy(ActiveDirectory::COMMON_NAME, $name, $fields);
     }
 
     /**

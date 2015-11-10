@@ -17,7 +17,7 @@ class OrganizationalUnits extends AbstractBase implements QueryableInterface, Cr
      */
     public function find($name, $fields = [])
     {
-        return $this->search()->select($fields)->find($name);
+        return $this->search()->findBy(ActiveDirectory::ORGANIZATIONAL_UNIT_SHORT, $name, $fields);
     }
 
     /**

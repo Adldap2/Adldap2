@@ -17,7 +17,7 @@ class Contacts extends AbstractBase implements QueryableInterface, CreateableInt
      */
     public function find($name, $fields = [])
     {
-        return $this->search()->select($fields)->find($name);
+        return $this->search()->findBy(ActiveDirectory::COMMON_NAME, $name, $fields);
     }
 
     /**

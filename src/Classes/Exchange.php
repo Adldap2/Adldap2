@@ -22,8 +22,7 @@ class Exchange extends AbstractBase implements QueryableInterface
         if (is_string($namingContext)) {
             return $this->search()
                 ->setDn($namingContext)
-                ->select($fields)
-                ->find($name);
+                ->findBy(ActiveDirectory::COMMON_NAME, $name, $fields);
         }
 
         return false;

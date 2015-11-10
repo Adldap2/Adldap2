@@ -1063,7 +1063,7 @@ class Builder
         }
 
         // A default entry model if the object category isn't found.
-        return (new Entry([], $this))->setRawAttributes($attributes);
+        return $this->newModel()->setRawAttributes($attributes);
     }
 
     /**

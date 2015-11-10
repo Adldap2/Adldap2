@@ -47,7 +47,7 @@ interface AdldapInterface
     /**
      * Sets the configuration property.
      *
-     * @param Configuration $configuration
+     * @param array|Configuration $configuration
      */
     public function setConfiguration($configuration);
 

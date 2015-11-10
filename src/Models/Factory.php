@@ -4,7 +4,6 @@ namespace Adldap\Models;
 
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Query\Builder;
-use Adldap\Schemas\Schema;
 
 class Factory
 {
@@ -21,13 +20,13 @@ class Factory
     /**
      * Constructor.
      *
-     * @param Builder $builder
+     * @param Builder         $builder
+     * @param SchemaInterface $schema
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, SchemaInterface $schema)
     {
         $this->setQuery($builder);
-
-        $this->setSchema(Schema::get());
+        $this->setSchema($schema);
     }
 
     /**

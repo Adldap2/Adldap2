@@ -81,7 +81,7 @@ class Factory
     public function newQueryBuilder($baseDn = '')
     {
         // Create a new Builder.
-        $builder = new Builder($this->connection, $this->newGrammar());
+        $builder = new Builder($this->connection, $this->newGrammar(), $this->schema);
 
         // Set the Base DN on the Builder.
         $builder->setDn($baseDn);

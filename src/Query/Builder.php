@@ -11,7 +11,6 @@ use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
-use Adldap\Schemas\Schema;
 use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -125,12 +124,13 @@ class Builder
      *
      * @param ConnectionInterface $connection
      * @param Grammar             $grammar
+     * @param SchemaInterface     $schema
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema)
     {
         $this->setConnection($connection);
         $this->setGrammar($grammar);
-        $this->setSchema(Schema::get());
+        $this->setSchema($schema);
     }
 
     /**

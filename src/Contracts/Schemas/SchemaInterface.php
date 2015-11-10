@@ -165,6 +165,9 @@ interface SchemaInterface
      */
     public function employeeNumber();
 
+    /**
+     * @return string
+     */
     public function employeeType();
 
     /**

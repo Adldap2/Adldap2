@@ -2,8 +2,6 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Schemas\Schema;
-
 trait HasCriticalSystemObjectTrait
 {
     /**
@@ -13,7 +11,7 @@ trait HasCriticalSystemObjectTrait
      */
     public function isCriticalSystemObject()
     {
-        $attribute = $this->getAttribute(Schema::get()->isCriticalSystemObject(), 0);
+        $attribute = $this->getAttribute($this->schema->isCriticalSystemObject(), 0);
 
         return $this->convertStringToBool($attribute);
     }

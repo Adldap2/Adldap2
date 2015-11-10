@@ -2,8 +2,6 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Schemas\Schema;
-
 trait HasDescriptionTrait
 {
     /**
@@ -15,7 +13,7 @@ trait HasDescriptionTrait
      */
     public function getDescription()
     {
-        return $this->getAttribute(Schema::get()->description(), 0);
+        return $this->getAttribute($this->schema->description(), 0);
     }
 
     /**
@@ -27,6 +25,6 @@ trait HasDescriptionTrait
      */
     public function setDescription($description)
     {
-        return $this->setAttribute(Schema::get()->description(), $description, 0);
+        return $this->setAttribute($this->schema->description(), $description, 0);
     }
 }

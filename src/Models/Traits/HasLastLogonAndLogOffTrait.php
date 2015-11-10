@@ -2,8 +2,6 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Schemas\Schema;
-
 trait HasLastLogonAndLogOffTrait
 {
     /**
@@ -15,7 +13,7 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogOff()
     {
-        return $this->getAttribute(Schema::get()->lastLogOff(), 0);
+        return $this->getAttribute($this->schema->lastLogOff(), 0);
     }
 
     /**
@@ -27,7 +25,7 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogon()
     {
-        return $this->getAttribute(Schema::get()->lastLogOn(), 0);
+        return $this->getAttribute($this->schema->lastLogOn(), 0);
     }
 
     /**
@@ -39,6 +37,6 @@ trait HasLastLogonAndLogOffTrait
      */
     public function getLastLogonTimestamp()
     {
-        return $this->getAttribute(Schema::get()->lastLogOnTimestamp(), 0);
+        return $this->getAttribute($this->schema->lastLogOnTimestamp(), 0);
     }
 }

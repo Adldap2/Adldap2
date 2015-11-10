@@ -67,14 +67,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param array           $attributes
      * @param Builder         $builder
-     * @param SchemaInterface $schema
      */
-    public function __construct(array $attributes = [], Builder $builder, SchemaInterface $schema)
+    public function __construct(array $attributes = [], Builder $builder)
     {
         $this->fill($attributes);
 
         $this->setQuery($builder);
-        $this->setSchema($schema);
+        $this->setSchema($builder->getSchema());
     }
 
     /**

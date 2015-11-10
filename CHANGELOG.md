@@ -23,6 +23,21 @@
 - Search Exceptions [\#115](https://github.com/Adldap2/Adldap2/issues/115)
 - Error when authenticate [\#114](https://github.com/Adldap2/Adldap2/issues/114)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#134](https://github.com/Adldap2/Adldap2/pull/134) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#131](https://github.com/Adldap2/Adldap2/pull/131) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#130](https://github.com/Adldap2/Adldap2/pull/130) ([stevebauman](https://github.com/stevebauman))
+- Fix typo in readme [\#128](https://github.com/Adldap2/Adldap2/pull/128) ([shssoichiro](https://github.com/shssoichiro))
+- Applied fixes from StyleCI [\#127](https://github.com/Adldap2/Adldap2/pull/127) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#126](https://github.com/Adldap2/Adldap2/pull/126) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#125](https://github.com/Adldap2/Adldap2/pull/125) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#122](https://github.com/Adldap2/Adldap2/pull/122) ([stevebauman](https://github.com/stevebauman))
+- Added the ability to search / filter for disabled and enabled objects [\#121](https://github.com/Adldap2/Adldap2/pull/121) ([strebl](https://github.com/strebl))
+- Applied fixes from StyleCI [\#120](https://github.com/Adldap2/Adldap2/pull/120) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#117](https://github.com/Adldap2/Adldap2/pull/117) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#116](https://github.com/Adldap2/Adldap2/pull/116) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.2.0](https://github.com/Adldap2/Adldap2/tree/v5.2.0) (2015-10-21)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.21...v5.2.0)
 
@@ -38,15 +53,29 @@
 
 - setGroups\(\) and setMemberOf\(\) don't work [\#64](https://github.com/Adldap2/Adldap2/issues/64)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#110](https://github.com/Adldap2/Adldap2/pull/110) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.1.21](https://github.com/Adldap2/Adldap2/tree/v5.1.21) (2015-10-18)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.20...v5.1.21)
 
 **Closed issues:**
 
 - Problem with Fatal error: Interface 'Adldap\Contracts\Adldap' not found [\#108](https://github.com/Adldap2/Adldap2/issues/108)
+- Undefined constant LDAP\_MODIFY\_BATCH\_REPLACE in AbstractModel.php:402 getModifications\(\) method. [\#107](https://github.com/Adldap2/Adldap2/issues/107)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#109](https://github.com/Adldap2/Adldap2/pull/109) ([stevebauman](https://github.com/stevebauman))
+- Setters/Getters for personalTitle [\#101](https://github.com/Adldap2/Adldap2/pull/101) ([kichetof](https://github.com/kichetof))
 
 ## [v5.1.20](https://github.com/Adldap2/Adldap2/tree/v5.1.20) (2015-10-09)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.19...v5.1.20)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#99](https://github.com/Adldap2/Adldap2/pull/99) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.19](https://github.com/Adldap2/Adldap2/tree/v5.1.19) (2015-10-09)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.18...v5.1.19)
@@ -55,6 +84,11 @@
 
 - Unable to add or update user [\#90](https://github.com/Adldap2/Adldap2/issues/90)
 
+**Merged pull requests:**
+
+- Fix AccountExpiry null value [\#98](https://github.com/Adldap2/Adldap2/pull/98) ([kichetof](https://github.com/kichetof))
+- Setters/Getters for EmployeeID [\#97](https://github.com/Adldap2/Adldap2/pull/97) ([kichetof](https://github.com/kichetof))
+
 ## [v5.1.18](https://github.com/Adldap2/Adldap2/tree/v5.1.18) (2015-10-07)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.17...v5.1.18)
 
@@ -62,14 +96,31 @@
 
 - Unable to clear / remove attributes by passing in `null` [\#95](https://github.com/Adldap2/Adldap2/issues/95)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#96](https://github.com/Adldap2/Adldap2/pull/96) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.1.17](https://github.com/Adldap2/Adldap2/tree/v5.1.17) (2015-10-05)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.16...v5.1.17)
+
+**Merged pull requests:**
+
+- Store in the configuration the Domain Controller IP [\#94](https://github.com/Adldap2/Adldap2/pull/94) ([kichetof](https://github.com/kichetof))
+- Fix error: values of array must be a string [\#93](https://github.com/Adldap2/Adldap2/pull/93) ([kichetof](https://github.com/kichetof))
 
 ## [v5.1.16](https://github.com/Adldap2/Adldap2/tree/v5.1.16) (2015-09-30)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.15...v5.1.16)
 
+**Merged pull requests:**
+
+- Use HasDescriptionsTrait [\#89](https://github.com/Adldap2/Adldap2/pull/89) ([kichetof](https://github.com/kichetof))
+
 ## [v5.1.15](https://github.com/Adldap2/Adldap2/tree/v5.1.15) (2015-09-28)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.14...v5.1.15)
+
+**Merged pull requests:**
+
+- Fix date bug [\#88](https://github.com/Adldap2/Adldap2/pull/88) ([kichetof](https://github.com/kichetof))
 
 ## [v5.1.14](https://github.com/Adldap2/Adldap2/tree/v5.1.14) (2015-09-28)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.13...v5.1.14)
@@ -79,14 +130,24 @@
 
 **Implemented enhancements:**
 
+- Move an account [\#72](https://github.com/Adldap2/Adldap2/issues/72)
 - Implement Organizational Units Class [\#66](https://github.com/Adldap2/Adldap2/issues/66)
 
 **Closed issues:**
 
 - paginate\(\) does not respect sorting [\#87](https://github.com/Adldap2/Adldap2/issues/87)
 
+**Merged pull requests:**
+
+- fix constants order [\#86](https://github.com/Adldap2/Adldap2/pull/86) ([kichetof](https://github.com/kichetof))
+- Getters / Setters for Info field [\#85](https://github.com/Adldap2/Adldap2/pull/85) ([kichetof](https://github.com/kichetof))
+
 ## [v5.1.12](https://github.com/Adldap2/Adldap2/tree/v5.1.12) (2015-09-25)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.11...v5.1.12)
+
+**Merged pull requests:**
+
+- fix function name: SetDescription instead of SetEmails [\#84](https://github.com/Adldap2/Adldap2/pull/84) ([kichetof](https://github.com/kichetof))
 
 ## [v5.1.11](https://github.com/Adldap2/Adldap2/tree/v5.1.11) (2015-09-24)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.10...v5.1.11)
@@ -96,8 +157,16 @@
 - Find user of specific OU [\#82](https://github.com/Adldap2/Adldap2/issues/82)
 - Fatal error with adldap constructor [\#81](https://github.com/Adldap2/Adldap2/issues/81)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#83](https://github.com/Adldap2/Adldap2/pull/83) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.1.10](https://github.com/Adldap2/Adldap2/tree/v5.1.10) (2015-09-22)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.9...v5.1.10)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#80](https://github.com/Adldap2/Adldap2/pull/80) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.9](https://github.com/Adldap2/Adldap2/tree/v5.1.9) (2015-09-22)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.8...v5.1.9)
@@ -107,12 +176,21 @@
 - Fatal error: Class 'Adldap\Connections\Configuration' not found in /var/www/base/Adldap/Adldap.php on line 44 [\#79](https://github.com/Adldap2/Adldap2/issues/79)
 - Add an option to disable autologin [\#76](https://github.com/Adldap2/Adldap2/issues/76)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#78](https://github.com/Adldap2/Adldap2/pull/78) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.1.8](https://github.com/Adldap2/Adldap2/tree/v5.1.8) (2015-09-14)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.7...v5.1.8)
 
 **Closed issues:**
 
 - Set password for current user [\#68](https://github.com/Adldap2/Adldap2/issues/68)
+
+**Merged pull requests:**
+
+- Setters/Getters for Account Expiry & Manager [\#74](https://github.com/Adldap2/Adldap2/pull/74) ([kichetof](https://github.com/kichetof))
+- Corrected documented return type for Builder::get\(\) [\#71](https://github.com/Adldap2/Adldap2/pull/71) ([samhsuqld](https://github.com/samhsuqld))
 
 ## [v5.1.7](https://github.com/Adldap2/Adldap2/tree/v5.1.7) (2015-09-10)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.6...v5.1.7)
@@ -121,13 +199,14 @@
 
 - ldap\_modify\_batch is not available on some PHP versions [\#69](https://github.com/Adldap2/Adldap2/issues/69)
 - User's getEmails\(\) is supposed to retrieve array of LDAP's otherMailbox not mail [\#67](https://github.com/Adldap2/Adldap2/issues/67)
+- getGroups\(\) and getMemberOf\(\) don't work [\#65](https://github.com/Adldap2/Adldap2/issues/65)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#70](https://github.com/Adldap2/Adldap2/pull/70) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.6](https://github.com/Adldap2/Adldap2/tree/v5.1.6) (2015-09-09)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.5...v5.1.6)
-
-**Fixed bugs:**
-
-- Error when using inGroup function [\#62](https://github.com/Adldap2/Adldap2/issues/62)
 
 **Closed issues:**
 
@@ -135,6 +214,10 @@
 
 ## [v5.1.5](https://github.com/Adldap2/Adldap2/tree/v5.1.5) (2015-09-08)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.4...v5.1.5)
+
+**Fixed bugs:**
+
+- Error when using inGroup function [\#62](https://github.com/Adldap2/Adldap2/issues/62)
 
 **Closed issues:**
 
@@ -147,9 +230,18 @@
 
 - Model setPassword error [\#58](https://github.com/Adldap2/Adldap2/issues/58)
 - Paginator and sorting [\#57](https://github.com/Adldap2/Adldap2/issues/57)
+- Pagination doesn't work correctly ? [\#55](https://github.com/Adldap2/Adldap2/issues/55)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#60](https://github.com/Adldap2/Adldap2/pull/60) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.3](https://github.com/Adldap2/Adldap2/tree/v5.1.3) (2015-09-03)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.2...v5.1.3)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#56](https://github.com/Adldap2/Adldap2/pull/56) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.2](https://github.com/Adldap2/Adldap2/tree/v5.1.2) (2015-09-02)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.1...v5.1.2)
@@ -157,10 +249,17 @@
 **Closed issues:**
 
 - Need of Doctrine ? [\#52](https://github.com/Adldap2/Adldap2/issues/52)
-- Queries are very slow since last updates [\#51](https://github.com/Adldap2/Adldap2/issues/51)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#53](https://github.com/Adldap2/Adldap2/pull/53) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.1.1](https://github.com/Adldap2/Adldap2/tree/v5.1.1) (2015-09-02)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.1.0...v5.1.1)
+
+**Closed issues:**
+
+- Queries are very slow since last updates [\#51](https://github.com/Adldap2/Adldap2/issues/51)
 
 ## [v5.1.0](https://github.com/Adldap2/Adldap2/tree/v5.1.0) (2015-09-01)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.8...v5.1.0)
@@ -180,15 +279,27 @@
 
 - Search\(\) methods with last release [\#49](https://github.com/Adldap2/Adldap2/issues/49)
 
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#50](https://github.com/Adldap2/Adldap2/pull/50) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#48](https://github.com/Adldap2/Adldap2/pull/48) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#47](https://github.com/Adldap2/Adldap2/pull/47) ([stevebauman](https://github.com/stevebauman))
+- User attribute setter UserPrincipalName [\#45](https://github.com/Adldap2/Adldap2/pull/45) ([kichetof](https://github.com/kichetof))
+- Applied fixes from StyleCI [\#43](https://github.com/Adldap2/Adldap2/pull/43) ([stevebauman](https://github.com/stevebauman))
+
 ## [v5.0.8](https://github.com/Adldap2/Adldap2/tree/v5.0.8) (2015-08-25)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.7...v5.0.8)
 
 **Closed issues:**
 
-- Find user by username just returns the first found [\#39](https://github.com/Adldap2/Adldap2/issues/39)
+- Create a Laravel auth package [\#9](https://github.com/Adldap2/Adldap2/issues/9)
 
 ## [v5.0.7](https://github.com/Adldap2/Adldap2/tree/v5.0.7) (2015-08-24)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.6...v5.0.7)
+
+**Closed issues:**
+
+- Find user by username just returns the first found [\#39](https://github.com/Adldap2/Adldap2/issues/39)
 
 ## [v5.0.6](https://github.com/Adldap2/Adldap2/tree/v5.0.6) (2015-08-14)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.5...v5.0.6)
@@ -211,6 +322,16 @@
 
 ## [v5.0.1](https://github.com/Adldap2/Adldap2/tree/v5.0.1) (2015-08-06)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.0...v5.0.1)
+
+**Closed issues:**
+
+- $ad-\>user\(\)-\>all\(\) is empty [\#26](https://github.com/Adldap2/Adldap2/issues/26)
+- Roadmap & Depreciated functions [\#6](https://github.com/Adldap2/Adldap2/issues/6)
+- Where to put documentation? [\#3](https://github.com/Adldap2/Adldap2/issues/3)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#37](https://github.com/Adldap2/Adldap2/pull/37) ([stevebauman](https://github.com/stevebauman))
 
 ## [v5.0.0](https://github.com/Adldap2/Adldap2/tree/v5.0.0) (2015-08-06)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.0.0-beta.4...v5.0.0)
@@ -241,9 +362,45 @@
 
 - Configuration method problems [\#32](https://github.com/Adldap2/Adldap2/issues/32)
 - GitHub Packagist Hook [\#29](https://github.com/Adldap2/Adldap2/issues/29)
+- Undefined Offset - Entry.php [\#28](https://github.com/Adldap2/Adldap2/issues/28)
+- Tag an alpha or beta release? [\#25](https://github.com/Adldap2/Adldap2/issues/25)
+- Examples and demo \(in /examples\) [\#2](https://github.com/Adldap2/Adldap2/issues/2)
+
+**Merged pull requests:**
+
+- allow to pass array with configuration options to Configuration class [\#31](https://github.com/Adldap2/Adldap2/pull/31) ([trinet-at](https://github.com/trinet-at))
+- Correclty handle an empty LDAP escape ignore string [\#30](https://github.com/Adldap2/Adldap2/pull/30) ([trinet-at](https://github.com/trinet-at))
+- LDAPS not connecting [\#27](https://github.com/Adldap2/Adldap2/pull/27) ([dlundgren](https://github.com/dlundgren))
 
 ## [v5.0.0-alpha.1](https://github.com/Adldap2/Adldap2/tree/v5.0.0-alpha.1) (2015-05-31)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.5...v5.0.0-alpha.1)
+
+**Fixed bugs:**
+
+- \_\_call\(\) on LDAP encapsulation class doesn't intercept existing methods [\#5](https://github.com/Adldap2/Adldap2/issues/5)
+
+**Closed issues:**
+
+- Filter data like ORMs do [\#23](https://github.com/Adldap2/Adldap2/issues/23)
+- Guidance / Testing needed for Creation / Modification of LDAP Entries [\#21](https://github.com/Adldap2/Adldap2/issues/21)
+- PSR-2 coding style [\#17](https://github.com/Adldap2/Adldap2/issues/17)
+- Adldap2 5.\* php requirements [\#16](https://github.com/Adldap2/Adldap2/issues/16)
+- ldap\_escape is only available in PHP 5.6 or higher. [\#12](https://github.com/Adldap2/Adldap2/issues/12)
+- Pull Requests from Original Repository [\#8](https://github.com/Adldap2/Adldap2/issues/8)
+- Commit History: Unrecognized User [\#4](https://github.com/Adldap2/Adldap2/issues/4)
+- \[Developers\] Branch 4.0.\* [\#1](https://github.com/Adldap2/Adldap2/issues/1)
+
+**Merged pull requests:**
+
+- Merge commits into the 5.0 branch [\#22](https://github.com/Adldap2/Adldap2/pull/22) ([stevebauman](https://github.com/stevebauman))
+- PSR-2 and php 5.4 array syntax [\#20](https://github.com/Adldap2/Adldap2/pull/20) ([strebl](https://github.com/strebl))
+- Real password change [\#19](https://github.com/Adldap2/Adldap2/pull/19) ([strebl](https://github.com/strebl))
+- Merge all work done so far to 5.0 branch [\#15](https://github.com/Adldap2/Adldap2/pull/15) ([stevebauman](https://github.com/stevebauman))
+- Add possibility of 'dn' attribute & fix defaultQueryFields assignment loc [\#14](https://github.com/Adldap2/Adldap2/pull/14) ([wunc](https://github.com/wunc))
+- Added configuration setting for "person" search filter [\#13](https://github.com/Adldap2/Adldap2/pull/13) ([wunc](https://github.com/wunc))
+- Fix auth with invalid credentials exception [\#11](https://github.com/Adldap2/Adldap2/pull/11) ([wunc](https://github.com/wunc))
+- Allows user login attribute to be configured [\#10](https://github.com/Adldap2/Adldap2/pull/10) ([wunc](https://github.com/wunc))
+- update badges [\#7](https://github.com/Adldap2/Adldap2/pull/7) ([strebl](https://github.com/strebl))
 
 ## [v4.0.5](https://github.com/Adldap2/Adldap2/tree/v4.0.5) (2015-01-26)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...v4.0.5)

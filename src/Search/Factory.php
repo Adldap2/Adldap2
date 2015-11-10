@@ -8,7 +8,6 @@ use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\AbstractModel;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Adldap\Schemas\Schema;
 
 class Factory
 {
@@ -32,7 +31,7 @@ class Factory
     /**
      * Stores the current schema instance.
      *
-     * @var \Adldap\Contracts\Schemas\SchemaInterface
+     * @var SchemaInterface
      */
     protected $schema;
 
@@ -40,15 +39,16 @@ class Factory
      * Constructor.
      *
      * @param ConnectionInterface $connection
+     * @param SchemaInterface     $schema
      * @param string              $baseDn
      */
-    public function __construct(ConnectionInterface $connection, $baseDn = '')
+    public function __construct(ConnectionInterface $connection, SchemaInterface $schema, $baseDn = '')
     {
         $this->connection = $connection;
 
-        $this->setQueryBuilder($this->newQueryBuilder($baseDn));
+        $this->setSchema($schema);
 
-        $this->setSchema(Schema::get());
+        $this->setQueryBuilder($this->newQueryBuilder($baseDn));
     }
 
     /**

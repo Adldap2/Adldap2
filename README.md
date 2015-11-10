@@ -36,6 +36,7 @@ authentication and Active Directory management tools.
   - [Organizational Units (OUs)](https://github.com/adldap2/adldap2/tree/master/docs/classes/ORGANIZATIONAL-UNITS.md)
   - [Exchange Servers](https://github.com/adldap2/adldap2/tree/master/docs/classes/EXCHANGE.md)
 - [Implementations](#implementations)
+- [Changelog](https://github.com/adldap2/adldap2/tree/master/CHANGELOG.md)
 
 ## Requirements
 

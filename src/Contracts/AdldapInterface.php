@@ -5,6 +5,7 @@ namespace Adldap\Contracts;
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 interface AdldapInterface
 {
@@ -15,11 +16,12 @@ interface AdldapInterface
      *
      * @param array|Configuration $configuration The Adldap configuration options array
      * @param ConnectionInterface $connection    The connection you'd like to use
+     * @param SchemaInterface     $schema        The LDAP attribute schema
      *
      * @throws \Adldap\Exceptions\AdldapException
      * @throws \InvalidArgumentException
      */
-    public function __construct($configuration, $connection = null);
+    public function __construct($configuration, $connection = null, SchemaInterface $schema = null);
 
     /**
      * Get the active LDAP Connection.
@@ -48,6 +50,13 @@ interface AdldapInterface
      * @param Configuration $configuration
      */
     public function setConfiguration(Configuration $configuration);
+
+    /**
+     * Sets the schema property.
+     *
+     * @param SchemaInterface $schema
+     */
+    public function setSchema(SchemaInterface $schema);
 
     /**
      * Returns the current manager instance.

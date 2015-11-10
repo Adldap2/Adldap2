@@ -2,9 +2,11 @@
 
 namespace Adldap;
 
+use Adldap\Schemas\Schema;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Manager;
 use Adldap\Contracts\AdldapInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
 use Adldap\Exceptions\InvalidArgumentException;
@@ -26,6 +28,13 @@ class Adldap implements AdldapInterface
     protected $configuration;
 
     /**
+     * Stores the current LDAP attribute schema.
+     *
+     * @var SchemaInterface
+     */
+    protected $schema;
+
+    /**
      * Stores the current manager instance.
      *
      * @var ManagerInterface
@@ -35,7 +44,7 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($configuration, $connection = null)
+    public function __construct($configuration, $connection = null, SchemaInterface $schema = null)
     {
         if (is_array($configuration)) {
             // If we've been given an array, we'll create
@@ -58,8 +67,17 @@ class Adldap implements AdldapInterface
             $connection = new Connections\Ldap();
         }
 
+        if(!$schema instanceof SchemaInterface) {
+            // Create a new LDAP Schema instance if
+            // one hasn't been instantiated yet.
+            $schema = Schema::get();
+        }
+
         // Set the connection.
         $this->setConnection($connection);
+
+        // Set the schema.
+        $this->setSchema($schema);
     }
 
     /**
@@ -101,6 +119,14 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
+    public function setSchema(SchemaInterface $schema)
+    {
+        $this->schema = $schema;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getManager()
     {
         if (!$this->manager instanceof ManagerInterface) {
@@ -115,7 +141,7 @@ class Adldap implements AdldapInterface
      */
     public function getDefaultManager()
     {
-        return new Manager($this->connection, $this->configuration);
+        return new Manager($this->connection, $this->configuration, $this->schema);
     }
 
     /**

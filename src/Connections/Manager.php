@@ -6,6 +6,7 @@ use Adldap\Auth\Guard;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Search\Factory as SearchFactory;
@@ -23,6 +24,11 @@ class Manager implements ManagerInterface
     protected $configuration;
 
     /**
+     * @var SchemaInterface
+     */
+    protected $schema;
+
+    /**
      * @var GuardInterface
      */
     protected $guard;
@@ -30,10 +36,11 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(ConnectionInterface $connection, Configuration $configuration)
+    public function __construct(ConnectionInterface $connection, Configuration $configuration, SchemaInterface $schema)
     {
         $this->setConnection($connection);
         $this->setConfiguration($configuration);
+        $this->setSchema($schema);
 
         // Prepare the connection.
         $this->prepareConnection();
@@ -104,6 +111,14 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function setSchema(SchemaInterface $schema)
+    {
+        $this->schema = $schema;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setGuard(GuardInterface $guard)
     {
         $this->guard = $guard;
@@ -114,7 +129,7 @@ class Manager implements ManagerInterface
      */
     public function create()
     {
-        return new ModelFactory($this->search()->getQueryBuilder());
+        return new ModelFactory($this->search()->getQueryBuilder(), $this->schema);
     }
 
     /**
@@ -122,7 +137,7 @@ class Manager implements ManagerInterface
      */
     public function search()
     {
-        return new SearchFactory($this->connection, $this->configuration->getBaseDn());
+        return new SearchFactory($this->connection, $this->schema, $this->configuration->getBaseDn());
     }
 
     /**

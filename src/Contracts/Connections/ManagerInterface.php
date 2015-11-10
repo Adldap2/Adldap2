@@ -4,6 +4,7 @@ namespace Adldap\Contracts\Connections;
 
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Auth\GuardInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 interface ManagerInterface
 {
@@ -12,8 +13,9 @@ interface ManagerInterface
      *
      * @param ConnectionInterface $connection
      * @param Configuration       $configuration
+     * @param SchemaInterface     $schema
      */
-    public function __construct(ConnectionInterface $connection, Configuration $configuration);
+    public function __construct(ConnectionInterface $connection, Configuration $configuration, SchemaInterface $schema);
 
     /**
      * Destructor.
@@ -66,6 +68,13 @@ interface ManagerInterface
      * @param Configuration $configuration
      */
     public function setConfiguration(Configuration $configuration);
+
+    /**
+     * Sets the current LDAP attribute schema.
+     *
+     * @param SchemaInterface $schema
+     */
+    public function setSchema(SchemaInterface $schema);
 
     /**
      * Sets the current Guard instance.

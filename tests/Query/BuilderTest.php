@@ -15,7 +15,7 @@ class BuilderTest extends UnitTestCase
             $connection = $this->newConnectionMock();
         }
 
-        return new Builder($connection, new Grammar());
+        return new Builder($connection, new Grammar(), Schema::get());
     }
 
     protected function newConnectionMock()

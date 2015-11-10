@@ -4,6 +4,7 @@ namespace Adldap\Tests;
 
 use Adldap\Query\Grammar;
 use Adldap\Query\Builder;
+use Adldap\Schemas\Schema;
 use Mockery;
 
 class UnitTestCase extends \PHPUnit_Framework_TestCase
@@ -54,7 +55,7 @@ class UnitTestCase extends \PHPUnit_Framework_TestCase
     {
         if(is_null($connection)) $connection = $this->newConnectionMock();
 
-        return new Builder($connection, new Grammar());
+        return new Builder($connection, new Grammar(), Schema::get());
     }
 
     /**

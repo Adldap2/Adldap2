@@ -22,7 +22,7 @@ class AdldapTest extends UnitTestCase
         $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
         $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp');
 
-        $ad = new Adldap($config, null, $autoConnect = false);
+        $ad = new Adldap($config, null);
 
         $this->assertInstanceOf('Adldap\Connections\Configuration', $ad->getConfiguration());
     }
@@ -31,7 +31,7 @@ class AdldapTest extends UnitTestCase
     {
         $connection = new Ldap();
 
-        $ad = new Adldap([], $connection, $autoConnect = false);
+        $ad = new Adldap([], $connection);
 
         $this->assertInstanceOf(get_class($connection), $ad->getConnection());
     }

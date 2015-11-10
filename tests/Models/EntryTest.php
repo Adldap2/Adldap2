@@ -3,10 +3,18 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
+use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
 class EntryTest extends UnitTestCase
 {
+    protected function newEntryModel($attributes = [], $builder, $schema = null)
+    {
+        if (is_null($schema)) $schema = Schema::get();
+
+        return new Entry($attributes, $builder, $schema);
+    }
+
     public function testConstruct()
     {
         $attributes = [
@@ -14,7 +22,7 @@ class EntryTest extends UnitTestCase
             'samaccountname' => 'Account Name',
         ];
 
-        $entry = new Entry($attributes, $this->newBuilder());
+        $entry = $this->newEntryModel($attributes, $this->newBuilder());
 
         $this->assertEquals($attributes, $entry->getAttributes());
     }
@@ -32,7 +40,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$rawAttributes]);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -52,7 +60,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -79,7 +87,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('modReplace')->once()->withArgs(['dc=corp,dc=org', ['cn' => 'John Doe']])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
         $this->assertTrue($entry->updateAttribute('cn', 'John Doe'));
@@ -101,7 +109,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', ['cn' => []]])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -124,7 +132,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('modAdd')->once()->withArgs(['dc=corp,dc=org', ['givenName' => 'John Doe']])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -144,7 +152,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -204,7 +212,7 @@ class EntryTest extends UnitTestCase
 
         $connection->shouldReceive('close')->andReturn(true);
 
-        $entry = new Entry($attributes, $this->newBuilder($connection));
+        $entry = $this->newEntryModel($attributes, $this->newBuilder($connection));
 
         $entry->setDn('cn=John Doe,ou=Accounting,dc=corp,dc=org');
 
@@ -228,7 +236,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -265,7 +273,7 @@ class EntryTest extends UnitTestCase
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry($attributes, $this->newBuilder($connection));
+        $entry = $this->newEntryModel($attributes, $this->newBuilder($connection));
 
         $entry->setDn($dn);
 
@@ -289,7 +297,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 
@@ -298,7 +306,7 @@ class EntryTest extends UnitTestCase
 
     public function testDeleteFailure()
     {
-        $entry = new Entry([], $this->newBuilder());
+        $entry = $this->newEntryModel([], $this->newBuilder());
 
         $this->setExpectedException('Adldap\Exceptions\AdldapException');
 
@@ -319,7 +327,7 @@ class EntryTest extends UnitTestCase
         $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 
@@ -329,6 +337,8 @@ class EntryTest extends UnitTestCase
     public function testConvertStringToBool()
     {
         $entry = $this->mock('Adldap\Models\Entry')->makePartial();
+
+        $entry->setSchema(Schema::get());
 
         $entry->shouldAllowMockingProtectedMethods();
 
@@ -371,7 +381,7 @@ class EntryTest extends UnitTestCase
             ]
         ];
 
-        $entry = new Entry([], $this->newBuilder());
+        $entry = $this->newEntryModel([], $this->newBuilder());
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -395,7 +405,7 @@ class EntryTest extends UnitTestCase
 
         $connection->shouldReceive('rename')->once()->withArgs($args)->andReturn(true);
 
-        $entry = new Entry([], $this->newBuilder($connection));
+        $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($rawAttributes);
 

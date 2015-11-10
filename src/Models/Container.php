@@ -4,7 +4,6 @@ namespace Adldap\Models;
 
 use Adldap\Models\Traits\HasCriticalSystemObjectTrait;
 use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Schemas\Schema;
 
 class Container extends Entry
 {
@@ -19,6 +18,6 @@ class Container extends Entry
      */
     public function getSystemFlags()
     {
-        return $this->getAttribute(Schema::get()->systemFlags(), 0);
+        return $this->getAttribute($this->schema->systemFlags(), 0);
     }
 }

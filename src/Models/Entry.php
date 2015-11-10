@@ -4,7 +4,6 @@ namespace Adldap\Models;
 
 use DateTime;
 use Adldap\Utilities;
-use Adldap\Schemas\Schema;
 
 class Entry extends AbstractModel
 {
@@ -28,7 +27,7 @@ class Entry extends AbstractModel
      */
     public function getName()
     {
-        return $this->getAttribute(Schema::get()->name(), 0);
+        return $this->getAttribute($this->schema->name(), 0);
     }
 
     /**
@@ -40,7 +39,7 @@ class Entry extends AbstractModel
      */
     public function setName($name)
     {
-        return $this->setAttribute(Schema::get()->name(), $name, 0);
+        return $this->setAttribute($this->schema->name(), $name, 0);
     }
 
     /**
@@ -52,7 +51,7 @@ class Entry extends AbstractModel
      */
     public function getCommonName()
     {
-        return $this->getAttribute(Schema::get()->commonName(), 0);
+        return $this->getAttribute($this->schema->commonName(), 0);
     }
 
     /**
@@ -64,7 +63,7 @@ class Entry extends AbstractModel
      */
     public function setCommonName($name)
     {
-        return $this->setAttribute(Schema::get()->commonName(), $name, 0);
+        return $this->setAttribute($this->schema->commonName(), $name, 0);
     }
 
     /**
@@ -76,7 +75,7 @@ class Entry extends AbstractModel
      */
     public function getAccountName()
     {
-        return $this->getAttribute(Schema::get()->accountName(), 0);
+        return $this->getAttribute($this->schema->accountName(), 0);
     }
 
     /**
@@ -88,7 +87,7 @@ class Entry extends AbstractModel
      */
     public function setAccountName($accountName)
     {
-        return $this->setAttribute(Schema::get()->accountName(), $accountName, 0);
+        return $this->setAttribute($this->schema->accountName(), $accountName, 0);
     }
 
     /**
@@ -100,7 +99,7 @@ class Entry extends AbstractModel
      */
     public function getAccountType()
     {
-        return $this->getAttribute(Schema::get()->accountType(), 0);
+        return $this->getAttribute($this->schema->accountType(), 0);
     }
 
     /**
@@ -112,7 +111,7 @@ class Entry extends AbstractModel
      */
     public function getCreatedAt()
     {
-        return $this->getAttribute(Schema::get()->createdAt(), 0);
+        return $this->getAttribute($this->schema->createdAt(), 0);
     }
 
     /**
@@ -146,7 +145,7 @@ class Entry extends AbstractModel
      */
     public function getUpdatedAt()
     {
-        return $this->getAttribute(Schema::get()->updatedAt(), 0);
+        return $this->getAttribute($this->schema->updatedAt(), 0);
     }
 
     /**
@@ -216,7 +215,7 @@ class Entry extends AbstractModel
      */
     public function getObjectCategoryDn()
     {
-        return $this->getAttribute(Schema::get()->objectCategory(), 0);
+        return $this->getAttribute($this->schema->objectCategory(), 0);
     }
 
     /**
@@ -228,7 +227,7 @@ class Entry extends AbstractModel
      */
     public function getObjectSid()
     {
-        return $this->getAttribute(Schema::get()->objectSid(), 0);
+        return $this->getAttribute($this->schema->objectSid(), 0);
     }
 
     /**
@@ -240,7 +239,7 @@ class Entry extends AbstractModel
      */
     public function getPrimaryGroupId()
     {
-        return $this->getAttribute(Schema::get()->primaryGroupId(), 0);
+        return $this->getAttribute($this->schema->primaryGroupId(), 0);
     }
 
     /**
@@ -252,7 +251,7 @@ class Entry extends AbstractModel
      */
     public function getInstanceType()
     {
-        return $this->getAttribute(Schema::get()->instanceType(), 0);
+        return $this->getAttribute($this->schema->instanceType(), 0);
     }
 
     /**
@@ -262,7 +261,7 @@ class Entry extends AbstractModel
      */
     public function getGuid()
     {
-        return $this->getAttribute(Schema::get()->objectGuid(), 0);
+        return $this->getAttribute($this->schema->objectGuid(), 0);
     }
 
     /**
@@ -272,7 +271,7 @@ class Entry extends AbstractModel
      */
     public function getSid()
     {
-        return Utilities::binarySidToText($this->getAttribute(Schema::get()->objectSid(), 0));
+        return Utilities::binarySidToText($this->getAttribute($this->schema->objectSid(), 0));
     }
 
     /**
@@ -282,6 +281,6 @@ class Entry extends AbstractModel
      */
     public function getMaxPasswordAge()
     {
-        return $this->getAttribute(Schema::get()->maxPasswordAge(), 0);
+        return $this->getAttribute($this->schema->maxPasswordAge(), 0);
     }
 }

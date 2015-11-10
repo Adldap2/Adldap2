@@ -2,8 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\Schema;
-
 class Printer extends Entry
 {
     /**
@@ -15,7 +13,7 @@ class Printer extends Entry
      */
     public function getPrinterName()
     {
-        return $this->getAttribute(Schema::get()->printerName(), 0);
+        return $this->getAttribute($this->schema->printerName(), 0);
     }
 
     /**
@@ -27,7 +25,7 @@ class Printer extends Entry
      */
     public function getPrinterShareName()
     {
-        return $this->getAttribute(Schema::get()->printerShareName(), 0);
+        return $this->getAttribute($this->schema->printerShareName(), 0);
     }
 
     /**
@@ -39,7 +37,7 @@ class Printer extends Entry
      */
     public function getMemory()
     {
-        return $this->getAttribute(Schema::get()->printerMemory(), 0);
+        return $this->getAttribute($this->schema->printerMemory(), 0);
     }
 
     /**
@@ -49,7 +47,7 @@ class Printer extends Entry
      */
     public function getUrl()
     {
-        return $this->getAttribute(Schema::get()->url(), 0);
+        return $this->getAttribute($this->schema->url(), 0);
     }
 
     /**
@@ -61,7 +59,7 @@ class Printer extends Entry
      */
     public function getLocation()
     {
-        return $this->getAttribute(Schema::get()->location(), 0);
+        return $this->getAttribute($this->schema->location(), 0);
     }
 
     /**
@@ -74,7 +72,7 @@ class Printer extends Entry
      */
     public function getServerName()
     {
-        return $this->getAttribute(Schema::get()->serverName(), 0);
+        return $this->getAttribute($this->schema->serverName(), 0);
     }
 
     /**
@@ -86,7 +84,7 @@ class Printer extends Entry
      */
     public function getColorSupported()
     {
-        return $this->convertStringToBool($this->getAttribute(Schema::get()->printerColorSupported(), 0));
+        return $this->convertStringToBool($this->getAttribute($this->schema->printerColorSupported(), 0));
     }
 
     /**
@@ -98,7 +96,7 @@ class Printer extends Entry
      */
     public function getDuplexSupported()
     {
-        return $this->convertStringToBool($this->getAttribute(Schema::get()->printerDuplexSupported(), 0));
+        return $this->convertStringToBool($this->getAttribute($this->schema->printerDuplexSupported(), 0));
     }
 
     /**
@@ -110,7 +108,7 @@ class Printer extends Entry
      */
     public function getMediaSupported()
     {
-        return $this->getAttribute(Schema::get()->printerMediaSupported());
+        return $this->getAttribute($this->schema->printerMediaSupported());
     }
 
     /**
@@ -122,7 +120,7 @@ class Printer extends Entry
      */
     public function getStaplingSupported()
     {
-        return $this->convertStringToBool($this->getAttribute(Schema::get()->printerStaplingSupported(), 0));
+        return $this->convertStringToBool($this->getAttribute($this->schema->printerStaplingSupported(), 0));
     }
 
     /**
@@ -134,7 +132,7 @@ class Printer extends Entry
      */
     public function getPrintBinNames()
     {
-        return $this->getAttribute(Schema::get()->printerBinNames());
+        return $this->getAttribute($this->schema->printerBinNames());
     }
 
     /**
@@ -146,7 +144,7 @@ class Printer extends Entry
      */
     public function getPrintMaxResolution()
     {
-        return $this->getAttribute(Schema::get()->printerMaxResolutionSupported(), 0);
+        return $this->getAttribute($this->schema->printerMaxResolutionSupported(), 0);
     }
 
     /**
@@ -158,7 +156,7 @@ class Printer extends Entry
      */
     public function getPrintOrientations()
     {
-        return $this->getAttribute(Schema::get()->printerOrientationSupported(), 0);
+        return $this->getAttribute($this->schema->printerOrientationSupported(), 0);
     }
 
     /**
@@ -170,7 +168,7 @@ class Printer extends Entry
      */
     public function getDriverName()
     {
-        return $this->getAttribute(Schema::get()->driverName(), 0);
+        return $this->getAttribute($this->schema->driverName(), 0);
     }
 
     /**
@@ -182,7 +180,7 @@ class Printer extends Entry
      */
     public function getDriverVersion()
     {
-        return $this->getAttribute(Schema::get()->driverVersion(), 0);
+        return $this->getAttribute($this->schema->driverVersion(), 0);
     }
 
     /**
@@ -194,7 +192,7 @@ class Printer extends Entry
      */
     public function getPriority()
     {
-        return $this->getAttribute(Schema::get()->priority(), 0);
+        return $this->getAttribute($this->schema->priority(), 0);
     }
 
     /**
@@ -206,7 +204,7 @@ class Printer extends Entry
      */
     public function getPrintStartTime()
     {
-        return $this->getAttribute(Schema::get()->printerStartTime(), 0);
+        return $this->getAttribute($this->schema->printerStartTime(), 0);
     }
 
     /**
@@ -218,7 +216,7 @@ class Printer extends Entry
      */
     public function getPrintEndTime()
     {
-        return $this->getAttribute(Schema::get()->printerEndTime(), 0);
+        return $this->getAttribute($this->schema->printerEndTime(), 0);
     }
 
     /**
@@ -230,7 +228,7 @@ class Printer extends Entry
      */
     public function getPortName()
     {
-        return $this->getAttribute(Schema::get()->portName(), 0);
+        return $this->getAttribute($this->schema->portName(), 0);
     }
 
     /**
@@ -242,7 +240,7 @@ class Printer extends Entry
      */
     public function getVersionNumber()
     {
-        return $this->getAttribute(Schema::get()->versionNumber(), 0);
+        return $this->getAttribute($this->schema->versionNumber(), 0);
     }
 
     /**
@@ -254,7 +252,7 @@ class Printer extends Entry
      */
     public function getPrintRate()
     {
-        return $this->getAttribute(Schema::get()->printerPrintRate(), 0);
+        return $this->getAttribute($this->schema->printerPrintRate(), 0);
     }
 
     /**
@@ -266,6 +264,6 @@ class Printer extends Entry
      */
     public function getPrintRateUnit()
     {
-        return $this->getAttribute(Schema::get()->printerPrintRate(), 0);
+        return $this->getAttribute($this->schema->printerPrintRate(), 0);
     }
 }

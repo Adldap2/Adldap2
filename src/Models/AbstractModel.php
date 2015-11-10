@@ -4,10 +4,10 @@ namespace Adldap\Models;
 
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Objects\BatchModification;
 use Adldap\Query\Builder;
-use Adldap\Schemas\Schema;
 use ArrayAccess;
 use JsonSerializable;
 
@@ -37,6 +37,11 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     protected $query;
 
     /**
+     * @var SchemaInterface
+     */
+    protected $schema;
+
+    /**
      * Holds the current objects attributes.
      *
      * @var array
@@ -60,14 +65,16 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Constructor.
      *
-     * @param array   $attributes
-     * @param Builder $builder
+     * @param array           $attributes
+     * @param Builder         $builder
+     * @param SchemaInterface $schema
      */
-    public function __construct(array $attributes = [], Builder $builder)
+    public function __construct(array $attributes = [], Builder $builder, SchemaInterface $schema)
     {
         $this->fill($attributes);
 
-        $this->query = $builder;
+        $this->setQuery($builder);
+        $this->setSchema($schema);
     }
 
     /**
@@ -93,6 +100,26 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function __set($key, $value)
     {
         return $this->setAttribute($key, $value);
+    }
+
+    /**
+     * Sets the current query builder.
+     *
+     * @param Builder $builder
+     */
+    public function setQuery(Builder $builder)
+    {
+        $this->query = $builder;
+    }
+
+    /**
+     * Sets the current model schema.
+     *
+     * @param SchemaInterface $schema
+     */
+    public function setSchema(SchemaInterface $schema)
+    {
+        $this->schema = $schema;
     }
 
     /**
@@ -434,7 +461,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute(Schema::get()->distinguishedName());
+        return $this->getAttribute($this->schema->distinguishedName());
     }
 
     /**
@@ -446,7 +473,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setDistinguishedName($dn)
     {
-        return $this->setAttribute(Schema::get()->distinguishedName(), (string) $dn);
+        return $this->setAttribute($this->schema->distinguishedName(), (string) $dn);
     }
 
     /**
@@ -710,9 +737,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $bool = strtoupper($bool);
 
-        if ($bool === Schema::get()->false()) {
+        if ($bool === $this->schema->false()) {
             return false;
-        } elseif ($bool === Schema::get()->true()) {
+        } elseif ($bool === $this->schema->true()) {
             return true;
         } else {
             return;

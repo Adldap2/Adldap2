@@ -2,8 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\Schema;
-
 class ExchangeServer extends Entry
 {
     /**
@@ -13,7 +11,7 @@ class ExchangeServer extends Entry
      */
     public function getSerialNumber()
     {
-        return $this->getAttribute(Schema::get()->serialNumber(), 0);
+        return $this->getAttribute($this->schema->serialNumber(), 0);
     }
 
     /**
@@ -23,7 +21,7 @@ class ExchangeServer extends Entry
      */
     public function getVersionNumber()
     {
-        return $this->getAttribute(Schema::get()->versionNumber(), 0);
+        return $this->getAttribute($this->schema->versionNumber(), 0);
     }
 
     /**
@@ -33,7 +31,7 @@ class ExchangeServer extends Entry
      */
     public function getAdminDisplayName()
     {
-        return $this->getAttribute(Schema::get()->adminDisplayName(), 0);
+        return $this->getAttribute($this->schema->adminDisplayName(), 0);
     }
 
     /**
@@ -43,7 +41,7 @@ class ExchangeServer extends Entry
      */
     public function getMessageTrackingEnabled()
     {
-        return $this->convertStringToBool($this->getAttribute(Schema::get()->messageTrackingEnabled(), 0));
+        return $this->convertStringToBool($this->getAttribute($this->schema->messageTrackingEnabled(), 0));
     }
 
     /**
@@ -53,12 +51,10 @@ class ExchangeServer extends Entry
      */
     public function getStorageGroups()
     {
-        $schema = Schema::get();
-
         return $this
             ->query
             ->setDn($this->getDn())
-            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangeStorageGroup())
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangeStorageGroup())
             ->get();
     }
 
@@ -71,12 +67,10 @@ class ExchangeServer extends Entry
      */
     public function getStorageGroupDatabases($storageGroup)
     {
-        $schema = Schema::get();
-
         return $this
             ->query
             ->setDn($storageGroup)
-            ->whereEquals($schema->objectCategory(), $schema->objectCategoryExchangePrivateMdb())
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangePrivateMdb())
             ->get();
     }
 }

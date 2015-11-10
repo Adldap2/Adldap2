@@ -59,7 +59,7 @@ class Factory
      */
     public function user(array $attributes = [])
     {
-        return (new User($attributes, $this->query))
+        return (new User($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), [
                 $this->schema->top(),
                 $this->schema->person(),
@@ -77,7 +77,7 @@ class Factory
      */
     public function ou(array $attributes = [])
     {
-        return (new OrganizationalUnit($attributes, $this->query))
+        return (new OrganizationalUnit($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), [
                 $this->schema->top(),
                 $this->schema->organizationalUnit(),
@@ -93,7 +93,7 @@ class Factory
      */
     public function group(array $attributes = [])
     {
-        return (new Group($attributes, $this->query))
+        return (new Group($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), [
                 $this->schema->top(),
                 $this->schema->objectCategoryGroup(),
@@ -109,7 +109,7 @@ class Factory
      */
     public function container(array $attributes = [])
     {
-        return (new Container($attributes, $this->query))
+        return (new Container($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), $this->schema->organizationalUnit());
     }
 
@@ -122,7 +122,7 @@ class Factory
      */
     public function contact(array $attributes = [])
     {
-        return (new User($attributes, $this->query))
+        return (new User($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), [
                 $this->schema->top(),
                 $this->schema->person(),
@@ -140,7 +140,7 @@ class Factory
      */
     public function computer(array $attributes = [])
     {
-        return (new Computer($attributes, $this->query))
+        return (new Computer($attributes, $this->query, $this->schema))
             ->setAttribute($this->schema->objectClass(), [
                 $this->schema->top(),
                 $this->schema->person(),

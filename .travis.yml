@@ -12,3 +12,8 @@ before_script:
   - travis_retry composer install --prefer-source --no-interaction --dev
 
 script: phpunit
+
+branches:
+  only:
+    - master
+    - v5.2

@@ -2,6 +2,7 @@
 
 namespace Adldap;
 
+use Adldap\Connections\Ldap;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Manager;
 use Adldap\Contracts\AdldapInterface;
@@ -50,9 +51,9 @@ class Adldap implements AdldapInterface
         $this->setConfiguration($configuration);
 
         if (!$connection instanceof ConnectionInterface) {
-            // Create a new LDAP Connection instance if
+            // Get the default LDAP Connection instance if
             // one hasn't been instantiated yet.
-            $connection = new Connections\Ldap();
+            $connection = $this->getDefaultConnection();
         }
 
         if (!$schema instanceof SchemaInterface) {
@@ -142,6 +143,14 @@ class Adldap implements AdldapInterface
     public function getDefaultManager()
     {
         return new Manager($this->connection, $this->configuration, $this->schema);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultConnection()
+    {
+        return new Ldap();
     }
 
     /**

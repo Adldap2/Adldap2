@@ -73,6 +73,13 @@ interface AdldapInterface
     public function getDefaultManager();
 
     /**
+     * Returns a new instance of the default connection.
+     *
+     * @return ConnectionInterface
+     */
+    public function getDefaultConnection();
+
+    /**
      * Sets the connection manager.
      *
      * @param ManagerInterface $manager

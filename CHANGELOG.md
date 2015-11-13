@@ -2,7 +2,18 @@
 
 ## [Unreleased](https://github.com/Adldap2/Adldap2/tree/HEAD)
 
-[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.0...HEAD)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.1...HEAD)
+
+**Implemented enhancements:**
+
+- Move user OU doesn't works; need rewrite move function [\#104](https://github.com/Adldap2/Adldap2/issues/104)
+
+**Closed issues:**
+
+- groups\(\)-\>find\('groupname'\) returns unexpected group  [\#133](https://github.com/Adldap2/Adldap2/issues/133)
+
+## [v5.2.1](https://github.com/Adldap2/Adldap2/tree/v5.2.1) (2015-11-10)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.0...v5.2.1)
 
 **Implemented enhancements:**
 

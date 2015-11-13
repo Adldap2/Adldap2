@@ -438,345 +438,623 @@ interface SchemaInterface
     public function manager();
 
     /**
+     * The maximum amount of time, in 100-nanosecond intervals, a password is valid.
+     *
+     * This value is stored as a large integer that represents the number of
+     * 100-nanosecond intervals from the time the password was set
+     * before the password expires.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms676863(v=vs.85).aspx
+     *
      * @return string
      */
     public function maxPasswordAge();
 
     /**
+     * The list of users that belong to the group.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
+     *
      * @return string
      */
     public function member();
 
     /**
+     * The distinguished name of the groups to which this object belongs.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
+     *
      * @return string
      */
     public function memberOf();
 
     /**
+     * @link https://msdn.microsoft.com/en-us/library/ms981934(v=exchg.65).aspx
+     *
      * @return string
      */
     public function messageTrackingEnabled();
 
     /**
+     * The object category of an exchange server.
+     *
      * @return string
      */
     public function msExchangeServer();
 
     /**
+     * The general name of the entry.
+     *
      * @return string
      */
     public function name();
 
     /**
+     * An object class name used to group objects of this or derived classes.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679011(v=vs.85).aspx
+     *
      * @return string
      */
     public function objectCategory();
 
     /**
+     * The computer object category.
+     *
      * @return string
      */
     public function objectCategoryComputer();
 
     /**
+     * The container object category.
+     *
      * @return string
      */
     public function objectCategoryContainer();
 
     /**
+     * The exchange private MDB category.
+     *
      * @return string
      */
     public function objectCategoryExchangePrivateMdb();
 
     /**
+     * The exchange server object category.
+     *
      * @return string
      */
     public function objectCategoryExchangeServer();
 
     /**
+     * The exchange storage group object category.
+     *
      * @return string
      */
     public function objectCategoryExchangeStorageGroup();
 
     /**
+     * The group object category.
+     *
      * @return string
      */
     public function objectCategoryGroup();
 
     /**
+     * The organizational unit category.
+     *
      * @return string
      */
     public function objectCategoryOrganizationalUnit();
 
     /**
+     * The person object category.
+     *
      * @return string
      */
     public function objectCategoryPerson();
 
     /**
+     * The printer object category.
+     *
      * @return string
      */
     public function objectCategoryPrinter();
 
     /**
+     * The list of classes from which this class is derived.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx
+     *
      * @return string
      */
     public function objectClass();
 
     /**
+     * The printer object class.
+     *
+     * Contains information about a print queue.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683911(v=vs.85).aspx
+     *
      * @return string
      */
     public function objectClassPrinter();
 
     /**
+     * The unique identifier for an object.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx
+     *
      * @return string
      */
     public function objectGuid();
 
     /**
+     * A binary value that specifies the security identifier (SID) of the user.
+     *
+     * The SID is a unique value used to identify the user as a security principal.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679024(v=vs.85).aspx
+     *
      * @return string
      */
     public function objectSid();
 
     /**
+     * The Operating System name, for example, Windows Vista Enterprise.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679076(v=vs.85).aspx
+     *
      * @return string
      */
     public function operatingSystem();
 
     /**
+     * The operating system service pack ID string (for example, SP3).
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679078(v=vs.85).aspx
+     *
      * @return string
      */
     public function operatingSystemServicePack();
 
     /**
+     * The operating system version string, for example, 4.0.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679079(v=vs.85).aspx
+     *
      * @return string
      */
     public function operatingSystemVersion();
 
     /**
+     * This class is used for objects that contain organizational information about a user,
+     * such as the employee number, department, manager, title, office address, and so on.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683883(v=vs.85).aspx
+     *
      * @return string
      */
     public function organizationalPerson();
 
     /**
+     * A container for storing users, computers, and other account objects.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683886(v=vs.85).aspx
+     *
      * @return string
      */
     public function organizationalUnit();
 
     /**
+     * The RDN version of organizational unit for use in distinguished names.
+     *
      * @return string
      */
     public function organizationalUnitShort();
 
     /**
+     * Contains other additional mail addresses in a form such as CCMAIL: JohnDoe
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
+     *
      * @return string
      */
     public function otherMailbox();
 
     /**
+     * The date and time that the password for this account was last changed.
+     *
+     * This value is stored as a large integer that represents the number of 100 nanosecond intervals
+     * since January 1, 1601 (UTC). If this value is set to 0 and the User-Account-Control attribute
+     * does not contain the UF_DONT_EXPIRE_PASSWD flag, then the user must set the password at
+     * the next logon.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679430(v=vs.85).aspx
+     *
      * @return string
      */
     public function passwordLastSet();
 
     /**
+     * The person object class.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683895(v=vs.85).aspx
+     *
      * @return string
      */
     public function person();
 
     /**
+     * The user's title.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679115(v=vs.85).aspx
+     *
      * @return string
      */
     public function personalTitle();
 
     /**
+     * Contains the office location in the user's place of business.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679117(v=vs.85).aspx
+     *
      * @return string
      */
     public function physicalDeliveryOfficeName();
 
     /**
+     * List of port names. For example, for printer ports or comm ports.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679131(v=vs.85).aspx
+     *
      * @return string
      */
     public function portName();
 
     /**
+     * The postal or zip code for mail delivery.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679366(v=vs.85).aspx
+     *
      * @return string
      */
     public function postalCode();
 
     /**
+     * Contains the relative identifier (RID) for the primary group of the user.
+     *
+     * By default, this is the RID for the Domain Users group.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
+     *
      * @return string
      */
     public function primaryGroupId();
 
     /**
+     * A list of printer bin names.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679380(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerBinNames();
 
     /**
+     * If a printer can print in color.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679382(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerColorSupported();
 
     /**
+     * Indicates the type of duplex support a printer has.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679383(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerDuplexSupported();
 
     /**
+     * The time a print queue stops servicing jobs.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679384(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerEndTime();
 
     /**
+     * The maximum printer resolution.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679391(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerMaxResolutionSupported();
 
     /**
+     * A list of media supported by a printer.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679395(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerMediaSupported();
 
     /**
+     * The amount of memory installed in a printer.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679396(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerMemory();
 
     /**
+     * The display name of an attached printer.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679385(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerName();
 
     /**
+     * The page rotation for landscape printing.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679402(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerOrientationSupported();
 
     /**
+     * Driver-supplied print rate.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679405(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerPrintRate();
 
     /**
+     * Driver-supplied print rate unit.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679406(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerPrintRateUnit();
 
     /**
+     * The printer's share name.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679408(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerShareName();
 
     /**
+     * If the printer supports stapling. Supplied by the driver.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679410(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerStaplingSupported();
 
     /**
+     * The time a print queue begins servicing jobs.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679411(v=vs.85).aspx
+     *
      * @return string
      */
     public function printerStartTime();
 
     /**
+     * The current priority (of a process, print job, and so on).
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679413(v=vs.85).aspx
+     *
      * @return string
      */
     public function priority();
 
     /**
+     * Specifies a path to the user's profile. This value can be a null
+     * string, a local absolute path, or a UNC path.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679422(v=vs.85).aspx
+     *
      * @return string
      */
     public function profilePath();
 
     /**
+     * A proxy address is the address by which a Microsoft Exchange Server recipient
+     * object is recognized in a foreign mail system. Proxy addresses are required
+     * for all recipient objects, such as custom recipients and distribution lists.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     *
      * @return string
      */
     public function proxyAddresses();
 
     /**
+     * This attribute specifies the path for the user's logon script. The string can be null.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679656(v=vs.85).aspx
+     *
      * @return string
      */
     public function scriptPath();
 
     /**
+     * Part of X.500 specification. Not used by Active Directory.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679771(v=vs.85).aspx
+     *
      * @return string
      */
     public function serialNumber();
 
     /**
+     * The name of a server.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679772(v=vs.85).aspx
+     *
      * @return string
      */
     public function serverName();
 
     /**
+     * This attribute is used to indicate in which MAPI address books an object will appear.
+     *
+     * It is usually maintained by the Exchange Recipient Update Service.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679822(v=vs.85).aspx
+     *
      * @return string
      */
     public function showInAddressBook();
 
+    /**
+     * The street address.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679882(v=vs.85).aspx
+     *
+     * @return string
+     */
     public function street();
 
     /**
+     * The street address.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679882(v=vs.85).aspx
+     *
      * @return string
      */
     public function streetAddress();
 
     /**
+     * An integer value that contains flags that define additional properties of the class.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680022(v=vs.85).aspx
+     *
      * @return string
      */
     public function systemFlags();
 
     /**
+     * The primary telephone number.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
+     *
      * @return string
      */
     public function telephone();
 
     /**
+     * The users thumbnail photo path.
+     *
      * @return string
      */
     public function thumbnail();
 
     /**
+     * Contains the user's job title.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     *
      * @return string
      */
     public function title();
 
+    /**
+     * The top level class from which all classes are derived.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683975(v=vs.85).aspx
+     *
+     * @return string
+     */
     public function top();
 
     /**
+     * The AD true bool in string form for conversion.
+     *
      * @return string
      */
     public function true();
 
     /**
+     * The password of the user in Windows NT one-way format (OWF). Windows 2000 uses the Windows NT OWF.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680513(v=vs.85).aspx
+     *
      * @return string
      */
     public function unicodePassword();
 
     /**
+     * The date when this object was last changed.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
+     *
      * @return string
      */
     public function updatedAt();
 
     /**
+     * The entry's URL attribute.
+     *
      * @return string
      */
     public function url();
 
     /**
+     * The user object class.
+     *
+     * This class is used to store information about an employee or contractor who works for an organization.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms683980(v=vs.85).aspx
+     *
      * @return string
      */
     public function user();
 
     /**
+     * Flags that control the behavior of the user account.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680832(v=vs.85).aspx
+     *
      * @return string
      */
     public function userAccountControl();
 
     /**
+     * his attribute contains the UPN that is an Internet-style login name for
+     * a user based on the Internet standard RFC 822.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680857(v=vs.85).aspx
+     *
      * @return string
      */
     public function userPrincipalName();
 
     /**
+     * A general purpose version number.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680897(v=vs.85).aspx
+     *
      * @return string
      */
     public function versionNumber();

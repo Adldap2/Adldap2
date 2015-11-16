@@ -14,7 +14,7 @@
 ## Description
 
 Working with Active Directory doesn't need to be hard. Adldap2 is a tested PHP package that provides LDAP
-authentication and Active Directory management tools.
+authentication and Active Directory management tools using the Active Record pattern.
 
 ## Index
 

@@ -180,7 +180,11 @@ class Builder
      */
     public function newInstance()
     {
-        return new self($this->connection, $this->grammar, $this->schema);
+        $new = new self($this->connection, $this->grammar, $this->schema);
+
+        $new->setDn($this->getDn());
+
+        return $new;
     }
 
     /**

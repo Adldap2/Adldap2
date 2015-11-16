@@ -177,7 +177,11 @@ class Builder
      */
     public function newInstance()
     {
-        return new self($this->connection, $this->grammar);
+        $new = new self($this->connection, $this->grammar);
+
+        $new->setDn($this->getDn());
+
+        return $new;
     }
 
     /**

@@ -132,7 +132,7 @@ trait HasMemberOfTrait
      * Returns true / false if the current model
      * is in the specified group.
      *
-     * @param string|Group $group
+     * @param string|Group $group|array $group
      *
      * @return bool
      */
@@ -147,6 +147,12 @@ trait HasMemberOfTrait
         } elseif (is_string($group)) {
             foreach ($groups as $model) {
                 if ($model instanceof AbstractModel && $group == $model->getName()) {
+                    return true;
+                }
+            }
+        } elseif (is_array($group)){
+            foreach ($groups as $model) {
+                if ($model instanceof AbstractModel && in_array($model->getName(),$group)) {
                     return true;
                 }
             }

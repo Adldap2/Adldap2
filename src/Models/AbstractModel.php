@@ -736,9 +736,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $bool = strtoupper($bool);
 
-        if ($bool === $this->schema->false()) {
+        if ($bool === strtoupper($this->schema->false())) {
             return false;
-        } elseif ($bool === $this->schema->true()) {
+        } elseif ($bool === strtoupper($this->schema->true())) {
             return true;
         } else {
             return;

@@ -669,7 +669,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $dn = $this->getDn();
 
-        if (!$this->exists) {
+        if ($this->exists === false) {
             // Make sure the record exists before we can delete it
             $message = 'Model does not exist in active directory.';
 

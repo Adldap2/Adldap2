@@ -98,7 +98,7 @@ class Guard implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function bindUsingCredentials($username, $password)
+    public function bindUsingCredentials($username, $password, $suffix = null)
     {
         if (empty($username)) {
             // Allow binding with null username.
@@ -106,7 +106,11 @@ class Guard implements GuardInterface
         } else {
             // If the username isn't empty, we'll append the configured
             // account suffix to bind to the LDAP server.
-            $username .= $this->configuration->getAccountSuffix();
+            if (is_null($suffix)) {
+                $suffix = $this->configuration->getAccountSuffix();
+            }
+
+            $username .= $suffix;
         }
 
         if (empty($password)) {
@@ -132,10 +136,11 @@ class Guard implements GuardInterface
      */
     public function bindAsAdministrator()
     {
-        $adminUsername = $this->configuration->getAdminUsername();
-        $adminPassword = $this->configuration->getAdminPassword();
+        $username = $this->configuration->getAdminUsername();
+        $password = $this->configuration->getAdminPassword();
+        $suffix = $this->configuration->getAdminAccountSuffix();
 
-        $this->bindUsingCredentials($adminUsername, $adminPassword);
+        $this->bindUsingCredentials($username, $password, $suffix);
     }
 
     /**

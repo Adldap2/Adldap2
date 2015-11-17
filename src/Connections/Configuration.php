@@ -88,6 +88,13 @@ class Configuration
     private $adminPassword;
 
     /**
+     * The LDAP administrator account suffix.
+     *
+     * @var string
+     */
+    private $adminAccountSuffix;
+
+    /**
      * Constructor.
      *
      * @param array|Traversable $options
@@ -118,7 +125,7 @@ class Configuration
     /**
      * Returns the Base DN string.
      *
-     * @return string
+     * @return string|null
      */
     public function getBaseDn()
     {
@@ -286,7 +293,7 @@ class Configuration
     /**
      * Returns the account suffix option.
      *
-     * @return string
+     * @return string|null
      */
     public function getAccountSuffix()
     {
@@ -306,7 +313,7 @@ class Configuration
     /**
      * Returns the administrator username option.
      *
-     * @return string
+     * @return string|null
      */
     public function getAdminUsername()
     {
@@ -326,11 +333,31 @@ class Configuration
     /**
      * Returns the administrators password option.
      *
-     * @return string
+     * @return string|null
      */
     public function getAdminPassword()
     {
         return $this->adminPassword;
+    }
+
+    /**
+     * Sets the administrators account suffix option.
+     *
+     * @param $suffix
+     */
+    public function setAdminAccountSuffix($suffix)
+    {
+        $this->adminAccountSuffix = (string) $suffix;
+    }
+
+    /**
+     * Returns the administrators account suffix option.
+     *
+     * @return string|null
+     */
+    public function getAdminAccountSuffix()
+    {
+        return $this->adminAccountSuffix;
     }
 
     /**

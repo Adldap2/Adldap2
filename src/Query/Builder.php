@@ -1133,13 +1133,11 @@ class Builder
     }
 
     /**
-     * Processes LDAP search results into a nice array.
-     *
-     * If raw is not set to true, an ArrayCollection is returned.
+     * Processes LDAP search results and constructs their model instances.
      *
      * @param resource $results
      *
-     * @return array|ArrayCollection
+     * @return array
      */
     private function processResults($results)
     {

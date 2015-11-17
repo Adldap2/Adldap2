@@ -655,7 +655,7 @@ interface SchemaInterface
     public function organizationalUnitShort();
 
     /**
-     * Contains other additional mail addresses in a form such as CCMAIL: JohnDoe
+     * Contains other additional mail addresses in a form such as CCMAIL: JohnDoe.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
      *

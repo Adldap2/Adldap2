@@ -150,9 +150,9 @@ trait HasMemberOfTrait
                     return true;
                 }
             }
-        } elseif (is_array($group)){
+        } elseif (is_array($group)) {
             foreach ($groups as $model) {
-                if ($model instanceof AbstractModel && in_array($model->getName(),$group)) {
+                if ($model instanceof AbstractModel && in_array($model->getName(), $group)) {
                     return true;
                 }
             }

@@ -1106,10 +1106,10 @@ class Builder
      */
     public function clearBindings()
     {
-        $this->selects  = [];
-        $this->wheres   = [];
+        $this->selects = [];
+        $this->wheres = [];
         $this->orWheres = [];
-        $this->filters  = [];
+        $this->filters = [];
 
         return $this;
     }

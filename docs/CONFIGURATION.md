@@ -15,6 +15,7 @@ $config = [
     'base_dn'               => 'dc=corp,dc=acme,dc=org',
     'admin_username'        => 'username',
     'admin_password'        => 'password',
+    'admin_account_suffix'  => '@acme.org',
     'follow_referrals'      => true,
     'use_ssl'               => false,
     'use_tls'               => false,
@@ -53,8 +54,13 @@ $ad = new \Adldap\Adldap($config);
 The account suffix option is the suffix of your user accounts in AD. For example, if your domain DN is `DC=corp,DC=acme,DC=org`,
 then your account suffix would be `@corp.acme.org`. This is then appended to then end of your user accounts on authentication.
 
-For example, if you're binding as an administrator, and your username is `admin`, then Adldap would try to authenticate with
-your server as `admin@corp.acme.org`.
+For example, if you're binding as a user, and your username is `jdoe`, then Adldap would try to authenticate with
+your server as `jdoe@corp.acme.org`.
+
+##### Admin Account Suffix (optional)
+
+The admin account suffix option is the suffix of your administrator account in AD. Having a separate suffix for user accounts
+and administrator accounts allows you to bind your admin under a different suffix than user accounts.
 
 #### Domain Controllers (required)
 

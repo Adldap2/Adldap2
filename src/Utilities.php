@@ -161,34 +161,63 @@ class Utilities
     }
 
     /**
-     * Convert a binary SID to a text SID.
+     * Convert a binary SID to a string SID.
      *
-     * @param string $binsid A Binary SID
+     * @param string $binSid A Binary SID
      *
      * @return string
      */
-    public static function binarySidToText($binsid)
+    public static function binarySidToString($binSid)
     {
-        $hex_sid = bin2hex($binsid);
+        if (trim($binSid) == '' || is_null($binSid)) {
+            return;
+        }
 
-        $rev = hexdec(substr($hex_sid, 0, 2));
+        $hex = bin2hex($binSid);
 
-        $subcount = hexdec(substr($hex_sid, 2, 2));
+        $rev = hexdec(substr($hex, 0, 2));
 
-        $auth = hexdec(substr($hex_sid, 4, 12));
+        $subCount = hexdec(substr($hex, 2, 2));
+
+        $auth = hexdec(substr($hex, 4, 12));
 
         $result = "$rev-$auth";
 
         $subauth = [];
 
-        for ($x = 0;$x < $subcount; $x++) {
-            $subauth[$x] = hexdec(static::littleEndian(substr($hex_sid, 16 + ($x * 8), 8)));
+        for ($x = 0;$x < $subCount; $x++) {
+            $subauth[$x] = hexdec(static::littleEndian(substr($hex, 16 + ($x * 8), 8)));
 
             $result .= '-'.$subauth[$x];
         }
 
-        // Cheat by tacking on the S-
         return 'S-'.$result;
+    }
+
+    /**
+     * Convert a binary GUID to a string GUID.
+     *
+     * @param string $binGuid
+     *
+     * @return string
+     */
+    public static function binaryGuidToString($binGuid)
+    {
+        if (trim($binGuid) == '' || is_null($binGuid)) {
+            return;
+        }
+
+        $hex = unpack("H*hex", $binGuid)['hex'];
+
+        $hex1   = substr($hex, -26, 2) . substr($hex, -28, 2) . substr($hex, -30, 2) . substr($hex, -32, 2);
+        $hex2   = substr($hex, -22, 2) . substr($hex, -24, 2);
+        $hex3   = substr($hex, -18, 2) . substr($hex, -20, 2);
+        $hex4   = substr($hex, -16, 4);
+        $hex5   = substr($hex, -12, 12);
+
+        $guid = sprintf('%s-%s-%s-%s-%s', $hex1, $hex2, $hex3, $hex4, $hex5);
+
+        return $guid;
     }
 
     /**

@@ -261,7 +261,7 @@ class Entry extends AbstractModel
      */
     public function getGuid()
     {
-        return $this->getAttribute($this->schema->objectGuid(), 0);
+        return Utilities::binaryGuidToString($this->getAttribute($this->schema->objectGuid(), 0));
     }
 
     /**
@@ -271,7 +271,7 @@ class Entry extends AbstractModel
      */
     public function getSid()
     {
-        return Utilities::binarySidToText($this->getAttribute($this->schema->objectSid(), 0));
+        return Utilities::binarySidToString($this->getAttribute($this->schema->objectSid(), 0));
     }
 
     /**

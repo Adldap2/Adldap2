@@ -316,7 +316,7 @@ class Adldap implements AdldapContract
      *
      * @throws AdldapException
      */
-    private function bindUsingKerberos($kerberosCredentials)
+    protected function bindUsingKerberos($kerberosCredentials)
     {
         $key = 'KRB5CCNAME=';
 
@@ -344,7 +344,7 @@ class Adldap implements AdldapContract
      *
      * @throws AdldapException
      */
-    private function bindUsingCredentials($username, $password)
+    protected function bindUsingCredentials($username, $password)
     {
         if (empty($username)) {
             // Allow binding with null username.

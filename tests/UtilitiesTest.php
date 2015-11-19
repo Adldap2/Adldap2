@@ -136,7 +136,7 @@ class UtilitiesTest extends UnitTestCase
 
         $this->assertFalse(Utilities::isValidSid('Invalid SID'));
     }
-    
+
     public function testBinarySidToString()
     {
         $sid = '\01\05\00\00\00\00\00\05\15\00\00\00\dc\f4\dc\3b\83\3d\2b\46\82\8b\a6\28\00\02\00\00';

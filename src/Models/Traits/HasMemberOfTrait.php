@@ -8,6 +8,8 @@ use Adldap\Utilities;
 
 trait HasMemberOfTrait
 {
+    use ModelTrait;
+
     /**
      * Adds the current model to the specified group.
      *
@@ -20,7 +22,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $query = $this->query->newInstance();
+            $query = $this->getQuery()->newInstance();
 
             $group = $query->findByDn($group);
         }
@@ -46,7 +48,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $query = $this->query->newInstance();
+            $query = $this->getQuery()->newInstance();
 
             $group = $query->findByDn($group);
         }
@@ -89,11 +91,11 @@ trait HasMemberOfTrait
     {
         $groups = [];
 
-        $dns = $this->getAttribute($this->schema->memberOf());
+        $dns = $this->getAttribute($this->getSchema()->memberOf());
 
         if (is_array($dns)) {
             foreach ($dns as $key => $dn) {
-                $query = $this->query->newInstance();
+                $query = $this->getQuery()->newInstance();
 
                 $groups[] = $query
                     ->select($fields)
@@ -113,7 +115,7 @@ trait HasMemberOfTrait
     {
         $names = [];
 
-        $dns = $this->getAttribute($this->schema->memberOf());
+        $dns = $this->getAttribute($this->getSchema()->memberOf());
 
         if (is_array($dns)) {
             foreach ($dns as $dn) {

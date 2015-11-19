@@ -136,4 +136,26 @@ class UtilitiesTest extends UnitTestCase
 
         $this->assertFalse(Utilities::isValidSid('Invalid SID'));
     }
+    
+    public function testBinarySidToString()
+    {
+        $sid = '\01\05\00\00\00\00\00\05\15\00\00\00\dc\f4\dc\3b\83\3d\2b\46\82\8b\a6\28\00\02\00\00';
+
+        $expected = 'S-1-5-21-1004336348-1177238915-682003330-512';
+
+        $this->assertEquals($expected, Utilities::binarySidToString(pack('H*', str_replace('\\', '', $sid))));
+        $this->assertNull(Utilities::binaryGuidToString(null));
+        $this->assertNull(Utilities::binaryGuidToString('  '));
+    }
+
+    public function testBinaryGuidToString()
+    {
+        $guid = '\d0\b4\0d\27\9d\24\a7\46\9c\c5\eb\69\5d\9a\f9\ac';
+
+        $expected = '270db4d0-249d-46a7-9cc5-eb695d9af9ac';
+
+        $this->assertEquals($expected, Utilities::binaryGuidToString(pack('H*', str_replace('\\', '', $guid))));
+        $this->assertNull(Utilities::binaryGuidToString(null));
+        $this->assertNull(Utilities::binaryGuidToString('  '));
+    }
 }

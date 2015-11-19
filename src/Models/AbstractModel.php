@@ -30,13 +30,15 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public $dateFormat = 'Y-m-d H:i:s';
 
     /**
-     * The current LDAP connection instance.
+     * The current query builder instance.
      *
      * @var Builder
      */
     protected $query;
 
     /**
+     * The current LDAP attribute schema.
+     *
      * @var SchemaInterface
      */
     protected $schema;
@@ -112,6 +114,16 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the current query builder.
+     *
+     * @return Builder
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
      * Sets the current model schema.
      *
      * @param SchemaInterface $schema
@@ -119,6 +131,16 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function setSchema(SchemaInterface $schema)
     {
         $this->schema = $schema;
+    }
+
+    /**
+     * Returns the current model schema.
+     *
+     * @return SchemaInterface
+     */
+    public function getSchema()
+    {
+        return $this->schema;
     }
 
     /**

@@ -207,13 +207,13 @@ class Utilities
             return;
         }
 
-        $hex = unpack("H*hex", $binGuid)['hex'];
+        $hex = unpack('H*hex', $binGuid)['hex'];
 
-        $hex1   = substr($hex, -26, 2) . substr($hex, -28, 2) . substr($hex, -30, 2) . substr($hex, -32, 2);
-        $hex2   = substr($hex, -22, 2) . substr($hex, -24, 2);
-        $hex3   = substr($hex, -18, 2) . substr($hex, -20, 2);
-        $hex4   = substr($hex, -16, 4);
-        $hex5   = substr($hex, -12, 12);
+        $hex1 = substr($hex, -26, 2).substr($hex, -28, 2).substr($hex, -30, 2).substr($hex, -32, 2);
+        $hex2 = substr($hex, -22, 2).substr($hex, -24, 2);
+        $hex3 = substr($hex, -18, 2).substr($hex, -20, 2);
+        $hex4 = substr($hex, -16, 4);
+        $hex5 = substr($hex, -12, 12);
 
         $guid = sprintf('%s-%s-%s-%s-%s', $hex1, $hex2, $hex3, $hex4, $hex5);
 

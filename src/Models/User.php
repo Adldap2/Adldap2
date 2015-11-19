@@ -627,7 +627,7 @@ class User extends Entry
         $thumb = $this->getThumbnail();
 
         if (!is_null($thumb)) {
-            return 'data:image/jpeg;base64,' . base64_encode($thumb);
+            return 'data:image/jpeg;base64,'.base64_encode($thumb);
         }
 
         return;

@@ -19,6 +19,13 @@ trait ModelTrait
     abstract public function getSchema();
 
     /**
+     * Returns the model's distinguished name string.
+     *
+     * @return string
+     */
+    abstract public function getDn();
+    
+    /**
      * Retrieves the specified key from the attribute array.
      *
      * If a sub-key is specified, it will try and

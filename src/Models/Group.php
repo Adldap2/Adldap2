@@ -51,7 +51,7 @@ class Group extends Entry
     {
         $this->setAttribute($this->schema->member(), $entries);
 
-        return $this->save();
+        return $this;
     }
 
     /**

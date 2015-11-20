@@ -24,7 +24,7 @@ trait ModelTrait
      * @return string
      */
     abstract public function getDn();
-    
+
     /**
      * Retrieves the specified key from the attribute array.
      *

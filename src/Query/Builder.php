@@ -5,15 +5,12 @@ namespace Adldap\Query;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Models\Entry;
-use Adldap\Objects\Paginator;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
-use Adldap\Utilities;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
+use Adldap\Objects\Paginator;
+use Adldap\Models\Entry;
 
 class Builder
 {
@@ -190,7 +187,7 @@ class Builder
     /**
      * Returns the current query.
      *
-     * @return array|ArrayCollection|bool
+     * @return array|\Doctrine\Common\Collections\ArrayCollection|bool
      */
     public function get()
     {
@@ -257,7 +254,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return array|ArrayCollection|bool
+     * @return array|\Doctrine\Common\Collections\ArrayCollection|bool
      */
     public function query($query)
     {
@@ -277,7 +274,7 @@ class Builder
         }
 
         if ($results) {
-            return $this->newCollection($this->processResults($results));
+            return $this->newProcessor()->process($results);
         }
 
         return false;
@@ -316,7 +313,7 @@ class Builder
         } while ($cookie !== null && !empty($cookie));
 
         if (count($pages) > 0) {
-            return $this->processPaginatedResults($pages, $perPage, $currentPage);
+            return $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
         }
 
         return false;
@@ -333,9 +330,7 @@ class Builder
     {
         $results = $this->select($columns)->get();
 
-        if ($results instanceof ArrayCollection) {
-            return $results->first();
-        } elseif (is_array($results) && array_key_exists(0, $results)) {
+        if (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 
@@ -705,7 +700,7 @@ class Builder
 
     /**
      * Adds a enabled filter to the current query.
-     * 
+     *
      * @return Builder
      */
     public function whereEnabled()
@@ -717,7 +712,7 @@ class Builder
 
     /**
      * Adds a disabled filter to the current query.
-     * 
+     *
      * @return Builder
      */
     public function whereDisabled()
@@ -1037,66 +1032,56 @@ class Builder
     }
 
     /**
-     * Returns a new LDAP Entry instance.
+     * Returns the query builders sort by field.
      *
-     * @param array $attributes
-     *
-     * @return Entry
+     * @return string
      */
-    public function newLdapEntry(array $attributes = [])
+    public function getSortByField()
     {
-        $attribute = $this->schema->objectCategory();
-
-        if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
-            // We'll explode the DN so we can grab it's object category.
-            $category = Utilities::explodeDn($attributes[$attribute][0]);
-
-            // Make sure the category string exists in the attribute array.
-            if (array_key_exists(0, $category)) {
-                $category = strtolower($category[0]);
-
-                $mappings = $this->map();
-
-                // Retrieve the category model mapping.
-                if (array_key_exists($category, $mappings)) {
-                    $model = $mappings[$category];
-
-                    return $this->newModel([], $model)->setRawAttributes($attributes);
-                }
-            }
-        }
-
-        // A default entry model if the object category isn't found.
-        return $this->newModel()->setRawAttributes($attributes);
+        return $this->sortByField;
     }
 
     /**
-     * Creates a new model instance.
+     * Returns the query builders sort by direction.
      *
-     * @param array       $attributes
-     * @param string|null $model
-     *
-     * @return mixed|Entry
+     * @return string
      */
-    public function newModel($attributes = [], $model = null)
+    public function getSortByDirection()
     {
-        if (!is_null($model) && class_exists($model)) {
-            return new $model($attributes, $this);
-        }
-
-        return new Entry($attributes, $this);
+        return $this->sortByDirection;
     }
 
     /**
-     * Returns a new doctrine array collection instance.
+     * Returns bool that determines whether the current
+     * query builder will return raw results.
      *
-     * @param array $elements
-     *
-     * @return ArrayCollection
+     * @return bool
      */
-    public function newCollection(array $elements = [])
+    public function isRaw()
     {
-        return new ArrayCollection($elements);
+        return $this->raw;
+    }
+
+    /**
+     * Returns bool that determines whether the current
+     * query builder will return paginated results.
+     *
+     * @return bool
+     */
+    public function isPaginated()
+    {
+        return $this->paginated;
+    }
+
+    /**
+     * Returns bool that determines whether the current
+     * query builder will return sorted results.
+     *
+     * @return bool
+     */
+    public function isSorted()
+    {
+        return ($this->sortByField ? true : false);
     }
 
     /**
@@ -1115,102 +1100,12 @@ class Builder
     }
 
     /**
-     * Returns the object category model class mapping.
+     * Returns a new query Processor instance.
      *
-     * @return array
+     * @return Processor
      */
-    protected function map()
+    protected function newProcessor()
     {
-        return [
-            $this->schema->objectCategoryComputer()           => 'Adldap\Models\Computer',
-            $this->schema->objectCategoryPerson()             => 'Adldap\Models\User',
-            $this->schema->objectCategoryGroup()              => 'Adldap\Models\Group',
-            $this->schema->objectCategoryExchangeServer()     => 'Adldap\Models\ExchangeServer',
-            $this->schema->objectCategoryContainer()          => 'Adldap\Models\Container',
-            $this->schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
-            $this->schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
-        ];
-    }
-
-    /**
-     * Processes LDAP search results and constructs their model instances.
-     *
-     * @param resource $results
-     *
-     * @return array
-     */
-    private function processResults($results)
-    {
-        $entries = $this->connection->getEntries($results);
-
-        if ($this->raw === true) {
-            return $entries;
-        } else {
-            $models = [];
-
-            if (is_array($entries) && array_key_exists('count', $entries)) {
-                for ($i = 0; $i < $entries['count']; $i++) {
-                    $models[] = $this->newLdapEntry($entries[$i]);
-                }
-            }
-
-            // If the current query isn't paginated,
-            // we'll sort the models array here.
-            if (!$this->paginated) {
-                $models = $this->processSort($models);
-            }
-
-            return $models;
-        }
-    }
-
-    /**
-     * Processes paginated LDAP results.
-     *
-     * @param array $pages
-     * @param int   $perPage
-     * @param int   $currentPage
-     *
-     * @return Paginator|bool
-     */
-    private function processPaginatedResults($pages, $perPage = 50, $currentPage = 0)
-    {
-        // Make sure we have at least one page of results.
-        if (count($pages) > 0) {
-            $objects = [];
-
-            // Go through each page and process the results into an objects array.
-            foreach ($pages as $results) {
-                $processed = $this->processResults($results);
-
-                $objects = array_merge($objects, $processed);
-            }
-
-            $objects = $this->processSort($objects);
-
-            // Return a new Paginator instance.
-            return new Paginator($objects, $perPage, $currentPage, count($pages));
-        }
-
-        // Looks like we don't have any results, return false
-        return false;
-    }
-
-    /**
-     * Sorts LDAP search results.
-     *
-     * @param array $models
-     *
-     * @return array
-     */
-    private function processSort(array $models = [])
-    {
-        $collection = $this->newCollection($models);
-
-        $sort = [$this->sortByField => $this->sortByDirection];
-
-        $criteria = (new Criteria())->orderBy($sort);
-
-        return $collection->matching($criteria)->toArray();
+        return new Processor($this);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Adldap\Query;
 
-use Adldap\Utilities;
+use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
-use Doctrine\Common\Collections\Criteria;
+use Adldap\Utilities;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 
 class Processor
 {

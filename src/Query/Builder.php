@@ -2,7 +2,6 @@
 
 namespace Adldap\Query;
 
-use InvalidArgumentException;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
@@ -13,6 +12,7 @@ use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
+use InvalidArgumentException;
 
 class Builder
 {
@@ -1076,13 +1076,13 @@ class Builder
      * @param AbstractBinding $value
      * @param string          $type
      *
-     * @return Builder
-     *
      * @throws InvalidArgumentException
+     *
+     * @return Builder
      */
     public function addBinding(AbstractBinding $value, $type = 'where')
     {
-        if (! array_key_exists($type, $this->bindings)) {
+        if (!array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
 

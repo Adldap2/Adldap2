@@ -8,6 +8,7 @@ use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
+use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
@@ -1072,24 +1073,20 @@ class Builder
     /**
      * Adds a binding to the current query.
      *
-     * @param mixed  $value
-     * @param string $type
+     * @param AbstractBinding $value
+     * @param string          $type
      *
      * @return Builder
      *
      * @throws InvalidArgumentException
      */
-    public function addBinding($value, $type = 'where')
+    public function addBinding(AbstractBinding $value, $type = 'where')
     {
         if (! array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
 
-        if (is_array($value)) {
-            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
-        } else {
-            $this->bindings[$type][] = $value;
-        }
+        $this->bindings[$type][] = $value;
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace Adldap\Query\Bindings;
 
-class AbstractBinding
+abstract class AbstractBinding
 {
     //
 }

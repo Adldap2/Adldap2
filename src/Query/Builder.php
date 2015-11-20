@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use InvalidArgumentException;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
@@ -505,7 +506,7 @@ class Builder
                 $this->select($field);
             }
         } elseif (is_string($fields)) {
-            $this->bindings['select'][] = new Select($fields);
+            $this->addBinding(new Select($fields), 'select');
         }
 
         return $this;
@@ -520,7 +521,7 @@ class Builder
      */
     public function rawFilter($filter)
     {
-        $this->bindings['filter'][] = new Filter($filter);
+        $this->addBinding(new Filter($filter), 'filter');
 
         return $this;
     }
@@ -543,7 +544,7 @@ class Builder
                 $this->whereEquals($key, $value);
             }
         } else {
-            $this->bindings['where'][] = new Where($field, $operator, $value);
+            $this->addBinding(new Where($field, $operator, $value));
         }
 
         return $this;
@@ -724,7 +725,7 @@ class Builder
                 $this->orWhereEquals($key, $value);
             }
         } else {
-            $this->bindings['orWhere'][] = new OrWhere($field, $operator, $value);
+            $this->addBinding(new OrWhere($field, $operator, $value), 'orWhere');
         }
 
         return $this;
@@ -1066,6 +1067,29 @@ class Builder
     public function isSorted()
     {
         return ($this->sortByField ? true : false);
+    }
+
+    /**
+     * Adds a binding to the current query.
+     *
+     * @param mixed  $value
+     * @param string $type
+     *
+     * @return Builder
+     */
+    public function addBinding($value, $type = 'where')
+    {
+        if (! array_key_exists($type, $this->bindings)) {
+            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+        }
+
+        if (is_array($value)) {
+            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
+        } else {
+            $this->bindings[$type][] = $value;
+        }
+
+        return $this;
     }
 
     /**

@@ -23,32 +23,16 @@ class Builder
     public $paginated = false;
 
     /**
-     * The select query bindings.
+     * The query bindings.
      *
      * @var array
      */
-    protected $selects = [];
-
-    /**
-     * The where query bindings.
-     *
-     * @var array
-     */
-    protected $wheres = [];
-
-    /**
-     * The orWhere query bindings.
-     *
-     * @var array
-     */
-    protected $orWheres = [];
-
-    /**
-     * The filter query bindings.
-     *
-     * @var array
-     */
-    protected $filters = [];
+    protected $bindings = [
+        'select'    => [],
+        'where'     => [],
+        'orWhere'   => [],
+        'filter'    => [],
+    ];
 
     /**
      * Stores the field to sort search results by.
@@ -521,7 +505,7 @@ class Builder
                 $this->select($field);
             }
         } elseif (is_string($fields)) {
-            $this->selects[] = new Select($fields);
+            $this->bindings['select'][] = new Select($fields);
         }
 
         return $this;
@@ -536,7 +520,7 @@ class Builder
      */
     public function rawFilter($filter)
     {
-        $this->filters[] = new Filter($filter);
+        $this->bindings['filter'][] = new Filter($filter);
 
         return $this;
     }
@@ -559,7 +543,7 @@ class Builder
                 $this->whereEquals($key, $value);
             }
         } else {
-            $this->wheres[] = new Where($field, $operator, $value);
+            $this->bindings['where'][] = new Where($field, $operator, $value);
         }
 
         return $this;
@@ -740,7 +724,7 @@ class Builder
                 $this->orWhereEquals($key, $value);
             }
         } else {
-            $this->orWheres[] = new OrWhere($field, $operator, $value);
+            $this->bindings['orWhere'][] = new OrWhere($field, $operator, $value);
         }
 
         return $this;
@@ -916,7 +900,7 @@ class Builder
      */
     public function getSelects()
     {
-        $selects = $this->selects;
+        $selects = $this->bindings['select'];
 
         $schema = $this->schema;
 
@@ -938,7 +922,7 @@ class Builder
      */
     public function getFilters()
     {
-        return $this->filters;
+        return $this->bindings['filter'];
     }
 
     /**
@@ -948,7 +932,7 @@ class Builder
      */
     public function getWheres()
     {
-        return $this->wheres;
+        return $this->bindings['where'];
     }
 
     /**
@@ -958,7 +942,7 @@ class Builder
      */
     public function getOrWheres()
     {
-        return $this->orWheres;
+        return $this->bindings['orWhere'];
     }
 
     /**
@@ -1091,10 +1075,10 @@ class Builder
      */
     public function clearBindings()
     {
-        $this->selects = [];
-        $this->wheres = [];
-        $this->orWheres = [];
-        $this->filters = [];
+        $this->bindings['select'] = [];
+        $this->bindings['where'] = [];
+        $this->bindings['orWhere'] = [];
+        $this->bindings['filter'] = [];
 
         return $this;
     }

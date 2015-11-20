@@ -2,6 +2,10 @@
 
 namespace Adldap\Tests\Query;
 
+use Adldap\Query\Bindings\Select;
+use Adldap\Query\Bindings\Filter;
+use Adldap\Query\Bindings\OrWhere;
+use Adldap\Query\Bindings\Where;
 use Adldap\Schemas\Schema;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
@@ -578,5 +582,52 @@ class BuilderTest extends UnitTestCase
         $escapedValue = $utils->escape($value);
 
         $this->assertEquals("($escapedField=$escapedValue)", $b->getQuery());
+    }
+
+    public function testBuilderDnIsAppliedToNewInstance()
+    {
+        $b = $this->newBuilder();
+
+        $b->setDn('New DN');
+
+        $newB = $b->newInstance();
+
+        $this->assertEquals('New DN', $newB->getDn());
+    }
+
+    public function testAddBinding()
+    {
+        $b = $this->newBuilder();
+
+        $where = new Where('cn', '=', 'test');
+        $orWhere = new OrWhere('cn', '=', 'test');
+        $filter = new Filter('(cn=test)');
+        $select = new Select('cn');
+
+        $b->addBinding($where);
+        $b->addBinding($orWhere, 'orWhere');
+        $b->addBinding($filter, 'filter');
+        $b->addBinding($select, 'select');
+
+        $this->assertEquals(1, count($b->getWheres()));
+        $this->assertInstanceOf('Adldap\Query\Bindings\Where', $b->getWheres()[0]);
+
+        $this->assertEquals(1, count($b->getOrWheres()));
+        $this->assertInstanceOf('Adldap\Query\Bindings\OrWhere', $b->getOrWheres()[0]);
+
+        $this->assertEquals(1, count($b->getFilters()));
+        $this->assertInstanceOf('Adldap\Query\Bindings\Filter', $b->getFilters()[0]);
+
+        $this->assertEquals(4, count($b->getSelects()));
+        $this->assertInstanceOf('Adldap\Query\Bindings\Select', $b->getSelects()[0]);
+    }
+
+    public function testAddInvalidBinding()
+    {
+        $b = $this->newBuilder();
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $b->addBinding(new Filter('filter'), 'invalid');
     }
 }

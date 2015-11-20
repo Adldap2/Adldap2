@@ -1076,6 +1076,8 @@ class Builder
      * @param string $type
      *
      * @return Builder
+     *
+     * @throws InvalidArgumentException
      */
     public function addBinding($value, $type = 'where')
     {

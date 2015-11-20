@@ -161,7 +161,7 @@ class Builder
      */
     public function newInstance()
     {
-        $new = new self($this->connection, $this->grammar, $this->schema);
+        $new = new static($this->connection, $this->grammar, $this->schema);
 
         $new->setDn($this->getDn());
 

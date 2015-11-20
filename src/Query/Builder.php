@@ -293,7 +293,7 @@ class Builder
             if ($results) {
                 $this->connection->controlPagedResultResponse($results, $cookie);
 
-                // We'll collect the results into the pages array
+                // We'll collect the results into the pages array.
                 $pages[] = $results;
             }
         } while ($cookie !== null && !empty($cookie));

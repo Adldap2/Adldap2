@@ -84,19 +84,19 @@ class Processor
     {
         // Make sure we have at least one page of results.
         if (count($pages) > 0) {
-            $objects = [];
+            $models = [];
 
             // Go through each page and process the results into an objects array.
             foreach ($pages as $results) {
                 $processed = $this->process($results);
 
-                $objects = array_merge($objects, $processed);
+                $models = array_merge($models, $processed);
             }
 
-            $objects = $this->processSort($objects);
+            $models = $this->processSort($models);
 
             // Return a new Paginator instance.
-            return new Paginator($objects, $perPage, $currentPage, count($pages));
+            return $this->newPaginator($models, $perPage, $currentPage, count($pages));
         }
 
         // Looks like we don't have any results, return false
@@ -170,6 +170,21 @@ class Processor
         }
 
         return new Entry($attributes, $this->builder);
+    }
+
+    /**
+     * Returns a new Paginator object instance.
+     *
+     * @param array $models
+     * @param int   $perPage
+     * @param int   $currentPage
+     * @param int   $pages
+     *
+     * @return Paginator
+     */
+    public function newPaginator(array $models, $perPage, $currentPage, $pages)
+    {
+        return new Paginator($models, $perPage, $currentPage, $pages);
     }
 
     /**

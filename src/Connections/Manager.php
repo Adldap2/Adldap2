@@ -127,7 +127,7 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function make()
     {
         return new ModelFactory($this->search()->getQueryBuilder(), $this->schema);
     }

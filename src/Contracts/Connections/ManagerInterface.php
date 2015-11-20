@@ -88,7 +88,7 @@ interface ManagerInterface
      *
      * @return \Adldap\Models\Factory
      */
-    public function create();
+    public function make();
 
     /**
      * Returns a new Search factory instance.

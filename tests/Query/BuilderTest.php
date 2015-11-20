@@ -517,18 +517,6 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('(UserAccountControl:1.2.840.113556.1.4.803:=2)', $b->getQuery());
     }
 
-    public function testNewCollection()
-    {
-        $b = $this->newBuilder();
-
-        $elements = ['e1', 'e2', 'e3'];
-
-        $collection = $b->newCollection($elements);
-
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $collection);
-        $this->assertEquals($elements, $collection->toArray());
-    }
-
     public function testPaginateWithNoResults()
     {
         $connection = $this->newConnectionMock();

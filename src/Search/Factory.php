@@ -48,7 +48,7 @@ class Factory
 
         $this->setSchema($schema);
 
-        $this->setQueryBuilder($this->newQueryBuilder($baseDn));
+        $this->setQueryBuilder($this->newQuery($baseDn));
     }
 
     /**
@@ -78,7 +78,7 @@ class Factory
      *
      * @return Builder
      */
-    public function newQueryBuilder($baseDn = '')
+    public function newQuery($baseDn = '')
     {
         // Create a new Builder.
         $builder = new Builder($this->connection, $this->newGrammar(), $this->schema);

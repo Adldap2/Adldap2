@@ -819,5 +819,4 @@ class User extends Entry
     {
         return !$this->isDisabled();
     }
-
 }

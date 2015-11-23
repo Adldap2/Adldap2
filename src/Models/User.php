@@ -799,4 +799,25 @@ class User extends Entry
 
         return $result;
     }
+
+    /**
+     * Returns if the user is disabled.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return ($this->getUserAccountControl() & AccountControl::ACCOUNTDISABLE) === AccountControl::ACCOUNTDISABLE;
+    }
+
+    /**
+     * Returns if the user is enabled.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return !$this->isDisabled();
+    }
+
 }

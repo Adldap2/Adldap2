@@ -135,7 +135,6 @@ class Processor
         if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
             // We'll explode the DN so we can grab it's object category.
             $category = Utilities::explodeDn($attributes[$attribute][0]);
-
             // Make sure the category string exists in the attribute array.
             if (array_key_exists(0, $category)) {
                 $category = strtolower($category[0]);

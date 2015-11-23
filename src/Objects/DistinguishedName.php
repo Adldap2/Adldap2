@@ -211,7 +211,7 @@ class DistinguishedName
     /**
      * Assembles the common names in the Distinguished name.
      *
-     * @return null|string
+     * @return string
      */
     public function assembleCns()
     {
@@ -221,7 +221,7 @@ class DistinguishedName
     /**
      * Assembles the organizational units in the Distinguished Name.
      *
-     * @return null|string
+     * @return string
      */
     public function assembleOus()
     {
@@ -231,7 +231,7 @@ class DistinguishedName
     /**
      * Assembles the domain components in the Distinguished Name.
      *
-     * @return null|string
+     * @return string
      */
     public function assembleDcs()
     {
@@ -244,7 +244,7 @@ class DistinguishedName
      * @param string $attribute
      * @param array  $values
      *
-     * @return null|string
+     * @return string
      */
     protected function assembleRdns($attribute, array $values = [])
     {
@@ -254,10 +254,8 @@ class DistinguishedName
             $values = array_map(function ($value) use ($attribute) {
                 return sprintf('%s=%s', $attribute, Utilities::escape($value, '', 2));
             }, $values);
-
-            return implode(',', $values);
         }
 
-        return;
+        return implode(',', $values);
     }
 }

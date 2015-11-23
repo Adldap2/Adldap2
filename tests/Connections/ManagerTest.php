@@ -99,6 +99,36 @@ class ManagerTest extends UnitTestCase
         $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
+    public function testAuthRebindFailure()
+    {
+        $config = new Configuration();
+
+        $config->setAdminUsername('test');
+        $config->setAdminPassword('test');
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('connect')->once()->andReturn(true);
+        $connection->shouldReceive('setOption')->twice()->andReturn(true);
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+
+        // Authenticates as the user
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
+
+        // Re-binds as the administrator (fails)
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false);
+        $connection->shouldReceive('getLastError')->once()->andReturn('');
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $m = $this->newManager($connection, $config);
+
+        $this->setExpectedException('Adldap\Exceptions\Auth\BindException');
+
+        $m->auth()->attempt('username', 'password');
+    }
+
     public function testAuthPassesWithoutRebind()
     {
         $config = new Configuration();

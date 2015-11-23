@@ -155,3 +155,16 @@ $user->getAccountExpiry();
 ```php
 $user->getShowInAddressBook();
 ```
+
+##### Check if the user is disabled:
+
+```php
+$user->isDisabled();
+```
+
+##### Check if the user is enabled:
+
+```php
+$user->isEnabled();
+```
+

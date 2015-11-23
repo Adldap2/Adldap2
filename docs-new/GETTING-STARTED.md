@@ -31,35 +31,4 @@ $manager = $ad->connect('username', 'password123');
 Once you've connected, a `Adldap\Connections\Manager` instance is returned.
 This is the object you'll be performing LDAP operations upon.
 
-### Authenticating a user
-
-Performing authentication with Adldap2 will bind to your LDAP server under the inserted username and password, **then
-rebind under your configured administrator**. It does not set any session variables or perform a magic 
-show behind the scenes.
-
-```php
-$manager = $ad->connect();
-
-if ($manager->auth()->attempt($username, $password)) {
-    // Authentication passed!
-} else {
-    // Authentication failed, credentials were incorrect.
-}
-```
-
-### Binding as the authenticated user
-
-If you'd like to bind to your server as the user if authentication passes, pass in `true` into the third parameter.
-
-> **Note**: Binding as the authenticated user means all operations on the LDAP server will be run under the user.
-
-```php
-$manager = $ad->connect();
-
-if ($manager->auth()->attempt($username, $password, $bindAsUser = true)) {
-    // Authentication passed!
-} else {
-    // Authentication failed, credentials were incorrect.
-}
-```
-
+Let's move forward to the [connection manager documentation]().

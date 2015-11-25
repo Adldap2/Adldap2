@@ -819,9 +819,9 @@ class User extends Entry
     {
         return !$this->isDisabled();
     }
-    
+
     /**
-     * Return the expiration date of the user account
+     * Return the expiration date of the user account.
      *
      * @return DateTime Expiration date or null if no expiration date
      */
@@ -829,35 +829,38 @@ class User extends Entry
     {
         $accountExpiry = $this->getAccountExpiry();
         if ($accountExpiry == 0 || $accountExpiry == ActiveDirectory::NEVER_EXPIRES_DATE) {
-            return null;
+            return;
         }
         $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
+
         return new \DateTime(date('Y-m-d H:i:s', $unixTime));
     }
 
     /**
-     * Return true if AD User is expired
+     * Return true if AD User is expired.
      *
      * @param DateTime $date Optional date
+     *
      * @return bool Is AD user expired ?
      */
-    public function isExpired(\DateTime $date=null)
+    public function isExpired(\DateTime $date = null)
     {
         if (!$date) {
-            $date = new \DateTime;
+            $date = new \DateTime();
         }
         #throw new Exception("Value must be 1 or below");
         $expirationDate = $this->expirationDate();
+
         return $expirationDate ? ($expirationDate <= $date) : false;
     }
 
     /**
-     * Return true if AD User is active (enabled & not expired)
+     * Return true if AD User is active (enabled & not expired).
      *
      * @return bool Is AD user active ?
      */
     public function isActive()
     {
         return $this->isEnabled() && !$this->isExpired();
-    }    
+    }
 }

@@ -61,6 +61,7 @@ class ActiveDirectory
     const MESSAGE_TRACKING_ENABLED = 'messagetrackingenabled';
     const MS_EXCHANGE_SERVER = 'ms-exch-exchange-server';
     const NAME = 'name';
+    const NEVER_EXPIRES_DATE = '9223372036854775807';
     const OBJECT_CATEGORY = 'objectcategory';
     const OBJECT_CATEGORY_COMPUTER = 'computer';
     const OBJECT_CATEGORY_CONTAINER = 'container';

@@ -168,3 +168,22 @@ $user->isDisabled();
 $user->isEnabled();
 ```
 
+##### Return the expiration date (converting `getAccountExpiry` attribute to DateTime) :
+
+```php
+$user->expirationDate();
+```
+
+##### Return if the user is expired :
+
+```php
+$user->isExpired(); # Check if the user account is expired today
+
+$user->isExpired(new DateTime('2015-11-25')); # Check if the user account is expired at this date
+```
+
+##### Return if the user is active (enabled and not expired):
+
+```php
+$user->isActive();
+```

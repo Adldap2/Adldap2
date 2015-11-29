@@ -18,25 +18,4 @@ class LdapTest extends UnitTestCase
         $this->assertTrue($ldap->isSupported());
         $this->assertNull($ldap->getConnection());
     }
-
-    public function testSuppressErrors()
-    {
-        $ldap = new Ldap();
-
-        $ldap->suppressErrors();
-
-        $this->assertNull($ldap->add('', []));
-
-        $ldap->showErrors();
-
-        try {
-            $ldap->add('', []);
-
-            $passes = false;
-        } catch (\Exception $e) {
-            $passes = true;
-        }
-
-        $this->assertTrue($passes);
-    }
 }

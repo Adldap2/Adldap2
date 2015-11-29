@@ -56,15 +56,6 @@ class Ldap implements ConnectionInterface
     protected $bound = false;
 
     /**
-     * Stores the bool whether or not
-     * to suppress errors when calling
-     * LDAP methods.
-     *
-     * @var bool
-     */
-    protected $suppressErrors = true;
-
-    /**
      * {@inheritdoc}
      */
     public function isUsingSSL()
@@ -111,26 +102,6 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function suppressErrors()
-    {
-        $this->suppressErrors = true;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function showErrors()
-    {
-        $this->suppressErrors = false;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function useSSL()
     {
         $this->useSSL = true;
@@ -171,11 +142,7 @@ class Ldap implements ConnectionInterface
      */
     public function getEntries($searchResults)
     {
-        if ($this->suppressErrors) {
-            return @ldap_get_entries($this->getConnection(), $searchResults);
-        } else {
-            return ldap_get_entries($this->getConnection(), $searchResults);
-        }
+        return ldap_get_entries($this->getConnection(), $searchResults);
     }
 
     /**
@@ -183,10 +150,6 @@ class Ldap implements ConnectionInterface
      */
     public function getFirstEntry($searchResults)
     {
-        if ($this->suppressErrors) {
-            return @ldap_first_entry($this->getConnection(), $searchResults);
-        }
-
         return ldap_first_entry($this->getConnection(), $searchResults);
     }
 
@@ -195,10 +158,6 @@ class Ldap implements ConnectionInterface
      */
     public function getNextEntry($entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_next_entry($this->getConnection(), $entry);
-        }
-
         return ldap_next_entry($this->getConnection(), $entry);
     }
 
@@ -207,10 +166,6 @@ class Ldap implements ConnectionInterface
      */
     public function getAttributes($entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_get_attributes($this->getConnection(), $entry);
-        }
-
         return ldap_get_attributes($this->getConnection(), $entry);
     }
 
@@ -219,10 +174,6 @@ class Ldap implements ConnectionInterface
      */
     public function countEntries($searchResults)
     {
-        if ($this->suppressErrors) {
-            return @ldap_count_entries($this->getConnection(), $searchResults);
-        }
-
         return ldap_count_entries($this->getConnection(), $searchResults);
     }
 
@@ -231,10 +182,6 @@ class Ldap implements ConnectionInterface
      */
     public function getLastError()
     {
-        if ($this->suppressErrors) {
-            return @ldap_error($this->getConnection());
-        }
-
         return ldap_error($this->getConnection());
     }
 
@@ -243,10 +190,6 @@ class Ldap implements ConnectionInterface
      */
     public function getValuesLen($entry, $attribute)
     {
-        if ($this->suppressErrors) {
-            return @ldap_get_values_len($this->getConnection(), $entry, $attribute);
-        }
-
         return ldap_get_values_len($this->getConnection(), $entry, $attribute);
     }
 
@@ -255,10 +198,6 @@ class Ldap implements ConnectionInterface
      */
     public function setOption($option, $value)
     {
-        if ($this->suppressErrors) {
-            return @ldap_set_option($this->getConnection(), $option, $value);
-        }
-
         return ldap_set_option($this->getConnection(), $option, $value);
     }
 
@@ -267,10 +206,6 @@ class Ldap implements ConnectionInterface
      */
     public function setRebindCallback(callable $callback)
     {
-        if ($this->suppressErrors) {
-            return @ldap_set_rebind_proc($this->getConnection(), $callback);
-        }
-
         return ldap_set_rebind_proc($this->getConnection(), $callback);
     }
 
@@ -279,10 +214,6 @@ class Ldap implements ConnectionInterface
      */
     public function startTLS()
     {
-        if ($this->suppressErrors) {
-            return @ldap_start_tls($this->getConnection());
-        }
-
         return ldap_start_tls($this->getConnection());
     }
 
@@ -330,10 +261,6 @@ class Ldap implements ConnectionInterface
      */
     public function search($dn, $filter, array $fields)
     {
-        if ($this->suppressErrors) {
-            return @ldap_search($this->getConnection(), $dn, $filter, $fields);
-        }
-
         return ldap_search($this->getConnection(), $dn, $filter, $fields);
     }
 
@@ -342,10 +269,6 @@ class Ldap implements ConnectionInterface
      */
     public function listing($dn, $filter, array $attributes)
     {
-        if ($this->suppressErrors) {
-            return @ldap_list($this->getConnection(), $dn, $filter, $attributes);
-        }
-
         return ldap_list($this->getConnection(), $dn, $filter, $attributes);
     }
 
@@ -354,10 +277,6 @@ class Ldap implements ConnectionInterface
      */
     public function read($dn, $filter, array $fields)
     {
-        if ($this->suppressErrors) {
-            return @ldap_read($this->getConnection(), $dn, $filter, $fields);
-        }
-
         return ldap_read($this->getConnection(), $dn, $filter, $fields);
     }
 
@@ -366,10 +285,6 @@ class Ldap implements ConnectionInterface
      */
     public function sort($result, $attribute)
     {
-        if ($this->suppressErrors) {
-            return @ldap_sort($this->getConnection(), $result, $attribute);
-        }
-
         return ldap_sort($this->getConnection(), $result, $attribute);
     }
 
@@ -379,18 +294,10 @@ class Ldap implements ConnectionInterface
     public function bind($username, $password, $sasl = false)
     {
         if ($sasl) {
-            if ($this->suppressErrors) {
-                return $this->bound = @ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
-            }
-
             return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
-        } else {
-            if ($this->suppressErrors) {
-                return $this->bound = @ldap_bind($this->getConnection(), $username, $password);
-            }
-
-            return $this->bound = ldap_bind($this->getConnection(), $username, $password);
         }
+
+        return $this->bound = ldap_bind($this->getConnection(), $username, $password);
     }
 
     /**
@@ -398,10 +305,6 @@ class Ldap implements ConnectionInterface
      */
     public function add($dn, array $entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_add($this->getConnection(), $dn, $entry);
-        }
-
         return ldap_add($this->getConnection(), $dn, $entry);
     }
 
@@ -410,10 +313,6 @@ class Ldap implements ConnectionInterface
      */
     public function delete($dn)
     {
-        if ($this->suppressErrors) {
-            return @ldap_delete($this->getConnection(), $dn);
-        }
-
         return ldap_delete($this->getConnection(), $dn);
     }
 
@@ -422,10 +321,6 @@ class Ldap implements ConnectionInterface
      */
     public function rename($dn, $newRdn, $newParent, $deleteOldRdn = false)
     {
-        if ($this->suppressErrors) {
-            return @ldap_rename($this->getConnection(), $dn, $newRdn, $newParent, $deleteOldRdn);
-        }
-
         return ldap_rename($this->getConnection(), $dn, $newRdn, $newParent, $deleteOldRdn);
     }
 
@@ -434,10 +329,6 @@ class Ldap implements ConnectionInterface
      */
     public function modify($dn, array $entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_modify($this->getConnection(), $dn, $entry);
-        }
-
         return ldap_modify($this->getConnection(), $dn, $entry);
     }
 
@@ -446,10 +337,6 @@ class Ldap implements ConnectionInterface
      */
     public function modifyBatch($dn, array $values)
     {
-        if ($this->suppressErrors) {
-            return @ldap_modify_batch($this->getConnection(), $dn, $values);
-        }
-
         return ldap_modify_batch($this->getConnection(), $dn, $values);
     }
 
@@ -458,10 +345,6 @@ class Ldap implements ConnectionInterface
      */
     public function modAdd($dn, array $entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_mod_add($this->getConnection(), $dn, $entry);
-        }
-
         return ldap_mod_add($this->getConnection(), $dn, $entry);
     }
 
@@ -470,10 +353,6 @@ class Ldap implements ConnectionInterface
      */
     public function modReplace($dn, array $entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_mod_replace($this->getConnection(), $dn, $entry);
-        }
-
         return ldap_mod_replace($this->getConnection(), $dn, $entry);
     }
 
@@ -482,10 +361,6 @@ class Ldap implements ConnectionInterface
      */
     public function modDelete($dn, array $entry)
     {
-        if ($this->suppressErrors) {
-            return @ldap_mod_del($this->getConnection(), $dn, $entry);
-        }
-
         return ldap_mod_del($this->getConnection(), $dn, $entry);
     }
 
@@ -495,10 +370,6 @@ class Ldap implements ConnectionInterface
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
     {
         if ($this->isPagingSupported()) {
-            if ($this->suppressErrors) {
-                return @ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
-            }
-
             return ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
         }
 
@@ -513,10 +384,6 @@ class Ldap implements ConnectionInterface
     public function controlPagedResultResponse($result, &$cookie)
     {
         if ($this->isPagingSupported()) {
-            if ($this->suppressErrors) {
-                return @ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
-            }
-
             return ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
         }
 

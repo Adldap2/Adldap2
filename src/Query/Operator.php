@@ -2,6 +2,8 @@
 
 namespace Adldap\Query;
 
+use ReflectionClass;
+
 class Operator
 {
     /**
@@ -102,7 +104,7 @@ class Operator
      */
     public static function all()
     {
-        $class = new \ReflectionClass(new static());
+        $class = new ReflectionClass(new static());
 
         return $class->getStaticProperties();
     }

@@ -502,12 +502,10 @@ class Builder
      */
     public function select($fields = [])
     {
-        if (is_array($fields)) {
-            foreach ($fields as $field) {
-                $this->select($field);
-            }
-        } elseif (is_string($fields)) {
-            $this->addBinding(new Select($fields), 'select');
+        $fields = is_array($fields) ? $fields : func_get_args();
+
+        foreach ($fields as $field) {
+            $this->addBinding(new Select($field), 'select');
         }
 
         return $this;

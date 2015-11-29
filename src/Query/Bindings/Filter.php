@@ -2,6 +2,8 @@
 
 namespace Adldap\Query\Bindings;
 
+use InvalidArgumentException;
+
 class Filter extends AbstractBinding
 {
     /**
@@ -18,6 +20,10 @@ class Filter extends AbstractBinding
      */
     public function __construct($query)
     {
+        if (!is_string($query)) {
+            throw new InvalidArgumentException("Query filter must be a string. $query given.");
+        }
+
         $this->query = $query;
     }
 

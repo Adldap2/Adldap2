@@ -129,7 +129,7 @@ class Manager implements ManagerInterface
      */
     public function make()
     {
-        return new ModelFactory($this->search()->getQueryBuilder(), $this->schema);
+        return new ModelFactory($this->search()->getQuery(), $this->schema);
     }
 
     /**

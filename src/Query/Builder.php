@@ -514,13 +514,17 @@ class Builder
     /**
      * Adds a raw filter to the current query.
      *
-     * @param string $filter
+     * @param array|string $filters
      *
      * @return Builder
      */
-    public function rawFilter($filter)
+    public function rawFilter($filters = [])
     {
-        $this->addBinding(new Filter($filter), 'filter');
+        $filters = is_array($filters) ? $filters : func_get_args();
+
+        foreach($filters as $filter) {
+            $this->addBinding(new Filter($filter), 'filter');
+        }
 
         return $this;
     }
@@ -531,20 +535,38 @@ class Builder
      * @param string $field
      * @param string $operator
      * @param string $value
+     * @param string $type
      *
      * @return Builder
      */
-    public function where($field, $operator = null, $value = null)
+    public function where($field, $operator = null, $value = null, $type = 'where')
     {
-        // If the column is an array, we will assume it is an array of
-        // key-value pairs and can add them each as a where clause.
         if (is_array($field)) {
+            // If the column is an array, we will assume it is an array of
+            // key-value pairs and can add them each as a where clause.
             foreach ($field as $key => $value) {
-                $this->whereEquals($key, $value);
+                $this->where($key, Operator::$equals, $value, $type);
             }
-        } else {
-            $this->addBinding(new Where($field, $operator, $value));
+
+            return $this;
         }
+
+        // We'll bypass the has and notHas operator since they
+        // only require two arguments inside the where method.
+        $bypass = [Operator::$has, Operator::$notHas];
+
+        // Here we will make some assumptions about the operator. If only 2 values are
+        // passed to the method, we will assume that the operator is an equals sign
+        // and keep going.
+        if (func_num_args() === 2 && in_array($operator, $bypass) === false) {
+            list($value, $operator) = [$operator, '='];
+        }
+
+        // We'll construct a new where binding.
+        $binding = $this->newWhereBinding($field, $operator, $value, $type);
+
+        // Then add it to the current query builder.
+        $this->addBinding($binding, $type);
 
         return $this;
     }
@@ -717,17 +739,7 @@ class Builder
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        // If the column is an array, we will assume it is an array of
-        // key-value pairs and can add them each as a where clause.
-        if (is_array($field)) {
-            foreach ($field as $key => $value) {
-                $this->orWhereEquals($key, $value);
-            }
-        } else {
-            $this->addBinding(new OrWhere($field, $operator, $value), 'orWhere');
-        }
-
-        return $this;
+        return $this->where($field, $operator, $value, 'orWhere');
     }
 
     /**
@@ -1112,5 +1124,29 @@ class Builder
     protected function newProcessor()
     {
         return new Processor($this);
+    }
+
+    /**
+     * Constructs a new where binding depending on the specified type.
+     *
+     * @param string      $field
+     * @param string      $operator
+     * @param string|null $value
+     * @param string      $type
+     *
+     * @return Where|OrWhere
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function newWhereBinding($field, $operator, $value = null, $type = 'where')
+    {
+        switch(strtolower($type)) {
+            case 'where':
+                return new Where($field, $operator, $value);
+            case 'orwhere':
+                return new OrWhere($field, $operator, $value);
+            default:
+                throw new InvalidArgumentException("Invalid binding type: $type.");
+        }
     }
 }

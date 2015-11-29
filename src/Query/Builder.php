@@ -522,7 +522,7 @@ class Builder
     {
         $filters = is_array($filters) ? $filters : func_get_args();
 
-        foreach($filters as $filter) {
+        foreach ($filters as $filter) {
             $this->addBinding(new Filter($filter), 'filter');
         }
 
@@ -1134,13 +1134,13 @@ class Builder
      * @param string|null $value
      * @param string      $type
      *
-     * @return Where|OrWhere
-     *
      * @throws InvalidArgumentException
+     *
+     * @return Where|OrWhere
      */
     protected function newWhereBinding($field, $operator, $value = null, $type = 'where')
     {
-        switch(strtolower($type)) {
+        switch (strtolower($type)) {
             case 'where':
                 return new Where($field, $operator, $value);
             case 'orwhere':

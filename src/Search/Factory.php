@@ -48,7 +48,7 @@ class Factory
 
         $this->setSchema($schema);
 
-        $this->setQueryBuilder($this->newQuery($baseDn));
+        $this->setQuery($this->newQuery($baseDn));
     }
 
     /**
@@ -56,7 +56,7 @@ class Factory
      *
      * @param Builder $query
      */
-    public function setQueryBuilder(Builder $query)
+    public function setQuery(Builder $query)
     {
         $this->query = $query;
     }
@@ -95,7 +95,7 @@ class Factory
      *
      * @return Builder
      */
-    public function getQueryBuilder()
+    public function getQuery()
     {
         return $this->query;
     }

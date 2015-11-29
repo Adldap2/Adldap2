@@ -16,14 +16,6 @@ $search->select(['cn', 'samaccountname', 'telephone', 'mail']);
 $search->select('cn', 'samaccountname', 'telephone', 'mail');
 ```
 
-#### Retrieving the first record
-
-To retrieve the first record of a search, call the `first()` method:
-
-```php
-$record = $search->first();
-```
-
 #### Finding a specific record
 
 If you're trying to find a single record, but not sure what the record might be, use the `find()` method:
@@ -98,6 +90,26 @@ To get all records from LDAP, call the `all()` method:
 $results = $search->all();
 ```
 
+##### Retrieving the first record
+
+To retrieve the first record of a search, call the `first()` method:
+
+```php
+$record = $search->first();
+```
+
+###### Retrieving the first record (or failing)
+
+To retrieve the first record of a search or throw an exception when one isn't found, call the `firstOrFail()` method:
+
+```php
+try {
+    $record = $search->first();
+} catch (Adldap\Exceptions\ModelNotFoundException $e) {
+    // Record wasn't found!
+}
+```
+
 ## Wheres
 
 To perform a where clause on the search object, use the `where()` function:
@@ -152,7 +164,6 @@ Or we can retrieve all objects that have a common name attribute using the wildc
 $results = $ad->search()->where('cn', '*')->get();
 
 // Or use the method whereHas($field)
-
 $results = $ad->search()->whereHas('cn')->get();
 ```
 
@@ -167,5 +178,46 @@ It's also good to know that all values inserted into a where, or an orWhere meth
 ```php
 // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f)'
 $query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();
-
 ```
+
+## Or Wheres
+
+To perform an 'or where' clause on the search object, use the `orWhere()` function. However, please be aware this
+function performs differently than it would on a database. For example:
+
+```php
+$results = $search
+            ->where('cn', '=', 'John Doe')
+            ->orWhere('cn' '=', 'Suzy Doe')
+            ->get();
+```
+    
+This query would return no results, because we're already defining that the common name (`cn`) must equal `John Doe`. Applying
+the `orWhere()` does not amount to 'Look for an object with the common name as "John Doe" OR "Suzy Doe"'. This query would
+actually amount to 'Look for an object with the common name that <b>equals</b> "John Doe" OR "Suzy Doe"
+
+To solve the above problem, we would use `orWhere()` for both fields. For example:
+
+```php
+$results = $search
+        ->orWhere('cn', '=', 'John Doe')
+        ->orWhere('cn' '=', 'Suzy Doe')
+        ->get();
+```
+
+Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
+
+> *Note*: You can also use all `where` methods as an or where, for example:
+`orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
+
+## Raw Filters
+
+Sometimes you might just want to add a raw filter without using the query builder.
+You can do so by using the `rawFilter()` method:
+
+```php
+$filter = '(samaccountname=jdoe)';
+
+$results = $search->rawFilter($filter)->get();
+```
+

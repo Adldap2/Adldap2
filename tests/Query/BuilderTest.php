@@ -630,4 +630,16 @@ class BuilderTest extends UnitTestCase
 
         $b->addBinding(new Filter('filter'), 'invalid');
     }
+
+    public function testSelectArgs()
+    {
+        $b = $this->newBuilder();
+
+        $selects = $b->select('attr1', 'attr2', 'attr3')->getSelects();
+
+        $this->assertCount(6, $selects);
+        $this->assertEquals('attr1', $selects[0]);
+        $this->assertEquals('attr2', $selects[1]);
+        $this->assertEquals('attr3', $selects[2]);
+    }
 }

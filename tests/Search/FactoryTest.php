@@ -21,8 +21,8 @@ class FactoryTest extends UnitTestCase
     {
         $search = $this->newSearchFactory($this->newConnectionMock(), Schema::get(), 'dc=corp,dc=org');
 
-        $this->assertEquals('', $search->getQuery());
-        $this->assertInstanceOf('Adldap\Query\Builder', $search->getQueryBuilder());
+        $this->assertEquals('', $search->getQuery()->getQuery());
+        $this->assertInstanceOf('Adldap\Query\Builder', $search->getQuery());
     }
 
     public function testGetAndSetDn()

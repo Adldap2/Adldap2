@@ -31,5 +31,5 @@ $manager = $ad->connect('username', 'password123');
 Once you've connected, a `Adldap\Connections\Manager` instance is returned.
 This is the object you'll be performing LDAP operations upon.
 
-Let's move forward to the [connection manager documentation]().
+Let's move forward to the [Connection Manager Documentation]().
 

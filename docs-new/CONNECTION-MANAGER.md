@@ -47,3 +47,45 @@ $search = $manager->search();
 ```
 
 Calling methods that do not exist on the search object, will be called upon a new Query builder instance.
+
+### Create a new query
+
+To generate a new query, call the `newQuery()` method:
+
+```php
+$query = $search->newQuery();
+```
+
+The `newQuery()` method also accepts a `$baseDn` argument so set the base DN of your search:
+
+```php
+$baseDn = 'dc=corp,dc=org';
+
+$query = $search->newQuery($baseDn);
+```
+
+> **Note**: Upon construct, the search Factory will have the base DN of it's query set to your configured base DN.
+
+### Get the current query
+
+To retrieve the current query on the search Factory, use the `getQuery()` method:
+
+```php
+$query = $search->getQuery();
+```
+
+### Setting the search query
+
+To set the query on the search Factory, call the `setQuery()` method:
+
+```php
+$query = $search->newQuery($baseDn);
+
+$search->setQuery($query);
+```
+
+All methods on the search Factory will be ran on the current query.
+
+## Query Builder
+
+Now you know how to construct a new query, lets move on to the [Query Builder Documentation]().

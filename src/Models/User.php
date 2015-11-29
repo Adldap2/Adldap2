@@ -613,6 +613,22 @@ class User extends Entry
     }
 
     /**
+     * Returns the users thumbnail photo base 64 encoded.
+     *
+     * @return string|null
+     */
+    public function getThumbnailEncoded()
+    {
+        $thumb = $this->getThumbnail();
+
+        if (!is_null($thumb)) {
+            return 'data:image/jpeg;base64,' . base64_encode($thumb);
+        }
+        
+        return;
+    }
+
+    /**
      * Returns the distinguished name of the user who is the user's manager.
      *
      * @return string

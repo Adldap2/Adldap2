@@ -85,4 +85,18 @@ class AccountControlTest extends UnitTestCase
         $this->assertEquals('0', $ac->__toString());
         $this->assertInternalType('string', $ac->__toString());
     }
+
+    public function testConstruct()
+    {
+        $flag = 522;
+
+        $ac = new AccountControl($flag);
+
+        $values = [
+            2, 8, 512,
+        ];
+
+        $this->assertEquals($values, $ac->getValues());
+        $this->assertEquals($flag, $ac->getValue());
+    }
 }

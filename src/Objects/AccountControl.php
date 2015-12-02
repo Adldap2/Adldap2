@@ -62,6 +62,18 @@ class AccountControl
     protected $values = [];
 
     /**
+     * Constructor.
+     *
+     * @param int $flag
+     */
+    public function __construct($flag = null)
+    {
+        if (!is_null($flag)) {
+            $this->apply($flag);
+        }
+    }
+
+    /**
      * Returns the account control integer as a string
      * when the object is casted as a string.
      *
@@ -81,6 +93,24 @@ class AccountControl
     public function __toInt()
     {
         return $this->getValue();
+    }
+
+    /**
+     * Applies the specified flag
+     *
+     * @param $flag
+     */
+    public function apply($flag)
+    {
+        $flags = [];
+
+        for ($i = 0; $i <= 26; $i++){
+            if ((int) $flag & (1 << $i)){
+                array_push($flags, 1 << $i);
+            }
+        }
+
+        $this->setValues($flags);
     }
 
     /**
@@ -385,6 +415,26 @@ class AccountControl
         }
 
         return $total;
+    }
+
+    /**
+     * Returns the account control's values.
+     *
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
+     * Sets the account control values.
+     *
+     * @param array $flags
+     */
+    public function setValues(array $flags)
+    {
+        $this->values = $flags;
     }
 
     /**

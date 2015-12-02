@@ -96,7 +96,7 @@ class AccountControl
     }
 
     /**
-     * Applies the specified flag
+     * Applies the specified flag.
      *
      * @param $flag
      */
@@ -104,8 +104,8 @@ class AccountControl
     {
         $flags = [];
 
-        for ($i = 0; $i <= 26; $i++){
-            if ((int) $flag & (1 << $i)){
+        for ($i = 0; $i <= 26; $i++) {
+            if ((int) $flag & (1 << $i)) {
                 array_push($flags, 1 << $i);
             }
         }

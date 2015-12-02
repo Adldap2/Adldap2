@@ -74,6 +74,29 @@ try
 }
 ```
 
+#### Finding a specific record by its distinguished name
+
+If you're looking for a single record with a specific DN, use the `findByDn()` method:
+
+```php
+$record = $search->findByDn('cn=John Doe,dc=corp,dc=org');
+```
+
+###### Finding a specific record by its distinguished name (or failing)
+
+If you'd like to try and find a single record by a specific DN and throw
+an exception when it hasn't been found, use the `findByDnOrFail()` method:
+
+```php
+try
+{
+    $record = $search->findByDnOrFail('cn=John Doe,dc=corp,dc=org');
+} catch (Adldap\Exceptions\ModelNotFoundException $e)
+{
+    // Record wasn't found!
+}
+```
+
 #### Retrieving results
 
 To get the results from a search, simply call the `get()` method:
@@ -252,6 +275,8 @@ Now, we'll retrieve both John and Suzy's AD records, because the common name can
 
 ## Raw Filters
 
+> **Note**: Raw filters are not escaped. Do not accept user input into the raw filter method.
+
 Sometimes you might just want to add a raw filter without using the query builder.
 You can do so by using the `rawFilter()` method:
 
@@ -272,3 +297,47 @@ $results = $search->rawFilter($filters)->get();
 $results = $search->rawFilter($filters[0], $filters[1])->get();
 ```
 
+## Sorting
+
+Sorting is really useful when your displaying tabular AD results. You can
+easily perform sorts on any AD attribute by using the `sortBy()` method:
+
+```php
+$results = $search->whereHas('cn')->sortBy('cn', 'asc')->get();
+```
+
+## Paginating
+
+Paginating your search results will allow you to return more results than your AD cap
+(usually 1000) and display your results in pages.
+
+To perform this, call the `paginate()` method instead of the `get()` method:
+
+```php
+$recordsPerPage = 50;
+$currentPage = $_GET['page'];
+
+// This would retrieve all records from AD inside a new Adldap\Objects\Paginator instance.
+$paginator = $search->paginate($recordsPerPage, $currentPage);
+
+// Returns total number of pages, int
+$paginator->getPages();
+
+// Returns current page number, int
+$paginator->getCurrentPage();
+
+// Returns the amount of entries allowed per page, int
+$paginator->getPerPage();
+
+// Returns all of the results in the entire paginated result
+$paginator->getResults();
+
+// Returns the total amount of retrieved entries, int
+$paginator->count();
+
+// Iterate over the results like normal
+foreach($paginator as $result)
+{
+    echo $result->getCommonName();
+}
+```

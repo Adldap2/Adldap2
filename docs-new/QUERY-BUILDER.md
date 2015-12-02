@@ -120,6 +120,23 @@ $search->where('cn', '=', 'John Doe');
 
 This query would look for a record with the common name of 'John Doe' and return the results.
 
+We can also perform a 'where equals' without including the operator:
+
+```php
+$search->whereEquals('cn', 'John Doe');
+```
+
+Or we can supply an array of key - value pairs to quickly add multiple wheres:
+
+```php
+$wheres = [
+    'cn' => 'John Doe',
+    'samaccountname' => 'jdoe',
+];
+
+$search->where($wheres);
+```
+
 #### Where Starts With
 
 We could also perform a search for all objects beginning with the common name of 'John' using the `starts_with` operator:
@@ -153,7 +170,19 @@ $results = $ad->search()->where('cn', 'contains', 'John Doe')->get();
 
 // Or use the method whereContains($attribute, $value)
 
-$results = $ad->search()->whereContains($attribute, $value)->get();
+$results = $ad->search()->whereContains('cn', 'John Doe')->get();
+```
+
+##### Where Not Contains
+
+You can use a 'where not contains' to perform the inverse of a 'where contains':
+
+```php
+$results = $ad->search()->where('cn', 'not_contains', 'John Doe')->get();
+
+// Or use the method whereNotContains($attribute, $value)
+
+$results = $ad->search()->whereNotContains('cn', 'John Doe');
 ```
 
 #### Where Has
@@ -178,6 +207,17 @@ It's also good to know that all values inserted into a where, or an orWhere meth
 ```php
 // Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f)'
 $query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();
+```
+
+##### Where Not Has
+
+You can use a 'where not has' to perform the inverse of a 'where has':
+
+```php
+$results = $ad->search->where('cn', '!*')->get();
+
+// Or use the method whereNotHas($field)
+$results = $ad->search()->whereNotHas($field)->get();
 ```
 
 ## Or Wheres
@@ -219,5 +259,16 @@ You can do so by using the `rawFilter()` method:
 $filter = '(samaccountname=jdoe)';
 
 $results = $search->rawFilter($filter)->get();
+
+// Or use an array
+$filters = [
+    '(samaccountname=jdoe)',
+    '(surname=Doe)',
+];
+
+$results = $search->rawFilter($filters)->get();
+
+// Or use multiple arguments
+$results = $search->rawFilter($filters[0], $filters[1])->get();
 ```
 

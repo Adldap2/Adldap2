@@ -122,4 +122,3 @@ If you need to be able to change user passwords on your server, then an SSL *or*
 are allowed on unsecured protocols. These options are definitely recommended if you have the ability to connect to your server
 securely.
 
-

@@ -489,6 +489,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users script path.
+     *
+     * @param string $path
+     *
+     * @return User
+     */
+    public function setScriptPath($path)
+    {
+        return $this->setAttribute(ActiveDirectory::SCRIPT_PATH, $path, 0);
+    }
+
+    /**
      * Returns the users bad password count.
      *
      * @return string
@@ -558,6 +570,18 @@ class User extends Entry
     public function getProfilePath()
     {
         return $this->getAttribute(ActiveDirectory::PROFILE_PATH, 0);
+    }
+
+    /**
+     * Sets the users profile path.
+     *
+     * @param string $path
+     *
+     * @return User
+     */
+    public function setProfilePath($path)
+    {
+        return $this->setAttribute(ActiveDirectory::PROFILE_PATH, $path, 0);
     }
 
     /**

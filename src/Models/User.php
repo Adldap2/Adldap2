@@ -484,6 +484,18 @@ class User extends Entry
     }
 
     /**
+     * Sets the users script path.
+     *
+     * @param string $path
+     *
+     * @return User
+     */
+    public function setScriptPath($path)
+    {
+        return $this->setAttribute($this->schema->scriptPath(), $path, 0);
+    }
+
+    /**
      * Returns the users bad password count.
      *
      * @return string
@@ -553,6 +565,18 @@ class User extends Entry
     public function getProfilePath()
     {
         return $this->getAttribute($this->schema->profilePath(), 0);
+    }
+
+    /**
+     * Sets the users profile path.
+     *
+     * @param string $path
+     *
+     * @return User
+     */
+    public function setProfilePath($path)
+    {
+        return $this->setAttribute($this->schema->profilePath(), $path, 0);
     }
 
     /**

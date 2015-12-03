@@ -580,25 +580,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Creates an attribute on the current model.
-     *
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function createAttribute($attribute, $value)
-    {
-        if ($this->exists) {
-            $add = [$attribute => $value];
-
-            return $this->query->getConnection()->modAdd($this->getDn(), $add);
-        }
-
-        return false;
-    }
-
-    /**
      * Creates an active directory record.
      *
      * @return bool|$this
@@ -613,12 +594,34 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         // as it's inserted independently.
         unset($attributes['dn']);
 
+        // Create the entry.
         $created = $this->query->getConnection()->add($dn, $attributes);
 
         if ($created) {
+            // If the entry was created we'll re-sync
+            // the models attributes from AD.
             $this->syncRaw();
 
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates an attribute on the current model.
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function createAttribute($attribute, $value)
+    {
+        if ($this->exists) {
+            $add = [$attribute => $value];
+
+            return $this->query->getConnection()->modAdd($this->getDn(), $add);
         }
 
         return false;
@@ -640,8 +643,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             $updated = $this->query->getConnection()->modReplace($this->getDn(), $modify);
 
             if ($updated) {
-                // If the models attribute was successfully updated, we'll
-                // resynchronize the models raw attributes.
+                // If the models attribute was successfully updated,
+                // we'll re-sync the models attributes.
                 $this->syncRaw();
 
                 return true;

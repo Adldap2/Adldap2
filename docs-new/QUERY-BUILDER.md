@@ -376,6 +376,36 @@ foreach($paginator as $result)
 }
 ```
 
+## Scopes
+
+Search scopes allow you to easily retrieve common models of a particular 'group'. Here is how you utilize them:
+
+```php
+// Retrieve all users.
+$results = $search->users()->get();
+
+// Retrieve all printers.
+$results = $search->printers()->get();
+
+// Retrieve all organizational units.
+$results = $search->ous()->get();
+
+// Retrieve all groups.
+$results = $search->groups()->get();
+
+// Retrieve all exchange servers.
+$results = $search->exchangeServers()->get();
+
+// Retrieve all containers.
+$results = $search->containers()->get();
+
+// Retrieve all contacts.
+$results = $search->contacts()->get();
+
+// Retrieve all computers.
+$results = $search->computers()->get();
+```
+
 ## Search Options
 
 #### Recursive
@@ -395,7 +425,7 @@ If you'd like to perform a read instead of a listing or a recursive search, use 
 ```php
 $result = $ad->search()->read(true)->where('objectClass', '*')->get();
 ```
-    
+
 This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
 
 #### Raw
@@ -420,3 +450,4 @@ $filter = $query->getQuery();
 
 echo $filter; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
 ```
+

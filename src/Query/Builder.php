@@ -1077,7 +1077,7 @@ class Builder
      */
     public function isSorted()
     {
-        return ($this->sortByField ? true : false);
+        return $this->sortByField ? true : false;
     }
 
     /**

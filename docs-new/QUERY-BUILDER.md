@@ -7,13 +7,18 @@ The Adldap2 query builder makes building LDAP queries feel effortless. Let's get
 To open a search query, call the `search()` method on the `Adldap\Connections\Manager` instance that is returned from
 a successful connection using `$ad->connect();`.
 
+Let's run down the whole process just in case:
+
 ```php
 $config = ['...'];
 
+// Construct a new Adldap instance with a configuration array / object
 $ad = new Adldap($config);
 
+// Try connecting to your server
 $manager = $ad->connect();
 
+// Create a new search
 $search = $manager->search();
 
 // Call query methods upon the search itself
@@ -329,6 +334,12 @@ easily perform sorts on any AD attribute by using the `sortBy()` method:
 $results = $search->whereHas('cn')->sortBy('cn', 'asc')->get();
 ```
 
+You can also sort paginated results:
+
+```php
+$results = $search->whereHas('cn')->sortBy('cn', 'asc')->paginate(25);
+```
+
 ## Paginating
 
 Paginating your search results will allow you to return more results than your AD cap
@@ -363,4 +374,49 @@ foreach($paginator as $result)
 {
     echo $result->getCommonName();
 }
+```
+
+## Search Options
+
+#### Recursive
+
+By default, all searches performed are recursive. If you'd like to disable recursive search, use the `recursive()` method:
+
+```php
+$result = $ad->search()->recursive(false)->all();
+```
+    
+This would perform an `ldap_listing()` instead of an `ldap_search()`.
+
+#### Read
+
+If you'd like to perform a read instead of a listing or a recursive search, use the `read()` method:
+
+```php
+$result = $ad->search()->read(true)->where('objectClass', '*')->get();
+```
+    
+This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
+
+#### Raw
+
+If you'd like to retrieve the raw LDAP results, use the `raw()` method:
+
+```php
+$rawResults = $ad->search()->raw()->where('cn', '=', 'John Doe')->get();
+
+var_dump($rawResults); // Returns an array
+```
+
+## Retrieving the ran query
+
+If you'd like to retrieve the current query to save or run it at another time, use the `getQuery()` method
+on the search instance, then on the query builder itself:
+
+```php
+$query = $ad->search()->where('cn', '=', 'John Doe')->getQuery();
+
+$filter = $query->getQuery();
+
+echo $filter; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
 ```

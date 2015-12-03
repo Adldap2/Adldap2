@@ -4,7 +4,7 @@ When receiving search results, you will always have an array of models depending
 
 ## Types of Models
 
-> Note: All models are located in the namespace `Adldap\Models\`.
+> **Note**: All models are located in the namespace `Adldap\Models\`.
 
 - [User]()
 - [Group]()
@@ -36,6 +36,7 @@ Adldap is smart enough to know that if an attribute doesn't exist, then it will 
 #### Attribute Values
 
 If you set an attribute to `null`, then Adldap will know you'd like to remove the attribute if it exists.
+
 For example:
 
 ```php

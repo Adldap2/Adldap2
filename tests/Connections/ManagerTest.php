@@ -61,7 +61,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
         $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andThrow('Exception');
         $connection->shouldReceive('getLastError')->once()->andReturn('');
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
@@ -114,10 +114,10 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
 
         // Authenticates as the user
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
+        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password']);
 
         // Re-binds as the administrator (fails)
-        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false);
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andThrow('Exception');
         $connection->shouldReceive('getLastError')->once()->andReturn('');
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);

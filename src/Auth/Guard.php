@@ -2,6 +2,7 @@
 
 namespace Adldap\Auth;
 
+use Exception;
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
@@ -118,7 +119,9 @@ class Guard implements GuardInterface
             $password = null;
         }
 
-        if ($this->connection->bind($username, $password) === false) {
+        try {
+            $this->connection->bind($username, $password);
+        } catch (Exception $e) {
             $error = $this->connection->getLastError();
 
             if ($this->connection->isUsingSSL() && $this->connection->isUsingTLS() === false) {
@@ -152,7 +155,9 @@ class Guard implements GuardInterface
 
         putenv($key.$kerberosCredentials);
 
-        if ($this->connection->bind(null, null, true) === false) {
+        try {
+            $this->connection->bind(null, null, true);
+        } catch (Exception $e) {
             $error = $this->connection->getLastError();
 
             $message = "Bind to Active Directory failed. AD said: $error";

@@ -2,13 +2,13 @@
 
 namespace Adldap\Auth;
 
-use Exception;
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Exceptions\Auth\BindException;
 use Adldap\Exceptions\Auth\PasswordRequiredException;
 use Adldap\Exceptions\Auth\UsernameRequiredException;
+use Exception;
 
 class Guard implements GuardInterface
 {

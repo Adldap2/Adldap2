@@ -124,6 +124,16 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns a new query builder instance.
+     *
+     * @return Builder
+     */
+    public function newQuery()
+    {
+        return $this->query->newInstance();
+    }
+
+    /**
      * Sets the current model schema.
      *
      * @param SchemaInterface $schema

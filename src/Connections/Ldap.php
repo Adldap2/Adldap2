@@ -232,10 +232,8 @@ class Ldap implements ConnectionInterface
             $hostname = $protocol.implode(' '.$protocol, $hostname);
         }
 
-        $this->connection = ldap_connect($hostname, $port);
-
-        // If the connection was successful, we'll set bound to true.
-        if ($this->connection) {
+        if ($this->connection = ldap_connect($hostname, $port)) {
+            // If the connection was successful, we'll set bound to true.
             $this->bound = true;
         }
 

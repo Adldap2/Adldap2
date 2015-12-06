@@ -247,7 +247,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->getConnection();
 
-        if ($connection) {
+        if (is_resource($connection)) {
             ldap_close($connection);
         }
 

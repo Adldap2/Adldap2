@@ -9,12 +9,12 @@ To use Adldap2, your sever must support:
 
 ## Installing
 
-Adldap2 utilizes composer for installation. Insert `"adldap/adldap2": "6.0.*"` in your `composer.json` file:
+Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "6.0.*"` in your `composer.json` file:
 
 ```json
 "require": {
     "php": ">=5.4.26",
-    "adldap/adldap2": "6.0.*"
+    "adldap2/adldap2": "6.0.*"
 },
 ```
 

@@ -387,8 +387,7 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Closes the current LDAP connection if
-     * it exists.
+     * Closes the current LDAP connection if it exists.
      *
      * @return bool
      */
@@ -396,7 +395,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->getConnection();
 
-        if ($connection) {
+        if (is_resource($connection)) {
             ldap_close($connection);
         }
 

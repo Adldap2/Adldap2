@@ -36,7 +36,7 @@ class ManagerTest extends UnitTestCase
 
         $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
 
-        $m->auth()->attempt(' ', 'password');
+        $m->auth()->attempt(0000000, 'password');
     }
 
     public function testAuthPasswordFailure()
@@ -50,7 +50,7 @@ class ManagerTest extends UnitTestCase
 
         $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
 
-        $m->auth()->attempt('username', ' ');
+        $m->auth()->attempt('username', 0000000);
     }
 
     public function testAuthFailure()

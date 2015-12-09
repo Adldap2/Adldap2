@@ -243,8 +243,8 @@ class Adldap implements AdldapContract
             $password = $this->configuration->getAdminPassword();
         }
 
-        // Authenticate to the server and bind as the specified user.
-        return $this->authenticate($username, $password, true);
+        // Bind as the specified user.
+        return $this->bindUsingCredentials($username, $password);
     }
 
     /**

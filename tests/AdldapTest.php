@@ -158,8 +158,22 @@ class AdldapTest extends UnitTestCase
             'admin_password'     => '',
         ];
 
-        $ad = new \Adldap\Adldap($config);
+        $ad = new Adldap($config);
 
         $this->assertTrue($ad->getConnection()->isBound());
+    }
+
+    public function testAuthenticateEmptyUsername()
+    {
+        $ad = new Adldap([], null, false);
+
+        $this->assertFalse($ad->authenticate(000000, 'password123', true));
+    }
+
+    public function testAuthenticateEmptyPassword()
+    {
+        $ad = new Adldap([], null, false);
+
+        $this->assertFalse($ad->authenticate('username', 000000, true));
     }
 }

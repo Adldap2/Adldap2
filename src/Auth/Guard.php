@@ -52,15 +52,7 @@ class Guard implements GuardInterface
      */
     public function attempt($username, $password, $bindAsUser = false)
     {
-        if (trim($username) == '') {
-            // Check for an empty username.
-            throw new UsernameRequiredException('A username must be specified.');
-        }
-
-        if (trim($password) == '') {
-            // Check for an empty password.
-            throw new PasswordRequiredException('A password must be specified.');
-        }
+        $this->validateCredentials($username, $password);
 
         try {
             if ($this->configuration->getUseSSO()) {
@@ -163,6 +155,28 @@ class Guard implements GuardInterface
             $message = "Bind to Active Directory failed. AD said: $error";
 
             throw new BindException($message);
+        }
+    }
+
+    /**
+     * Validates the specified username and password from being empty.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @throws PasswordRequiredException
+     * @throws UsernameRequiredException
+     */
+    protected function validateCredentials($username, $password)
+    {
+        if (empty($username)) {
+            // Check for an empty username.
+            throw new UsernameRequiredException('A username must be specified.');
+        }
+
+        if (empty($password)) {
+            // Check for an empty password.
+            throw new PasswordRequiredException('A password must be specified.');
         }
     }
 }

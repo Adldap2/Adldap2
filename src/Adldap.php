@@ -266,6 +266,8 @@ class Adldap implements AdldapContract
                     $auth = $this->bindUsingKerberos($kerberos);
                 }
             } else {
+                $this->validateCredentials($username, $password);
+
                 // Looks like SSO isn't enabled, we'll bind regularly instead
                 $auth = $this->bindUsingCredentials($username, $password);
             }
@@ -280,16 +282,7 @@ class Adldap implements AdldapContract
         // If we're not allowed to bind as the
         // user, we'll rebind as administrator.
         if ($bindAsUser === false) {
-            $adminUsername = $this->configuration->getAdminUsername();
-            $adminPassword = $this->configuration->getAdminPassword();
-
-            $this->bindUsingCredentials($adminUsername, $adminPassword);
-
-            if ($this->connection->isBound() === false) {
-                $error = $this->connection->getLastError();
-
-                throw new AdldapException("Rebind to Active Directory failed. AD said: $error");
-            }
+            $this->bindAsAdministrator();
         }
 
         return $auth;
@@ -373,5 +366,39 @@ class Adldap implements AdldapContract
         }
 
         return true;
+    }
+
+    /**
+     * Binds to the LDAP server as the configured administrator.
+     *
+     * @throws AdldapException
+     */
+    protected function bindAsAdministrator()
+    {
+        $adminUsername = $this->configuration->getAdminUsername();
+        $adminPassword = $this->configuration->getAdminPassword();
+
+        $this->bindUsingCredentials($adminUsername, $adminPassword);
+
+        if ($this->connection->isBound() === false) {
+            $error = $this->connection->getLastError();
+
+            throw new AdldapException("Rebind to Active Directory failed. AD said: $error");
+        }
+    }
+
+    /**
+     * Validates the specified credentials from being empty.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @throws AdldapException
+     */
+    protected function validateCredentials($username, $password)
+    {
+        if (empty($username) || empty($password)) {
+            throw new AdldapException('The username or password cannot be empty.');
+        }
     }
 }

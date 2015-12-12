@@ -78,11 +78,9 @@ saved successfully:
 ```php
 $user->setFirstName('First Name');
     
-if($user->save())
-{
+if($user->save()) {
     // Successfully updated record
-} else
-{
+} else {
     // There was an issue updating this record
 }
 ```
@@ -92,8 +90,7 @@ if($user->save())
 To delete a model, use the `delete()` method:
 
 ```php
-if($user->delete())
-{
+if($user->delete()) {
     // Model has been successfully deleted
 }
 ```
@@ -105,8 +102,7 @@ If you'd like to manually create a new attribute on an existing record, use the 
 ```php
 $description = 'The users description.';
 
-if($user->createAttribute('description', $description))
-{
+if($user->createAttribute('description', $description)) {
     // Successfully created attribute
 }
 ```
@@ -116,8 +112,7 @@ if($user->createAttribute('description', $description))
 If you'd like to manually update attributes on an exisiting record, use the `updateAttribute()` method:
 
 ```php
-if($user->updateAttribute('cn', 'John Doe'))
-{
+if($user->updateAttribute('cn', 'John Doe')) {
     // Successfully updated attribute
     echo $user->cn; // John Doe
 }
@@ -128,8 +123,7 @@ if($user->updateAttribute('cn', 'John Doe'))
 To manually remove / delete attributes, use the `deleteAttribute()` method:
 
 ```php
-if($user->deleteAttribute('description'))
-{
+if($user->deleteAttribute('description')) {
     // Successfully removed attribute
 }
 ```
@@ -139,13 +133,12 @@ if($user->deleteAttribute('description'))
 To manually create a new model instance, you need to inject a new Query Builder instance into the Models second parameter:
 
 ```php
-$adldap = new Adldap\Adldap($config);
-
 $attributes = [
-    'cn' => 'Doe, John',
+    'cn' => 'John Doe',
+    'dn' => 'cn=John Doe,ou=Accounting,dc=corp,dc=org',
 ];
 
-$builder = $adldap->search()->newQueryBuilder();
+$builder = $manager->search()->newQuery();
 
 $user = new Adldap\Models\User($attributes, $builder);
 
@@ -153,8 +146,6 @@ $user->save();
 ```
 
 ### Specific Methods available on all models
-
-Example Query: `$model = $ad->search()->where('cn', '*')->first();`
 
 ##### Getting all raw attributes from the model:
 

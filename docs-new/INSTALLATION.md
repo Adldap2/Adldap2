@@ -7,6 +7,11 @@ To use Adldap2, your sever must support:
 - PHP 5.4.26 or greater
 - PHP LDAP Extension
 
+### Optional Server Requirements
+
+Adldap2 makes use of `ldap_modify_batch()` for processing modifications to models. Your server
+must be on **PHP >= 5.4.26 || >= 5.5.10 || >= 5.6.0** to make modifications.
+
 ## Installing
 
 Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "6.0.*"` in your `composer.json` file:
@@ -30,6 +35,7 @@ You can configure Adldap2 by supplying an array. Keep in mind not all of these a
 Here is an example array with all possible configuration options:
 
 ```php
+// Create the configuration array.
 $config = [
     'account_suffix'        => '@acme.org',
     'domain_controllers'    => ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
@@ -44,6 +50,7 @@ $config = [
     'use_sso'               => false,
 ];
 
+// Create a new Adldap instance.
 $ad = new \Adldap\Adldap($config);
 ```
 
@@ -53,6 +60,7 @@ You can configure Adldap in an object oriented way by creating a `Configuration`
 methods are required. This will be discussed below. Here is an example of a Configuration with all possible configuration options.
 
 ```php
+// Create a new Configuration object.
 $config = new \Adldap\Connections\Configuration();
 
 $config->setAccountSuffix('@acme.org');
@@ -66,6 +74,7 @@ $config->setUseSSL(false);
 $config->setUseTLS(false);
 $config->setUseSSO(false);
 
+// Create a new Adldap instance.
 $ad = new \Adldap\Adldap($config);
 ```
   

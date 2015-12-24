@@ -44,6 +44,9 @@ To use Adldap2, your sever must support:
 - PHP 5.4.26 or greater
 - PHP LDAP Extension
 
+If your project does not use composer and you would like to use the search functionality you must include at minimum [Doctrine Collections](https://github.com/doctrine/collections)
+
+
 ## Optional Requirements
 
 > **Note: Adldap makes use of `ldap_modify_batch()` for processing modifications to models**. Your server

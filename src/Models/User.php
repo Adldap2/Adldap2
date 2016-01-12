@@ -484,7 +484,7 @@ class User extends Entry
      */
     public function setProxyAddresses(array $addresses = [])
     {
-        return $this->setAttribute(ActiveDirectory::PROXY_ADDRESSES, $addresses);
+        return $this->setAttribute($this->schema->proxyAddresses(), $addresses);
     }
 
     /**
@@ -500,7 +500,7 @@ class User extends Entry
 
         $addresses[] = $address;
 
-        return $this->setAttribute(ActiveDirectory::PROXY_ADDRESSES, $addresses);
+        return $this->setAttribute($this->schema->proxyAddresses(), $addresses);
     }
 
     /**

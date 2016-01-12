@@ -472,6 +472,38 @@ class User extends Entry
     }
 
     /**
+     * Sets the users proxy addresses.
+     *
+     * This will remove all proxy addresses on the user and insert the specified addresses.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     *
+     * @param array $addresses
+     *
+     * @return User
+     */
+    public function setProxyAddresses(array $addresses = [])
+    {
+        return $this->setAttribute(ActiveDirectory::PROXY_ADDRESSES, $addresses);
+    }
+
+    /**
+     * Add's a single proxy address to the user.
+     *
+     * @param string $address
+     *
+     * @return User
+     */
+    public function addProxyAddress($address)
+    {
+        $addresses = $this->getProxyAddresses();
+
+        $addresses[] = $address;
+
+        return $this->setAttribute(ActiveDirectory::PROXY_ADDRESSES, $addresses);
+    }
+
+    /**
      * Returns the users script path if the user has one.
      *
      * https://msdn.microsoft.com/en-us/library/ms679656(v=vs.85).aspx

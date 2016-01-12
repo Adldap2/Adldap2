@@ -185,7 +185,7 @@ class Utilities
 
         $subauth = [];
 
-        for ($x = 0;$x < $subCount; $x++) {
+        for ($x = 0; $x < $subCount; $x++) {
             $subauth[$x] = hexdec(static::littleEndian(substr($hex, 16 + ($x * 8), 8)));
 
             $result .= '-'.$subauth[$x];

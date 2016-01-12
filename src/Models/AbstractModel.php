@@ -70,7 +70,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * @param array   $attributes
      * @param Builder $builder
      */
-    public function __construct(array $attributes = [], Builder $builder)
+    public function __construct(array $attributes, Builder $builder)
     {
         $this->fill($attributes);
 

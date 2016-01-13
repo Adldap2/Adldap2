@@ -143,3 +143,52 @@ Restrict this principal to use only Data Encryption Standard (DES) encryption ty
 
     $ac->useDesKeyOnly();
     
+## Available constants
+
+You can access user account control value constants through the AccountControl object:
+
+```php
+use Adldap\Objects\AccountControl;
+
+AccountControl::SCRIPT; // 1
+
+AccountControl::ACCOUNTDISABLE; // 2
+
+AccountControl::HOMEDIR_REQUIRED; // 8
+
+AccountControl::LOCKOUT; // 16
+
+AccountControl::PASSWD_NOTREQD; // 32
+
+AccountControl::ENCRYPTED_TEXT_PWD_ALLOWED; // 128
+
+AccountControl::TEMP_DUPLICATE_ACCOUNT; // 256
+
+AccountControl::NORMAL_ACCOUNT; // 512
+
+AccountControl::INTERDOMAIN_TRUST_ACCOUNT; // 2048
+
+AccountControl::WORKSTATION_TRUST_ACCOUNT; // 4096
+
+AccountControl::SERVER_TRUST_ACCOUNT; // 8192
+
+AccountControl::DONT_EXPIRE_PASSWORD; // 65536
+
+AccountControl::MNS_LOGON_ACCOUNT; // 131072
+
+AccountControl::SMARTCARD_REQUIRED; // 262144
+
+AccountControl::TRUSTED_FOR_DELEGATION; // 524288
+
+AccountControl::NOT_DELEGATED; // 1048576
+
+AccountControl::USE_DES_KEY_ONLY; // 2097152
+
+AccountControl::DONT_REQ_PREAUTH; // 4194304
+
+AccountControl::PASSWORD_EXPIRED; // 8388608
+
+AccountControl::TRUSTED_TO_AUTH_FOR_DELEGATION; // 16777216
+
+AccountControl::PARTIAL_SECRETS_ACCOUNT; // 67108864
+```

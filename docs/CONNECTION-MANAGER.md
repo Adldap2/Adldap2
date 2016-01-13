@@ -18,6 +18,22 @@ if ($manager->auth()->attempt($username, $password)) {
 }
 ```
 
+When authenticating a user, if re-binding as your configured administrator fails, a `BindException` will be thrown:
+
+```php
+$manager = $ad->connect();
+
+try {
+    if ($manager->auth()->attempt($username, $password)) {
+        // Authentication passed!
+    } else {
+        // Authentication failed, credentials were incorrect.
+    }   
+} catch (\Adldap\Exceptions\Auth\BindException $e) {
+    // Rebinding as the administrator failed.
+}
+```
+
 ### Binding as the authenticated user
 
 If you'd like to bind to your server as the user if authentication passes, pass in `true` into the third parameter.

@@ -2,141 +2,33 @@
 
 ## Connecting
 
-To connect to your server, call the `connect()` method:
+After setting up a configuration, you can connect to your LDAP server.
 
 ```php
-try {
-    // Construct a new Adldap instance
-    $ad = new Adldap($config);
-    
-    // Connect to your LDAP server
-    $ad->connect();
-    
-    // Successfully bound to server!
-} catch (Adldap\Exceptions\Auth\BindException $e) {
-    // Binding Failed!
-} catch (Adldap\Exceptions\ConnectionException $e) {
-    // Couldn't connect to the LDAP server!
-}
-```
-
-If you would like to connect and bind with different credentials than your configuration, insert a username and password as
-the first and second paramter in the `connect()` method:
-
-```php
-try {
-    $ad = new Adldap($config);
-     
-    $ad->connect('admin', 'password123');
-
-    // Successfully bound to server!
-} catch (Adldap\Exceptions\Auth\BindException $e) {
-    // Binding Failed!
-} catch (Adldap\Exceptions\ConnectionException $e) {
-    // Couldn't connect to the LDAP server!
-}
-```
-
-## Authenticating Users
-
-To authenticate a user against your a AD server, use the `auth()->attempt($username, $password)` method on the Adldap instance:
-
-```php
-try {
-    if ($adldap->auth()->attempt($username, $password)) {
-        
-        // Authentication Passed!
-        
-    } else {
-        
-        // Authentication Failed!
-        
-    }
-    
-    // Authentication Passed!
-} catch (Adldap\Exceptions\Auth\UsernameRequiredException $e) {
-
-    // Username is required to authenticate!
-    
-} catch (Adldap\Exceptions\Auth\PasswordRequiredException $e) {
-
-    // Password is required to authenticate!
-    
-} catch (Adldap\Exceptions\Auth\BindException $e) {
-
-    // Rebind to LDAP server as Administrator failed!
-    
-}
-```
-
-If you'd like to *bind* the authenticated user to your AD server so all operations ran through Adldap are run as the authenticated user,
-pass in `true` into the third parameter:
-
-```php
+$ad = new \Adldap\Adldap($configuration);
 
 try {
-    if ($adldap->auth()->attempt($username, $password, true)) {
-        
-        // Authentication Passed!
-        
-    } else {
-        
-        // Authentication Failed!
-        
-    }
-} catch (Adldap\Exceptions\Auth\UsernameRequiredException $e) {
-
-  // Username is required to authenticate!
-  
-} catch (Adldap\Exceptions\Auth\PasswordRequiredException $e) {
-
-  // Password is required to authenticate!
-  
+    $manager = $ad->connect();
+    
+    // We connected and bound successfully to the server. Commence dance party.
+} catch (\Adldap\Exceptions\ConnectionException $e) {
+    // Hmm it looks like we weren't able to contact the server.
+} catch (\Adldap\Exceptions\Auth\BindException $e) {
+    // We were able to connect to the server, but the administrator credentials are incorrect.
 }
 ```
 
-> **Note**: Keep in mind if you authenticate but not bind the user to your server, all operations will be
-ran under your configured administrator credentials.
+#### Connecting with different credentials
 
-## Changing Connections
-
-If you'd like to create your own custom Connection class, use the `setConnection()` method or insert it into the
-second parameter when you're constructing a new Adldap instance:
+To connect with alternate credentials, pass a username and password into the `connect()` method:
 
 ```php
-// CustomConnection.php
-class CustomConnection extends Adldap\Connections\Ldap
-{
-    //
-}
+$manager = $ad->connect('username', 'password123');
 ```
 
-Then in some other file:
+## After you connect
 
-```php
-// Inserting the connection in the second parameter
-$ad = new Adldap($config, new CustomConnection());
+Once you've connected, a `Adldap\Connections\Manager` instance is returned.
+This is the object you'll be performing LDAP operations upon.
 
-// Or setting it later
-$ad = new Adldap($config);
-
-$ad->setConnection(new CustomConnection());
-
-try {
-    $ad->connect();
-} catch (Adldap\Exceptions\AdldapException $e) {
-    // Binding failed!
-}
-```
-
-## Changing Configurations
-
-If you'd like to change configuration on the fly, use the `setConfiguration()` method:
-
-```php
-$ad = new Adldap($someOtherConfiguration);
-
-$newConfig = new Adldap\Connections\Configuration();
-
-$ad->setConfiguration($newConfig);
-```
+Let's move forward to the [Connection Manager Documentation](https://github.com/adldap2/adldap2/docs/connection-manager.md).

@@ -108,7 +108,7 @@ Now you know how to construct a new query, lets move on to the [Query Builder Do
 
 ## Model Factory
 
-The model factory allows you to create and save LDAP entries with ease. Let's get started.
+The model factory allows you to create LDAP entries with ease. Let's get started.
 
 Calling the `make()` method on a connection manager instance will return a new `Adldap\Models\Factory` instance. Let's
 create a new user.
@@ -118,9 +118,11 @@ $manager = $ad->connect();
 
 $user = $manager->make()->user();
 
-// You can also specify an array of attributes to be given to the User model on construct
+// You can also specify an array of attributes to be given to the User model on construct.
 
 $user = $manager->make()->user(['cn' => 'John Doe']);
+
+$user->setAccountName('jdoe');
 
 if ($user->save()) {
     // User was successfully created!

@@ -72,6 +72,8 @@ To generate a new query, call the `newQuery()` method:
 $query = $search->newQuery();
 ```
 
+> **Note**: Upon construct, the search Factory will have the base DN of it's query set to your configured base DN.
+
 The `newQuery()` method also accepts a `$baseDn` argument so set the base DN of your search:
 
 ```php
@@ -79,8 +81,6 @@ $baseDn = 'dc=corp,dc=org';
 
 $query = $search->newQuery($baseDn);
 ```
-
-> **Note**: Upon construct, the search Factory will have the base DN of it's query set to your configured base DN.
 
 ### Get the current query
 
@@ -102,6 +102,49 @@ $search->setQuery($query);
 
 All methods on the search Factory will be ran on the current query.
 
-## Query Builder
+### Query Builder
 
-Now you know how to construct a new query, lets move on to the [Query Builder Documentation]().
+Now you know how to construct a new query, lets move on to the [Query Builder Documentation](https://github.com/adldap2/adldap2/docs/query-builder.md).
+
+## Model Factory
+
+The model factory allows you to create and save LDAP entries with ease. Let's get started.
+
+Calling the `make()` method on a connection manager instance will return a new `Adldap\Models\Factory` instance. Let's
+create a new user.
+
+```php
+$manager = $ad->connect();
+
+$user = $manager->make()->user();
+
+// You can also specify an array of attributes to be given to the User model on construct
+
+$user = $manager->make()->user(['cn' => 'John Doe']);
+
+if ($user->save()) {
+    // User was successfully created!
+}
+```
+
+Here's a list of models you can create through the model factory:
+
+```php
+// Adldap\Models\User
+$user = $manager->make()->user();
+
+// Adldap\Models\OrganizationalUnit
+$ou = $manager->make()->ou();
+
+// Adldap\Models\Group
+$group = $manager->make()->group();
+
+// Adldap\Models\Container
+$container = $manager->make()->container();
+
+// Adldap\Models\User
+$contact = $manager->make()->contact();
+
+// Adldap\Models\Computer
+$computer = $manager->make()->computer();
+```

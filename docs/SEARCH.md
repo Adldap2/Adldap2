@@ -413,7 +413,7 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
         $schema->getAttribute('supportedldapversion');
         
         // Returns the supported LDAP policies
-        $schema->getAttribute('supportedldappolicies);
+        $schema->getAttribute('supportedldappolicies');
         
     }
 }

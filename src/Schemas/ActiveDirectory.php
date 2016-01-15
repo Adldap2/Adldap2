@@ -107,6 +107,7 @@ class ActiveDirectory
     const PRIORITY = 'priority';
     const PROFILE_PATH = 'profilepath';
     const PROXY_ADDRESSES = 'proxyaddresses';
+    const SCHEMA_NAMING_CONTEXT = 'schemanamingcontext';
     const SCRIPT_PATH = 'scriptpath';
     const SERIAL_NUMBER = 'serialnumber';
     const SERVER_NAME = 'servername';

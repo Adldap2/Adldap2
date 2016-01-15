@@ -408,12 +408,12 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
         // Returns the DN of the server that the current schema resides on.
         $schema->getAttribute('servername');
         
-        
         // Returns the supported LDAP versions (array)
         $schema->getAttribute('supportedldapversion');
         
         // Returns the supported LDAP policies
         $schema->getAttribute('supportedldappolicies);
+        
     }
 }
 

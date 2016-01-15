@@ -428,8 +428,8 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
     $dn = $rootDse->getAttribute('schemanamingcontext', 0);
     
     // You will most likely need to paginate your results, as AD usually contains more than 4000+ attributes.
-    $attributes = $search
-        ->newQueryBuilder()
+    $attributes = $ad
+        ->search()
         ->setDn($dn)
         ->whereHas('objectclass')
         ->paginate(25);

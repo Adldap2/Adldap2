@@ -423,20 +423,18 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
 $rootDse = $ad->getRootDse();
 
 if ($rootDse instanceof \Adldap\Models\Entry) {
-    $dn = $rootDse->getAttribute('schemanamingcontext');
-
-    $schema = $ad->search()->findByDn($dn);
+    $dn = $rootDse->getAttribute('schemanamingcontext', 0);
     
-    if ($schema insntanceof \Adldap\Models\Entry) {
+    // You will most likely need to paginate your results, as AD usually contains more than 4000+ attributes.
+    $attributes = $search
+        ->newQueryBuilder()
+        ->setDn($dn)
+        ->whereHas('objectclass')
+        ->paginate(25);
+    
+    foreach ($attributes as $attribute) {
         
-        // You will most likely need to paginate your results, as AD usually contains more than 4000+ attributes.
-        $paginator = $ad->search()->setDn($schema->getDn())->paginate(25);
-        
-        foreach ($paginator as $record) {
-            
-            $record->getAttribute('name');
-            
-        }
+        echo $attribute->getName(); // Common-Name
         
     }
     

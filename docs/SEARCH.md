@@ -387,7 +387,57 @@ Retrieving a folder:
 ```php
 $folderName = 'Accounting';
 
-$results = $this->adldap->search()
+$results = $ad->search()
             ->where('OU', '=', $folderName)
             ->first();
 ```
+
+### Advanced Examples:
+
+#### Retrieving the Active Directory schema entry
+
+$rootDse = $ad->getRootDse();
+
+if ($rootDse instanceof \Adldap\Models\Entry) {
+    $dn = $rootDse->getAttribute('schemanamingcontext');
+
+    $schema = $ad->search()->findByDn($dn);
+    
+    if ($schema insntanceof \Adldap\Models\Entry) {
+        
+        // Returns the DN of the server that the current schema resides on.
+        $schema->getAttribute('servername');
+        
+        
+        // Returns the supported LDAP versions (array)
+        $schema->getAttribute('supportedldapversion');
+        
+        // Returns the supported LDAP policies
+        $schema->getAttribute('supportedldappolicies);
+    }
+}
+
+
+#### Retrieving all Active Directory attributes
+
+$rootDse = $ad->getRootDse();
+
+if ($rootDse instanceof \Adldap\Models\Entry) {
+    $dn = $rootDse->getAttribute('schemanamingcontext');
+
+    $schema = $ad->search()->findByDn($dn);
+    
+    if ($schema insntanceof \Adldap\Models\Entry) {
+        
+        // You will most likely need to paginate your results, as AD usually contains more than 4000+ attributes.
+        $paginator = $ad->search()->setDn($schema->getDn())->paginate(25);
+        
+        foreach ($paginator as $record) {
+            
+            $record->getAttribute('name');
+            
+        }
+        
+    }
+    
+}

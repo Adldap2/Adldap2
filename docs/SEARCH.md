@@ -396,6 +396,7 @@ $results = $ad->search()
 
 #### Retrieving the Active Directory schema entry
 
+```php
 $rootDse = $ad->getRootDse();
 
 if ($rootDse instanceof \Adldap\Models\Entry) {
@@ -416,10 +417,11 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
         
     }
 }
-
+```
 
 #### Retrieving all Active Directory attributes
 
+```php
 $rootDse = $ad->getRootDse();
 
 if ($rootDse instanceof \Adldap\Models\Entry) {
@@ -439,3 +441,4 @@ if ($rootDse instanceof \Adldap\Models\Entry) {
     }
     
 }
+```

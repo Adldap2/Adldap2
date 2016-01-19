@@ -904,7 +904,7 @@ class User extends Entry
         if (!$date) {
             $date = new \DateTime();
         }
-        //throw new Exception("Value must be 1 or below");
+        
         $expirationDate = $this->expirationDate();
 
         return $expirationDate ? ($expirationDate <= $date) : false;

@@ -162,7 +162,7 @@ class Configuration
     public function setPort($port)
     {
         if (!is_numeric($port)) {
-            throw new ConfigurationException("Your configured LDAP port must be an integer.");
+            throw new ConfigurationException('Your configured LDAP port must be an integer.');
         }
 
         $this->port = (string) $port;

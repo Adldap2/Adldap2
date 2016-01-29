@@ -5,7 +5,7 @@
 ### Authenticating a user
 
 Performing authentication with Adldap2 will bind to your LDAP server under the inserted username and password, **then
-rebind under your configured administrator**. It does not set any session variables or perform a magic 
+rebind under your configured administrator**. It **does not** set any session variables or perform a magic 
 show behind the scenes.
 
 ```php
@@ -18,7 +18,8 @@ if ($manager->auth()->attempt($username, $password)) {
 }
 ```
 
-When authenticating a user, if re-binding as your configured administrator fails, a `BindException` will be thrown:
+When authenticating a user, if re-binding as your configured administrator fails
+(which should realistically never occur), a `BindException` will be thrown:
 
 ```php
 $manager = $ad->connect();

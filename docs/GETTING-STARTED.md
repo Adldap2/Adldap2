@@ -26,6 +26,21 @@ To connect with alternate credentials, pass a username and password into the `co
 $manager = $ad->connect('username', 'password123');
 ```
 
+Your configured account suffix will be appended on the username automatically, for example:
+
+```php
+$config = [
+    'account_suffix'        => '@acme.org',
+    // ...
+];
+
+// Create a new Adldap instance.
+$ad = new \Adldap\Adldap($config);
+
+// Connection will be bound using `username@acme.org`
+$manager = $ad->connect('username', 'password123');
+```
+
 ## After you connect
 
 Once you've connected, a `Adldap\Connections\Manager` instance is returned.

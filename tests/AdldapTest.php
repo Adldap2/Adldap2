@@ -197,6 +197,7 @@ class AdldapTest extends UnitTestCase
 
         $connection->shouldReceive('bind')->once()->andReturn(true);
         $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $this->assertTrue($ad->bindAsAdministrator());
     }
@@ -220,6 +221,7 @@ class AdldapTest extends UnitTestCase
 
         $connection->shouldReceive('bind')->once()->andReturn(true);
         $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $this->assertTrue($ad->bindAsAdministrator());
     }

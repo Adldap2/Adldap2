@@ -84,6 +84,13 @@ interface ManagerInterface
     public function setGuard(GuardInterface $guard);
 
     /**
+     * Returns the root DSE entry on the currently connected server.
+     *
+     * @return \Adldap\Models\Entry|bool
+     */
+    public function getRootDse();
+
+    /**
      * Returns a new Model factory instance.
      *
      * @return \Adldap\Models\Factory

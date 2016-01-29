@@ -135,6 +135,11 @@ class Guard implements GuardInterface
         $password = $this->configuration->getAdminPassword();
         $suffix = $this->configuration->getAdminAccountSuffix();
 
+        if (empty($suffix)) {
+            // Use the user account suffix if no administrator account suffix is given.
+            $suffix = $this->configuration->getAccountSuffix();
+        }
+
         $this->bindUsingCredentials($username, $password, $suffix);
     }
 

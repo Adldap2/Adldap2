@@ -219,6 +219,11 @@ class Adldap implements AdldapContract
         // Retrieve the controllers from the configuration.
         $controllers = $this->configuration->getDomainControllers();
 
+        if (count($controllers) === 0) {
+            // Make sure we have at least one domain controller.
+            throw new AdldapException('You need to specify at least one domain controller in your configuration.');
+        }
+
         // Select a random domain controller.
         $controller = $controllers[array_rand($controllers)];
 

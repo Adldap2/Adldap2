@@ -377,6 +377,8 @@ class Adldap implements AdldapContract
     /**
      * Binds to the LDAP server as the configured administrator.
      *
+     * @return bool
+     *
      * @throws AdldapException
      */
     protected function bindAsAdministrator()
@@ -397,6 +399,8 @@ class Adldap implements AdldapContract
 
             throw new AdldapException("Rebind to Active Directory failed. AD said: $error");
         }
+
+        return true;
     }
 
     /**

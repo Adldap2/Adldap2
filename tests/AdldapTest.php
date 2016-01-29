@@ -80,6 +80,7 @@ class AdldapTest extends UnitTestCase
         $config->shouldReceive('setDomainControllerSelected')->once();
         $config->shouldReceive('getPort')->once()->andReturn(389);
         $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
+        $config->shouldReceive('getAdminAccountSuffix')->once()->andReturn(null);
         $config->shouldReceive('getAdminUsername')->once()->andReturn('username');
         $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
         $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp.org');
@@ -90,6 +91,7 @@ class AdldapTest extends UnitTestCase
         $connection->shouldReceive('connect')->once()->andReturn(true);
         $connection->shouldReceive('setOption')->twice()->andReturn(true);
         $connection->shouldReceive('bind')->once()->andReturn(true);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
         $ad->setConfiguration($config);
@@ -175,5 +177,50 @@ class AdldapTest extends UnitTestCase
         $ad = new Adldap([], null, false);
 
         $this->assertFalse($ad->authenticate('username', 000000, true));
+    }
+
+    public function testAdminAccountSuffix()
+    {
+        $connection = $this->mock('Adldap\Connections\Ldap');
+
+        $config = $this->mock('Adldap\Connections\Configuration')->makePartial();
+
+        $config->setDomainControllers(['test']);
+        $config->setAdminAccountSuffix('@test');
+
+        $ad = $this->mock('Adldap\Adldap')->makePartial()->shouldAllowMockingProtectedMethods();
+
+        $ad->setConnection($connection);
+        $ad->setConfiguration($config);
+
+        $config->shouldReceive('getAdminAccountSuffix')->once()->andReturn('@test');
+
+        $connection->shouldReceive('bind')->once()->andReturn(true);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+
+        $this->assertTrue($ad->bindAsAdministrator());
+    }
+
+    public function testAdminAccountSuffixDefault()
+    {
+        $connection = $this->mock('Adldap\Connections\Ldap');
+
+        $config = $this->mock('Adldap\Connections\Configuration')->makePartial();
+
+        $config->setDomainControllers(['test']);
+        $config->setAccountSuffix('@test');
+
+        $ad = $this->mock('Adldap\Adldap')->makePartial()->shouldAllowMockingProtectedMethods();
+
+        $ad->setConnection($connection);
+        $ad->setConfiguration($config);
+
+        $config->shouldReceive('getAdminAccountSuffix')->once()->andReturn('');
+        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@test');
+
+        $connection->shouldReceive('bind')->once()->andReturn(true);
+        $connection->shouldReceive('isBound')->once()->andReturn(true);
+
+        $this->assertTrue($ad->bindAsAdministrator());
     }
 }

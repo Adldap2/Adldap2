@@ -94,21 +94,6 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(['test'], $modification->getValues());
     }
 
-    public function testSetValuesWithNonArray()
-    {
-        $modification = new BatchModification();
-
-        try {
-            $modification->setValues('');
-
-            $passes = false;
-        } catch (\Exception $e) {
-            $passes = true;
-        }
-
-        $this->assertTrue($passes);
-    }
-
     public function testSetType()
     {
         $modification = new BatchModification();

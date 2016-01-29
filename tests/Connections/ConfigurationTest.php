@@ -78,21 +78,6 @@ class ConfigurationTest extends UnitTestCase
         $this->assertEquals($controllers, $config->getDomainControllers());
     }
 
-    public function testSetDomainControllersInvalidType()
-    {
-        $config = new Configuration();
-
-        try {
-            $config->setDomainControllers('Invalid Type');
-
-            $passes = false;
-        } catch (\Exception $e) {
-            $passes = true;
-        }
-
-        $this->assertTrue($passes);
-    }
-
     public function testSetFollowReferrals()
     {
         $config = new Configuration();

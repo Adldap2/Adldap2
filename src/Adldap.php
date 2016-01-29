@@ -377,9 +377,9 @@ class Adldap implements AdldapContract
     /**
      * Binds to the LDAP server as the configured administrator.
      *
-     * @return bool
-     *
      * @throws AdldapException
+     *
+     * @return bool
      */
     protected function bindAsAdministrator()
     {

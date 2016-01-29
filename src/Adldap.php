@@ -239,8 +239,7 @@ class Adldap implements AdldapContract
         // If both the username and password are null, we'll connect to the server
         // using the configured administrator username and password.
         if (is_null($username) && is_null($password)) {
-            $username = $this->configuration->getAdminUsername();
-            $password = $this->configuration->getAdminPassword();
+            return $this->bindAsAdministrator();
         }
 
         // Bind as the specified user.
@@ -330,26 +329,33 @@ class Adldap implements AdldapContract
      * Binds to the current connection using the
      * inserted credentials.
      *
-     * @param string $username
-     * @param string $password
+     * @param string      $username
+     * @param string      $password
+     * @param string|null $suffix
      *
      * @returns bool
      *
      * @throws AdldapException
      */
-    protected function bindUsingCredentials($username, $password)
+    protected function bindUsingCredentials($username, $password, $suffix = null)
     {
         if (empty($username)) {
             // Allow binding with null username.
             $username = null;
         } else {
+            if (is_null($suffix)) {
+                // If the suffix is null, we'll retrieve their
+                // account suffix from the configuration.
+                $suffix = $this->configuration->getAccountSuffix();
+            }
+
             // If the username isn't empty, we'll append the configured
             // account suffix to bind to the LDAP server.
-            $username .= $this->configuration->getAccountSuffix();
+            $username .= $suffix;
         }
 
         if (empty($password)) {
-            // Allow binding with null password
+            // Allow binding with null password.
             $password = null;
         }
 
@@ -377,8 +383,14 @@ class Adldap implements AdldapContract
     {
         $adminUsername = $this->configuration->getAdminUsername();
         $adminPassword = $this->configuration->getAdminPassword();
+        $adminSuffix = $this->configuration->getAdminAccountSuffix();
 
-        $this->bindUsingCredentials($adminUsername, $adminPassword);
+        if (empty($adminSuffix)) {
+            // If the admin suffix is empty, we'll use the default account suffix.
+            $adminSuffix = $this->configuration->getAccountSuffix();
+        }
+
+        $this->bindUsingCredentials($adminUsername, $adminPassword, $adminSuffix);
 
         if ($this->connection->isBound() === false) {
             $error = $this->connection->getLastError();

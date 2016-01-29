@@ -156,9 +156,15 @@ class Configuration
      * Sets the port option to use when connecting.
      *
      * @param $port
+     *
+     * @throws ConfigurationException
      */
     public function setPort($port)
     {
+        if (!is_numeric($port)) {
+            throw new ConfigurationException("Your configured LDAP port must be an integer.");
+        }
+
         $this->port = (string) $port;
     }
 
@@ -184,7 +190,7 @@ class Configuration
         $bool = (bool) $bool;
 
         if ($this->useTLS && $bool === true) {
-            $message = 'You can only specify the use of one security protocol. Use TLS is true.';
+            $message = 'You can only specify the use of one security protocol. TLS is already enabled.';
 
             throw new ConfigurationException($message);
         }
@@ -214,7 +220,7 @@ class Configuration
         $bool = (bool) $bool;
 
         if ($this->useSSL && $bool === true) {
-            $message = 'You can only specify the use of one security protocol. Use SSL is true.';
+            $message = 'You can only specify the use of one security protocol. SSL is already enabled.';
 
             throw new ConfigurationException($message);
         }

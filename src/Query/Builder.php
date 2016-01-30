@@ -12,6 +12,7 @@ use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class Builder
@@ -306,13 +307,15 @@ class Builder
      *
      * @param array|string $columns
      *
-     * @return Entry|bool
+     * @return Entry|false
      */
     public function first($columns = [])
     {
         $results = $this->select($columns)->get();
 
-        if (is_array($results) && array_key_exists(0, $results)) {
+        if ($results instanceof Collection) {
+            return $results->first();
+        } else if (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 

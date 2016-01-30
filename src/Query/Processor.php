@@ -95,7 +95,7 @@ class Processor
             $models = $this->processSort($models);
 
             // Return a new Paginator instance.
-            return $this->newPaginator($models, $perPage, $currentPage, count($pages));
+            return $this->newPaginator($models->toArray(), $perPage, $currentPage, count($pages));
         }
 
         // Looks like we don't have any results, return false
@@ -202,7 +202,7 @@ class Processor
      *
      * @param array $models
      *
-     * @return array
+     * @return Collection
      */
     protected function processSort(array $models = [])
     {
@@ -218,6 +218,6 @@ class Processor
             $sorted = $collection->sortBy($field);
         }
 
-        return $sorted->toArray();
+        return $sorted;
     }
 }

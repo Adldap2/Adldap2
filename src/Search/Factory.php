@@ -130,7 +130,7 @@ class Factory
     public function users()
     {
         return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->person());
+            ->whereEquals($this->schema->objectClass(), $this->schema->person());
     }
 
     /**

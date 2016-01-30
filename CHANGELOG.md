@@ -2,10 +2,91 @@
 
 ## [Unreleased](https://github.com/Adldap2/Adldap2/tree/HEAD)
 
-[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.1...HEAD)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.8...HEAD)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#166](https://github.com/Adldap2/Adldap2/pull/166) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#165](https://github.com/Adldap2/Adldap2/pull/165) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#164](https://github.com/Adldap2/Adldap2/pull/164) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.8](https://github.com/Adldap2/Adldap2/tree/v5.2.8) (2016-01-19)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.7...v5.2.8)
+
+**Closed issues:**
+
+- New StyleCI features [\#159](https://github.com/Adldap2/Adldap2/issues/159)
+- Problem with composer [\#156](https://github.com/Adldap2/Adldap2/issues/156)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#162](https://github.com/Adldap2/Adldap2/pull/162) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#161](https://github.com/Adldap2/Adldap2/pull/161) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#160](https://github.com/Adldap2/Adldap2/pull/160) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#158](https://github.com/Adldap2/Adldap2/pull/158) ([stevebauman](https://github.com/stevebauman))
+- Update README.md [\#157](https://github.com/Adldap2/Adldap2/pull/157) ([vortextangent](https://github.com/vortextangent))
+- Applied fixes from StyleCI [\#155](https://github.com/Adldap2/Adldap2/pull/155) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.7](https://github.com/Adldap2/Adldap2/tree/v5.2.7) (2015-12-09)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.6...v5.2.7)
+
+## [v5.2.6](https://github.com/Adldap2/Adldap2/tree/v5.2.6) (2015-12-06)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.5...v5.2.6)
+
+**Closed issues:**
+
+-  Interface 'Adldap\Contracts\Adldap' not found in Adldap on line 13 [\#149](https://github.com/Adldap2/Adldap2/issues/149)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#154](https://github.com/Adldap2/Adldap2/pull/154) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#153](https://github.com/Adldap2/Adldap2/pull/153) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#152](https://github.com/Adldap2/Adldap2/pull/152) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.5](https://github.com/Adldap2/Adldap2/tree/v5.2.5) (2015-12-02)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.4...v5.2.5)
+
+**Closed issues:**
+
+- ldap\_modify\_batch\(\): Batch Modify: Server is unwilling to perform [\#139](https://github.com/Adldap2/Adldap2/issues/139)
+- Different suffix for admin vs users account names? [\#136](https://github.com/Adldap2/Adldap2/issues/136)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#151](https://github.com/Adldap2/Adldap2/pull/151) ([stevebauman](https://github.com/stevebauman))
+- Added expirationDate\(\), isExpired\(\) and isActive\(\) methods to User model [\#150](https://github.com/Adldap2/Adldap2/pull/150) ([espinosa](https://github.com/espinosa))
+- Applied fixes from StyleCI [\#148](https://github.com/Adldap2/Adldap2/pull/148) ([stevebauman](https://github.com/stevebauman))
+- Added isEnabled\(\) and isDisabled\(\) methods to User model [\#146](https://github.com/Adldap2/Adldap2/pull/146) ([espinosa](https://github.com/espinosa))
+- Applied fixes from StyleCI [\#145](https://github.com/Adldap2/Adldap2/pull/145) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#144](https://github.com/Adldap2/Adldap2/pull/144) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.4](https://github.com/Adldap2/Adldap2/tree/v5.2.4) (2015-11-19)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.3...v5.2.4)
 
 **Implemented enhancements:**
 
+- Construct Guid to proper string format [\#141](https://github.com/Adldap2/Adldap2/issues/141)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#143](https://github.com/Adldap2/Adldap2/pull/143) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#142](https://github.com/Adldap2/Adldap2/pull/142) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.3](https://github.com/Adldap2/Adldap2/tree/v5.2.3) (2015-11-18)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.2...v5.2.3)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#140](https://github.com/Adldap2/Adldap2/pull/140) ([stevebauman](https://github.com/stevebauman))
+- Allow an array of groups to be passed to isGroup for batch checking [\#138](https://github.com/Adldap2/Adldap2/pull/138) ([Destreyf](https://github.com/Destreyf))
+- Applied fixes from StyleCI [\#137](https://github.com/Adldap2/Adldap2/pull/137) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.2](https://github.com/Adldap2/Adldap2/tree/v5.2.2) (2015-11-16)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.1...v5.2.2)
+
+**Implemented enhancements:**
+
+- Fallback to "local" login if AD fails [\#135](https://github.com/Adldap2/Adldap2/issues/135)
 - Move user OU doesn't works; need rewrite move function [\#104](https://github.com/Adldap2/Adldap2/issues/104)
 
 **Closed issues:**
@@ -17,7 +98,6 @@
 
 **Implemented enhancements:**
 
-- useraccountcontrol [\#119](https://github.com/Adldap2/Adldap2/issues/119)
 - Support domain controller failover [\#112](https://github.com/Adldap2/Adldap2/issues/112)
 - Implement configurable schema for OpenLDAP Support [\#54](https://github.com/Adldap2/Adldap2/issues/54)
 

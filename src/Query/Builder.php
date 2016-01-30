@@ -259,11 +259,7 @@ class Builder
             $results = $this->connection->listing($dn, $query, $selects);
         }
 
-        if ($results) {
-            return $this->newProcessor()->process($results);
-        }
-
-        return false;
+        return $this->newProcessor()->process($results);
     }
 
     /**

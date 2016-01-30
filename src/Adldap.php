@@ -109,7 +109,7 @@ class Adldap implements AdldapInterface
         } elseif (!$configuration instanceof Configuration) {
             // Otherwise, if the Configuration isn't a Configuration
             // object, we'll throw an exception.
-            $message = 'Configuration must either be an array or an instance of Adldap\Connections\Configuration';
+            $message = sprintf("Configuration must either be an array or an instance of %s", Configuration::class);
 
             throw new InvalidArgumentException($message);
         }

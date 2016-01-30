@@ -315,7 +315,7 @@ class Builder
 
         if ($results instanceof Collection) {
             return $results->first();
-        } else if (is_array($results) && array_key_exists(0, $results)) {
+        } elseif (is_array($results) && array_key_exists(0, $results)) {
             return $results[0];
         }
 

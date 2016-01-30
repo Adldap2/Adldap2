@@ -65,7 +65,7 @@ class FactoryTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
         $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectcategory=\70\65\72\73\6f\6e)', $query->getQuery());
+        $this->assertEquals('(objectclass=\70\65\72\73\6f\6e)', $query->getQuery());
     }
 
     public function testPrinterScope()

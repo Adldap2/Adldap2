@@ -256,7 +256,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return array|ArrayCollection|bool
+     * @return array|ArrayCollection
      */
     public function query($query)
     {
@@ -274,11 +274,8 @@ class Builder
             // Read and recursive is false, we'll return a listing.
             $results = $this->connection->listing($dn, $query, $selects);
         }
-        if ($results) {
-            return $this->newCollection($this->processResults($results));
-        }
 
-        return false;
+        return $this->newCollection($this->processResults($results));
     }
 
     /**

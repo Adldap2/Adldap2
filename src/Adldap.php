@@ -221,7 +221,7 @@ class Adldap implements AdldapContract
 
         if (count($controllers) === 0) {
             // Make sure we have at least one domain controller.
-            throw new AdldapException('You need to specify at least one domain controller in your configuration.');
+            throw new AdldapException('You must specify at least one domain controller in your configuration.');
         }
 
         // Select a random domain controller.

@@ -7,8 +7,7 @@ use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
 use Adldap\Utilities;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
+use Illuminate\Support\Collection;
 
 class Processor
 {
@@ -104,24 +103,6 @@ class Processor
     }
 
     /**
-     * Sorts LDAP search results.
-     *
-     * @param array $models
-     *
-     * @return array
-     */
-    private function processSort(array $models = [])
-    {
-        $collection = $this->newCollection($models);
-
-        $sort = [$this->builder->getSortByField() => $this->builder->getSortByDirection()];
-
-        $criteria = (new Criteria())->orderBy($sort);
-
-        return $collection->matching($criteria)->toArray();
-    }
-
-    /**
      * Returns a new LDAP Entry instance.
      *
      * @param array $attributes
@@ -191,11 +172,11 @@ class Processor
      *
      * @param array $elements
      *
-     * @return ArrayCollection
+     * @return Collection
      */
     public function newCollection(array $elements = [])
     {
-        return new ArrayCollection($elements);
+        return new Collection($elements);
     }
 
     /**
@@ -214,5 +195,29 @@ class Processor
             $this->schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
             $this->schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
         ];
+    }
+
+    /**
+     * Sorts LDAP search results.
+     *
+     * @param array $models
+     *
+     * @return array
+     */
+    protected function processSort(array $models = [])
+    {
+        $collection = $this->newCollection($models);
+
+        $field = $this->builder->getSortByField();
+
+        $direction = $this->builder->getSortByDirection();
+
+        if ($direction === 'desc') {
+            $sorted = $collection->sortByDesc($field);
+        } else {
+            $sorted =  $collection->sortBy($field);
+        }
+
+        return $sorted->toArray();
     }
 }

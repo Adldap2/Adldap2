@@ -173,7 +173,7 @@ class Builder
     /**
      * Returns the current query.
      *
-     * @return array|\Doctrine\Common\Collections\ArrayCollection|bool
+     * @return array|\Illuminate\Support\Collection
      */
     public function get()
     {
@@ -240,7 +240,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return array|\Doctrine\Common\Collections\ArrayCollection|bool
+     * @return array|\Illuminate\Support\Collection
      */
     public function query($query)
     {

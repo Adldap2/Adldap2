@@ -215,7 +215,7 @@ class Processor
         if ($direction === 'desc') {
             $sorted = $collection->sortByDesc($field);
         } else {
-            $sorted =  $collection->sortBy($field);
+            $sorted = $collection->sortBy($field);
         }
 
         return $sorted->toArray();

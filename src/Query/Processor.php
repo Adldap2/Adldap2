@@ -116,6 +116,7 @@ class Processor
         if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
             // We'll explode the DN so we can grab it's object category.
             $category = Utilities::explodeDn($attributes[$attribute][0]);
+
             // Make sure the category string exists in the attribute array.
             if (array_key_exists(0, $category)) {
                 $category = strtolower($category[0]);
@@ -187,13 +188,13 @@ class Processor
     public function map()
     {
         return [
-            $this->schema->objectCategoryComputer()           => 'Adldap\Models\Computer',
-            $this->schema->objectCategoryPerson()             => 'Adldap\Models\User',
-            $this->schema->objectCategoryGroup()              => 'Adldap\Models\Group',
-            $this->schema->objectCategoryExchangeServer()     => 'Adldap\Models\ExchangeServer',
-            $this->schema->objectCategoryContainer()          => 'Adldap\Models\Container',
-            $this->schema->objectCategoryPrinter()            => 'Adldap\Models\Printer',
-            $this->schema->objectCategoryOrganizationalUnit() => 'Adldap\Models\OrganizationalUnit',
+            $this->schema->objectCategoryComputer()           => \Adldap\Models\Computer::class,
+            $this->schema->objectCategoryPerson()             => \Adldap\Models\User::class,
+            $this->schema->objectCategoryGroup()              => \Adldap\Models\Group::class,
+            $this->schema->objectCategoryExchangeServer()     => \Adldap\Models\ExchangeServer::class,
+            $this->schema->objectCategoryContainer()          => \Adldap\Models\Container::class,
+            $this->schema->objectCategoryPrinter()            => \Adldap\Models\Printer::class,
+            $this->schema->objectCategoryOrganizationalUnit() => \Adldap\Models\OrganizationalUnit::class,
         ];
     }
 

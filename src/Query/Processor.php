@@ -6,7 +6,6 @@ use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
-use Adldap\Utilities;
 use Illuminate\Support\Collection;
 
 class Processor

@@ -111,24 +111,31 @@ class Processor
      */
     public function newLdapEntry(array $attributes = [])
     {
-        $attribute = $this->schema->objectCategory();
+        $attribute = $this->schema->objectClass();
 
         if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
-            // We'll explode the DN so we can grab it's object category.
-            $category = Utilities::explodeDn($attributes[$attribute][0]);
+            // Retrieve all of the object classes from the LDAP
+            // entry and lowercase them for comparisons.
+            $classes = array_map('strtolower', $attributes[$attribute]);
 
-            // Make sure the category string exists in the attribute array.
-            if (array_key_exists(0, $category)) {
-                $category = strtolower($category[0]);
+            // Retrieve the model mapping.
+            $models = $this->map();
 
-                $mappings = $this->map();
+            // Retrieve the object class mappings (with strtolower keys).
+            $mappings = array_map('strtolower', array_keys($models));
 
-                // Retrieve the category model mapping.
-                if (array_key_exists($category, $mappings)) {
-                    $model = $mappings[$category];
+            // Retrieve the model from the map using the entry's object class.
+            $map = array_intersect($mappings, $classes);
 
-                    return $this->newModel([], $model)->setRawAttributes($attributes);
-                }
+            if (count($map) > 0) {
+                // Retrieve the objectclass attribute from the map.
+                $class = current($map);
+
+                // Retrieve the model from using the object class.
+                $model = $models[$class];
+
+                // Construct and return a new model.
+                return $this->newModel([], $model)->setRawAttributes($attributes);
             }
         }
 
@@ -188,13 +195,13 @@ class Processor
     public function map()
     {
         return [
-            $this->schema->objectCategoryComputer()           => \Adldap\Models\Computer::class,
-            $this->schema->objectCategoryPerson()             => \Adldap\Models\User::class,
-            $this->schema->objectCategoryGroup()              => \Adldap\Models\Group::class,
-            $this->schema->objectCategoryExchangeServer()     => \Adldap\Models\ExchangeServer::class,
-            $this->schema->objectCategoryContainer()          => \Adldap\Models\Container::class,
-            $this->schema->objectCategoryPrinter()            => \Adldap\Models\Printer::class,
-            $this->schema->objectCategoryOrganizationalUnit() => \Adldap\Models\OrganizationalUnit::class,
+            $this->schema->objectClassComputer()    => \Adldap\Models\Computer::class,
+            $this->schema->objectClassContact()     => \Adldap\Models\Contact::class,
+            $this->schema->objectClassPerson()      => \Adldap\Models\User::class,
+            $this->schema->objectClassGroup()       => \Adldap\Models\Group::class,
+            $this->schema->objectClassContainer()   => \Adldap\Models\Container::class,
+            $this->schema->objectClassPrinter()     => \Adldap\Models\Printer::class,
+            $this->schema->objectClassOu()          => \Adldap\Models\OrganizationalUnit::class,
         ];
     }
 

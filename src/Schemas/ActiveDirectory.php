@@ -518,6 +518,62 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function objectClassPerson()
+    {
+        return 'person';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassUser()
+    {
+        return 'user';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassComputer()
+    {
+        return 'computer';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassContact()
+    {
+        return 'contact';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassGroup()
+    {
+        return 'group';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassOu()
+    {
+        return 'organizationalunit';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassContainer()
+    {
+        return 'container';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectClassPrinter()
     {
         return 'printqueue';

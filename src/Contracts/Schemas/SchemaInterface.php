@@ -571,9 +571,58 @@ interface SchemaInterface
     public function objectClass();
 
     /**
-     * The printer object class.
+     * The person object class.
      *
-     * Contains information about a print queue.
+     * Represents people who are associated with an organization in some way.
+     *
+     * @return string
+     */
+    public function objectClassPerson();
+
+    /**
+     * The user object class.
+     *
+     * @return string
+     */
+    public function objectClassUser();
+
+    /**
+     * The computer object class.
+     *
+     * @return string
+     */
+    public function objectClassComputer();
+
+    /**
+     * The contact object class.
+     *
+     * @return string
+     */
+    public function objectClassContact();
+
+    /**
+     * The group object class.
+     *
+     * @return string
+     */
+    public function objectClassGroup();
+
+    /**
+     * The ou object class.
+     *
+     * @return string
+     */
+    public function objectClassOu();
+
+    /**
+     * The container object class.
+     *
+     * @return string
+     */
+    public function objectClassContainer();
+
+    /**
+     * The printer object class.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms683911(v=vs.85).aspx
      *

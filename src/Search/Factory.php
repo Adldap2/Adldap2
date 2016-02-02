@@ -130,7 +130,8 @@ class Factory
     public function users()
     {
         return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->person());
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassPerson())
+            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryPerson());
     }
 
     /**
@@ -152,7 +153,7 @@ class Factory
     public function ous()
     {
         return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->organizationalUnit());
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassOu());
     }
 
     /**
@@ -163,25 +164,7 @@ class Factory
     public function groups()
     {
         return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryGroup());
-    }
-
-    /**
-     * Returns a query builder limited to exchange servers.
-     *
-     * @return Builder|false
-     */
-    public function exchangeServers()
-    {
-        $namingContext = $this->getConfigurationNamingContext();
-
-        if (is_string($namingContext)) {
-            return $this->query
-                ->setDn($namingContext)
-                ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryExchangeServer());
-        }
-
-        return false;
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassGroup());
     }
 
     /**
@@ -192,7 +175,7 @@ class Factory
     public function containers()
     {
         return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryContainer());
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassContainer());
     }
 
     /**
@@ -203,7 +186,7 @@ class Factory
     public function contacts()
     {
         return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->contact());
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassContact());
     }
 
     /**
@@ -214,7 +197,7 @@ class Factory
     public function computers()
     {
         return $this->query
-            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryComputer());
+            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassComputer());
     }
 
     /**

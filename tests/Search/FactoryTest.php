@@ -64,8 +64,8 @@ class FactoryTest extends UnitTestCase
         $query = $search->users();
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
-        $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectclass=\70\65\72\73\6f\6e)', $query->getQuery());
+        $this->assertCount(2, $query->getWheres());
+        $this->assertEquals('(&(objectclass=\70\65\72\73\6f\6e)(objectcategory=\70\65\72\73\6f\6e))', $query->getQuery());
     }
 
     public function testPrinterScope()
@@ -87,7 +87,7 @@ class FactoryTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
         $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectcategory=\6f\72\67\61\6e\69\7a\61\74\69\6f\6e\61\6c\75\6e\69\74)', $query->getQuery());
+        $this->assertEquals('(objectclass=\6f\72\67\61\6e\69\7a\61\74\69\6f\6e\61\6c\75\6e\69\74)', $query->getQuery());
     }
 
     public function testGroupScope()
@@ -98,7 +98,7 @@ class FactoryTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
         $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectcategory=\67\72\6f\75\70)', $query->getQuery());
+        $this->assertEquals('(objectclass=\67\72\6f\75\70)', $query->getQuery());
     }
 
     public function testContainerScope()
@@ -109,7 +109,7 @@ class FactoryTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
         $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectcategory=\63\6f\6e\74\61\69\6e\65\72)', $query->getQuery());
+        $this->assertEquals('(objectclass=\63\6f\6e\74\61\69\6e\65\72)', $query->getQuery());
     }
 
     public function testContactScope()
@@ -131,6 +131,6 @@ class FactoryTest extends UnitTestCase
 
         $this->assertInstanceOf('Adldap\Query\Builder', $query);
         $this->assertCount(1, $query->getWheres());
-        $this->assertEquals('(objectcategory=\63\6f\6d\70\75\74\65\72)', $query->getQuery());
+        $this->assertEquals('(objectclass=\63\6f\6d\70\75\74\65\72)', $query->getQuery());
     }
 }

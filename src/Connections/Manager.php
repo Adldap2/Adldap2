@@ -119,6 +119,14 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function getSchema()
+    {
+        return $this->schema;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setGuard(GuardInterface $guard)
     {
         $this->guard = $guard;

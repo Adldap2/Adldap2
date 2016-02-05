@@ -77,6 +77,13 @@ interface ManagerInterface
     public function setSchema(SchemaInterface $schema);
 
     /**
+     * Returns the current LDAP attribute schema.
+     *
+     * @return SchemaInterface
+     */
+    public function getSchema();
+
+    /**
      * Sets the current Guard instance.
      *
      * @param GuardInterface $guard

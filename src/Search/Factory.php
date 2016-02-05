@@ -231,7 +231,7 @@ class Factory
     }
 
     /**
-     * Handle dynamic method calls on the search object.
+     * Handle dynamic method calls on the query builder object.
      *
      * @param string $method
      * @param array  $parameters

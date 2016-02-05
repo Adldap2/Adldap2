@@ -22,6 +22,17 @@ class ConfigurationTest extends UnitTestCase
         $this->assertFalse($config->getUseTLS());
     }
 
+    public function testDefaultOverrideForSSL()
+    {
+        $settings = [
+            'use_ssl' => true,
+        ];
+
+        $config = new Configuration($settings);
+
+        $this->assertEquals('636', $config->getPort());
+    }
+
     public function testDynamicSetUp()
     {
         $settings = [
@@ -116,6 +127,7 @@ class ConfigurationTest extends UnitTestCase
 
         $this->assertTrue($config->getUseSSL());
     }
+
 
     public function testSetUseSSLWhenUsingTLS()
     {

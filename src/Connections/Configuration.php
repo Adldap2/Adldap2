@@ -137,6 +137,12 @@ class Configuration
             );
         }
 
+        if (array_key_exists('use_ssl', $options)) {
+            if (!array_key_exists('port', $options) && $options['use_ssl'] === true) {
+                $options['port'] = ConnectionInterface::PORT_SSL;
+            }
+        }
+
         foreach ($options as $key => $value) {
             $method = 'set'.$this->normalizeKey($key);
             if (method_exists($this, $method)) {

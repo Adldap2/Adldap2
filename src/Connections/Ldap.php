@@ -383,7 +383,7 @@ class Ldap implements ConnectionInterface
             $protocol = $this::PROTOCOL_SSL;
         }
 
-        return $this->connection = ldap_connect($protocol.$hostname, $port);
+        return $this->connection = ldap_connect($protocol.$hostname.':'.$port);
     }
 
     /**

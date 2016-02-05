@@ -137,7 +137,7 @@ class Configuration
             );
         }
 
-        if (!key_exists('port', $options)) {
+        if (!array_key_exists('port', $options)) {
             $options['port'] = ConnectionInterface::PORT_SSL;
         }
 

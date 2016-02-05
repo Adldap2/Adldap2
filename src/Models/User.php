@@ -814,18 +814,12 @@ class User extends Entry
 
         $attribute = ActiveDirectory::UNICODE_PASSWORD;
 
-        $remove = new BatchModification();
-        $remove->setAttribute($attribute);
-        $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
-        $remove->setValues([Utilities::encodePassword($oldPassword)]);
+        $replace = new BatchModification();
+        $replace->setAttribute($attribute);
+        $replace->setType(LDAP_MODIFY_BATCH_REPLACE);
+        $replace->setValues([Utilities::encodePassword($newPassword)]);
 
-        $add = new BatchModification();
-        $add->setAttribute($attribute);
-        $add->setType(LDAP_MODIFY_BATCH_ADD);
-        $add->setValues([Utilities::encodePassword($newPassword)]);
-
-        $this->addModification($remove);
-        $this->addModification($add);
+        $this->addModification($replace);
 
         $result = $this->update();
 

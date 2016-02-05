@@ -795,6 +795,8 @@ class User extends Entry
      *
      * @param string $oldPassword The new password
      * @param string $newPassword The old password
+     * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
+     *                                 errors.
      *
      * @throws AdldapException
      * @throws PasswordPolicyException
@@ -802,7 +804,7 @@ class User extends Entry
      *
      * @return bool
      */
-    public function changePassword($oldPassword, $newPassword)
+    public function changePassword($oldPassword, $newPassword, $replaceNotRemove = false)
     {
         $connection = $this->query->getConnection();
 
@@ -814,12 +816,27 @@ class User extends Entry
 
         $attribute = ActiveDirectory::UNICODE_PASSWORD;
 
-        $replace = new BatchModification();
-        $replace->setAttribute($attribute);
-        $replace->setType(LDAP_MODIFY_BATCH_REPLACE);
-        $replace->setValues([Utilities::encodePassword($newPassword)]);
+        if ($replaceNotRemove === true) {
+            $replace = new BatchModification();
+            $replace->setAttribute($attribute);
+            $replace->setType(LDAP_MODIFY_BATCH_REPLACE);
+            $replace->setValues([Utilities::encodePassword($newPassword)]);
 
-        $this->addModification($replace);
+            $this->addModification($replace);
+        } else {
+            $remove = new BatchModification();
+            $remove->setAttribute($attribute);
+            $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
+            $remove->setValues([Utilities::encodePassword($oldPassword)]);
+
+            $add = new BatchModification();
+            $add->setAttribute($attribute);
+            $add->setType(LDAP_MODIFY_BATCH_ADD);
+            $add->setValues([Utilities::encodePassword($newPassword)]);
+
+            $this->addModification($remove);
+            $this->addModification($add);
+        }
 
         $result = $this->update();
 

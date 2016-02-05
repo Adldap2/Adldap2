@@ -137,6 +137,10 @@ class Configuration
             );
         }
 
+        if (!key_exists('port', $options)) {
+            $options['port'] = ConnectionInterface::PORT_SSL;
+        }
+
         foreach ($options as $key => $value) {
             $method = 'set'.$this->normalizeKey($key);
             if (method_exists($this, $method)) {

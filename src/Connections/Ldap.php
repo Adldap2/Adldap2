@@ -506,6 +506,7 @@ class Ldap implements ConnectionInterface
         } catch (\ErrorException $bindErrorException) {
             $this->bound = false;
         }
+        
         return false;
     }
 

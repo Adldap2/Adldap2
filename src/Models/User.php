@@ -793,8 +793,8 @@ class User extends Entry
     /**
      * Change the password of the current user. This must be performed over SSL.
      *
-     * @param string $oldPassword The new password
-     * @param string $newPassword The old password
+     * @param string $oldPassword      The new password
+     * @param string $newPassword      The old password
      * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
      *                                 errors.
      *

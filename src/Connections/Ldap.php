@@ -491,16 +491,8 @@ class Ldap implements ConnectionInterface
         // and an ErrorException is thrown instead of returning false
         try {
             if ($sasl) {
-                if ($this->suppressErrors) {
-                    return $this->bound = @ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
-                }
-
                 return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
             } else {
-                if ($this->suppressErrors) {
-                    return $this->bound = @ldap_bind($this->getConnection(), $username, $password);
-                }
-
                 return $this->bound = ldap_bind($this->getConnection(), $username, $password);
             }
         } catch (\ErrorException $bindErrorException) {

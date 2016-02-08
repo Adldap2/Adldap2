@@ -73,6 +73,7 @@ You're good to go!
 
 - [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
 - [Kohana](https://github.com/Adldap2/Adldap2-Kohana)
+- [Yii2 wrapper](https://github.com/edvler/yii2-adldap-module)
 
 ## Versioning
 

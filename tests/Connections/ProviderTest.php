@@ -17,7 +17,7 @@ class ProviderTest extends UnitTestCase
         return new Provider($connection, $configuration, $schema);
     }
 
-    public function testConstruct()
+    public function test_construct()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
@@ -25,7 +25,7 @@ class ProviderTest extends UnitTestCase
         $this->assertInstanceOf('Adldap\Connections\Configuration', $m->getConfiguration());
     }
 
-    public function testAuthUsernameFailure()
+    public function test_auth_username_failure()
     {
         $connection = $this->newConnectionMock();
 
@@ -39,7 +39,7 @@ class ProviderTest extends UnitTestCase
         $m->auth()->attempt(0000000, 'password');
     }
 
-    public function testAuthPasswordFailure()
+    public function test_auth_password_failure()
     {
         $connection = $this->newConnectionMock();
 
@@ -53,7 +53,7 @@ class ProviderTest extends UnitTestCase
         $m->auth()->attempt('username', 0000000);
     }
 
-    public function testAuthFailure()
+    public function test_auth_failure()
     {
         $connection = $this->newConnectionMock();
 
@@ -71,7 +71,7 @@ class ProviderTest extends UnitTestCase
         $this->assertFalse($m->auth()->attempt('username', 'password'));
     }
 
-    public function testAuthPassesWithRebind()
+    public function test_auth_passes_with_rebind()
     {
         $config = new Configuration();
 
@@ -99,7 +99,7 @@ class ProviderTest extends UnitTestCase
         $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
-    public function testAuthRebindFailure()
+    public function test_auth_rebind_failure()
     {
         $config = new Configuration();
 
@@ -129,7 +129,7 @@ class ProviderTest extends UnitTestCase
         $m->auth()->attempt('username', 'password');
     }
 
-    public function testAuthPassesWithoutRebind()
+    public function test_auth_passes_without_rebind()
     {
         $config = new Configuration();
 
@@ -152,42 +152,42 @@ class ProviderTest extends UnitTestCase
         $this->assertTrue($m->auth()->attempt('username', 'password', true));
     }
 
-    public function testGroups()
+    public function test_groups()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->groups());
     }
 
-    public function testUsers()
+    public function test_users()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->users());
     }
 
-    public function testContainers()
+    public function test_containers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->containers());
     }
 
-    public function testContacts()
+    public function test_contacts()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
-    public function testComputers()
+    public function test_computers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->computers());
     }
 
-    public function testOus()
+    public function test_ous()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
@@ -201,14 +201,14 @@ class ProviderTest extends UnitTestCase
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
-    public function testPrinters()
+    public function test_printers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->printers());
     }
 
-    public function testSearch()
+    public function test_search()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 

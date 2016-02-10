@@ -3,6 +3,7 @@
 namespace Adldap\Contracts;
 
 use Adldap\Contracts\Connections\ManagerInterface;
+use Adldap\Contracts\Connections\ProviderInterface;
 
 interface AdldapInterface
 {
@@ -29,6 +30,25 @@ interface AdldapInterface
      * @param ManagerInterface $manager
      */
     public function setManager(ManagerInterface $manager);
+
+    /**
+     * Adds a provider to the connection Manager.
+     *
+     * @param string            $name
+     * @param ProviderInterface $provider
+     *
+     * @return ProviderInterface
+     */
+    public function addProvider($name, ProviderInterface $provider);
+
+    /**
+     * Retrieves a provider from the connection Manager.
+     *
+     * @param string $name
+     *
+     * @return ProviderInterface
+     */
+    public function getProvider($name);
 
     /**
      * Connects and binds to the configured LDAP server.

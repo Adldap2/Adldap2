@@ -5,6 +5,7 @@ namespace Adldap;
 use Adldap\Connections\Manager;
 use Adldap\Contracts\AdldapInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
+use Adldap\Contracts\Connections\ProviderInterface;
 
 class Adldap implements AdldapInterface
 {
@@ -46,11 +47,15 @@ class Adldap implements AdldapInterface
     }
 
     /**
-     * Retrieves a provider from the connection Manager.
-     *
-     * @param string $name
-     *
-     * @return Contracts\Connections\ProviderInterface
+     * {@inheritdoc}
+     */
+    public function addProvider($name, ProviderInterface $provider)
+    {
+        return $this->getManager()->add($name, $provider);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getProvider($name)
     {

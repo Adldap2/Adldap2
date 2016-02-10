@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class AccountControlTest extends UnitTestCase
 {
-    public function testDefaultValue()
+    public function test_default_value()
     {
         $ac = new AccountControl();
 
@@ -15,7 +15,7 @@ class AccountControlTest extends UnitTestCase
         $this->assertInternalType('int', $ac->getValue());
     }
 
-    public function testAllOptions()
+    public function test_all_options()
     {
         $values = [
             AccountControl::SCRIPT,
@@ -70,7 +70,7 @@ class AccountControlTest extends UnitTestCase
         $this->assertEquals(array_sum($values), $ac->getValue());
     }
 
-    public function testToInt()
+    public function test_to_int()
     {
         $ac = new AccountControl();
 
@@ -78,7 +78,7 @@ class AccountControlTest extends UnitTestCase
         $this->assertInternalType('int', $ac->__toInt());
     }
 
-    public function testToString()
+    public function test_to_string()
     {
         $ac = new AccountControl();
 
@@ -86,7 +86,7 @@ class AccountControlTest extends UnitTestCase
         $this->assertInternalType('string', $ac->__toString());
     }
 
-    public function testConstruct()
+    public function test_construct()
     {
         $flag = 522;
 

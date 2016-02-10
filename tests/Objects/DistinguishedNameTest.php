@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class DistinguishedNameTest extends UnitTestCase
 {
-    public function testConstructBase()
+    public function test_construct_base()
     {
         $base = 'dc=corp,dc=org';
 
@@ -16,7 +16,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals($base, $dn->get());
     }
 
-    public function testConstructInvalidBase()
+    public function test_construct_invalid_base()
     {
         $base = 'invalid base';
 
@@ -25,7 +25,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEmpty($dn->get());
     }
 
-    public function testConstructWithAnotherDnObject()
+    public function test_construct_with_another_dn_object()
     {
         $base = new DistinguishedName();
 
@@ -37,7 +37,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals($base->get(), $dn->get());
     }
 
-    public function testToString()
+    public function test_to_string()
     {
         $dn = new DistinguishedName();
 
@@ -46,7 +46,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('dc=corp', (string) $dn);
     }
 
-    public function testAddDc()
+    public function test_add_dc()
     {
         $dn = new DistinguishedName();
 
@@ -56,7 +56,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('dc=corp,dc=org', $dn->get());
     }
 
-    public function testRemoveDc()
+    public function test_remove_dc()
     {
         $dn = new DistinguishedName();
 
@@ -68,7 +68,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('dc=corp', $dn->get());
     }
 
-    public function testAddOu()
+    public function test_add_ou()
     {
         $dn = new DistinguishedName();
 
@@ -78,7 +78,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('ou=Accounting,ou=User Accounts', $dn->get());
     }
 
-    public function testRemoveOu()
+    public function test_remove_ou()
     {
         $dn = new DistinguishedName();
 
@@ -90,7 +90,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('ou=Accounting', $dn->get());
     }
 
-    public function testAddCn()
+    public function test_add_cn()
     {
         $dn = new DistinguishedName();
 
@@ -99,7 +99,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEquals('cn=Testing', $dn->get());
     }
 
-    public function testRemoveCn()
+    public function test_remove_cn()
     {
         $dn = new DistinguishedName();
 
@@ -110,7 +110,7 @@ class DistinguishedNameTest extends UnitTestCase
         $this->assertEmpty($dn->get());
     }
 
-    public function testEscaping()
+    public function test_escaping()
     {
         $dn = new DistinguishedName();
 

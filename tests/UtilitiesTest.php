@@ -6,7 +6,7 @@ use Adldap\Utilities;
 
 class UtilitiesTest extends UnitTestCase
 {
-    public function testExplodeDn()
+    public function test_explode_dn()
     {
         $dn = 'cn=Testing,ou=Folder,dc=corp,dc=org';
 
@@ -23,7 +23,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $split);
     }
 
-    public function testEscapeManual()
+    public function test_escape_manual()
     {
         $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
@@ -40,7 +40,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testEscapeManualWithIgnore()
+    public function test_escape_manual_with_ignore()
     {
         $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
@@ -59,7 +59,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testEscapeManualWithIgnoreAndFlagTwo()
+    public function test_escape_manual_with_ignore_and_flag_two()
     {
         $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
@@ -81,7 +81,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testEscapeManualWithIgnoreAndFlagThree()
+    public function test_escape_manual_with_ignore_and_flag_three()
     {
         $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
 
@@ -102,7 +102,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testUnescape()
+    public function test_unescape()
     {
         $unescaped = 'testing';
 
@@ -115,7 +115,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($unescaped, Utilities::unescape($escaped));
     }
 
-    public function testEncodePassword()
+    public function test_encode_password()
     {
         $password = 'password';
 
@@ -126,7 +126,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertEquals($expected, bin2hex($encoded));
     }
 
-    public function testIsValidSid()
+    public function test_is_valid_sid()
     {
         $sid1 = 'S-1-5-21-3623811015-3361044348-30300820-1013';
         $sid2 = 'S-1-5-21-362381101-336104434-3030082-101';
@@ -137,7 +137,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertFalse(Utilities::isValidSid('Invalid SID'));
     }
 
-    public function testBinarySidToString()
+    public function test_binary_sid_to_string()
     {
         $sid = '\01\05\00\00\00\00\00\05\15\00\00\00\dc\f4\dc\3b\83\3d\2b\46\82\8b\a6\28\00\02\00\00';
 
@@ -148,7 +148,7 @@ class UtilitiesTest extends UnitTestCase
         $this->assertNull(Utilities::binaryGuidToString('  '));
     }
 
-    public function testBinaryGuidToString()
+    public function test_binary_guid_to_string()
     {
         $guid = '\d0\b4\0d\27\9d\24\a7\46\9c\c5\eb\69\5d\9a\f9\ac';
 

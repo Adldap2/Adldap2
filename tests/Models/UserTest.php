@@ -8,7 +8,7 @@ use Adldap\Tests\UnitTestCase;
 
 class UserTest extends UnitTestCase
 {
-    public function testSetPassword()
+    public function test_set_password()
     {
         $connection = $this->newConnectionMock();
 
@@ -29,7 +29,7 @@ class UserTest extends UnitTestCase
         $this->assertEquals($expected, $user->getModifications());
     }
 
-    public function testSetPasswordWithoutSSLOrTLS()
+    public function test_set_password_without_ssl_or_tls()
     {
         $connection = $this->newConnectionMock();
 
@@ -43,7 +43,7 @@ class UserTest extends UnitTestCase
         $user->setPassword('');
     }
 
-    public function testChangePasswordPolicyFailure()
+    public function test_change_password_policy_failure()
     {
         $connection = $this->newConnectionMock();
 
@@ -61,7 +61,7 @@ class UserTest extends UnitTestCase
         $user->changePassword('', '');
     }
 
-    public function testChangePasswordWrongFailure()
+    public function test_change_password_wrong_failure()
     {
         $connection = $this->newConnectionMock();
 
@@ -79,7 +79,7 @@ class UserTest extends UnitTestCase
         $user->changePassword('', '');
     }
 
-    public function testChangePasswordWithoutSSLOrTLS()
+    public function test_change_password_without_ssl_or_tls()
     {
         $connection = $this->newConnectionMock();
 

@@ -22,14 +22,14 @@ class FactoryTest extends UnitTestCase
         return new ModelFactory($builder, $schema);
     }
 
-    public function testConstruct()
+    public function test_construct()
     {
         $factory = $this->newFactory();
 
         $this->assertInstanceOf('Adldap\Models\Factory', $factory);
     }
 
-    public function testUser()
+    public function test_user()
     {
         $factory = $this->newFactory();
 
@@ -47,7 +47,7 @@ class FactoryTest extends UnitTestCase
         $this->assertEquals($class, $user->getAttribute('objectclass'));
     }
 
-    public function testOu()
+    public function test_ou()
     {
         $factory = $this->newFactory();
 
@@ -63,7 +63,7 @@ class FactoryTest extends UnitTestCase
         $this->assertEquals($class, $ou->getAttribute('objectclass'));
     }
 
-    public function testGroup()
+    public function test_group()
     {
         $factory = $this->newFactory();
 
@@ -79,7 +79,7 @@ class FactoryTest extends UnitTestCase
         $this->assertEquals($class, $group->getAttribute('objectclass'));
     }
 
-    public function testContainer()
+    public function test_container()
     {
         $factory = $this->newFactory();
 
@@ -92,7 +92,7 @@ class FactoryTest extends UnitTestCase
         $this->assertEquals($class, $container->getAttribute('objectclass'));
     }
 
-    public function testContact()
+    public function test_contact()
     {
         $factory = $this->newFactory();
 
@@ -110,7 +110,7 @@ class FactoryTest extends UnitTestCase
         $this->assertEquals($class, $contact->getAttribute('objectclass'));
     }
 
-    public function testComputer()
+    public function test_computer()
     {
         $factory = $this->newFactory();
 

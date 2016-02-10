@@ -18,7 +18,7 @@ class ManagerTest extends UnitTestCase
         $manager->get('missing');
     }
 
-    public function test_remove()
+    public function test_add_and_remove()
     {
         $provider = $this->mock(Provider::class);
 

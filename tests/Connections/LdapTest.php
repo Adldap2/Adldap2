@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class LdapTest extends UnitTestCase
 {
-    public function testConstructDefaults()
+    public function test_construct_defaults()
     {
         $ldap = new Ldap();
 

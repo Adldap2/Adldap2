@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class BatchModificationTest extends UnitTestCase
 {
-    public function testBuildWithOriginal()
+    public function test_build_with_original()
     {
         $modification = new BatchModification();
 
@@ -20,7 +20,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(LDAP_MODIFY_BATCH_REPLACE, $modification->getType());
     }
 
-    public function testBuildWithoutOriginal()
+    public function test_build_without_original()
     {
         $modification = new BatchModification();
 
@@ -32,7 +32,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(LDAP_MODIFY_BATCH_ADD, $modification->getType());
     }
 
-    public function testBuildWithOriginalAndNullValue()
+    public function test_build_with_original_and_null_value()
     {
         $modification = new BatchModification();
 
@@ -45,7 +45,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(LDAP_MODIFY_BATCH_REMOVE_ALL, $modification->getType());
     }
 
-    public function testBuildWithoutOriginalAndNullValue()
+    public function test_build_without_original_and_null_value()
     {
         $modification = new BatchModification();
 
@@ -57,7 +57,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertNull($modification->getType());
     }
 
-    public function testGet()
+    public function test_get()
     {
         $modification = new BatchModification();
 
@@ -74,7 +74,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals($expected, $modification->get());
     }
 
-    public function testGetWithInvalidType()
+    public function test_get_with_invalid_type()
     {
         $modification = new BatchModification();
 
@@ -85,7 +85,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertNull($modification->get());
     }
 
-    public function testSetValues()
+    public function test_set_values()
     {
         $modification = new BatchModification();
 
@@ -94,7 +94,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(['test'], $modification->getValues());
     }
 
-    public function testSetType()
+    public function test_set_type()
     {
         $modification = new BatchModification();
 
@@ -103,7 +103,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(1, $modification->getType());
     }
 
-    public function testSetAttribute()
+    public function test_set_attribute()
     {
         $modification = new BatchModification();
 
@@ -112,7 +112,7 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals('test', $modification->getAttribute());
     }
 
-    public function testSetOriginal()
+    public function test_set_original()
     {
         $modification = new BatchModification();
 

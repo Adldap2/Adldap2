@@ -27,14 +27,14 @@ class BuilderTest extends UnitTestCase
         return $this->mock('Adldap\Contracts\Connections\ConnectionInterface');
     }
 
-    public function testConstruct()
+    public function test_construct()
     {
         $b = $this->newBuilder();
 
         $this->assertEmpty($b->getQuery());
     }
 
-    public function testSelectArray()
+    public function test_select_array()
     {
         $b = $this->newBuilder();
 
@@ -50,7 +50,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getSelects());
     }
 
-    public function testSelectString()
+    public function test_select_string()
     {
         $b = $this->newBuilder();
 
@@ -66,7 +66,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getSelects());
     }
 
-    public function testSelectEmptyString()
+    public function test_select_empty_string()
     {
         $b = $this->newBuilder();
 
@@ -82,7 +82,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getSelects());
     }
 
-    public function testHasSelects()
+    public function test_has_selects()
     {
         $b = $this->newBuilder();
 
@@ -91,7 +91,7 @@ class BuilderTest extends UnitTestCase
         $this->assertTrue($b->hasSelects());
     }
 
-    public function testWhere()
+    public function test_where()
     {
         $b = $this->newBuilder();
 
@@ -104,7 +104,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testWhereWithArray()
+    public function test_where_with_array()
     {
         $b = $this->newBuilder();
 
@@ -127,7 +127,7 @@ class BuilderTest extends UnitTestCase
 
     }
 
-    public function testWhereContains()
+    public function test_where_contains()
     {
         $b = $this->newBuilder();
 
@@ -140,7 +140,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testWhereStartsWith()
+    public function test_where_starts_with()
     {
         $b = $this->newBuilder();
 
@@ -153,7 +153,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testWhereEndsWith()
+    public function test_where_ends_with()
     {
         $b = $this->newBuilder();
 
@@ -166,7 +166,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testOrWhere()
+    public function test_or_where()
     {
         $b = $this->newBuilder();
 
@@ -179,7 +179,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testOrWhereWithArray()
+    public function test_or_where_with_array()
     {
         $b = $this->newBuilder();
 
@@ -201,7 +201,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
     }
 
-    public function testOrWhereContains()
+    public function test_or_where_contains()
     {
         $b = $this->newBuilder();
 
@@ -214,7 +214,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testOrWhereStartsWith()
+    public function test_or_where_starts_with()
     {
         $b = $this->newBuilder();
 
@@ -227,7 +227,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testOrWhereEndsWith()
+    public function test_or_where_ends_with()
     {
         $b = $this->newBuilder();
 
@@ -240,7 +240,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testWhereInvalidOperator()
+    public function test_where_invalid_operator()
     {
         $b = $this->newBuilder();
 
@@ -249,7 +249,7 @@ class BuilderTest extends UnitTestCase
         $b->where('field', 'invalid', 'value');
     }
 
-    public function testOrWhereInvalidOperator()
+    public function test_or_where_invalid_operator()
     {
         $b = $this->newBuilder();
 
@@ -258,7 +258,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhere('field', 'invalid', 'value');
     }
 
-    public function testBuiltWhere()
+    public function test_built_where()
     {
         $b = $this->newBuilder();
 
@@ -269,7 +269,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWheres()
+    public function test_built_wheres()
     {
         $b = $this->newBuilder();
 
@@ -282,7 +282,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereStartsWith()
+    public function test_built_where_starts_with()
     {
         $b = $this->newBuilder();
 
@@ -293,7 +293,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereEndsWith()
+    public function test_built_where_ends_with()
     {
         $b = $this->newBuilder();
 
@@ -304,7 +304,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereContains()
+    public function test_built_where_contains()
     {
         $b = $this->newBuilder();
 
@@ -315,7 +315,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhere()
+    public function test_built_or_where()
     {
         $b = $this->newBuilder();
 
@@ -326,7 +326,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWheres()
+    public function test_built_or_wheres()
     {
         $b = $this->newBuilder();
 
@@ -339,7 +339,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereStartsWith()
+    public function test_built_or_where_starts_with()
     {
         $b = $this->newBuilder();
 
@@ -350,7 +350,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereEndsWith()
+    public function test_built_or_where_ends_with()
     {
         $b = $this->newBuilder();
 
@@ -361,7 +361,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereContains()
+    public function test_built_or_where_contains()
     {
         $b = $this->newBuilder();
 
@@ -372,7 +372,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereAndOrWheres()
+    public function test_built_where_and_or_wheres()
     {
         $b = $this->newBuilder();
 
@@ -385,7 +385,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereHas()
+    public function test_built_where_has()
     {
         $b = $this->newBuilder();
 
@@ -396,7 +396,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereNotHas()
+    public function test_built_where_not_has()
     {
         $b = $this->newBuilder();
 
@@ -407,7 +407,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereNotContains()
+    public function test_built_where_not_contains()
     {
         $b = $this->newBuilder();
 
@@ -418,7 +418,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereApproximatelyEquals()
+    public function test_built_where_approximately_equals()
     {
         $b = $this->newBuilder();
 
@@ -429,7 +429,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereHas()
+    public function test_built_or_where_has()
     {
         $b = $this->newBuilder();
 
@@ -440,7 +440,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereNotHas()
+    public function test_built_or_where_not_has()
     {
         $b = $this->newBuilder();
 
@@ -451,7 +451,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltOrWhereApproximatelyEquals()
+    public function test_built_or_where_approximately_equals()
     {
         $b = $this->newBuilder();
 
@@ -462,7 +462,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltRawFilter()
+    public function test_built_raw_filter()
     {
         $b = $this->newBuilder();
 
@@ -473,7 +473,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($filter, $b->getQuery());
     }
 
-    public function testBuiltRawFilterWithWheres()
+    public function test_built_raw_filter_with_wheres()
     {
         $b = $this->newBuilder();
 
@@ -488,7 +488,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltRawFilterMultiple()
+    public function test_built_raw_filter_multiple()
     {
         $b = $this->newBuilder();
 
@@ -503,7 +503,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
-    public function testBuiltWhereEnabled()
+    public function test_built_where_enabled()
     {
         $b = $this->newBuilder();
 
@@ -512,7 +512,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))', $b->getQuery());
     }
 
-    public function testBuiltWhereDisabled()
+    public function test_built_where_disabled()
     {
         $b = $this->newBuilder();
 
@@ -521,7 +521,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('(UserAccountControl:1.2.840.113556.1.4.803:=2)', $b->getQuery());
     }
 
-    public function testPaginateWithNoResults()
+    public function test_paginate_with_no_results()
     {
         $connection = $this->newConnectionMock();
 
@@ -533,7 +533,7 @@ class BuilderTest extends UnitTestCase
         $this->assertFalse($b->where('field', '=', 'value')->paginate(50));
     }
 
-    public function testPaginateWithResults()
+    public function test_paginate_with_results()
     {
         $connection = $this->newConnectionMock();
 
@@ -565,7 +565,7 @@ class BuilderTest extends UnitTestCase
         }
     }
 
-    public function testFieldIsEscaped()
+    public function test_field_is_escaped()
     {
         $b = $this->newBuilder();
 
@@ -584,7 +584,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals("($escapedField=$escapedValue)", $b->getQuery());
     }
 
-    public function testBuilderDnIsAppliedToNewInstance()
+    public function test_builder_dn_is_applied_to_new_instance()
     {
         $b = $this->newBuilder();
 
@@ -595,7 +595,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('New DN', $newB->getDn());
     }
 
-    public function testAddBinding()
+    public function test_add_binding()
     {
         $b = $this->newBuilder();
 
@@ -622,7 +622,7 @@ class BuilderTest extends UnitTestCase
         $this->assertInstanceOf('Adldap\Query\Bindings\Select', $b->getSelects()[0]);
     }
 
-    public function testAddInvalidBinding()
+    public function test_add_invalid_binding()
     {
         $b = $this->newBuilder();
 
@@ -631,7 +631,7 @@ class BuilderTest extends UnitTestCase
         $b->addBinding(new Filter('filter'), 'invalid');
     }
 
-    public function testSelectArgs()
+    public function test_select_args()
     {
         $b = $this->newBuilder();
 

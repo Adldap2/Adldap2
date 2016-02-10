@@ -73,7 +73,7 @@ class AdldapTest extends UnitTestCase
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }
 
-    public function testLiveConnection()
+    public function test_live_connection()
     {
         $config = [
             'account_suffix'     => '@gatech.edu',

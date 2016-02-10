@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class OperatorTest extends UnitTestCase
 {
-    public function testAll()
+    public function test_all()
     {
         $operators = Operator::all();
 

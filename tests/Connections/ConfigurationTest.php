@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class ConfigurationTest extends UnitTestCase
 {
-    public function testDefaults()
+    public function test_defaults()
     {
         $config = new Configuration();
 
@@ -22,7 +22,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertFalse($config->getUseTLS());
     }
 
-    public function testDynamicSetUp()
+    public function test_dynamic_set_up()
     {
         $settings = [
             'port'               => 500,
@@ -48,7 +48,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertFalse($config->getUseTLS());
     }
 
-    public function testSetPort()
+    public function test_set_port()
     {
         $config = new Configuration();
 
@@ -58,7 +58,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertInternalType('string', $config->getPort());
     }
 
-    public function testSetBaseDn()
+    public function test_set_base_dn()
     {
         $config = new Configuration();
 
@@ -67,7 +67,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertEquals('dc=corp', $config->getBaseDn());
     }
 
-    public function testSetDomainControllers()
+    public function test_set_domain_controllers()
     {
         $config = new Configuration();
 
@@ -78,7 +78,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertEquals($controllers, $config->getDomainControllers());
     }
 
-    public function testSetFollowReferrals()
+    public function test_set_follow_referrals()
     {
         $config = new Configuration();
 
@@ -88,7 +88,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertInternalType('bool', $config->getFollowReferrals());
     }
 
-    public function testSetAdminUsername()
+    public function test_set_admin_username()
     {
         $config = new Configuration();
 
@@ -98,7 +98,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertInternalType('string', $config->getAdminUsername());
     }
 
-    public function testSetAdminPassword()
+    public function test_set_admin_password()
     {
         $config = new Configuration();
 
@@ -108,7 +108,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertInternalType('string', $config->getAdminPassword());
     }
 
-    public function testSetUseSSL()
+    public function test_set_use_ssl()
     {
         $config = new Configuration();
 
@@ -117,7 +117,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertTrue($config->getUseSSL());
     }
 
-    public function testSetUseSSLWhenUsingTLS()
+    public function test_set_use_ssl_when_using_tls()
     {
         $config = new Configuration();
 
@@ -128,7 +128,7 @@ class ConfigurationTest extends UnitTestCase
         $config->setUseSSL(true);
     }
 
-    public function testSetUseTLS()
+    public function test_set_use_tls()
     {
         $config = new Configuration();
 
@@ -137,7 +137,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertTrue($config->getUseTLS());
     }
 
-    public function testSetUseTLSWhenUsingSSL()
+    public function test_set_use_tls_when_using_ssl()
     {
         $config = new Configuration();
 
@@ -148,7 +148,7 @@ class ConfigurationTest extends UnitTestCase
         $config->setUseTLS(true);
     }
 
-    public function testSetUseSSO()
+    public function test_set_use_sso()
     {
         $config = new Configuration();
 
@@ -157,7 +157,7 @@ class ConfigurationTest extends UnitTestCase
         $this->assertTrue($config->getUseSSO());
     }
 
-    public function testSetAccountSuffix()
+    public function test_set_account_suffix()
     {
         $config = new Configuration();
 

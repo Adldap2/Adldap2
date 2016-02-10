@@ -7,7 +7,7 @@ use Adldap\Tests\UnitTestCase;
 
 class PaginatorTest extends UnitTestCase
 {
-    public function testPaginatorConstruct()
+    public function test_paginator_construct()
     {
         $paginator = new Paginator([], 50, 0, 0);
 
@@ -16,7 +16,7 @@ class PaginatorTest extends UnitTestCase
         $this->assertEquals(50, $paginator->getPerPage());
     }
 
-    public function testPaginatorPages()
+    public function test_paginator_pages()
     {
         $data = [
             [

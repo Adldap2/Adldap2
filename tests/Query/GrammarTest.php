@@ -12,7 +12,7 @@ class GrammarTest extends UnitTestCase
         return new Grammar();
     }
 
-    public function testWrap()
+    public function test_wrap()
     {
         $g = $this->newGrammar();
 
@@ -23,7 +23,7 @@ class GrammarTest extends UnitTestCase
         $this->assertEquals($expected, $wrapped);
     }
 
-    public function testWrapPrefix()
+    public function test_wrap_prefix()
     {
         $g = $this->newGrammar();
 
@@ -34,7 +34,7 @@ class GrammarTest extends UnitTestCase
         $this->assertEquals($expected, $wrapped);
     }
 
-    public function testWrapSuffix()
+    public function test_wrap_suffix()
     {
         $g = $this->newGrammar();
 
@@ -45,7 +45,7 @@ class GrammarTest extends UnitTestCase
         $this->assertEquals($expected, $wrapped);
     }
 
-    public function testWrapBoth()
+    public function test_wrap_both()
     {
         $g = $this->newGrammar();
 

@@ -15,7 +15,7 @@ class EntryTest extends UnitTestCase
         return new Entry($attributes, $builder, $schema);
     }
 
-    public function testConstruct()
+    public function test_construct()
     {
         $attributes = [
             'cn'             => 'Common Name',
@@ -27,7 +27,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($attributes, $entry->getAttributes());
     }
 
-    public function testSetRawAttributes()
+    public function test_set_raw_attributes()
     {
         $rawAttributes = [
             'cn'             => ['Common Name'],
@@ -48,7 +48,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($rawAttributes, $entry->getAttributes());
     }
 
-    public function testSetAttribute()
+    public function test_set_attribute()
     {
         $attributes = [
             'cn'             => ['Common Name'],
@@ -71,7 +71,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(['New Account Name'], $entry->samaccountname);
     }
 
-    public function testUpdateAttribute()
+    public function test_update_attribute()
     {
         $attributes = [
             'cn'             => ['Common Name'],
@@ -93,7 +93,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->updateAttribute('cn', 'John Doe'));
     }
 
-    public function testDeleteAttribute()
+    public function test_delete_attribute()
     {
         $attributes = [
             'cn'             => ['Common Name'],
@@ -116,7 +116,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->deleteAttribute('cn'));
     }
 
-    public function testCreateAttribute()
+    public function test_create_attribute()
     {
         $attributes = [
             'cn'             => ['Common Name'],
@@ -139,7 +139,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->createAttribute('givenName', 'John Doe'));
     }
 
-    public function testModifications()
+    public function test_modifications()
     {
         $attributes = [
             'cn'             => ['Common Name'],
@@ -184,7 +184,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(1, $modifications[3]['modtype']);
     }
 
-    public function testCreate()
+    public function test_create()
     {
         $attributes = [
             'cn' => 'John Doe',
@@ -222,7 +222,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
     }
 
-    public function testUpdate()
+    public function test_update()
     {
         $connection = $this->newConnectionMock();
 
@@ -243,7 +243,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->update());
     }
 
-    public function testSaveForCreate()
+    public function test_save_for_create()
     {
         $connection = $this->newConnectionMock();
 
@@ -283,7 +283,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
     }
 
-    public function testSaveForUpdate()
+    public function test_save_for_update()
     {
         $connection = $this->newConnectionMock();
 
@@ -304,7 +304,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->save());
     }
 
-    public function testDeleteFailure()
+    public function test_delete_failure()
     {
         $entry = $this->newEntryModel([], $this->newBuilder());
 
@@ -313,7 +313,7 @@ class EntryTest extends UnitTestCase
         $entry->delete();
     }
 
-    public function testDelete()
+    public function test_delete()
     {
         $connection = $this->newConnectionMock();
 
@@ -334,7 +334,7 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->delete());
     }
 
-    public function testConvertStringToBool()
+    public function test_convert_string_to_bool()
     {
         $entry = $this->mock('Adldap\Models\Entry')->makePartial();
 
@@ -353,7 +353,7 @@ class EntryTest extends UnitTestCase
         $this->assertFalse($entry->convertStringToBool('FAlse'));
     }
 
-    public function testFilterRawAttributes()
+    public function test_filter_raw_attributes()
     {
         $rawAttributes = [
             'count' => 1,
@@ -388,7 +388,7 @@ class EntryTest extends UnitTestCase
         $this->assertEquals($expected, $entry->getAttributes());
     }
 
-    public function testMove()
+    public function test_move()
     {
         $rawAttributes = [
             'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',

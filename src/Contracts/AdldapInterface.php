@@ -2,61 +2,21 @@
 
 namespace Adldap\Contracts;
 
-use Adldap\Connections\Configuration;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Contracts\Connections\ProviderInterface;
 
 interface AdldapInterface
 {
     /**
      * Constructor.
      *
-     * Tries to bind to the AD domain over LDAP or LDAPs
-     *
-     * @param array|Configuration $configuration The Adldap configuration options array
-     * @param ConnectionInterface $connection    The connection you'd like to use
-     * @param SchemaInterface     $schema        The LDAP attribute schema
+     * @param ManagerInterface $manager
      *
      * @throws \Adldap\Exceptions\AdldapException
      * @throws \InvalidArgumentException
      */
-    public function __construct($configuration = [], $connection = null, SchemaInterface $schema = null);
-
-    /**
-     * Get the active LDAP Connection.
-     *
-     * @return bool|ConnectionInterface
-     */
-    public function getConnection();
-
-    /**
-     * Sets the connection property.
-     *
-     * @param ConnectionInterface $connection
-     */
-    public function setConnection(ConnectionInterface $connection);
-
-    /**
-     * Returns the configuration object.
-     *
-     * @return Configuration
-     */
-    public function getConfiguration();
-
-    /**
-     * Sets the configuration property.
-     *
-     * @param array|Configuration $configuration
-     */
-    public function setConfiguration($configuration);
-
-    /**
-     * Sets the schema property.
-     *
-     * @param SchemaInterface $schema
-     */
-    public function setSchema(SchemaInterface $schema);
+    public function __construct(ManagerInterface $manager);
 
     /**
      * Returns the current manager instance.
@@ -64,20 +24,6 @@ interface AdldapInterface
      * @return ManagerInterface
      */
     public function getManager();
-
-    /**
-     * Returns a new instance of the default connection Manager.
-     *
-     * @return ManagerInterface
-     */
-    public function getDefaultManager();
-
-    /**
-     * Returns a new instance of the default connection.
-     *
-     * @return ConnectionInterface
-     */
-    public function getDefaultConnection();
 
     /**
      * Sets the connection manager.
@@ -91,13 +37,15 @@ interface AdldapInterface
      *
      * Returns a new connection Manager instance on success.
      *
+     * @param string      $connection
      * @param string|null $username
      * @param string|null $password
      *
      * @throws \Adldap\Exceptions\ConnectionException
      * @throws \Adldap\Exceptions\Auth\BindException
+     * @throws \Adldap\Exceptions\AdldapException
      *
-     * @return \Adldap\Connections\Manager
+     * @return \Adldap\Contracts\Connections\ProviderInterface
      */
-    public function connect($username = null, $password = null);
+    public function connect($connection, $username = null, $password = null);
 }

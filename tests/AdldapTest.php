@@ -3,75 +3,45 @@
 namespace Adldap\Tests;
 
 use Adldap\Adldap;
+use Adldap\Connections\Manager;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
+use Adldap\Connections\Provider;
+use Adldap\Schemas\Schema;
 
 class AdldapTest extends UnitTestCase
 {
-    public function testConstruct()
+    public function test_construct()
     {
-        $config = $this->mock('Adldap\Connections\Configuration');
+        $ad = new Adldap();
 
-        $config->shouldReceive('getUseSSL')->once()->andReturn(false);
-        $config->shouldReceive('getUseTLS')->once()->andReturn(false);
-        $config->shouldReceive('getUseSSO')->once()->andReturn(false);
-        $config->shouldReceive('getDomainControllers')->once()->andReturn([]);
-        $config->shouldReceive('getPort')->once()->andReturn(389);
-        $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
-        $config->shouldReceive('getAdminUsername')->once()->andReturn('admin');
-        $config->shouldReceive('getAdminPassword')->once()->andReturn('password');
-        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp');
-
-        $ad = new Adldap($config, null);
-
-        $this->assertInstanceOf('Adldap\Connections\Configuration', $ad->getConfiguration());
+        $this->assertInstanceOf(Manager::class, $ad->getManager());
     }
 
-    public function testGetConnection()
+    public function test_construct_with_manager()
     {
-        $connection = new Ldap();
+        $manager = $this->mock(Manager::class);
 
-        $ad = new Adldap([], $connection);
+        $ad = new Adldap($manager);
 
-        $this->assertInstanceOf(get_class($connection), $ad->getConnection());
+        $this->assertInstanceOf(get_class($manager), $ad->getManager());
     }
 
-    public function testSetConnection()
+    public function test_get_provider()
     {
-        $connection = new Ldap();
+        $manager = new Manager();
 
-        $ad = new Adldap([], null);
+        $provider = $this->mock(Provider::class);
 
-        $ad->setConnection($connection);
+        $manager->add('default', $provider);
 
-        $this->assertInstanceOf(get_class($connection), $ad->getConnection());
+        $ad = new Adldap($manager);
+
+        $this->assertInstanceOf(get_class($provider), $ad->getProvider('default'));
     }
 
-    public function testGetConfiguration()
+    public function test_connect()
     {
-        $config = new Configuration();
-
-        $ad = new Adldap($config, new Ldap());
-
-        $this->assertInstanceOf(get_class($config), $ad->getConfiguration());
-    }
-
-    public function testSetConfiguration()
-    {
-        $ad = new Adldap([], new Ldap());
-
-        $config = new Configuration(['admin_username' => 'username']);
-
-        $ad->setConfiguration($config);
-
-        $this->assertInstanceOf(get_class($config), $ad->getConfiguration());
-        $this->assertEquals('username', $ad->getConfiguration()->getAdminUsername());
-    }
-
-    public function testConnect()
-    {
-        $ad = new Adldap([], new Ldap());
-
         $config = $this->mock('Adldap\Connections\Configuration');
 
         $config->shouldReceive('getUseSSL')->once()->andReturn(false);
@@ -94,11 +64,13 @@ class AdldapTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $ad->setConfiguration($config);
+        $ad = new Adldap();
 
-        $ad->setConnection($connection);
+        $provider = new Provider($connection, $config, Schema::get());
 
-        $this->assertInstanceOf('Adldap\Connections\Manager', $ad->connect());
+        $ad->getManager()->add('default', $provider);
+
+        $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }
 
     public function testLiveConnection()
@@ -111,10 +83,16 @@ class AdldapTest extends UnitTestCase
             'admin_password'     => '',
         ];
 
-        $ad = new \Adldap\Adldap($config);
+        $config = new Configuration($config);
 
-        $ad->connect();
+        $provider = new Provider(new Ldap(), $config, Schema::get());
 
-        $this->assertTrue($ad->getConnection()->isBound());
+        $ad = new Adldap();
+
+        $ad->getManager()->add('default', $provider);
+
+        $connection = $ad->connect('default');
+
+        $this->assertTrue($connection->getConnection()->isBound());
     }
 }

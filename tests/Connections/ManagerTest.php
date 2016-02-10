@@ -4,22 +4,22 @@ namespace Adldap\Tests\Connections;
 
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
-use Adldap\Connections\Manager;
+use Adldap\Connections\Provider;
 use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
 class ManagerTest extends UnitTestCase
 {
-    protected function newManager($connection, $configuration, $schema = null)
+    protected function newProvider($connection, $configuration, $schema = null)
     {
         if (is_null($schema)) $schema = Schema::get();
 
-        return new Manager($connection, $configuration, $schema);
+        return new Provider($connection, $configuration, $schema);
     }
 
     public function testConstruct()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Contracts\Connections\ConnectionInterface', $m->getConnection());
         $this->assertInstanceOf('Adldap\Connections\Configuration', $m->getConfiguration());
@@ -32,7 +32,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, new Configuration());
+        $m = $this->newProvider($connection, new Configuration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
 
@@ -46,7 +46,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, new Configuration());
+        $m = $this->newProvider($connection, new Configuration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
 
@@ -66,7 +66,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, new Configuration());
+        $m = $this->newProvider($connection, new Configuration());
 
         $this->assertFalse($m->auth()->attempt('username', 'password'));
     }
@@ -94,7 +94,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, $config);
+        $m = $this->newProvider($connection, $config);
 
         $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
@@ -122,7 +122,7 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, $config);
+        $m = $this->newProvider($connection, $config);
 
         $this->setExpectedException('Adldap\Exceptions\Auth\BindException');
 
@@ -147,70 +147,70 @@ class ManagerTest extends UnitTestCase
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newManager($connection, $config);
+        $m = $this->newProvider($connection, $config);
 
         $this->assertTrue($m->auth()->attempt('username', 'password', true));
     }
 
     public function testGroups()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->groups());
     }
 
     public function testUsers()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->users());
     }
 
     public function testContainers()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->containers());
     }
 
     public function testContacts()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function testComputers()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->computers());
     }
 
     public function testOus()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function test()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
     }
 
     public function testPrinters()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->printers());
     }
 
     public function testSearch()
     {
-        $m = $this->newManager(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new Configuration());
 
         $this->assertInstanceOf('Adldap\Search\Factory', $m->search());
     }

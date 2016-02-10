@@ -19,9 +19,9 @@ interface ManagerInterface
      *
      * @param string $name
      *
-     * @return ProviderInterface
-     *
      * @throws \Adldap\Exceptions\AdldapException
+     *
+     * @return ProviderInterface
      */
     public function get($name);
 

@@ -2,9 +2,7 @@
 
 namespace Adldap\Contracts;
 
-use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ManagerInterface;
-use Adldap\Contracts\Connections\ProviderInterface;
 
 interface AdldapInterface
 {

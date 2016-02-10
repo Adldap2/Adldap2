@@ -8,7 +8,7 @@ use Adldap\Connections\Provider;
 use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
-class ManagerTest extends UnitTestCase
+class ProviderTest extends UnitTestCase
 {
     protected function newProvider($connection, $configuration, $schema = null)
     {

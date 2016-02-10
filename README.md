@@ -97,7 +97,7 @@ If you need to test something with access to an LDAP server, the generous folks 
 Use the following configuration:
 
 ```php
-$config = [
+$settings = [
     'account_suffix'        => '@gatech.edu',
     'domain_controllers'    => ['whitepages.gatech.edu'],
     'base_dn'               => 'dc=whitepages,dc=gatech,dc=edu',
@@ -105,18 +105,33 @@ $config = [
     'admin_password'        => '',
 ];
 
-$ad = new \Adldap\Adldap($config);
+// Create configuration object.
+$configuration = new \Adldap\Connections\Configuration($settings);
 
-// Try connecting to the server
-$manager = $ad->connect();
+// Create a new LDAP connection.
+$connection = new \Adldap\Connections\Ldap();
 
-// Create a new search
-$search = $manager->search();
+// Retrieve the default LDAP schema.
+$schema = \Adldap\Schemas\Schema::get();
 
-// Call query methods upon the search itself
+// Create a new connection provider.
+$provider = new \Adldap\Connections\Provider($connection, $configuration, $schema);
+
+$ad = new \Adldap\Adldap();
+
+// Add the provider to Adldap.
+$ad->addProvider('default', $provider);
+
+// Try connecting to the server.
+$provider = $ad->connect('default');
+
+// Create a new search.
+$search = $provider->search();
+
+// Call query methods upon the search itself.
 $results = $search->where('...')->get();
 
-// Or create a new query object
+// Or create a new query object.
 $query = $search->newQuery();
 
 $results = $search->where('...')->get();

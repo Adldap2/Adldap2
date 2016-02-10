@@ -42,13 +42,13 @@ authentication and Active Directory management tools using the Active Record pat
 
 To use Adldap2, your sever must support:
 
-- PHP 5.4.26 or greater
+- PHP 5.5.9 or greater
 - PHP LDAP Extension
 
 ## Optional Requirements
 
 > **Note: Adldap makes use of `ldap_modify_batch()` for processing modifications to models**. Your server
-must be on **PHP >= 5.4.26 || >= 5.5.10 || >= 5.6.0** to make modifications.
+must be on **PHP >= 5.5.10 || >= 5.6.0** to make modifications.
 
 If your AD server requires SSL, your server must support the following libraries:
 
@@ -62,7 +62,7 @@ have to require the files inside the project `src/` directory yourself.
 Insert Adldap into your `composer.json` file:
 
     "adldap2/adldap2": "6.0.*"
-   
+
 Run `composer update`
 
 You're good to go!

@@ -17,7 +17,6 @@ class ConfigurationTest extends UnitTestCase
         $this->assertNull($config->getAdminUsername());
         $this->assertNull($config->getAdminPassword());
         $this->assertNull($config->getBaseDn());
-        $this->assertFalse($config->getUseSSO());
         $this->assertFalse($config->getUseSSL());
         $this->assertFalse($config->getUseTLS());
     }
@@ -33,7 +32,6 @@ class ConfigurationTest extends UnitTestCase
             'admin_password'     => 'password',
             'use_ssl'            => true,
             'use_tls'            => false,
-            'use_sso'            => false,
         ];
 
         $config = new Configuration($settings);
@@ -44,7 +42,6 @@ class ConfigurationTest extends UnitTestCase
         $this->assertEquals('username', $config->getAdminUsername());
         $this->assertEquals('password', $config->getAdminPassword());
         $this->assertTrue($config->getUseSSL());
-        $this->assertFalse($config->getUseSSO());
         $this->assertFalse($config->getUseTLS());
     }
 
@@ -146,15 +143,6 @@ class ConfigurationTest extends UnitTestCase
         $this->setExpectedException('Adldap\Exceptions\ConfigurationException');
 
         $config->setUseTLS(true);
-    }
-
-    public function test_set_use_sso()
-    {
-        $config = new Configuration();
-
-        $config->setUseSSO(true);
-
-        $this->assertTrue($config->getUseSSO());
     }
 
     public function test_set_account_suffix()

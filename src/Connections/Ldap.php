@@ -31,16 +31,6 @@ class Ldap implements ConnectionInterface
     protected $useTLS = false;
 
     /**
-     * Stores the bool to tell the connection
-     * whether or not to use SSO.
-     *
-     * To indicate to Adldap to reuse password set by the browser through NTLM or Kerberos
-     *
-     * @var bool
-     */
-    protected $useSSO = false;
-
-    /**
      * The current LDAP connection.
      *
      * @var resource
@@ -69,14 +59,6 @@ class Ldap implements ConnectionInterface
     public function isUsingTLS()
     {
         return $this->useTLS;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isUsingSSO()
-    {
-        return $this->useSSO;
     }
 
     /**
@@ -115,16 +97,6 @@ class Ldap implements ConnectionInterface
     public function useTLS()
     {
         $this->useTLS = true;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function useSSO()
-    {
-        $this->useSSO = true;
 
         return $this;
     }

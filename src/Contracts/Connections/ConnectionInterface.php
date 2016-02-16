@@ -95,15 +95,6 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the current
-     * connection instance is using single
-     * sign on.
-     *
-     * @return bool
-     */
-    public function isUsingSSO();
-
-    /**
-     * Returns true / false if the current
      * connection is able to modify passwords.
      *
      * @return bool
@@ -131,13 +122,6 @@ interface ConnectionInterface
      * @return ConnectionInterface
      */
     public function useSSL();
-
-    /**
-     * Sets the current connection to use SSO.
-     *
-     * @return ConnectionInterface
-     */
-    public function useSSO();
 
     /**
      * Get the current connection.

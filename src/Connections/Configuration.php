@@ -52,14 +52,6 @@ class Configuration
     protected $useTLS = false;
 
     /**
-     * Determines whether or not to use SSO
-     * with the current LDAP connection.
-     *
-     * @var bool
-     */
-    protected $useSSO = false;
-
-    /**
      * The domain controllers to connect to.
      *
      * @var array
@@ -236,26 +228,6 @@ class Configuration
     public function getUseTLS()
     {
         return $this->useTLS;
-    }
-
-    /**
-     * Sets the option whether or not to use SSO when connecting.
-     *
-     * @param $bool
-     */
-    public function setUseSSO($bool)
-    {
-        $this->useSSO = (bool) $bool;
-    }
-
-    /**
-     * Returns the use SSO option.
-     *
-     * @return bool
-     */
-    public function getUseSSO()
-    {
-        return $this->useSSO;
     }
 
     /**

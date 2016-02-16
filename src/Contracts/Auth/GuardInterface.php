@@ -16,20 +16,6 @@ interface GuardInterface
     public function __construct(ConnectionInterface $connection, Configuration $configuration);
 
     /**
-     * Returns the filtered REMOTE_USER server variable.
-     *
-     * @return string
-     */
-    public function getRemoteUserInput();
-
-    /**
-     * Returns the filtered KRB5CCNAME server variable.
-     *
-     * @return mixed
-     */
-    public function getKerberosAuthInput();
-
-    /**
      * Authenticates a user using the specified credentials.
      *
      * @param string $username   The users AD username.
@@ -65,15 +51,4 @@ interface GuardInterface
      * @throws \Adldap\Exceptions\Auth\BindException
      */
     public function bindAsAdministrator();
-
-    /**
-     * Binds to the current connection using kerberos.
-     *
-     * @param string $kerberosCredentials
-     *
-     * @returns void
-     *
-     * @throws \Adldap\Exceptions\Auth\BindException
-     */
-    public function bindUsingKerberos($kerberosCredentials);
 }

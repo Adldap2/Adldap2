@@ -34,41 +34,12 @@ class Guard implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function getRemoteUserInput()
-    {
-        return filter_input(INPUT_SERVER, 'REMOTE_USER');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKerberosAuthInput()
-    {
-        return filter_input(INPUT_SERVER, 'KRB5CCNAME');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attempt($username, $password, $bindAsUser = false)
     {
         $this->validateCredentials($username, $password);
 
         try {
-            if ($this->configuration->getUseSSO()) {
-                // If SSO is enabled, we'll try binding over kerberos
-                $remoteUser = $this->getRemoteUserInput();
-                $kerberos = $this->getKerberosAuthInput();
-
-                // If the remote user input equals the username we're
-                // trying to authenticate, we'll perform the bind.
-                if ($remoteUser == $username) {
-                    $this->bindUsingKerberos($kerberos);
-                }
-            } else {
-                // Looks like SSO isn't enabled, we'll bind regularly instead.
-                $this->bindUsingCredentials($username, $password);
-            }
+            $this->bindUsingCredentials($username, $password);
         } catch (BindException $e) {
             // We'll catch the BindException here to return false
             // to allow developers to use a simple if / else
@@ -141,26 +112,6 @@ class Guard implements GuardInterface
         }
 
         $this->bindUsingCredentials($username, $password, $suffix);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindUsingKerberos($kerberosCredentials)
-    {
-        $key = 'KRB5CCNAME=';
-
-        putenv($key.$kerberosCredentials);
-
-        try {
-            $this->connection->bind(null, null, true);
-        } catch (Exception $e) {
-            $error = $this->connection->getLastError();
-
-            $message = "Bind to Active Directory failed. AD said: $error";
-
-            throw new BindException($message);
-        }
     }
 
     /**

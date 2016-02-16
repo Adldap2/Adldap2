@@ -13,7 +13,6 @@ class LdapTest extends UnitTestCase
 
         $this->assertFalse($ldap->isUsingTLS());
         $this->assertFalse($ldap->isUsingSSL());
-        $this->assertFalse($ldap->isUsingSSO());
         $this->assertFalse($ldap->isBound());
         $this->assertTrue($ldap->isSupported());
         $this->assertNull($ldap->getConnection());

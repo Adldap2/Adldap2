@@ -303,9 +303,9 @@ class Grammar
             $ors .= $this->compileWhere($where);
         }
 
-        // Make sure we wrap the query in an 'and' if using
-        // multiple wheres. For example (&QUERY).
-        if (count($builder->getOrWheres()) > 0) {
+        // Make sure we wrap the query in an 'or' if using
+        // multiple orWheres. For example (|(QUERY)(ORWHEREQUERY)).
+        if (($query !== '' && count($builder->getOrWheres()) > 0) || count($builder->getOrWheres()) > 1) {
             $query .= $this->compileOr($ors);
         }
 

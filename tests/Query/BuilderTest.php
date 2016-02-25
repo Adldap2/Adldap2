@@ -476,6 +476,19 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
+    public function testBuiltOrWheresWithWheres()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereHas('field');
+        $b->orWhereHas('field');
+        $b->orWhereHas('other-field');
+
+        $expected = '(&(field=*)(|(field=*)(other-field=*)))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
     public function testBuiltOrWhereNotHas()
     {
         $b = $this->newBuilder();

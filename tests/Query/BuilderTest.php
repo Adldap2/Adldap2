@@ -334,7 +334,7 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhere('other', '=', 'value');
 
-        $expected = '(&(|(field=\76\61\6c\75\65)(other=\76\61\6c\75\65)))';
+        $expected = '(|(field=\76\61\6c\75\65)(other=\76\61\6c\75\65))';
 
         $this->assertEquals($expected, $b->getQuery());
     }

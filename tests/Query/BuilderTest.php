@@ -366,7 +366,7 @@ class BuilderTest extends UnitTestCase
 
         $b->orWhere('other', '=', 'value');
 
-        $expected = '(&(|(field=\76\61\6c\75\65)(other=\76\61\6c\75\65)))';
+        $expected = '(|(field=\76\61\6c\75\65)(other=\76\61\6c\75\65))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -378,7 +378,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereStartsWith('field', 'value');
         $b->orWhereStartsWith('other-field', 'value');
 
-        $expected = '(&(|(field=\76\61\6c\75\65*)(other-field=\76\61\6c\75\65*)))';
+        $expected = '(|(field=\76\61\6c\75\65*)(other-field=\76\61\6c\75\65*))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -390,7 +390,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereEndsWith('field', 'value');
         $b->orWhereEndsWith('other-field', 'value');
 
-        $expected = '(&(|(field=*\76\61\6c\75\65)(other-field=*\76\61\6c\75\65)))';
+        $expected = '(|(field=*\76\61\6c\75\65)(other-field=*\76\61\6c\75\65))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -402,7 +402,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereContains('field', 'value');
         $b->orWhereContains('other-field', 'value');
 
-        $expected = '(&(|(field=*\76\61\6c\75\65*)(other-field=*\76\61\6c\75\65*)))';
+        $expected = '(|(field=*\76\61\6c\75\65*)(other-field=*\76\61\6c\75\65*))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -471,7 +471,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereHas('field');
         $b->orWhereHas('other-field');
 
-        $expected = '(&(|(field=*)(other-field=*)))';
+        $expected = '(|(field=*)(other-field=*))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -496,7 +496,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereNotHas('field');
         $b->orWhereNotHas('other-field');
 
-        $expected = '(&(|(!(field=*))(!(other-field=*))))';
+        $expected = '(|(!(field=*))(!(other-field=*)))';
 
         $this->assertEquals($expected, $b->getQuery());
     }
@@ -508,7 +508,7 @@ class BuilderTest extends UnitTestCase
         $b->orWhereApproximatelyEquals('field', 'value');
         $b->orWhereApproximatelyEquals('other-field', 'value');
 
-        $expected = '(&(|(field~=\76\61\6c\75\65)(other-field~=\76\61\6c\75\65)))';
+        $expected = '(|(field~=\76\61\6c\75\65)(other-field~=\76\61\6c\75\65))';
 
         $this->assertEquals($expected, $b->getQuery());
     }

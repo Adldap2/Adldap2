@@ -67,9 +67,10 @@ trait HasMemberOfTrait
     public function getGroups($fields = [], $recursive = false)
     {
         $groups = $this->getMemberOf($fields);
-        if ($recursive) {
+
+        if ($recursive === true) {
             foreach ($groups as $group) {
-                $groups = array_merge($groups, $group->getGroups());
+                $groups = array_merge($groups, $group->getGroups($fields, $recursive));
             }
         }
 

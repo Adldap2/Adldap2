@@ -9,9 +9,7 @@ use Adldap\Schemas\ActiveDirectory;
 
 class Group extends Entry
 {
-    use HasDescriptionTrait;
-
-    use HasMemberOfTrait;
+    use HasDescriptionTrait, HasMemberOfTrait;
 
     /**
      * Returns all users apart of the current group.

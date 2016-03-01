@@ -64,14 +64,15 @@ trait HasMemberOfTrait
     /**
      * {@inheritdoc}
      */
-    public function getGroups($fields = [], $recursive=false)
+    public function getGroups($fields = [], $recursive = false)
     {
-        $groups=$this->getMemberOf($fields);
+        $groups = $this->getMemberOf($fields);
         if ($recursive) {
             foreach ($groups as $group) {
-                $groups=array_merge($groups, $group->getGroups());
+                $groups = array_merge($groups, $group->getGroups());
             }
         }
+        
         return $groups;
     }
 
@@ -140,11 +141,11 @@ trait HasMemberOfTrait
      * is in the specified group.
      *
      * @param string|Group $group
-     * @param bool $recursive
+     * @param bool         $recursive
      *
      * @return bool
      */
-    public function inGroup($group, $recursive=false)
+    public function inGroup($group, $recursive = false)
     {
         $groups = $this->getGroups([], $recursive);
 

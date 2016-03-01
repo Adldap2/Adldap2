@@ -72,7 +72,7 @@ trait HasMemberOfTrait
                 $groups = array_merge($groups, $group->getGroups());
             }
         }
-        
+
         return $groups;
     }
 

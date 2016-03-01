@@ -212,8 +212,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
                 return $this->attributes[$key][$subKey];
             }
         }
-
-        return;
     }
 
     /**
@@ -614,8 +612,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if (is_array($category) && array_key_exists(0, $category)) {
             return $category[0];
         }
-
-        return;
     }
 
     /**

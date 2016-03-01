@@ -345,7 +345,5 @@ class Grammar
                 }
             }
         }
-
-        return;
     }
 }

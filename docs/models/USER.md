@@ -81,7 +81,7 @@ $user->setUserAccountControl(new AccountControl());
 ##### Getting the users' `homeMdb` attribute:
 
 ```php
-$user->getHomeMb();
+$user->getHomeMdb();
 ```
 
 ##### Getting the users' `mailnickname` attribute:

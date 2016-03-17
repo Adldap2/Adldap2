@@ -94,7 +94,7 @@ $config->setUseTLS(false);
 // Create a new Adldap Provider instance.
 $provider = new \Adldap\Connections\Provider($config);
 ```
-  
+
 #### Option Definitions
 
 ##### Account Suffix (optional)

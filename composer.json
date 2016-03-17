@@ -11,7 +11,7 @@
         "adldap",
         "adldap2"
     ],
-    "license": "LGPL-2.1",
+    "license": "MIT",
     "support": {
         "issues": "https://github.com/Adldap2/Adldap2/issues",
         "source": "https://github.com/Adldap2/Adldap2"

@@ -11,11 +11,11 @@ interface ProviderInterface
     /**
      * Constructor.
      *
-     * @param ConnectionInterface  $connection
-     * @param Configuration|array  $configuration
-     * @param SchemaInterface|null $schema
+     * @param Configuration|array       $configuration
+     * @param ConnectionInterface|null  $connection
+     * @param SchemaInterface|null      $schema
      */
-    public function __construct(ConnectionInterface $connection, $configuration = [], SchemaInterface $schema = null);
+     public function __construct($configuration = [], ConnectionInterface $connection, SchemaInterface $schema = null);
 
     /**
      * Destructor.
@@ -58,23 +58,23 @@ interface ProviderInterface
     /**
      * Sets the current connection.
      *
-     * @param ConnectionInterface $connection
+     * @param ConnectionInterface|null $connection
      */
-    public function setConnection(ConnectionInterface $connection);
+    public function setConnection($connection = null);
 
     /**
      * Sets the current configuration.
      *
-     * @param Configuration $configuration
+     * @param Configuration|array $configuration
      */
-    public function setConfiguration(Configuration $configuration);
+    public function setConfiguration($configuration = []);
 
     /**
      * Sets the current LDAP attribute schema.
      *
-     * @param SchemaInterface $schema
+     * @param SchemaInterface|null $schema
      */
-    public function setSchema(SchemaInterface $schema);
+    public function setSchema($schema = null);
 
     /**
      * Returns the current LDAP attribute schema.

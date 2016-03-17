@@ -96,29 +96,6 @@ class Configuration
     public function __construct($options = [])
     {
         $this->fill($options);
-
-        if (!is_array($options) && !$options instanceof Traversable) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    '%s expects an array or Traversable argument; received "%s"',
-                    __METHOD__,
-                    (is_object($options) ? get_class($options) : gettype($options))
-                )
-            );
-        }
-
-        if (array_key_exists('use_ssl', $options)) {
-            if (!array_key_exists('port', $options) && $options['use_ssl'] === true) {
-                $options['port'] = ConnectionInterface::PORT_SSL;
-            }
-        }
-
-        foreach ($options as $key => $value) {
-            $method = 'set'.$this->normalizeKey($key);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
     }
 
     /**
@@ -376,6 +353,12 @@ class Configuration
                     (is_object($options) ? get_class($options) : gettype($options))
                 )
             );
+        }
+
+        if (array_key_exists('use_ssl', $options)) {
+            if (!array_key_exists('port', $options) && $options['use_ssl'] === true) {
+                $options['port'] = ConnectionInterface::PORT_SSL;
+            }
         }
 
         foreach ($options as $key => $value) {

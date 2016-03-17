@@ -11,9 +11,9 @@ interface ProviderInterface
     /**
      * Constructor.
      *
-     * @param ConnectionInterface      $connection
-     * @param Configuration|array      $configuration
-     * @param SchemaInterface|null     $schema
+     * @param ConnectionInterface  $connection
+     * @param Configuration|array  $configuration
+     * @param SchemaInterface|null $schema
      */
     public function __construct(ConnectionInterface $connection, $configuration = [], SchemaInterface $schema = null);
 

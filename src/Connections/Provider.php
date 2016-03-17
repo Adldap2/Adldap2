@@ -2,7 +2,6 @@
 
 namespace Adldap\Connections;
 
-use InvalidArgumentException;
 use Adldap\Auth\Guard;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
@@ -12,6 +11,7 @@ use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;
+use InvalidArgumentException;
 
 class Provider implements ProviderInterface
 {
@@ -45,7 +45,7 @@ class Provider implements ProviderInterface
         if (is_array($configuration)) {
             // Construct a configuration instance if an array is given.
             $configuration = new Configuration($configuration);
-        } else if (!$configuration instanceof Configuration) {
+        } elseif (!$configuration instanceof Configuration) {
             $class = Configuration::class;
 
             throw new InvalidArgumentException("The Provider configuration parameter must be either an array or instance of $class");

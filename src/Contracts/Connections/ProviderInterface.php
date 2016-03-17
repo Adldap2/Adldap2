@@ -9,13 +9,13 @@ use Adldap\Contracts\Schemas\SchemaInterface;
 interface ProviderInterface
 {
     /**
-     * Constructor.
-     *
-     * @param Configuration|array       $configuration
-     * @param ConnectionInterface|null  $connection
-     * @param SchemaInterface|null      $schema
-     */
-     public function __construct($configuration = [], ConnectionInterface $connection, SchemaInterface $schema = null);
+      * Constructor.
+      *
+      * @param Configuration|array       $configuration
+      * @param ConnectionInterface|null  $connection
+      * @param SchemaInterface|null      $schema
+      */
+     public function __construct($configuration, ConnectionInterface $connection, SchemaInterface $schema = null);
 
     /**
      * Destructor.

@@ -268,8 +268,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
                 return $this->attributes[$key][$subKey];
             }
         }
-
-        return;
     }
 
     /**

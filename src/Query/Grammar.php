@@ -341,7 +341,5 @@ class Grammar
                 return $this->{$method}($where->getField(), $where->getValue());
             }
         }
-
-        return;
     }
 }

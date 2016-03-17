@@ -680,8 +680,6 @@ class User extends Entry
         if (!is_null($thumb)) {
             return 'data:image/jpeg;base64,'.base64_encode($thumb);
         }
-
-        return;
     }
 
     /**

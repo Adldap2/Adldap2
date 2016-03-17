@@ -194,8 +194,6 @@ class Entry extends AbstractModel
         if (is_array($category) && array_key_exists(0, $category)) {
             return $category[0];
         }
-
-        return;
     }
 
     /**

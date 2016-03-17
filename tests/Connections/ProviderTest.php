@@ -14,7 +14,7 @@ class ProviderTest extends UnitTestCase
     {
         if (is_null($schema)) $schema = Schema::get();
 
-        return new Provider($connection, $configuration, $schema);
+        return new Provider($configuration, $connection, $schema);
     }
 
     public function test_construct()

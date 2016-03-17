@@ -66,7 +66,7 @@ class AdldapTest extends UnitTestCase
 
         $ad = new Adldap();
 
-        $provider = new Provider($connection, $config, Schema::get());
+        $provider = new Provider($config, $connection, Schema::get());
 
         $ad->getManager()->add('default', $provider);
 
@@ -85,7 +85,7 @@ class AdldapTest extends UnitTestCase
 
         $config = new Configuration($config);
 
-        $provider = new Provider(new Ldap(), $config, Schema::get());
+        $provider = new Provider($config, new Ldap(), Schema::get());
 
         $ad = new Adldap();
 

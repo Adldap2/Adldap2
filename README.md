@@ -9,8 +9,6 @@
 
 > Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
-[![Join the chat at https://gitter.im/Adldap2](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Adldap2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ## Description
 
 Working with Active Directory doesn't need to be hard. Adldap2 is a tested PHP package that provides LDAP
@@ -197,6 +195,7 @@ $ad = new \Adldap\Adldap();
 $ad->addProvider('default', $provider);
 
 // Try connecting to the provider.
+// If the connection is successful, the connected provider is returned.
 $provider = $ad->connect('default');
 
 // Create a new search.

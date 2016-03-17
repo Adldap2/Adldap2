@@ -2,6 +2,7 @@
 
 namespace Adldap\Connections;
 
+use InvalidArgumentException;
 use Adldap\Auth\Guard;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
@@ -9,6 +10,7 @@ use Adldap\Contracts\Connections\ProviderInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
+use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;
 
 class Provider implements ProviderInterface
@@ -36,10 +38,26 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(ConnectionInterface $connection, Configuration $configuration, SchemaInterface $schema)
+    public function __construct(ConnectionInterface $connection, $configuration = [], SchemaInterface $schema = null)
     {
         $this->setConnection($connection);
+
+        if (is_array($configuration)) {
+            // Construct a configuration instance if an array is given.
+            $configuration = new Configuration($configuration);
+        } else if (!$configuration instanceof Configuration) {
+            $class = Configuration::class;
+
+            throw new InvalidArgumentException("The Provider configuration parameter must be either an array or instance of $class");
+        }
+
         $this->setConfiguration($configuration);
+
+        if (is_null($schema)) {
+            // Retrieve the default schema if one isn't given.
+            $schema = Schema::getDefault();
+        }
+
         $this->setSchema($schema);
     }
 

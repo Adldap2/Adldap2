@@ -18,7 +18,6 @@ Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "6.0.*"` 
 
 ```json
 "require": {
-    "php": ">=5.5.9",
     "adldap2/adldap2": "6.0.*"
 },
 ```

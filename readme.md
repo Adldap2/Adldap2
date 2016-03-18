@@ -13,6 +13,9 @@
  - [Quick Start]()
  - [Configuration]()
  - [Connecting]()
+ - [Searching]()
+ - [Creating]()
+ - [Models] ()
 
 ## Description
 

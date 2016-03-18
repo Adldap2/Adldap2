@@ -35,6 +35,15 @@ $results = $search->where('...')->get();
 $query = $search->newQuery();
 
 $results = $search->where('...')->get();
+
+// Create a new LDAP object.
+$user =  $provider->make()->user();
+
+$user->cn = 'John Doe';
+
+if ($user->save()) {
+    // User was saved!
+}
 ```
 
 However while useful for basic testing, the queryable data only includes user data, so if you're looking for testing with any other information

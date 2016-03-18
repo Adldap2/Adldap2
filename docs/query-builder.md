@@ -4,30 +4,16 @@ The Adldap2 query builder makes building LDAP queries feel effortless. Let's get
 
 ## Opening a Query
 
-To open a search query, call the `search()` method on the `Adldap\Connections\Manager` instance that is returned from
-a successful connection using the `$ad->connect();` method.
-
-Let's run down the whole process just in case:
+To open a search query, call the `search()` method on your provider instance:
 
 ```php
-$config = ['...'];
+$search = $provider->search();
+```
 
-// Construct a new Adldap instance with a configuration array / object
-$ad = new Adldap($config);
+Or you can chain all your methods if you'd prefer:
 
-// Try connecting to your server
-$manager = $ad->connect();
-
-// Create a new search
-$search = $manager->search();
-
-// Call query methods upon the search itself
-$results = $search->where('...')->get();
-
-// Or create a new query object
-$query = $search->newQuery();
-
-$results = $search->where('...')->get();
+```php
+$results = $provider->search()->where('cn', '=', 'John Doe')->get();
 ```
 
 ## Selects

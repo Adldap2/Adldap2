@@ -104,3 +104,35 @@ $provider = new \Adldap\Connections\Provider($config, $connection);
 ```
 
 ## Custom Schemas
+
+Some AD installations differ and you may need to tweak what some attributes are. This is where the schema comes in.
+
+By default, if no schema is passed into the third parameter of a provider instance, a default schema is created.
+
+The schema must extend from an already existing schema, or implement `Adldap\Contracts\Schemas\SchemaInterface`.
+
+Let's create a custom schema:
+
+```php
+class CustomSchema extends \Adldap\Schemas\ActiveDirectory
+{
+    public function email()
+    {
+        return 'mail';
+    }
+}
+```
+
+Now we'll put it all together:
+
+```php
+$config = ['...'];
+
+$connection = new CustomConnection();
+
+$schema = new CustomSchema();
+
+$provider = new \Adldap\Connections\Provider($config, $connection, $schema);
+```
+
+Now our provider will utilize our custom schema and connection classes.

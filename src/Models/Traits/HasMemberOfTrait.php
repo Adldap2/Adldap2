@@ -112,7 +112,7 @@ trait HasMemberOfTrait
             foreach ($dns as $key => $dn) {
                 $group = $query->select($fields)->findByDn($dn);
 
-                if ($group instanceof AbstractModel && !$groups->contains($group)) {
+                if ($group instanceof AbstractModel) {
                     $groups->push($group);
                 }
             }

@@ -257,7 +257,5 @@ class DistinguishedName
 
             return implode(',', $values);
         }
-
-        return;
     }
 }

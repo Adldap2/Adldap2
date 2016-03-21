@@ -107,7 +107,7 @@ trait HasMemberOfTrait
         $dns = $this->getAttribute($this->getSchema()->memberOf());
 
         $query = $this->getQuery()->newInstance();
-        
+
         if (is_array($dns)) {
             foreach ($dns as $key => $dn) {
                 $group = $query->select($fields)->findByDn($dn);

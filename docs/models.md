@@ -91,6 +91,9 @@ public function save()
 How does it know if the model exists in AD? Well, when models are constructed from AD
 search results, the `exists` property on the model is set to `true`.
 
+It's also good to know, that when a model is saved successfully (whether created or updated),
+the models attributes are re-synced from your AD.
+
 ### Creating
 
 If you are sure the model **does not exist** already inside your AD, you can use the `create()` method:

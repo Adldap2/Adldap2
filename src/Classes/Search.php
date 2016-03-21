@@ -157,15 +157,15 @@ class Search extends AbstractBase
      *
      * If no entry is found, an exception is thrown.
      *
-     * @return array|bool
-     *
      * @throws ModelNotFoundException
+     *
+     * @return array|bool
      */
     public function firstOrFail()
     {
         $record = $this->first();
 
-        if(!$record) {
+        if (!$record) {
             $message = 'Unable to find record in Active Directory.';
 
             throw new ModelNotFoundException($message);

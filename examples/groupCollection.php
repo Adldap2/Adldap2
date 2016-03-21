@@ -14,7 +14,7 @@ try {
     exit();
 }
 
-echo("<pre>\n");
+echo "<pre>\n";
 
 $collection = $adldap->group()->infoCollection('groupname');
 

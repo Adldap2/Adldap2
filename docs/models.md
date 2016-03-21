@@ -200,3 +200,46 @@ if ($user->deleteAttribute('cn')) {
     // Attribute has been deleted.
 }
 ```
+
+## Moving / Renaming
+
+To move a user from one DN or OU to another, use the `move()` method:
+
+```php
+// New Relative distinguished name.
+$newRdn = 'cn=John Doe';
+
+// New parent distiguished name.
+$newParentDn = 'OU=New Ou,DC=corp,DC=local';
+
+if ($user->move($newRdn, $newParentDn) {
+    // User was successfully moved to the new OU.
+}
+```
+
+If you would like to keep the models old RDN along side their new RDN, pass in false in the last parameter:
+
+```php
+// New Relative distinguished name.
+$newRdn = 'cn=John Doe';
+
+// New parent distiguished name.
+$newParentDn = 'OU=New Ou,DC=corp,DC=local';
+
+if ($user->move($newRdn, $newParentDn, $deleteOldRdn = false) {
+    // User was successfully moved to the new OU,
+    // and their old RDN has been left in-tact.
+}
+```
+
+To rename a users DN, just pass in their new relative distinguished name in the `rename()` method:
+
+```php
+$newRdn = 'cn=New Name';
+
+if ($user->rename($newRdn)) {
+    // User was successfully renamed.
+}
+```
+
+> **Note**: The `rename()` method is actually an alias for the `move()` method.

@@ -6,8 +6,18 @@ To authenticate users using your AD server, call the `auth()->attempt()`
 method on your provider:
 
 ```php
-if ($provider->auth()->attempt($username, $password)) {
-    // Credentials were correct.
+try {
+
+    if ($provider->auth()->attempt($username, $password)) {
+        // Credentials were correct.
+    } else {
+        // Credentials were incorrect.
+    }
+
+} catch (\Adldap\Exceptions\Auth\UsernameRequiredException $e) {
+    // The user didn't supply a username.
+} catch (\Adldap\Exceptions\Auth\PasswordRequiredException $e) {
+    // The user didn't supply a password.
 }
 ```
 
@@ -60,3 +70,5 @@ try {
     // There was an issue binding to the LDAP server.
 }
 ```
+
+> **Note**: Manually binding as a user **will not** validate their username or password to ensure they are not empty.

@@ -1115,6 +1115,22 @@ class Builder
     }
 
     /**
+     * Handle dynamic method calls on the query builder
+     * object to be directed to the query processor.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        $processor = $this->newProcessor();
+
+        return call_user_func_array([$processor, $method], $parameters);
+    }
+
+    /**
      * Returns a new query Processor instance.
      *
      * @return Processor

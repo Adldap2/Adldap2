@@ -618,23 +618,25 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function create()
     {
-        $dn = $this->getDn();
-
-        if (is_null($dn)) {
-            // If the current DN is null, we'll create a new DN automatically.
+        if (!$this->hasAttribute($this->schema->distinguishedName())) {
+            // If the model doesn't currently have a DN,
+            // we'll create a new one automatically.
             $dn = $this->getDnBuilder();
 
-            // We'll set the base of the DN to the query DN.
+            // We'll set the base of the DN to the query's base DN.
             $dn->setBase($this->query->getDn());
 
             // Then we'll add the entry's common name attribute.
             $dn->addCn($this->getCommonName());
 
-            // We'll cast the DN to a string before passing
-            // it into the connection.
-            $dn = (string) $dn;
+            // Set the new DN.
+            $this->setDn($dn);
         }
 
+        // Get the models DN.
+        $dn = $this->getDn();
+
+        // Get the models attributes.
         $attributes = $this->getAttributes();
 
         // We need to remove the dn from the attributes array

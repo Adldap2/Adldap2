@@ -411,4 +411,36 @@ class EntryTest extends UnitTestCase
 
         $this->assertTrue($entry->move($args[1], $args[2]));
     }
+
+    public function test_dn_is_constructed_when_none_given_and_create_is_called()
+    {
+        $connection = $this->newConnectionMock();
+
+        $addArgs = [
+            'cn=John Doe,dc=corp,dc=local',
+            ['cn' => ['John Doe']],
+        ];
+
+        $readArgs = [
+            'cn=John Doe,dc=corp,dc=local',
+            '(objectclass=*)',
+            [],
+        ];
+
+        $connection->shouldReceive('add')->once()->withArgs($addArgs)->andReturn(true);
+
+        $connection->shouldReceive('read')->once()->withArgs($readArgs)->andReturn(true);
+
+        $connection->shouldReceive('getEntries')->once()->andReturn([]);
+
+        $builder = $this->newBuilder($connection);
+
+        $builder->setDn('DC=corp,DC=local');
+
+        $entry = $this->newEntryModel([], $builder);
+
+        $entry->setCommonName('John Doe');
+
+        $this->assertTrue($entry->create());
+    }
 }

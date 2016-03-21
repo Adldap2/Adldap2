@@ -141,7 +141,7 @@ To retrieve the first record of a search or throw an exception when one isn't fo
 
 ```php
 try {
-    $record = $search->first();
+    $record = $search->firstOrFail();
 } catch (Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }

@@ -22,27 +22,36 @@ $ad = new \Adldap\Adldap();
 $ad->addProvider('default', $provider);
 
 // Try connecting to the provider.
-// If the connection is successful, the connected provider is returned.
-$provider = $ad->connect('default');
+try {
+    $ad->connect('default');
 
-// Create a new search.
-$search = $provider->search();
+    // Create a new search.
+    $search = $provider->search();
 
-// Call query methods upon the search itself.
-$results = $search->where('...')->get();
+    // Call query methods upon the search itself.
+    $results = $search->where('...')->get();
 
-// Or create a new query object.
-$query = $search->newQuery();
+    // Or create a new query object.
+    $query = $search->newQuery();
 
-$results = $search->where('...')->get();
+    $results = $search->where('...')->get();
 
-// Create a new LDAP object.
-$user =  $provider->make()->user();
+    // Create a new LDAP object.
+    $user =  $provider->make()->user();
 
-$user->cn = 'John Doe';
+    $user->cn = 'John Doe';
 
-if ($user->save()) {
-    // User was saved!
+    if ($user->save()) {
+        // User was saved!
+    }
+} catch (\Adldap\Exceptions\Auth\BindException $e) {
+
+    // There was an issue binding to the server.
+
+} catch (\Adldap\Exceptions\ConnectionException $e) {
+
+    // There was an issue connecting to the server.
+
 }
 ```
 

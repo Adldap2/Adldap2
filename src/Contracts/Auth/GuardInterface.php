@@ -42,7 +42,7 @@ interface GuardInterface
      *
      * @throws \Adldap\Exceptions\Auth\BindException
      */
-    public function bindUsingCredentials($username, $password, $suffix = null);
+    public function bind($username, $password, $suffix = null);
 
     /**
      * Binds to the current LDAP server using the

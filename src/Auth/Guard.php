@@ -39,7 +39,7 @@ class Guard implements GuardInterface
         $this->validateCredentials($username, $password);
 
         try {
-            $this->bindUsingCredentials($username, $password);
+            $this->bind($username, $password);
         } catch (BindException $e) {
             // We'll catch the BindException here to return false
             // to allow developers to use a simple if / else
@@ -62,7 +62,7 @@ class Guard implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function bindUsingCredentials($username, $password, $suffix = null)
+    public function bind($username, $password, $suffix = null)
     {
         if (empty($username)) {
             // Allow binding with null username.
@@ -111,7 +111,7 @@ class Guard implements GuardInterface
             $suffix = $this->configuration->getAccountSuffix();
         }
 
-        $this->bindUsingCredentials($username, $password, $suffix);
+        $this->bind($username, $password, $suffix);
     }
 
     /**

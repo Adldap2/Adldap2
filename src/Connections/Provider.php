@@ -217,7 +217,7 @@ class Provider implements ProviderInterface
                 $guard->bindAsAdministrator();
             } else {
                 // Bind to the server with the specified username and password otherwise.
-                $guard->bindUsingCredentials($username, $password);
+                $guard->bind($username, $password);
             }
         } else {
             throw new ConnectionException('Unable to connect to LDAP server.');

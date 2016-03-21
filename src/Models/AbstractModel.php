@@ -9,6 +9,7 @@ use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use ArrayAccess;
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable
@@ -520,13 +521,25 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns a new DistinguishedName object for building onto.
+     * Returns a DistinguishedName object for modifying the current models DN.
      *
      * @return DistinguishedName
      */
     public function getDnBuilder()
     {
-        return new DistinguishedName($this->getDistinguishedName());
+        return $this->getNewDnBuilder($this->getDistinguishedName());
+    }
+
+    /**
+     * Returns a new DistinguishedName object for building onto.
+     *
+     * @param string $baseDn
+     *
+     * @return DistinguishedName
+     */
+    public function getNewDnBuilder($baseDn = '')
+    {
+        return new DistinguishedName($baseDn);
     }
 
     /**

@@ -9,7 +9,6 @@ use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use ArrayAccess;
-use Illuminate\Support\Collection;
 use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable

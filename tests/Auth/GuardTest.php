@@ -57,7 +57,7 @@ class GuardTest extends UnitTestCase
 
         $guard = new Guard($ldap, $config);
 
-        $this->assertNull($guard->bindUsingCredentials('username', 'password'));
+        $this->assertNull($guard->bind('username', 'password'));
     }
 
     public function test_bind_as_administrator()

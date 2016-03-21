@@ -6,7 +6,7 @@ First, we'll define our configuration array (outlined [here]()):
 
 ```php
 $config = ['...'];
-```php
+```
 
 We'll then create a new Adldap instance:
 

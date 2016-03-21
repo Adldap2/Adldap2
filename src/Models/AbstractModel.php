@@ -614,7 +614,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Creates an active directory record.
      *
-     * @return bool|$this
+     * @return bool
      */
     public function create()
     {

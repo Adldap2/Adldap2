@@ -70,7 +70,7 @@ if ($user->save()) {
 }
 ```
 
-The save method is actually a glorified decision maker for on
+The save method is actually a glorified decision maker on
 whether or not to call the `create()` or `update()` methods on the model.
 
 It merely just checks if the model exists already in your AD server:

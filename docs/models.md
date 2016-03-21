@@ -91,6 +91,8 @@ public function save()
 How does it know if the model exists in AD? Well, when models are constructed from AD
 search results, the `exists` property on the model is set to `true`.
 
+### Creating
+
 If you are sure the model **does not exist** already inside your AD, you can use the `create()` method:
 
 ```php
@@ -104,6 +106,12 @@ if ($user->create()) {
     // There was an issue creating this user.
 }
 ```
+
+> **Note**: When you call the create method, if the model does not have a
+> distinguished name, one will automatically be generated for you using your
+> `base_dn` set in your configuration and the models common name.
+
+### Updating
 
 If you are sure the model **does exist** already inside your AD, you can use the `update()` method:
 

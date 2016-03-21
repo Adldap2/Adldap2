@@ -10,12 +10,11 @@
 > Originally written by Scott Barnett and Richard Hyland. Adopted by the community.
 
 ## Index
- - [Quick Start]()
- - [Configuration]()
- - [Connecting]()
- - [Searching]()
- - [Creating]()
- - [Models] ()
+ - [Quick Start](blob/v6.0/docs/quick-start.md)
+ - [Configuration](blob/v6.0/docs/configuration.md)
+ - [Connecting](blob/v6.0/docs/connecting.md)
+ - [Searching (Query Builder)](blob/v6.0/docs/query-builder.md)
+ - [Models](blob/v6.0/docs/models.md)
 
 ## Description
 

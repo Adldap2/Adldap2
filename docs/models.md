@@ -134,6 +134,20 @@ if ($user->update()) {
 
 Model attributes can be set / removed / created a couple different ways.
 
+### Setting Attributes
+
+All attributes can be set via the `setAttribute()` method:
+
+```php
+$user->setAttribute('cn', 'Common Name');
+```
+
+Or, set the attribute manually:
+
+```php
+$user->cn = 'Common Name';
+```
+
 ### Creating Attributes
 
 To create an attribute that does not exist on the model, you can set it like a regular property:
@@ -243,3 +257,35 @@ if ($user->rename($newRdn)) {
 ```
 
 > **Note**: The `rename()` method is actually an alias for the `move()` method.
+
+## Deleting
+
+To delete a model, just call the `delete()` method:
+
+```php
+$user $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+
+if ($user->delete()) {
+    // Successfully deleted user.
+
+    echo $user->exists; // Returns false.
+}
+```
+
+## Misc
+
+```php
+// Checking if a model has an attribute.
+
+if ($user->hasAttribute('cn')) {
+    // This user has a common name.
+}
+
+// Counting the models attributes
+$count = $user->countAttributes();
+
+// Retrieving the models modified attributes
+$attributes = $user->getDirty();
+```
+
+

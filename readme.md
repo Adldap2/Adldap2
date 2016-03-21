@@ -13,6 +13,7 @@
  - [Quick Start](docs/quick-start.md)
  - [Configuration](docs/configuration.md)
  - [Connecting](docs/connecting.md)
+ - [Authenticating](docs/authenticating.md)
  - [Searching (Query Builder)](docs/query-builder.md)
  - [Models](docs/models.md)
  - [API Documentation](http://adldap2.github.io/api/v6.0.0/)

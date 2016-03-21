@@ -20,7 +20,7 @@ try {
 }
 //var_dump($ldap);
 
-echo("<pre>\n");
+echo "<pre>\n";
 
 // authenticate a username/password
 if (0) {
@@ -45,7 +45,7 @@ if (0) {
     $attributes = [
         'group_name'  => 'Test Group',
         'description' => 'Just Testing',
-        'container'   => ['Groups','A Container'],
+        'container'   => ['Groups', 'A Container'],
     ];
     $result = $adldap->group()->create($attributes);
     var_dump($result);
@@ -68,7 +68,7 @@ if (0) {
         'company'    => 'My Company',
         'department' => 'My Department',
         'email'      => 'freds@mydomain.local',
-        'container'  => ['Container Parent','Container Child'],
+        'container'  => ['Container Parent', 'Container Child'],
         'enabled'    => 1,
         'password'   => 'Password123',
     ];

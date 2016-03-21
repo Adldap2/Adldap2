@@ -654,8 +654,6 @@ class Builder
                     return $this->buildWildcard($where['field']);
             }
         }
-
-        return;
     }
 
     /**

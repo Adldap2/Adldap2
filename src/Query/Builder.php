@@ -260,7 +260,7 @@ class Builder
             $results = $this->connection->listing($dn, $query, $selects);
         }
 
-        return $this->newProcessor()->process($results);
+        return $this->process($results);
     }
 
     /**
@@ -296,7 +296,7 @@ class Builder
         } while ($cookie !== null && !empty($cookie));
 
         if (count($pages) > 0) {
-            return $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
+            return $this->processPaginated($pages, $perPage, $currentPage);
         }
 
         return false;

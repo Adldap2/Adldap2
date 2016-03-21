@@ -43,30 +43,6 @@ class Entry extends AbstractModel
     }
 
     /**
-     * Returns the model's common name.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getCommonName()
-    {
-        return $this->getAttribute($this->schema->commonName(), 0);
-    }
-
-    /**
-     * Sets the model's common name.
-     *
-     * @param string $name
-     *
-     * @return Entry
-     */
-    public function setCommonName($name)
-    {
-        return $this->setAttribute($this->schema->commonName(), $name, 0);
-    }
-
-    /**
      * Returns the model's samaccountname.
      *
      * https://msdn.microsoft.com/en-us/library/ms679635(v=vs.85).aspx

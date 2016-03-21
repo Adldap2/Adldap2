@@ -486,7 +486,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getDistinguishedName()
     {
@@ -512,7 +512,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getDn()
     {
@@ -541,6 +541,30 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function setDn($dn)
     {
         return $this->setDistinguishedName($dn);
+    }
+
+    /**
+     * Returns the model's common name.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getCommonName()
+    {
+        return $this->getAttribute($this->schema->commonName(), 0);
+    }
+
+    /**
+     * Sets the model's common name.
+     *
+     * @param string $name
+     *
+     * @return Entry
+     */
+    public function setCommonName($name)
+    {
+        return $this->setAttribute($this->schema->commonName(), $name, 0);
     }
 
     /**
@@ -595,6 +619,21 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function create()
     {
         $dn = $this->getDn();
+
+        if (is_null($dn)) {
+            // If the current DN is null, we'll create a new DN automatically.
+            $dn = $this->getDnBuilder();
+
+            // We'll set the base of the DN to the query DN.
+            $dn->setBase($this->query->getDn());
+
+            // Then we'll add the entry's common name attribute.
+            $dn->addCn($this->getCommonName());
+
+            // We'll cast the DN to a string before passing
+            // it into the connection.
+            $dn = (string) $dn;
+        }
 
         $attributes = $this->getAttributes();
 

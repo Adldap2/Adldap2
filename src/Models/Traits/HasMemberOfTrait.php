@@ -63,11 +63,24 @@ trait HasMemberOfTrait
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the models groups.
+     *
+     * @param array $fields
+     * @param bool  $recursive
+     *
+     * @return \Illuminate\Support\Collection
      */
-    public function getGroups($fields = [])
+    public function getGroups($fields = [], $recursive = false)
     {
-        return $this->getMemberOf($fields);
+        $groups = $this->getMemberOf($fields);
+
+        if ($recursive === true) {
+            foreach ($groups as $group) {
+                $groups = $groups->merge($group->getGroups($fields, $recursive));
+            }
+        }
+
+        return $groups;
     }
 
     /**
@@ -85,21 +98,23 @@ trait HasMemberOfTrait
      *
      * @param array $fields
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function getMemberOf($fields = [])
     {
-        $groups = [];
+        $groups = $this->getQuery()->newCollection();
 
         $dns = $this->getAttribute($this->getSchema()->memberOf());
 
+        $query = $this->getQuery()->newInstance();
+        
         if (is_array($dns)) {
             foreach ($dns as $key => $dn) {
-                $query = $this->getQuery()->newInstance();
+                $group = $query->select($fields)->findByDn($dn);
 
-                $groups[] = $query
-                    ->select($fields)
-                    ->findByDn($dn);
+                if ($group instanceof AbstractModel && !$groups->contains($group)) {
+                    $groups->push($group);
+                }
             }
         }
 
@@ -134,27 +149,20 @@ trait HasMemberOfTrait
      * Returns true / false if the current model
      * is in the specified group.
      *
-     * @param string|Group $group|array $group
+     * @param string|Group $group
+     * @param bool         $recursive
      *
      * @return bool
      */
-    public function inGroup($group)
+    public function inGroup($group, $recursive = false)
     {
-        $groups = $this->getGroups();
+        $groups = $this->getGroups([], $recursive);
 
-        if ($group instanceof Group) {
-            if (in_array($group, $groups)) {
-                return true;
-            }
+        if ($group instanceof Group && $groups->contains($group)) {
+            return true;
         } elseif (is_string($group)) {
             foreach ($groups as $model) {
                 if ($model instanceof AbstractModel && $group == $model->getName()) {
-                    return true;
-                }
-            }
-        } elseif (is_array($group)) {
-            foreach ($groups as $model) {
-                if ($model instanceof AbstractModel && in_array($model->getName(), $group)) {
                     return true;
                 }
             }

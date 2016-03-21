@@ -1,1 +1,191 @@
 # Models
+
+## Creating
+
+Creating LDAP entries manually is always a pain, but Adldap2 makes it effortless. Let's get started.
+
+When you have a provider instance, call the `make()` method. This returns an `Adldap\Models\Factory` instance:
+
+```php
+$factory = $provider->make();
+```
+
+Or you can chain all methods if you'd prefer:
+
+```php
+$user = $provider->make()->user();
+```
+
+### Available Make Methods:
+
+When calling a make method, all of them accept an `$attributes` parameter
+to fill the model with your specified attributes.
+
+```php
+// Adldap\Models\User
+$user = $provider->make()->user([
+    'cn' => 'John Doe',
+]);
+
+// Adldap\Models\Computer
+$computer = $provider->make()->computer([
+    'cn' => 'COMP-101',
+]);
+
+// Adldap\Models\Contact
+$contact = $provider->make()->contact([
+    'cn' => 'Suzy Doe',
+]);
+
+// Adldap\Models\Container
+$container = $provider->make()->container([
+    'cn' => 'VPN Users',
+]);
+
+// Adldap\Models\Group
+$group = $provider->make()->group([
+    'cn' => 'Managers',
+]);
+
+// Adldap\Models\OrganizationalUnit
+$ou = $provider->make()->ou([
+    'cn' => 'Acme',
+]);
+```
+
+## Saving
+
+When you have any Adldap model instance, you can call the `save()` method to persist the
+changes to your server. This method returns a `boolean`. For example:
+
+```php
+$user = $provider->make()->user([
+    'cn' => 'New User',
+]);
+
+if ($user->save()) {
+    // User was saved.
+} else {
+    // There was an issue saving this user.
+}
+```
+
+The save method is actually a glorified decision maker for on
+whether or not to call the `create()` or `update()` methods on the model.
+
+It merely just checks if the model exists already in your AD server:
+
+```php
+// AbstractModel.php
+
+public function save()
+{
+    if ($this->exists) {
+        return $this->update();
+    } else {
+        return $this->create();
+    }
+}
+```
+
+How does it know if the model exists in AD? Well, when models are constructed from AD
+search results, the `exists` property on the model is set to `true`.
+
+If you are sure the model **does not exist** already inside your AD, you can use the `create()` method:
+
+```php
+$user = $provider->make()->user([
+    'cn' => 'New User',
+]);
+
+if ($user->create()) {
+    // User was created.
+} else {
+    // There was an issue creating this user.
+}
+```
+
+If you are sure the model **does exist** already inside your AD, you can use the `update()` method:
+
+```php
+$user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+
+$user->cn = 'Suzy Doe';
+
+if ($user->update()) {
+    // User was updated.
+} else {
+    // There was an issue updating this user.
+}
+```
+
+## Attributes
+
+Model attributes can be set / removed / created a couple different ways.
+
+### Creating Attributes
+
+To create an attribute that does not exist on the model, you can set it like a regular property:
+
+```php
+$user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+
+$user->new = 'New Attribute';
+
+$user->save();
+```
+
+If the set attribute does not exist on the model already,
+it will automatically be created when you call the `save()` method.
+
+If you'd like manually create new attributes individually, call the `createAttribute()` method:
+
+```php
+if ($user->createAttribute('new', 'New Attribute')) {
+    // Attribute created.
+}
+```
+
+### Modifying Attributes
+
+To modify an attribute you can either use a setter method, or by setting it manually:
+
+> **Note**: You can also utilize setters to create new attributes if your model does not already have the attribute.
+
+```php
+$user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+
+$user->cn = 'New Name';
+
+// Or use a setter:
+
+$user->setCommonName('New Name');
+
+$user->save();
+```
+
+If you'd like to update attributes individually, call the `updateAttribute()` method:
+
+```php
+if ($user->updateAttribute('cn', 'New Name')) {
+    // Successfully updated attribute.
+}
+```
+
+### Removing Attributes
+
+To remove attributes, set the attribute to `NULL`:
+
+```php
+$user->cn = null;
+
+$user->save();
+```
+
+Or, you can call the `deleteAttribute()` method:
+
+```php
+if ($user->deleteAttribute('cn')) {
+    // Attribute has been deleted.
+}
+```

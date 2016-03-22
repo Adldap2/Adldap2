@@ -102,11 +102,11 @@ trait HasMemberOfTrait
      */
     public function getMemberOf($fields = [])
     {
-        $groups = $this->getQuery()->newCollection();
-
         $dns = $this->getAttribute($this->getSchema()->memberOf());
 
         $query = $this->getQuery()->newInstance();
+
+        $groups = $query->newCollection();
 
         if (is_array($dns)) {
             foreach ($dns as $key => $dn) {

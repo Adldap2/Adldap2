@@ -69,7 +69,7 @@ Inside this factory, you can utilize the many scopes for only retrieving certain
 
 Please take a look at the [Query Builder documentation](docs/query-builder.md#scopes) for all of the methods.
 
-##### Adldap\Adldap::authenticate() method replaced with Adldap\Auth\Guard
+##### Authentication & Binding Changes
 
 To check a users credentials using your AD server, you used to be able to perform:
 
@@ -87,5 +87,29 @@ This object is returned when calling the `auth()` method on your connection prov
 // v6.0
 if ($provider->auth()->attempt($username, $password, $bindAsUser = false)) {
     // Credentials were valid!
+}
+```
+
+You can now also bind users manually if you wish, bypassing the empty `username` and `password` validation:
+
+```php
+try {
+    $provider->auth()->bind($username, $password);
+
+    // User successfully bound.
+} catch (\Adldap\Exceptions\Auth\BindException $e) {
+    // Uh oh, there was an issue with the users credentials!
+}
+```
+
+Or you can also manually bind as your configured administrator:
+
+```php
+try {
+    $provider->auth()->bindAsAdministrator();
+
+    // Admin successfully bound.
+} catch (\Adldap\Exceptions\Auth\BindException $e) {
+    // Your administrator credentials are incorrect.
 }
 ```

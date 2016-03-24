@@ -401,4 +401,26 @@ class EntryTest extends UnitTestCase
 
         $this->assertTrue($entry->move($args[1], $args[2]));
     }
+
+    public function testJsonSerialize()
+    {
+        $connection = $this->newConnectionMock();
+
+        $attributes = [
+            'cn' => 'John Doe',
+            'givenname' => 'John',
+            'sn' => 'Doe',
+            'objectsid' => 'sid',
+            'objectguid' => 'guid'
+        ];
+
+        $entry = new Entry($attributes, $this->newBuilder($connection));
+
+        $serialized = json_encode($entry);
+
+        unset($attributes['objectsid']);
+        unset($attributes['objectguid']);
+
+        $this->assertEquals($attributes, (array) json_decode($serialized));
+    }
 }

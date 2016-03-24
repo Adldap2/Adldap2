@@ -113,3 +113,14 @@ try {
     // Your administrator credentials are incorrect.
 }
 ```
+
+###### Search Results
+
+Search results now return a Laravel collection (`Illuminate\Support\Collection`)
+instead of a Doctrine collection (`Doctrine\Common\Collections\ArrayCollection`).
+
+This allows much more flexibility and offers many more handy methods than doctrine collections.
+
+## More
+
+If you encounter anything that isn't covered here, please create an issue or submit a pull-request.

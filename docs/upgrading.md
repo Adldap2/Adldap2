@@ -121,6 +121,11 @@ instead of a Doctrine collection (`Doctrine\Common\Collections\ArrayCollection`)
 
 This allows much more flexibility and offers many more handy methods than doctrine collections.
 
+###### Dropped SSO Support
+
+SSO support was available but very un-tested in the root [Adldap2\Adldap2](https://github.com/Adldap2/Adldap2) repository.
+This is now dropped, but is now available in the [Adldap2\Adldap2-Laravel](https://github.com/Adldap2/Adldap2-Laravel) repository.
+
 ## More
 
 If you encounter anything that isn't covered here, please create an issue or submit a pull-request.

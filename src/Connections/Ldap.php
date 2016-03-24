@@ -258,7 +258,7 @@ class Ldap implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
-        if ($this->isUsingSSL()) {
+        if ($this->isUsingTLS()) {
             $this->startTLS();
         }
 

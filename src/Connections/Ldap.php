@@ -487,6 +487,10 @@ class Ldap implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
+        if ($this->isUsingSSL()) {
+            $this->startTLS();
+        }
+
         if ($sasl) {
             if ($this->suppressErrors) {
                 return $this->bound = @ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');

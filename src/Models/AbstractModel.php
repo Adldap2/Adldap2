@@ -158,8 +158,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         // We need to remove the object SID and GUID from
         // being serialized as these attributes contain
         // characters that cannot be serialized.
-        unset($attributes[$this->schema->objectSid()]);
-        unset($attributes[$this->schema->objectGuid()]);
+        unset($attributes[ActiveDirectory::OBJECT_SID]);
+        unset($attributes[ActiveDirectory::OBJECT_GUID]);
 
         return $attributes;
     }

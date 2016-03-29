@@ -130,8 +130,10 @@ class Factory
     public function users()
     {
         return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassPerson())
-            ->whereEquals($this->schema->objectCategory(), $this->schema->objectCategoryPerson());
+            ->where([
+                $this->schema->objectClass() => $this->schema->objectClassPerson(),
+                $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
+            ]);
     }
 
     /**
@@ -141,8 +143,9 @@ class Factory
      */
     public function printers()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassPrinter());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassPrinter(),
+        ]);
     }
 
     /**
@@ -152,8 +155,9 @@ class Factory
      */
     public function ous()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassOu());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassOu()
+        ]);
     }
 
     /**
@@ -163,8 +167,9 @@ class Factory
      */
     public function groups()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassGroup());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassGroup(),
+        ]);
     }
 
     /**
@@ -174,8 +179,9 @@ class Factory
      */
     public function containers()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassContainer());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassContainer(),
+        ]);
     }
 
     /**
@@ -185,8 +191,9 @@ class Factory
      */
     public function contacts()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassContact());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassContact(),
+        ]);
     }
 
     /**
@@ -196,8 +203,9 @@ class Factory
      */
     public function computers()
     {
-        return $this->query
-            ->whereEquals($this->schema->objectClass(), $this->schema->objectClassComputer());
+        return $this->query->where([
+            $this->schema->objectClass() => $this->schema->objectClassComputer(),
+        ]);
     }
 
     /**

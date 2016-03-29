@@ -6,11 +6,11 @@ Use the following configuration:
 
 ```php
 $config = [
-  'account_suffix'        => '@gatech.edu',
-  'domain_controllers'    => ['whitepages.gatech.edu'],
-  'base_dn'               => 'dc=whitepages,dc=gatech,dc=edu',
-  'admin_username'        => '',
-  'admin_password'        => '',
+  'account_suffix'        => '@corp.acme.org,
+  'domain_controllers'    => ['ACME-DC01.corp.acme.org'],
+  'base_dn'               => 'dc=corp,dc=acme,dc=org',
+  'admin_username'        => 'admin',
+  'admin_password'        => 'password',
 ];
 
 // Create a new connection provider.

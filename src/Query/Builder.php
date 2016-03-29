@@ -259,7 +259,7 @@ class Builder
             // Read and recursive is false, we'll return a listing
             $results = $this->connection->listing($dn, $query, $selects);
         }
-        
+
         return $this->process($results);
     }
 

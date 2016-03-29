@@ -47,7 +47,7 @@ class Processor
     public function process($results)
     {
         $entries = $this->connection->getEntries($results);
-
+        
         if ($this->builder->isRaw() === true) {
             return $entries;
         } else {

@@ -29,22 +29,30 @@ class Grammar
      */
     public function compileQuery(Builder $builder)
     {
+        // Retrieve the query 'where' bindings.
+        $wheres = $builder->getWheres();
+
+        // Retrieve the query 'orWhere' bindings.
+        $orWheres = $builder->getOrWheres();
+
+        // Retrieve the query filter bindings.
+        $filters = $builder->getFilters();
+
         $query = implode(null, $builder->getFilters());
 
-        $query = $this->compileWheres($builder, $query);
+        $query = $this->compileWheres($wheres, $query);
 
-        $query = $this->compileOrWheres($builder, $query);
+        $query = $this->compileOrWheres($orWheres, $query);
+
 
         // Count the total amount of filters.
-
-        $total = count($builder->getWheres())
-            + count($builder->getFilters());
+        $total = count($wheres) + count($filters);
 
         // Make sure we wrap the query in an 'and' if using
         // multiple filters. We also need to check if only
         // one where is used with multiple orWheres, that
         // we wrap it in an `and` query.
-        if ($total > 1 || (count($builder->getWheres()) === 1 && count($builder->getOrWheres()) > 0)) {
+        if ($total > 1 || (count($wheres) === 1 && count($orWheres) > 0)) {
             $query = $this->compileAnd($query);
         }
 
@@ -275,14 +283,14 @@ class Grammar
     /**
      * Assembles all where clauses in the current wheres property.
      *
-     * @param Builder $builder
-     * @param string  $query
+     * @param array  $wheres
+     * @param string $query
      *
      * @return string
      */
-    protected function compileWheres(Builder $builder, $query = '')
+    protected function compileWheres(array $wheres, $query = '')
     {
-        foreach ($builder->getWheres() as $where) {
+        foreach ($wheres as $where) {
             $query .= $this->compileWhere($where);
         }
 
@@ -292,23 +300,25 @@ class Grammar
     /**
      * Assembles all or where clauses in the current orWheres property.
      *
-     * @param Builder $builder
-     * @param string  $query
+     * @param array  $orWheres
+     * @param string $query
      *
      * @return string
      */
-    protected function compileOrWheres(Builder $builder, $query = '')
+    protected function compileOrWheres(array $orWheres, $query = '')
     {
         $ors = '';
 
-        foreach ($builder->getOrWheres() as $where) {
+        foreach ($orWheres as $where) {
             $ors .= $this->compileWhere($where);
         }
 
-        // Make sure we wrap the query in an 'and' if using
-        // multiple wheres. For example (&QUERY).
-        if (count($builder->getOrWheres()) > 0) {
+        // Make sure we wrap the query in an 'or' if using
+        // multiple orWheres. For example (|(QUERY)(ORWHEREQUERY)).
+        if ((!empty($query) && count($orWheres) > 0) || count($orWheres) > 1) {
             $query .= $this->compileOr($ors);
+        } else {
+            $query .= $ors;
         }
 
         return $query;

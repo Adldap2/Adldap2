@@ -259,7 +259,7 @@ class Builder
             // Read and recursive is false, we'll return a listing
             $results = $this->connection->listing($dn, $query, $selects);
         }
-
+        
         return $this->process($results);
     }
 
@@ -957,6 +957,16 @@ class Builder
     }
 
     /**
+     * Returns all of the query builder bindings.
+     *
+     * @return array
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+
+    /**
      * Sorts the LDAP search results by the
      * specified field and direction.
      *
@@ -1125,9 +1135,7 @@ class Builder
      */
     public function __call($method, $parameters)
     {
-        $processor = $this->newProcessor();
-
-        return call_user_func_array([$processor, $method], $parameters);
+        return call_user_func_array([$this->newProcessor(), $method], $parameters);
     }
 
     /**

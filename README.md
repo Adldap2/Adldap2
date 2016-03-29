@@ -92,24 +92,3 @@ And constructed with the following guidelines:
 Minor versions are not maintained individually, and you're encouraged to upgrade through to the next minor version.
 
 Major versions are maintained individually through separate branches.
-
-## Need to test an LDAP connection?
-
-If you need to test something with access to an LDAP server, the generous folks at [Georgia Tech](http://drupal.gatech.edu/handbook/public-ldap-server) have you covered.
-
-Use the following configuration:
-
-```php
-$config = [
-    'account_suffix'        => '@gatech.edu',
-    'domain_controllers'    => ['whitepages.gatech.edu'],
-    'base_dn'               => 'dc=whitepages,dc=gatech,dc=edu',
-    'admin_username'        => '',
-    'admin_password'        => '',
-];
-
-$ad = new \Adldap\Adldap($config);
-```
-    
-However while useful for basic testing, the queryable data only includes user data, so if you're looking for testing with any other information
-or functionality such as modification, you'll have to use you're own server.

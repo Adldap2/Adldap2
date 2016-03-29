@@ -131,7 +131,7 @@ class Factory
     {
         return $this->query
             ->where([
-                $this->schema->objectClass() => $this->schema->objectClassPerson(),
+                $this->schema->objectClass()    => $this->schema->objectClassPerson(),
                 $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
             ]);
     }
@@ -156,7 +156,7 @@ class Factory
     public function ous()
     {
         return $this->query->where([
-            $this->schema->objectClass() => $this->schema->objectClassOu()
+            $this->schema->objectClass() => $this->schema->objectClassOu(),
         ]);
     }
 

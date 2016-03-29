@@ -44,7 +44,6 @@ class Grammar
 
         $query = $this->compileOrWheres($orWheres, $query);
 
-
         // Count the total amount of filters.
         $total = count($wheres) + count($filters);
 

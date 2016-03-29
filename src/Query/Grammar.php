@@ -9,6 +9,8 @@ class Grammar
     /**
      * Wraps a query string in brackets.
      *
+     * Produces: (query)
+     *
      * @param string $query
      * @param string $prefix
      * @param string $suffix
@@ -38,10 +40,13 @@ class Grammar
         // Retrieve the query filter bindings.
         $filters = $builder->getFilters();
 
-        $query = implode(null, $builder->getFilters());
+        // We'll combine all raw filters together first.
+        $query = implode(null, $filters);
 
+        // Compile wheres.
         $query = $this->compileWheres($wheres, $query);
 
+        // Compile or wheres.
         $query = $this->compileOrWheres($orWheres, $query);
 
         // Count the total amount of filters.
@@ -312,8 +317,8 @@ class Grammar
             $ors .= $this->compileWhere($where);
         }
 
-        // Make sure we wrap the query in an 'or' if using
-        // multiple orWheres. For example (|(QUERY)(ORWHEREQUERY)).
+        // Make sure we wrap the query in an 'or' if using multiple
+        // orWheres. For example (|(QUERY)(ORWHEREQUERY)).
         if ((!empty($query) && count($orWheres) > 0) || count($orWheres) > 1) {
             $query .= $this->compileOr($ors);
         } else {

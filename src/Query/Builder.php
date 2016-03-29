@@ -166,6 +166,8 @@ class Builder
     {
         $new = new static($this->connection, $this->grammar, $this->schema);
 
+        // We'll set the base DN of the new Builder so
+        // devs don't need to do this manually.
         $new->setDn($this->getDn());
 
         return $new;
@@ -274,7 +276,7 @@ class Builder
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
-        // Set the current query to paginated
+        // Set the current query to paginated.
         $this->paginated = true;
 
         // Stores all LDAP entries in a page array
@@ -285,6 +287,7 @@ class Builder
         do {
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
+            // Run the search.
             $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
 
             if ($results) {
@@ -296,6 +299,7 @@ class Builder
         } while ($cookie !== null && !empty($cookie));
 
         if (count($pages) > 0) {
+            // If we have at least one page, we can process the results.
             return $this->processPaginated($pages, $perPage, $currentPage);
         }
 
@@ -550,7 +554,7 @@ class Builder
             return $this;
         }
 
-        // We'll bypass the has and notHas operator since they
+        // We'll bypass the 'has' and 'notHas' operator since they
         // only require two arguments inside the where method.
         $bypass = [Operator::$has, Operator::$notHas];
 

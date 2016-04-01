@@ -263,7 +263,9 @@ if ($user->rename($newRdn)) {
 To delete a model, just call the `delete()` method:
 
 ```php
-$user $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+$user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
+
+echo $user->exists; // Returns true.
 
 if ($user->delete()) {
     // Successfully deleted user.

@@ -6,7 +6,7 @@ Use the following configuration:
 
 ```php
 $config = [
-  'account_suffix'        => '@corp.acme.org,
+  'account_suffix'        => '@corp.acme.org',
   'domain_controllers'    => ['ACME-DC01.corp.acme.org'],
   'base_dn'               => 'dc=corp,dc=acme,dc=org',
   'admin_username'        => 'admin',

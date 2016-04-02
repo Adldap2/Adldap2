@@ -11,6 +11,7 @@ use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
 use Adldap\Utilities;
+use DateTime;
 
 class User extends Entry
 {
@@ -792,8 +793,10 @@ class User extends Entry
     /**
      * Change the password of the current user. This must be performed over SSL.
      *
-     * @param string $oldPassword The new password
-     * @param string $newPassword The old password
+     * @param string $oldPassword      The new password
+     * @param string $newPassword      The old password
+     * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
+     *                                 errors.
      *
      * @throws AdldapException
      * @throws PasswordPolicyException
@@ -801,7 +804,7 @@ class User extends Entry
      *
      * @return bool
      */
-    public function changePassword($oldPassword, $newPassword)
+    public function changePassword($oldPassword, $newPassword, $replaceNotRemove = false)
     {
         $connection = $this->query->getConnection();
 
@@ -813,21 +816,29 @@ class User extends Entry
 
         $attribute = $this->schema->unicodePassword();
 
-        // Create batch modification for removing the old password.
-        $remove = new BatchModification();
-        $remove->setAttribute($attribute);
-        $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
-        $remove->setValues([Utilities::encodePassword($oldPassword)]);
+        if ($replaceNotRemove === true) {
+            $replace = new BatchModification();
+            $replace->setAttribute($attribute);
+            $replace->setType(LDAP_MODIFY_BATCH_REPLACE);
+            $replace->setValues([Utilities::encodePassword($newPassword)]);
+            $this->addModification($replace);
+        } else {
+            // Create batch modification for removing the old password.
+            $remove = new BatchModification();
+            $remove->setAttribute($attribute);
+            $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
+            $remove->setValues([Utilities::encodePassword($oldPassword)]);
 
-        // Create batch modification for adding the new password.
-        $add = new BatchModification();
-        $add->setAttribute($attribute);
-        $add->setType(LDAP_MODIFY_BATCH_ADD);
-        $add->setValues([Utilities::encodePassword($newPassword)]);
+            // Create batch modification for adding the new password.
+            $add = new BatchModification();
+            $add->setAttribute($attribute);
+            $add->setType(LDAP_MODIFY_BATCH_ADD);
+            $add->setValues([Utilities::encodePassword($newPassword)]);
 
-        // Add the modifications.
-        $this->addModification($remove);
-        $this->addModification($add);
+            // Add the modifications.
+            $this->addModification($remove);
+            $this->addModification($add);
+        }
 
         // Update the user.
         $result = $this->update();
@@ -862,57 +873,67 @@ class User extends Entry
     }
 
     /**
-     * Determine a user's password expiry date.
+     * Returns if the user is disabled.
      *
-     * @return array
+     * @return bool
      */
-    public function passwordExpiry()
+    public function isDisabled()
     {
-        $passwordLastSet = $this->getPasswordLastSet();
+        return ($this->getUserAccountControl() & AccountControl::ACCOUNTDISABLE) === AccountControl::ACCOUNTDISABLE;
+    }
 
-        $status = [
-            'expires'     => true,
-            'has_expired' => false,
-        ];
+    /**
+     * Returns if the user is enabled.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return !$this->isDisabled();
+    }
 
-        // Check if the password expires.
-        if ($this->getUserAccountControl() == '66048') {
-            $status['expires'] = false;
+    /**
+     * Return the expiration date of the user account.
+     *
+     * @return DateTime Expiration date or null if no expiration date
+     */
+    public function expirationDate()
+    {
+        $accountExpiry = $this->getAccountExpiry();
+
+        if ($accountExpiry == 0 || $accountExpiry == $this->getSchema()->neverExpiresDate()) {
+            return;
         }
 
-        // Check if the password is expired.
-        if ($passwordLastSet === '0') {
-            $status['has_expired'] = true;
+        $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
+
+        return new \DateTime(date('Y-m-d H:i:s', $unixTime));
+    }
+
+    /**
+     * Return true if AD User is expired.
+     *
+     * @param DateTime $date Optional date
+     *
+     * @return bool Is AD user expired ?
+     */
+    public function isExpired(DateTime $date = null)
+    {
+        if (!$date) {
+            $date = new DateTime();
         }
 
-        $result = $this
-            ->query
-            ->newInstance()
-            ->whereHas($this->schema->objectClass())
-            ->first();
+        $expirationDate = $this->expirationDate();
 
-        if ($result instanceof Entry && $status['expires'] === true) {
-            $maxPwdAge = $result->getMaxPasswordAge();
-
-            // See MSDN: http://msdn.microsoft.com/en-us/library/ms974598.aspx
-            if (!is_null($maxPwdAge)) {
-                if (bcmod($maxPwdAge, 4294967296) === '0') {
-                    // Domain does not expire passwords.
-                    $status['expires'] = false;
-                } else {
-                    // By adding maxpwdage and pwdlastset we get the password expiration time in Microsoft
-                    // time. Since maxpwd age is negative we need to subtract it.
-                    $pwdExpire = bcsub($passwordLastSet, $maxPwdAge);
-
-                    // Convert Microsoft's time to Unix time.
-                    $unixTime = bcsub(bcdiv($pwdExpire, '10000000'), '11644473600');
-
-                    $status['expiry_timestamp'] = $unixTime;
-                    $status['expiry_formatted'] = date('Y-m-d H:i:s', $unixTime);
-                }
-            }
-        }
-
-        return $status;
+        return $expirationDate ? ($expirationDate <= $date) : false;
+    }
+    /**
+     * Return true if AD User is active (enabled & not expired).
+     *
+     * @return bool Is AD user active ?
+     */
+    public function isActive()
+    {
+        return $this->isEnabled() && !$this->isExpired();
     }
 }

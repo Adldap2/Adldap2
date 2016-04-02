@@ -927,6 +927,7 @@ class User extends Entry
 
         return $expirationDate ? ($expirationDate <= $date) : false;
     }
+
     /**
      * Return true if AD User is active (enabled & not expired).
      *

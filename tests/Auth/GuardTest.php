@@ -31,10 +31,12 @@ class GuardTest extends UnitTestCase
     {
         $config = $this->mock(Configuration::class);
 
-        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@account-suffix')
+        $config
+            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix')
+            ->shouldReceive('getAccountSuffix')->once()->andReturn('suffix')
             ->shouldReceive('getAdminUsername')->once()->andReturn('admin')
             ->shouldReceive('getAdminPassword')->once()->andReturn('password')
-            ->shouldReceive('getAdminAccountSuffix')->once()->andReturn('@admin-suffix');
+            ->shouldReceive('getAdminAccountSuffix')->once()->andReturn('admin-suffix');
 
         $ldap = $this->mock(Ldap::class);
 
@@ -49,11 +51,13 @@ class GuardTest extends UnitTestCase
     {
         $config = $this->mock(Configuration::class);
 
-        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@account-suffix');
+        $config
+            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
+            ->shouldReceive('getAccountSuffix')->once()->andReturn('-suffix');
 
         $ldap = $this->mock(Ldap::class);
 
-        $ldap->shouldReceive('bind')->once()->withArgs(['username@account-suffix', 'password'])->andReturn(true);
+        $ldap->shouldReceive('bind')->once()->withArgs(['prefix-username-suffix', 'password'])->andReturn(true);
 
         $guard = new Guard($ldap, $config);
 
@@ -64,7 +68,8 @@ class GuardTest extends UnitTestCase
     {
         $config = $this->mock(Configuration::class);
 
-        $config->shouldReceive('getAdminUsername')->once()->andReturn('admin')
+        $config
+            ->shouldReceive('getAdminUsername')->once()->andReturn('admin')
             ->shouldReceive('getAdminPassword')->once()->andReturn('password')
             ->shouldReceive('getAdminAccountSuffix')->once()->andReturn('@admin-suffix');
 

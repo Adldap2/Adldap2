@@ -66,6 +66,13 @@ class Configuration
     protected $accountSuffix;
 
     /**
+     * The LDAP account prefix.
+     *
+     * @var string
+     */
+    protected $accountPrefix;
+
+    /**
      * The LDAP administrator username.
      *
      * @var string
@@ -259,6 +266,16 @@ class Configuration
     }
 
     /**
+     * Sets the account prefix option.
+     *
+     * @param string $suffix
+     */
+    public function setAccountPrefix($suffix)
+    {
+        $this->accountPrefix = (string) $suffix;
+    }
+
+    /**
      * Sets the account suffix option.
      *
      * @param string $suffix
@@ -266,6 +283,16 @@ class Configuration
     public function setAccountSuffix($suffix)
     {
         $this->accountSuffix = (string) $suffix;
+    }
+
+    /**
+     * Returns the account prefix option.
+     *
+     * @return string|null
+     */
+    public function getAccountPrefix()
+    {
+        return $this->accountPrefix;
     }
 
     /**

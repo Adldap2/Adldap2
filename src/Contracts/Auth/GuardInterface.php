@@ -36,13 +36,14 @@ interface GuardInterface
      *
      * @param string $username
      * @param string $password
+     * @param string $prefix
      * @param string $suffix
      *
      * @returns void
      *
      * @throws \Adldap\Exceptions\Auth\BindException
      */
-    public function bind($username, $password, $suffix = null);
+    public function bind($username, $password, $prefix = null, $suffix = null);
 
     /**
      * Binds to the current LDAP server using the

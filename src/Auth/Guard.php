@@ -62,19 +62,23 @@ class Guard implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function bind($username, $password, $suffix = null)
+    public function bind($username, $password, $prefix = null, $suffix = null)
     {
         if (empty($username)) {
             // Allow binding with null username.
             $username = null;
         } else {
             // If the username isn't empty, we'll append the configured
-            // account suffix to bind to the LDAP server.
+            // account prefix and suffix to bind to the LDAP server.
+            if (is_null($prefix)) {
+                $prefix = $this->configuration->getAccountPrefix();
+            }
+
             if (is_null($suffix)) {
                 $suffix = $this->configuration->getAccountSuffix();
             }
 
-            $username .= $suffix;
+            $username = $prefix.$username.$suffix;
         }
 
         if (empty($password)) {
@@ -111,7 +115,7 @@ class Guard implements GuardInterface
             $suffix = $this->configuration->getAccountSuffix();
         }
 
-        $this->bind($username, $password, $suffix);
+        $this->bind($username, $password, '', $suffix);
     }
 
     /**

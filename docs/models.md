@@ -283,10 +283,12 @@ if ($user->hasAttribute('cn')) {
     // This user has a common name.
 }
 
-// Counting the models attributes
+// Counting the models attributes.
+
 $count = $user->countAttributes();
 
-// Retrieving the models modified attributes
+// Retrieving the models modified attributes.
+
 $attributes = $user->getDirty();
 ```
 

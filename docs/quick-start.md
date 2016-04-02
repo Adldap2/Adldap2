@@ -51,6 +51,3 @@ try {
 
 }
 ```
-
-However while useful for basic testing, the queryable data only includes user data, so if you're looking for testing with any other information
-or functionality such as modification, you'll have to use your own server.

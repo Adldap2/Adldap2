@@ -22,6 +22,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function neverExpiresDate()
+    {
+        return '9223372036854775807';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function accountName()
     {
         return 'samaccountname';

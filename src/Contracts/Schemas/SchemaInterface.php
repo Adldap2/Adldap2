@@ -16,6 +16,13 @@ interface SchemaInterface
     public function accountExpires();
 
     /**
+     * Returns a string value indicating that an account does not expire.
+     *
+     * @return string
+     */
+    public function neverExpiresDate();
+
+    /**
      * The logon name used to support clients and servers running earlier versions of the
      * operating system, such as Windows NT 4.0, Windows 95, Windows 98,
      * and LAN Manager. This attribute must be 20 characters or

@@ -13,6 +13,7 @@ $config = [
 // Create a new connection provider.
 $provider = new \Adldap\Connections\Provider($config);
 
+// Construct new Adldap instance.
 $ad = new \Adldap\Adldap();
 
 // Add the provider to Adldap.
@@ -20,6 +21,7 @@ $ad->addProvider('default', $provider);
 
 // Try connecting to the provider.
 try {
+    // Connect using the providers name.
     $ad->connect('default');
 
     // Create a new search.
@@ -30,14 +32,17 @@ try {
 
     // Or create a new query object.
     $query = $search->newQuery();
-
+  
+    // Perform a query.
     $results = $search->where('...')->get();
 
     // Create a new LDAP object.
     $user =  $provider->make()->user();
 
+    // Set a model's attribute.
     $user->cn = 'John Doe';
 
+    // Persist the changes to your AD server.
     if ($user->save()) {
         // User was saved!
     }

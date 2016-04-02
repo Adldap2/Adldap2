@@ -67,7 +67,7 @@ When you're creating a new AD record, you'll need to create a distinguished name
 creating a new user.
 
 ```php
-$user = $ad->users()->newInstance();
+$user = $provider->make()->user();
 
 $user->setCommonName('John Doe');
 $user->setFirstName('John');

@@ -1,10 +1,7 @@
-## Quick Start & and Testing an LDAP connection
-
-If you need to test something with access to an LDAP server, the generous folks at [Georgia Tech](http://drupal.gatech.edu/handbook/public-ldap-server) have you covered.
-
-Use the following configuration:
+## Quick Start
 
 ```php
+// Create a configuration array.
 $config = [
   'account_suffix'        => '@corp.acme.org',
   'domain_controllers'    => ['ACME-DC01.corp.acme.org'],

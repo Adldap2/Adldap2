@@ -16,7 +16,9 @@
  - [Authenticating](docs/authenticating.md)
  - [Searching (Query Builder)](docs/query-builder.md)
  - [Models](docs/models.md)
- - [API Documentation](http://adldap2.github.io/api/v6.0.0/)
+ - [Working with DN's](docs/distinguished-names.md)
+ - [Schema](docs/schema.md)
+ - [Upgrading](docs/upgrading.md)
 
 ## Description
 

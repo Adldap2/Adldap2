@@ -17,6 +17,7 @@ $config = [
     'admin_password'        => 'password',
     
     // Optional Configuration Options
+    'account_prefix'        => 'ACME-',
     'account_suffix'        => '@acme.org',
     'admin_account_suffix'  => '@acme.org',
     'port'                  => 389,
@@ -45,6 +46,7 @@ $config->setAdminUsername('admin');
 $config->setAdminPassword('password');
 
 // Optional Configuration Options
+$config->setAccountPrefix('ACME-');
 $config->setAccountSuffix('@acme.org');
 $config->setAdminAccountSuffix('@acme.org');
 $config->setPort(389);
@@ -57,6 +59,12 @@ $provider = new \Adldap\Connections\Provider($config);
 ```
 
 ## Definitions
+
+### Account Prefix (optional)
+
+The account prefix option is the prefix of your user accounts in AD. This is usually not needed (if utilizing the
+account suffix), however the functionality is in place if you would like to only allow certain users with
+the specified prefix to login, or add a domain so you're users do not have to specify one.
 
 ### Account Suffix (optional)
 

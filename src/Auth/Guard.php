@@ -86,9 +86,7 @@ class Guard implements GuardInterface
             $password = null;
         }
 
-        try {
-            $this->connection->bind($username, $password);
-        } catch (Exception $e) {
+        if (!@$this->connection->bind($username, $password)) {
             $error = $this->connection->getLastError();
 
             if ($this->connection->isUsingSSL() && $this->connection->isUsingTLS() === false) {

@@ -5,6 +5,7 @@ namespace Adldap\Tests\Connections;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Exceptions\Auth\BindException;
 use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
@@ -57,14 +58,14 @@ class ProviderTest extends UnitTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andThrow('Exception');
-        $connection->shouldReceive('getLastError')->once()->andReturn('');
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
+            ->shouldReceive('getLastError')->once()->andReturn('error')
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, new Configuration());
 
@@ -117,16 +118,18 @@ class ProviderTest extends UnitTestCase
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password']);
 
         // Re-binds as the administrator (fails)
-        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andThrow('Exception');
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false);
         $connection->shouldReceive('getLastError')->once()->andReturn('');
         $connection->shouldReceive('isBound')->once()->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 
-        $this->setExpectedException('Adldap\Exceptions\Auth\BindException');
+        $this->setExpectedException(BindException::class);
 
-        $m->auth()->attempt('username', 'password');
+        $m->connect();
+
+        $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
     public function test_auth_passes_without_rebind()

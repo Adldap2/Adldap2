@@ -5,6 +5,7 @@ namespace Adldap\Tests\Auth;
 use Adldap\Auth\Guard;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
+use Adldap\Exceptions\Auth\BindException;
 use Adldap\Tests\UnitTestCase;
 
 class GuardTest extends UnitTestCase
@@ -62,6 +63,29 @@ class GuardTest extends UnitTestCase
         $guard = new Guard($ldap, $config);
 
         $this->assertNull($guard->bind('username', 'password'));
+    }
+
+    public function test_bind_always_throws_exception_on_invalid_credentials()
+    {
+        $config = $this->mock(Configuration::class);
+
+        $config
+            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
+            ->shouldReceive('getAccountSuffix')->once()->andReturn('-suffix');
+
+        $ldap = $this->mock(Ldap::class);
+
+        $ldap
+            ->shouldReceive('bind')->once()->withArgs(['prefix-username-suffix', 'password'])->andReturn(false)
+            ->shouldReceive('getLastError')->once()->andReturn('error')
+            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('isUsingTLS')->once()->andReturn(false);
+
+        $guard = new Guard($ldap, $config);
+
+        $this->setExpectedException(BindException::class);
+
+        $guard->bind('username', 'password');
     }
 
     public function test_bind_as_administrator()

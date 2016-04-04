@@ -8,4 +8,4 @@ Adldap2 comes with an `Adldap\Schemas\ActiveDirectory` schema by default, which 
 
 You can either extend from the `ActiveDirectory` schema, or create your own and implement the `SchemaInterface`.
 
-Please browse the [Schema Interface](src/Contracts/Schemas/SchemaInterface.php) to view all of the schema methods.
+Please browse the [Schema Interface](/src/Contracts/Schemas/SchemaInterface.php) to view all of the schema methods.

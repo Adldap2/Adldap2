@@ -284,7 +284,7 @@ $results = $search
 
 Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
 
-> *Note*: You can also use all `where` methods as an or where, for example:
+> **Note**: You can also use all `where` methods as an or where, for example:
 `orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
 
 ## Raw Filters

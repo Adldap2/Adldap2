@@ -30,8 +30,9 @@ class ProviderTest extends UnitTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, new Configuration());
 
@@ -44,8 +45,9 @@ class ProviderTest extends UnitTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, new Configuration());
 
@@ -58,7 +60,8 @@ class ProviderTest extends UnitTestCase
     {
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true)
+        $connection
+            ->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOption')->twice()->andReturn(true)
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isBound')->once()->andReturn(true)
@@ -81,19 +84,20 @@ class ProviderTest extends UnitTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection
+            ->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('isBound')->once()->andReturn(true);
 
         // Authenticates as the user
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
 
         // Re-binds as the administrator
-        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(true);
-        $connection->shouldReceive('getLastError')->once()->andReturn('');
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection
+            ->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(true)
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 
@@ -109,19 +113,20 @@ class ProviderTest extends UnitTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
+        $connection
+            ->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('isBound')->once()->andReturn(true);
 
         // Authenticates as the user
         $connection->shouldReceive('bind')->once()->withArgs(['username', 'password']);
 
         // Re-binds as the administrator (fails)
-        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false);
-        $connection->shouldReceive('getLastError')->once()->andReturn('');
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false)
+            ->shouldReceive('getLastError')->once()->andReturn('')
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 
@@ -141,14 +146,14 @@ class ProviderTest extends UnitTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('isUsingSSL')->once()->andReturn(false);
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
-        $connection->shouldReceive('getLastError')->once()->andReturn('');
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true)
+            ->shouldReceive('getLastError')->once()->andReturn('')
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 

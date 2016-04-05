@@ -46,9 +46,20 @@ interface AdldapInterface
      *
      * @param string $name
      *
+     * @throws \Adldap\Exceptions\AdldapException
+     *
      * @return ProviderInterface
      */
     public function getProvider($name);
+
+    /**
+     * Retrieves the default provider from the connection Manager.
+     *
+     * @throws \Adldap\Exceptions\AdldapException
+     *
+     * @return ProviderInterface
+     */
+    public function getDefaultProvider();
 
     /**
      * Connects and binds to the configured LDAP server.

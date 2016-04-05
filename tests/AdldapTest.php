@@ -7,6 +7,7 @@ use Adldap\Connections\Manager;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Exceptions\AdldapException;
 use Adldap\Schemas\Schema;
 
 class AdldapTest extends UnitTestCase
@@ -73,26 +74,31 @@ class AdldapTest extends UnitTestCase
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }
 
-    public function test_live_connection()
+    public function test_default_provider()
     {
-        $config = [
-            'account_suffix'     => '@gatech.edu',
-            'domain_controllers' => ['whitepages.gatech.edu'],
-            'base_dn'            => 'dc=whitepages,dc=gatech,dc=edu',
-            'admin_username'     => '',
-            'admin_password'     => '',
-        ];
+        $config = $this->mock('Adldap\Connections\Configuration');
 
-        $config = new Configuration($config);
+        $connection = $this->mock('Adldap\Connections\Ldap');
 
-        $provider = new Provider($config, new Ldap(), Schema::get());
+        $connection->shouldReceive('isBound')->once()->andReturn(false);
 
         $ad = new Adldap();
 
-        $ad->getManager()->add('default', $provider);
+        $provider = new Provider($config, $connection, Schema::get());
 
-        $connection = $ad->connect('default');
+        $ad->getManager()
+            ->add('new', $provider)
+            ->setDefault('new');
 
-        $this->assertTrue($connection->getConnection()->isBound());
+        $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
+    }
+
+    public function test_invalid_default_provider()
+    {
+        $ad = new Adldap();
+
+        $this->setExpectedException(AdldapException::class);
+
+        $ad->getDefaultProvider();
     }
 }

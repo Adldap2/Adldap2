@@ -34,4 +34,17 @@ class ManagerTest extends UnitTestCase
 
         $manager->get('testing');
     }
+
+    public function test_all_providers()
+    {
+        $provider1 = $this->mock(Provider::class);
+        $provider2 = $this->mock(Provider::class);
+
+        $manager = new Manager();
+
+        $manager->add('provider1', $provider1);
+        $manager->add('provider2', $provider2);
+
+        $this->assertCount(2, $manager->all());
+    }
 }

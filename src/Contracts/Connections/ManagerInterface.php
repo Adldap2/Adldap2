@@ -26,6 +26,31 @@ interface ManagerInterface
     public function get($name);
 
     /**
+     * Sets the default provider.
+     *
+     * @param string $name
+     *
+     * @throws \Adldap\Exceptions\AdldapException
+     */
+    public function setDefault($name);
+
+    /**
+     * Retrieves the first provider in the Manager.
+     *
+     * @throws \Adldap\Exceptions\AdldapException
+     *
+     * @return ProviderInterface
+     */
+    public function getDefault();
+
+    /**
+     * Returns all of the Manager providers.
+     *
+     * @return array
+     */
+    public function all();
+
+    /**
      * Removes a provider from the Manager.
      *
      * @param string $name

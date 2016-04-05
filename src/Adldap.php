@@ -51,7 +51,7 @@ class Adldap implements AdldapInterface
      */
     public function addProvider($name, ProviderInterface $provider)
     {
-        return $this->getManager()->add($name, $provider);
+        return $this->manager->add($name, $provider);
     }
 
     /**
@@ -59,7 +59,15 @@ class Adldap implements AdldapInterface
      */
     public function getProvider($name)
     {
-        return $this->getManager()->get($name);
+        return $this->manager->get($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultProvider()
+    {
+        return $this->manager->getDefault();
     }
 
     /**

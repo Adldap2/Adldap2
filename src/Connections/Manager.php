@@ -9,6 +9,13 @@ use Adldap\Exceptions\AdldapException;
 class Manager implements ManagerInterface
 {
     /**
+     * The default provider name.
+     *
+     * @var string
+     */
+    protected $default = 'default';
+
+    /**
      * Stores the connection providers.
      *
      * @var array
@@ -35,6 +42,32 @@ class Manager implements ManagerInterface
         }
 
         throw new AdldapException("The provider '$name' does not exist.");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefault($name)
+    {
+        if ($this->get($name) instanceof ProviderInterface) {
+            $this->default = $name;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefault()
+    {
+        return $this->get($this->default);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function all()
+    {
+        return $this->providers;
     }
 
     /**

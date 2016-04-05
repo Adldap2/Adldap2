@@ -17,6 +17,7 @@
  - [Working with DN's](docs/distinguished-names.md)
  - [Schema](docs/schema.md)
  - [Upgrading](docs/upgrading.md)
+ - [Troubleshooting](docs/troubleshooting.md)
 
 ## Description
 

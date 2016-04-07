@@ -50,10 +50,12 @@ class DistinguishedNameTest extends UnitTestCase
     {
         $dn = new DistinguishedName();
 
-        $dn->addDc('org');
-        $dn->addDc('corp');
+        $dn
+            ->addDc('corp')
+            ->addDc('testing')
+            ->addDc('org');
 
-        $this->assertEquals('dc=corp,dc=org', $dn->get());
+        $this->assertEquals('dc=corp,dc=testing,dc=org', $dn->get());
     }
 
     public function test_remove_dc()
@@ -72,10 +74,11 @@ class DistinguishedNameTest extends UnitTestCase
     {
         $dn = new DistinguishedName();
 
-        $dn->addOu('User Accounts');
-        $dn->addOu('Accounting');
+        $dn
+            ->addOu('User Accounts')
+            ->addOu('Accounting');
 
-        $this->assertEquals('ou=Accounting,ou=User Accounts', $dn->get());
+        $this->assertEquals('ou=User Accounts,ou=Accounting', $dn->get());
     }
 
     public function test_remove_ou()

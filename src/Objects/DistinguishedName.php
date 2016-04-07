@@ -158,10 +158,6 @@ class DistinguishedName
             // Since exploding a DN returns false on failure,
             // we'll double check to make sure it's an array
             if (is_array($base)) {
-                // We need to reverse the base to keep the order in tact since RDNs
-                // are already reversed to follow the right to left pattern
-                $base = array_reverse($base);
-
                 foreach ($base as $key => $rdn) {
                     // We'll avoid going through the count key as it's
                     // automatically created when exploding a DN
@@ -249,8 +245,6 @@ class DistinguishedName
     protected function assembleRdns($attribute, array $values = [])
     {
         if (count($values) > 0) {
-            $values = array_reverse($values);
-
             $values = array_map(function ($value) use ($attribute) {
                 return sprintf('%s=%s', $attribute, Utilities::escape($value, '', 2));
             }, $values);

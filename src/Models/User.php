@@ -879,7 +879,7 @@ class User extends Entry
      */
     public function isDisabled()
     {
-        return ($this->getUserAccountControl() & AccountControl::ACCOUNTDISABLE) === AccountControl::ACCOUNTDISABLE;
+        return $this->getUserAccountControl() === AccountControl::ACCOUNTDISABLE;
     }
 
     /**
@@ -889,7 +889,7 @@ class User extends Entry
      */
     public function isEnabled()
     {
-        return !$this->isDisabled();
+        return ($this->getUserAccountControl() === null ? false : !$this->isDisabled());
     }
 
     /**

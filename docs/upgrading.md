@@ -126,6 +126,10 @@ This allows much more flexibility and offers many more handy methods than doctri
 SSO support was available but very un-tested in the root [Adldap2\Adldap2](https://github.com/Adldap2/Adldap2) repository.
 This is now dropped, but is now available in the [Adldap2\Adldap2-Laravel](https://github.com/Adldap2/Adldap2-Laravel) repository.
 
+###### Renamed Adldap Interface
+
+The interface `Adldap\Contracts\Adldap` has now been renamed to `Adldap\Contracts\AdldapInterface`.
+
 ## More
 
 If you encounter anything that isn't covered here, please create an issue or submit a pull-request.

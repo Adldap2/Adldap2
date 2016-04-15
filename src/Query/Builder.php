@@ -981,13 +981,13 @@ class Builder
      * Sorts the LDAP search results by the
      * specified field and direction.
      *
-     * @param string $field
-     * @param string $direction
-     * @param int    $flags
+     * @param string   $field
+     * @param string   $direction
+     * @param int|null $flags
      *
      * @return Builder
      */
-    public function sortBy($field, $direction = 'asc', $flags = SORT_NATURAL + SORT_FLAG_CASE)
+    public function sortBy($field, $direction = 'asc', $flags = null)
     {
         $this->sortByField = $field;
 
@@ -996,6 +996,10 @@ class Builder
 
         if ($direction === 'asc' || $direction === 'desc') {
             $this->sortByDirection = $direction;
+        }
+
+        if (is_null($flags)) {
+            $flags = SORT_NATURAL + SORT_FLAG_CASE;
         }
 
         $this->sortByFlags = $flags;

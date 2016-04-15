@@ -217,14 +217,14 @@ class Processor
 
         $field = $this->builder->getSortByField();
 
+        $flags = $this->builder->getSortByFlags();
+
         $direction = $this->builder->getSortByDirection();
 
-        if ($direction === 'desc') {
-            $sorted = $collection->sortByDesc($field);
-        } else {
-            $sorted = $collection->sortBy($field);
-        }
+        $desc = ($direction === 'desc' ? true : false);
 
-        return $sorted;
+        return $collection->sortBy(function (Entry $model) use ($field) {
+            return $model->getAttribute($field, 0);
+        }, $flags , $desc);
     }
 }

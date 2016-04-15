@@ -52,6 +52,13 @@ class Builder
     protected $sortByDirection = '';
 
     /**
+     * Stores the sort flags for sorting query results.
+     *
+     * @var int
+     */
+    protected $sortByFlags;
+
+    /**
      * The distinguished name to perform searches upon.
      *
      * @var string|null
@@ -976,10 +983,11 @@ class Builder
      *
      * @param string $field
      * @param string $direction
+     * @param int    $flags
      *
      * @return Builder
      */
-    public function sortBy($field, $direction = 'asc')
+    public function sortBy($field, $direction = 'asc', $flags = SORT_NATURAL + SORT_FLAG_CASE)
     {
         $this->sortByField = $field;
 
@@ -989,6 +997,8 @@ class Builder
         if ($direction === 'asc' || $direction === 'desc') {
             $this->sortByDirection = $direction;
         }
+
+        $this->sortByFlags = $flags;
 
         return $this;
     }
@@ -1058,6 +1068,16 @@ class Builder
     public function getSortByDirection()
     {
         return $this->sortByDirection;
+    }
+
+    /**
+     * Returns the query builders sort by flags.
+     *
+     * @return int
+     */
+    public function getSortByFlags()
+    {
+        return $this->sortByFlags;
     }
 
     /**

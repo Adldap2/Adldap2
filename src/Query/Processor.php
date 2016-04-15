@@ -225,6 +225,6 @@ class Processor
 
         return $collection->sortBy(function (Entry $model) use ($field) {
             return $model->getAttribute($field, 0);
-        }, $flags , $desc);
+        }, $flags, $desc);
     }
 }

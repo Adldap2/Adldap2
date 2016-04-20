@@ -68,6 +68,7 @@ class ProviderTest extends UnitTestCase
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('errNo')->once()->andReturn(1)
             ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, new Configuration());
@@ -126,6 +127,7 @@ class ProviderTest extends UnitTestCase
         $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('')
             ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('errNo')->once()->andReturn(1)
             ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);

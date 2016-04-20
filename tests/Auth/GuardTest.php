@@ -79,7 +79,8 @@ class GuardTest extends UnitTestCase
             ->shouldReceive('bind')->once()->withArgs(['prefix-username-suffix', 'password'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
-            ->shouldReceive('isUsingTLS')->once()->andReturn(false);
+            ->shouldReceive('isUsingTLS')->once()->andReturn(false)
+            ->shouldReceive('errNo')->once()->andReturn(1);
 
         $guard = new Guard($ldap, $config);
 

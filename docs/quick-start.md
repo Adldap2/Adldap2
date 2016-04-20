@@ -52,7 +52,7 @@ try {
 
 } catch (\Adldap\Exceptions\ConnectionException $e) {
 
-    // There was an issue connecting to the server.
+    // There was an issue with your domain controller connection sytnax.
 
 }
 ```

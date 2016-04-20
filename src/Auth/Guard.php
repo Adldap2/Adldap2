@@ -94,7 +94,7 @@ class Guard implements GuardInterface
                 $message = 'Bind to Active Directory failed. Check the login credentials and/or server details. AD said: '.$error;
             }
 
-            throw new BindException($message);
+            throw new BindException($message, $this->connection->errNo());
         }
     }
 

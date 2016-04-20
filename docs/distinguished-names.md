@@ -10,7 +10,7 @@ creating DN strings.
 To create a new DN, construct a new `\Adldap\Objects\DistinguishedName` instance:
 
 ```php
-$dn = new \Adldap\Objects\DinstinguishedName();
+$dn = new \Adldap\Objects\DistinguishedName();
 ```
     
 You can also pass in a current DN string and start modifying it:
@@ -18,7 +18,7 @@ You can also pass in a current DN string and start modifying it:
 ```php
 $currentDn = 'cn=John Doe,ou=Accounting,dc=corp,dc=acme,dc=org';
 
-$dn = new \Adldap\Objects\DinstinguishedName($currentDn);
+$dn = new \Adldap\Objects\DistinguishedName($currentDn);
 ```
     
 #### Adding / Removing a Domain Component

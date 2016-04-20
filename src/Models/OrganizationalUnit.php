@@ -2,7 +2,7 @@
 
 namespace Adldap\Models;
 
-class OrganizationalUnit extends AbstractModel
+class OrganizationalUnit extends Entry
 {
     /**
      * Retrieves the organization units OU attribute.

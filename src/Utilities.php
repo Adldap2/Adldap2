@@ -5,7 +5,10 @@ namespace Adldap;
 class Utilities
 {
     /**
-     * Converts a DN string into an array.
+     * Converts a DN string into an array of RDNs.
+     *
+     * This will also decode hex characters into their true
+     * UTF-8 representation embedded inside the DN as well.
      *
      * @param string $dn
      * @param bool   $removeAttributePrefixes
@@ -14,7 +17,15 @@ class Utilities
      */
     public static function explodeDn($dn, $removeAttributePrefixes = true)
     {
-        return ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
+        $dn = ldap_explode_dn($dn, ($removeAttributePrefixes ? 1 : 0));
+
+        if (is_array($dn) && array_key_exists('count', $dn)) {
+            foreach($dn as $rdn => $value) {
+                $dn[$rdn] = self::unescape($value);
+            }
+        }
+
+        return $dn;
     }
 
     /**

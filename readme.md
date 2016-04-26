@@ -32,6 +32,7 @@ To use Adldap2, your sever must support:
 
 - PHP 5.5.9 or greater
 - PHP LDAP Extension
+- An Active Directory Server (no OpenLDAP support at this time)
 
 ### Optional Requirements
 

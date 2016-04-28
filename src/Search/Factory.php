@@ -227,7 +227,7 @@ class Factory
      *
      * @return bool|string
      */
-    protected function getConfigurationNamingContext()
+    public function getConfigurationNamingContext()
     {
         $result = $this->getRootDse();
 

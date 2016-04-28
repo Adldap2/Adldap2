@@ -107,7 +107,7 @@ class Guard implements GuardInterface
     {
         $credentials = $this->configuration->getAdminCredentials();
 
-        list ($username, $password, $suffix) = array_pad($credentials, 3, null);
+        list($username, $password, $suffix) = array_pad($credentials, 3, null);
 
         if (empty($suffix)) {
             // Use the user account suffix if no administrator account suffix is given.

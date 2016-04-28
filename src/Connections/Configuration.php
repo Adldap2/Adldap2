@@ -366,6 +366,20 @@ class Configuration
     }
 
     /**
+     * Returns the administrators credentials.
+     *
+     * @return array
+     */
+    public function getAdminCredentials()
+    {
+        return [
+            $this->adminUsername,
+            $this->adminPassword,
+            $this->adminAccountSuffix
+        ];
+    }
+
+    /**
      * Fills each configuration option with the supplied array.
      *
      * @param array|Traversable $options

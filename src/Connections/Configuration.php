@@ -375,7 +375,7 @@ class Configuration
         return [
             $this->adminUsername,
             $this->adminPassword,
-            $this->adminAccountSuffix
+            $this->adminAccountSuffix,
         ];
     }
 

@@ -209,33 +209,32 @@ class Factory
     }
 
     /**
+     * Returns a query builder limited to the root DSE scope.
+     *
+     * @return Builder
+     */
+    public function rootDse()
+    {
+        return $this->query
+            ->setDn(null)
+            ->read(true)
+            ->whereHas($this->schema->objectClass());
+    }
+
+    /**
      * Returns the current configuration naming context of the current domain.
      *
      * @return bool|string
      */
     protected function getConfigurationNamingContext()
     {
-        $result = $this->getRootDse();
+        $result = $this->rootDse()->first();
 
         if ($result instanceof AbstractModel) {
             return $result->getAttribute($this->schema->configurationNamingContext(), 0);
         }
 
         return false;
-    }
-
-    /**
-     * Get the RootDSE properties from a domain controller.
-     *
-     * @return AbstractModel|bool
-     */
-    protected function getRootDse()
-    {
-        return $this->query
-            ->setDn(null)
-            ->read(true)
-            ->whereHas($this->schema->objectClass())
-            ->first();
     }
 
     /**

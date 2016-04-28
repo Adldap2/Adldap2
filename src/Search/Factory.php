@@ -213,12 +213,13 @@ class Factory
      *
      * @return Builder
      */
-    public function rootDse()
+    public function getRootDse()
     {
         return $this->query
             ->setDn(null)
             ->read(true)
-            ->whereHas($this->schema->objectClass());
+            ->whereHas($this->schema->objectClass())
+            ->first();
     }
 
     /**
@@ -228,7 +229,7 @@ class Factory
      */
     protected function getConfigurationNamingContext()
     {
-        $result = $this->rootDse()->first();
+        $result = $this->getRootDse();
 
         if ($result instanceof AbstractModel) {
             return $result->getAttribute($this->schema->configurationNamingContext(), 0);

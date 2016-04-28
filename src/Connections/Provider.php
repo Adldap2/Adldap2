@@ -163,11 +163,7 @@ class Provider implements ProviderInterface
      */
     public function getRootDse()
     {
-        return $this->search()
-            ->setDn(null)
-            ->read(true)
-            ->whereHas($this->schema->objectClass())
-            ->first();
+        return $this->search()->getRootDse();
     }
 
     /**

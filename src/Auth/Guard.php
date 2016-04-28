@@ -105,7 +105,7 @@ class Guard implements GuardInterface
      */
     public function bindAsAdministrator()
     {
-        list ($username, $password, $suffix) = $this->configuration->getAdminCredentials();
+        list($username, $password, $suffix) = $this->configuration->getAdminCredentials();
 
         if (empty($suffix)) {
             // Use the user account suffix if no administrator account suffix is given.

@@ -93,6 +93,8 @@ interface ProviderInterface
     /**
      * Returns the root DSE entry on the currently connected server.
      *
+     * @deprecated since v6.0.9
+     *
      * @return \Adldap\Models\Entry|bool
      */
     public function getRootDse();

@@ -539,10 +539,10 @@ class Builder
     /**
      * Adds a where clause to the current query.
      *
-     * @param string $field
-     * @param string $operator
-     * @param string $value
-     * @param string $type
+     * @param string|array $field
+     * @param string       $operator
+     * @param string       $value
+     * @param string       $type
      *
      * @return Builder
      */

@@ -40,8 +40,8 @@ class Group extends Entry
         return $members;
     }
 	
-	/**
-	 * Returns the group's member names only.
+    /**
+     * Returns the group's member names only.
      *
      * @return array
      */

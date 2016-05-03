@@ -39,7 +39,7 @@ class Group extends Entry
 
         return $members;
     }
-	
+
     /**
      * Returns the group's member names only.
      *
@@ -48,19 +48,19 @@ class Group extends Entry
     public function getMemberNames()
     {
         $members = [];
-        
+
         $dns = $this->getAttribute($this->schema->member());
-        
+
         if (is_array($dns)) {
             foreach ($dns as $dn) {
                 $exploded = Utilities::explodeDn($dn);
-                
+
                 if (array_key_exists(0, $exploded)) {
                     $members[] = $exploded[0];
                 }
             }
         }
-        
+
         return $members;
     }
 

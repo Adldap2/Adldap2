@@ -84,7 +84,7 @@ class Guard implements GuardInterface
             // Allow binding with null password.
             $password = null;
         }
-        
+
         // We'll mute any exceptions / warnings here. All we need to know
         // is if binding failed and we'll throw our own exception.
         if (!@$this->connection->bind($username, $password)) {

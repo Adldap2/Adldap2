@@ -132,6 +132,8 @@ interface ProviderInterface
     /**
      * Returns a new Auth Guard instance.
      *
+     * @throws \Adldap\Exceptions\ConnectionException
+     *
      * @return \Adldap\Auth\Guard
      */
     public function auth();

@@ -225,6 +225,12 @@ class Provider implements ProviderInterface
      */
     public function auth()
     {
+        // Make sure the connection we've been given
+        // is bound before we try to binding to it.
+        if (!$this->connection->isBound()) {
+            throw new ConnectionException('No connection to an LDAP server is present.');
+        }
+
         return $this->getGuard();
     }
 

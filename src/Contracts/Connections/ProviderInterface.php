@@ -58,9 +58,9 @@ interface ProviderInterface
     /**
      * Sets the current connection.
      *
-     * @param ConnectionInterface|null $connection
+     * @param ConnectionInterface $connection
      */
-    public function setConnection($connection = null);
+    public function setConnection(ConnectionInterface $connection = null);
 
     /**
      * Sets the current configuration.
@@ -74,7 +74,7 @@ interface ProviderInterface
      *
      * @param SchemaInterface|null $schema
      */
-    public function setSchema($schema = null);
+    public function setSchema(SchemaInterface $schema = null);
 
     /**
      * Returns the current LDAP attribute schema.
@@ -122,7 +122,6 @@ interface ProviderInterface
      * @param string|null $username
      * @param string|null $password
      *
-     * @throws \Adldap\Exceptions\ConnectionException
      * @throws \Adldap\Exceptions\Auth\BindException
      *
      * @return void

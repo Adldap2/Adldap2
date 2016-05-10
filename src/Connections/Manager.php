@@ -47,7 +47,7 @@ class Manager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function setDefault($name)
+    public function setDefault($name = 'default')
     {
         if ($this->get($name) instanceof ProviderInterface) {
             $this->default = $name;

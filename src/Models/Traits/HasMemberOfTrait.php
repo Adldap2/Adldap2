@@ -146,8 +146,7 @@ trait HasMemberOfTrait
     }
 
     /**
-     * Returns true / false if the current model
-     * is in the specified group.
+     * Determine if the current model is a member of the specified group.
      *
      * @param string|Group $group
      * @param bool         $recursive
@@ -158,16 +157,22 @@ trait HasMemberOfTrait
     {
         $groups = $this->getGroups([], $recursive);
 
-        if ($group instanceof Group && $groups->contains($group)) {
-            return true;
-        } elseif (is_string($group)) {
-            foreach ($groups as $model) {
-                if ($model instanceof AbstractModel && $group == $model->getName()) {
-                    return true;
-                }
+        $groups = $groups->filter(function ($parent) use ($group) {
+            if ($group instanceof Group) {
+                return $parent->getDn() == $group->getDn();
             }
-        }
 
-        return false;
+            if (Utilities::explodeDn($group)) {
+                return $parent->getDn() == $group;
+            }
+
+            if (!empty($group)) {
+                return $parent->getCommonName() == $group;
+            }
+
+            return false;
+        });
+
+        return $groups->count() > 0;
     }
 }

@@ -48,11 +48,7 @@ try {
     }
 } catch (\Adldap\Exceptions\Auth\BindException $e) {
 
-    // There was an issue binding to the server.
-
-} catch (\Adldap\Exceptions\ConnectionException $e) {
-
-    // There was an issue with your domain controller connection sytnax.
+    // There was an issue binding / connecting to the server.
 
 }
 ```

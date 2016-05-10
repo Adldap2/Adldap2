@@ -80,14 +80,8 @@ class Factory
      */
     public function newQuery($baseDn = '')
     {
-        // Create a new Builder.
-        $builder = new Builder($this->connection, $this->newGrammar(), $this->schema);
-
-        // Set the Base DN on the Builder.
-        $builder->setDn($baseDn);
-
-        // Return the new Builder instance.
-        return $builder;
+        return (new Builder($this->connection, $this->newGrammar(), $this->schema))
+            ->setDn($baseDn);
     }
 
     /**
@@ -231,11 +225,9 @@ class Factory
     {
         $result = $this->getRootDse();
 
-        if ($result instanceof AbstractModel) {
-            return $result->getAttribute($this->schema->configurationNamingContext(), 0);
-        }
+        $attribute = $this->schema->configurationNamingContext();
 
-        return false;
+        return ($result instanceof AbstractModel ? $result->getAttribute($attribute, 0) : false);
     }
 
     /**

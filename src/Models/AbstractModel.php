@@ -376,7 +376,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function hasAttribute($key, $subKey = null)
     {
-        if (is_null($subKey)) return Arr::has($this->attributes, $key);
+        if (is_null($subKey)) {
+            return Arr::has($this->attributes, $key);
+        }
 
         return Arr::has($this->attributes, "$key.$subKey");
     }
@@ -581,7 +583,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function save()
     {
-        return ($this->exists ? $this->update() : $this->create());
+        return $this->exists ? $this->update() : $this->create();
     }
 
     /**
@@ -619,7 +621,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function create()
     {
-        if (! $this->hasAttribute($this->schema->distinguishedName())) {
+        if (!$this->hasAttribute($this->schema->distinguishedName())) {
             // If the model doesn't currently have a DN,
             // we'll create a new one automatically.
             $dn = $this->getDnBuilder();

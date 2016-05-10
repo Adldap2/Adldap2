@@ -21,7 +21,7 @@ class Filter extends AbstractBinding
     public function __construct($query)
     {
         if (!is_string($query)) {
-            throw new InvalidArgumentException("Query filter must be a string. $query given.");
+            throw new InvalidArgumentException('Query filter must be a string.');
         }
 
         $this->query = $query;

@@ -5,56 +5,32 @@ namespace Adldap\Models\Traits;
 trait ModelTrait
 {
     /**
-     * Returns the current query builder instance.
-     *
-     * @var \Adldap\Query\Builder
+     * {@inheritdoc}
      */
     abstract public function getQuery();
 
     /**
-     * Returns the current models schema.
-     *
-     * @var \Adldap\Contracts\Schemas\SchemaInterface
+     * {@inheritdoc}
      */
     abstract public function getSchema();
 
     /**
-     * Returns the model's distinguished name string.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     abstract public function getDn();
 
     /**
-     * Retrieves the specified key from the attribute array.
-     *
-     * If a sub-key is specified, it will try and
-     * retrieve it from the parent keys array.
-     *
-     * @param int|string $key
-     * @param int|string $subKey
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     abstract public function getAttribute($key, $subKey = null);
 
     /**
-     * Sets attributes on the current entry.
-     *
-     * @param int|string $key
-     * @param mixed      $value
-     * @param int|string $subKey
-     *
-     * @return $this
+     * {@inheritdoc}
      */
     abstract public function setAttribute($key, $value, $subKey = null);
 
     /**
-     * Converts the inserted string boolean to a PHP boolean.
-     *
-     * @param string $bool
-     *
-     * @return null|bool
+     * {@inheritdoc}
      */
     abstract public function convertStringToBool($bool);
 }

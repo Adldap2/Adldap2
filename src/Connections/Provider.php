@@ -94,18 +94,9 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setConnection($connection = null)
+    public function setConnection(ConnectionInterface $connection = null)
     {
-        if (is_null($connection)) {
-            // Create a default LDAP connection if one isn't given.
-            $connection = new Ldap();
-        } elseif (!$connection instanceof ConnectionInterface) {
-            $class = Configuration::class;
-
-            throw new InvalidArgumentException("Connection must be an instance of $class");
-        }
-
-        $this->connection = $connection;
+        $this->connection = $connection ?: new Ldap();
     }
 
     /**
@@ -128,18 +119,9 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setSchema($schema = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        if (is_null($schema)) {
-            // Retrieve the default schema if one isn't given.
-            $schema = Schema::getDefault();
-        } elseif (!$schema instanceof SchemaInterface) {
-            $class = SchemaInterface::class;
-
-            throw new InvalidArgumentException("Schema must be an instance of $class");
-        }
-
-        $this->schema = $schema;
+        $this->schema = $schema ?: Schema::getDefault();
     }
 
     /**
@@ -190,33 +172,19 @@ class Provider implements ProviderInterface
         // Prepare the connection.
         $this->prepareConnection();
 
-        // Retrieve the domain controllers.
-        $controllers = $this->configuration->getDomainControllers();
+        // Instantiate the LDAP connection.
+        $this->connection->connect($this->configuration->getDomainControllers(), $this->configuration->getPort());
 
-        // Retrieve the port we'll be connecting to.
-        $port = $this->configuration->getPort();
+        // Get the default guard instance.
+        $guard = $this->getGuard();
 
-        // Connect to the LDAP server.
-        if ($this->connection->connect($controllers, $port)) {
-            $followReferrals = $this->configuration->getFollowReferrals();
-
-            // Set the LDAP options.
-            $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
-            $this->connection->setOption(LDAP_OPT_REFERRALS, $followReferrals);
-
-            // Get the default guard instance.
-            $guard = $this->getGuard();
-
-            if (is_null($username) && is_null($password)) {
-                // If both the username and password are null, we'll connect to the server
-                // using the configured administrator username and password.
-                $guard->bindAsAdministrator();
-            } else {
-                // Bind to the server with the specified username and password otherwise.
-                $guard->bind($username, $password);
-            }
+        if (is_null($username) && is_null($password)) {
+            // If both the username and password are null, we'll connect to the server
+            // using the configured administrator username and password.
+            $guard->bindAsAdministrator();
         } else {
-            throw new ConnectionException('Unable to connect to LDAP server.');
+            // Bind to the server with the specified username and password otherwise.
+            $guard->bind($username, $password);
         }
     }
 
@@ -248,5 +216,8 @@ class Provider implements ProviderInterface
         } elseif ($this->configuration->getUseTLS()) {
             $this->connection->useTLS();
         }
+
+        $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
+        $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->getFollowReferrals());
     }
 }

@@ -50,23 +50,23 @@ class Processor
 
         if ($this->builder->isRaw() === true) {
             return $entries;
-        } else {
-            $models = [];
-
-            if (is_array($entries) && array_key_exists('count', $entries)) {
-                for ($i = 0; $i < $entries['count']; $i++) {
-                    $models[] = $this->newLdapEntry($entries[$i]);
-                }
-            }
-
-            // If the current query isn't paginated,
-            // we'll sort the models array here.
-            if (!$this->builder->isPaginated()) {
-                $models = $this->processSort($models);
-            }
-
-            return $models;
         }
+
+        $models = [];
+
+        if (is_array($entries) && array_key_exists('count', $entries)) {
+            for ($i = 0; $i < $entries['count']; $i++) {
+                $models[] = $this->newLdapEntry($entries[$i]);
+            }
+        }
+
+        // If the current query isn't paginated,
+        // we'll sort the models array here.
+        if (!$this->builder->isPaginated()) {
+            $models = $this->processSort($models);
+        }
+
+        return $models;
     }
 
     /**
@@ -152,11 +152,9 @@ class Processor
      */
     public function newModel($attributes = [], $model = null)
     {
-        if (!is_null($model) && class_exists($model)) {
-            return new $model($attributes, $this->builder);
-        }
+        $model = (class_exists($model) ? $model : Entry::class);
 
-        return new Entry($attributes, $this->builder);
+        return new $model($attributes, $this->builder);
     }
 
     /**
@@ -177,13 +175,13 @@ class Processor
     /**
      * Returns a new doctrine array collection instance.
      *
-     * @param array $elements
+     * @param array $items
      *
      * @return Collection
      */
-    public function newCollection(array $elements = [])
+    public function newCollection(array $items = [])
     {
-        return new Collection($elements);
+        return new Collection($items);
     }
 
     /**

@@ -678,7 +678,7 @@ class User extends Entry
     {
         $thumb = $this->getThumbnail();
 
-        return (is_null($thumb) ? $thumb : 'data:image/jpeg;base64,'.base64_encode($thumb));
+        return is_null($thumb) ? $thumb : 'data:image/jpeg;base64,'.base64_encode($thumb);
     }
 
     /**

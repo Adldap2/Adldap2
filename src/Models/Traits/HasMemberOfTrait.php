@@ -155,9 +155,7 @@ trait HasMemberOfTrait
      */
     public function inGroup($group, $recursive = false)
     {
-        $groups = $this->getGroups([], $recursive);
-
-        $groups = $groups->filter(function ($parent) use ($group) {
+        return $this->getGroups([], $recursive)->filter(function ($parent) use ($group) {
             if ($group instanceof Group) {
                 return $parent->getDn() == $group->getDn();
             }
@@ -171,8 +169,6 @@ trait HasMemberOfTrait
             }
 
             return false;
-        });
-
-        return $groups->count() > 0;
+        })->count() > 0;
     }
 }

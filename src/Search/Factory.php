@@ -227,7 +227,7 @@ class Factory
 
         $attribute = $this->schema->configurationNamingContext();
 
-        return ($result instanceof AbstractModel ? $result->getAttribute($attribute, 0) : false);
+        return $result instanceof AbstractModel ? $result->getAttribute($attribute, 0) : false;
     }
 
     /**

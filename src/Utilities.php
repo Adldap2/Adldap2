@@ -13,7 +13,7 @@ class Utilities
      * @param string $dn
      * @param bool   $removeAttributePrefixes
      *
-     * @return array
+     * @return array|false
      */
     public static function explodeDn($dn, $removeAttributePrefixes = true)
     {

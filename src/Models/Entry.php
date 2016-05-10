@@ -175,7 +175,7 @@ class Entry extends AbstractModel
     /**
      * Returns the model's object category DN in an exploded array.
      *
-     * @return array
+     * @return array|false
      */
     public function getObjectCategoryArray()
     {

@@ -678,9 +678,7 @@ class User extends Entry
     {
         $thumb = $this->getThumbnail();
 
-        if (!is_null($thumb)) {
-            return 'data:image/jpeg;base64,'.base64_encode($thumb);
-        }
+        return (is_null($thumb) ? $thumb : 'data:image/jpeg;base64,'.base64_encode($thumb));
     }
 
     /**
@@ -864,8 +862,6 @@ class User extends Entry
                 }
 
                 throw new AdldapException($message);
-            } else {
-                return false;
             }
         }
 
@@ -895,7 +891,7 @@ class User extends Entry
     /**
      * Return the expiration date of the user account.
      *
-     * @return DateTime Expiration date or null if no expiration date
+     * @return DateTime|null
      */
     public function expirationDate()
     {
@@ -907,7 +903,7 @@ class User extends Entry
 
         $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
 
-        return new \DateTime(date('Y-m-d H:i:s', $unixTime));
+        return new \DateTime(date($this->dateFormat, $unixTime));
     }
 
     /**
@@ -919,9 +915,7 @@ class User extends Entry
      */
     public function isExpired(DateTime $date = null)
     {
-        if (!$date) {
-            $date = new DateTime();
-        }
+        $date = ($date ?: new DateTime());
 
         $expirationDate = $this->expirationDate();
 

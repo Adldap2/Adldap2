@@ -139,14 +139,18 @@ trait HasMemberOfTrait
     {
         return $this->getGroups([], $recursive)->filter(function ($parent) use ($group) {
             if ($group instanceof Group) {
+                // We've been given a group instance, we'll compare their DNs.
                 return $parent->getDn() == $group->getDn();
             }
 
             if (Utilities::explodeDn($group)) {
+                // We've been given a DN, we'll compare it to the parents.
                 return $parent->getDn() == $group;
             }
 
             if (!empty($group)) {
+                // We'eve been given just a string, we'll
+                // compare it to the parents name.
                 return $parent->getCommonName() == $group;
             }
 

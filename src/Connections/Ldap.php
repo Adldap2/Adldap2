@@ -74,7 +74,7 @@ class Ldap implements ConnectionInterface
      */
     public function canChangePasswords()
     {
-        return ($this->isUsingSSL() || $this->isUsingTLS());
+        return $this->isUsingSSL() || $this->isUsingTLS();
     }
 
     /**
@@ -193,7 +193,7 @@ class Ldap implements ConnectionInterface
         $protocol = ($this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL);
 
         $hostname = (is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname);
-        
+
         return $this->connection = ldap_connect($hostname, $port);
     }
 

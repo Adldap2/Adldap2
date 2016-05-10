@@ -104,21 +104,15 @@ trait HasMemberOfTrait
     {
         $dns = $this->getAttribute($this->getSchema()->memberOf());
 
+        $dns = (is_array($dns) ? $dns : []);
+
         $query = $this->getQuery()->newInstance();
 
-        $groups = $query->newCollection();
-
-        if (is_array($dns)) {
-            foreach ($dns as $key => $dn) {
-                $group = $query->select($fields)->findByDn($dn);
-
-                if ($group instanceof AbstractModel) {
-                    $groups->push($group);
-                }
-            }
-        }
-
-        return $groups;
+        return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
+            return $query->select($fields)->findByDn($dn);
+        })->filter(function ($group) {
+            return $group instanceof AbstractModel;
+        });
     }
 
     /**
@@ -128,21 +122,9 @@ trait HasMemberOfTrait
      */
     public function getMemberOfNames()
     {
-        $names = [];
-
-        $dns = $this->getAttribute($this->getSchema()->memberOf());
-
-        if (is_array($dns)) {
-            foreach ($dns as $dn) {
-                $exploded = Utilities::explodeDn($dn);
-
-                if (array_key_exists(0, $exploded)) {
-                    $names[] = $exploded[0];
-                }
-            }
-        }
-
-        return $names;
+        return $this->getMemberOf()->map(function ($group) {
+            return $group->getCommonName();
+        })->toArray();
     }
 
     /**

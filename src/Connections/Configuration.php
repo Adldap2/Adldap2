@@ -247,9 +247,7 @@ class Configuration
     public function setDomainControllers(array $hosts)
     {
         if (count($hosts) === 0) {
-            $message = 'You must specify at least one domain controller.';
-
-            throw new ConfigurationException($message);
+            throw new ConfigurationException('You must specify at least one domain controller.');
         }
 
         $this->domainControllers = $hosts;
@@ -420,8 +418,6 @@ class Configuration
      */
     protected function normalizeKey($key)
     {
-        $key = str_replace('_', '', strtolower($key));
-
-        return $key;
+        return str_replace('_', '', strtolower($key));
     }
 }

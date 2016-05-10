@@ -9,6 +9,7 @@ use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
 use ArrayAccess;
+use Illuminate\Support\Arr;
 use JsonSerializable;
 
 abstract class AbstractModel implements ArrayAccess, JsonSerializable
@@ -267,10 +268,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getAttribute($key, $subKey = null)
     {
-        if (is_null($subKey)) {
-            if ($this->hasAttribute($key)) {
-                return $this->attributes[$key];
-            }
+        if (is_null($subKey) && $this->hasAttribute($key)) {
+            return $this->attributes[$key];
         } else {
             if ($this->hasAttribute($key, $subKey)) {
                 return $this->attributes[$key][$subKey];
@@ -377,21 +376,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function hasAttribute($key, $subKey = null)
     {
-        if (array_key_exists($key, $this->attributes)) {
-            // If a sub key is given, we'll check if it
-            // exists in the nested attribute array.
-            if (!is_null($subKey)) {
-                if (is_array($this->attributes[$key]) && array_key_exists($subKey, $this->attributes[$key])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        if (is_null($subKey)) return Arr::has($this->attributes, $key);
 
-            return true;
-        }
-
-        return false;
+        return Arr::has($this->attributes, "$key.$subKey");
     }
 
     /**
@@ -594,11 +581,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function save()
     {
-        if ($this->exists) {
-            return $this->update();
-        } else {
-            return $this->create();
-        }
+        return ($this->exists ? $this->update() : $this->create());
     }
 
     /**
@@ -610,12 +593,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         $modifications = $this->getModifications();
 
-        $dn = $this->getDn();
-
         if (count($modifications) > 0) {
-            $updated = $this->query->getConnection()->modifyBatch($dn, $modifications);
-
-            if ($updated) {
+            // Push the update.
+            if ($this->query->getConnection()->modifyBatch($this->getDn(), $modifications)) {
+                // Re-sync attributes.
                 $this->syncRaw();
 
                 return true;
@@ -638,7 +619,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function create()
     {
-        if (!$this->hasAttribute($this->schema->distinguishedName())) {
+        if (! $this->hasAttribute($this->schema->distinguishedName())) {
             // If the model doesn't currently have a DN,
             // we'll create a new one automatically.
             $dn = $this->getDnBuilder();
@@ -709,9 +690,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if ($this->exists) {
             $modify = [$attribute => $value];
 
-            $updated = $this->query->getConnection()->modReplace($this->getDn(), $modify);
-
-            if ($updated) {
+            if ($this->query->getConnection()->modReplace($this->getDn(), $modify)) {
                 // If the models attribute was successfully updated,
                 // we'll re-sync the models attributes.
                 $this->syncRaw();
@@ -737,9 +716,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             // for the attribute so AD knows to remove it.
             $remove = [$attribute => []];
 
-            $deleted = $this->query->getConnection()->modDelete($this->getDn(), $remove);
-
-            if ($deleted) {
+            if ($this->query->getConnection()->modDelete($this->getDn(), $remove)) {
                 // If the models attribute was successfully deleted, we'll
                 // resynchronize the models raw attributes.
                 $this->syncRaw();
@@ -765,10 +742,10 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
 
         if ($this->exists === false) {
             // Make sure the record exists before we can delete it
-            $message = 'Model does not exist in active directory.';
+            throw new ModelNotFoundException('Model does not exist in active directory.');
+        }
 
-            throw new ModelNotFoundException($message);
-        } elseif (is_null($dn) || empty($dn)) {
+        if (empty($dn)) {
             // If the record exists but the DN attribute does
             // not exist, we can't process a delete.
             $message = 'Unable to delete. The current model does not have a distinguished name present.';
@@ -776,9 +753,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             throw new AdldapException($message);
         }
 
-        $deleted = $this->query->getConnection()->delete($dn);
-
-        if ($deleted) {
+        if ($this->query->getConnection()->delete($dn)) {
             // We'll set the exists property to false on delete
             // so the dev can run create operations.
             $this->exists = false;

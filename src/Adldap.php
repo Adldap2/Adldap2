@@ -21,11 +21,7 @@ class Adldap implements AdldapInterface
      */
     public function __construct(ManagerInterface $manager = null)
     {
-        if (is_null($manager)) {
-            $this->setManager(new Manager());
-        } else {
-            $this->setManager($manager);
-        }
+        $this->setManager(($manager ?: new Manager()));
     }
 
     /**
@@ -75,9 +71,7 @@ class Adldap implements AdldapInterface
      */
     public function connect($connection, $username = null, $password = null)
     {
-        $manager = $this->getManager();
-
-        $provider = $manager->get($connection);
+        $provider = $this->getManager()->get($connection);
 
         $provider->connect($username, $password);
 

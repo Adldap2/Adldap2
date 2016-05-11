@@ -146,6 +146,15 @@ interface SchemaInterface
     public function createdAt();
 
     /**
+     * The entry's current time attribute.
+     *
+     * This attribute is only available with the Root DSE record.
+     *
+     * @return string
+     */
+    public function currentTime();
+
+    /**
      * This is the default NC for a particular server.
      *
      * By default, the DN for the domain of which this directory server is a member.
@@ -944,6 +953,13 @@ interface SchemaInterface
      * @return string
      */
     public function proxyAddresses();
+
+    /**
+     * The attribute
+     *
+     * @return mixed
+     */
+    public function schemaNamingContext();
 
     /**
      * This attribute specifies the path for the user's logon script. The string can be null.

@@ -134,6 +134,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function currentTime()
+    {
+        return 'currenttime';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function defaultNamingContext()
     {
         return 'defaultnamingcontext';
@@ -849,6 +857,14 @@ class ActiveDirectory implements SchemaInterface
     public function proxyAddresses()
     {
         return 'proxyaddresses';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function schemaNamingContext()
+    {
+        return 'schemanamingcontext';
     }
 
     /**

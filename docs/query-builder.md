@@ -55,11 +55,9 @@ If you'd like to try and find a single record and throw an exception when it has
 found, use the `findOrFail()` method:
 
 ```php
-try
-{
+try {
     $record = $search->findOrFail('John Doe');
-} catch (Adldap\Exceptions\ModelNotFoundException $e)
-{
+} catch (Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -79,11 +77,9 @@ If you'd like to try and find a single record by a specific attribute and throw
 an exception when it hasn't been found, use the `findByOrFail()` method:
 
 ```php
-try
-{
+try {
     $record = $search->findByOrFail('samaccountname', 'jdoe');
-} catch (Adldap\Exceptions\ModelNotFoundException $e)
-{
+} catch (Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -102,11 +98,9 @@ If you'd like to try and find a single record by a specific DN and throw
 an exception when it hasn't been found, use the `findByDnOrFail()` method:
 
 ```php
-try
-{
+try {
     $record = $search->findByDnOrFail('cn=John Doe,dc=corp,dc=org');
-} catch (Adldap\Exceptions\ModelNotFoundException $e)
-{
+} catch (Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```

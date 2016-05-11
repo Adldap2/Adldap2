@@ -5,6 +5,7 @@ namespace Adldap\Models;
 use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\BatchModification;
+use Adldap\Utilities;
 
 class Group extends Entry
 {

@@ -6,6 +6,7 @@ use Adldap\Connections\Configuration;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\AbstractModel;
+use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 
@@ -203,17 +204,24 @@ class Factory
     }
 
     /**
-     * Returns a query builder limited to the root DSE scope.
+     * Returns the root DSE record.
      *
-     * @return Builder
+     * @return RootDse|null
      */
     public function getRootDse()
     {
-        return $this->query
+        $root = $this->query
             ->setDn(null)
             ->read(true)
             ->whereHas($this->schema->objectClass())
             ->first();
+        
+        if ($root instanceof AbstractModel) {
+            return (new RootDse([], $this->query))
+                ->setRawAttributes($root->getAttributes());
+        }
+
+        return;
     }
 
     /**
@@ -223,11 +231,9 @@ class Factory
      */
     public function getConfigurationNamingContext()
     {
-        $result = $this->getRootDse();
+        $root = $this->getRootDse();
 
-        $attribute = $this->schema->configurationNamingContext();
-
-        return $result instanceof AbstractModel ? $result->getAttribute($attribute, 0) : false;
+        return ($root ? $root->getConfigurationNamingContext() : false);
     }
 
     /**

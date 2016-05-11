@@ -55,7 +55,7 @@ class RootDse extends AbstractModel
     {
         return $this->getAttribute($this->schema->schemaNamingContext(), 0);
     }
-    
+
     /**
      * Returns the hosts DNS name.
      *

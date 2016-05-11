@@ -215,13 +215,11 @@ class Factory
             ->read(true)
             ->whereHas($this->schema->objectClass())
             ->first();
-        
+
         if ($root instanceof AbstractModel) {
             return (new RootDse([], $this->query))
                 ->setRawAttributes($root->getAttributes());
         }
-
-        return;
     }
 
     /**
@@ -233,7 +231,7 @@ class Factory
     {
         $root = $this->getRootDse();
 
-        return ($root ? $root->getConfigurationNamingContext() : false);
+        return $root ? $root->getConfigurationNamingContext() : false;
     }
 
     /**

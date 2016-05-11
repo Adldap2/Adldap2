@@ -955,7 +955,7 @@ interface SchemaInterface
     public function proxyAddresses();
 
     /**
-     * The attribute
+     * The attribute.
      *
      * @return mixed
      */

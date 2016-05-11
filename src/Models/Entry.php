@@ -97,9 +97,7 @@ class Entry extends AbstractModel
      */
     public function getCreatedAtDate()
     {
-        $timestamp = $this->getCreatedAtTimestamp();
-
-        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+        return (new DateTime())->setTimestamp($this->getCreatedAtTimestamp())->format($this->dateFormat);
     }
 
     /**
@@ -131,9 +129,7 @@ class Entry extends AbstractModel
      */
     public function getUpdatedAtDate()
     {
-        $timestamp = $this->getUpdatedAtTimestamp();
-
-        return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+        return (new DateTime())->setTimestamp($this->getUpdatedAtTimestamp())->format($this->dateFormat);
     }
 
     /**
@@ -143,7 +139,7 @@ class Entry extends AbstractModel
      */
     public function getUpdatedAtTimestamp()
     {
-        return DateTime::createFromFormat('YmdHis.0Z', $this->getUpdatedAt())->getTimestamp();
+        return DateTime::createFromFormat($this->timestampFormat, $this->getUpdatedAt())->getTimestamp();
     }
 
     /**

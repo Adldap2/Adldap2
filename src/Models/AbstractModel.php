@@ -66,6 +66,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     protected $modifications = [];
 
     /**
+     * The format that is used to convert AD timestamps to unix timestamps.
+     *
+     * @var string
+     */
+    protected $timestampFormat = 'YmdHis.0Z';
+
+    /**
      * Constructor.
      *
      * @param array   $attributes

@@ -190,11 +190,7 @@ class Ldap implements ConnectionInterface
      */
     public function connect($hostname = [], $port = '389')
     {
-        $protocol = ($this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL);
-
-        $hostname = (is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname);
-
-        return $this->connection = ldap_connect($hostname, $port);
+        return $this->connection = ldap_connect($this->getHostname($hostname, $this->getProtocol()), $port);
     }
 
     /**
@@ -204,11 +200,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->getConnection();
 
-        if (is_resource($connection)) {
-            ldap_close($connection);
-        }
-
-        return true;
+        return (is_resource($connection) ? ldap_close($connection) : false);
     }
 
     /**
@@ -400,10 +392,29 @@ class Ldap implements ConnectionInterface
     {
         preg_match('/^([\da-fA-F]+):/', $message, $matches);
 
-        if (!isset($matches[1])) {
-            return false;
-        }
+        return (isset($matches[1]) ? $matches[1] : false);
+    }
 
-        return $matches[1];
+    /**
+     * Returns the LDAP protocol to utilize for the current connection.
+     *
+     * @return string
+     */
+    protected function getProtocol()
+    {
+        return ($this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL);
+    }
+
+    /**
+     * Returns a compiled hostname compatible with ldap_connect().
+     *
+     * @param array  $hostname
+     * @param string $protocol
+     *
+     * @return string
+     */
+    protected function getHostname($hostname = [], $protocol = '')
+    {
+        return (is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname);
     }
 }

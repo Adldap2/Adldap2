@@ -200,7 +200,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->getConnection();
 
-        return (is_resource($connection) ? ldap_close($connection) : false);
+        return is_resource($connection) ? ldap_close($connection) : false;
     }
 
     /**
@@ -392,7 +392,7 @@ class Ldap implements ConnectionInterface
     {
         preg_match('/^([\da-fA-F]+):/', $message, $matches);
 
-        return (isset($matches[1]) ? $matches[1] : false);
+        return isset($matches[1]) ? $matches[1] : false;
     }
 
     /**
@@ -402,7 +402,7 @@ class Ldap implements ConnectionInterface
      */
     protected function getProtocol()
     {
-        return ($this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL);
+        return $this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL;
     }
 
     /**
@@ -415,6 +415,6 @@ class Ldap implements ConnectionInterface
      */
     protected function getHostname($hostname = [], $protocol = '')
     {
-        return (is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname);
+        return is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname;
     }
 }

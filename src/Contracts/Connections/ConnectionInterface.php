@@ -248,7 +248,9 @@ interface ConnectionInterface
     /**
      * Closes the current connection.
      *
-     * @return mixed
+     * Returns false if no connection is present.
+     *
+     * @return bool
      */
     public function close();
 

@@ -524,7 +524,7 @@ class Builder
      */
     public function rawFilter($filters = [])
     {
-        $filters = is_array($filters) ? $filters : func_get_args();
+        $filters = (is_array($filters) ? $filters : func_get_args());
 
         foreach ($filters as $filter) {
             $this->addBinding(new Filter($filter), 'filter');

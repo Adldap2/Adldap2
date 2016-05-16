@@ -81,7 +81,6 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function __construct(array $attributes, Builder $builder)
     {
         $this->fill($attributes);
-
         $this->setQuery($builder);
         $this->setSchema($builder->getSchema());
     }
@@ -217,15 +216,13 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function jsonSerialize()
     {
-        $attributes = $this->getAttributes();
-
         // We need to remove the object SID and GUID from
         // being serialized as these attributes contain
         // characters that cannot be serialized.
-        unset($attributes[$this->schema->objectSid()]);
-        unset($attributes[$this->schema->objectGuid()]);
-
-        return $attributes;
+        return Arr::except($this->getAttributes(), [
+            $this->schema->objectSid(),
+            $this->schema->objectGuid(),
+        ]);
     }
 
     /**
@@ -249,11 +246,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function syncRaw()
     {
-        $query = $this->query->newInstance();
+        $model = $this->query->newInstance()->findByDn($this->getDn());
 
-        $model = $query->findByDn($this->getDn());
-
-        if ($model instanceof $this) {
+        if ($model instanceof AbstractModel) {
             $this->setRawAttributes($model->getAttributes());
 
             return true;
@@ -439,13 +434,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getModifications()
     {
-        $dirty = $this->getDirty();
-
-        foreach ($dirty as $attribute => $values) {
-            if (!is_array($values)) {
-                // Make sure values is always an array.
-                $values = [$values];
-            }
+        foreach ($this->getDirty() as $attribute => $values) {
+            // Make sure values is always an array.
+            $values = (is_array($values) ? $values : [$values]);
 
             $modification = new BatchModification();
 
@@ -653,18 +644,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             $this->setDn($dn);
         }
 
-        // Get the models DN.
-        $dn = $this->getDn();
-
-        // Get the models attributes.
-        $attributes = $this->getAttributes();
-
-        // We need to remove the dn from the attributes array
-        // as it's inserted independently.
-        unset($attributes['dn']);
-
         // Create the entry.
-        $created = $this->query->getConnection()->add($dn, $attributes);
+        $created = $this->query->getConnection()->add($this->getDn(), Arr::except($this->getAttributes(), ['dn']));
 
         if ($created) {
             // If the entry was created we'll re-sync
@@ -688,9 +669,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function createAttribute($attribute, $value)
     {
         if ($this->exists) {
-            $add = [$attribute => $value];
-
-            return $this->query->getConnection()->modAdd($this->getDn(), $add);
+            return $this->query->getConnection()->modAdd($this->getDn(), [$attribute => $value]);
         }
 
         return false;
@@ -707,9 +686,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function updateAttribute($attribute, $value)
     {
         if ($this->exists) {
-            $modify = [$attribute => $value];
-
-            if ($this->query->getConnection()->modReplace($this->getDn(), $modify)) {
+            if ($this->query->getConnection()->modReplace($this->getDn(), [$attribute => $value])) {
                 // If the models attribute was successfully updated,
                 // we'll re-sync the models attributes.
                 $this->syncRaw();
@@ -733,9 +710,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if ($this->exists) {
             // We need to pass in an empty array as the value
             // for the attribute so AD knows to remove it.
-            $remove = [$attribute => []];
-
-            if ($this->query->getConnection()->modDelete($this->getDn(), $remove)) {
+            if ($this->query->getConnection()->modDelete($this->getDn(), [$attribute => []])) {
                 // If the models attribute was successfully deleted, we'll
                 // resynchronize the models raw attributes.
                 $this->syncRaw();

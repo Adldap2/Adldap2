@@ -322,7 +322,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function setAttribute($key, $value, $subKey = null)
     {
         if (is_null($subKey)) {
-            $this->attributes[$key] = $value;
+            $this->attributes[$key] = (is_array($value) ? $value : [$value]);
         } else {
             $this->attributes[$key][$subKey] = $value;
         }
@@ -586,7 +586,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Persists the changes to the LDAP server and returns the result.
      *
-     * @return bool|$this
+     * @return bool
      */
     public function save()
     {
@@ -596,7 +596,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     /**
      * Persists attribute updates to the active directory record.
      *
-     * @return bool|$this
+     * @return bool
      */
     public function update()
     {

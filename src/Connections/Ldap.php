@@ -148,6 +148,14 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
+    public function compare($dn, $attribute, $value)
+    {
+        return ldap_compare($this->getConnection(), $dn, $attribute, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLastError()
     {
         return ldap_error($this->getConnection());

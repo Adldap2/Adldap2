@@ -150,6 +150,17 @@ interface ConnectionInterface
     public function countEntries($searchResult);
 
     /**
+     * Compare value of attribute found in entry specified with DN.
+     *
+     * @param string $dn
+     * @param string $attribute
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function compare($dn, $attribute, $value);
+
+    /**
      * Retrieves the first entry from a search result.
      *
      * @param $searchResult

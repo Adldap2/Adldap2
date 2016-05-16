@@ -125,7 +125,7 @@ class BatchModification
             // If the original value is null, we'll assume
             // that the attribute doesn't exist yet.
             if (!empty($filtered)) {
-                // if the filtered array is not empty, we'll
+                // If the filtered array is not empty, we'll
                 // assume the developer is looking to
                 // add attributes to the model.
                 $this->setType(LDAP_MODIFY_BATCH_ADD);

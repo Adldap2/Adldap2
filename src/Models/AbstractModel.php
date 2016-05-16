@@ -767,9 +767,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
         if (empty($dn)) {
             // If the record exists but the DN attribute does
             // not exist, we can't process a delete.
-            $message = 'Unable to delete. The current model does not have a distinguished name present.';
-
-            throw new AdldapException($message);
+            throw new AdldapException('Unable to delete. The current model does not have a distinguished name.');
         }
 
         if ($this->query->getConnection()->delete($dn)) {

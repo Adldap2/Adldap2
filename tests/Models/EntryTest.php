@@ -18,8 +18,8 @@ class EntryTest extends UnitTestCase
     public function test_construct()
     {
         $attributes = [
-            'cn'             => 'Common Name',
-            'samaccountname' => 'Account Name',
+            'cn'             => ['Common Name'],
+            'samaccountname' => ['Account Name'],
         ];
 
         $entry = $this->newEntryModel($attributes, $this->newBuilder());
@@ -187,9 +187,9 @@ class EntryTest extends UnitTestCase
     public function test_create()
     {
         $attributes = [
-            'cn' => 'John Doe',
-            'givenname' => 'John',
-            'sn' => 'Doe',
+            'cn' => ['John Doe'],
+            'givenname' => ['John'],
+            'sn' => ['Doe'],
         ];
 
         $returnedRaw = [
@@ -203,8 +203,8 @@ class EntryTest extends UnitTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('add')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('add')->withArgs([['cn=John Doe,ou=Accounting,dc=corp,dc=org'], $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs([['cn=John Doe,ou=Accounting,dc=corp,dc=org'], '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -217,9 +217,9 @@ class EntryTest extends UnitTestCase
         $entry->setDn('cn=John Doe,ou=Accounting,dc=corp,dc=org');
 
         $this->assertTrue($entry->create());
-        $this->assertEquals($attributes['cn'], $entry->getCommonName());
-        $this->assertEquals($attributes['sn'], $entry->sn[0]);
-        $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
+        $this->assertEquals($attributes['cn'][0], $entry->getCommonName());
+        $this->assertEquals($attributes['sn'][0], $entry->sn[0]);
+        $this->assertEquals($attributes['givenname'][0], $entry->givenname[0]);
     }
 
     public function test_update()
@@ -248,9 +248,9 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn' => 'John Doe',
-            'givenname' => 'John',
-            'sn' => 'Doe',
+            'cn' => ['John Doe'],
+            'givenname' => ['John'],
+            'sn' => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -264,8 +264,8 @@ class EntryTest extends UnitTestCase
             ]
         ];
 
-        $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('add')->withArgs([[$dn], $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs([[$dn], '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -278,9 +278,9 @@ class EntryTest extends UnitTestCase
         $entry->setDn($dn);
 
         $this->assertTrue($entry->save());
-        $this->assertEquals($attributes['cn'], $entry->getCommonName());
-        $this->assertEquals($attributes['sn'], $entry->sn[0]);
-        $this->assertEquals($attributes['givenname'], $entry->givenname[0]);
+        $this->assertEquals($attributes['cn'][0], $entry->getCommonName());
+        $this->assertEquals($attributes['sn'][0], $entry->sn[0]);
+        $this->assertEquals($attributes['givenname'][0], $entry->givenname[0]);
     }
 
     public function test_save_for_update()
@@ -417,12 +417,12 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $addArgs = [
-            'cn=John Doe,dc=corp,dc=local',
+            ['cn=John Doe,dc=corp,dc=local'],
             ['cn' => ['John Doe']],
         ];
 
         $readArgs = [
-            'cn=John Doe,dc=corp,dc=local',
+            ['cn=John Doe,dc=corp,dc=local'],
             '(objectclass=*)',
             [],
         ];

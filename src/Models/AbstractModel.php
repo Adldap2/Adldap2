@@ -402,6 +402,16 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the models original attributes.
+     *
+     * @return array
+     */
+    public function getOriginal()
+    {
+        return $this->original;
+    }
+
+    /**
      * Get the attributes that have been changed since last sync.
      *
      * @return array

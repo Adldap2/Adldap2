@@ -443,4 +443,14 @@ class EntryTest extends UnitTestCase
 
         $this->assertTrue($entry->create());
     }
+
+    public function test_get_original()
+    {
+        $model = $this->newEntryModel([], $this->newBuilder())->setRawAttributes(['cn' => ['John Doe']]);
+
+        $model->cn = 'New Common Name';
+
+        $this->assertEquals(['New Common Name'], $model->getAttributes()['cn']);
+        $this->assertEquals(['John Doe'], $model->getOriginal()['cn']);
+    }
 }

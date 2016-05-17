@@ -6,6 +6,7 @@ use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Entry;
 use Adldap\Objects\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class Processor
@@ -46,15 +47,17 @@ class Processor
      */
     public function process($results)
     {
-        $entries = $this->connection->getEntries($results);
+        // Normalize entries. Get entries returns false on failure.
+        // We'll always want an array in this situation.
+        $entries = ($this->connection->getEntries($results) ?: []);
 
-        if ($this->builder->isRaw() === true) {
+        if ($this->builder->isRaw()) {
             return $entries;
         }
 
         $models = [];
 
-        if (is_array($entries) && array_key_exists('count', $entries)) {
+        if (Arr::has($entries, 'count')) {
             for ($i = 0; $i < $entries['count']; $i++) {
                 $models[] = $this->newLdapEntry($entries[$i]);
             }
@@ -86,9 +89,7 @@ class Processor
 
             // Go through each page and process the results into an objects array.
             foreach ($pages as $results) {
-                $processed = $this->process($results);
-
-                $models = array_merge($models, $processed);
+                $models = array_merge($models, $this->process($results));
             }
 
             $models = $this->processSort($models);

@@ -45,11 +45,19 @@ class Factory
      */
     public function __construct(ConnectionInterface $connection, SchemaInterface $schema, $baseDn = '')
     {
-        $this->connection = $connection;
-
+        $this->setConnection($connection);
         $this->setSchema($schema);
-
         $this->setQuery($this->newQuery($baseDn));
+    }
+
+    /**
+     * Sets the connection property.
+     *
+     * @param ConnectionInterface $connection
+     */
+    public function setConnection(ConnectionInterface $connection)
+    {
+        $this->connection = $connection;
     }
 
     /**

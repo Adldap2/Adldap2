@@ -104,8 +104,7 @@ class Operator
      */
     public static function all()
     {
-        $class = new ReflectionClass(new static());
-
-        return $class->getStaticProperties();
+        return (new ReflectionClass(new static()))
+            ->getStaticProperties();
     }
 }

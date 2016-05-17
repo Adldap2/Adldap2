@@ -272,10 +272,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     {
         if (is_null($subKey) && $this->hasAttribute($key)) {
             return $this->attributes[$key];
-        } else {
-            if ($this->hasAttribute($key, $subKey)) {
-                return $this->attributes[$key][$subKey];
-            }
+        } elseif ($this->hasAttribute($key, $subKey)) {
+            return $this->attributes[$key][$subKey];
         }
     }
 
@@ -495,7 +493,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute($this->schema->distinguishedName());
+        return $this->getAttribute($this->schema->distinguishedName(), 0);
     }
 
     /**
@@ -507,7 +505,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setDistinguishedName($dn)
     {
-        return $this->setAttribute($this->schema->distinguishedName(), (string) $dn);
+        return $this->setAttribute($this->schema->distinguishedName(), (string) $dn, 0);
     }
 
     /**
@@ -644,8 +642,11 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
             $this->setDn($dn);
         }
 
+        // Get the model attributes without its distinguished name.
+        $attributes = Arr::except($this->getAttributes(), [$this->schema->distinguishedName()]);
+
         // Create the entry.
-        $created = $this->query->getConnection()->add($this->getDn(), Arr::except($this->getAttributes(), ['dn']));
+        $created = $this->query->getConnection()->add($this->getDn(), $attributes);
 
         if ($created) {
             // If the entry was created we'll re-sync

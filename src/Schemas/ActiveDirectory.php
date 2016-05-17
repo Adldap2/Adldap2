@@ -176,7 +176,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function distinguishedName()
     {
-        return 'dn';
+        return 'distinguishedname';
     }
 
     /**

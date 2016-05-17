@@ -30,9 +30,9 @@ class EntryTest extends UnitTestCase
     public function test_set_raw_attributes()
     {
         $rawAttributes = [
-            'cn'             => ['Common Name'],
-            'samaccountname' => ['Account Name'],
-            'dn'            => ['dn'],
+            'cn'                => ['Common Name'],
+            'samaccountname'    => ['Account Name'],
+            'distinguishedname' => ['dn'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -74,9 +74,9 @@ class EntryTest extends UnitTestCase
     public function test_update_attribute()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
-            'samaccountname' => ['Account Name'],
-            'dn'             => 'dc=corp,dc=org',
+            'cn'                => ['Common Name'],
+            'samaccountname'    => ['Account Name'],
+            'distinguishedname' => ['dc=corp,dc=org'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -96,9 +96,9 @@ class EntryTest extends UnitTestCase
     public function test_delete_attribute()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
-            'samaccountname' => ['Account Name'],
-            'dn'             => 'dc=corp,dc=org',
+            'cn'                => ['Common Name'],
+            'samaccountname'    => ['Account Name'],
+            'distinguishedname' => ['dc=corp,dc=org'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -119,9 +119,9 @@ class EntryTest extends UnitTestCase
     public function test_create_attribute()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
-            'samaccountname' => ['Account Name'],
-            'dn'             => 'dc=corp,dc=org',
+            'cn'                => ['Common Name'],
+            'samaccountname'    => ['Account Name'],
+            'distinguishedname' => ['dc=corp,dc=org'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -203,8 +203,8 @@ class EntryTest extends UnitTestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('add')->withArgs([['cn=John Doe,ou=Accounting,dc=corp,dc=org'], $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs([['cn=John Doe,ou=Accounting,dc=corp,dc=org'], '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('add')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -228,7 +228,7 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $attributes = ['dn' => $dn];
+        $attributes = ['distinguishedname' => $dn];
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($attributes);
@@ -264,8 +264,8 @@ class EntryTest extends UnitTestCase
             ]
         ];
 
-        $connection->shouldReceive('add')->withArgs([[$dn], $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs([[$dn], '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -289,7 +289,7 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $returnedRaw = [['dn' => $dn]];
+        $returnedRaw = [['distinguishedname' => $dn]];
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
@@ -299,7 +299,7 @@ class EntryTest extends UnitTestCase
 
         $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
-        $entry->setRawAttributes(['dn' => $dn]);
+        $entry->setRawAttributes(['distinguishedname' => $dn]);
 
         $this->assertTrue($entry->save());
     }
@@ -319,17 +319,12 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $returnedRaw = [['dn' => $dn]];
-
-        $connection->shouldReceive('read')->andReturn($connection);
-        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
         $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
-        $entry->setRawAttributes(['dn' => $dn]);
+        $entry->setRawAttributes(['distinguishedname' => [$dn]]);
 
         $this->assertTrue($entry->delete());
     }
@@ -391,7 +386,7 @@ class EntryTest extends UnitTestCase
     public function test_move()
     {
         $rawAttributes = [
-            'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',
+            'distinguishedname' => ['cn=Doe,dc=corp,dc=acme,dc=org'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -417,12 +412,12 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $addArgs = [
-            ['cn=John Doe,dc=corp,dc=local'],
+            'cn=John Doe,dc=corp,dc=local',
             ['cn' => ['John Doe']],
         ];
 
         $readArgs = [
-            ['cn=John Doe,dc=corp,dc=local'],
+            'cn=John Doe,dc=corp,dc=local',
             '(objectclass=*)',
             [],
         ];

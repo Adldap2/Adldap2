@@ -680,4 +680,28 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('=', $whereSn->getOperator());
         $this->assertEquals('\73\6e', $whereSn->getValue());
     }
+
+    public function test_dynamic_or_where()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereCnOrSn('cn', 'sn');
+
+        $wheres = $b->getWheres();
+        $orWheres = $b->getOrWheres();
+
+        $whereCn = end($wheres);
+        $orWhereSn = end($orWheres);
+
+        $this->assertCount(1, $wheres);
+        $this->assertCount(1, $orWheres);
+
+        $this->assertEquals('cn', $whereCn->getField());
+        $this->assertEquals('=', $whereCn->getOperator());
+        $this->assertEquals('\63\6e', $whereCn->getValue());
+
+        $this->assertEquals('sn', $orWhereSn->getField());
+        $this->assertEquals('=', $orWhereSn->getOperator());
+        $this->assertEquals('\73\6e', $orWhereSn->getValue());
+    }
 }

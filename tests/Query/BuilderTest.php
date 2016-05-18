@@ -642,4 +642,42 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('attr2', $selects[1]);
         $this->assertEquals('attr3', $selects[2]);
     }
+
+    public function test_dynamic_where()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereCn('test');
+
+        $wheres = $b->getWheres();
+
+        $where = end($wheres);
+
+        $this->assertCount(1, $wheres);
+        $this->assertEquals('cn', $where->getField());
+        $this->assertEquals('=', $where->getOperator());
+        $this->assertEquals('\74\65\73\74', $where->getValue());
+    }
+
+    public function test_dynamic_and_where()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereCnAndSn('cn', 'sn');
+
+        $wheres = $b->getWheres();
+
+        $whereCn = $wheres[0];
+        $whereSn = $wheres[1];
+
+        $this->assertCount(2, $wheres);
+
+        $this->assertEquals('cn', $whereCn->getField());
+        $this->assertEquals('=', $whereCn->getOperator());
+        $this->assertEquals('\63\6e', $whereCn->getValue());
+
+        $this->assertEquals('sn', $whereSn->getField());
+        $this->assertEquals('=', $whereSn->getOperator());
+        $this->assertEquals('\73\6e', $whereSn->getValue());
+    }
 }

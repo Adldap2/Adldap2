@@ -1157,8 +1157,8 @@ class Builder
     /**
      * Handles dynamic "where" clauses to the query.
      *
-     * @param  string  $method
-     * @param  string  $parameters
+     * @param string $method
+     * @param string $parameters
      *
      * @return $this
      */
@@ -1195,13 +1195,14 @@ class Builder
 
         return $this;
     }
+
     /**
      * Add a single dynamic where clause statement to the query.
      *
-     * @param  string  $segment
-     * @param  string  $connector
-     * @param  array   $parameters
-     * @param  int     $index
+     * @param string $segment
+     * @param string $connector
+     * @param array  $parameters
+     * @param int    $index
      *
      * @return void
      */

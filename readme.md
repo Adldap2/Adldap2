@@ -12,7 +12,7 @@
  - [Configuration](docs/configuration.md)
  - [Connecting](docs/connecting.md)
  - [Authenticating](docs/authenticating.md)
- - [Searching (Query Builder)](docs/query-builder.md)
+ - [Query Builder (Searching)](docs/query-builder.md)
  - [Models](docs/models.md)
  - [Working with DN's](docs/distinguished-names.md)
  - [Schema](docs/schema.md)

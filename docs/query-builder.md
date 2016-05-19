@@ -317,6 +317,16 @@ You can perform this on **any** attribute:
 $result = $search->whereTelephonenumber('555-555-5555')->first();
 ```
 
+You can also chain them:
+
+```php
+$result = $search
+    ->whereTelephonenumber('555-555-5555')
+    ->whereGivenname('John Doe')
+    ->whereSn('Doe')
+    ->first();
+```
+
 You can even perform multiple wheres by separating your fields by an `And`:
 
 ```php

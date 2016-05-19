@@ -19,8 +19,7 @@ use InvalidArgumentException;
 class Builder
 {
     /**
-     * Stores the bool to determine whether or
-     * not the current query is paginated.
+     * Determines whether the current query is paginated.
      *
      * @var bool
      */
@@ -39,21 +38,21 @@ class Builder
     ];
 
     /**
-     * Stores the field to sort search results by.
+     * The field to sort search results by.
      *
      * @var string
      */
     protected $sortByField = '';
 
     /**
-     * Stores the direction to sort the results by.
+     * The direction to sort the results by.
      *
      * @var string
      */
     protected $sortByDirection = '';
 
     /**
-     * Stores the sort flags for sorting query results.
+     * The sort flags for sorting query results.
      *
      * @var int
      */
@@ -67,45 +66,42 @@ class Builder
     protected $dn;
 
     /**
-     * Stores the bool to determine whether or not
-     * to search LDAP recursively.
+     * Determines whether or not to search LDAP recursively.
      *
      * @var bool
      */
     protected $recursive = true;
 
     /**
-     * Stores the bool to determine whether or not
-     * to search LDAP on the base scope.
+     * Determines whether or not to search LDAP on the base scope.
      *
      * @var bool
      */
     protected $read = false;
 
     /**
-     * Stores the bool to determine whether or not
-     * to return LDAP results in their raw format.
+     * Determines whether or not to return LDAP results in their raw array format.
      *
      * @var bool
      */
     protected $raw = false;
 
     /**
-     * Stores the current connection instance.
+     * The current connection instance.
      *
      * @var ConnectionInterface
      */
     protected $connection;
 
     /**
-     * Stores the current grammar instance.
+     * The current grammar instance.
      *
      * @var Grammar
      */
     protected $grammar;
 
     /**
-     * Stores the current schema instance.
+     * The current schema instance.
      *
      * @var SchemaInterface
      */
@@ -219,8 +215,7 @@ class Builder
     }
 
     /**
-     * Returns the builders DN to perform
-     * searches upon.
+     * Returns the builders DN to perform searches upon.
      *
      * @return string
      */
@@ -248,7 +243,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return array|\Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|array
      */
     public function query($query)
     {

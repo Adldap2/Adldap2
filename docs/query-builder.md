@@ -5,6 +5,7 @@
 - [Selects](#selects)
 - [Wheres](#wheres)
 - [Or Wheres](#or-wheres)
+- [Dynamic Wheres](#dynamic-wheres)
 - [Raw Filters](#raw-filters)
 - [Sorting](#sorting)
 - [Pagination](#paginating)
@@ -291,6 +292,38 @@ Now, we'll retrieve both John and Suzy's AD records, because the common name can
 
 > **Note**: You can also use all `where` methods as an or where, for example:
 `orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
+
+## Dynamic Wheres
+
+> **Note**: This feature was introduced in `v6.0.16`.
+
+To perform a dynamic where, simply suffix a `where` with the field you're looking for.
+
+This feature was directly ported from Laravel's Eloquent.
+
+Here's an example:
+
+```php
+// This query:
+$result = $search->where('cn', '=', 'John Doe')->first();
+
+// Can be converted to:
+$result = $search->whereCn('John Doe')->first();
+```
+
+You can perform this on **any** attribute:
+
+```php
+$result = $search->whereTelephonenumber('555-555-5555')->first();
+```
+
+You can even perform multiple wheres by separating your fields by an `And`:
+
+```php
+// This would perform a search for a user with the
+// first name of 'John' and last name of 'Doe'.
+$result = $search->whereGivennameAndSn('John', 'Doe')->first();
+```
 
 ## Raw Filters
 

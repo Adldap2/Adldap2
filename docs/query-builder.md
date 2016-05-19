@@ -1,5 +1,16 @@
 # Query Builder
 
+## Index
+
+- [Selects](#selects)
+- [Wheres](#wheres)
+- [Or Wheres](#or-wheres)
+- [Raw Filters](#raw-filters)
+- [Sorting](#sorting)
+- [Pagination](#paginating)
+- [Scopes](#scopes)
+- [Search Options](#search-options)
+
 The Adldap2 query builder makes building LDAP queries feel effortless. Let's get started.
 
 ## Opening a Query

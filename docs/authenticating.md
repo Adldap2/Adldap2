@@ -72,3 +72,4 @@ try {
 ```
 
 > **Note**: Manually binding as a user **will not** validate their username or password to ensure they are not empty.
+> This means, a user could pass in empty strings and could anonymously authenticate to your server if you're not careful.

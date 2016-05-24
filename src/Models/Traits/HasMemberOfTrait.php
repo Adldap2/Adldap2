@@ -122,7 +122,7 @@ trait HasMemberOfTrait
      */
     public function getMemberOfNames()
     {
-        return $this->getMemberOf()->map(function ($group) {
+        return $this->getMemberOf()->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
     }
@@ -137,7 +137,7 @@ trait HasMemberOfTrait
      */
     public function inGroup($group, $recursive = false)
     {
-        return $this->getGroups([], $recursive)->filter(function ($parent) use ($group) {
+        return $this->getGroups([], $recursive)->filter(function (Group $parent) use ($group) {
             if ($group instanceof Group) {
                 // We've been given a group instance, we'll compare their DNs.
                 return $parent->getDn() == $group->getDn();

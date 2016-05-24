@@ -355,7 +355,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     public function filterRawAttributes(array $attributes = [], $key = 'count')
     {
         unset($attributes[$key]);
-
+        
         foreach ($attributes as &$value) {
             if (is_array($value)) {
                 $value = $this->filterRawAttributes($value, $key);

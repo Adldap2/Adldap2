@@ -50,7 +50,7 @@ class Processor
         // Normalize entries. Get entries returns false on failure.
         // We'll always want an array in this situation.
         $entries = ($this->connection->getEntries($results) ?: []);
-        
+
         if ($this->builder->isRaw()) {
             return $entries;
         }

@@ -77,4 +77,17 @@ class Adldap implements AdldapInterface
 
         return $provider;
     }
+
+    /**
+     * Calls non-existent methods on the default provider instance.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->getDefaultProvider(), $method], $parameters);
+    }
 }

@@ -80,9 +80,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function __construct(array $attributes, Builder $builder)
     {
-        $this->fill($attributes);
         $this->setQuery($builder);
         $this->setSchema($builder->getSchema());
+        $this->fill($attributes);
     }
 
     /**
@@ -226,8 +226,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Synchronizes the original attributes with
-     * the model's current attributes.
+     * Synchronizes the models original attributes
+     * with the model's current attributes.
      *
      * @return $this
      */
@@ -239,8 +239,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Re-sets the models raw attributes by looking
-     * up the current models DN in AD.
+     * Synchronizes the models attributes with the server values.
      *
      * @return bool
      */
@@ -258,7 +257,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Retrieves the specified key from the attribute array.
+     * Returns the models attribute with the specified key.
      *
      * If a sub-key is specified, it will try and
      * retrieve it from the parent keys array.
@@ -278,7 +277,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Retrieves the attributes array property.
+     * Returns all of the models attributes.
      *
      * @return array
      */
@@ -314,6 +313,8 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setAttribute($key, $value, $subKey = null)
     {
+        $key = ($key == 'dn' ? $this->schema->distinguishedName(): $key);
+
         if (is_null($subKey)) {
             $this->attributes[$key] = (is_array($value) ? $value : [$value]);
         } else {

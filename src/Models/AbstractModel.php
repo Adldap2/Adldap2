@@ -313,7 +313,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function setAttribute($key, $value, $subKey = null)
     {
-        $key = ($key == 'dn' ? $this->schema->distinguishedName(): $key);
+        $key = ($key == 'dn' ? $this->schema->distinguishedName() : $key);
 
         if (is_null($subKey)) {
             $this->attributes[$key] = (is_array($value) ? $value : [$value]);

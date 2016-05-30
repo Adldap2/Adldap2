@@ -20,6 +20,7 @@ $config = [
     'account_prefix'        => 'ACME-',
     'account_suffix'        => '@acme.org',
     'admin_account_suffix'  => '@acme.org',
+    'base_dn_suffix'        => 'o=intranet.com',
     'port'                  => 389,
     'follow_referrals'      => false,
     'use_ssl'               => false,
@@ -49,6 +50,7 @@ $config->setAdminPassword('password');
 $config->setAccountPrefix('ACME-');
 $config->setAccountSuffix('@acme.org');
 $config->setAdminAccountSuffix('@acme.org');
+$config->setBaseDnSuffix('o=intranet.com');
 $config->setPort(389);
 $config->setFollowReferrals(false);
 $config->setUseSSL(false);
@@ -98,6 +100,11 @@ Only insert a port if your AD server uses a unique port.
 The base distinguished name is the base distinguished name you'd like to perform operations on. An example base DN would be `DC=corp,DC=acme,DC=org`.
 
 If one is not defined, then Adldap will try to find it automatically by querying your server. It's recommended to include it to limit queries executed per request.
+
+### Base Distinguished Suffix (optional)
+
+The base distinguished suffix option is the suffix of your baseDN in AD. For example, if your baseDN is `DC=corp,DC=acme,DC=org`,
+and you set this to `,o=intranet.com`, the final baseDN will be `DC=corp,DC=acme,DC=org,o=intranet.com`.
 
 ### Administrator Username & Password (required)
 

@@ -448,4 +448,13 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(['New Common Name'], $model->getAttributes()['cn']);
         $this->assertEquals(['John Doe'], $model->getOriginal()['cn']);
     }
+
+    public function test_dn_is_normalized_to_full_attribute()
+    {
+        $model = $this->newEntryModel([
+            'dn' => 'dn',
+        ], $this->newBuilder());
+
+        $this->assertEquals(['dn'], $model->getAttributes()[$model->getSchema()->distinguishedName()]);
+    }
 }

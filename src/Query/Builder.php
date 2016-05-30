@@ -333,13 +333,13 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return Entry|bool
+     * @return Entry
      */
     public function firstOrFail($columns = [])
     {
         $record = $this->first($columns);
 
-        if ($record === false || is_null($record)) {
+        if (!$record) {
             throw new ModelNotFoundException('Unable to find record in Active Directory.');
         }
 

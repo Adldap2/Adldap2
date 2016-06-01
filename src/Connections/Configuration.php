@@ -94,6 +94,13 @@ class Configuration
     private $adminAccountSuffix;
 
     /**
+     * The LDAP baseDn suffix.
+     *
+     * @var string
+     */
+    protected $baseDnSuffix;
+
+    /**
      * Constructor.
      *
      * @param array|Traversable $options
@@ -118,7 +125,7 @@ class Configuration
             $dn = new DistinguishedName($dn);
         }
 
-        $this->baseDn = $dn->get();
+        $this->baseDn = $dn->get().$this->getBaseDnSuffix();
     }
 
     /**
@@ -129,6 +136,27 @@ class Configuration
     public function getBaseDn()
     {
         return $this->baseDn;
+    }
+
+    /**
+     * Sets the baseDn suffix option.
+     *
+     * @param string $suffix
+     */
+    public function setBaseDnSuffix($suffix)
+    {
+        $this->baseDnSuffix = (string) $suffix;
+        $this->setBaseDn($this->getBaseDn()).$suffix;    
+    }
+
+    /**
+     * Returns the baseDn suffix option.
+     *
+     * @return string|null
+     */
+    public function getBaseDnSuffix()
+    {
+        return $this->baseDnSuffix;
     }
 
     /**

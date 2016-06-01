@@ -121,7 +121,7 @@ class Provider implements ProviderInterface
      */
     public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema ?: Schema::getDefault();
+        $this->schema = $schema ?: Schema::get();
     }
 
     /**

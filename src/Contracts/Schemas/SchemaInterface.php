@@ -720,6 +720,13 @@ interface SchemaInterface
     public function organizationalUnitShort();
 
     /**
+     * The RDN version of organization name for use in distinguished names.
+     *
+     * @return mixed
+     */
+    public function organizationName();
+
+    /**
      * Contains other additional mail addresses in a form such as CCMAIL: JohnDoe.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx

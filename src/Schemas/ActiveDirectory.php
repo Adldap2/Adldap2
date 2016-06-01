@@ -662,6 +662,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function organizationName()
+    {
+        return 'o';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function otherMailbox()
     {
         return 'othermailbox';

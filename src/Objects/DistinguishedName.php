@@ -8,25 +8,44 @@ use Adldap\Utilities;
 class DistinguishedName
 {
     /**
-     * Stores the domain components in the DN.
+     * The domain components in the DN.
      *
      * @var array
      */
     protected $domainComponents = [];
 
     /**
-     * Stores the common names in the DN.
+     * The common names in the DN.
      *
      * @var array
      */
     protected $commonNames = [];
 
     /**
-     * Stores the organizational units in the DN.
+     * The organizational units in the DN.
      *
      * @var array
      */
     protected $organizationUnits = [];
+
+    /**
+     * The organization names in the DN.
+     *
+     * @var array
+     */
+    protected $organizationNames = [];
+
+    /**
+     * The RDN attribute types.
+     *
+     * @var array
+     */
+    protected $types =[
+        'o',
+        'dc',
+        'ou',
+        'cn',
+    ];
 
     /**
      * Constructor.
@@ -59,7 +78,7 @@ class DistinguishedName
     }
 
     /**
-     * Adds a DC to the DC array.
+     * Adds a domain component.
      *
      * @param string $dc
      *
@@ -73,7 +92,7 @@ class DistinguishedName
     }
 
     /**
-     * Removes a DC from the DC array.
+     * Removes a domain component.
      *
      * @param string $dc
      *
@@ -87,7 +106,35 @@ class DistinguishedName
     }
 
     /**
-     * Adds a CN to the CN array.
+     * Adds an organization name.
+     *
+     * @param string $o
+     *
+     * @return $this
+     */
+    public function addO($o)
+    {
+        $this->organizationNames[] = $o;
+
+        return $this;
+    }
+
+    /**
+     * Removes an organization name.
+     *
+     * @param string $o
+     *
+     * @return DistinguishedName
+     */
+    public function removeO($o)
+    {
+        $this->commonNames = array_diff($this->organizationNames, [$o]);
+
+        return $this;
+    }
+
+    /**
+     * Adds a common name.
      *
      * @param string $cn
      *
@@ -101,7 +148,7 @@ class DistinguishedName
     }
 
     /**
-     * Removes a CN from the CN array.
+     * Removes a common name.
      *
      * @param string $cn
      *
@@ -115,7 +162,7 @@ class DistinguishedName
     }
 
     /**
-     * Adds an OU to the OU array.
+     * Adds an organizational unit.
      *
      * @param string $ou
      *
@@ -129,7 +176,7 @@ class DistinguishedName
     }
 
     /**
-     * Removes an OU from the OU array.
+     * Removes an organizational unit.
      *
      * @param string $ou
      *
@@ -143,7 +190,7 @@ class DistinguishedName
     }
 
     /**
-     * Sets the base DB string.
+     * Sets the base RDN of the distinguished name.
      *
      * @param string $base
      *
@@ -151,33 +198,22 @@ class DistinguishedName
      */
     public function setBase($base)
     {
-        if (!is_null($base)) {
-            // If the base DN isn't null we'll try to explode it.
-            $base = (Utilities::explodeDn($base, false) ?: []);
+        // If the base DN isn't null we'll try to explode it.
+        $base = (Utilities::explodeDn($base, false) ?: []);
 
-            foreach ($base as $key => $rdn) {
-                // We'll avoid going through the count key as it's
-                // automatically created when exploding a DN
-                if ($key !== 'count') {
-                    // We'll break the RDN into pieces
-                    $pieces = explode('=', $rdn);
+        // Remove the count key from the exploded distinguished name.
+        unset($base['count']);
 
-                    // If there's exactly 2 pieces, then we can work with it.
-                    if (count($pieces) === 2) {
-                        // We see what type of RDN it is and add each accordingly
-                        switch (strtoupper($pieces[0])) {
-                            case 'DC':
-                                $this->addDc($pieces[1]);
-                                break;
-                            case 'OU':
-                                $this->addOu($pieces[1]);
-                                break;
-                            case 'CN':
-                                $this->addCn($pieces[1]);
-                                break;
-                        }
-                    }
-                }
+        foreach ($base as $key => $rdn) {
+            // We'll break the RDN into pieces
+            $pieces = (explode('=', $rdn) ?: []);
+
+            // If there's exactly 2 pieces, then we can work with it.
+            if (count($pieces) === 2) {
+                $attribute = ucfirst($pieces[0]);
+
+                // We see what type of RDN it is and add each accordingly
+                call_user_func_array([$this, 'add'.$attribute], [$pieces[1]]);
             }
         }
 
@@ -191,13 +227,12 @@ class DistinguishedName
      */
     public function assemble()
     {
-        $cns = $this->assembleCns();
-
-        $ous = $this->assembleOus();
-
-        $dcs = $this->assembleDcs();
-
-        return implode(',', array_filter([$cns, $ous, $dcs]));
+        return implode(',', array_filter([
+            $this->assembleCns(),
+            $this->assembleOus(),
+            $this->assembleDcs(),
+            $this->assembleOs(),
+        ]));
     }
 
     /**
@@ -231,6 +266,16 @@ class DistinguishedName
     }
 
     /**
+     * Assembles the organization names in the Distinguished name.
+     *
+     * @return string
+     */
+    public function assembleOs()
+    {
+        return $this->assembleRdns(Schema::get()->organizationName(), $this->organizationNames);
+    }
+
+    /**
      * Assembles an RDN with the specified attribute and value.
      *
      * @param string $attribute
@@ -240,12 +285,8 @@ class DistinguishedName
      */
     protected function assembleRdns($attribute, array $values = [])
     {
-        if (count($values) > 0) {
-            $values = array_map(function ($value) use ($attribute) {
-                return sprintf('%s=%s', $attribute, Utilities::escape($value, '', 2));
-            }, $values);
-        }
-
-        return implode(',', $values);
+        return implode(',', array_map(function ($value) use ($attribute) {
+            return sprintf('%s=%s', $attribute, Utilities::escape($value, '', 2));
+        }, $values));
     }
 }

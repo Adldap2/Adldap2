@@ -40,7 +40,7 @@ class DistinguishedName
      *
      * @var array
      */
-    protected $types =[
+    protected $types = [
         'o',
         'dc',
         'ou',

@@ -96,6 +96,12 @@ class Provider implements ProviderInterface
     public function setConnection(ConnectionInterface $connection = null)
     {
         $this->connection = $connection ?: new Ldap();
+
+        // Prepare the connection.
+        $this->prepareConnection();
+
+        // Instantiate the LDAP connection.
+        $this->connection->connect($this->configuration->getDomainControllers(), $this->configuration->getPort());
     }
 
     /**
@@ -176,12 +182,6 @@ class Provider implements ProviderInterface
      */
     public function connect($username = null, $password = null)
     {
-        // Prepare the connection.
-        $this->prepareConnection();
-
-        // Instantiate the LDAP connection.
-        $this->connection->connect($this->configuration->getDomainControllers(), $this->configuration->getPort());
-
         // Get the default guard instance.
         $guard = $this->getGuard();
 

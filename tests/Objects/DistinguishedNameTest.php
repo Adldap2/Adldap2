@@ -117,10 +117,34 @@ class DistinguishedNameTest extends UnitTestCase
     {
         $dn = new DistinguishedName();
 
+        $dn->addO('=,#test;<>+');
         $dn->addDc('=,#test;<>+');
         $dn->addOu('=,#test;<>+');
         $dn->addCn('=,#test;<>+');
 
-        $this->assertEquals('cn=\3d\2c\23test\3b\3c\3e\2b,ou=\3d\2c\23test\3b\3c\3e\2b,dc=\3d\2c\23test\3b\3c\3e\2b', $dn->get());
+        $this->assertEquals(
+            'cn=\3d\2c\23test\3b\3c\3e\2b,ou=\3d\2c\23test\3b\3c\3e\2b,dc=\3d\2c\23test\3b\3c\3e\2b,o=\3d\2c\23test\3b\3c\3e\2b',
+            $dn->get()
+        );
+    }
+
+    public function test_add_o()
+    {
+        $dn = new DistinguishedName();
+
+        $dn->addO('=,#test;<>+');
+
+        $this->assertEquals('o=\3d\2c\23test\3b\3c\3e\2b', $dn->get());
+    }
+
+    public function test_remove_o()
+    {
+        $dn = new DistinguishedName();
+
+        $dn->addO('Testing');
+
+        $dn->removeO('Testing');
+
+        $this->assertEmpty($dn->get());
     }
 }

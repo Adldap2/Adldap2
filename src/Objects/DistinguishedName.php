@@ -128,7 +128,7 @@ class DistinguishedName
      */
     public function removeO($o)
     {
-        $this->commonNames = array_diff($this->organizationNames, [$o]);
+        $this->organizationNames = array_diff($this->organizationNames, [$o]);
 
         return $this;
     }

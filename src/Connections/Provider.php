@@ -7,7 +7,6 @@ use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Exceptions\ConnectionException;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Schemas\Schema;
 use Adldap\Search\Factory as SearchFactory;

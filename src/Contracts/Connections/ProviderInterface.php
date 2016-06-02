@@ -114,6 +114,13 @@ interface ProviderInterface
     public function search();
 
     /**
+     * Returns a new Auth Guard instance.
+     *
+     * @return \Adldap\Auth\Guard
+     */
+    public function auth();
+
+    /**
      * Connects and Binds to the Domain Controller.
      *
      * If no username or password is specified, then the
@@ -127,13 +134,4 @@ interface ProviderInterface
      * @return void
      */
     public function connect($username = null, $password = null);
-
-    /**
-     * Returns a new Auth Guard instance.
-     *
-     * @throws \Adldap\Exceptions\ConnectionException
-     *
-     * @return \Adldap\Auth\Guard
-     */
-    public function auth();
 }

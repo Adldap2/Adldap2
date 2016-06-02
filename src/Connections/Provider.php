@@ -167,6 +167,14 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function auth()
+    {
+        return $this->getGuard();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function connect($username = null, $password = null)
     {
         // Prepare the connection.
@@ -186,20 +194,6 @@ class Provider implements ProviderInterface
             // Bind to the server with the specified username and password otherwise.
             $guard->bind($username, $password);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function auth()
-    {
-        // Make sure the connection we've been given
-        // is bound before we try to binding to it.
-        if (!$this->connection->isBound()) {
-            throw new ConnectionException('No connection to an LDAP server is present.');
-        }
-
-        return $this->getGuard();
     }
 
     /**

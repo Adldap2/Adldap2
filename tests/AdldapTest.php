@@ -76,9 +76,17 @@ class AdldapTest extends UnitTestCase
     {
         $config = $this->mock('Adldap\Connections\Configuration');
 
+        $config->shouldReceive('getUseSSL')->andReturn(false)
+            ->shouldReceive('getUseTLS')->andReturn(false)
+            ->shouldReceive('getFollowReferrals')->andReturn(false)
+            ->shouldReceive('getDomainControllers')->andReturn([])
+            ->shouldReceive('getPort')->andReturn(387);
+
         $connection = $this->mock('Adldap\Connections\Ldap');
 
-        $connection->shouldReceive('isBound')->once()->andReturn(false);
+        $connection->shouldReceive('setOption')->twice()
+            ->shouldReceive('connect')->once()
+            ->shouldReceive('isBound')->once()->andReturn(false);
 
         $ad = new Adldap();
 

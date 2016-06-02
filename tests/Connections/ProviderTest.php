@@ -31,6 +31,8 @@ class ProviderTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $connection
+            ->shouldReceive('setOption')->twice()
+            ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
 
@@ -46,6 +48,8 @@ class ProviderTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $connection
+            ->shouldReceive('setOption')->twice()
+            ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
 

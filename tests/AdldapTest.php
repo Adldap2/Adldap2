@@ -4,8 +4,6 @@ namespace Adldap\Tests;
 
 use Adldap\Adldap;
 use Adldap\Connections\Manager;
-use Adldap\Connections\Configuration;
-use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Schemas\Schema;
@@ -45,23 +43,23 @@ class AdldapTest extends UnitTestCase
     {
         $config = $this->mock('Adldap\Connections\Configuration');
 
-        $config->shouldReceive('getUseSSL')->once()->andReturn(false);
-        $config->shouldReceive('getUseTLS')->once()->andReturn(false);
-        $config->shouldReceive('getDomainControllers')->once()->andReturn(['dc1', 'dc2']);
-        $config->shouldReceive('setDomainControllerSelected')->once();
-        $config->shouldReceive('getPort')->once()->andReturn(389);
-        $config->shouldReceive('getFollowReferrals')->once()->andReturn(1);
-        $config->shouldReceive('getAdminCredentials')->once()->andReturn(['username', 'password', 'suffix']);
-        $config->shouldReceive('getAccountSuffix')->once()->andReturn('@corp.org');
-        $config->shouldReceive('getUseSSO')->once()->andReturn(false);
+        $config->shouldReceive('getUseSSL')->once()->andReturn(false)
+            ->shouldReceive('getUseTLS')->once()->andReturn(false)
+            ->shouldReceive('getDomainControllers')->once()->andReturn(['dc1', 'dc2'])
+            ->shouldReceive('setDomainControllerSelected')->once()
+            ->shouldReceive('getPort')->once()->andReturn(389)
+            ->shouldReceive('getFollowReferrals')->once()->andReturn(1)
+            ->shouldReceive('getAdminCredentials')->once()->andReturn(['username', 'password', 'suffix'])
+            ->shouldReceive('getAccountSuffix')->once()->andReturn('@corp.org')
+            ->shouldReceive('getUseSSO')->once()->andReturn(false);
 
         $connection = $this->mock('Adldap\Connections\Ldap');
 
-        $connection->shouldReceive('connect')->once()->andReturn(true);
-        $connection->shouldReceive('setOption')->twice()->andReturn(true);
-        $connection->shouldReceive('bind')->once()->andReturn(true);
-        $connection->shouldReceive('isBound')->once()->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('connect')->once()->andReturn(true)
+            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('bind')->once()->andReturn(true)
+            ->shouldReceive('isBound')->once()->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
 
         $ad = new Adldap();
 

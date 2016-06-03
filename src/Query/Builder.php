@@ -288,13 +288,13 @@ class Builder
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
             // Run the search.
-            $results = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
+            $resource = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
 
-            if ($results) {
-                $this->connection->controlPagedResultResponse($results, $cookie);
+            if ($resource) {
+                $this->connection->controlPagedResultResponse($resource, $cookie);
 
-                // We'll collect the results into the pages array.
-                $pages[] = $results;
+                // We'll collect each resource result into the pages array.
+                $pages[] = $resource;
             }
         } while (!empty($cookie));
 

@@ -9,6 +9,7 @@ use Adldap\Models\AbstractModel;
 use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Schemas\Schema;
 
 class Factory
 {
@@ -39,11 +40,11 @@ class Factory
     /**
      * Constructor.
      *
-     * @param ConnectionInterface $connection
-     * @param SchemaInterface     $schema
-     * @param string              $baseDn
+     * @param ConnectionInterface  $connection
+     * @param SchemaInterface|null $schema
+     * @param string               $baseDn
      */
-    public function __construct(ConnectionInterface $connection, SchemaInterface $schema, $baseDn = '')
+    public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {
         $this->setConnection($connection);
         $this->setSchema($schema);
@@ -73,11 +74,11 @@ class Factory
     /**
      * Sets the schema property.
      *
-     * @param SchemaInterface $schema
+     * @param SchemaInterface|null $schema
      */
-    public function setSchema(SchemaInterface $schema)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema;
+        $this->schema = $schema ?: Schema::get();
     }
 
     /**

@@ -12,6 +12,7 @@ use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
+use Adldap\Schemas\Schema;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -110,11 +111,11 @@ class Builder
     /**
      * Constructor.
      *
-     * @param ConnectionInterface $connection
-     * @param Grammar             $grammar
-     * @param SchemaInterface     $schema
+     * @param ConnectionInterface  $connection
+     * @param Grammar              $grammar
+     * @param SchemaInterface|null $schema
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema = null)
     {
         $this->setConnection($connection);
         $this->setGrammar($grammar);
@@ -144,11 +145,11 @@ class Builder
     /**
      * Sets the current schema.
      *
-     * @param SchemaInterface $schema
+     * @param SchemaInterface|null $schema
      */
-    public function setSchema(SchemaInterface $schema)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema;
+        $this->schema = $schema ?: Schema::get();
     }
 
     /**

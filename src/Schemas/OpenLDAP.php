@@ -19,4 +19,12 @@ class OpenLDAP extends ActiveDirectory
     {
         return 'inetorgperson';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function distinguishedName()
+    {
+        return 'dn';
+    }
 }

@@ -182,6 +182,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function distinguishedNameSubKey()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dnsHostName()
     {
         return 'dnshostname';

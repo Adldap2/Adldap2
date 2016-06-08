@@ -207,6 +207,18 @@ interface SchemaInterface
     public function distinguishedName();
 
     /**
+     * The LDAP API references an LDAP object by its distinguished name (DN).
+     *
+     * Different vendors expect the value of the distinguished name to be in
+     * different places. For example ActiveDirectory expects distinguishedname
+     * value to be the first element in an array, however OpenLDAP expects
+     * the dn attribute to contain the value, not an array.
+     *
+     * @return integer|null
+     */
+    public function distinguishedNameSubKey();
+
+    /**
      * Name of computer as registered in DNS.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675524(v=vs.85).aspx

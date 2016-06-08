@@ -214,7 +214,7 @@ interface SchemaInterface
      * value to be the first element in an array, however OpenLDAP expects
      * the dn attribute to contain the value, not an array.
      *
-     * @return integer|null
+     * @return int|null
      */
     public function distinguishedNameSubKey();
 

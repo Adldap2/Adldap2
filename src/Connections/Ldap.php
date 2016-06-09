@@ -10,6 +10,21 @@ class Ldap implements ConnectionInterface
     use LdapFunctionSupportTrait;
 
     /**
+     * The active LDAP connection.
+     *
+     * @var resource
+     */
+    protected $connection;
+
+    /**
+     * Stores the bool whether or not
+     * the current connection is bound.
+     *
+     * @var bool
+     */
+    protected $bound = false;
+
+    /**
      * Stores the bool to tell the connection
      * whether or not to use SSL.
      *
@@ -29,21 +44,6 @@ class Ldap implements ConnectionInterface
      * @var bool
      */
     protected $useTLS = false;
-
-    /**
-     * The current LDAP connection.
-     *
-     * @var resource
-     */
-    protected $connection;
-
-    /**
-     * Stores the bool whether or not
-     * the current connection is bound.
-     *
-     * @var bool
-     */
-    protected $bound = false;
 
     /**
      * {@inheritdoc}

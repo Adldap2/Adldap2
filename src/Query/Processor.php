@@ -212,8 +212,6 @@ class Processor
      */
     protected function processSort(array $models = [])
     {
-        $collection = $this->newCollection($models);
-
         $field = $this->builder->getSortByField();
 
         $flags = $this->builder->getSortByFlags();
@@ -222,7 +220,7 @@ class Processor
 
         $desc = ($direction === 'desc' ? true : false);
 
-        return $collection->sortBy(function (Entry $model) use ($field) {
+        return $this->newCollection($models)->sortBy(function (Entry $model) use ($field) {
             return $model->getAttribute($field, 0);
         }, $flags, $desc);
     }

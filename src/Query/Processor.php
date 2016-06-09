@@ -5,6 +5,7 @@ namespace Adldap\Query;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Entry;
+use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -220,7 +221,7 @@ class Processor
 
         $desc = ($direction === 'desc' ? true : false);
 
-        return $this->newCollection($models)->sortBy(function (Entry $model) use ($field) {
+        return $this->newCollection($models)->sortBy(function (Model $model) use ($field) {
             return $model->getAttribute($field, 0);
         }, $flags, $desc);
     }

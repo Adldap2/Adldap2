@@ -28,9 +28,7 @@ class Group extends Entry
             unset($dns['count']);
 
             foreach ($dns as $dn) {
-                $query = $this->query->newInstance();
-
-                $member = $query->findByDn($dn);
+                $member = $this->query->newInstance()->findByDn($dn);
 
                 if ($member instanceof Model) {
                     $members[] = $member;
@@ -88,9 +86,7 @@ class Group extends Entry
      */
     public function addMember($entry)
     {
-        if ($entry instanceof Entry) {
-            $entry = $entry->getDn();
-        }
+        $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
 
         $modification = new BatchModification();
         $modification->setAttribute($this->schema->member());
@@ -111,9 +107,7 @@ class Group extends Entry
      */
     public function removeMember($entry)
     {
-        if ($entry instanceof Entry) {
-            $entry = $entry->getDn();
-        }
+        $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
 
         $modification = new BatchModification();
         $modification->setAttribute($this->schema->member());

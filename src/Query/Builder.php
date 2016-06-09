@@ -6,6 +6,7 @@ use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Models\Entry;
+use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
 use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Query\Bindings\Filter;
@@ -429,7 +430,7 @@ class Builder
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
-        if (!$entry instanceof Entry && !is_array($entry)) {
+        if (!$entry instanceof Model && !is_array($entry)) {
             throw new ModelNotFoundException('Unable to find record in Active Directory.');
         }
 

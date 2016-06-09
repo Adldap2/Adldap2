@@ -40,8 +40,8 @@ class Factory
     /**
      * Constructor.
      *
-     * @param ConnectionInterface  $connection
-     * @param string               $baseDn
+     * @param ConnectionInterface $connection
+     * @param string              $baseDn
      */
     public function __construct(ConnectionInterface $connection, $baseDn = '')
     {

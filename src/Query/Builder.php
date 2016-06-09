@@ -111,8 +111,8 @@ class Builder
     /**
      * Constructor.
      *
-     * @param ConnectionInterface  $connection
-     * @param Grammar              $grammar
+     * @param ConnectionInterface $connection
+     * @param Grammar             $grammar
      */
     public function __construct(ConnectionInterface $connection, Grammar $grammar)
     {

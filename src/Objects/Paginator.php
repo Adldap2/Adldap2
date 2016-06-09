@@ -68,7 +68,7 @@ class Paginator implements Countable, IteratorAggregate
     public function getIterator()
     {
         $entries = array_slice($this->getResults(), $this->getCurrentOffset(), $this->getPerPage(), true);
-        
+
         return new ArrayIterator($entries);
     }
 

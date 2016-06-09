@@ -2,8 +2,8 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Models\Model;
 use Adldap\Models\Group;
+use Adldap\Models\Model;
 use Adldap\Utilities;
 
 trait HasMemberOfTrait

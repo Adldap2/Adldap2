@@ -2,16 +2,16 @@
 
 namespace Adldap\Models;
 
-use Adldap\Schemas\Schema;
-use ArrayAccess;
-use JsonSerializable;
-use Illuminate\Support\Arr;
-use Adldap\Query\Builder;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
+use Adldap\Query\Builder;
+use Adldap\Schemas\Schema;
+use ArrayAccess;
+use Illuminate\Support\Arr;
+use JsonSerializable;
 
 abstract class Model implements ArrayAccess, JsonSerializable
 {

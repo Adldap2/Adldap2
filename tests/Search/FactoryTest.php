@@ -33,7 +33,7 @@ class FactoryTest extends UnitTestCase
 
         $search->setDn(null);
 
-        $this->assertNull($search->getDn());
+        $this->assertEmpty($search->getDn());
     }
 
     public function test_new_query()

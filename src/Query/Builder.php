@@ -245,7 +245,7 @@ class Builder
      */
     public function setDn($dn = null)
     {
-        $this->dn = $dn;
+        $this->dn = (string) $dn;
 
         return $this;
     }

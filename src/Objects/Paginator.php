@@ -53,16 +53,11 @@ class Paginator implements Countable, IteratorAggregate
      */
     public function __construct(array $results = [], $perPage = 50, $currentPage = 0, $pages = 0)
     {
-        $this->setResults($results);
-
-        $this->setPerPage($perPage);
-
-        $this->setCurrentPage($currentPage);
-
-        $this->setPages($pages);
-
-        // Set the offset for slicing the entries array
-        $this->setCurrentOffset(($this->getCurrentPage() * $this->getPerPage()));
+        $this->setResults($results)
+            ->setPerPage($perPage)
+            ->setCurrentPage($currentPage)
+            ->setPages($pages)
+            ->setCurrentOffset(($this->getCurrentPage() * $this->getPerPage()));
     }
 
     /**
@@ -72,10 +67,8 @@ class Paginator implements Countable, IteratorAggregate
      */
     public function getIterator()
     {
-        // Slice the the entries
         $entries = array_slice($this->getResults(), $this->getCurrentOffset(), $this->getPerPage(), true);
-
-        // Return the array iterator
+        
         return new ArrayIterator($entries);
     }
 
@@ -145,49 +138,69 @@ class Paginator implements Countable, IteratorAggregate
      * Sets the results array property.
      *
      * @param array $results
+     *
+     * @return Paginator
      */
     protected function setResults(array $results)
     {
         $this->results = $results;
+
+        return $this;
     }
 
     /**
      * Sets the total number of pages.
      *
      * @param int $pages
+     *
+     * @return Paginator
      */
     protected function setPages($pages = 0)
     {
         $this->pages = (int) $pages;
+
+        return $this;
     }
 
     /**
      * Sets the number of entries per page.
      *
      * @param int $perPage
+     *
+     * @return Paginator
      */
     protected function setPerPage($perPage = 50)
     {
         $this->perPage = (int) $perPage;
+
+        return $this;
     }
 
     /**
      * Sets the current page number.
      *
      * @param int $currentPage
+     *
+     * @return Paginator
      */
     protected function setCurrentPage($currentPage = 0)
     {
         $this->currentPage = (int) $currentPage;
+
+        return $this;
     }
 
     /**
      * Sets the current offset number.
      *
      * @param int $offset
+     *
+     * @return Paginator
      */
     protected function setCurrentOffset($offset = 0)
     {
         $this->currentOffset = (int) $offset;
+
+        return $this;
     }
 }

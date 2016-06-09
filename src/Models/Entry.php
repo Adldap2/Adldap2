@@ -5,7 +5,7 @@ namespace Adldap\Models;
 use Adldap\Utilities;
 use DateTime;
 
-class Entry extends AbstractModel
+class Entry extends Model
 {
     /**
      * Returns true / false if the current model is writeable
@@ -59,7 +59,7 @@ class Entry extends AbstractModel
      *
      * @param string $accountName
      *
-     * @return AbstractModel
+     * @return Model
      */
     public function setAccountName($accountName)
     {

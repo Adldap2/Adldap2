@@ -2,7 +2,7 @@
 
 namespace Adldap\Models\Traits;
 
-use Adldap\Models\AbstractModel;
+use Adldap\Models\Model;
 use Adldap\Models\Group;
 use Adldap\Utilities;
 
@@ -111,7 +111,7 @@ trait HasMemberOfTrait
         return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
             return $query->select($fields)->findByDn($dn);
         })->filter(function ($group) {
-            return $group instanceof AbstractModel;
+            return $group instanceof Model;
         });
     }
 

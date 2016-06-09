@@ -4,7 +4,7 @@ namespace Adldap\Models;
 
 use DateTime;
 
-class RootDse extends AbstractModel
+class RootDse extends Model
 {
     /**
      * Returns the hosts current time.

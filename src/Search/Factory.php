@@ -5,7 +5,7 @@ namespace Adldap\Search;
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Models\AbstractModel;
+use Adldap\Models\Model;
 use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
@@ -237,7 +237,7 @@ class Factory
             ->whereHas($this->schema->objectClass())
             ->first();
 
-        if ($root instanceof AbstractModel) {
+        if ($root instanceof Model) {
             return (new RootDse([], $this->query))
                 ->setRawAttributes($root->getAttributes());
         }

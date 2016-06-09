@@ -2,17 +2,18 @@
 
 namespace Adldap\Models;
 
+use Adldap\Schemas\Schema;
+use ArrayAccess;
+use JsonSerializable;
+use Illuminate\Support\Arr;
+use Adldap\Query\Builder;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\AdldapException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Query\Builder;
-use ArrayAccess;
-use Illuminate\Support\Arr;
-use JsonSerializable;
 
-abstract class AbstractModel implements ArrayAccess, JsonSerializable
+abstract class Model implements ArrayAccess, JsonSerializable
 {
     /**
      * Indicates if the model exists in active directory.
@@ -80,9 +81,9 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      */
     public function __construct(array $attributes, Builder $builder)
     {
-        $this->setQuery($builder);
-        $this->setSchema($builder->getSchema());
-        $this->fill($attributes);
+        $this->setQuery($builder)
+            ->setSchema(Schema::get())
+            ->fill($attributes);
     }
 
     /**
@@ -103,7 +104,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * @param mixed $key
      * @param mixed $value
      *
-     * @return $this
+     * @return Model
      */
     public function __set($key, $value)
     {
@@ -114,10 +115,14 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * Sets the current query builder.
      *
      * @param Builder $builder
+     *
+     * @return Model
      */
     public function setQuery(Builder $builder)
     {
         $this->query = $builder;
+
+        return $this;
     }
 
     /**
@@ -144,10 +149,14 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * Sets the current model schema.
      *
      * @param SchemaInterface $schema
+     *
+     * @return Model
      */
     public function setSchema(SchemaInterface $schema)
     {
         $this->schema = $schema;
+
+        return $this;
     }
 
     /**
@@ -229,7 +238,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * Synchronizes the models original attributes
      * with the model's current attributes.
      *
-     * @return $this
+     * @return Model
      */
     public function syncOriginal()
     {
@@ -291,7 +300,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes
      *
-     * @return $this
+     * @return Model
      */
     public function fill(array $attributes = [])
     {
@@ -309,7 +318,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      * @param mixed      $value
      * @param int|string $subKey
      *
-     * @return $this
+     * @return Model
      */
     public function setAttribute($key, $value, $subKey = null)
     {
@@ -329,7 +338,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes
      *
-     * @return $this
+     * @return Model
      */
     public function setRawAttributes(array $attributes = [])
     {
@@ -458,7 +467,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param array $modifications
      *
-     * @return $this
+     * @return Model
      */
     public function setModifications(array $modifications = [])
     {
@@ -472,7 +481,7 @@ abstract class AbstractModel implements ArrayAccess, JsonSerializable
      *
      * @param BatchModification $modification
      *
-     * @return $this
+     * @return Model
      */
     public function addModification(BatchModification $modification)
     {

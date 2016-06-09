@@ -559,7 +559,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals(1, $paginator->count());
 
         foreach($paginator as $model) {
-            $this->assertInstanceOf('Adldap\Models\AbstractModel', $model);
+            $this->assertInstanceOf('Adldap\Models\Model', $model);
             $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
             $this->assertEquals($rawEntries[0]['distinguishedname'][0], $model->getDn());
         }

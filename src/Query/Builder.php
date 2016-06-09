@@ -117,39 +117,51 @@ class Builder
      */
     public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema = null)
     {
-        $this->setConnection($connection);
-        $this->setGrammar($grammar);
-        $this->setSchema($schema);
+        $this->setConnection($connection)
+            ->setGrammar($grammar)
+            ->setSchema($schema);
     }
 
     /**
      * Sets the current connection.
      *
      * @param ConnectionInterface $connection
+     *
+     * @return Builder
      */
     public function setConnection(ConnectionInterface $connection)
     {
         $this->connection = $connection;
+
+        return $this;
     }
 
     /**
      * Sets the current filter grammar.
      *
      * @param Grammar $grammar
+     *
+     * @return Builder
      */
     public function setGrammar(Grammar $grammar)
     {
         $this->grammar = $grammar;
+
+        return $this;
     }
 
     /**
      * Sets the current schema.
      *
      * @param SchemaInterface|null $schema
+     *
+     * @return Builder
      */
     public function setSchema(SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: Schema::get();
+
+        return $this;
     }
 
     /**

@@ -46,39 +46,51 @@ class Factory
      */
     public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {
-        $this->setConnection($connection);
-        $this->setSchema($schema);
-        $this->setQuery($this->newQuery($baseDn));
+        $this->setConnection($connection)
+            ->setSchema($schema)
+            ->setQuery($this->newQuery($baseDn));
     }
 
     /**
      * Sets the connection property.
      *
      * @param ConnectionInterface $connection
+     *
+     * @return Factory
      */
     public function setConnection(ConnectionInterface $connection)
     {
         $this->connection = $connection;
+
+        return $this;
     }
 
     /**
      * Sets the query property.
      *
      * @param Builder $query
+     *
+     * @return Factory
      */
     public function setQuery(Builder $query)
     {
         $this->query = $query;
+
+        return $this;
     }
 
     /**
      * Sets the schema property.
      *
      * @param SchemaInterface|null $schema
+     *
+     * @return Factory
      */
     public function setSchema(SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: Schema::get();
+
+        return $this;
     }
 
     /**

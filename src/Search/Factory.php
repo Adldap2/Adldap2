@@ -40,14 +40,15 @@ class Factory
     /**
      * Constructor.
      *
-     * @param ConnectionInterface $connection
-     * @param string              $baseDn
+     * @param ConnectionInterface  $connection
+     * @param SchemaInterface|null $schema
+     * @param string               $baseDn
      */
-    public function __construct(ConnectionInterface $connection, $baseDn = '')
+    public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {
         $this->setConnection($connection)
-            ->setQuery($this->newQuery($baseDn))
-            ->setSchema();
+            ->setSchema($schema)
+            ->setQuery($this->newQuery($baseDn));
     }
 
     /**
@@ -101,7 +102,7 @@ class Factory
      */
     public function newQuery($baseDn = '')
     {
-        return (new Builder($this->connection, $this->newGrammar()))
+        return (new Builder($this->connection, $this->newGrammar(), $this->schema))
             ->setDn($baseDn);
     }
 
@@ -144,10 +145,11 @@ class Factory
      */
     public function users()
     {
-        return $this->query->where([
-            $this->schema->objectClass()    => $this->schema->objectClassPerson(),
-            $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
-        ]);
+        return $this->query
+            ->where([
+                $this->schema->objectClass()    => $this->schema->objectClassPerson(),
+                $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
+            ]);
     }
 
     /**

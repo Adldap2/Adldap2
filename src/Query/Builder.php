@@ -113,13 +113,12 @@ class Builder
      *
      * @param ConnectionInterface  $connection
      * @param Grammar              $grammar
-     * @param SchemaInterface|null $schema
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema = null)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar)
     {
         $this->setConnection($connection)
             ->setGrammar($grammar)
-            ->setSchema($schema);
+            ->setSchema();
     }
 
     /**

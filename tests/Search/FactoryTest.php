@@ -8,13 +8,11 @@ use Adldap\Tests\UnitTestCase;
 
 class FactoryTest extends UnitTestCase
 {
-    protected function newSearchFactory($connection = null, $schema = null, $dn = 'dc=corp,dc=org')
+    protected function newSearchFactory($connection = null, $dn = 'dc=corp,dc=org')
     {
         if (is_null($connection)) $connection = $this->newConnectionMock();
 
-        if (is_null($schema)) $schema = Schema::get();
-
-        return new Factory($connection, $schema, $dn);
+        return new Factory($connection, $dn);
     }
 
     public function test_construct_defaults()
@@ -27,7 +25,7 @@ class FactoryTest extends UnitTestCase
 
     public function test_get_and_set_dn()
     {
-        $search = $this->newSearchFactory($this->newConnectionMock(), Schema::get(), 'dc=corp,dc=org');
+        $search = $this->newSearchFactory($this->newConnectionMock(), 'dc=corp,dc=org');
 
         $this->assertEquals('dc=corp,dc=org', $search->getDn());
 

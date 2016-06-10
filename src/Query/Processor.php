@@ -80,27 +80,20 @@ class Processor
      * @param int   $perPage
      * @param int   $currentPage
      *
-     * @return Paginator|bool
+     * @return Paginator
      */
-    public function processPaginated($pages, $perPage = 50, $currentPage = 0)
+    public function processPaginated(array $pages = [], $perPage = 50, $currentPage = 0)
     {
-        // Make sure we have at least one page of results.
-        if (count($pages) > 0) {
-            $models = [];
+        $models = [];
 
+        foreach ($pages as $results) {
             // Go through each page and process the results into an objects array.
-            foreach ($pages as $results) {
-                $models = array_merge($models, $this->process($results));
-            }
-
-            $models = $this->processSort($models);
-
-            // Return a new Paginator instance.
-            return $this->newPaginator($models->toArray(), $perPage, $currentPage, count($pages));
+            $models = array_merge($models, $this->process($results));
         }
 
-        // Looks like we don't have any results, return false
-        return false;
+        $models = $this->processSort($models)->toArray();
+
+        return $this->newPaginator($models, $perPage, $currentPage, count($pages));
     }
 
     /**

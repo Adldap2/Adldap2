@@ -131,11 +131,21 @@ class Factory
      * connection by performing a search for all entries
      * that contain a common name attribute.
      *
-     * @return array|bool
+     * @return \Illuminate\Support\Collection|array
      */
     public function all()
     {
         return $this->query->whereHas($this->schema->commonName())->get();
+    }
+
+    /**
+     * Alias for the `all()` method.
+     *
+     * @return \Illuminate\Support\Collection|array
+     */
+    public function get()
+    {
+        return $this->all();
     }
 
     /**

@@ -183,7 +183,7 @@ class Builder
     public function newInstance()
     {
         // We'll set the base DN of the new Builder so
-        // devs don't need to do this manually.
+        // developers don't need to do this manually.
         return (new static($this->connection, $this->grammar, $this->schema))
             ->setDn($this->getDn());
     }
@@ -191,7 +191,7 @@ class Builder
     /**
      * Returns the current query.
      *
-     * @return array|\Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|array
      */
     public function get()
     {

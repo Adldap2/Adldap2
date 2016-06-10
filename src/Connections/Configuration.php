@@ -114,11 +114,7 @@ class Configuration
     {
         // We'll construct a new Distinguished name with
         // the DN we're given so we know it's valid.
-        if (!$dn instanceof DistinguishedName) {
-            $dn = new DistinguishedName($dn);
-        }
-
-        $this->baseDn = $dn->get();
+        $this->baseDn = (new DistinguishedName($dn))->get();
     }
 
     /**

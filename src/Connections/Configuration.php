@@ -150,7 +150,7 @@ class Configuration
     /**
      * Sets the port option to use when connecting.
      *
-     * @param $port
+     * @param string|int $port
      *
      * @throws ConfigurationException
      */
@@ -176,7 +176,7 @@ class Configuration
     /**
      * Sets the option whether or not to use SSL when connecting.
      *
-     * @param $bool
+     * @param bool $bool
      *
      * @throws ConfigurationException
      */
@@ -206,7 +206,7 @@ class Configuration
     /**
      * Sets the option whether or not to use TLS when connecting.
      *
-     * @param $bool
+     * @param bool $bool
      *
      * @throws ConfigurationException
      */

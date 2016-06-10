@@ -98,7 +98,7 @@ class AccountControl
     /**
      * Applies the specified flag.
      *
-     * @param $flag
+     * @param int $flag
      */
     public function apply($flag)
     {
@@ -120,9 +120,7 @@ class AccountControl
      */
     public function runLoginScript()
     {
-        $this->applyValue(static::SCRIPT);
-
-        return $this;
+        return $this->add(static::SCRIPT);
     }
 
     /**
@@ -132,9 +130,7 @@ class AccountControl
      */
     public function accountIsLocked()
     {
-        $this->applyValue(static::LOCKOUT);
-
-        return $this;
+        return $this->add(static::LOCKOUT);
     }
 
     /**
@@ -144,9 +140,7 @@ class AccountControl
      */
     public function accountIsDisabled()
     {
-        $this->applyValue(static::ACCOUNTDISABLE);
-
-        return $this;
+        return $this->add(static::ACCOUNTDISABLE);
     }
 
     /**
@@ -159,9 +153,7 @@ class AccountControl
      */
     public function accountIsTemporary()
     {
-        $this->applyValue(static::TEMP_DUPLICATE_ACCOUNT);
-
-        return $this;
+        return $this->add(static::TEMP_DUPLICATE_ACCOUNT);
     }
 
     /**
@@ -171,9 +163,7 @@ class AccountControl
      */
     public function accountIsNormal()
     {
-        $this->applyValue(static::NORMAL_ACCOUNT);
-
-        return $this;
+        return $this->add(static::NORMAL_ACCOUNT);
     }
 
     /**
@@ -183,9 +173,7 @@ class AccountControl
      */
     public function accountIsForInterdomain()
     {
-        $this->applyValue(static::INTERDOMAIN_TRUST_ACCOUNT);
-
-        return $this;
+        return $this->add(static::INTERDOMAIN_TRUST_ACCOUNT);
     }
 
     /**
@@ -197,9 +185,7 @@ class AccountControl
      */
     public function accountIsForWorkstation()
     {
-        $this->applyValue(static::WORKSTATION_TRUST_ACCOUNT);
-
-        return $this;
+        return $this->add(static::WORKSTATION_TRUST_ACCOUNT);
     }
 
     /**
@@ -209,9 +195,7 @@ class AccountControl
      */
     public function accountIsForServer()
     {
-        $this->applyValue(static::SERVER_TRUST_ACCOUNT);
-
-        return $this;
+        return $this->add(static::SERVER_TRUST_ACCOUNT);
     }
 
     /**
@@ -221,9 +205,7 @@ class AccountControl
      */
     public function accountIsMnsLogon()
     {
-        $this->applyValue(static::MNS_LOGON_ACCOUNT);
-
-        return $this;
+        return $this->add(static::MNS_LOGON_ACCOUNT);
     }
 
     /**
@@ -234,9 +216,7 @@ class AccountControl
      */
     public function accountDoesNotRequirePreAuth()
     {
-        $this->applyValue(static::DONT_REQ_PREAUTH);
-
-        return $this;
+        return $this->add(static::DONT_REQ_PREAUTH);
     }
 
     /**
@@ -246,9 +226,7 @@ class AccountControl
      */
     public function accountRequiresSmartCard()
     {
-        $this->applyValue(static::SMARTCARD_REQUIRED);
-
-        return $this;
+        return $this->add(static::SMARTCARD_REQUIRED);
     }
 
     /**
@@ -260,9 +238,7 @@ class AccountControl
      */
     public function accountIsReadOnly()
     {
-        $this->applyValue(static::PARTIAL_SECRETS_ACCOUNT);
-
-        return $this;
+        return $this->add(static::PARTIAL_SECRETS_ACCOUNT);
     }
 
     /**
@@ -272,9 +248,7 @@ class AccountControl
      */
     public function homeFolderIsRequired()
     {
-        $this->applyValue(static::HOMEDIR_REQUIRED);
-
-        return $this;
+        return $this->add(static::HOMEDIR_REQUIRED);
     }
 
     /**
@@ -284,9 +258,7 @@ class AccountControl
      */
     public function passwordIsNotRequired()
     {
-        $this->applyValue(static::PASSWD_NOTREQD);
-
-        return $this;
+        return $this->add(static::PASSWD_NOTREQD);
     }
 
     /**
@@ -299,9 +271,7 @@ class AccountControl
      */
     public function passwordCannotBeChanged()
     {
-        $this->applyValue(static::PASSWD_NOTREQD);
-
-        return $this;
+        return $this->add(static::PASSWD_NOTREQD);
     }
 
     /**
@@ -311,9 +281,7 @@ class AccountControl
      */
     public function passwordDoesNotExpire()
     {
-        $this->applyValue(static::DONT_EXPIRE_PASSWORD);
-
-        return $this;
+        return $this->add(static::DONT_EXPIRE_PASSWORD);
     }
 
     /**
@@ -323,9 +291,7 @@ class AccountControl
      */
     public function passwordIsExpired()
     {
-        $this->applyValue(static::PASSWORD_EXPIRED);
-
-        return $this;
+        return $this->add(static::PASSWORD_EXPIRED);
     }
 
     /**
@@ -335,9 +301,7 @@ class AccountControl
      */
     public function allowEncryptedTextPassword()
     {
-        $this->applyValue(static::ENCRYPTED_TEXT_PWD_ALLOWED);
-
-        return $this;
+        return $this->add(static::ENCRYPTED_TEXT_PWD_ALLOWED);
     }
 
     /**
@@ -353,9 +317,7 @@ class AccountControl
      */
     public function trustForDelegation()
     {
-        $this->applyValue(static::TRUSTED_FOR_DELEGATION);
-
-        return $this;
+        return $this->add(static::TRUSTED_FOR_DELEGATION);
     }
 
     /**
@@ -370,9 +332,7 @@ class AccountControl
      */
     public function trustToAuthForDelegation()
     {
-        $this->applyValue(static::TRUSTED_TO_AUTH_FOR_DELEGATION);
-
-        return $this;
+        return $this->add(static::TRUSTED_TO_AUTH_FOR_DELEGATION);
     }
 
     /**
@@ -383,9 +343,7 @@ class AccountControl
      */
     public function doNotTrustForDelegation()
     {
-        $this->applyValue(static::NOT_DELEGATED);
-
-        return $this;
+        return $this->add(static::NOT_DELEGATED);
     }
 
     /**
@@ -396,13 +354,11 @@ class AccountControl
      */
     public function useDesKeyOnly()
     {
-        $this->applyValue(static::USE_DES_KEY_ONLY);
-
-        return $this;
+        return $this->add(static::USE_DES_KEY_ONLY);
     }
 
     /**
-     * Returns the complete account control integer.
+     * Returns the complete account control value.
      *
      * @return int
      */
@@ -440,12 +396,16 @@ class AccountControl
     /**
      * Applies the inserted value to the values property array.
      *
-     * @param $value
+     * @param int $value
+     *
+     * @return AccountControl
      */
-    protected function applyValue($value)
+    protected function add($value)
     {
         // Use the value as a key so if the same value
         // is used, it will always be overwritten
         $this->values[$value] = $value;
+
+        return $this;
     }
 }

@@ -319,7 +319,7 @@ class Grammar
 
         // Make sure we wrap the query in an 'or' if using multiple
         // orWheres. For example (|(QUERY)(ORWHEREQUERY)).
-        if ((!empty($query) && count($orWheres) > 0) || count($orWheres) > 1) {
+        if (($query && count($orWheres) > 0) || count($orWheres) > 1) {
             $query .= $this->compileOr($ors);
         } else {
             $query .= $ors;

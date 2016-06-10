@@ -50,7 +50,7 @@ class DistinguishedName
     /**
      * Constructor.
      *
-     * @param null $baseDn
+     * @param mixed $baseDn
      */
     public function __construct($baseDn = null)
     {
@@ -192,12 +192,16 @@ class DistinguishedName
     /**
      * Sets the base RDN of the distinguished name.
      *
-     * @param string $base
+     * @param string|DistinguishedName $base
      *
      * @return DistinguishedName
      */
     public function setBase($base)
     {
+        // Typecast base to string in case we've been given
+        // an instance of the distinguished name object.
+        $base = (string) $base;
+
         // If the base DN isn't null we'll try to explode it.
         $base = (Utilities::explodeDn($base, false) ?: []);
 

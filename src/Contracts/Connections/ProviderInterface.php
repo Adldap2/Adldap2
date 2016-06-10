@@ -131,7 +131,7 @@ interface ProviderInterface
      *
      * @throws \Adldap\Exceptions\Auth\BindException
      *
-     * @return void
+     * @return ProviderInterface
      */
     public function connect($username = null, $password = null);
 }

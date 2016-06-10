@@ -193,6 +193,8 @@ class Provider implements ProviderInterface
             // Bind to the server with the specified username and password otherwise.
             $guard->bind($username, $password);
         }
+
+        return $this;
     }
 
     /**

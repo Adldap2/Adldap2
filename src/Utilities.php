@@ -180,29 +180,15 @@ class Utilities
      */
     public static function binarySidToString($binSid)
     {
-        if (trim($binSid) == '' || is_null($binSid)) {
-            return;
-        }
+        $sidHex = unpack('H*hex', $binSid)['hex'];
 
-        $hex = bin2hex($binSid);
+        $subAuths = unpack('H2/H2/n/N/V*', $binSid);
 
-        $rev = hexdec(substr($hex, 0, 2));
+        $revLevel = hexdec(substr($sidHex, 0, 2));
 
-        $subCount = hexdec(substr($hex, 2, 2));
+        $authIdent = hexdec(substr($sidHex, 4, 12));
 
-        $auth = hexdec(substr($hex, 4, 12));
-
-        $result = "$rev-$auth";
-
-        $subauth = [];
-
-        for ($x = 0; $x < $subCount; $x++) {
-            $subauth[$x] = hexdec(static::littleEndian(substr($hex, 16 + ($x * 8), 8)));
-
-            $result .= '-'.$subauth[$x];
-        }
-
-        return 'S-'.$result;
+        return 'S-'.$revLevel.'-'.$authIdent.'-'.implode('-', $subAuths);
     }
 
     /**

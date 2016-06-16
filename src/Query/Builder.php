@@ -484,8 +484,6 @@ class Builder
      */
     public function findByDn($dn, $columns = [])
     {
-        $dn = (is_array($dn) ? $dn : [$dn]);
-
         return $this
             ->setDn($dn)
             ->read(true)

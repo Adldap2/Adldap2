@@ -468,7 +468,7 @@ class Builder
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
         if (!$entry instanceof Model && !is_array($entry)) {
-            throw new ModelNotFoundException('Unable to find record in Active Directory.');
+            throw new ModelNotFoundException('Unable to find record in LDAP Server.');
         }
 
         return $entry;

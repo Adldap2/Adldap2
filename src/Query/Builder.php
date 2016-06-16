@@ -414,6 +414,43 @@ class Builder
     }
 
     /**
+     * Finds multiple records using ambiguous name resolution.
+     *
+     * @param array $anrs
+     * @param array $columns
+     *
+     * @return mixed
+     */
+    public function findMany(array $anrs = [], $columns = [])
+    {
+        return $this->findManyBy($this->schema->anr(), $anrs, $columns);
+    }
+
+    /**
+     * Finds many records by the specified attribute.
+     *
+     * @param string $attribute
+     * @param array  $values
+     * @param array  $columns
+     *
+     * @return mixed
+     */
+    public function findManyBy($attribute, array $values = [], $columns = [])
+    {
+        $models  = [];
+
+        foreach ($values as $value) {
+            $model = $this->newInstance()->findBy($attribute, $value, $columns);
+
+            if ($model instanceof Model) {
+                $models[] = $model;
+            }
+        }
+
+        return $this->newCollection($models);
+    }
+
+    /**
      * Finds a record using ambiguous name resolution. If a record
      * is not found, an exception is thrown.
      *
@@ -440,13 +477,15 @@ class Builder
     /**
      * Finds a record by its distinguished name.
      *
-     * @param string       $dn
+     * @param string|array $dn
      * @param array|string $columns
      *
      * @return bool|Entry
      */
     public function findByDn($dn, $columns = [])
     {
+        $dn = (is_array($dn) ? $dn : [$dn]);
+
         return $this
             ->setDn($dn)
             ->read(true)

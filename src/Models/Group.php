@@ -36,7 +36,7 @@ class Group extends Entry
             }
         }
 
-        return $members;
+        return $this->newCollection($members);
     }
 
     /**

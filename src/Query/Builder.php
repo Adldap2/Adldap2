@@ -437,7 +437,7 @@ class Builder
      */
     public function findManyBy($attribute, array $values = [], $columns = [])
     {
-        $models  = [];
+        $models = [];
 
         foreach ($values as $value) {
             $model = $this->newInstance()->findBy($attribute, $value, $columns);

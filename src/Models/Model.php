@@ -11,6 +11,7 @@ use Adldap\Query\Builder;
 use Adldap\Schemas\Schema;
 use ArrayAccess;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 abstract class Model implements ArrayAccess, JsonSerializable
@@ -143,6 +144,18 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function newQuery()
     {
         return $this->query->newInstance();
+    }
+
+    /**
+     * Returns a new collection with the specified items.
+     *
+     * @param mixed $items
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function newCollection($items)
+    {
+        return new Collection($items);
     }
 
     /**

@@ -754,11 +754,9 @@ class User extends Entry
      */
     public function getPrimaryGroup()
     {
-        $sid = $this->getSid();
+        $groupSid = preg_replace('/\d+$/', $this->getPrimaryGroupId(), $this->getSid());
 
-        $groupSid = substr_replace($sid, $this->getPrimaryGroupId(), strlen($sid) - 4, 4);
-
-        return $this->query->findBySid($groupSid);
+        return $this->query->newInstance()->findBySid($groupSid);
     }
 
     /**

@@ -136,7 +136,7 @@ Model attributes can be set / removed / created a couple different ways.
 
 ### Getting Attributes
 
-All attributes can get retrieved via the `getAttribute()` method:
+All attributes can get retrieved via the `getAttribute($attribute, $subKey = 0)` method:
 
 ```php
 $user->getAttribute('cn');
@@ -150,7 +150,7 @@ $user->cn;
 
 ### Setting Attributes
 
-All attributes can be set via the `setAttribute()` method:
+All attributes can be set via the `setAttribute($attribute, $value, $subKey = 0)` method:
 
 ```php
 $user->setAttribute('cn', 'Common Name');
@@ -177,7 +177,7 @@ $user->save();
 If the set attribute does not exist on the model already,
 it will automatically be created when you call the `save()` method.
 
-If you'd like manually create new attributes individually, call the `createAttribute()` method:
+If you'd like manually create new attributes individually, call the `createAttribute($attribute, $value)` method:
 
 ```php
 if ($user->createAttribute('new', 'New Attribute')) {
@@ -203,7 +203,7 @@ $user->setCommonName('New Name');
 $user->save();
 ```
 
-If you'd like to update attributes individually, call the `updateAttribute()` method:
+If you'd like to update attributes individually, call the `updateAttribute($attribute, $value)` method:
 
 ```php
 if ($user->updateAttribute('cn', 'New Name')) {
@@ -221,7 +221,7 @@ $user->cn = null;
 $user->save();
 ```
 
-Or, you can call the `deleteAttribute()` method:
+Or, you can call the `deleteAttribute($attribute)` method:
 
 ```php
 if ($user->deleteAttribute('cn')) {
@@ -231,7 +231,7 @@ if ($user->deleteAttribute('cn')) {
 
 ## Moving / Renaming
 
-To move a user from one DN or OU to another, use the `move()` method:
+To move a user from one DN or OU to another, use the `move($newRdn, $newParentDn)` method:
 
 ```php
 // New Relative distinguished name.
@@ -260,7 +260,7 @@ if ($user->move($newRdn, $newParentDn, $deleteOldRdn = false) {
 }
 ```
 
-To rename a users DN, just pass in their new relative distinguished name in the `rename()` method:
+To rename a users DN, just pass in their new relative distinguished name in the `rename($newRdn)` method:
 
 ```php
 $newRdn = 'cn=New Name';

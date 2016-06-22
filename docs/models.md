@@ -134,6 +134,20 @@ if ($user->update()) {
 
 Model attributes can be set / removed / created a couple different ways.
 
+### Getting Attributes
+
+All attributes can get retrieved via the `getAttribute()` method:
+
+```php
+$user->getAttribute('cn');
+```
+
+Or can be accessed dynamically as a property:
+
+```php
+$user->cn;
+```
+
 ### Setting Attributes
 
 All attributes can be set via the `setAttribute()` method:

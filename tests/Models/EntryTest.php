@@ -71,6 +71,15 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(['New Account Name'], $entry->samaccountname);
     }
 
+    public function test_set_attribute_forces_lowercase_keys()
+    {
+        $entry = $this->newEntryModel([], $this->newBuilder());
+
+        $entry->setAttribute('TEST', 'test');
+
+        $this->assertEquals('test', key($entry->getAttributes()));
+    }
+
     public function test_update_attribute()
     {
         $attributes = [

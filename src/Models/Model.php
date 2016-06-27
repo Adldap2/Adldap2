@@ -335,6 +335,11 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function setAttribute($key, $value, $subKey = null)
     {
+        // Normalize key.
+        $key = strtolower($key);
+
+        // If the key is equal to 'dn', we'll automatically
+        // change it to the full attribute name.
         $key = ($key == 'dn' ? $this->schema->distinguishedName() : $key);
 
         if (is_null($subKey)) {

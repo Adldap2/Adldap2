@@ -155,11 +155,10 @@ class Factory
      */
     public function users()
     {
-        return $this->query
-            ->where([
-                $this->schema->objectClass()    => $this->schema->objectClassPerson(),
-                $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
-            ]);
+        return $this->where([
+            $this->schema->objectClass()    => $this->schema->objectClassPerson(),
+            $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
+        ]);
     }
 
     /**
@@ -169,7 +168,7 @@ class Factory
      */
     public function printers()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassPrinter(),
         ]);
     }
@@ -181,7 +180,7 @@ class Factory
      */
     public function ous()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassOu(),
         ]);
     }
@@ -193,7 +192,7 @@ class Factory
      */
     public function groups()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassGroup(),
         ]);
     }
@@ -205,7 +204,7 @@ class Factory
      */
     public function containers()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassContainer(),
         ]);
     }
@@ -217,7 +216,7 @@ class Factory
      */
     public function contacts()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassContact(),
         ]);
     }
@@ -229,7 +228,7 @@ class Factory
      */
     public function computers()
     {
-        return $this->query->where([
+        return $this->where([
             $this->schema->objectClass() => $this->schema->objectClassComputer(),
         ]);
     }
@@ -242,6 +241,7 @@ class Factory
     public function getRootDse()
     {
         $root = $this->query
+            ->newInstance()
             ->setDn(null)
             ->read(true)
             ->whereHas($this->schema->objectClass())
@@ -275,6 +275,8 @@ class Factory
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->query, $method], $parameters);
+        $query = $this->query->newInstance();
+
+        return call_user_func_array([$query, $method], $parameters);
     }
 }

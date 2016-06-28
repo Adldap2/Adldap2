@@ -31,9 +31,9 @@ class FactoryTest extends UnitTestCase
 
         $this->assertEquals('dc=corp,dc=org', $search->getDn());
 
-        $search->setDn(null);
+        $query = $search->setDn(null);
 
-        $this->assertEmpty($search->getDn());
+        $this->assertEmpty($query->getDn());
     }
 
     public function test_new_query()

@@ -8,7 +8,6 @@ use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
 use Adldap\Query\Builder;
-use Adldap\Schemas\Schema;
 use ArrayAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -83,7 +82,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function __construct(array $attributes, Builder $builder)
     {
         $this->setQuery($builder)
-            ->setSchema(Schema::get())
+            ->setSchema($builder->getSchema())
             ->fill($attributes);
     }
 

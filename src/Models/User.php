@@ -905,11 +905,11 @@ class User extends Entry
     }
 
     /**
-     * Return true if AD User is expired.
+     * Return true / false if the AD User is expired.
      *
      * @param DateTime $date Optional date
      *
-     * @return bool Is AD user expired ?
+     * @return bool
      */
     public function isExpired(DateTime $date = null)
     {
@@ -921,12 +921,22 @@ class User extends Entry
     }
 
     /**
-     * Return true if AD User is active (enabled & not expired).
+     * Return true / false if AD User is active (enabled & not expired).
      *
-     * @return bool Is AD user active ?
+     * @return bool
      */
     public function isActive()
     {
         return $this->isEnabled() && !$this->isExpired();
+    }
+
+    /**
+     * Returns true / false if the users password is expired.
+     *
+     * @return bool
+     */
+    public function passwordExpired()
+    {
+        return (int) $this->getPasswordLastSet() === 0;
     }
 }

@@ -238,14 +238,6 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function sort($result, $attribute)
-    {
-        return ldap_sort($this->getConnection(), $result, $attribute);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function bind($username, $password, $sasl = false)
     {
         if ($this->isUsingTLS()) {

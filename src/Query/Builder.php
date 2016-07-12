@@ -5,7 +5,6 @@ namespace Adldap\Query;
 use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Models\Entry;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
 use Adldap\Query\Bindings\AbstractBinding;
@@ -333,7 +332,7 @@ class Builder
      *
      * @param array|string $columns
      *
-     * @return mixed
+     * @return Model|array|null
      */
     public function first($columns = [])
     {
@@ -355,7 +354,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return Entry
+     * @return Model
      */
     public function firstOrFail($columns = [])
     {
@@ -480,7 +479,7 @@ class Builder
      * @param string|array $dn
      * @param array|string $columns
      *
-     * @return bool|Entry
+     * @return bool|Model
      */
     public function findByDn($dn, $columns = [])
     {
@@ -501,7 +500,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return bool|Entry
+     * @return bool|Model
      */
     public function findByDnOrFail($dn, $columns = [])
     {

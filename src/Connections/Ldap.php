@@ -198,7 +198,9 @@ class Ldap implements ConnectionInterface
      */
     public function connect($hostname = [], $port = '389')
     {
-        return $this->connection = ldap_connect($this->getHostname($hostname, $this->getProtocol()), $port);
+        $host = $this->getHostname($hostname, $this->getProtocol());
+
+        return $this->connection = ldap_connect("{$host}:{$port}");
     }
 
     /**

@@ -1,12 +1,9 @@
 # PHP LDAP CLASS FOR MANIPULATING ACTIVE DIRECTORY
-
-*Current Stable Version 4.0.0 https://github.com/adldap/adLDAP/releases/tag/v4.0.4*
-
-*Next Version 5.0.0*
+*Version 4.0.4*
 
 Written by Scott Barnett, Richard Hyland
 email: scott@wiggumworld.com, adldap@richardhyland.com
-https://github.com/adldap/adLDAP/
+https://github.com/Rich2k/adLDAP/
 
 ## ABOUT
 
@@ -18,28 +15,25 @@ to benefit the entire community :)
 ## REQUIREMENTS
 
 adLDAP requires PHP 5 and both the LDAP (http://php.net/ldap) and SSL (http://php.net/openssl) libraries
-adLDAP version 5.0.0 will require PHP 5.3+
 
 ## INSTALLATION
 
 adLDAP is not an application, but a class library designed to integrate into your own applications.
 
-The core of adLDAP is contained in the 'lib/adLDAP' directory.  Simply copy/rename this directory inside your own
+The core of adLDAP is contained in the 'src' directory.  Simply copy/rename this directory inside your own
 projects.
 
-Edit the file ``lib/adldap/adLDAP.php`` and change the configuration variables near the top, specifically
+Edit the file ``src/adLDAP.php`` and change the configuration variables near the top, specifically
 those for domain controllers, base dn and account suffix, and if you want to perform anything more complex
 than use authentication you'll also need to set the admin username and password variables too.
 
 From within your code simply require the adLDAP.php file and call it like so
 
-    use \adLDAP;
     require_once(dirname(__FILE__) . '/adLDAP.php');
     $adldap = new adLDAP();
 
 It would be better to wrap it in a try/catch though
 
-    use \adLDAP;
     try {
         $adldap = new adLDAP();
     }
@@ -58,9 +52,9 @@ or
 
 ## DOCUMENTATION
 
-You can find our website at https://github.com/adldap/adLDAP/ or the class documentation at
+You can find our website at https://github.com/Rich2k/adLDAP/ or the class documentation at
 
-https://github.com/adldap/adLDAP/wiki/adLDAP-Developer-API-Reference
+https://github.com/Rich2k/adLDAP/wiki/adLDAP-Developer-API-Reference
 
 ## LICENSE
 

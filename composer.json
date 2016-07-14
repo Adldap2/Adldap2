@@ -1,39 +1,38 @@
 {
-	"name": "stevebauman/adldap",
-	"type": "library",
-	"description": "adLDAP, PHP LDAP library for manipulating Active Directory",
-	"keywords": [
-		"active directory",
-		"ldap",
-		"windows"
-	],
-	"homepage": "http://adldap.sourceforge.net",
-	"license": "LGPL-2.1",
-	"support": {
-		"issues": "https://github.com/adldap/adLDAP/issues",
-		"source": "https://github.com/adldap/adLDAP"
-	},
-	"authors": [
-		{
-			"name": "Richard Hyland",
-			"email": "adldap@richardhyland.com",
-			"role": "Developer"
-		},
-		{
-			"name": "Scott Barnett",
-			"email": "scott@wiggumworld.com",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=5.3.0"
-	},
-	"suggest": {
-		"ext-ldap": "*"
-	},
-	"autoload": {
-		"psr-0": {
-			"": "lib/"
-		}
-	}
+  "name": "adldap2/adldap2",
+  "type": "library",
+  "description": "adLDAP, PHP LDAP library for manipulating Active Directory",
+  "keywords": [
+    "active directory",
+    "ldap",
+    "windows"
+  ],
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/Adldap2/Adldap2/issues",
+    "source": "https://github.com/Adldap2/Adldap2"
+  },
+  "authors": [
+    {
+      "name": "Richard Hyland",
+      "email": "adldap@richardhyland.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Scott Barnett",
+      "email": "scott@wiggumworld.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "suggest": {
+    "ext-ldap": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  }
 }

@@ -290,7 +290,7 @@ class Builder
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
         $this->paginated = true;
-        
+
         $pages = [];
 
         $cookie = '';

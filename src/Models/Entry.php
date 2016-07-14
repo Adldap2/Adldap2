@@ -2,8 +2,8 @@
 
 namespace Adldap\Models;
 
-use Adldap\Utilities;
 use DateTime;
+use Adldap\Utilities;
 
 class Entry extends Model
 {
@@ -35,7 +35,7 @@ class Entry extends Model
      *
      * @param string $name
      *
-     * @return Entry
+     * @return Model
      */
     public function setName($name)
     {

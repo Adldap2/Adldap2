@@ -36,6 +36,13 @@ class Configuration
     protected $port = ConnectionInterface::PORT;
 
     /**
+     * The LDAP network timeout setting.
+     *
+     * @var int
+     */
+    protected $timeout = 5;
+
+    /**
      * Determines whether or not to use SSL
      * with the current LDAP connection.
      *
@@ -171,6 +178,32 @@ class Configuration
     public function getPort()
     {
         return $this->port;
+    }
+
+    /**
+     * Sets the timeout option.
+     *
+     * @param int $timeout
+     *
+     * @throws \Adldap\Exceptions\ConfigurationException
+     */
+    public function setTimeout($timeout)
+    {
+        if (!is_numeric($timeout)) {
+            throw new ConfigurationException('Your configured LDAP timeout must be an integer.');
+        }
+
+        $this->timeout = $timeout;
+    }
+
+    /**
+     * Returns the timeout option.
+     *
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 
     /**

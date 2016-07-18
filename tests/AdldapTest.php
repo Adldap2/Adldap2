@@ -48,6 +48,7 @@ class AdldapTest extends UnitTestCase
             ->shouldReceive('getDomainControllers')->once()->andReturn(['dc1', 'dc2'])
             ->shouldReceive('setDomainControllerSelected')->once()
             ->shouldReceive('getPort')->once()->andReturn(389)
+            ->shouldReceive('getTimeout')->once()->andReturn(5)
             ->shouldReceive('getFollowReferrals')->once()->andReturn(1)
             ->shouldReceive('getAdminCredentials')->once()->andReturn(['username', 'password', 'suffix'])
             ->shouldReceive('getAccountSuffix')->once()->andReturn('@corp.org')
@@ -78,7 +79,8 @@ class AdldapTest extends UnitTestCase
             ->shouldReceive('getUseTLS')->andReturn(false)
             ->shouldReceive('getFollowReferrals')->andReturn(false)
             ->shouldReceive('getDomainControllers')->andReturn([])
-            ->shouldReceive('getPort')->andReturn(387);
+            ->shouldReceive('getPort')->andReturn(387)
+            ->shouldReceive('getTimeout')->once()->andReturn(5);
 
         $connection = $this->mock('Adldap\Connections\Ldap');
 

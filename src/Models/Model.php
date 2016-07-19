@@ -823,7 +823,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         $original = $this->original[$key];
 
-        return is_numeric($current) && is_numeric($original) && strcmp((string) $current, (string) $original) === 0;
+        return  is_numeric($current) &&
+                is_numeric($original) &&
+                strcmp((string) $current, (string) $original) === 0 ||
+            count(array_diff($current, $original)) === 0;
     }
 
     /**

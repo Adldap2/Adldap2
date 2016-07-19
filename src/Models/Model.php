@@ -16,7 +16,7 @@ use JsonSerializable;
 abstract class Model implements ArrayAccess, JsonSerializable
 {
     /**
-     * Indicates if the model exists in active directory.
+     * Indicates if the model exists.
      *
      * @var bool
      */
@@ -46,21 +46,21 @@ abstract class Model implements ArrayAccess, JsonSerializable
     protected $schema;
 
     /**
-     * Holds the current objects attributes.
+     * Contains the models attributes.
      *
      * @var array
      */
     protected $attributes = [];
 
     /**
-     * Holds the current objects original attributes.
+     * Contains the models original attributes.
      *
      * @var array
      */
     protected $original = [];
 
     /**
-     * Holds the current objects modified attributes.
+     * Contains the models modifications.
      *
      * @var array
      */
@@ -620,7 +620,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Persists attribute updates to the active directory record.
+     * Persists attribute updates to the record.
      *
      * @return bool
      */
@@ -648,7 +648,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Creates an active directory record.
+     * Creates a record.
      *
      * @return bool
      */
@@ -764,7 +764,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         if ($this->exists === false) {
             // Make sure the record exists before we can delete it
-            throw new ModelNotFoundException('Model does not exist in active directory.');
+            throw new ModelNotFoundException('Model does not exist.');
         }
 
         if (empty($dn)) {

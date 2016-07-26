@@ -2,11 +2,11 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Contracts\Connections\ConnectionInterface;
+use Traversable;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Exceptions\ConfigurationException;
 use Adldap\Exceptions\InvalidArgumentException;
-use Adldap\Objects\DistinguishedName;
-use Traversable;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Configuration
 {

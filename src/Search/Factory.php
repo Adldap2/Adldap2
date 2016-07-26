@@ -9,6 +9,7 @@ use Adldap\Models\Model;
 use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\Schema;
 
 class Factory
@@ -88,7 +89,7 @@ class Factory
      */
     public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema ?: Schema::get();
+        $this->schema = $schema ?: new ActiveDirectory();
 
         return $this;
     }

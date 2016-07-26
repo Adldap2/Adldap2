@@ -2,11 +2,19 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Schemas\Schema;
+use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Utilities;
 
 class DistinguishedName
 {
+    /**
+     * The current LDAP schema.
+     *
+     * @var SchemaInterface
+     */
+    protected $schema;
+
     /**
      * The domain components in the DN.
      *
@@ -50,11 +58,13 @@ class DistinguishedName
     /**
      * Constructor.
      *
-     * @param mixed $baseDn
+     * @param mixed           $baseDn
+     * @param SchemaInterface $schema
      */
-    public function __construct($baseDn = null)
+    public function __construct($baseDn = null, SchemaInterface $schema = null)
     {
         $this->setBase($baseDn);
+        $this->setSchema($schema);
     }
 
     /**
@@ -225,6 +235,20 @@ class DistinguishedName
     }
 
     /**
+     * Sets the schema for the distinguished name.
+     *
+     * @param \Adldap\Contracts\Schemas\SchemaInterface|null $schema
+     *
+     * @return DistinguishedName
+     */
+    public function setSchema(SchemaInterface $schema = null)
+    {
+        $this->schema = $schema ?: new ActiveDirectory();
+
+        return $this;
+    }
+
+    /**
      * Assembles all of the RDNs and returns the result.
      *
      * @return string
@@ -246,7 +270,7 @@ class DistinguishedName
      */
     public function assembleCns()
     {
-        return $this->assembleRdns(Schema::get()->commonName(), $this->commonNames);
+        return $this->assembleRdns($this->schema->commonName(), $this->commonNames);
     }
 
     /**
@@ -256,7 +280,7 @@ class DistinguishedName
      */
     public function assembleOus()
     {
-        return $this->assembleRdns(Schema::get()->organizationalUnitShort(), $this->organizationUnits);
+        return $this->assembleRdns($this->schema->organizationalUnitShort(), $this->organizationUnits);
     }
 
     /**
@@ -266,7 +290,7 @@ class DistinguishedName
      */
     public function assembleDcs()
     {
-        return $this->assembleRdns(Schema::get()->domainComponent(), $this->domainComponents);
+        return $this->assembleRdns($this->schema->domainComponent(), $this->domainComponents);
     }
 
     /**
@@ -276,7 +300,7 @@ class DistinguishedName
      */
     public function assembleOs()
     {
-        return $this->assembleRdns(Schema::get()->organizationName(), $this->organizationNames);
+        return $this->assembleRdns($this->schema->organizationName(), $this->organizationNames);
     }
 
     /**

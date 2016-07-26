@@ -568,7 +568,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getNewDnBuilder($baseDn = '')
     {
-        return new DistinguishedName($baseDn);
+        return new DistinguishedName($baseDn, $this->schema);
     }
 
     /**

@@ -8,7 +8,7 @@ use Adldap\Contracts\Connections\ConnectionInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Factory as ModelFactory;
-use Adldap\Schemas\Schema;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Search\Factory as SearchFactory;
 use InvalidArgumentException;
 
@@ -126,7 +126,7 @@ class Provider implements ProviderInterface
      */
     public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema ?: Schema::get();
+        $this->schema = $schema ?: new ActiveDirectory();
     }
 
     /**

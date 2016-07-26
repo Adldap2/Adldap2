@@ -12,7 +12,7 @@ use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
-use Adldap\Schemas\Schema;
+use Adldap\Schemas\ActiveDirectory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -159,7 +159,7 @@ class Builder
      */
     public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema ?: Schema::get();
+        $this->schema = $schema ?: new ActiveDirectory();
 
         return $this;
     }

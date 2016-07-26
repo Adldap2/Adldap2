@@ -2,7 +2,7 @@
 
 After installation, you'll need to create a couple objects to start running operations on your active directory server.
 
-First, we'll define our configuration array (outlined [here]()):
+First, we'll define our configuration array (outlined [here](docs/configuration.md)):
 
 ```php
 $config = ['...'];

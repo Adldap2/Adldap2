@@ -26,7 +26,7 @@ interface ConnectionInterface
     const PROTOCOL = 'ldap://';
 
     /**
-     * The LDAP SSL Port number.
+     * The LDAP SSL port number.
      *
      * @var string
      */

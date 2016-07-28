@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests\Connections;
 
-use Adldap\Exceptions\AdldapException;
-use Adldap\Connections\Provider;
 use Adldap\Connections\Manager;
+use Adldap\Connections\Provider;
+use Adldap\Exceptions\AdldapException;
 use Adldap\Tests\UnitTestCase;
 
 class ManagerTest extends UnitTestCase

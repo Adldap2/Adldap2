@@ -2,8 +2,8 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Exceptions\AdldapException;
 use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Exceptions\AdldapException;
 
 class Ldap implements ConnectionInterface
 {

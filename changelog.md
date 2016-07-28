@@ -2,10 +2,379 @@
 
 ## [Unreleased](https://github.com/Adldap2/Adldap2/tree/HEAD)
 
-[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.8...HEAD)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...HEAD)
+
+**Fixed bugs:**
+
+- Multi-value field order isn't preserved [\#298](https://github.com/Adldap2/Adldap2/issues/298)
+
+**Closed issues:**
+
+- adldap2/adldap2 : Doesn't work for LDAP servers without SSL [\#299](https://github.com/Adldap2/Adldap2/issues/299)
+- I cannot retrieve my groups [\#296](https://github.com/Adldap2/Adldap2/issues/296)
+- Error when creating user [\#288](https://github.com/Adldap2/Adldap2/issues/288)
 
 **Merged pull requests:**
 
+- Initial experimental support for FreeIPA [\#300](https://github.com/Adldap2/Adldap2/pull/300) ([Cheezykins](https://github.com/Cheezykins))
+- Applied fixes from StyleCI [\#294](https://github.com/Adldap2/Adldap2/pull/294) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#293](https://github.com/Adldap2/Adldap2/pull/293) ([stevebauman](https://github.com/stevebauman))
+
+## [v4.0.4](https://github.com/Adldap2/Adldap2/tree/v4.0.4) (2016-07-14)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.19...v4.0.4)
+
+**Fixed bugs:**
+
+- Doing another search after paginated search causes 'Critical extension is unavailable' Error [\#274](https://github.com/Adldap2/Adldap2/issues/274)
+
+**Closed issues:**
+
+- Remove pwdLastSet from Contact creation [\#291](https://github.com/Adldap2/Adldap2/issues/291)
+- Remove email as required attribute in Active Directory Contact Object  [\#290](https://github.com/Adldap2/Adldap2/issues/290)
+- Call to a member function map\(\) on array [\#289](https://github.com/Adldap2/Adldap2/issues/289)
+- Attribute name problem in setAttribute [\#287](https://github.com/Adldap2/Adldap2/issues/287)
+- getPrimaryGroup\(\) does not work [\#284](https://github.com/Adldap2/Adldap2/issues/284)
+- call\_user\_func\_array\(\) expects parameter 1 to be a valid callback, class 'Adldap\Connections\Provider' does not have a method 'users' [\#275](https://github.com/Adldap2/Adldap2/issues/275)
+- Unable to find users [\#271](https://github.com/Adldap2/Adldap2/issues/271)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#292](https://github.com/Adldap2/Adldap2/pull/292) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#285](https://github.com/Adldap2/Adldap2/pull/285) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#283](https://github.com/Adldap2/Adldap2/pull/283) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#282](https://github.com/Adldap2/Adldap2/pull/282) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#281](https://github.com/Adldap2/Adldap2/pull/281) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#279](https://github.com/Adldap2/Adldap2/pull/279) ([stevebauman](https://github.com/stevebauman))
+- Update distinguishedName for OpenLDAP to just dn [\#277](https://github.com/Adldap2/Adldap2/pull/277) ([fillup](https://github.com/fillup))
+
+## [v6.0.19](https://github.com/Adldap2/Adldap2/tree/v6.0.19) (2016-06-02)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.18...v6.0.19)
+
+**Closed issues:**
+
+- Installation Issue [\#272](https://github.com/Adldap2/Adldap2/issues/272)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#273](https://github.com/Adldap2/Adldap2/pull/273) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.18](https://github.com/Adldap2/Adldap2/tree/v6.0.18) (2016-06-02)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.17...v6.0.18)
+
+**Closed issues:**
+
+- Errors searching in OpenLDAP [\#265](https://github.com/Adldap2/Adldap2/issues/265)
+- BC Break :  $user-\>save\(\) after v6.0.13 [\#264](https://github.com/Adldap2/Adldap2/issues/264)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#270](https://github.com/Adldap2/Adldap2/pull/270) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.17](https://github.com/Adldap2/Adldap2/tree/v6.0.17) (2016-05-30)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.16...v6.0.17)
+
+**Closed issues:**
+
+- PHP \>= 5.5.10 || \>= 5.6.0 [\#267](https://github.com/Adldap2/Adldap2/issues/267)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#268](https://github.com/Adldap2/Adldap2/pull/268) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.16](https://github.com/Adldap2/Adldap2/tree/v6.0.16) (2016-05-24)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.15...v6.0.16)
+
+**Closed issues:**
+
+- Call to undefined method Adldap\Adldap::authenticate\(\) [\#263](https://github.com/Adldap2/Adldap2/issues/263)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#266](https://github.com/Adldap2/Adldap2/pull/266) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#262](https://github.com/Adldap2/Adldap2/pull/262) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.15](https://github.com/Adldap2/Adldap2/tree/v6.0.15) (2016-05-17)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.14...v6.0.15)
+
+**Fixed bugs:**
+
+- Inconsistent getAttribute?? [\#258](https://github.com/Adldap2/Adldap2/issues/258)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#260](https://github.com/Adldap2/Adldap2/pull/260) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.14](https://github.com/Adldap2/Adldap2/tree/v6.0.14) (2016-05-16)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.13...v6.0.14)
+
+**Implemented enhancements:**
+
+- Opposite to getDirty\(\)?? [\#259](https://github.com/Adldap2/Adldap2/issues/259)
+
+## [v6.0.13](https://github.com/Adldap2/Adldap2/tree/v6.0.13) (2016-05-12)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.12...v6.0.13)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#257](https://github.com/Adldap2/Adldap2/pull/257) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.12](https://github.com/Adldap2/Adldap2/tree/v6.0.12) (2016-05-11)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.11...v6.0.12)
+
+**Merged pull requests:**
+
+- Imported missing Utilities class. [\#256](https://github.com/Adldap2/Adldap2/pull/256) ([nbrink](https://github.com/nbrink))
+- Applied fixes from StyleCI [\#255](https://github.com/Adldap2/Adldap2/pull/255) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#254](https://github.com/Adldap2/Adldap2/pull/254) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.11](https://github.com/Adldap2/Adldap2/tree/v6.0.11) (2016-05-10)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.10...v6.0.11)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#253](https://github.com/Adldap2/Adldap2/pull/253) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#252](https://github.com/Adldap2/Adldap2/pull/252) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.10](https://github.com/Adldap2/Adldap2/tree/v6.0.10) (2016-05-10)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.9...v6.0.10)
+
+**Fixed bugs:**
+
+- inGroup always False [\#251](https://github.com/Adldap2/Adldap2/issues/251)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#250](https://github.com/Adldap2/Adldap2/pull/250) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#247](https://github.com/Adldap2/Adldap2/pull/247) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#246](https://github.com/Adldap2/Adldap2/pull/246) ([stevebauman](https://github.com/stevebauman))
+- Group Member Names [\#245](https://github.com/Adldap2/Adldap2/pull/245) ([dscone](https://github.com/dscone))
+
+## [v6.0.9](https://github.com/Adldap2/Adldap2/tree/v6.0.9) (2016-04-28)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.8...v6.0.9)
+
+**Implemented enhancements:**
+
+- \[6.0\] Wrong encoded DNs [\#239](https://github.com/Adldap2/Adldap2/issues/239)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#244](https://github.com/Adldap2/Adldap2/pull/244) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#243](https://github.com/Adldap2/Adldap2/pull/243) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#242](https://github.com/Adldap2/Adldap2/pull/242) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.8](https://github.com/Adldap2/Adldap2/tree/v6.0.8) (2016-04-26)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.7...v6.0.8)
+
+**Closed issues:**
+
+- Get authenticated user [\#236](https://github.com/Adldap2/Adldap2/issues/236)
+- Model, getSamaccountname\(\) [\#235](https://github.com/Adldap2/Adldap2/issues/235)
+- \[6.0\] Remove CN, problem with accents ? [\#234](https://github.com/Adldap2/Adldap2/issues/234)
+- Create user, set account normal [\#233](https://github.com/Adldap2/Adldap2/issues/233)
+- How i can show the User SID? [\#222](https://github.com/Adldap2/Adldap2/issues/222)
+- Login screen not functioning as intended.  [\#213](https://github.com/Adldap2/Adldap2/issues/213)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#241](https://github.com/Adldap2/Adldap2/pull/241) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.7](https://github.com/Adldap2/Adldap2/tree/v6.0.7) (2016-04-20)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.6...v6.0.7)
+
+**Implemented enhancements:**
+
+- catching ConnectionException [\#227](https://github.com/Adldap2/Adldap2/issues/227)
+
+## [v6.0.6](https://github.com/Adldap2/Adldap2/tree/v6.0.6) (2016-04-20)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.5...v6.0.6)
+
+**Implemented enhancements:**
+
+- sortBy\(\) sort flags [\#210](https://github.com/Adldap2/Adldap2/issues/210)
+
+**Closed issues:**
+
+- Fetching OUs [\#231](https://github.com/Adldap2/Adldap2/issues/231)
+
+**Merged pull requests:**
+
+- Replace DinstinguishedName by DistinguishedName [\#232](https://github.com/Adldap2/Adldap2/pull/232) ([wallish](https://github.com/wallish))
+
+## [v6.0.5](https://github.com/Adldap2/Adldap2/tree/v6.0.5) (2016-04-18)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.4...v6.0.5)
+
+**Closed issues:**
+
+- $user-\>isDisabled\(\) returns wrong result in version 6 [\#230](https://github.com/Adldap2/Adldap2/issues/230)
+- Unable to Paginate Users [\#211](https://github.com/Adldap2/Adldap2/issues/211)
+
+## [v6.0.4](https://github.com/Adldap2/Adldap2/tree/v6.0.4) (2016-04-15)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.3...v6.0.4)
+
+**Fixed bugs:**
+
+- sortBy\(\) doesn't work for samaccountname after upgrade to version 6 [\#228](https://github.com/Adldap2/Adldap2/issues/228)
+
+**Closed issues:**
+
+- \[6.0\] Problem with illuminate [\#226](https://github.com/Adldap2/Adldap2/issues/226)
+- How to get a group object by search [\#225](https://github.com/Adldap2/Adldap2/issues/225)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#229](https://github.com/Adldap2/Adldap2/pull/229) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.3](https://github.com/Adldap2/Adldap2/tree/v6.0.3) (2016-04-11)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.2...v6.0.3)
+
+**Closed issues:**
+
+- $user-\>save\(\) error handling [\#223](https://github.com/Adldap2/Adldap2/issues/223)
+- User create ldap\_add error - Howto BUG [\#221](https://github.com/Adldap2/Adldap2/issues/221)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#224](https://github.com/Adldap2/Adldap2/pull/224) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.2](https://github.com/Adldap2/Adldap2/tree/v6.0.2) (2016-04-07)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.1...v6.0.2)
+
+**Closed issues:**
+
+- Reuse of the Query Builder [\#220](https://github.com/Adldap2/Adldap2/issues/220)
+- Select all users memberOf [\#219](https://github.com/Adldap2/Adldap2/issues/219)
+
+## [v6.0.1](https://github.com/Adldap2/Adldap2/tree/v6.0.1) (2016-04-04)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.0.0...v6.0.1)
+
+**Closed issues:**
+
+- \[6.0\] Auth attempt always returns true [\#217](https://github.com/Adldap2/Adldap2/issues/217)
+- v6.0.0 Goals & Milestones [\#118](https://github.com/Adldap2/Adldap2/issues/118)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#218](https://github.com/Adldap2/Adldap2/pull/218) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.0.0](https://github.com/Adldap2/Adldap2/tree/v6.0.0) (2016-04-02)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.17...v6.0.0)
+
+**Implemented enhancements:**
+
+- Multiple Domains [\#183](https://github.com/Adldap2/Adldap2/issues/183)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#216](https://github.com/Adldap2/Adldap2/pull/216) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#215](https://github.com/Adldap2/Adldap2/pull/215) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.17](https://github.com/Adldap2/Adldap2/tree/v5.2.17) (2016-03-29)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.16...v5.2.17)
+
+**Closed issues:**
+
+- users search not working [\#214](https://github.com/Adldap2/Adldap2/issues/214)
+- move, error code 53, Server is unwilling to perform [\#212](https://github.com/Adldap2/Adldap2/issues/212)
+
+## [v5.2.16](https://github.com/Adldap2/Adldap2/tree/v5.2.16) (2016-03-24)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.15...v5.2.16)
+
+## [v5.2.15](https://github.com/Adldap2/Adldap2/tree/v5.2.15) (2016-03-22)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.14...v5.2.15)
+
+**Fixed bugs:**
+
+- \[5.2\] Model Data isn't Json Serializable. [\#208](https://github.com/Adldap2/Adldap2/issues/208)
+
+**Closed issues:**
+
+- getFirstName [\#209](https://github.com/Adldap2/Adldap2/issues/209)
+- How to update ou? [\#204](https://github.com/Adldap2/Adldap2/issues/204)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#207](https://github.com/Adldap2/Adldap2/pull/207) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#206](https://github.com/Adldap2/Adldap2/pull/206) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#205](https://github.com/Adldap2/Adldap2/pull/205) ([stevebauman](https://github.com/stevebauman))
+
+## [v5.2.14](https://github.com/Adldap2/Adldap2/tree/v5.2.14) (2016-03-17)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.13...v5.2.14)
+
+**Closed issues:**
+
+- Changing a users OU? [\#200](https://github.com/Adldap2/Adldap2/issues/200)
+- Empty Search results [\#199](https://github.com/Adldap2/Adldap2/issues/199)
+- Only AD supported? [\#198](https://github.com/Adldap2/Adldap2/issues/198)
+- search with filter [\#196](https://github.com/Adldap2/Adldap2/issues/196)
+- Recursive inGroup checking not supported? [\#192](https://github.com/Adldap2/Adldap2/issues/192)
+- master/v6 - SSO only over Kerberos [\#185](https://github.com/Adldap2/Adldap2/issues/185)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#203](https://github.com/Adldap2/Adldap2/pull/203) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#202](https://github.com/Adldap2/Adldap2/pull/202) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#201](https://github.com/Adldap2/Adldap2/pull/201) ([stevebauman](https://github.com/stevebauman))
+- Update USER.md [\#197](https://github.com/Adldap2/Adldap2/pull/197) ([R13e](https://github.com/R13e))
+
+## [v5.2.13](https://github.com/Adldap2/Adldap2/tree/v5.2.13) (2016-03-01)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.12...v5.2.13)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#195](https://github.com/Adldap2/Adldap2/pull/195) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#194](https://github.com/Adldap2/Adldap2/pull/194) ([stevebauman](https://github.com/stevebauman))
+- Add recursive flag to inGroup & getGroups methods [\#193](https://github.com/Adldap2/Adldap2/pull/193) ([tof06](https://github.com/tof06))
+
+## [v5.2.12](https://github.com/Adldap2/Adldap2/tree/v5.2.12) (2016-02-26)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.11...v5.2.12)
+
+**Closed issues:**
+
+- Can't contact LDAP server since version 1.5.9 [\#189](https://github.com/Adldap2/Adldap2/issues/189)
+- ldap auth form in laravel 5.2 [\#188](https://github.com/Adldap2/Adldap2/issues/188)
+- Setting Custom AD Attributes while creating user [\#187](https://github.com/Adldap2/Adldap2/issues/187)
+- Configuration: Ignoring specified port? [\#186](https://github.com/Adldap2/Adldap2/issues/186)
+- Question about setPassword method. [\#181](https://github.com/Adldap2/Adldap2/issues/181)
+- Admin account requirement interferes with authentication [\#179](https://github.com/Adldap2/Adldap2/issues/179)
+- cannot config port & tls not work [\#172](https://github.com/Adldap2/Adldap2/issues/172)
+- Retrieving users breaks FirePHP debugger [\#170](https://github.com/Adldap2/Adldap2/issues/170)
+- Get All Users [\#163](https://github.com/Adldap2/Adldap2/issues/163)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#184](https://github.com/Adldap2/Adldap2/pull/184) ([stevebauman](https://github.com/stevebauman))
+- link to Yii2 wrapper [\#182](https://github.com/Adldap2/Adldap2/pull/182) ([vitalyzhakov](https://github.com/vitalyzhakov))
+- Revert "make bind function follow spec by returning bool instead of throwing …" [\#180](https://github.com/Adldap2/Adldap2/pull/180) ([jspringe](https://github.com/jspringe))
+- make bind function follow spec by returning bool instead of throwing … [\#178](https://github.com/Adldap2/Adldap2/pull/178) ([therightstuff](https://github.com/therightstuff))
+
+## [v5.2.11](https://github.com/Adldap2/Adldap2/tree/v5.2.11) (2016-02-05)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.10...v5.2.11)
+
+**Merged pull requests:**
+
+- Set default port for SSL connections if not specified. [\#177](https://github.com/Adldap2/Adldap2/pull/177) ([jspringe](https://github.com/jspringe))
+
+## [v5.2.10](https://github.com/Adldap2/Adldap2/tree/v5.2.10) (2016-02-05)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.9...v5.2.10)
+
+**Merged pull requests:**
+
+- Alt fix user change password [\#176](https://github.com/Adldap2/Adldap2/pull/176) ([jspringe](https://github.com/jspringe))
+- Replaced LDAP\_MODIFY\_BATCH\_REMOVE with ..\_REPLACE due to 'Constraint'… [\#174](https://github.com/Adldap2/Adldap2/pull/174) ([jspringe](https://github.com/jspringe))
+
+## [v5.2.9](https://github.com/Adldap2/Adldap2/tree/v5.2.9) (2016-02-05)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v5.2.8...v5.2.9)
+
+**Closed issues:**
+
+- How to select some fields for all users  [\#171](https://github.com/Adldap2/Adldap2/issues/171)
+
+**Merged pull requests:**
+
+- fix port setting not work problem [\#173](https://github.com/Adldap2/Adldap2/pull/173) ([gwjwin](https://github.com/gwjwin))
+- Applied fixes from StyleCI [\#169](https://github.com/Adldap2/Adldap2/pull/169) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#168](https://github.com/Adldap2/Adldap2/pull/168) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#167](https://github.com/Adldap2/Adldap2/pull/167) ([stevebauman](https://github.com/stevebauman))
 - Applied fixes from StyleCI [\#166](https://github.com/Adldap2/Adldap2/pull/166) ([stevebauman](https://github.com/stevebauman))
 - Applied fixes from StyleCI [\#165](https://github.com/Adldap2/Adldap2/pull/165) ([stevebauman](https://github.com/stevebauman))
 - Applied fixes from StyleCI [\#164](https://github.com/Adldap2/Adldap2/pull/164) ([stevebauman](https://github.com/stevebauman))
@@ -459,8 +828,8 @@
 
 **Merged pull requests:**
 
-- allow to pass array with configuration options to Configuration class [\#31](https://github.com/Adldap2/Adldap2/pull/31) ([trinet-at](https://github.com/trinet-at))
-- Correclty handle an empty LDAP escape ignore string [\#30](https://github.com/Adldap2/Adldap2/pull/30) ([trinet-at](https://github.com/trinet-at))
+- allow to pass array with configuration options to Configuration class [\#31](https://github.com/Adldap2/Adldap2/pull/31) ([rieschl](https://github.com/rieschl))
+- Correclty handle an empty LDAP escape ignore string [\#30](https://github.com/Adldap2/Adldap2/pull/30) ([rieschl](https://github.com/rieschl))
 - LDAPS not connecting [\#27](https://github.com/Adldap2/Adldap2/pull/27) ([dlundgren](https://github.com/dlundgren))
 
 ## [v5.0.0-alpha.1](https://github.com/Adldap2/Adldap2/tree/v5.0.0-alpha.1) (2015-05-31)
@@ -494,9 +863,6 @@
 - update badges [\#7](https://github.com/Adldap2/Adldap2/pull/7) ([strebl](https://github.com/strebl))
 
 ## [v4.0.5](https://github.com/Adldap2/Adldap2/tree/v4.0.5) (2015-01-26)
-[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...v4.0.5)
-
-## [v4.0.4](https://github.com/Adldap2/Adldap2/tree/v4.0.4) (2013-04-13)
 
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

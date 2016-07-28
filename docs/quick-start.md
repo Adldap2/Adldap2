@@ -1,6 +1,9 @@
 ## Quick Start
 
 ```php
+// Construct new Adldap instance.
+$ad = new \Adldap\Adldap();
+
 // Create a configuration array.
 $config = [
   'account_suffix'        => '@corp.acme.org',
@@ -13,9 +16,6 @@ $config = [
 // Create a new connection provider.
 $provider = new \Adldap\Connections\Provider($config);
 
-// Construct new Adldap instance.
-$ad = new \Adldap\Adldap();
-
 // Add the provider to Adldap.
 $ad->addProvider('default', $provider);
 
@@ -24,17 +24,8 @@ try {
     // Connect using the providers name.
     $ad->connect('default');
 
-    // Create a new search.
-    $search = $provider->search();
-
-    // Call query methods upon the search itself.
-    $results = $search->where('...')->get();
-
-    // Or create a new query object.
-    $query = $search->newQuery();
-  
     // Perform a query.
-    $results = $search->where('...')->get();
+    $results = $search->where('cn', '=', 'John Doe')->get();
 
     // Create a new LDAP object.
     $user =  $provider->make()->user();
@@ -42,7 +33,7 @@ try {
     // Set a model's attribute.
     $user->cn = 'John Doe';
 
-    // Persist the changes to your AD server.
+    // Save the changes to your LDAP server.
     if ($user->save()) {
         // User was saved!
     }

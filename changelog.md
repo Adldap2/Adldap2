@@ -3,10 +3,6 @@
 ## [v6.1.0](https://github.com/Adldap2/Adldap2/tree/v6.1.0) (2016-07-28)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...v6.1.0)
 
-**Implemented enhancements:**
-
-- Remove Builder dependencies on models [\#248](https://github.com/Adldap2/Adldap2/issues/248)
-
 **Fixed bugs:**
 
 - Multi-value field order isn't preserved [\#298](https://github.com/Adldap2/Adldap2/issues/298)

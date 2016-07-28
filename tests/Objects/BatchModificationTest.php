@@ -66,9 +66,9 @@ class BatchModificationTest extends UnitTestCase
         $modification->setType(3);
 
         $expected = [
-            'attrib' => 'cn',
+            'attrib'  => 'cn',
             'modtype' => 3,
-            'values' => ['test'],
+            'values'  => ['test'],
         ];
 
         $this->assertEquals($expected, $modification->get());

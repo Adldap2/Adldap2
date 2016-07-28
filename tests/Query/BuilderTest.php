@@ -2,20 +2,20 @@
 
 namespace Adldap\Tests\Query;
 
-use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
+use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
-use Adldap\Schemas\Schema;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
 class BuilderTest extends UnitTestCase
 {
     protected function newBuilder($connection = null)
     {
-        if(is_null($connection)) {
+        if (is_null($connection)) {
             $connection = $this->newConnectionMock();
         }
 
@@ -76,7 +76,7 @@ class BuilderTest extends UnitTestCase
             '',
             'objectcategory',
             'objectclass',
-            'distinguishedname'
+            'distinguishedname',
         ];
 
         $this->assertEquals($expected, $b->getSelects());
@@ -124,7 +124,6 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals('name', $whereTwo->getField());
         $this->assertEquals('=', $whereTwo->getOperator());
         $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
-
     }
 
     public function test_where_contains()
@@ -262,7 +261,7 @@ class BuilderTest extends UnitTestCase
     {
         $b = $this->newBuilder();
 
-        $b->where('field', '=' , 'value');
+        $b->where('field', '=', 'value');
 
         $expected = '(field=\76\61\6c\75\65)';
 
@@ -273,7 +272,7 @@ class BuilderTest extends UnitTestCase
     {
         $b = $this->newBuilder();
 
-        $b->where('field', '=' , 'value');
+        $b->where('field', '=', 'value');
 
         $b->where('other', '=', 'value');
 
@@ -319,7 +318,7 @@ class BuilderTest extends UnitTestCase
     {
         $b = $this->newBuilder();
 
-        $b->orWhere('field', '=' , 'value');
+        $b->orWhere('field', '=', 'value');
 
         $expected = '(field=\76\61\6c\75\65)';
 
@@ -330,7 +329,7 @@ class BuilderTest extends UnitTestCase
     {
         $b = $this->newBuilder();
 
-        $b->orWhere('field', '=' , 'value');
+        $b->orWhere('field', '=', 'value');
 
         $b->orWhere('other', '=', 'value');
 
@@ -558,7 +557,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals(1, $paginator->getPages());
         $this->assertEquals(1, $paginator->count());
 
-        foreach($paginator as $model) {
+        foreach ($paginator as $model) {
             $this->assertInstanceOf('Adldap\Models\Model', $model);
             $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
             $this->assertEquals($rawEntries[0]['distinguishedname'][0], $model->getDn());

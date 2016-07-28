@@ -2,8 +2,9 @@
 
 namespace Adldap\Models;
 
-use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Query\Builder;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 class Factory
 {
@@ -20,33 +21,40 @@ class Factory
     /**
      * Constructor.
      *
-     * @param Builder         $builder
-     * @param SchemaInterface $schema
+     * @param Builder $builder
      */
-    public function __construct(Builder $builder, SchemaInterface $schema)
+    public function __construct(Builder $builder)
     {
-        $this->setQuery($builder);
-        $this->setSchema($schema);
+        $this->setQuery($builder)
+            ->setSchema($builder->getSchema());
     }
 
     /**
      * Sets the current query builder.
      *
      * @param Builder $builder
+     *
+     * @return Factory
      */
     public function setQuery(Builder $builder)
     {
         $this->query = $builder;
+
+        return $this;
     }
 
     /**
      * Sets the current schema.
      *
-     * @param SchemaInterface $schema
+     * @param SchemaInterface|null $schema
+     *
+     * @return Factory
      */
-    public function setSchema(SchemaInterface $schema)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->schema = $schema;
+        $this->schema = $schema ?: new ActiveDirectory();
+
+        return $this;
     }
 
     /**

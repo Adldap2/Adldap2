@@ -19,7 +19,7 @@ interface ConnectionInterface
     const PROTOCOL_SSL = 'ldaps://';
 
     /**
-     * The non-SSL LDAP protocol string.
+     * The standard LDAP protocol string.
      *
      * @var string
      */

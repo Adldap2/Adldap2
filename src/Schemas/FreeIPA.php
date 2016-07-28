@@ -17,7 +17,7 @@ class FreeIPA extends ActiveDirectory
      */
     public function objectClassGroup()
     {
-        return 'ipausergroup'
+        return 'ipausergroup';
     }
 
     /**

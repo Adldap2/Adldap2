@@ -1,8 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/Adldap2/Adldap2/tree/HEAD)
+## [v6.1.0](https://github.com/Adldap2/Adldap2/tree/v6.1.0) (2016-07-28)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...v6.1.0)
 
-[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...HEAD)
+**Implemented enhancements:**
+
+- Remove Builder dependencies on models [\#248](https://github.com/Adldap2/Adldap2/issues/248)
 
 **Fixed bugs:**
 
@@ -13,9 +16,13 @@
 - adldap2/adldap2 : Doesn't work for LDAP servers without SSL [\#299](https://github.com/Adldap2/Adldap2/issues/299)
 - I cannot retrieve my groups [\#296](https://github.com/Adldap2/Adldap2/issues/296)
 - Error when creating user [\#288](https://github.com/Adldap2/Adldap2/issues/288)
+- Empty values when paginating ous [\#286](https://github.com/Adldap2/Adldap2/issues/286)
 
 **Merged pull requests:**
 
+- Applied fixes from StyleCI [\#303](https://github.com/Adldap2/Adldap2/pull/303) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#302](https://github.com/Adldap2/Adldap2/pull/302) ([stevebauman](https://github.com/stevebauman))
+- Applied fixes from StyleCI [\#301](https://github.com/Adldap2/Adldap2/pull/301) ([stevebauman](https://github.com/stevebauman))
 - Initial experimental support for FreeIPA [\#300](https://github.com/Adldap2/Adldap2/pull/300) ([Cheezykins](https://github.com/Cheezykins))
 - Applied fixes from StyleCI [\#294](https://github.com/Adldap2/Adldap2/pull/294) ([stevebauman](https://github.com/stevebauman))
 - Applied fixes from StyleCI [\#293](https://github.com/Adldap2/Adldap2/pull/293) ([stevebauman](https://github.com/stevebauman))

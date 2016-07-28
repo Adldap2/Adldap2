@@ -2,22 +2,14 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Schemas\Schema;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Tests\UnitTestCase;
 
 class FactoryTest extends UnitTestCase
 {
-    protected function newSchema()
-    {
-        return Schema::get();
-    }
-
     protected function newFactory($builder = null, $schema = null)
     {
         if (is_null($builder)) $builder = $this->newBuilder();
-
-        if (is_null($schema)) $schema = $this->newSchema();
 
         return new ModelFactory($builder, $schema);
     }

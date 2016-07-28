@@ -6,7 +6,6 @@ use Adldap\Adldap;
 use Adldap\Connections\Manager;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\AdldapException;
-use Adldap\Schemas\Schema;
 
 class AdldapTest extends UnitTestCase
 {
@@ -64,7 +63,7 @@ class AdldapTest extends UnitTestCase
 
         $ad = new Adldap();
 
-        $provider = new Provider($config, $connection, Schema::get());
+        $provider = new Provider($config, $connection);
 
         $ad->getManager()->add('default', $provider);
 
@@ -90,7 +89,7 @@ class AdldapTest extends UnitTestCase
 
         $ad = new Adldap();
 
-        $provider = new Provider($config, $connection, Schema::get());
+        $provider = new Provider($config, $connection);
 
         $ad->getManager()
             ->add('new', $provider)

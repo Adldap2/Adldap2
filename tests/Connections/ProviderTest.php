@@ -6,15 +6,12 @@ use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\Auth\BindException;
-use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
 class ProviderTest extends UnitTestCase
 {
     protected function newProvider($connection, $configuration, $schema = null)
     {
-        if (is_null($schema)) $schema = Schema::get();
-
         return new Provider($configuration, $connection, $schema);
     }
 

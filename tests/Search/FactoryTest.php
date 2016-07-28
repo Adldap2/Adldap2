@@ -2,24 +2,21 @@
 
 namespace Adldap\Tests\Classes;
 
-use Adldap\Schemas\Schema;
 use Adldap\Search\Factory;
 use Adldap\Tests\UnitTestCase;
 
 class FactoryTest extends UnitTestCase
 {
-    protected function newSearchFactory($connection = null, $schema = null, $dn = 'dc=corp,dc=org')
+    protected function newSearchFactory($connection = null,$dn = 'dc=corp,dc=org', $schema = null)
     {
         if (is_null($connection)) $connection = $this->newConnectionMock();
-
-        if (is_null($schema)) $schema = Schema::get();
 
         return new Factory($connection, $schema, $dn);
     }
 
     public function test_construct_defaults()
     {
-        $search = $this->newSearchFactory($this->newConnectionMock(), Schema::get(), 'dc=corp,dc=org');
+        $search = $this->newSearchFactory();
 
         $this->assertEquals('', $search->getQuery()->getQuery());
         $this->assertInstanceOf('Adldap\Query\Builder', $search->getQuery());
@@ -27,7 +24,7 @@ class FactoryTest extends UnitTestCase
 
     public function test_get_and_set_dn()
     {
-        $search = $this->newSearchFactory($this->newConnectionMock(), Schema::get(), 'dc=corp,dc=org');
+        $search = $this->newSearchFactory();
 
         $this->assertEquals('dc=corp,dc=org', $search->getDn());
 

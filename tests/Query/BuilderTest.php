@@ -6,7 +6,6 @@ use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\Where;
-use Adldap\Schemas\Schema;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Tests\UnitTestCase;
@@ -19,7 +18,7 @@ class BuilderTest extends UnitTestCase
             $connection = $this->newConnectionMock();
         }
 
-        return new Builder($connection, new Grammar(), Schema::get());
+        return new Builder($connection, new Grammar());
     }
 
     protected function newConnectionMock()

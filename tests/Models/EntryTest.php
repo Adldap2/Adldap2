@@ -3,15 +3,13 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
-use Adldap\Schemas\Schema;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Tests\UnitTestCase;
 
 class EntryTest extends UnitTestCase
 {
     protected function newEntryModel($attributes = [], $builder, $schema = null)
     {
-        if (is_null($schema)) $schema = Schema::get();
-
         return new Entry($attributes, $builder, $schema);
     }
 
@@ -342,7 +340,7 @@ class EntryTest extends UnitTestCase
     {
         $entry = $this->mock('Adldap\Models\Entry')->makePartial();
 
-        $entry->setSchema(Schema::get());
+        $entry->setSchema(new ActiveDirectory());
 
         $entry->shouldAllowMockingProtectedMethods();
 

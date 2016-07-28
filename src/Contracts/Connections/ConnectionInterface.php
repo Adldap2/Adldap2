@@ -33,7 +33,7 @@ interface ConnectionInterface
     const PORT_SSL = '636';
 
     /**
-     * The non SSL LDAP port number.
+     * The standard LDAP port number.
      *
      * @var string
      */

@@ -4,6 +4,7 @@ namespace Adldap\Models;
 
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\ModelDoesNotExistException;
 use Adldap\Exceptions\ModelNotFoundException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
@@ -763,8 +764,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $dn = $this->getDn();
 
         if ($this->exists === false) {
-            // Make sure the record exists before we can delete it
-            throw new ModelNotFoundException('Model does not exist.');
+            // Make sure the record exists before we can delete it.
+            // Otherwise, we'll throw an exception.
+            throw (new ModelDoesNotExistException())->setModel(get_class($this));
         }
 
         if (empty($dn)) {

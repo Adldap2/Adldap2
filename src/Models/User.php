@@ -750,7 +750,7 @@ class User extends Entry
     /**
      * Retrieves the primary group of the current user.
      *
-     * @return Entry|bool
+     * @return Model|bool
      */
     public function getPrimaryGroup()
     {

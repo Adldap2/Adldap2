@@ -529,7 +529,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string $dn
      *
-     * @return Entry
+     * @return Model
      */
     public function setDistinguishedName($dn)
     {
@@ -579,7 +579,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string $dn
      *
-     * @return Entry
+     * @return Model
      */
     public function setDn($dn)
     {
@@ -603,7 +603,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string $name
      *
-     * @return Entry
+     * @return Model
      */
     public function setCommonName($name)
     {

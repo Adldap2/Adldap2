@@ -24,6 +24,7 @@ $config = [
     'follow_referrals'      => false,
     'use_ssl'               => false,
     'use_tls'               => false,
+    'timeout'               => 5,
 ];
 
 // Create a new Adldap Provider instance.
@@ -53,6 +54,7 @@ $config->setPort(389);
 $config->setFollowReferrals(false);
 $config->setUseSSL(false);
 $config->setUseTLS(false);
+$config->setTimeout(5);
 
 // Create a new Adldap Provider instance.
 $provider = new \Adldap\Connections\Provider($config);
@@ -116,3 +118,9 @@ For more information, visit: https://technet.microsoft.com/en-us/library/cc97801
 If you need to be able to change user passwords on your server, then an SSL *or* TLS connection is required. All other operations
 are allowed on unsecured protocols. These options are definitely recommended if you have the ability to connect to your server
 securely.
+
+### Timeout
+
+The timeout option allows you to configure the amount of seconds to wait until your application receives a response from your LDAP server.
+
+The default is 5 seconds.

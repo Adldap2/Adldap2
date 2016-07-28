@@ -2,9 +2,9 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Exceptions\AdldapException;
 use Adldap\Contracts\Connections\ManagerInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
+use Adldap\Exceptions\AdldapException;
 
 class Manager implements ManagerInterface
 {

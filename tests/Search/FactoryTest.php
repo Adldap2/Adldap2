@@ -10,9 +10,13 @@ class FactoryTest extends UnitTestCase
 {
     protected function newSearchFactory($connection = null, $schema = null, $dn = 'dc=corp,dc=org')
     {
-        if (is_null($connection)) $connection = $this->newConnectionMock();
+        if (is_null($connection)) {
+            $connection = $this->newConnectionMock();
+        }
 
-        if (is_null($schema)) $schema = Schema::get();
+        if (is_null($schema)) {
+            $schema = Schema::get();
+        }
 
         return new Factory($connection, $schema, $dn);
     }

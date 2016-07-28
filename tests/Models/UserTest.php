@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Tests\UnitTestCase;
+use Adldap\Utilities;
 
 class UserTest extends UnitTestCase
 {
@@ -23,7 +23,7 @@ class UserTest extends UnitTestCase
                 'attrib'    => 'unicodepwd',
                 'modtype'   => 3,
                 'values'    => [Utilities::encodePassword('')],
-            ]
+            ],
         ];
 
         $this->assertEquals($expected, $user->getModifications());

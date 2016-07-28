@@ -8,7 +8,7 @@ use Adldap\Tests\UnitTestCase;
 
 class EntryTest extends UnitTestCase
 {
-    protected function newEntryModel($attributes = [], $builder, $schema = null)
+    protected function newEntryModel($attributes, $builder, $schema = null)
     {
         return new Entry($attributes, $builder, $schema);
     }
@@ -194,18 +194,18 @@ class EntryTest extends UnitTestCase
     public function test_create()
     {
         $attributes = [
-            'cn' => ['John Doe'],
+            'cn'        => ['John Doe'],
             'givenname' => ['John'],
-            'sn' => ['Doe'],
+            'sn'        => ['Doe'],
         ];
 
         $returnedRaw = [
             'count' => 1,
             [
-                'cn' => ['John Doe'],
+                'cn'        => ['John Doe'],
                 'givenname' => ['John'],
-                'sn' => ['Doe'],
-            ]
+                'sn'        => ['Doe'],
+            ],
         ];
 
         $connection = $this->newConnectionMock();
@@ -255,9 +255,9 @@ class EntryTest extends UnitTestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn' => ['John Doe'],
+            'cn'        => ['John Doe'],
             'givenname' => ['John'],
-            'sn' => ['Doe'],
+            'sn'        => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -265,10 +265,10 @@ class EntryTest extends UnitTestCase
         $returnedRaw = [
             'count' => 1,
             [
-                'cn' => ['John Doe'],
+                'cn'        => ['John Doe'],
                 'givenname' => ['John'],
-                'sn' => ['Doe'],
-            ]
+                'sn'        => ['Doe'],
+            ],
         ];
 
         $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
@@ -359,28 +359,28 @@ class EntryTest extends UnitTestCase
     {
         $rawAttributes = [
             'count' => 1,
-            'test' => [
+            'test'  => [
                 'count' => 1,
-                'test' => [
+                'test'  => [
                     'count' => 1,
-                    'test' => [
+                    'test'  => [
                         'count' => 1,
-                        'test' => [
-                            'count' => 1
+                        'test'  => [
+                            'count' => 1,
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $expected = [
             'test' => [
                 'test' => [
                     'test' => [
-                        'test' => []
-                    ]
-                ]
-            ]
+                        'test' => [],
+                    ],
+                ],
+            ],
         ];
 
         $entry = $this->newEntryModel([], $this->newBuilder());

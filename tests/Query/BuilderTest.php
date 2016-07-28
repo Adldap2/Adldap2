@@ -8,7 +8,6 @@ use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Adldap\Schemas\Schema;
 use Adldap\Tests\UnitTestCase;
 
 class BuilderTest extends UnitTestCase

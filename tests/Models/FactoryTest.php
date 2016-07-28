@@ -9,7 +9,9 @@ class FactoryTest extends UnitTestCase
 {
     protected function newFactory($builder = null, $schema = null)
     {
-        if (is_null($builder)) $builder = $this->newBuilder();
+        if (is_null($builder)) {
+            $builder = $this->newBuilder();
+        }
 
         return new ModelFactory($builder, $schema);
     }

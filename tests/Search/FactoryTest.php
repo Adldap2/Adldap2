@@ -7,9 +7,11 @@ use Adldap\Tests\UnitTestCase;
 
 class FactoryTest extends UnitTestCase
 {
-    protected function newSearchFactory($connection = null,$dn = 'dc=corp,dc=org', $schema = null)
+    protected function newSearchFactory($connection = null, $dn = 'dc=corp,dc=org', $schema = null)
     {
-        if (is_null($connection)) $connection = $this->newConnectionMock();
+        if (is_null($connection)) {
+            $connection = $this->newConnectionMock();
+        }
 
         return new Factory($connection, $schema, $dn);
     }

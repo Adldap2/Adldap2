@@ -7,7 +7,7 @@ $ad = new \Adldap\Adldap();
 // Create a configuration array.
 $config = [
   'account_suffix'        => '@corp.acme.org',
-  'domain_controllers'    => ['ACME-DC01.corp.acme.org'],
+  'domain_controllers'    => ['ACME-DC01.corp.acme.org', 'ACME-DC02.corp.acme.org'],
   'base_dn'               => 'dc=corp,dc=acme,dc=org',
   'admin_username'        => 'admin',
   'admin_password'        => 'password',

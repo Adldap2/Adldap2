@@ -21,11 +21,11 @@ $ad->addProvider('default', $provider);
 
 // Try connecting to the provider.
 try {
-    // Connect using the providers name.
+    // Connect using the providers alias name.
     $ad->connect('default');
 
     // Perform a query.
-    $results = $search->where('cn', '=', 'John Doe')->get();
+    $results = $provider->where('cn', '=', 'John Doe')->get();
 
     // Create a new LDAP object.
     $user =  $provider->make()->user();

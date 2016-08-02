@@ -120,4 +120,14 @@ class BatchModificationTest extends UnitTestCase
 
         $this->assertEquals(['testing'], $modification->getOriginal());
     }
+
+    public function test_constructor()
+    {
+        $modification = new BatchModification('attribute', 1, ['testing']);
+
+        $this->assertEquals('attribute', $modification->getAttribute());
+        $this->assertEquals(1, $modification->getType());
+        $this->assertEquals(['testing'], $modification->getValues());
+        $this->assertEmpty($modification->getOriginal());
+    }
 }

@@ -4,6 +4,11 @@ namespace Adldap\Schemas;
 
 use Adldap\Contracts\Schemas\SchemaInterface;
 
+/**
+ * Class ActiveDirectory.
+ *
+ * The active directory attribute schema for easy auto completion retrieval.
+ */
 class ActiveDirectory implements SchemaInterface
 {
     /**
@@ -172,6 +177,14 @@ class ActiveDirectory implements SchemaInterface
     public function distinguishedName()
     {
         return 'distinguishedname';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function distinguishedNameSubKey()
+    {
+        return 0;
     }
 
     /**

@@ -521,7 +521,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute($this->schema->distinguishedName(), 0);
+        return $this->getAttribute($this->schema->distinguishedName(), $this->schema->distinguishedNameSubKey());
     }
 
     /**

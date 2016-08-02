@@ -88,12 +88,11 @@ class Group extends Entry
     {
         $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
 
-        $modification = new BatchModification();
-        $modification->setAttribute($this->schema->member());
-        $modification->setType(LDAP_MODIFY_BATCH_ADD);
-        $modification->setValues([$entry]);
-
-        $this->addModification($modification);
+        $this->addModification(new BatchModification(
+            $this->schema->member(),
+            LDAP_MODIFY_BATCH_ADD,
+            [$entry]
+        ));
 
         return $this->save();
     }
@@ -109,12 +108,11 @@ class Group extends Entry
     {
         $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
 
-        $modification = new BatchModification();
-        $modification->setAttribute($this->schema->member());
-        $modification->setType(LDAP_MODIFY_BATCH_REMOVE);
-        $modification->setValues([$entry]);
-
-        $this->addModification($modification);
+        $this->addModification(new BatchModification(
+            $this->schema->member(),
+            LDAP_MODIFY_BATCH_REMOVE,
+            [$entry]
+        ));
 
         return $this->save();
     }
@@ -126,11 +124,10 @@ class Group extends Entry
      */
     public function removeMembers()
     {
-        $modification = new BatchModification();
-        $modification->setAttribute($this->schema->member());
-        $modification->setType(LDAP_MODIFY_BATCH_REMOVE_ALL);
-
-        $this->addModification($modification);
+        $this->addModification(new BatchModification(
+            $this->schema->member(),
+            LDAP_MODIFY_BATCH_REMOVE_ALL
+        ));
 
         return $this->save();
     }

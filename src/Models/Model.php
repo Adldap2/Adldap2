@@ -464,17 +464,18 @@ abstract class Model implements ArrayAccess, JsonSerializable
             // Make sure values is always an array.
             $values = (is_array($values) ? $values : [$values]);
 
-            $modification = new BatchModification();
+            // Create a new modification.
+            $modification = new BatchModification($attribute, null, $values);
 
             if (array_key_exists($attribute, $this->original)) {
+                // If the attribute we're modifying has an original value, we'll give the
+                // BatchModification object its values to automatically determine
+                // which type of LDAP operation we need to perform.
                 $modification->setOriginal($this->original[$attribute]);
             }
 
-            $modification->setAttribute($attribute);
-            $modification->setValues($values);
-            $modification->build();
-
-            $this->addModification($modification);
+            // Finally, we'll add the modification to the model.
+            $this->addModification($modification->build());
         }
 
         return $this->modifications;

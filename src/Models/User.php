@@ -778,10 +778,11 @@ class User extends Entry
             throw new AdldapException($message);
         }
 
-        $modification = new BatchModification();
-        $modification->setAttribute($this->schema->unicodePassword());
-        $modification->setType(LDAP_MODIFY_BATCH_REPLACE);
-        $modification->setValues([Utilities::encodePassword($password)]);
+        $modification = new BatchModification(
+            $this->schema->unicodePassword(),
+            LDAP_MODIFY_BATCH_REPLACE,
+            [Utilities::encodePassword($password)]
+        );
 
         return $this->addModification($modification);
     }
@@ -812,28 +813,33 @@ class User extends Entry
 
         $attribute = $this->schema->unicodePassword();
 
+        $modifications = [];
+
         if ($replaceNotRemove === true) {
-            $replace = new BatchModification();
-            $replace->setAttribute($attribute);
-            $replace->setType(LDAP_MODIFY_BATCH_REPLACE);
-            $replace->setValues([Utilities::encodePassword($newPassword)]);
-            $this->addModification($replace);
+            $modifications[] = new BatchModification(
+                $attribute,
+                LDAP_MODIFY_BATCH_REPLACE,
+                [Utilities::encodePassword($newPassword)]
+            );
         } else {
             // Create batch modification for removing the old password.
-            $remove = new BatchModification();
-            $remove->setAttribute($attribute);
-            $remove->setType(LDAP_MODIFY_BATCH_REMOVE);
-            $remove->setValues([Utilities::encodePassword($oldPassword)]);
+            $modifications[] = new BatchModification(
+                $attribute,
+                LDAP_MODIFY_BATCH_REMOVE,
+                [Utilities::encodePassword($oldPassword)]
+            );
 
             // Create batch modification for adding the new password.
-            $add = new BatchModification();
-            $add->setAttribute($attribute);
-            $add->setType(LDAP_MODIFY_BATCH_ADD);
-            $add->setValues([Utilities::encodePassword($newPassword)]);
+            $modifications[] = new BatchModification(
+                $attribute,
+                LDAP_MODIFY_BATCH_ADD,
+                [Utilities::encodePassword($newPassword)]
+            );
+        }
 
-            // Add the modifications.
-            $this->addModification($remove);
-            $this->addModification($add);
+        // Add the modifications
+        foreach ($modifications as $modification) {
+            $this->addModification($modification);
         }
 
         // Update the user.

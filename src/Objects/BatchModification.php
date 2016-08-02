@@ -33,6 +33,20 @@ class BatchModification
     protected $type;
 
     /**
+     * Constructor.
+     *
+     * @param null|string $attribute
+     * @param null|int    $type
+     * @param array       $values
+     */
+    public function __construct($attribute = null, $type = null, $values = [])
+    {
+        $this->setAttribute($attribute)
+            ->setType($type)
+            ->setValues($values);
+    }
+
+    /**
      * Sets the original value of the attribute before modification.
      *
      * @param null $original
@@ -56,10 +70,14 @@ class BatchModification
      * Sets the attribute of the modification.
      *
      * @param string $attribute
+     *
+     * @return BatchModification
      */
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+
+        return $this;
     }
 
     /**
@@ -76,10 +94,14 @@ class BatchModification
      * Sets the values of the modification.
      *
      * @param array $values
+     *
+     * @return BatchModification
      */
-    public function setValues(array $values)
+    public function setValues(array $values = [])
     {
         $this->values = $values;
+
+        return $this;
     }
 
     /**
@@ -96,10 +118,14 @@ class BatchModification
      * Sets the type of the modification.
      *
      * @param int $type
+     *
+     * @return BatchModification
      */
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -113,9 +139,10 @@ class BatchModification
     }
 
     /**
-     * Builds the current batch modification.
+     * Builds the type of modification automatically
+     * based on the current and original values.
      *
-     * @return void
+     * @return BatchModification
      */
     public function build()
     {
@@ -147,6 +174,8 @@ class BatchModification
                 $this->setType(LDAP_MODIFY_BATCH_REPLACE);
             }
         }
+
+        return $this;
     }
 
     /**

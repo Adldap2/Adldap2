@@ -1,7 +1,31 @@
 # Change Log
 
+## [Unreleased](https://github.com/Adldap2/Adldap2/tree/HEAD)
+
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.1.1...HEAD)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#306](https://github.com/Adldap2/Adldap2/pull/306) ([stevebauman](https://github.com/stevebauman))
+
+## [v6.1.1](https://github.com/Adldap2/Adldap2/tree/v6.1.1) (2016-08-02)
+[Full Changelog](https://github.com/Adldap2/Adldap2/compare/v6.1.0...v6.1.1)
+
+**Closed issues:**
+
+- Problem for users group [\#295](https://github.com/Adldap2/Adldap2/issues/295)
+
+**Merged pull requests:**
+
+- Applied fixes from StyleCI [\#305](https://github.com/Adldap2/Adldap2/pull/305) ([stevebauman](https://github.com/stevebauman))
+- Include fixes for getDistinguishedName for OpenLDAP [\#304](https://github.com/Adldap2/Adldap2/pull/304) ([cetra3](https://github.com/cetra3))
+
 ## [v6.1.0](https://github.com/Adldap2/Adldap2/tree/v6.1.0) (2016-07-28)
 [Full Changelog](https://github.com/Adldap2/Adldap2/compare/v4.0.4...v6.1.0)
+
+**Implemented enhancements:**
+
+- Remove Builder dependencies on models [\#248](https://github.com/Adldap2/Adldap2/issues/248)
 
 **Fixed bugs:**
 

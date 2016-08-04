@@ -2,6 +2,7 @@
 
 namespace Adldap\Models;
 
+use Adldap\Exceptions\InvalidArgumentException;
 use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Objects\BatchModification;
@@ -88,6 +89,12 @@ class Group extends Entry
     {
         $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
 
+        if (is_null($entry)) {
+            throw new InvalidArgumentException(
+                'Cannot add member to group. The members distinguished name cannot be null.'
+            );
+        }
+
         $this->addModification(new BatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_ADD,
@@ -107,6 +114,12 @@ class Group extends Entry
     public function removeMember($entry)
     {
         $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
+
+        if (is_null($entry)) {
+            throw new InvalidArgumentException(
+                'Cannot add member to group. The members distinguished name cannot be null.'
+            );
+        }
 
         $this->addModification(new BatchModification(
             $this->schema->member(),

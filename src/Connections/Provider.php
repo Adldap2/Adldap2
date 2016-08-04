@@ -16,28 +16,28 @@ class Provider implements ProviderInterface
 {
     /**
      * The providers connection.
-     * 
+     *
      * @var ConnectionInterface
      */
     protected $connection;
 
     /**
      * The providers configuration.
-     * 
+     *
      * @var Configuration
      */
     protected $configuration;
 
     /**
      * The providers schema.
-     * 
+     *
      * @var SchemaInterface
      */
     protected $schema;
 
     /**
      * The providers auth guard instance.
-     * 
+     *
      * @var GuardInterface
      */
     protected $guard;

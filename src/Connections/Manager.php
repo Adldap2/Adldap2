@@ -16,7 +16,7 @@ class Manager implements ManagerInterface
     protected $default = 'default';
 
     /**
-     * Stores the connection providers.
+     * The connection providers.
      *
      * @var array
      */

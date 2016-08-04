@@ -18,7 +18,7 @@ class Configuration
     protected $baseDn;
 
     /**
-     * The integer to instruct the LDAP connection
+     * The boolean to instruct the LDAP connection
      * whether or not to follow referrals.
      *
      * https://msdn.microsoft.com/en-us/library/ms677913(v=vs.85).aspx

@@ -16,13 +16,6 @@ class DistinguishedName
     protected $schema;
 
     /**
-     * The domain components in the DN.
-     *
-     * @var array
-     */
-    protected $domainComponents = [];
-
-    /**
      * The common names in the DN.
      *
      * @var array
@@ -30,11 +23,25 @@ class DistinguishedName
     protected $commonNames = [];
 
     /**
+     * The uid's in the DN.
+     *
+     * @var array
+     */
+    protected $userIds = [];
+
+    /**
      * The organizational units in the DN.
      *
      * @var array
      */
     protected $organizationUnits = [];
+
+    /**
+     * The domain components in the DN.
+     *
+     * @var array
+     */
+    protected $domainComponents = [];
 
     /**
      * The organization names in the DN.
@@ -52,6 +59,7 @@ class DistinguishedName
         'o',
         'dc',
         'ou',
+        'uid',
         'cn',
     ];
 
@@ -63,8 +71,8 @@ class DistinguishedName
      */
     public function __construct($baseDn = null, SchemaInterface $schema = null)
     {
-        $this->setBase($baseDn);
-        $this->setSchema($schema);
+        $this->setBase($baseDn)
+            ->setSchema($schema);
     }
 
     /**
@@ -139,6 +147,34 @@ class DistinguishedName
     public function removeO($o)
     {
         $this->organizationNames = array_diff($this->organizationNames, [$o]);
+
+        return $this;
+    }
+
+    /**
+     * Add a user identifier.
+     *
+     * @param string $uid
+     *
+     * @return DistinguishedName
+     */
+    public function addUid($uid)
+    {
+        $this->userIds[] = $uid;
+
+        return $this;
+    }
+
+    /**
+     * Removes a user identifier.
+     *
+     * @param string $uid
+     *
+     * @return DistinguishedName
+     */
+    public function removeUid($uid)
+    {
+        $this->userIds = array_diff($this->userIds, [$uid]);
 
         return $this;
     }
@@ -226,8 +262,12 @@ class DistinguishedName
             if (count($pieces) === 2) {
                 $attribute = ucfirst($pieces[0]);
 
-                // We see what type of RDN it is and add each accordingly
-                call_user_func_array([$this, 'add'.$attribute], [$pieces[1]]);
+                $method = 'add'.$attribute;
+
+                if (method_exists($this, $method)) {
+                    // We see what type of RDN it is and add each accordingly.
+                    call_user_func_array([$this, $method], [$pieces[1]]);
+                }
             }
         }
 
@@ -257,6 +297,7 @@ class DistinguishedName
     {
         return implode(',', array_filter([
             $this->assembleCns(),
+            $this->assembleUids(),
             $this->assembleOus(),
             $this->assembleDcs(),
             $this->assembleOs(),
@@ -264,7 +305,7 @@ class DistinguishedName
     }
 
     /**
-     * Assembles the common names in the Distinguished name.
+     * Assembles the common names in the distinguished name.
      *
      * @return string
      */
@@ -274,7 +315,17 @@ class DistinguishedName
     }
 
     /**
-     * Assembles the organizational units in the Distinguished Name.
+     * Assembles the user ID's in the distinguished name.
+     *
+     * @return string
+     */
+    public function assembleUids()
+    {
+        return $this->assembleRdns($this->schema->userId(), $this->userIds);
+    }
+
+    /**
+     * Assembles the organizational units in the distinguished Name.
      *
      * @return string
      */
@@ -284,7 +335,7 @@ class DistinguishedName
     }
 
     /**
-     * Assembles the domain components in the Distinguished Name.
+     * Assembles the domain components in the distinguished Name.
      *
      * @return string
      */
@@ -294,7 +345,7 @@ class DistinguishedName
     }
 
     /**
-     * Assembles the organization names in the Distinguished name.
+     * Assembles the organization names in the distinguished name.
      *
      * @return string
      */

@@ -1030,6 +1030,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function userId()
+    {
+        return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function versionNumber()
     {
         return 'versionnumber';

@@ -1132,7 +1132,7 @@ interface SchemaInterface
     public function userAccountControl();
 
     /**
-     * his attribute contains the UPN that is an Internet-style login name for
+     * This attribute contains the UPN that is an Internet-style login name for
      * a user based on the Internet standard RFC 822.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms680857(v=vs.85).aspx
@@ -1140,6 +1140,13 @@ interface SchemaInterface
      * @return string
      */
     public function userPrincipalName();
+
+    /**
+     * The user ID attribute.
+     *
+     * @return string
+     */
+    public function userId();
 
     /**
      * A general purpose version number.

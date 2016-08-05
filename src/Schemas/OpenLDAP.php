@@ -33,5 +33,14 @@ class OpenLDAP extends ActiveDirectory
      */
     public function distinguishedNameSubKey()
     {
+        return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function userId()
+    {
+        return 'uid';
     }
 }

@@ -27,10 +27,14 @@ trait HasMemberOfTrait
             $group = $query->findByDn($group);
         }
 
-        if ($group instanceof Group) {
-            // If the group is Group model instance, we can
-            // add the current models DN to the group.
-            return $group->addMember($this->getDn());
+        // If the group is Group model instance, we can
+        // add the current models DN to the group.
+        if ($group instanceof Group && $group->addMember($this->getDn())) {
+            // We'll re-sync the models attributes here so the developer
+            // can immediately make use of the group change.
+            $this->syncRaw();
+
+            return true;
         }
 
         return false;
@@ -53,10 +57,14 @@ trait HasMemberOfTrait
             $group = $query->findByDn($group);
         }
 
-        if ($group instanceof Group) {
-            // If the group is Group model instance, we can
-            // remove the current models DN from the group.
-            return $group->removeMember($this->getDn());
+        // If the group is Group model instance, we can
+        // remove the current models DN from the group.
+        if ($group instanceof Group && $group->removeMember($this->getDn())) {
+            // We'll re-sync the models attributes here so the developer
+            // can immediately make use of the group change.
+            $this->syncRaw();
+
+            return true;
         }
 
         return false;

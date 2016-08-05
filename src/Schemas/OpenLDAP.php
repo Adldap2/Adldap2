@@ -35,12 +35,4 @@ class OpenLDAP extends ActiveDirectory
     {
         return;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function userId()
-    {
-        return 'uid';
-    }
 }

@@ -1032,7 +1032,6 @@ class ActiveDirectory implements SchemaInterface
      */
     public function userId()
     {
-        return;
     }
 
     /**

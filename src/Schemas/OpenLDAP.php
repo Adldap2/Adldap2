@@ -33,7 +33,6 @@ class OpenLDAP extends ActiveDirectory
      */
     public function distinguishedNameSubKey()
     {
-        return;
     }
 
     /**

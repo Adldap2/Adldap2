@@ -195,7 +195,9 @@ class Builder
      */
     public function get()
     {
-        return $this->query($this->getQuery());
+        // We'll mute any warnings / errors here. We just need to
+        // know if any query results were returned.
+        return @$this->query($this->getQuery());
     }
 
     /**
@@ -511,7 +513,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return bool|Model
+     * @return Model
      */
     public function findByDnOrFail($dn, $columns = [])
     {

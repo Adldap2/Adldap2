@@ -32,7 +32,7 @@ $results = $provider->search()->where('cn', '=', 'John Doe')->get();
 
 #### Selecting attributes
 
-Selecting certain LDAP attributes will increase the speed of your queries.
+Selecting only the LDAP attributes you need will increase the speed of your queries.
 
 ```php
 // Passing in an array of attributes

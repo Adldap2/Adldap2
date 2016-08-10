@@ -343,7 +343,11 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $key = ($key == 'dn' ? $this->schema->distinguishedName() : $key);
 
         if (is_null($subKey)) {
-            $this->attributes[$key] = (is_array($value) || $key == $this->schema->distinguishedName() ? $value : [$value]);
+            if($key == $this->schema->distinguishedName() && is_null($this->schema->distinguishedNameSubKey())) {
+                $this->attributes[$key] = $value;
+            } else {
+                $this->attributes[$key] = (is_array($value) ? $value : [$value]);
+            }
         } else {
             $this->attributes[$key][$subKey] = $value;
         }

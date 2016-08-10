@@ -528,7 +528,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Sets the model's distinguished name attribute.
      *
-     * @param string $dn
+     * @param string|DistinguishedName $dn
      *
      * @return Model
      */

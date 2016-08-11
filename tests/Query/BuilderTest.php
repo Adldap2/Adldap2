@@ -43,7 +43,6 @@ class BuilderTest extends UnitTestCase
             'testing',
             'objectcategory',
             'objectclass',
-            'distinguishedname',
         ];
 
         $this->assertEquals($expected, $b->getSelects());
@@ -59,7 +58,6 @@ class BuilderTest extends UnitTestCase
             'testing',
             'objectcategory',
             'objectclass',
-            'distinguishedname',
         ];
 
         $this->assertEquals($expected, $b->getSelects());
@@ -75,7 +73,6 @@ class BuilderTest extends UnitTestCase
             '',
             'objectcategory',
             'objectclass',
-            'distinguishedname',
         ];
 
         $this->assertEquals($expected, $b->getSelects());
@@ -616,7 +613,7 @@ class BuilderTest extends UnitTestCase
         $this->assertEquals(1, count($b->getFilters()));
         $this->assertInstanceOf('Adldap\Query\Bindings\Filter', $b->getFilters()[0]);
 
-        $this->assertEquals(4, count($b->getSelects()));
+        $this->assertEquals(3, count($b->getSelects()));
         $this->assertInstanceOf('Adldap\Query\Bindings\Select', $b->getSelects()[0]);
     }
 
@@ -635,7 +632,7 @@ class BuilderTest extends UnitTestCase
 
         $selects = $b->select('attr1', 'attr2', 'attr3')->getSelects();
 
-        $this->assertCount(6, $selects);
+        $this->assertCount(5, $selects);
         $this->assertEquals('attr1', $selects[0]);
         $this->assertEquals('attr2', $selects[1]);
         $this->assertEquals('attr3', $selects[2]);

@@ -394,7 +394,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function filterRawAttributes(array $attributes = [], $keys = ['count', 'dn'])
     {
         $attributes = Arr::except($attributes, $keys);
-        
+
         array_walk($attributes, function (&$value) use ($keys) {
             $value = is_array($value) ?
                 $this->filterRawAttributes($value, $keys) :

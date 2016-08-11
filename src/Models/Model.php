@@ -105,7 +105,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @param mixed $key
      * @param mixed $value
      *
-     * @return Model
+     * @return $this
      */
     public function __set($key, $value)
     {
@@ -117,7 +117,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param Builder $builder
      *
-     * @return Model
+     * @return $this
      */
     public function setQuery(Builder $builder)
     {
@@ -163,7 +163,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param SchemaInterface $schema
      *
-     * @return Model
+     * @return $this
      */
     public function setSchema(SchemaInterface $schema)
     {
@@ -251,7 +251,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * Synchronizes the models original attributes
      * with the model's current attributes.
      *
-     * @return Model
+     * @return $this
      */
     public function syncOriginal()
     {
@@ -313,7 +313,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes
      *
-     * @return Model
+     * @return $this
      */
     public function fill(array $attributes = [])
     {
@@ -331,7 +331,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @param mixed      $value
      * @param int|string $subKey
      *
-     * @return Model
+     * @return $this
      */
     public function setAttribute($key, $value, $subKey = null)
     {
@@ -356,7 +356,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes
      *
-     * @return Model
+     * @return $this
      */
     public function setRawAttributes(array $attributes = [])
     {
@@ -486,7 +486,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $modifications
      *
-     * @return Model
+     * @return $this
      */
     public function setModifications(array $modifications = [])
     {
@@ -500,7 +500,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param BatchModification $modification
      *
-     * @return Model
+     * @return $this
      */
     public function addModification(BatchModification $modification)
     {
@@ -530,7 +530,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string|DistinguishedName $dn
      *
-     * @return Model
+     * @return $this
      */
     public function setDistinguishedName($dn)
     {
@@ -580,7 +580,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string $dn
      *
-     * @return Model
+     * @return $this
      */
     public function setDn($dn)
     {
@@ -604,7 +604,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string $name
      *
-     * @return Model
+     * @return $this
      */
     public function setCommonName($name)
     {

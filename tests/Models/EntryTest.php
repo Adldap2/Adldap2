@@ -30,7 +30,6 @@ class EntryTest extends UnitTestCase
         $rawAttributes = [
             'cn'                => ['Common Name'],
             'samaccountname'    => ['Account Name'],
-            'distinguishedname' => ['dn'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -83,7 +82,7 @@ class EntryTest extends UnitTestCase
         $attributes = [
             'cn'                => ['Common Name'],
             'samaccountname'    => ['Account Name'],
-            'distinguishedname' => ['dc=corp,dc=org'],
+            'dn'                => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -105,7 +104,7 @@ class EntryTest extends UnitTestCase
         $attributes = [
             'cn'                => ['Common Name'],
             'samaccountname'    => ['Account Name'],
-            'distinguishedname' => ['dc=corp,dc=org'],
+            'dn'                => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -128,7 +127,7 @@ class EntryTest extends UnitTestCase
         $attributes = [
             'cn'                => ['Common Name'],
             'samaccountname'    => ['Account Name'],
-            'distinguishedname' => ['dc=corp,dc=org'],
+            'dn'                => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -226,7 +225,6 @@ class EntryTest extends UnitTestCase
         $this->assertTrue($entry->create());
         $this->assertEquals($attributes['cn'][0], $entry->getCommonName());
         $this->assertEquals($attributes['sn'][0], $entry->sn[0]);
-        $this->assertEquals($attributes['givenname'][0], $entry->givenname[0]);
     }
 
     public function test_update()
@@ -235,7 +233,7 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $attributes = ['distinguishedname' => $dn];
+        $attributes = ['dn' => $dn];
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($attributes);
@@ -268,6 +266,7 @@ class EntryTest extends UnitTestCase
                 'cn'        => ['John Doe'],
                 'givenname' => ['John'],
                 'sn'        => ['Doe'],
+                'dn'        => $dn,
             ],
         ];
 
@@ -296,7 +295,7 @@ class EntryTest extends UnitTestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $returnedRaw = [['distinguishedname' => $dn]];
+        $returnedRaw = [['dn' => $dn]];
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
@@ -306,7 +305,7 @@ class EntryTest extends UnitTestCase
 
         $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
-        $entry->setRawAttributes(['distinguishedname' => $dn]);
+        $entry->setRawAttributes(['dn' => $dn]);
 
         $this->assertTrue($entry->save());
     }
@@ -331,7 +330,7 @@ class EntryTest extends UnitTestCase
 
         $entry = $this->newEntryModel([], $this->newBuilder($connection));
 
-        $entry->setRawAttributes(['distinguishedname' => [$dn]]);
+        $entry->setRawAttributes(['dn' => $dn]);
 
         $this->assertTrue($entry->delete());
     }
@@ -393,7 +392,7 @@ class EntryTest extends UnitTestCase
     public function test_move()
     {
         $rawAttributes = [
-            'distinguishedname' => ['cn=Doe,dc=corp,dc=acme,dc=org'],
+            'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -456,12 +455,13 @@ class EntryTest extends UnitTestCase
         $this->assertEquals(['John Doe'], $model->getOriginal()['cn']);
     }
 
-    public function test_dn_is_normalized_to_full_attribute()
+    public function test_dn_is_filtered_from_raw_attributes_and_set_to_model_property()
     {
-        $model = $this->newEntryModel([
-            'dn' => 'dn',
-        ], $this->newBuilder());
+        $model = $this->newEntryModel([], $this->newBuilder());
 
-        $this->assertEquals(['dn'], $model->getAttributes()[$model->getSchema()->distinguishedName()]);
+        $model->setRawAttributes(['dn' => 'testing']);
+
+        $this->assertEmpty($model->getAttributes());
+        $this->assertEquals('testing', $model->getDn());
     }
 }

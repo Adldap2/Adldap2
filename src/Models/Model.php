@@ -2,17 +2,17 @@
 
 namespace Adldap\Models;
 
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\ModelDoesNotExistException;
-use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Objects\BatchModification;
-use Adldap\Objects\DistinguishedName;
-use Adldap\Query\Builder;
 use ArrayAccess;
+use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use JsonSerializable;
+use Adldap\Query\Builder;
+use Adldap\Objects\BatchModification;
+use Adldap\Objects\DistinguishedName;
+use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Exceptions\ModelDoesNotExistException;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 abstract class Model implements ArrayAccess, JsonSerializable
 {
@@ -31,6 +31,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @var string
      */
     public $dateFormat = 'Y-m-d H:i:s';
+
+    /**
+     * The models distinguished name.
+     *
+     * @var string
+     */
+    protected $dn;
 
     /**
      * The current query builder instance.
@@ -362,6 +369,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $this->attributes = $this->filterRawAttributes($attributes);
 
+        if (Arr::has($attributes, 'dn')) {
+            $this->setDn($attributes['dn']);
+        }
+
         $this->syncOriginal();
 
         // Set exists to true since raw attributes are only
@@ -375,20 +386,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Filters the count key recursively from raw LDAP attributes.
      *
-     * @param array  $attributes
-     * @param string $key
+     * @param array        $attributes
+     * @param array|string $keys
      *
      * @return array
      */
-    public function filterRawAttributes(array $attributes = [], $key = 'count')
+    public function filterRawAttributes(array $attributes = [], $keys = ['count', 'dn'])
     {
-        unset($attributes[$key]);
-
-        foreach ($attributes as &$value) {
-            if (is_array($value)) {
-                $value = $this->filterRawAttributes($value, $key);
-            }
-        }
+        $attributes = Arr::except($attributes, $keys);
+        
+        array_walk($attributes, function (&$value) use ($keys) {
+            $value = is_array($value) ?
+                $this->filterRawAttributes($value, $keys) :
+                $value;
+        });
 
         return $attributes;
     }
@@ -522,7 +533,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->getAttribute($this->schema->distinguishedName(), $this->schema->distinguishedNameSubKey());
+        return $this->dn;
     }
 
     /**
@@ -534,7 +545,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function setDistinguishedName($dn)
     {
-        return $this->setAttribute($this->schema->distinguishedName(), (string) $dn, 0);
+        $this->dn = (string) $dn;
+
+        return $this;
     }
 
     /**
@@ -612,7 +625,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Persists the changes to the LDAP server and returns the result.
+     * Saves the changes to LDAP and returns the results.
      *
      * @return bool
      */
@@ -622,7 +635,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Persists attribute updates to the record.
+     * Updates the model.
      *
      * @return bool
      */
@@ -650,13 +663,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Creates a record.
+     * Creates the entry in LDAP.
      *
      * @return bool
      */
     public function create()
     {
-        if (!$this->hasAttribute($this->schema->distinguishedName())) {
+        if (empty($this->getDn())) {
             // If the model doesn't currently have a DN,
             // we'll create a new one automatically.
             $dn = $this->getDnBuilder();

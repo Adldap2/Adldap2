@@ -2,8 +2,8 @@
 
 namespace Adldap\Models;
 
-use Adldap\Utilities;
 use DateTime;
+use Adldap\Utilities;
 
 class Entry extends Model
 {

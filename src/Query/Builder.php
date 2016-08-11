@@ -2,21 +2,21 @@
 
 namespace Adldap\Query;
 
-use Adldap\Contracts\Connections\ConnectionInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Exceptions\ModelNotFoundException;
+use InvalidArgumentException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
-use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Query\Bindings\Filter;
-use Adldap\Query\Bindings\OrWhere;
-use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
+use Adldap\Query\Bindings\Select;
+use Adldap\Query\Bindings\OrWhere;
+use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Utilities;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
+use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Builder
 {

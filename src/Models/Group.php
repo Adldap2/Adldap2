@@ -2,11 +2,11 @@
 
 namespace Adldap\Models;
 
-use Adldap\Exceptions\InvalidArgumentException;
-use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Models\Traits\HasMemberOfTrait;
-use Adldap\Objects\BatchModification;
 use Adldap\Utilities;
+use Adldap\Objects\BatchModification;
+use Adldap\Models\Traits\HasMemberOfTrait;
+use Adldap\Models\Traits\HasDescriptionTrait;
+use Adldap\Exceptions\InvalidArgumentException;
 
 class Group extends Entry
 {

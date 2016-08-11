@@ -2,16 +2,16 @@
 
 namespace Adldap\Models;
 
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\PasswordPolicyException;
-use Adldap\Exceptions\WrongPasswordException;
-use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
-use Adldap\Models\Traits\HasMemberOfTrait;
+use DateTime;
+use Adldap\Utilities;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
-use Adldap\Utilities;
-use DateTime;
+use Adldap\Exceptions\AdldapException;
+use Adldap\Exceptions\WrongPasswordException;
+use Adldap\Exceptions\PasswordPolicyException;
+use Adldap\Models\Traits\HasDescriptionTrait;
+use Adldap\Models\Traits\HasMemberOfTrait;
+use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 
 class User extends Entry
 {

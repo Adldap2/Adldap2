@@ -2,9 +2,9 @@
 
 namespace Adldap\Objects;
 
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Utilities;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Contracts\Schemas\SchemaInterface;
 
 class DistinguishedName
 {

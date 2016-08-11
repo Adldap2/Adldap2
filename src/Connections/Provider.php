@@ -3,14 +3,14 @@
 namespace Adldap\Connections;
 
 use Adldap\Auth\Guard;
-use Adldap\Contracts\Auth\GuardInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
-use Adldap\Contracts\Connections\ProviderInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Models\Factory as ModelFactory;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Search\Factory as SearchFactory;
 use InvalidArgumentException;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Models\Factory as ModelFactory;
+use Adldap\Search\Factory as SearchFactory;
+use Adldap\Contracts\Auth\GuardInterface;
+use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Contracts\Connections\ProviderInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Provider implements ProviderInterface
 {

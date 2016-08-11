@@ -2,13 +2,13 @@
 
 namespace Adldap\Query;
 
-use Adldap\Contracts\Connections\ConnectionInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Processor
 {

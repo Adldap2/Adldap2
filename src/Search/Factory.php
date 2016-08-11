@@ -2,14 +2,14 @@
 
 namespace Adldap\Search;
 
-use Adldap\Connections\Configuration;
-use Adldap\Contracts\Connections\ConnectionInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Models\Model;
-use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Models\RootDse;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Connections\Configuration;
+use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Factory
 {

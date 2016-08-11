@@ -4,11 +4,6 @@ namespace Adldap\Schemas;
 
 use Adldap\Contracts\Schemas\SchemaInterface;
 
-/**
- * Class ActiveDirectory.
- *
- * The active directory attribute schema for easy auto completion retrieval.
- */
 class ActiveDirectory implements SchemaInterface
 {
     /**

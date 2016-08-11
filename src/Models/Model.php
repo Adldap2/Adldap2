@@ -343,7 +343,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function setAttribute($key, $value, $subKey = null)
     {
         // Normalize key.
-        $key = strtolower($key);
+        $key = $this->normalizeAttributeKey($key);
 
         // If the key is equal to 'dn', we'll automatically
         // change it to the full attribute name.
@@ -826,6 +826,18 @@ abstract class Model implements ArrayAccess, JsonSerializable
         return $this->move($rdn);
     }
 
+    /**
+     * Returns a normalized attribute key.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function normalizeAttributeKey($key)
+    {
+        return strtolower($key);
+    }
+    
     /**
      * Determine if the new and old values for a given key are numerically equivalent.
      *

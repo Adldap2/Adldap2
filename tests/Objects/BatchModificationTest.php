@@ -3,6 +3,7 @@
 namespace Adldap\Tests\Objects;
 
 use Adldap\Objects\BatchModification;
+use Adldap\Objects\DistinguishedName;
 use Adldap\Tests\UnitTestCase;
 
 class BatchModificationTest extends UnitTestCase
@@ -129,5 +130,18 @@ class BatchModificationTest extends UnitTestCase
         $this->assertEquals(1, $modification->getType());
         $this->assertEquals(['testing'], $modification->getValues());
         $this->assertEmpty($modification->getOriginal());
+    }
+
+    public function test_values_are_converted_to_strings()
+    {
+        $modification = new BatchModification('attribute', 1, [
+            500,
+            10.5,
+            (new DistinguishedName('test'))
+        ]);
+
+        $this->assertInternalType('string', $modification->getValues()[0]);
+        $this->assertInternalType('string', $modification->getValues()[1]);
+        $this->assertInternalType('string', $modification->getValues()[2]);
     }
 }

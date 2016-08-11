@@ -538,8 +538,8 @@ class BuilderTest extends UnitTestCase
         $rawEntries = [
             'count' => 1,
             [
-                'cn'                => ['Test'],
-                'distinguishedname' => ['cn=Test,dc=corp,dc=acme,dc=org'],
+                'dn' => 'cn=Test,dc=corp,dc=acme,dc=org',
+                'cn' => ['Test'],
             ],
         ];
 
@@ -558,8 +558,8 @@ class BuilderTest extends UnitTestCase
 
         foreach ($paginator as $model) {
             $this->assertInstanceOf('Adldap\Models\Model', $model);
+            $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
             $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
-            $this->assertEquals($rawEntries[0]['distinguishedname'][0], $model->getDn());
         }
     }
 

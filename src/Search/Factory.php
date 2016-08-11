@@ -10,7 +10,6 @@ use Adldap\Models\RootDse;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\Schema;
 
 class Factory
 {

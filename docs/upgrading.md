@@ -22,26 +22,6 @@ $ad->addProvider('provider-name', $provider);
 $ad->connect('provider-name');
 ```
 
-###### Adldap\Schemas\ActiveDirectory
-
-The `ActiveDirectory` schema has now been removed in favor of a Schema object.
-
-You can utilize the schema object to manage which Schema you'd like to use, for example:
-
-```php
-$schema = new \Adldap\Schemas\ActiveDirectory();
-
-\Adldap\Schemas\Schema::set($schema);
-```
-
-Then you can use the `\Adldap\Schemas\Schema` object to retrieve your current schema:
-
-```php
-$schema = \Adldap\Schemas\Schema::get();
-
-$user = $provider->search()->where($schema->commonName(), '=', 'John Doe')->first();
-```
-
 ##### Search Classes Removed / Replaced with Search Factory
 
 All search classes have been removed and replaced with query 'scopes' utilized in `Adldap\Search\Factory`.

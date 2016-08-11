@@ -23,6 +23,16 @@ class FactoryTest extends UnitTestCase
         $this->assertInstanceOf('Adldap\Models\Factory', $factory);
     }
 
+    public function test_entry()
+    {
+        $factory = $this->newFactory();
+
+        $entry = $factory->entry(['cn' => 'John Doe']);
+
+        $this->assertInstanceOf('Adldap\Models\Entry', $entry);
+        $this->assertEquals(['John Doe'], $entry->getAttribute('cn'));
+    }
+
     public function test_user()
     {
         $factory = $this->newFactory();

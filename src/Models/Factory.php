@@ -58,6 +58,18 @@ class Factory
     }
 
     /**
+     * Creates a new entry instance.
+     *
+     * @param array $attributes
+     *
+     * @return Entry
+     */
+    public function entry(array $attributes = [])
+    {
+        return new Entry($attributes, $this->query);
+    }
+
+    /**
      * Creates a new user instance.
      *
      * @param array $attributes

@@ -943,11 +943,10 @@ class Builder
         $schema = $this->schema;
 
         if (count($selects) > 0) {
-            // Always make sure object category, class, and distinguished
-            // name are included in the selected fields.
+            // Always make sure object category and class are selected. We need these
+            // attributes to construct the right model instance for the record.
             $selects[] = new Select($schema->objectCategory());
             $selects[] = new Select($schema->objectClass());
-            $selects[] = new Select($schema->distinguishedName());
         }
 
         return $selects;

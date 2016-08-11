@@ -58,7 +58,7 @@ class Factory
     }
 
     /**
-     * Creates a new entry instance.
+     * Creates a new generic LDAP entry instance.
      *
      * @param array $attributes
      *

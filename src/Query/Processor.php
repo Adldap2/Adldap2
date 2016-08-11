@@ -122,11 +122,8 @@ class Processor
             $map = array_intersect($mappings, $classes);
 
             if (count($map) > 0) {
-                // Retrieve the objectclass attribute from the map.
-                $class = current($map);
-
-                // Retrieve the model from using the object class.
-                $model = $models[$class];
+                // Retrieve the model using the object class.
+                $model = $models[current($map)];
 
                 // Construct and return a new model.
                 return $this->newModel([], $model)->setRawAttributes($attributes);

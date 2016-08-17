@@ -573,7 +573,7 @@ class Builder
      */
     public function select($fields = [])
     {
-        $fields = (is_array($fields) ? $fields : func_get_args());
+        $fields = is_array($fields) ? $fields : func_get_args();
 
         foreach ($fields as $field) {
             $this->addBinding(new Select($field), 'select');
@@ -591,7 +591,7 @@ class Builder
      */
     public function rawFilter($filters = [])
     {
-        $filters = (is_array($filters) ? $filters : func_get_args());
+        $filters = is_array($filters) ? $filters : func_get_args();
 
         foreach ($filters as $filter) {
             $this->addBinding(new Filter($filter), 'filter');

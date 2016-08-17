@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Objects;
 
-use Adldap\Objects\Paginator;
 use Adldap\Tests\TestCase;
+use Adldap\Objects\Paginator;
 
 class PaginatorTest extends TestCase
 {

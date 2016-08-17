@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests\Objects;
 
+use Adldap\Tests\TestCase;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Tests\TestCase;
 
 class BatchModificationTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace Adldap\Tests\Query\Bindings;
 
-use Adldap\Query\Bindings\Select;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Bindings\Select;
 
 class SelectTest extends TestCase
 {
-    public function testConstruct()
+    public function test_construct()
     {
         $select = new Select('test');
 

@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests;
 
+use Mockery;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Mockery;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {

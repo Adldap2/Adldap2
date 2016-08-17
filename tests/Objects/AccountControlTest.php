@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Objects;
 
-use Adldap\Objects\AccountControl;
 use Adldap\Tests\TestCase;
+use Adldap\Objects\AccountControl;
 
 class AccountControlTest extends TestCase
 {

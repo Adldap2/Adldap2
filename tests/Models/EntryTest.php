@@ -3,8 +3,8 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
-use Adldap\Schemas\ActiveDirectory;
 use Adldap\Tests\TestCase;
+use Adldap\Schemas\ActiveDirectory;
 
 class EntryTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Models\Factory as ModelFactory;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Factory as ModelFactory;
 
 class FactoryTest extends TestCase
 {

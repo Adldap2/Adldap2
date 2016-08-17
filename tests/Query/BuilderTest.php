@@ -2,13 +2,13 @@
 
 namespace Adldap\Tests\Query;
 
-use Adldap\Query\Bindings\Filter;
-use Adldap\Query\Bindings\OrWhere;
-use Adldap\Query\Bindings\Select;
-use Adldap\Query\Bindings\Where;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Bindings\Where;
+use Adldap\Query\Bindings\Filter;
+use Adldap\Query\Bindings\Select;
+use Adldap\Query\Bindings\OrWhere;
 
 class BuilderTest extends TestCase
 {

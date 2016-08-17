@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests\Models;
 
+use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Tests\TestCase;
-use Adldap\Utilities;
 
 class UserTest extends TestCase
 {

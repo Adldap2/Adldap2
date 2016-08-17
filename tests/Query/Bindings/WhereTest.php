@@ -2,12 +2,12 @@
 
 namespace Adldap\Tests\Query\Bindings;
 
-use Adldap\Query\Bindings\Where;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Bindings\Where;
 
 class WhereTest extends TestCase
 {
-    public function testConstruct()
+    public function test_construct()
     {
         $where = new Where('\\cn\\', '=', 'test');
 
@@ -16,7 +16,7 @@ class WhereTest extends TestCase
         $this->assertEquals('\74\65\73\74', $where->getValue());
     }
 
-    public function testConstructInvalidOperatorException()
+    public function test_construct_invalid_operator_exception()
     {
         $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
 

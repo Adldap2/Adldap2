@@ -3,10 +3,10 @@
 namespace Adldap\Tests\Auth;
 
 use Adldap\Auth\Guard;
-use Adldap\Connections\Configuration;
-use Adldap\Connections\Ldap;
-use Adldap\Exceptions\Auth\BindException;
 use Adldap\Tests\TestCase;
+use Adldap\Connections\Ldap;
+use Adldap\Connections\Configuration;
+use Adldap\Exceptions\Auth\BindException;
 
 class GuardTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Connections;
 
-use Adldap\Connections\Configuration;
 use Adldap\Tests\TestCase;
+use Adldap\Connections\Configuration;
 
 class ConfigurationTest extends TestCase
 {

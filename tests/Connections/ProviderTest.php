@@ -2,11 +2,11 @@
 
 namespace Adldap\Tests\Connections;
 
-use Adldap\Connections\Configuration;
+use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Connections\Configuration;
 use Adldap\Exceptions\Auth\BindException;
-use Adldap\Tests\TestCase;
 
 class ProviderTest extends TestCase
 {

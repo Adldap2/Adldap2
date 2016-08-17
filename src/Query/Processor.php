@@ -50,9 +50,11 @@ class Processor
     {
         // Normalize entries. Get entries returns false on failure.
         // We'll always want an array in this situation.
-        $entries = ($this->connection->getEntries($results) ?: []);
+        $entries = $this->connection->getEntries($results) ?: [];
 
         if ($this->builder->isRaw()) {
+            // If the builder is asking for a raw
+            // LDAP result, we can return here.
             return $entries;
         }
 
@@ -60,13 +62,15 @@ class Processor
 
         if (Arr::has($entries, 'count')) {
             for ($i = 0; $i < $entries['count']; $i++) {
+                // We'll go through each entry and construct a new
+                // model instance with the raw LDAP attributes.
                 $models[] = $this->newLdapEntry($entries[$i]);
             }
         }
 
-        // If the current query isn't paginated,
-        // we'll sort the models array here.
         if (!$this->builder->isPaginated()) {
+            // If the current query isn't paginated,
+            // we'll sort the models array here.
             $models = $this->processSort($models);
         }
 
@@ -177,7 +181,7 @@ class Processor
     }
 
     /**
-     * Returns the object category model class mapping.
+     * Returns the object class model class mapping.
      *
      * @return array
      */

@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Objects;
 
 use Adldap\Objects\Paginator;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class PaginatorTest extends UnitTestCase
+class PaginatorTest extends TestCase
 {
     public function test_paginator_construct()
     {

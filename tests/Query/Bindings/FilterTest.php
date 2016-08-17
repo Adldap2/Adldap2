@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query\Bindings;
 
 use Adldap\Query\Bindings\Filter;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class FilterTest extends UnitTestCase
+class FilterTest extends TestCase
 {
     public function testConstruct()
     {

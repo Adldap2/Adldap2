@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Connections;
 
 use Adldap\Connections\Ldap;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class LdapTest extends UnitTestCase
+class LdapTest extends TestCase
 {
     public function test_construct_defaults()
     {

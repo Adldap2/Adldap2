@@ -6,9 +6,9 @@ use Adldap\Auth\Guard;
 use Adldap\Connections\Configuration;
 use Adldap\Connections\Ldap;
 use Adldap\Exceptions\Auth\BindException;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class GuardTest extends UnitTestCase
+class GuardTest extends TestCase
 {
     public function test_validate_username()
     {

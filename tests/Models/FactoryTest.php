@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Models\Factory as ModelFactory;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class FactoryTest extends UnitTestCase
+class FactoryTest extends TestCase
 {
     protected function newFactory($builder = null, $schema = null)
     {

@@ -8,9 +8,9 @@ use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\Where;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class BuilderTest extends UnitTestCase
+class BuilderTest extends TestCase
 {
     protected function newBuilder($connection = null)
     {

@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query;
 
 use Adldap\Query\Operator;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class OperatorTest extends UnitTestCase
+class OperatorTest extends TestCase
 {
     public function test_all()
     {

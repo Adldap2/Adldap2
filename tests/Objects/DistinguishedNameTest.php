@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Objects;
 
 use Adldap\Objects\DistinguishedName;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class DistinguishedNameTest extends UnitTestCase
+class DistinguishedNameTest extends TestCase
 {
     public function test_construct_base()
     {

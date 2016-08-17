@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Classes;
 
 use Adldap\Search\Factory;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class FactoryTest extends UnitTestCase
+class FactoryTest extends TestCase
 {
     protected function newSearchFactory($connection = null, $dn = 'dc=corp,dc=org', $schema = null)
     {

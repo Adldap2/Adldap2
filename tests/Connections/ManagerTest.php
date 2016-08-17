@@ -5,9 +5,9 @@ namespace Adldap\Tests\Connections;
 use Adldap\Connections\Manager;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\AdldapException;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class ManagerTest extends UnitTestCase
+class ManagerTest extends TestCase
 {
     public function test_connection_does_not_exist()
     {

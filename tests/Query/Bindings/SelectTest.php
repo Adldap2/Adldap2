@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query\Bindings;
 
 use Adldap\Query\Bindings\Select;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class SelectTest extends UnitTestCase
+class SelectTest extends TestCase
 {
     public function testConstruct()
     {

@@ -6,7 +6,7 @@ use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Mockery;
 
-class UnitTestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit_Framework_TestCase
 {
     /*
      * Set up the test environment.

@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Objects;
 
 use Adldap\Objects\AccountControl;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class AccountControlTest extends UnitTestCase
+class AccountControlTest extends TestCase
 {
     public function test_default_value()
     {

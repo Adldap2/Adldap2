@@ -4,7 +4,7 @@ namespace Adldap\Tests;
 
 use Adldap\Utilities;
 
-class UtilitiesTest extends UnitTestCase
+class UtilitiesTest extends TestCase
 {
     public function test_explode_dn()
     {

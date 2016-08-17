@@ -7,7 +7,7 @@ use Adldap\Connections\Manager;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\AdldapException;
 
-class AdldapTest extends UnitTestCase
+class AdldapTest extends TestCase
 {
     public function test_construct()
     {

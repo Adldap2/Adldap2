@@ -3,10 +3,10 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Models\User;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 use Adldap\Utilities;
 
-class UserTest extends UnitTestCase
+class UserTest extends TestCase
 {
     public function test_set_password()
     {

@@ -4,9 +4,9 @@ namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class EntryTest extends UnitTestCase
+class EntryTest extends TestCase
 {
     protected function newEntryModel($attributes, $builder, $schema = null)
     {

@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query;
 
 use Adldap\Query\Grammar;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class GrammarTest extends UnitTestCase
+class GrammarTest extends TestCase
 {
     public function newGrammar()
     {

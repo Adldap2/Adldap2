@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Connections;
 
 use Adldap\Connections\Configuration;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class ConfigurationTest extends UnitTestCase
+class ConfigurationTest extends TestCase
 {
     public function test_defaults()
     {

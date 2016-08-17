@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query\Bindings;
 
 use Adldap\Query\Bindings\Where;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class WhereTest extends UnitTestCase
+class WhereTest extends TestCase
 {
     public function testConstruct()
     {

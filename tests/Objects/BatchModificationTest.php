@@ -4,9 +4,9 @@ namespace Adldap\Tests\Objects;
 
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Tests\UnitTestCase;
+use Adldap\Tests\TestCase;
 
-class BatchModificationTest extends UnitTestCase
+class BatchModificationTest extends TestCase
 {
     public function test_build_with_original()
     {

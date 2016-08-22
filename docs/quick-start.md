@@ -27,8 +27,12 @@ try {
     // Perform a query.
     $results = $provider->where('cn', '=', 'John Doe')->get();
 
-    // Create a new LDAP object.
-    $user =  $provider->make()->user();
+    // Create a new LDAP entry. You can pass in attributes into the make methods.
+    $user =  $provider->make()->user([
+        'cn'        => 'John Doe',
+        'givenname' => 'John',
+        'sn'        => 'Doe',
+    ]);
 
     // Set a model's attribute.
     $user->cn = 'John Doe';

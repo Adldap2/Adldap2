@@ -728,14 +728,15 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function updateAttribute($attribute, $value)
     {
-        if ($this->exists) {
-            if ($this->query->getConnection()->modReplace($this->getDn(), [$attribute => $value])) {
-                // If the models attribute was successfully updated,
-                // we'll re-sync the models attributes.
-                $this->syncRaw();
+        if (
+            $this->exists &&
+            $this->query->getConnection()->modReplace($this->getDn(), [$attribute => $value])
+        ) {
+            // If the models attribute was successfully updated,
+            // we'll re-sync the models attributes.
+            $this->syncRaw();
 
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -750,16 +751,17 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function deleteAttribute($attribute)
     {
-        if ($this->exists) {
-            // We need to pass in an empty array as the value
-            // for the attribute so AD knows to remove it.
-            if ($this->query->getConnection()->modDelete($this->getDn(), [$attribute => []])) {
-                // If the models attribute was successfully deleted, we'll
-                // resynchronize the models raw attributes.
-                $this->syncRaw();
+        // We need to pass in an empty array as the value
+        // for the attribute so AD knows to remove it.
+        if (
+            $this->exists &&
+            $this->query->getConnection()->modDelete($this->getDn(), [$attribute => []])
+        ) {
+            // If the models attribute was successfully deleted, we'll
+            // resynchronize the models raw attributes.
+            $this->syncRaw();
 
-                return true;
-            }
+            return true;
         }
 
         return false;

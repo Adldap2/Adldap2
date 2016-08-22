@@ -811,7 +811,19 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function move($rdn, $newParentDn = null, $deleteOldRdn = true)
     {
-        return $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
+        $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
+
+        if ($moved) {
+            // If the model was successfully moved, we'll set its
+            // new DN so we can sync it's attributes properly.
+            $this->setDn("{$rdn},{$newParentDn}");
+
+            $this->syncRaw();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

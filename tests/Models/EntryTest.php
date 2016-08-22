@@ -404,7 +404,10 @@ class EntryTest extends TestCase
             true,
         ];
 
-        $connection->shouldReceive('rename')->once()->withArgs($args)->andReturn(true);
+        $connection
+            ->shouldReceive('rename')->once()->withArgs($args)->andReturn(true)
+            ->shouldReceive('read')->once()
+            ->shouldReceive('getEntries')->once();
 
         $entry = $this->newEntryModel([], $this->newBuilder($connection));
 

@@ -29,9 +29,9 @@ try {
 
     // Create a new LDAP entry. You can pass in attributes into the make methods.
     $user =  $provider->make()->user([
-        'cn'        => 'John Doe',
-        'givenname' => 'John',
-        'sn'        => 'Doe',
+        'cn'          => 'John Doe',
+        'title'       => 'Accountant',
+        'description' => 'User Account',
     ]);
 
     // Set a model's attribute.

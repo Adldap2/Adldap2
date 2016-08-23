@@ -91,7 +91,7 @@ class Where extends AbstractBinding
      *
      * @return string
      */
-    private function validateOperator($operator)
+    protected function validateOperator($operator)
     {
         $operators = Operator::all();
 

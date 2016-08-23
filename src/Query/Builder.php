@@ -1215,7 +1215,7 @@ class Builder
             case 'or':
                 return new OrWhere($field, $operator, $value);
             default:
-                throw new InvalidArgumentException("Invalid binding type: $type.");
+                throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
     }
 

@@ -142,7 +142,7 @@ trait HasMemberOfTrait
     }
 
     /**
-     * Determine if the current model is a member of the specified group.
+     * Determine if the current model is a member of the specified group(s).
      *
      * @param mixed $group
      * @param bool  $recursive
@@ -159,7 +159,7 @@ trait HasMemberOfTrait
             // We need to iterate through each given group that the
             // model must be apart of, then go through the models
             // actual groups and perform validation.
-            $exists = $memberOf->filter(function (Group $parent) use ($memberOf, $group) {
+            $exists = $memberOf->filter(function (Group $parent) use ($group) {
                 return $this->validateGroup($group, $parent);
             })->count() === 1;
 

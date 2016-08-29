@@ -27,7 +27,6 @@ $provider = new \Adldap\Connections\Provider($config);
 // Add the provider to Adldap.
 $ad->addProvider('default', $provider);
 
-// Try connecting to the provider.
 try {
     // Connect using the providers alias name.
     $ad->connect('default');

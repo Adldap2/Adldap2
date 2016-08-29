@@ -32,7 +32,10 @@ try {
     $ad->connect('default');
 
     // Perform a query.
-    $results = $provider->where('cn', '=', 'John Doe')->get();
+    $results = $provider->search()->where('cn', '=', 'John Doe')->get();
+    
+    // Find a user.
+    $user = $provider->search()->find('jdoe');
 
     // Create a new LDAP entry. You can pass in attributes into the make methods.
     $user =  $provider->make()->user([

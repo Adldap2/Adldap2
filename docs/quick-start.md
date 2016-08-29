@@ -6,9 +6,17 @@ $ad = new \Adldap\Adldap();
 
 // Create a configuration array.
 $config = [
+  // Your account suffix, for example: jdoe@corp.acme.org
   'account_suffix'        => '@corp.acme.org',
+  
+  // You can use the host name or the IP address of your controllers.
   'domain_controllers'    => ['ACME-DC01.corp.acme.org', '10.0.20.119'],
+  
+  // Your base DN. This is usually your account suffix.
   'base_dn'               => 'dc=corp,dc=acme,dc=org',
+  
+  // The account to use for querying / modifying users. This
+  // does not need to be an actual admin account.
   'admin_username'        => 'admin',
   'admin_password'        => 'password',
 ];

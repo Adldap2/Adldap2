@@ -41,7 +41,7 @@ class Manager implements ManagerInterface
             return $this->providers[$name];
         }
 
-        throw new AdldapException("The provider '$name' does not exist.");
+        throw new AdldapException("The connection provider '$name' does not exist.");
     }
 
     /**

@@ -457,14 +457,4 @@ class EntryTest extends TestCase
         $this->assertEquals(['New Common Name'], $model->getAttributes()['cn']);
         $this->assertEquals(['John Doe'], $model->getOriginal()['cn']);
     }
-
-    public function test_dn_is_filtered_from_raw_attributes_and_set_to_model_property()
-    {
-        $model = $this->newEntryModel([], $this->newBuilder());
-
-        $model->setRawAttributes(['dn' => 'testing']);
-
-        $this->assertEmpty($model->getAttributes());
-        $this->assertEquals('testing', $model->getDn());
-    }
 }

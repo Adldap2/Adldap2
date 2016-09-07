@@ -391,7 +391,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @return array
      */
-    public function filterRawAttributes(array $attributes = [], $keys = ['count', 'dn'])
+    public function filterRawAttributes(array $attributes = [], $keys = ['count'])
     {
         $attributes = Arr::except($attributes, $keys);
 
@@ -684,11 +684,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $this->setDn($dn);
         }
 
-        // Get the model attributes without its distinguished name.
-        $attributes = Arr::except($this->getAttributes(), [$this->schema->distinguishedName()]);
-
         // Create the entry.
-        $created = $this->query->getConnection()->add($this->getDn(), $attributes);
+        $created = $this->query->getConnection()->add($this->getDn(), $this->getAttributes());
 
         if ($created) {
             // If the entry was created we'll re-sync

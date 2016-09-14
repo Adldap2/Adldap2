@@ -75,10 +75,8 @@ class Guard implements GuardInterface
             $username = $prefix.$username.$suffix;
         }
 
-        if (empty($password)) {
-            // Allow binding with null password.
-            $password = null;
-        }
+        // Allow binding with null password.
+        $password = (empty($password) ? null : $password);
 
         // We'll mute any exceptions / warnings here. All we need to know
         // is if binding failed and we'll throw our own exception.

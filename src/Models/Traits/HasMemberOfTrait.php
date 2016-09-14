@@ -100,9 +100,11 @@ trait HasMemberOfTrait
      */
     public function getGroupNames($recursive = false)
     {
-        return $this->getGroups([], $recursive)->map(function (Group $group) {
+        $names = $this->getGroups([], $recursive)->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
+
+        return array_unique($names);
     }
 
     /**

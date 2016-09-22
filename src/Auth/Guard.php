@@ -63,20 +63,20 @@ class Guard implements GuardInterface
      */
     public function bind($username, $password, $prefix = null, $suffix = null)
     {
-        if (empty($username)) {
-            // Allow binding with null username.
-            $username = null;
-        } else {
+        // We'll allow binding with a null username and password
+        // if their empty. This will allow us to anonymously
+        // bind to our servers if needed.
+        $username = $username ?: null;
+        $password = $password ?: null;
+        
+        if ($username) {
             // If the username isn't empty, we'll append the configured
             // account prefix and suffix to bind to the LDAP server.
-            $prefix = (is_null($prefix) ? $this->configuration->getAccountPrefix() : $prefix);
-            $suffix = (is_null($suffix) ? $this->configuration->getAccountSuffix() : $suffix);
+            $prefix = is_null($prefix) ? $this->configuration->getAccountPrefix() : $prefix;
+            $suffix = is_null($suffix) ? $this->configuration->getAccountSuffix() : $suffix;
 
             $username = $prefix.$username.$suffix;
         }
-
-        // Allow binding with null password.
-        $password = (empty($password) ? null : $password);
 
         // We'll mute any exceptions / warnings here. All we need to know
         // is if binding failed and we'll throw our own exception.
@@ -95,7 +95,7 @@ class Guard implements GuardInterface
         list($username, $password, $suffix) = array_pad($credentials, 3, null);
 
         // Use the user account suffix if no administrator account suffix is given.
-        $suffix = (empty($suffix) ? $this->configuration->getAccountSuffix() : $suffix);
+        $suffix = $suffix ?: $this->configuration->getAccountSuffix();
 
         $this->bind($username, $password, '', $suffix);
     }

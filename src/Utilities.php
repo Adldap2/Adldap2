@@ -318,10 +318,6 @@ class Utilities
     {
         $ignore = trim($ignore);
 
-        if (!empty($ignore)) {
-            return str_split($ignore);
-        }
-
-        return [];
+        return $ignore ? str_split($ignore) : [];
     }
 }

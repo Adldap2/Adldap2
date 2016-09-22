@@ -68,7 +68,7 @@ class Guard implements GuardInterface
         // bind to our servers if needed.
         $username = $username ?: null;
         $password = $password ?: null;
-        
+
         if ($username) {
             // If the username isn't empty, we'll append the configured
             // account prefix and suffix to bind to the LDAP server.

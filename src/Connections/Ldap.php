@@ -364,6 +364,16 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
+    public function getExtendedErrorHex()
+    {
+        if (preg_match("/(?<=data\s).*?(?=\,)/", $this->getExtendedError(), $code)) {
+            return $code[0];
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getExtendedErrorCode()
     {
         return $this->extractDiagnosticCode($this->getExtendedError());

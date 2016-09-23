@@ -405,21 +405,28 @@ interface ConnectionInterface
      * Returns the error number of the last command
      * executed on the current connection.
      *
-     * @return mixed
+     * @return int
      */
     public function errNo();
 
     /**
      * Returns the extended error string of the last command.
      *
-     * @return mixed
+     * @return string
      */
     public function getExtendedError();
 
     /**
+     * Returns the extended error hex code of the last command.
+     *
+     * @return string
+     */
+    public function getExtendedErrorHex();
+
+    /**
      * Returns the extended error code of the last command.
      *
-     * @return mixed
+     * @return string
      */
     public function getExtendedErrorCode();
 

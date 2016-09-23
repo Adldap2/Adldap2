@@ -302,6 +302,7 @@ $count = $user->countAttributes();
 // Retrieving the models modified attributes.
 $attributes = $user->getDirty();
 
+// Retrieving the users original attributes (before modifications).
 $attributes = $user->getOriginal();
 ```
 

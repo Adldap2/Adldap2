@@ -306,6 +306,18 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the first attribute by the specified key.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getFirstAttribute($key)
+    {
+        return $this->getAttribute($key, 0);
+    }
+
+    /**
      * Returns all of the models attributes.
      *
      * @return array
@@ -332,7 +344,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Sets attributes on the current entry.
+     * Sets an attributes value by the specified key and sub-key.
      *
      * @param int|string $key
      * @param mixed      $value
@@ -356,6 +368,19 @@ abstract class Model implements ArrayAccess, JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * Sets the first attributes value by the specified key.
+     *
+     * @param int|string $key
+     * @param mixed      $value
+     *
+     * @return $this
+     */
+    public function setFirstAttribute($key, $value)
+    {
+        return $this->setAttribute($key, $value, 0);
     }
 
     /**
@@ -609,7 +634,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getCommonName()
     {
-        return $this->getAttribute($this->schema->commonName(), 0);
+        return $this->getFirstAttribute($this->schema->commonName());
     }
 
     /**
@@ -621,7 +646,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function setCommonName($name)
     {
-        return $this->setAttribute($this->schema->commonName(), $name, 0);
+        return $this->setFirstAttribute($this->schema->commonName(), $name);
     }
 
     /**

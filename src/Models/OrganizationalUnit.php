@@ -11,6 +11,6 @@ class OrganizationalUnit extends Entry
      */
     public function getOu()
     {
-        return $this->getAttribute($this->schema->organizationalUnitShort(), 0);
+        return $this->getFirstAttribute($this->schema->organizationalUnitShort());
     }
 }

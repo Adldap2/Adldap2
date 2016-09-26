@@ -27,7 +27,7 @@ class Entry extends Model
      */
     public function getName()
     {
-        return $this->getAttribute($this->schema->name(), 0);
+        return $this->getFirstAttribute($this->schema->name());
     }
 
     /**
@@ -39,7 +39,7 @@ class Entry extends Model
      */
     public function setName($name)
     {
-        return $this->setAttribute($this->schema->name(), $name, 0);
+        return $this->setFirstAttribute($this->schema->name(), $name);
     }
 
     /**
@@ -51,7 +51,7 @@ class Entry extends Model
      */
     public function getAccountName()
     {
-        return $this->getAttribute($this->schema->accountName(), 0);
+        return $this->getFirstAttribute($this->schema->accountName());
     }
 
     /**
@@ -63,7 +63,7 @@ class Entry extends Model
      */
     public function setAccountName($accountName)
     {
-        return $this->setAttribute($this->schema->accountName(), $accountName, 0);
+        return $this->setFirstAttribute($this->schema->accountName(), $accountName);
     }
 
     /**
@@ -75,7 +75,7 @@ class Entry extends Model
      */
     public function getAccountType()
     {
-        return $this->getAttribute($this->schema->accountType(), 0);
+        return $this->getFirstAttribute($this->schema->accountType());
     }
 
     /**
@@ -87,7 +87,7 @@ class Entry extends Model
      */
     public function getCreatedAt()
     {
-        return $this->getAttribute($this->schema->createdAt(), 0);
+        return $this->getFirstAttribute($this->schema->createdAt());
     }
 
     /**
@@ -119,7 +119,7 @@ class Entry extends Model
      */
     public function getUpdatedAt()
     {
-        return $this->getAttribute($this->schema->updatedAt(), 0);
+        return $this->getFirstAttribute($this->schema->updatedAt());
     }
 
     /**
@@ -185,7 +185,7 @@ class Entry extends Model
      */
     public function getObjectCategoryDn()
     {
-        return $this->getAttribute($this->schema->objectCategory(), 0);
+        return $this->getFirstAttribute($this->schema->objectCategory());
     }
 
     /**
@@ -197,7 +197,7 @@ class Entry extends Model
      */
     public function getObjectSid()
     {
-        return $this->getAttribute($this->schema->objectSid(), 0);
+        return $this->getFirstAttribute($this->schema->objectSid());
     }
 
     /**
@@ -209,7 +209,7 @@ class Entry extends Model
      */
     public function getPrimaryGroupId()
     {
-        return $this->getAttribute($this->schema->primaryGroupId(), 0);
+        return $this->getFirstAttribute($this->schema->primaryGroupId());
     }
 
     /**
@@ -221,7 +221,7 @@ class Entry extends Model
      */
     public function getInstanceType()
     {
-        return $this->getAttribute($this->schema->instanceType(), 0);
+        return $this->getFirstAttribute($this->schema->instanceType());
     }
 
     /**
@@ -231,7 +231,7 @@ class Entry extends Model
      */
     public function getGuid()
     {
-        return Utilities::binaryGuidToString($this->getAttribute($this->schema->objectGuid(), 0));
+        return Utilities::binaryGuidToString($this->getFirstAttribute($this->schema->objectGuid()));
     }
 
     /**
@@ -241,7 +241,7 @@ class Entry extends Model
      */
     public function getSid()
     {
-        return Utilities::binarySidToString($this->getAttribute($this->schema->objectSid(), 0));
+        return Utilities::binarySidToString($this->getFirstAttribute($this->schema->objectSid()));
     }
 
     /**
@@ -251,6 +251,6 @@ class Entry extends Model
      */
     public function getMaxPasswordAge()
     {
-        return $this->getAttribute($this->schema->maxPasswordAge(), 0);
+        return $this->getFirstAttribute($this->schema->maxPasswordAge());
     }
 }

@@ -13,7 +13,7 @@ class RootDse extends Model
      */
     public function getCurrentTime()
     {
-        return $this->getAttribute($this->schema->currentTime(), 0);
+        return $this->getFirstAttribute($this->schema->currentTime());
     }
 
     /**
@@ -43,7 +43,7 @@ class RootDse extends Model
      */
     public function getConfigurationNamingContext()
     {
-        return $this->getAttribute($this->schema->configurationNamingContext(), 0);
+        return $this->getFirstAttribute($this->schema->configurationNamingContext());
     }
 
     /**
@@ -53,7 +53,7 @@ class RootDse extends Model
      */
     public function getSchemaNamingContext()
     {
-        return $this->getAttribute($this->schema->schemaNamingContext(), 0);
+        return $this->getFirstAttribute($this->schema->schemaNamingContext());
     }
 
     /**
@@ -63,7 +63,7 @@ class RootDse extends Model
      */
     public function getDnsHostName()
     {
-        return $this->getAttribute($this->schema->dnsHostName(), 0);
+        return $this->getFirstAttribute($this->schema->dnsHostName());
     }
 
     /**
@@ -73,6 +73,6 @@ class RootDse extends Model
      */
     public function getServerName()
     {
-        return $this->getAttribute($this->schema->serverName(), 0);
+        return $this->getFirstAttribute($this->schema->serverName());
     }
 }

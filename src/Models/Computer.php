@@ -19,7 +19,7 @@ class Computer extends Entry
      */
     public function getOperatingSystem()
     {
-        return $this->getAttribute($this->schema->operatingSystem(), 0);
+        return $this->getFirstAttribute($this->schema->operatingSystem());
     }
 
     /**
@@ -31,7 +31,7 @@ class Computer extends Entry
      */
     public function getOperatingSystemVersion()
     {
-        return $this->getAttribute($this->schema->operatingSystemVersion(), 0);
+        return $this->getFirstAttribute($this->schema->operatingSystemVersion());
     }
 
     /**
@@ -43,7 +43,7 @@ class Computer extends Entry
      */
     public function getOperatingSystemServicePack()
     {
-        return $this->getAttribute($this->schema->operatingSystemServicePack(), 0);
+        return $this->getFirstAttribute($this->schema->operatingSystemServicePack());
     }
 
     /**
@@ -53,7 +53,7 @@ class Computer extends Entry
      */
     public function getDnsHostName()
     {
-        return $this->getAttribute($this->schema->dnsHostName(), 0);
+        return $this->getFirstAttribute($this->schema->dnsHostName());
     }
 
     /**
@@ -65,7 +65,7 @@ class Computer extends Entry
      */
     public function getBadPasswordTime()
     {
-        return $this->getAttribute($this->schema->badPasswordTime(), 0);
+        return $this->getFirstAttribute($this->schema->badPasswordTime());
     }
 
     /**
@@ -77,6 +77,6 @@ class Computer extends Entry
      */
     public function getAccountExpiry()
     {
-        return $this->getAttribute($this->schema->accountExpires(), 0);
+        return $this->getFirstAttribute($this->schema->accountExpires());
     }
 }

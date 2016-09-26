@@ -24,7 +24,7 @@ class User extends Entry
      */
     public function getDisplayName()
     {
-        return $this->getAttribute($this->schema->displayName(), 0);
+        return $this->getFirstAttribute($this->schema->displayName());
     }
 
     /**
@@ -36,7 +36,7 @@ class User extends Entry
      */
     public function setDisplayName($displayName)
     {
-        return $this->setAttribute($this->schema->displayName(), $displayName, 0);
+        return $this->setFirstAttribute($this->schema->displayName(), $displayName);
     }
 
     /**
@@ -48,7 +48,7 @@ class User extends Entry
      */
     public function getTitle()
     {
-        return $this->getAttribute($this->schema->title(), 0);
+        return $this->getFirstAttribute($this->schema->title());
     }
 
     /**
@@ -60,7 +60,7 @@ class User extends Entry
      */
     public function setTitle($title)
     {
-        return $this->setAttribute($this->schema->title(), $title, 0);
+        return $this->setFirstAttribute($this->schema->title(), $title);
     }
 
     /**
@@ -72,7 +72,7 @@ class User extends Entry
      */
     public function getDepartment()
     {
-        return $this->getAttribute($this->schema->department(), 0);
+        return $this->getFirstAttribute($this->schema->department());
     }
 
     /**
@@ -84,7 +84,7 @@ class User extends Entry
      */
     public function setDepartment($department)
     {
-        return $this->setAttribute($this->schema->department(), $department, 0);
+        return $this->setFirstAttribute($this->schema->department(), $department);
     }
 
     /**
@@ -96,7 +96,7 @@ class User extends Entry
      */
     public function getFirstName()
     {
-        return $this->getAttribute($this->schema->firstName(), 0);
+        return $this->getFirstAttribute($this->schema->firstName());
     }
 
     /**
@@ -108,7 +108,7 @@ class User extends Entry
      */
     public function setFirstName($firstName)
     {
-        return $this->setAttribute($this->schema->firstName(), $firstName, 0);
+        return $this->setFirstAttribute($this->schema->firstName(), $firstName);
     }
 
     /**
@@ -120,7 +120,7 @@ class User extends Entry
      */
     public function getLastName()
     {
-        return $this->getAttribute($this->schema->lastName(), 0);
+        return $this->getFirstAttribute($this->schema->lastName());
     }
 
     /**
@@ -132,7 +132,7 @@ class User extends Entry
      */
     public function setLastName($lastName)
     {
-        return $this->setAttribute($this->schema->lastName(), $lastName, 0);
+        return $this->setFirstAttribute($this->schema->lastName(), $lastName);
     }
 
     /**
@@ -142,7 +142,7 @@ class User extends Entry
      */
     public function getInfo()
     {
-        return $this->getAttribute($this->schema->info(), 0);
+        return $this->getFirstAttribute($this->schema->info());
     }
 
     /**
@@ -154,7 +154,7 @@ class User extends Entry
      */
     public function setInfo($info)
     {
-        return $this->setAttribute($this->schema->info(), $info, 0);
+        return $this->setFirstAttribute($this->schema->info(), $info);
     }
 
     /**
@@ -164,7 +164,7 @@ class User extends Entry
      */
     public function getInitials()
     {
-        return $this->getAttribute($this->schema->initials(), 0);
+        return $this->getFirstAttribute($this->schema->initials());
     }
 
     /**
@@ -176,7 +176,7 @@ class User extends Entry
      */
     public function setInitials($initials)
     {
-        return $this->setAttribute($this->schema->initials(), $initials, 0);
+        return $this->setFirstAttribute($this->schema->initials(), $initials);
     }
 
     /**
@@ -186,7 +186,7 @@ class User extends Entry
      */
     public function getCountry()
     {
-        return $this->getAttribute($this->schema->country(), 0);
+        return $this->getFirstAttribute($this->schema->country());
     }
 
     /**
@@ -198,7 +198,7 @@ class User extends Entry
      */
     public function setCountry($country)
     {
-        return $this->setAttribute($this->schema->country(), $country, 0);
+        return $this->setFirstAttribute($this->schema->country(), $country);
     }
 
     /**
@@ -208,7 +208,7 @@ class User extends Entry
      */
     public function getStreetAddress()
     {
-        return $this->getAttribute($this->schema->streetAddress(), 0);
+        return $this->getFirstAttribute($this->schema->streetAddress());
     }
 
     /**
@@ -220,7 +220,7 @@ class User extends Entry
      */
     public function setStreetAddress($address)
     {
-        return $this->setAttribute($this->schema->streetAddress(), $address, 0);
+        return $this->setFirstAttribute($this->schema->streetAddress(), $address);
     }
 
     /**
@@ -230,7 +230,7 @@ class User extends Entry
      */
     public function getPostalCode()
     {
-        return $this->getAttribute($this->schema->postalCode(), 0);
+        return $this->getFirstAttribute($this->schema->postalCode());
     }
 
     /**
@@ -242,7 +242,7 @@ class User extends Entry
      */
     public function setPostalCode($postalCode)
     {
-        return $this->setAttribute($this->schema->postalCode(), $postalCode, 0);
+        return $this->setFirstAttribute($this->schema->postalCode(), $postalCode);
     }
 
     /**
@@ -252,7 +252,7 @@ class User extends Entry
      */
     public function getPhysicalDeliveryOfficeName()
     {
-        return $this->getAttribute($this->schema->physicalDeliveryOfficeName(), 0);
+        return $this->getFirstAttribute($this->schema->physicalDeliveryOfficeName());
     }
 
     /**
@@ -264,7 +264,7 @@ class User extends Entry
      */
     public function setPhysicalDeliveryOfficeName($deliveryOffice)
     {
-        return $this->setAttribute($this->schema->physicalDeliveryOfficeName(), $deliveryOffice, 0);
+        return $this->setFirstAttribute($this->schema->physicalDeliveryOfficeName(), $deliveryOffice);
     }
 
     /**
@@ -276,7 +276,7 @@ class User extends Entry
      */
     public function getTelephoneNumber()
     {
-        return $this->getAttribute($this->schema->telephone(), 0);
+        return $this->getFirstAttribute($this->schema->telephone());
     }
 
     /**
@@ -288,7 +288,7 @@ class User extends Entry
      */
     public function setTelephoneNumber($number)
     {
-        return $this->setAttribute($this->schema->telephone(), $number, 0);
+        return $this->setFirstAttribute($this->schema->telephone(), $number);
     }
 
     /**
@@ -298,7 +298,7 @@ class User extends Entry
      */
     public function getLocale()
     {
-        return $this->getAttribute($this->schema->locale(), 0);
+        return $this->getFirstAttribute($this->schema->locale());
     }
 
     /**
@@ -310,7 +310,7 @@ class User extends Entry
      */
     public function setLocale($locale)
     {
-        return $this->setAttribute($this->schema->locale(), $locale, 0);
+        return $this->setFirstAttribute($this->schema->locale(), $locale);
     }
 
     /**
@@ -322,7 +322,7 @@ class User extends Entry
      */
     public function getCompany()
     {
-        return $this->getAttribute($this->schema->company(), 0);
+        return $this->getFirstAttribute($this->schema->company());
     }
 
     /**
@@ -334,7 +334,7 @@ class User extends Entry
      */
     public function setCompany($company)
     {
-        return $this->setAttribute($this->schema->company(), $company, 0);
+        return $this->setFirstAttribute($this->schema->company(), $company);
     }
 
     /**
@@ -346,7 +346,7 @@ class User extends Entry
      */
     public function getEmail()
     {
-        return $this->getAttribute($this->schema->email(), 0);
+        return $this->getFirstAttribute($this->schema->email());
     }
 
     /**
@@ -361,7 +361,7 @@ class User extends Entry
      */
     public function setEmail($email)
     {
-        return $this->setAttribute($this->schema->email(), $email, 0);
+        return $this->setFirstAttribute($this->schema->email(), $email);
     }
 
     /**
@@ -421,7 +421,7 @@ class User extends Entry
      */
     public function getHomeMdb()
     {
-        return $this->getAttribute($this->schema->homeMdb(), 0);
+        return $this->getFirstAttribute($this->schema->homeMdb());
     }
 
     /**
@@ -431,7 +431,7 @@ class User extends Entry
      */
     public function getMailNickname()
     {
-        return $this->getAttribute($this->schema->emailNickname(), 0);
+        return $this->getFirstAttribute($this->schema->emailNickname());
     }
 
     /**
@@ -445,7 +445,7 @@ class User extends Entry
      */
     public function getUserPrincipalName()
     {
-        return $this->getAttribute($this->schema->userPrincipalName(), 0);
+        return $this->getFirstAttribute($this->schema->userPrincipalName());
     }
 
     /**
@@ -457,7 +457,7 @@ class User extends Entry
      */
     public function setUserPrincipalName($userPrincipalName)
     {
-        return $this->setAttribute($this->schema->userPrincipalName(), $userPrincipalName, 0);
+        return $this->setFirstAttribute($this->schema->userPrincipalName(), $userPrincipalName);
     }
 
     /**
@@ -513,7 +513,7 @@ class User extends Entry
      */
     public function getScriptPath()
     {
-        return $this->getAttribute($this->schema->scriptPath(), 0);
+        return $this->getFirstAttribute($this->schema->scriptPath());
     }
 
     /**
@@ -525,7 +525,7 @@ class User extends Entry
      */
     public function setScriptPath($path)
     {
-        return $this->setAttribute($this->schema->scriptPath(), $path, 0);
+        return $this->setFirstAttribute($this->schema->scriptPath(), $path);
     }
 
     /**
@@ -535,7 +535,7 @@ class User extends Entry
      */
     public function getBadPasswordCount()
     {
-        return $this->getAttribute($this->schema->badPasswordCount(), 0);
+        return $this->getFirstAttribute($this->schema->badPasswordCount());
     }
 
     /**
@@ -545,7 +545,7 @@ class User extends Entry
      */
     public function getBadPasswordTime()
     {
-        return $this->getAttribute($this->schema->badPasswordTime(), 0);
+        return $this->getFirstAttribute($this->schema->badPasswordTime());
     }
 
     /**
@@ -555,7 +555,7 @@ class User extends Entry
      */
     public function getPasswordLastSet()
     {
-        return $this->getAttribute($this->schema->passwordLastSet(), 0);
+        return $this->getFirstAttribute($this->schema->passwordLastSet());
     }
 
     /**
@@ -565,7 +565,7 @@ class User extends Entry
      */
     public function getLockoutTime()
     {
-        return $this->getAttribute($this->schema->lockoutTime(), 0);
+        return $this->getFirstAttribute($this->schema->lockoutTime());
     }
 
     /**
@@ -575,7 +575,7 @@ class User extends Entry
      */
     public function getUserAccountControl()
     {
-        return $this->getAttribute($this->schema->userAccountControl(), 0);
+        return $this->getFirstAttribute($this->schema->userAccountControl());
     }
 
     /**
@@ -597,7 +597,7 @@ class User extends Entry
      */
     public function getProfilePath()
     {
-        return $this->getAttribute($this->schema->profilePath(), 0);
+        return $this->getFirstAttribute($this->schema->profilePath());
     }
 
     /**
@@ -609,7 +609,7 @@ class User extends Entry
      */
     public function setProfilePath($path)
     {
-        return $this->setAttribute($this->schema->profilePath(), $path, 0);
+        return $this->setFirstAttribute($this->schema->profilePath(), $path);
     }
 
     /**
@@ -619,7 +619,7 @@ class User extends Entry
      */
     public function getLegacyExchangeDn()
     {
-        return $this->getAttribute($this->schema->legacyExchangeDn(), 0);
+        return $this->getFirstAttribute($this->schema->legacyExchangeDn());
     }
 
     /**
@@ -629,7 +629,7 @@ class User extends Entry
      */
     public function getAccountExpiry()
     {
-        return $this->getAttribute($this->schema->accountExpires(), 0);
+        return $this->getFirstAttribute($this->schema->accountExpires());
     }
 
     /**
@@ -645,7 +645,7 @@ class User extends Entry
     {
         $time = is_null($expiryTime) ? '9223372036854775807' : (string) Utilities::convertUnixTimeToWindowsTime($expiryTime);
 
-        return $this->setAttribute($this->schema->accountExpires(), $time, 0);
+        return $this->setFirstAttribute($this->schema->accountExpires(), $time);
     }
 
     /**
@@ -666,7 +666,7 @@ class User extends Entry
      */
     public function getThumbnail()
     {
-        return $this->getAttribute($this->schema->thumbnail(), 0);
+        return $this->getFirstAttribute($this->schema->thumbnail());
     }
 
     /**
@@ -688,7 +688,7 @@ class User extends Entry
      */
     public function getManager()
     {
-        return $this->getAttribute($this->schema->manager(), 0);
+        return $this->getFirstAttribute($this->schema->manager());
     }
 
     /**
@@ -700,7 +700,7 @@ class User extends Entry
      */
     public function setManager($managerDn)
     {
-        return $this->setAttribute($this->schema->manager(), $managerDn, 0);
+        return $this->setFirstAttribute($this->schema->manager(), $managerDn);
     }
 
     /**
@@ -710,7 +710,7 @@ class User extends Entry
      */
     public function getEmployeeId()
     {
-        return $this->getAttribute($this->schema->employeeId(), 0);
+        return $this->getFirstAttribute($this->schema->employeeId());
     }
 
     /**
@@ -722,7 +722,7 @@ class User extends Entry
      */
     public function setEmployeeId($employeeId)
     {
-        return $this->setAttribute($this->schema->employeeId(), $employeeId, 0);
+        return $this->setFirstAttribute($this->schema->employeeId(), $employeeId);
     }
 
     /**
@@ -732,7 +732,7 @@ class User extends Entry
      */
     public function getPersonalTitle()
     {
-        return $this->getAttribute($this->schema->personalTitle(), 0);
+        return $this->getFirstAttribute($this->schema->personalTitle());
     }
 
     /**
@@ -744,7 +744,7 @@ class User extends Entry
      */
     public function setPersonalTitle($personalTitle)
     {
-        return $this->setAttribute($this->schema->personalTitle(), $personalTitle, 0);
+        return $this->setFirstAttribute($this->schema->personalTitle(), $personalTitle);
     }
 
     /**

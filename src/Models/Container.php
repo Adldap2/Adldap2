@@ -18,6 +18,6 @@ class Container extends Entry
      */
     public function getSystemFlags()
     {
-        return $this->getAttribute($this->schema->systemFlags(), 0);
+        return $this->getFirstAttribute($this->schema->systemFlags());
     }
 }

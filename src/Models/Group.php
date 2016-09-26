@@ -154,6 +154,6 @@ class Group extends Entry
      */
     public function getGroupType()
     {
-        return $this->getAttribute($this->schema->groupType(), 0);
+        return $this->getFirstAttribute($this->schema->groupType());
     }
 }

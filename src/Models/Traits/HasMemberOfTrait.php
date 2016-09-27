@@ -161,7 +161,7 @@ trait HasMemberOfTrait
             // actual groups and perform validation.
             $exists = $memberOf->filter(function (Group $parent) use ($group) {
                 return $this->validateGroup($group, $parent);
-            })->count() === 1;
+            })->count() !== 0;
 
             if (!$exists) {
                 // If the current group isn't at all contained

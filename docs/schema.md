@@ -10,6 +10,27 @@ You can either extend from the `ActiveDirectory` schema, or create your own and 
 
 Please browse the [Schema Interface](/src/Contracts/Schemas/SchemaInterface.php) to view all of the schema methods.
 
+Your Schema:
+
+```php
+namespace App\Schemas;
+
+use Adldap\Schemas\ActiveDirectory;
+
+class MySchema extends ActiveDirectory
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function objectCategory()
+    {
+        return 'objectcategory';
+    }
+}
+```
+
+Injecting your custom schema:
+
 ```php
 // Your configuration array.
 $config = ['...'];

@@ -419,7 +419,7 @@ interface ConnectionInterface
     /**
      * Returns the extended error hex code of the last command.
      *
-     * @return string
+     * @return string|null
      */
     public function getExtendedErrorHex();
 

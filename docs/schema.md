@@ -9,3 +9,20 @@ Adldap2 comes with an `Adldap\Schemas\ActiveDirectory` schema by default, which 
 You can either extend from the `ActiveDirectory` schema, or create your own and implement the `SchemaInterface`.
 
 Please browse the [Schema Interface](/src/Contracts/Schemas/SchemaInterface.php) to view all of the schema methods.
+
+```php
+// Your configuration array.
+$config = ['...'];
+
+// New up your custom schema.
+$mySchema = new \App\Schema\MySchema();
+
+// Create a new connection provider, and inject your schema.
+$provider = new \Adldap\Connections\Provider($config, $connection = null, $mySchema);
+
+// Add the provider to your Adldap instance.
+$adldap->addProvider('default', $provider);
+
+// Connect to your provider.
+$adldap->connect();
+```

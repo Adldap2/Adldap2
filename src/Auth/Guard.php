@@ -12,16 +12,6 @@ use Adldap\Exceptions\Auth\UsernameRequiredException;
 class Guard implements GuardInterface
 {
     /**
-     * @var ConnectionInterface
-     */
-    protected $connection;
-
-    /**
-     * @var Configuration
-     */
-    protected $configuration;
-
-    /**
      * LDAP bind errors and their hex codes.
      */
     const ERROR_LDAP_NO_SUCH_OBJECT = '525';
@@ -42,7 +32,7 @@ class Guard implements GuardInterface
      *
      * @var array
      */
-    protected $errors = [
+    public $errors = [
         self::ERROR_LDAP_NO_SUCH_OBJECT => 'User does not exist.',
         self::ERROR_LOGON_FAILURE => 'The username is valid, however the password is invalid.',
         self::ERROR_ACCOUNT_RESTRICTION => 'Account restrictions are preventing this user from signing in.',
@@ -56,6 +46,16 @@ class Guard implements GuardInterface
         self::ERROR_PASSWORD_MUST_CHANGE => 'User password must be changed.',
         self::ERROR_ACCOUNT_LOCKED_OUT => 'User account is locked out.',
     ];
+
+    /**
+     * @var ConnectionInterface
+     */
+    protected $connection;
+
+    /**
+     * @var Configuration
+     */
+    protected $configuration;
 
     /**
      * {@inheritdoc}

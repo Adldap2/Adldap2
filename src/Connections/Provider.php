@@ -2,8 +2,9 @@
 
 namespace Adldap\Connections;
 
-use Adldap\Auth\Guard;
 use InvalidArgumentException;
+use Adldap\Auth\Guard;
+use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Search\Factory as SearchFactory;
@@ -166,7 +167,7 @@ class Provider implements ProviderInterface
      */
     public function make()
     {
-        return new ModelFactory($this->search()->getQuery(), $this->schema);
+        return $this->newModelFactory($this->search()->getQuery(), $this->schema);
     }
 
     /**
@@ -174,7 +175,7 @@ class Provider implements ProviderInterface
      */
     public function search()
     {
-        return new SearchFactory($this->connection, $this->schema, $this->configuration->getBaseDn());
+        return $this->newSearchFactory($this->connection, $this->schema, $this->configuration->getBaseDn());
     }
 
     /**
@@ -203,6 +204,33 @@ class Provider implements ProviderInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Creates a new mod
+     *
+     * @param \Adldap\Query\Builder                     $builder
+     * @param \Adldap\Contracts\Schemas\SchemaInterface $schema
+     *
+     * @return \Adldap\Models\Factory
+     */
+    protected function newModelFactory(Builder $builder, SchemaInterface $schema)
+    {
+        return new ModelFactory($builder, $schema);
+    }
+
+    /**
+     * Creates a new search factory.
+     *
+     * @param ConnectionInterface $connection
+     * @param SchemaInterface     $schema
+     * @param string              $baseDn
+     *
+     * @return SearchFactory
+     */
+    protected function newSearchFactory(ConnectionInterface $connection, SchemaInterface $schema, $baseDn)
+    {
+        return new SearchFactory($connection, $schema, $baseDn);
     }
 
     /**

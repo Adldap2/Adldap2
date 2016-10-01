@@ -457,4 +457,22 @@ class EntryTest extends TestCase
         $this->assertEquals(['New Common Name'], $model->getAttributes()['cn']);
         $this->assertEquals(['John Doe'], $model->getOriginal()['cn']);
     }
+
+    public function test_set_first_attribute()
+    {
+        $model = $this->newEntryModel([], $this->newBuilder());
+
+        $model->setFirstAttribute('cn', 'John Doe');
+
+        $this->assertEquals(['cn' => ['John Doe']], $model->getAttributes());
+    }
+
+    public function test_get_first_attribute()
+    {
+        $model = $this->newEntryModel([
+            'cn' => 'John Doe',
+        ], $this->newBuilder());
+
+        $this->assertEquals('John Doe', $model->getFirstAttribute('cn'));
+    }
 }

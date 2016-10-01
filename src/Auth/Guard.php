@@ -12,42 +12,6 @@ use Adldap\Exceptions\Auth\UsernameRequiredException;
 class Guard implements GuardInterface
 {
     /**
-     * LDAP bind errors and their hex codes.
-     */
-    const ERROR_LDAP_NO_SUCH_OBJECT = '525';
-    const ERROR_LOGON_FAILURE = '52e';
-    const ERROR_ACCOUNT_RESTRICTION = '52f';
-    const ERROR_USER_NOT_FOUND = '525';
-    const ERROR_INVALID_LOGON_HOURS = '530';
-    const ERROR_INVALID_WORKSTATION = '531';
-    const ERROR_PASSWORD_EXPIRED = '532';
-    const ERROR_ACCOUNT_DISABLED = '533';
-    const ERROR_TOO_MANY_CONTEXT_IDS = '568';
-    const ERROR_ACCOUNT_EXPIRED = '701';
-    const ERROR_PASSWORD_MUST_CHANGE = '773';
-    const ERROR_ACCOUNT_LOCKED_OUT = '775';
-
-    /**
-     * LDAP bind error message map.
-     *
-     * @var array
-     */
-    public $errors = [
-        self::ERROR_LDAP_NO_SUCH_OBJECT => 'User does not exist.',
-        self::ERROR_LOGON_FAILURE => 'The username is valid, however the password is invalid.',
-        self::ERROR_ACCOUNT_RESTRICTION => 'Account restrictions are preventing this user from signing in.',
-        self::ERROR_USER_NOT_FOUND => 'The username is invalid.',
-        self::ERROR_INVALID_LOGON_HOURS => 'User logon time restriction violation.',
-        self::ERROR_INVALID_WORKSTATION => 'User is not aloud to login to this computer.',
-        self::ERROR_PASSWORD_EXPIRED => 'User password has expired.',
-        self::ERROR_ACCOUNT_DISABLED => 'User account is disabled.',
-        self::ERROR_TOO_MANY_CONTEXT_IDS => 'The user security context accumulated too many security identifiers.',
-        self::ERROR_ACCOUNT_EXPIRED => 'User account has expired.',
-        self::ERROR_PASSWORD_MUST_CHANGE => 'User password must be changed.',
-        self::ERROR_ACCOUNT_LOCKED_OUT => 'User account is locked out.',
-    ];
-
-    /**
      * @var ConnectionInterface
      */
     protected $connection;

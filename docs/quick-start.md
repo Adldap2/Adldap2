@@ -1,5 +1,17 @@
 ## Quick Start
 
+### Installation
+
+Insert Adldap2 into your `composer.json` file:
+
+```json
+"adldap2/adldap2": "v6.1.*",
+```
+
+Run `composer update` in the root of your project.
+
+### Usage
+
 ```php
 // Construct new Adldap instance.
 $ad = new \Adldap\Adldap();

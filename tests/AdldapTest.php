@@ -3,7 +3,6 @@
 namespace Adldap\Tests;
 
 use Adldap\Adldap;
-use Adldap\Connections\Manager;
 use Adldap\Connections\Provider;
 use Adldap\Exceptions\AdldapException;
 
@@ -11,29 +10,24 @@ class AdldapTest extends TestCase
 {
     public function test_construct()
     {
-        $ad = new Adldap();
+        $providers = [
+            'first' => new Provider(),
+            'second' => new Provider(),
+        ];
 
-        $this->assertInstanceOf(Manager::class, $ad->getManager());
-    }
+        $ad = new Adldap($providers);
 
-    public function test_construct_with_manager()
-    {
-        $manager = $this->mock(Manager::class);
-
-        $ad = new Adldap($manager);
-
-        $this->assertInstanceOf(get_class($manager), $ad->getManager());
+        $this->assertEquals($providers['first'], $ad->getProvider('first'));
+        $this->assertEquals($providers['second'], $ad->getProvider('second'));
     }
 
     public function test_get_provider()
     {
-        $manager = new Manager();
-
         $provider = $this->mock(Provider::class);
 
-        $manager->add('default', $provider);
-
-        $ad = new Adldap($manager);
+        $ad = new Adldap([
+            'default' => $provider,
+        ]);
 
         $this->assertInstanceOf(get_class($provider), $ad->getProvider('default'));
     }
@@ -65,7 +59,7 @@ class AdldapTest extends TestCase
 
         $provider = new Provider($config, $connection);
 
-        $ad->getManager()->add('default', $provider);
+        $ad->addProvider('default', $provider);
 
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }
@@ -91,9 +85,8 @@ class AdldapTest extends TestCase
 
         $provider = new Provider($config, $connection);
 
-        $ad->getManager()
-            ->add('new', $provider)
-            ->setDefault('new');
+        $ad->addProvider('new', $provider)
+            ->setDefaultProvider('new');
 
         $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
     }

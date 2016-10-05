@@ -2,44 +2,34 @@
 
 namespace Adldap;
 
-use Adldap\Connections\Manager;
+use Adldap\Exceptions\AdldapException;
 use Adldap\Contracts\AdldapInterface;
-use Adldap\Contracts\Connections\ManagerInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
 
 class Adldap implements AdldapInterface
 {
     /**
-     * Stores the current Manager instance.
+     * The default provider name.
      *
-     * @var ManagerInterface
+     * @var string
      */
-    protected $manager;
+    protected $default = 'default';
+
+    /**
+     * The connection providers.
+     *
+     * @var array
+     */
+    protected $providers = [];
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerInterface $manager = null)
+    public function __construct(array $providers = [])
     {
-        $this->setManager($manager ?: new Manager());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setManager(ManagerInterface $manager)
-    {
-        $this->manager = $manager;
-
-        return $this;
+        foreach ($providers as $name => $provider) {
+            $this->addProvider($name, $provider);
+        }
     }
 
     /**
@@ -47,7 +37,17 @@ class Adldap implements AdldapInterface
      */
     public function addProvider($name, ProviderInterface $provider)
     {
-        return $this->manager->add($name, $provider);
+        $this->providers[$name] = $provider;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProviders()
+    {
+        return $this->providers;
     }
 
     /**
@@ -55,7 +55,21 @@ class Adldap implements AdldapInterface
      */
     public function getProvider($name)
     {
-        return $this->manager->get($name);
+        if (array_key_exists($name, $this->providers)) {
+            return $this->providers[$name];
+        }
+
+        throw new AdldapException("The connection provider '$name' does not exist.");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultProvider($name = 'default')
+    {
+        if ($this->getProvider($name) instanceof ProviderInterface) {
+            $this->default = $name;
+        }
     }
 
     /**
@@ -63,24 +77,29 @@ class Adldap implements AdldapInterface
      */
     public function getDefaultProvider()
     {
-        return $this->manager->getDefault();
+        return $this->getProvider($this->default);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function connect($connection, $username = null, $password = null)
+    public function removeProvider($name)
     {
-        return $this->manager->get($connection)->connect($username, $password);
+        unset($this->providers[$name]);
+
+        return $this;
     }
 
     /**
-     * Calls non-existent methods on the default provider instance.
-     *
-     * @param string $method
-     * @param array  $parameters
-     *
-     * @return mixed
+     * {@inheritdoc}
+     */
+    public function connect($name, $username = null, $password = null)
+    {
+        return $this->getProvider($name)->connect($username, $password);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function __call($method, $parameters)
     {

@@ -2,47 +2,29 @@
 
 namespace Adldap\Contracts;
 
-use Adldap\Contracts\Connections\ManagerInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
 
 interface AdldapInterface
 {
     /**
-     * Constructor.
-     *
-     * @param ManagerInterface $manager
-     *
-     * @throws \Adldap\Exceptions\AdldapException
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(ManagerInterface $manager);
-
-    /**
-     * Returns the current manager instance.
-     *
-     * @return ManagerInterface
-     */
-    public function getManager();
-
-    /**
-     * Sets the connection manager.
-     *
-     * @param ManagerInterface $manager
-     */
-    public function setManager(ManagerInterface $manager);
-
-    /**
-     * Adds a provider to the connection Manager.
+     * Add a provider by the specified name.
      *
      * @param string            $name
      * @param ProviderInterface $provider
      *
-     * @return ProviderInterface
+     * @return AdldapInterface
      */
     public function addProvider($name, ProviderInterface $provider);
 
     /**
-     * Retrieves a provider from the connection Manager.
+     * Returns all of the connection providers.
+     *
+     * @return array
+     */
+    public function getProviders();
+
+    /**
+     * Retrieves a Provider using it's specified name.
      *
      * @param string $name
      *
@@ -53,7 +35,16 @@ interface AdldapInterface
     public function getProvider($name);
 
     /**
-     * Retrieves the default provider from the connection Manager.
+     * Sets the default provider.
+     *
+     * @param string $name
+     *
+     * @throws \Adldap\Exceptions\AdldapException
+     */
+    public function setDefaultProvider($name);
+
+    /**
+     * Retrieves the first provider.
      *
      * @throws \Adldap\Exceptions\AdldapException
      *
@@ -62,19 +53,35 @@ interface AdldapInterface
     public function getDefaultProvider();
 
     /**
-     * Connects and binds to the configured LDAP server.
+     * Removes a provider by the specified name.
      *
-     * Returns a new connection Manager instance on success.
+     * @param string $name
      *
-     * @param string      $connection
-     * @param string|null $username
-     * @param string|null $password
-     *
-     * @throws \Adldap\Exceptions\ConnectionException
-     * @throws \Adldap\Exceptions\Auth\BindException
-     * @throws \Adldap\Exceptions\AdldapException
-     *
-     * @return \Adldap\Contracts\Connections\ProviderInterface
+     * @return AdldapInterface
      */
-    public function connect($connection, $username = null, $password = null);
+    public function removeProvider($name);
+
+    /**
+     * Connects to the specified provider.
+     *
+     * If no username and password is given, then providers
+     * configured admin credentials are used.
+     *
+     * @param string $name
+     * @param null   $username
+     * @param null $password
+     *
+     * @return ProviderInterface
+     */
+    public function connect($name, $username = null, $password = null);
+
+    /**
+     * Call methods upon the default provider dynamically.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters);
 }

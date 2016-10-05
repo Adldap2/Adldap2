@@ -1,5 +1,9 @@
 # Upgrade Guide
 
+## Upgrading to v7 from v6
+
+Upgrading to `v7` from `v6` is quite painless, but due to the removal of an interface and class, a major release tag is required to follow semver.
+
 ## Upgrading to v6 from v5.2
 
 Due to the `v6` being a new major release, large changes have occurred. You will need to modify your code accordingly.

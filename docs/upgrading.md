@@ -29,6 +29,7 @@ interface and class, a major release tag is required to follow semver.
 
 ##### - Changed
 
+- The `__constructor()` now accepts an array of connection providers (`__construct(['connection' => \Adldap\Connections\Provider`]))
 - The method `remove($name)` has been renamed to `removeProvider($name)`
 
 ## Upgrading to v6 from v5.2

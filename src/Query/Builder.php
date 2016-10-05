@@ -3,8 +3,8 @@
 namespace Adldap\Query;
 
 use InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
@@ -349,11 +349,7 @@ class Builder
     {
         $results = $this->select($columns)->get();
 
-        if ($results instanceof Collection) {
-            return $results->first();
-        } elseif (is_array($results) && array_key_exists(0, $results)) {
-            return $results[0];
-        }
+        return Arr::get($results, 0);
     }
 
     /**

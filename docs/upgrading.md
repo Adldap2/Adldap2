@@ -2,13 +2,42 @@
 
 ## Upgrading to v7 from v6
 
-Upgrading to `v7` from `v6` is quite painless, but due to the removal of an interface and class, a major release tag is required to follow semver.
+Upgrading to `v7` from `v6` is quite painless, but due to the removal of an
+interface and class, a major release tag is required to follow semver.
+
+#### Adldap\Connections\Manager
+
+##### Removed
+
+The `Adldap\Connections\Manager` class has been removed entirely
+The `Adldap\Contracts\Connections\Manager` interface has been removed entirely
+
+##### Changed
+
+The `Adldap\Connections\Manager` has been removed. All of its responsibilities
+are now implemented in the `Adldap\Adldap` class.
+
+#### Adldap\Adldap
+
+##### Added
+
+The method `setDefaultProvider($name)` has been added.
+
+##### Removed
+
+The method `getManager()` has been removed
+The method `setManager($manager)` have been removed
+
+##### Changed
+
+The method `remove($name)` has been renamed to `removeProvider($name)`
 
 ## Upgrading to v6 from v5.2
 
-Due to the `v6` being a new major release, large changes have occurred. You will need to modify your code accordingly.
+Due to the `v6` being a new major release, large changes have occurred.
+You will need to modify your code accordingly.
 
-##### Adldap\Adldap Class
+#### Adldap\Adldap Class
 
 Adldap now supports multiple LDAP connections at once. The `Adldap\Adldap` class is now a "Gateway" to multiple connections.
 
@@ -26,7 +55,7 @@ $ad->addProvider('provider-name', $provider);
 $ad->connect('provider-name');
 ```
 
-##### Search Classes Removed / Replaced with Search Factory
+#### Search Classes Removed / Replaced with Search Factory
 
 All search classes have been removed and replaced with query 'scopes' utilized in `Adldap\Search\Factory`.
 
@@ -53,7 +82,7 @@ Inside this factory, you can utilize the many scopes for only retrieving certain
 
 Please take a look at the [Query Builder documentation](docs/query-builder.md#scopes) for all of the methods.
 
-##### Authentication & Binding Changes
+#### Authentication & Binding Changes
 
 To check a users credentials using your AD server, you used to be able to perform:
 
@@ -98,19 +127,19 @@ try {
 }
 ```
 
-###### Search Results
+##### Search Results
 
 Search results now return a Laravel collection (`Illuminate\Support\Collection`)
 instead of a Doctrine collection (`Doctrine\Common\Collections\ArrayCollection`).
 
 This allows much more flexibility and offers many more handy methods than doctrine collections.
 
-###### Dropped SSO Support
+##### Dropped SSO Support
 
 SSO support was available but very un-tested in the root [Adldap2\Adldap2](https://github.com/Adldap2/Adldap2) repository.
 This is now dropped, but is now available in the [Adldap2\Adldap2-Laravel](https://github.com/Adldap2/Adldap2-Laravel) repository.
 
-###### Renamed Adldap Interface
+##### Renamed Adldap Interface
 
 The interface `Adldap\Contracts\Adldap` has now been renamed to `Adldap\Contracts\AdldapInterface`.
 

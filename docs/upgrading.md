@@ -9,28 +9,27 @@ interface and class, a major release tag is required to follow semver.
 
 ##### - Removed
 
-The `Adldap\Connections\Manager` class has been removed entirely
-The `Adldap\Contracts\Connections\Manager` interface has been removed entirely
+- The `Adldap\Connections\Manager` class has been removed entirely
+- The `Adldap\Contracts\Connections\Manager` interface has been removed entirely
 
 ##### - Changed
 
-The `Adldap\Connections\Manager` has been removed. All of its responsibilities
-are now implemented in the `Adldap\Adldap` class.
+- All of the `Manager` responsibilities are now implemented in the `Adldap\Adldap` class.
 
 #### Adldap\Adldap
 
 ##### - Added
 
-The method `setDefaultProvider($name)` has been added.
+- The method `setDefaultProvider($name)` has been added.
 
 ##### - Removed
 
-The method `getManager()` has been removed
-The method `setManager($manager)` have been removed
+- The method `getManager()` has been removed
+- The method `setManager($manager)` have been removed
 
 ##### - Changed
 
-The method `remove($name)` has been renamed to `removeProvider($name)`
+- The method `remove($name)` has been renamed to `removeProvider($name)`
 
 ## Upgrading to v6 from v5.2
 

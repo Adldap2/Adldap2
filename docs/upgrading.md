@@ -42,6 +42,13 @@ $adldap = new Adldap($providers);
 
 - The method `remove($name)` has been renamed to `removeProvider($name)`
 
+#### Adldap\Query\Builder
+
+##### - Changed
+
+- When paginating results, an `Adldap\Objects\Paginator` instance will
+now always be returned even if no results are found.
+
 ## Upgrading to v6 from v5.2
 
 Due to the `v6` being a new major release, large changes have occurred.

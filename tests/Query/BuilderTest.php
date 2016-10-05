@@ -2,9 +2,11 @@
 
 namespace Adldap\Tests\Query;
 
+use Adldap\Models\Model;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Tests\TestCase;
+use Adldap\Objects\Paginator;
 use Adldap\Query\Bindings\Where;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\Select;
@@ -549,12 +551,12 @@ class BuilderTest extends TestCase
 
         $paginator = $b->where('field', '=', 'value')->paginate(50);
 
-        $this->assertInstanceOf('Adldap\Objects\Paginator', $paginator);
+        $this->assertInstanceOf(Paginator::class, $paginator);
         $this->assertEquals(1, $paginator->getPages());
         $this->assertEquals(1, $paginator->count());
 
         foreach ($paginator as $model) {
-            $this->assertInstanceOf('Adldap\Models\Model', $model);
+            $this->assertInstanceOf(Model::class, $model);
             $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
             $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
         }
@@ -605,16 +607,16 @@ class BuilderTest extends TestCase
         $b->addBinding($select, 'select');
 
         $this->assertEquals(1, count($b->getWheres()));
-        $this->assertInstanceOf('Adldap\Query\Bindings\Where', $b->getWheres()[0]);
+        $this->assertInstanceOf(Where::class, $b->getWheres()[0]);
 
         $this->assertEquals(1, count($b->getOrWheres()));
-        $this->assertInstanceOf('Adldap\Query\Bindings\OrWhere', $b->getOrWheres()[0]);
+        $this->assertInstanceOf(OrWhere::class, $b->getOrWheres()[0]);
 
         $this->assertEquals(1, count($b->getFilters()));
-        $this->assertInstanceOf('Adldap\Query\Bindings\Filter', $b->getFilters()[0]);
+        $this->assertInstanceOf(Filter::class, $b->getFilters()[0]);
 
         $this->assertEquals(3, count($b->getSelects()));
-        $this->assertInstanceOf('Adldap\Query\Bindings\Select', $b->getSelects()[0]);
+        $this->assertInstanceOf(Select::class, $b->getSelects()[0]);
     }
 
     public function test_add_invalid_binding()

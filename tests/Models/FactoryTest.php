@@ -2,8 +2,14 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Tests\TestCase;
+use Adldap\Models\User;
+use Adldap\Models\Entry;
+use Adldap\Models\Group;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
 use Adldap\Models\Factory as ModelFactory;
+use Adldap\Tests\TestCase;
 
 class FactoryTest extends TestCase
 {
@@ -20,7 +26,7 @@ class FactoryTest extends TestCase
     {
         $factory = $this->newFactory();
 
-        $this->assertInstanceOf('Adldap\Models\Factory', $factory);
+        $this->assertInstanceOf(ModelFactory::class, $factory);
     }
 
     public function test_entry()
@@ -29,7 +35,7 @@ class FactoryTest extends TestCase
 
         $entry = $factory->entry(['cn' => 'John Doe']);
 
-        $this->assertInstanceOf('Adldap\Models\Entry', $entry);
+        $this->assertInstanceOf(Entry::class, $entry);
         $this->assertEquals(['John Doe'], $entry->getAttribute('cn'));
     }
 
@@ -46,7 +52,7 @@ class FactoryTest extends TestCase
             'user',
         ];
 
-        $this->assertInstanceOf('Adldap\Models\User', $user);
+        $this->assertInstanceOf(User::class, $user);
         $this->assertEquals(['John Doe'], $user->getAttribute('cn'));
         $this->assertEquals($class, $user->getAttribute('objectclass'));
     }
@@ -62,7 +68,7 @@ class FactoryTest extends TestCase
             'organizationalunit',
         ];
 
-        $this->assertInstanceOf('Adldap\Models\OrganizationalUnit', $ou);
+        $this->assertInstanceOf(OrganizationalUnit::class, $ou);
         $this->assertEquals(['Accounting'], $ou->getAttribute('ou'));
         $this->assertEquals($class, $ou->getAttribute('objectclass'));
     }
@@ -78,7 +84,7 @@ class FactoryTest extends TestCase
             'group',
         ];
 
-        $this->assertInstanceOf('Adldap\Models\Group', $group);
+        $this->assertInstanceOf(Group::class, $group);
         $this->assertEquals(['Users'], $group->getAttribute('cn'));
         $this->assertEquals($class, $group->getAttribute('objectclass'));
     }
@@ -89,7 +95,7 @@ class FactoryTest extends TestCase
 
         $container = $factory->container(['cn' => 'Container']);
 
-        $this->assertInstanceOf('Adldap\Models\Container', $container);
+        $this->assertInstanceOf(Container::class, $container);
         $this->assertEquals(['Container'], $container->getAttribute('cn'));
         $this->assertEquals(['organizationalunit'], $container->getAttribute('objectclass'));
     }
@@ -107,7 +113,7 @@ class FactoryTest extends TestCase
             'contact',
         ];
 
-        $this->assertInstanceOf('Adldap\Models\User', $contact);
+        $this->assertInstanceOf(User::class, $contact);
         $this->assertEquals(['John Doe'], $contact->getAttribute('cn'));
         $this->assertEquals($class, $contact->getAttribute('objectclass'));
     }
@@ -126,7 +132,7 @@ class FactoryTest extends TestCase
             'computer',
         ];
 
-        $this->assertInstanceOf('Adldap\Models\Computer', $computer);
+        $this->assertInstanceOf(Computer::class, $computer);
         $this->assertEquals(['WIN-7'], $computer->getAttribute('cn'));
         $this->assertEquals($class, $computer->getAttribute('objectclass'));
     }

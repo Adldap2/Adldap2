@@ -2,11 +2,16 @@
 
 namespace Adldap\Tests\Connections;
 
+use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
+use Adldap\Search\Factory;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Connections\Configuration;
 use Adldap\Exceptions\Auth\BindException;
+use Adldap\Exceptions\Auth\UsernameRequiredException;
+use Adldap\Exceptions\Auth\PasswordRequiredException;
+use Adldap\Contracts\Connections\ConnectionInterface;
 
 class ProviderTest extends TestCase
 {
@@ -19,8 +24,8 @@ class ProviderTest extends TestCase
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Contracts\Connections\ConnectionInterface', $m->getConnection());
-        $this->assertInstanceOf('Adldap\Connections\Configuration', $m->getConfiguration());
+        $this->assertInstanceOf(ConnectionInterface::class, $m->getConnection());
+        $this->assertInstanceOf(Configuration::class, $m->getConfiguration());
     }
 
     public function test_auth_username_failure()
@@ -35,7 +40,7 @@ class ProviderTest extends TestCase
 
         $m = $this->newProvider($connection, new Configuration());
 
-        $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
+        $this->setExpectedException(UsernameRequiredException::class);
 
         $m->auth()->attempt(0000000, 'password');
     }
@@ -52,7 +57,7 @@ class ProviderTest extends TestCase
 
         $m = $this->newProvider($connection, new Configuration());
 
-        $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
+        $this->setExpectedException(PasswordRequiredException::class);
 
         $m->auth()->attempt('username', 0000000);
     }
@@ -167,62 +172,62 @@ class ProviderTest extends TestCase
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->groups());
+        $this->assertInstanceOf(Builder::class, $m->search()->groups());
     }
 
     public function test_users()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->users());
+        $this->assertInstanceOf(Builder::class, $m->search()->users());
     }
 
     public function test_containers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->containers());
+        $this->assertInstanceOf(Builder::class, $m->search()->containers());
     }
 
     public function test_contacts()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
+        $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test_computers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->computers());
+        $this->assertInstanceOf(Builder::class, $m->search()->computers());
     }
 
     public function test_ous()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
+        $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->contacts());
+        $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test_printers()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $m->search()->printers());
+        $this->assertInstanceOf(Builder::class, $m->search()->printers());
     }
 
     public function test_search()
     {
         $m = $this->newProvider(new Ldap(), new Configuration());
 
-        $this->assertInstanceOf('Adldap\Search\Factory', $m->search());
+        $this->assertInstanceOf(Factory::class, $m->search());
     }
 }

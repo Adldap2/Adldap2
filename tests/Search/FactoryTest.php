@@ -2,6 +2,8 @@
 
 namespace Adldap\Tests\Classes;
 
+use Adldap\Query\Builder;
+use Adldap\Query\Grammar;
 use Adldap\Search\Factory;
 use Adldap\Tests\TestCase;
 
@@ -21,7 +23,7 @@ class FactoryTest extends TestCase
         $search = $this->newSearchFactory();
 
         $this->assertEquals('', $search->getQuery()->getQuery());
-        $this->assertInstanceOf('Adldap\Query\Builder', $search->getQuery());
+        $this->assertInstanceOf(Builder::class, $search->getQuery());
     }
 
     public function test_get_and_set_dn()
@@ -42,10 +44,10 @@ class FactoryTest extends TestCase
         $new = $search->newQuery();
         $newWithDn = $search->newQuery('testing');
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $new);
+        $this->assertInstanceOf(Builder::class, $new);
         $this->assertEquals('', $new->getDn());
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $newWithDn);
+        $this->assertInstanceOf(Builder::class, $newWithDn);
         $this->assertEquals('testing', $newWithDn->getDn());
     }
 
@@ -53,7 +55,7 @@ class FactoryTest extends TestCase
     {
         $search = $this->newSearchFactory();
 
-        $this->assertInstanceOf('Adldap\Query\Grammar', $search->newGrammar());
+        $this->assertInstanceOf(Grammar::class, $search->newGrammar());
     }
 
     public function test_user_scope()
@@ -62,7 +64,7 @@ class FactoryTest extends TestCase
 
         $query = $search->users();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(2, $query->getWheres());
         $this->assertEquals('(&(objectclass=\70\65\72\73\6f\6e)(objectcategory=\70\65\72\73\6f\6e))', $query->getQuery());
     }
@@ -73,7 +75,7 @@ class FactoryTest extends TestCase
 
         $query = $search->printers();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\70\72\69\6e\74\71\75\65\75\65)', $query->getQuery());
     }
@@ -84,7 +86,7 @@ class FactoryTest extends TestCase
 
         $query = $search->ous();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\6f\72\67\61\6e\69\7a\61\74\69\6f\6e\61\6c\75\6e\69\74)', $query->getQuery());
     }
@@ -95,7 +97,7 @@ class FactoryTest extends TestCase
 
         $query = $search->groups();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\67\72\6f\75\70)', $query->getQuery());
     }
@@ -106,7 +108,7 @@ class FactoryTest extends TestCase
 
         $query = $search->containers();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\63\6f\6e\74\61\69\6e\65\72)', $query->getQuery());
     }
@@ -117,7 +119,7 @@ class FactoryTest extends TestCase
 
         $query = $search->contacts();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\63\6f\6e\74\61\63\74)', $query->getQuery());
     }
@@ -128,7 +130,7 @@ class FactoryTest extends TestCase
 
         $query = $search->computers();
 
-        $this->assertInstanceOf('Adldap\Query\Builder', $query);
+        $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(1, $query->getWheres());
         $this->assertEquals('(objectclass=\63\6f\6d\70\75\74\65\72)', $query->getQuery());
     }

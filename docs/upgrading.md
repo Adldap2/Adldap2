@@ -7,28 +7,28 @@ interface and class, a major release tag is required to follow semver.
 
 #### Adldap\Connections\Manager
 
-##### Removed
+##### - Removed
 
 The `Adldap\Connections\Manager` class has been removed entirely
 The `Adldap\Contracts\Connections\Manager` interface has been removed entirely
 
-##### Changed
+##### - Changed
 
 The `Adldap\Connections\Manager` has been removed. All of its responsibilities
 are now implemented in the `Adldap\Adldap` class.
 
 #### Adldap\Adldap
 
-##### Added
+##### - Added
 
 The method `setDefaultProvider($name)` has been added.
 
-##### Removed
+##### - Removed
 
 The method `getManager()` has been removed
 The method `setManager($manager)` have been removed
 
-##### Changed
+##### - Changed
 
 The method `remove($name)` has been renamed to `removeProvider($name)`
 

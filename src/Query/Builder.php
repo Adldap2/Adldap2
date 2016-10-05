@@ -288,7 +288,7 @@ class Builder
             $results = $this->connection->listing($dn, $query, $selects);
         }
 
-        return $this->process($results);
+        return $this->newProcessor()->process($results);
     }
 
     /**

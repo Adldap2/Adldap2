@@ -322,20 +322,15 @@ class Builder
             }
         } while (!empty($cookie));
 
-        if (count($pages) > 0) {
-            // If we have at least one page, we can process the results.
-            $paginator = $this->processPaginated($pages, $perPage, $currentPage);
+        $paginator = $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
 
-            // Reset paged result on the current connection. We won't pass in the current $perPage
-            // parameter since we want to reset the page size to the default '1000'. Sending '0'
-            // eliminates any further opportunity for running queries in the same request,
-            // even though that is supposed to be the correct usage.
-            $this->connection->controlPagedResult();
+        // Reset paged result on the current connection. We won't pass in the current $perPage
+        // parameter since we want to reset the page size to the default '1000'. Sending '0'
+        // eliminates any further opportunity for running queries in the same request,
+        // even though that is supposed to be the correct usage.
+        $this->connection->controlPagedResult();
 
-            return $paginator;
-        }
-
-        return false;
+        return $paginator;
     }
 
     /**

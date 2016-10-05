@@ -523,11 +523,12 @@ class BuilderTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, ''])
-            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn(null);
+            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn(null)
+            ->shouldReceive('controlPagedResult')->once();
 
         $b = $this->newBuilder($connection);
 
-        $this->assertFalse($b->where('field', '=', 'value')->paginate(50));
+        $this->assertInstanceOf(Paginator::class, $b->where('field', '=', 'value')->paginate(50));
     }
 
     public function test_paginate_with_results()

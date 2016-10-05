@@ -163,7 +163,7 @@ class Processor
      *
      * @return Paginator
      */
-    public function newPaginator(array $models, $perPage = 25, $currentPage = 0, $pages = 1)
+    public function newPaginator(array $models = [], $perPage = 25, $currentPage = 0, $pages = 1)
     {
         return new Paginator($models, $perPage, $currentPage, $pages);
     }

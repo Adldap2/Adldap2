@@ -21,6 +21,18 @@ class AdldapTest extends TestCase
         $this->assertEquals($providers['second'], $ad->getProvider('second'));
     }
 
+    public function test_get_providers()
+    {
+        $providers = [
+            'first' => new Provider(),
+            'second' => new Provider(),
+        ];
+
+        $ad = new Adldap($providers);
+
+        $this->assertEquals($providers, $ad->getProviders());
+    }
+
     public function test_get_provider()
     {
         $provider = $this->mock(Provider::class);
@@ -30,6 +42,27 @@ class AdldapTest extends TestCase
         ]);
 
         $this->assertInstanceOf(get_class($provider), $ad->getProvider('default'));
+    }
+
+    public function test_get_default_provider()
+    {
+        $ad = new Adldap();
+
+        $provider = new Provider();
+
+        $ad->addProvider('new', $provider)
+            ->setDefaultProvider('new');
+
+        $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
+    }
+
+    public function test_invalid_default_provider()
+    {
+        $ad = new Adldap();
+
+        $this->setExpectedException(AdldapException::class);
+
+        $ad->getDefaultProvider();
     }
 
     public function test_connect()
@@ -62,41 +95,5 @@ class AdldapTest extends TestCase
         $ad->addProvider('default', $provider);
 
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
-    }
-
-    public function test_default_provider()
-    {
-        $config = $this->mock('Adldap\Connections\Configuration');
-
-        $config->shouldReceive('getUseSSL')->andReturn(false)
-            ->shouldReceive('getUseTLS')->andReturn(false)
-            ->shouldReceive('getFollowReferrals')->andReturn(false)
-            ->shouldReceive('getDomainControllers')->andReturn([])
-            ->shouldReceive('getPort')->andReturn(387)
-            ->shouldReceive('getTimeout')->once()->andReturn(5);
-
-        $connection = $this->mock('Adldap\Connections\Ldap');
-
-        $connection->shouldReceive('setOption')->twice()
-            ->shouldReceive('connect')->once()
-            ->shouldReceive('isBound')->once()->andReturn(false);
-
-        $ad = new Adldap();
-
-        $provider = new Provider($config, $connection);
-
-        $ad->addProvider('new', $provider)
-            ->setDefaultProvider('new');
-
-        $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
-    }
-
-    public function test_invalid_default_provider()
-    {
-        $ad = new Adldap();
-
-        $this->setExpectedException(AdldapException::class);
-
-        $ad->getDefaultProvider();
     }
 }

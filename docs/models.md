@@ -76,7 +76,7 @@ whether or not to call the `create()` or `update()` methods on the model.
 It merely just checks if the model exists already in your AD server:
 
 ```php
-// Model.php
+// Adldap\Models\Model.php
 
 public function save()
 {

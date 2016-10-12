@@ -559,6 +559,30 @@ class User extends Entry
     }
 
     /**
+     * Returns the password last set unix timestamp.
+     *
+     * @return float|null
+     */
+    public function getPasswordLastSetTimestamp()
+    {
+        if ($time = $this->getPasswordLastSet()) {
+            return Utilities::convertWindowsTimeToUnixTime($time);
+        }
+    }
+
+    /**
+     * Returns the formatted timestamp of the password last set date.
+     *
+     * @return string|null
+     */
+    public function getPasswordLastSetDate()
+    {
+        if ($timestamp = $this->getPasswordLastSetTimestamp()) {
+            return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+        }
+    }
+
+    /**
      * Returns the users lockout time.
      *
      * @return string
@@ -907,7 +931,7 @@ class User extends Entry
 
         $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
 
-        return new \DateTime(date($this->dateFormat, $unixTime));
+        return new DateTime(date($this->dateFormat, $unixTime));
     }
 
     /**
@@ -919,7 +943,7 @@ class User extends Entry
      */
     public function isExpired(DateTime $date = null)
     {
-        $date = ($date ?: new DateTime());
+        $date = $date ?: new DateTime();
 
         $expirationDate = $this->expirationDate();
 

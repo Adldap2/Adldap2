@@ -303,16 +303,6 @@ class Configuration
     }
 
     /**
-     * Sets the account suffix option.
-     *
-     * @param string $suffix
-     */
-    public function setAccountSuffix($suffix)
-    {
-        $this->accountSuffix = (string) $suffix;
-    }
-
-    /**
      * Returns the account prefix option.
      *
      * @return string|null
@@ -320,6 +310,16 @@ class Configuration
     public function getAccountPrefix()
     {
         return $this->accountPrefix;
+    }
+
+    /**
+     * Sets the account suffix option.
+     *
+     * @param string $suffix
+     */
+    public function setAccountSuffix($suffix)
+    {
+        $this->accountSuffix = (string) $suffix;
     }
 
     /**

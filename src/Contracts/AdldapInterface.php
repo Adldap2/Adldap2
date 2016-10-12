@@ -67,13 +67,13 @@ interface AdldapInterface
      * If no username and password is given, then providers
      * configured admin credentials are used.
      *
-     * @param string $name
-     * @param null   $username
-     * @param null $password
+     * @param string|null $name
+     * @param string|null $username
+     * @param string|null $password
      *
      * @return ProviderInterface
      */
-    public function connect($name, $username = null, $password = null);
+    public function connect($name = null, $username = null, $password = null);
 
     /**
      * Call methods upon the default provider dynamically.

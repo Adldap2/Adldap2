@@ -4,13 +4,11 @@ namespace Adldap\Models;
 
 use DateTime;
 use Adldap\Utilities;
+use Adldap\AdldapException;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\WrongPasswordException;
-use Adldap\Exceptions\PasswordPolicyException;
-use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasMemberOfTrait;
+use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
 
 class User extends Entry
@@ -790,7 +788,7 @@ class User extends Entry
      *
      * @throws AdldapException
      *
-     * @return bool
+     * @return $this
      */
     public function setPassword($password)
     {
@@ -820,8 +818,6 @@ class User extends Entry
      *                                 errors.
      *
      * @throws AdldapException
-     * @throws PasswordPolicyException
-     * @throws WrongPasswordException
      *
      * @return bool
      */
@@ -861,7 +857,7 @@ class User extends Entry
             );
         }
 
-        // Add the modifications
+        // Add the modifications.
         foreach ($modifications as $modification) {
             $this->addModification($modification);
         }
@@ -869,27 +865,20 @@ class User extends Entry
         // Update the user.
         $result = $this->update();
 
-        if ($result === false) {
+        if ($result === false && $error = $connection->getExtendedError()) {
             // If the user failed to update, we'll see if we can
             // figure out why by retrieving the extended error.
-            $error = $connection->getExtendedError();
-
-            if ($error) {
-                $errorCode = $connection->getExtendedErrorCode();
-
-                $message = "Error: $error";
-
-                if ($errorCode == '0000052D') {
-                    $message = "Error: $errorCode. Your new password might not match the password policy.";
-
-                    throw new PasswordPolicyException($message);
-                } elseif ($errorCode == '00000056') {
-                    $message = "Error: $errorCode. Your old password might be wrong.";
-
-                    throw new WrongPasswordException($message);
-                }
-
-                throw new AdldapException($message);
+            switch ($code = $connection->getExtendedErrorCode()) {
+                case '0000052D':
+                    throw new UserPasswordPolicyException(
+                        "Error: $code. Your new password does not match the password policy."
+                    );
+                case '00000056':
+                    throw new UserPasswordIncorrectException(
+                        $message = "Error: $code. Your old password is incorrect."
+                    );
+                default:
+                    throw new AdldapException("Error: $error");
             }
         }
 

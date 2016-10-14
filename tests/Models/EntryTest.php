@@ -4,6 +4,7 @@ namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
 use Adldap\Tests\TestCase;
+use Adldap\AdldapException;
 use Adldap\Schemas\ActiveDirectory;
 
 class EntryTest extends TestCase
@@ -314,7 +315,7 @@ class EntryTest extends TestCase
     {
         $entry = $this->newEntryModel([], $this->newBuilder());
 
-        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+        $this->setExpectedException(AdldapException::class);
 
         $entry->delete();
     }

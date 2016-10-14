@@ -27,7 +27,7 @@ class DomainConfigurationTest extends TestCase
             'port'               => 500,
             'base_dn'            => 'dc=corp,dc=org',
             'domain_controllers' => ['dc1', 'dc2'],
-            'follow_referrals'   => 1,
+            'follow_referrals'   => false,
             'admin_username'     => 'username',
             'admin_password'     => 'password',
             'use_ssl'            => true,

@@ -7,7 +7,6 @@ use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Models\RootDse;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Connections\Configuration;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 
@@ -17,11 +16,6 @@ class Factory
      * @var ConnectionInterface
      */
     protected $connection;
-
-    /**
-     * @var Configuration
-     */
-    protected $configuration;
 
     /**
      * Stores the current query builder instance.

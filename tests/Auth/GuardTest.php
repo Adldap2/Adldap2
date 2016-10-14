@@ -6,6 +6,8 @@ use Adldap\Auth\Guard;
 use Adldap\Auth\BindException;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
+use Adldap\Auth\UsernameRequiredException;
+use Adldap\Auth\PasswordRequiredException;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
@@ -14,7 +16,7 @@ class GuardTest extends TestCase
     {
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
-        $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
+        $this->setExpectedException(UsernameRequiredException::class);
 
         $guard->attempt('', 'password');
     }
@@ -23,7 +25,7 @@ class GuardTest extends TestCase
     {
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
-        $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
+        $this->setExpectedException(PasswordRequiredException::class);
 
         $guard->attempt('username', '');
     }
@@ -33,9 +35,11 @@ class GuardTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix')
-            ->shouldReceive('getAccountSuffix')->once()->andReturn('suffix')
-            ->shouldReceive('getAdminCredentials')->once()->andReturn(['username', 'password', 'suffix']);
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()
+            ->shouldReceive('get')->withArgs(['admin_username'])->once()
+            ->shouldReceive('get')->withArgs(['admin_password'])->once()
+            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once();
 
         $ldap = $this->mock(Ldap::class);
 
@@ -51,8 +55,8 @@ class GuardTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
-            ->shouldReceive('getAccountSuffix')->once()->andReturn('-suffix');
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix-')
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('-suffix');
 
         $ldap = $this->mock(Ldap::class);
 
@@ -68,8 +72,8 @@ class GuardTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
-            ->shouldReceive('getAccountSuffix')->once()->andReturn('-suffix');
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix-')
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('-suffix');
 
         $ldap = $this->mock(Ldap::class);
 
@@ -91,7 +95,10 @@ class GuardTest extends TestCase
     {
         $config = $this->mock(DomainConfiguration::class);
 
-        $config->shouldReceive('getAdminCredentials')->once()->andReturn(['admin', 'password', '@admin-suffix']);
+        $config
+            ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
+            ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
+            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn('@admin-suffix');
 
         $ldap = $this->mock(Ldap::class);
 
@@ -107,8 +114,10 @@ class GuardTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('getAdminCredentials')->once()->andReturn(['admin', 'password', null])
-            ->shouldReceive('getAccountSuffix')->once()->andReturn('@account-suffix');
+            ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
+            ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
+            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn(null)
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('@account-suffix');
 
         $ldap = $this->mock(Ldap::class);
 

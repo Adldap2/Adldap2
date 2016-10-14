@@ -4,7 +4,6 @@ namespace Adldap\Query\Bindings;
 
 use Adldap\Utilities;
 use Adldap\Query\Operator;
-use Adldap\Exceptions\InvalidQueryOperatorException;
 
 class Where extends AbstractBinding
 {

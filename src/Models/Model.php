@@ -7,11 +7,9 @@ use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Query\Builder;
+use Adldap\AdldapException;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Exceptions\AdldapException;
-use Adldap\Exceptions\ModelNotFoundException;
-use Adldap\Exceptions\ModelDoesNotExistException;
 use Adldap\Contracts\Schemas\SchemaInterface;
 
 abstract class Model implements ArrayAccess, JsonSerializable

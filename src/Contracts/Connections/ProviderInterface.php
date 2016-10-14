@@ -3,7 +3,6 @@
 namespace Adldap\Contracts\Connections;
 
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\Configuration;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
 
@@ -12,7 +11,7 @@ interface ProviderInterface
     /**
       * Constructor.
       *
-      * @param Configuration|array       $configuration
+      * @param DomainConfiguration|array $configuration
       * @param ConnectionInterface|null  $connection
       * @param SchemaInterface|null      $schema
       */
@@ -35,7 +34,7 @@ interface ProviderInterface
     /**
      * Returns the current configuration instance.
      *
-     * @return Configuration
+     * @return DomainConfiguration
      */
     public function getConfiguration();
 

@@ -14,7 +14,7 @@ use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Exceptions\ModelNotFoundException;
+use Adldap\Models\ModelNotFoundException;
 use Adldap\Contracts\Schemas\SchemaInterface;
 use Adldap\Contracts\Connections\ConnectionInterface;
 

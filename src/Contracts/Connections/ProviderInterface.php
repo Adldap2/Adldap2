@@ -2,6 +2,7 @@
 
 namespace Adldap\Contracts\Connections;
 
+use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\Configuration;
 use Adldap\Contracts\Auth\GuardInterface;
 use Adldap\Contracts\Schemas\SchemaInterface;
@@ -49,11 +50,11 @@ interface ProviderInterface
      * Returns a new default Guard instance.
      *
      * @param ConnectionInterface $connection
-     * @param Configuration       $configuration
+     * @param DomainConfiguration $configuration
      *
      * @return \Adldap\Auth\Guard
      */
-    public function getDefaultGuard(ConnectionInterface $connection, Configuration $configuration);
+    public function getDefaultGuard(ConnectionInterface $connection, DomainConfiguration $configuration);
 
     /**
      * Sets the current connection.
@@ -65,7 +66,7 @@ interface ProviderInterface
     /**
      * Sets the current configuration.
      *
-     * @param Configuration|array $configuration
+     * @param DomainConfiguration|array $configuration
      */
     public function setConfiguration($configuration = []);
 
@@ -129,7 +130,7 @@ interface ProviderInterface
      * @param string|null $username
      * @param string|null $password
      *
-     * @throws \Adldap\Exceptions\Auth\BindException
+     * @throws \Adldap\Auth\BindException
      *
      * @return ProviderInterface
      */

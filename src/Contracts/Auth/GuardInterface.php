@@ -2,7 +2,7 @@
 
 namespace Adldap\Contracts\Auth;
 
-use Adldap\Connections\Configuration;
+use Adldap\Configuration\DomainConfiguration;
 use Adldap\Contracts\Connections\ConnectionInterface;
 
 interface GuardInterface
@@ -11,9 +11,9 @@ interface GuardInterface
      * Constructor.
      *
      * @param ConnectionInterface $connection
-     * @param Configuration       $configuration
+     * @param DomainConfiguration $configuration
      */
-    public function __construct(ConnectionInterface $connection, Configuration $configuration);
+    public function __construct(ConnectionInterface $connection, DomainConfiguration $configuration);
 
     /**
      * Authenticates a user using the specified credentials.
@@ -22,9 +22,9 @@ interface GuardInterface
      * @param string $password   The users AD password.
      * @param bool   $bindAsUser Whether or not to bind as the user.
      *
-     * @throws \Adldap\Exceptions\Auth\BindException
-     * @throws \Adldap\Exceptions\Auth\UsernameRequiredException
-     * @throws \Adldap\Exceptions\Auth\PasswordRequiredException
+     * @throws \Adldap\Auth\BindException
+     * @throws \Adldap\Auth\UsernameRequiredException
+     * @throws \Adldap\Auth\PasswordRequiredException
      *
      * @return bool
      */
@@ -41,7 +41,7 @@ interface GuardInterface
      *
      * @returns void
      *
-     * @throws \Adldap\Exceptions\Auth\BindException
+     * @throws \Adldap\Auth\BindException
      */
     public function bind($username, $password, $prefix = null, $suffix = null);
 
@@ -49,7 +49,7 @@ interface GuardInterface
      * Binds to the current LDAP server using the
      * configuration administrator credentials.
      *
-     * @throws \Adldap\Exceptions\Auth\BindException
+     * @throws \Adldap\Auth\BindException
      */
     public function bindAsAdministrator();
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Adldap\Exceptions;
+namespace Adldap\Models;
+
+use Adldap\AdldapException;
 
 class ModelDoesNotExistException extends AdldapException
 {

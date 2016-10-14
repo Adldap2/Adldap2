@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Exceptions;
+namespace Adldap;
 
 class AdldapException extends \Exception
 {

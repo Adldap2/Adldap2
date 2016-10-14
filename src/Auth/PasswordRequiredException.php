@@ -1,8 +1,8 @@
 <?php
 
-namespace Adldap\Exceptions\Auth;
+namespace Adldap\Auth;
 
-use Adldap\Exceptions\AdldapException;
+use Adldap\AdldapException;
 
 class PasswordRequiredException extends AdldapException
 {

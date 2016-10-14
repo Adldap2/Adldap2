@@ -30,14 +30,14 @@ interface ConnectionInterface
      *
      * @var string
      */
-    const PORT_SSL = '636';
+    const PORT_SSL = 636;
 
     /**
      * The standard LDAP port number.
      *
      * @var string
      */
-    const PORT = '389';
+    const PORT = 389;
 
     /**
      * Returns true / false if the

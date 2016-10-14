@@ -11,6 +11,7 @@ use Adldap\Query\Bindings\Where;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\OrWhere;
+use Adldap\Query\Bindings\InvalidQueryOperatorException;
 
 class BuilderTest extends TestCase
 {
@@ -241,7 +242,7 @@ class BuilderTest extends TestCase
     {
         $b = $this->newBuilder();
 
-        $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
+        $this->setExpectedException(InvalidQueryOperatorException::class);
 
         $b->where('field', 'invalid', 'value');
     }
@@ -250,7 +251,7 @@ class BuilderTest extends TestCase
     {
         $b = $this->newBuilder();
 
-        $this->setExpectedException('Adldap\Exceptions\InvalidQueryOperatorException');
+        $this->setExpectedException(InvalidQueryOperatorException::class);
 
         $b->orWhere('field', 'invalid', 'value');
     }

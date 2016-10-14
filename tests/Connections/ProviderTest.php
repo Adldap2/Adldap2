@@ -7,25 +7,25 @@ use Adldap\Tests\TestCase;
 use Adldap\Search\Factory;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
-use Adldap\Connections\Configuration;
-use Adldap\Exceptions\Auth\BindException;
-use Adldap\Exceptions\Auth\UsernameRequiredException;
-use Adldap\Exceptions\Auth\PasswordRequiredException;
+use Adldap\Configuration\DomainConfiguration;
+use Adldap\Auth\BindException;
+use Adldap\Auth\UsernameRequiredException;
+use Adldap\Auth\PasswordRequiredException;
 use Adldap\Contracts\Connections\ConnectionInterface;
 
 class ProviderTest extends TestCase
 {
-    protected function newProvider($connection, $configuration, $schema = null)
+    protected function newProvider($connection, $configuration = [], $schema = null)
     {
         return new Provider($configuration, $connection, $schema);
     }
 
     public function test_construct()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap(), new DomainConfiguration());
 
         $this->assertInstanceOf(ConnectionInterface::class, $m->getConnection());
-        $this->assertInstanceOf(Configuration::class, $m->getConfiguration());
+        $this->assertInstanceOf(DomainConfiguration::class, $m->getConfiguration());
     }
 
     public function test_auth_username_failure()
@@ -38,7 +38,7 @@ class ProviderTest extends TestCase
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newProvider($connection, new Configuration());
+        $m = $this->newProvider($connection);
 
         $this->setExpectedException(UsernameRequiredException::class);
 
@@ -55,7 +55,7 @@ class ProviderTest extends TestCase
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newProvider($connection, new Configuration());
+        $m = $this->newProvider($connection);
 
         $this->setExpectedException(PasswordRequiredException::class);
 
@@ -77,17 +77,17 @@ class ProviderTest extends TestCase
             ->shouldReceive('errNo')->once()->andReturn(1)
             ->shouldReceive('close')->once()->andReturn(true);
 
-        $m = $this->newProvider($connection, new Configuration());
+        $m = $this->newProvider($connection);
 
         $this->assertFalse($m->auth()->attempt('username', 'password'));
     }
 
     public function test_auth_passes_with_rebind()
     {
-        $config = new Configuration();
-
-        $config->setAdminUsername('test');
-        $config->setAdminPassword('test');
+        $config = new DomainConfiguration([
+            'admin_username' => 'test',
+            'admin_password' => 'test',
+        ]);
 
         $connection = $this->newConnectionMock();
 
@@ -113,10 +113,10 @@ class ProviderTest extends TestCase
 
     public function test_auth_rebind_failure()
     {
-        $config = new Configuration();
-
-        $config->setAdminUsername('test');
-        $config->setAdminPassword('test');
+        $config = new DomainConfiguration([
+            'admin_username' => 'test',
+            'admin_password' => 'test',
+        ]);
 
         $connection = $this->newConnectionMock();
 
@@ -147,10 +147,10 @@ class ProviderTest extends TestCase
 
     public function test_auth_passes_without_rebind()
     {
-        $config = new Configuration();
-
-        $config->setAdminUsername('test');
-        $config->setAdminPassword('test');
+        $config = new DomainConfiguration([
+            'admin_username' => 'test',
+            'admin_password' => 'test',
+        ]);
 
         $connection = $this->newConnectionMock();
 
@@ -170,63 +170,63 @@ class ProviderTest extends TestCase
 
     public function test_groups()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->groups());
     }
 
     public function test_users()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->users());
     }
 
     public function test_containers()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->containers());
     }
 
     public function test_contacts()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test_computers()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->computers());
     }
 
     public function test_ous()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
     public function test_printers()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Builder::class, $m->search()->printers());
     }
 
     public function test_search()
     {
-        $m = $this->newProvider(new Ldap(), new Configuration());
+        $m = $this->newProvider(new Ldap());
 
         $this->assertInstanceOf(Factory::class, $m->search());
     }

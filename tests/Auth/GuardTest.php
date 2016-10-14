@@ -3,16 +3,16 @@
 namespace Adldap\Tests\Auth;
 
 use Adldap\Auth\Guard;
+use Adldap\Auth\BindException;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
-use Adldap\Connections\Configuration;
-use Adldap\Exceptions\Auth\BindException;
+use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
 {
     public function test_validate_username()
     {
-        $guard = new Guard(new Ldap(), new Configuration());
+        $guard = new Guard(new Ldap(), new DomainConfiguration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\UsernameRequiredException');
 
@@ -21,7 +21,7 @@ class GuardTest extends TestCase
 
     public function test_validate_password()
     {
-        $guard = new Guard(new Ldap(), new Configuration());
+        $guard = new Guard(new Ldap(), new DomainConfiguration());
 
         $this->setExpectedException('Adldap\Exceptions\Auth\PasswordRequiredException');
 
@@ -30,7 +30,7 @@ class GuardTest extends TestCase
 
     public function test_attempt()
     {
-        $config = $this->mock(Configuration::class);
+        $config = $this->mock(DomainConfiguration::class);
 
         $config
             ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix')
@@ -48,7 +48,7 @@ class GuardTest extends TestCase
 
     public function test_bind_using_credentials()
     {
-        $config = $this->mock(Configuration::class);
+        $config = $this->mock(DomainConfiguration::class);
 
         $config
             ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
@@ -65,7 +65,7 @@ class GuardTest extends TestCase
 
     public function test_bind_always_throws_exception_on_invalid_credentials()
     {
-        $config = $this->mock(Configuration::class);
+        $config = $this->mock(DomainConfiguration::class);
 
         $config
             ->shouldReceive('getAccountPrefix')->once()->andReturn('prefix-')
@@ -89,7 +89,7 @@ class GuardTest extends TestCase
 
     public function test_bind_as_administrator()
     {
-        $config = $this->mock(Configuration::class);
+        $config = $this->mock(DomainConfiguration::class);
 
         $config->shouldReceive('getAdminCredentials')->once()->andReturn(['admin', 'password', '@admin-suffix']);
 
@@ -104,7 +104,7 @@ class GuardTest extends TestCase
 
     public function test_bind_as_administrator_without_suffix()
     {
-        $config = $this->mock(Configuration::class);
+        $config = $this->mock(DomainConfiguration::class);
 
         $config
             ->shouldReceive('getAdminCredentials')->once()->andReturn(['admin', 'password', null])

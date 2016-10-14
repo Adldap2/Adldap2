@@ -5,6 +5,9 @@ namespace Adldap\Tests\Models;
 use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Tests\TestCase;
+use Adldap\AdldapException;
+use Adldap\Models\UserPasswordPolicyException;
+use Adldap\Models\UserPasswordIncorrectException;
 
 class UserTest extends TestCase
 {
@@ -38,7 +41,7 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+        $this->setExpectedException(AdldapException::class);
 
         $user->setPassword('');
     }
@@ -56,7 +59,7 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $this->setExpectedException('Adldap\Exceptions\PasswordPolicyException');
+        $this->setExpectedException(UserPasswordPolicyException::class);
 
         $user->changePassword('', '');
     }
@@ -74,7 +77,7 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $this->setExpectedException('Adldap\Exceptions\WrongPasswordException');
+        $this->setExpectedException(UserPasswordIncorrectException::class);
 
         $user->changePassword('', '');
     }
@@ -88,7 +91,7 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $this->setExpectedException('Adldap\Exceptions\AdldapException');
+        $this->setExpectedException(AdldapException::class);
 
         $user->changePassword('', '');
     }

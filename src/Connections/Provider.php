@@ -248,16 +248,25 @@ class Provider implements ProviderInterface
      */
     protected function prepareConnection()
     {
-        // Set the beginning protocol options on the connection
-        // if they're set in the configuration.
         if ($this->configuration->get('use_ssl')) {
             $this->connection->useSSL();
         } elseif ($this->configuration->get('use_tls')) {
             $this->connection->useTLS();
         }
 
-        $this->connection->setOption(LDAP_OPT_PROTOCOL_VERSION, 3);
-        $this->connection->setOption(LDAP_OPT_NETWORK_TIMEOUT, $this->configuration->get('timeout'));
-        $this->connection->setOption(LDAP_OPT_REFERRALS, $this->configuration->get('follow_referrals'));
+        $this->connection->setOption(
+            LDAP_OPT_PROTOCOL_VERSION,
+            3
+        );
+
+        $this->connection->setOption(
+            LDAP_OPT_NETWORK_TIMEOUT,
+            $this->configuration->get('timeout')
+        );
+
+        $this->connection->setOption(
+            LDAP_OPT_REFERRALS,
+            $this->configuration->get('follow_referrals')
+        );
     }
 }

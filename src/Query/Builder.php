@@ -265,6 +265,18 @@ class Builder
     }
 
     /**
+     * Alias for setting the base DN of the query.
+     *
+     * @param string $dn
+     *
+     * @return Builder
+     */
+    public function in($dn)
+    {
+        return $this->setDn($dn);
+    }
+
+    /**
      * Performs the specified query on the current LDAP connection.
      *
      * @param string $query

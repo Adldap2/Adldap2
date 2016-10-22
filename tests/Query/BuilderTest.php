@@ -699,4 +699,13 @@ class BuilderTest extends TestCase
         $this->assertEquals('=', $orWhereSn->getOperator());
         $this->assertEquals('\73\6e', $orWhereSn->getValue());
     }
+
+    public function test_in()
+    {
+        $b = $this->newBuilder();
+
+        $b->in('base');
+
+        $this->assertEquals('base', $b->getDn());
+    }
 }

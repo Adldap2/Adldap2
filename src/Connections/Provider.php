@@ -207,7 +207,7 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * Creates a new mod
+     * Creates a new model factory.
      *
      * @param \Adldap\Query\Builder                     $builder
      * @param \Adldap\Contracts\Schemas\SchemaInterface $schema

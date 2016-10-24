@@ -189,7 +189,7 @@ class Entry extends Model
     }
 
     /**
-     * Returns the model's object SID.
+     * Returns the model's hex object SID.
      *
      * https://msdn.microsoft.com/en-us/library/ms679024(v=vs.85).aspx
      *
@@ -198,6 +198,18 @@ class Entry extends Model
     public function getObjectSid()
     {
         return $this->getFirstAttribute($this->schema->objectSid());
+    }
+
+    /**
+     * Returns the model's binary object GUID.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getObjectGuid()
+    {
+        return $this->getFirstAttribute($this->schema->objectGuid());
     }
 
     /**

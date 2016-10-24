@@ -10,10 +10,72 @@ use Adldap\Objects\BatchModification;
 use Adldap\Models\Traits\HasMemberOfTrait;
 use Adldap\Models\Traits\HasDescriptionTrait;
 use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Entry
+class User extends Entry implements Authenticatable
 {
     use HasDescriptionTrait, HasMemberOfTrait, HasLastLogonAndLogOffTrait;
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return $this->schema->objectGuid();
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getGuid();
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return;
+    }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return;
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        return;
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return;
+    }
 
     /**
      * Returns the users display name.

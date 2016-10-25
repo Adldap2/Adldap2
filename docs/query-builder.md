@@ -427,9 +427,6 @@ $results = $search->ous()->get();
 // Retrieve all groups.
 $results = $search->groups()->get();
 
-// Retrieve all exchange servers.
-$results = $search->exchangeServers()->get();
-
 // Retrieve all containers.
 $results = $search->containers()->get();
 

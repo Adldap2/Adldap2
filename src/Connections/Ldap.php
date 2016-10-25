@@ -326,9 +326,9 @@ class Ldap implements ConnectionInterface
             return ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
         }
 
-        $message = 'LDAP Pagination is not supported on your current PHP installation.';
-
-        throw new AdldapException($message);
+        throw new AdldapException(
+            'LDAP Pagination is not supported on your current PHP installation.'
+        );
     }
 
     /**

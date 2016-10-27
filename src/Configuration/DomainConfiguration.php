@@ -11,13 +11,13 @@ use Adldap\Contracts\Connections\ConnectionInterface;
 class DomainConfiguration
 {
     /**
-     * The configuration values array.
+     * The configuration options array.
      *
      * The default values for each key indicate the type of value it requires.
      *
      * @var array
      */
-    protected $values = [
+    protected $options = [
         'domain_controllers' => [],
         'timeout' => 5,
         'port' => ConnectionInterface::PORT,
@@ -35,13 +35,13 @@ class DomainConfiguration
     /**
      * Constructor.
      *
-     * @param array $values
+     * @param array $options
      *
      * @throws ConfigurationException
      */
-    public function __construct(array $values = [])
+    public function __construct(array $options = [])
     {
-        foreach ($values as $key => $value) {
+        foreach ($options as $key => $value) {
             $this->set($key, $value);
         }
     }
@@ -60,12 +60,12 @@ class DomainConfiguration
     public function set($key, $value)
     {
         if($this->validate($key, $value)) {
-            $this->values[$key] = $value;
+            $this->options[$key] = $value;
         }
     }
 
     /**
-     * Returns the value for the specified configuration key.
+     * Returns the value for the specified configuration options.
      *
      * Throws an exception if the specified option does not exist.
      *
@@ -78,14 +78,14 @@ class DomainConfiguration
     public function get($key)
     {
         if ($this->has($key)) {
-            return $this->values[$key];
+            return $this->options[$key];
         }
 
         throw new ConfigurationException("Option {$key} does not exist.");
     }
 
     /**
-     * Checks if a configuration key exists.
+     * Checks if a configuration option exists.
      *
      * @param string $key
      *
@@ -93,11 +93,11 @@ class DomainConfiguration
      */
     public function has($key)
     {
-        return array_key_exists($key, $this->values);
+        return array_key_exists($key, $this->options);
     }
 
     /**
-     * Validates the new configuration value against its
+     * Validates the new configuration option against its
      * default value to ensure it's the correct type.
      *
      * If an invalid type is given, an exception is thrown.

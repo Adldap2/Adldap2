@@ -121,7 +121,7 @@ If you are sure the model **does exist** already inside your AD, you can use the
 ```php
 $user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
 
-$user->cn = 'Suzy Doe';
+$user->displayName = 'Suzy Doe';
 
 if ($user->update()) {
     // User was updated.

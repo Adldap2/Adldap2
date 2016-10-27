@@ -138,7 +138,7 @@ trait HasMemberOfTrait
      */
     public function getMemberOfNames()
     {
-        return $this->getMemberOf()->map(function (Group $group) {
+        return $this->getMemberOf()->map(function (Model $group) {
             return $group->getCommonName();
         })->toArray();
     }

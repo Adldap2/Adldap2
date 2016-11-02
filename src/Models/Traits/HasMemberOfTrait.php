@@ -4,7 +4,6 @@ namespace Adldap\Models\Traits;
 
 use Adldap\Utilities;
 use Adldap\Models\Group;
-use Adldap\Models\Model;
 
 trait HasMemberOfTrait
 {
@@ -120,14 +119,14 @@ trait HasMemberOfTrait
     {
         $dns = $this->getAttribute($this->getSchema()->memberOf());
 
-        $dns = (is_array($dns) ? $dns : []);
+        $dns = is_array($dns) ? $dns : [];
 
         $query = $this->getQuery()->newInstance();
 
         return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
             return $query->select($fields)->findByDn($dn);
         })->filter(function ($group) {
-            return $group instanceof Model;
+            return $group instanceof Group;
         });
     }
 
@@ -138,7 +137,7 @@ trait HasMemberOfTrait
      */
     public function getMemberOfNames()
     {
-        return $this->getMemberOf()->map(function (Model $group) {
+        return $this->getMemberOf()->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
     }

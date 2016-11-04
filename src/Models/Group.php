@@ -2,6 +2,7 @@
 
 namespace Adldap\Models;
 
+use Adldap\Query\Builder;
 use InvalidArgumentException;
 use Adldap\Utilities;
 use Adldap\Objects\BatchModification;
@@ -21,9 +22,23 @@ class Group extends Entry
      */
     public function getMembers()
     {
-        $members = [];
+        $members = $this->getMembersFromAttribute($this->schema->member());
 
-        $dns = $this->getAttribute($this->schema->member());
+        if(count($members)== 0){
+            $members = $this->loadPaginatedMember();
+        }
+
+        return $this->newCollection($members);
+    }
+
+    /**
+     * @param $attribute
+     * @return array
+     */
+    protected function getMembersFromAttribute($attribute)
+    {
+        $members = [];
+        $dns = $this->getAttribute($attribute);
 
         if (is_array($dns)) {
             unset($dns['count']);
@@ -37,7 +52,47 @@ class Group extends Entry
             }
         }
 
-        return $this->newCollection($members);
+        return $members;
+    }
+
+    /**
+     * Checks Attributes for range limited memberlist
+     * @return array
+     */
+    public function loadPaginatedMember(){
+
+        $members = null;
+        $keys = array_keys($this->attributes);
+
+        foreach($keys as $key)
+        {
+
+            if(strpos($key,'member;range')!==false)
+            {
+                $matches = [];
+                $re = '/member;range\=([0-9]{1,3})-([0-9*]{1,3})/';
+
+                preg_match_all($re, $key,$matches);
+                if(count($matches) == 3){
+                    $to = $matches[2][0];
+
+                    $members = $this->newCollection($this->getMembersFromAttribute($key));
+
+                    if($to === '*')
+                        break;
+
+                    /** @var Group $group */
+                    $group = $this->query->findByDn($this->getDn(),[$this->query->getSchema()->memberRange($to+1,'*')]);
+
+                    $members = $members->merge($group->getMembers());
+                    break;
+                }
+
+            }
+        }
+
+        return $members === null ? [] : $members;
+
     }
 
     /**
@@ -156,4 +211,7 @@ class Group extends Entry
     {
         return $this->getFirstAttribute($this->schema->groupType());
     }
+
+
+
 }

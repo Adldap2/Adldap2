@@ -70,7 +70,7 @@ class Group extends Entry
             if(strpos($key,'member;range')!==false)
             {
                 $matches = [];
-                $re = '/member;range\=([0-9]{1,3})-([0-9*]{1,3})/';
+                $re = '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/';
 
                 preg_match_all($re, $key,$matches);
                 if(count($matches) == 3){

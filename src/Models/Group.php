@@ -17,7 +17,7 @@ class Group extends Entry
      *
      * https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function getMembers()
     {
@@ -130,7 +130,7 @@ class Group extends Entry
      *
      * @param array $entries
      *
-     * @return bool
+     * @return $this
      */
     public function setMembers(array $entries)
     {

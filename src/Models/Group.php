@@ -31,7 +31,11 @@ class Group extends Entry
     }
 
     /**
+     * Retrieves group members by the specified model
+     * attribute using their distinguished name.
+     *
      * @param $attribute
+     *
      * @return array
      */
     protected function getMembersFromAttribute($attribute)
@@ -57,6 +61,7 @@ class Group extends Entry
 
     /**
      * Checks Attributes for range limited memberlist
+     *
      * @return array
      */
     public function loadPaginatedMember()
@@ -66,7 +71,7 @@ class Group extends Entry
         $keys = array_keys($this->attributes);
 
         foreach($keys as $key) {
-            if(strpos($key,'member;range')!==false) {
+            if(strpos($key,'member;range') !== false) {
                 $matches = [];
 
                 preg_match_all(
@@ -90,7 +95,6 @@ class Group extends Entry
 
                     break;
                 }
-
             }
         }
 
@@ -213,7 +217,4 @@ class Group extends Entry
     {
         return $this->getFirstAttribute($this->schema->groupType());
     }
-
-
-
 }

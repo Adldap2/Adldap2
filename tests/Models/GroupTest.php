@@ -33,7 +33,6 @@ class GroupTest extends TestCase
         ], $builder);
 
         $members = $group->getMembers();
-
         $this->assertCount(1, $members);
         $this->assertEquals($expected->getCommonName(), $members->first()->getCommonName());
         $this->assertEquals($expected->getDn(), $members->first()->getDn());
@@ -102,5 +101,72 @@ class GroupTest extends TestCase
         $this->assertTrue($group->inGroup('test1'));
         $this->assertTrue($group->inGroup(['test1', 'cn=test2,dc=corp,dc=org', 'cn=test3,dc=corp,dc=org']));
         $this->assertTrue($group->inGroup([$group1, $group2, 'test3']));
+    }
+
+    public function test_get_members_with_range(){
+
+        $builder = $this->mock(Builder::class);
+
+        $builder
+            ->shouldReceive('getSchema')->zeroOrMoreTimes()->andReturn(new ActiveDirectory())
+            ->shouldReceive('newInstance')->zeroOrMoreTimes()->andReturn($builder);
+
+        $group = $this->newGroupModel([
+            'member' => [
+                'count'=>0
+            ],
+            'member;range=0-1'=>[
+                'cn=test1,dc=corp,dc=org',
+                'cn=test1,dc=corp,dc=org',
+            ],
+        ], $builder);
+
+        $expectedMembers =[
+            $this->newGroupModel([
+                'cn' => ['test1'],
+                'dn' => 'cn=test1,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test2'],
+                'dn' => 'cn=test2,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test3'],
+                'dn' => 'cn=test3,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test4'],
+                'dn' => 'cn=test4,dc=corp,dc=org'
+            ], $builder)
+        ]
+        ;
+
+        $expectedGroup = $this->newGroupModel([
+            'member' => [
+                'count'=>0
+            ],
+            'member;range=2-*'=>[
+                'cn=test1,dc=corp,dc=org',
+                'cn=test1,dc=corp,dc=org',
+            ],
+        ], $builder);
+
+
+        $builder
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[0])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[1])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedGroup)
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[2])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[3])
+        ;
+
+        $members = $group->getMembers();
+
+        $this->assertCount(4, $members);
+        $this->assertEquals($expectedMembers[0]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[1]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[2]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[3]->getCommonName(), $members->shift()->getCommonName());
+
     }
 }

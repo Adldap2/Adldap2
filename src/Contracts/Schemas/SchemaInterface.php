@@ -494,6 +494,9 @@ interface SchemaInterface
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
      *
+     * @param string|int $from
+     * @param string|int $to
+     *
      * @return string
      */
     public function memberRange($from, $to);

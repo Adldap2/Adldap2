@@ -417,6 +417,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function memberRange($from, $to)
+    {
+        return $this->member().";range={$from}-{$to}";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function memberOf()
     {
         return 'memberof';
@@ -1036,19 +1044,5 @@ class ActiveDirectory implements SchemaInterface
     public function versionNumber()
     {
         return 'versionnumber';
-    }
-
-    /**
-     * The range limited list of users that belong to the group. See range limit in Active Directory
-     * (Range Retrieval of Attribute Values https://msdn.microsoft.com/en-us/library/cc223242.aspx)
-     * Issue #342
-     *
-     * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function memberRange($from, $to)
-    {
-        return $this->member().";range={$from}-{$to}";
     }
 }

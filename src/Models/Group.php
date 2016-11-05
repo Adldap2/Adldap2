@@ -2,7 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Query\Builder;
 use InvalidArgumentException;
 use Adldap\Utilities;
 use Adldap\Objects\BatchModification;
@@ -24,7 +23,7 @@ class Group extends Entry
     {
         $members = $this->getMembersFromAttribute($this->schema->member());
 
-        if(count($members)== 0){
+        if(count($members) === 0){
             $members = $this->loadPaginatedMember();
         }
 
@@ -38,6 +37,7 @@ class Group extends Entry
     protected function getMembersFromAttribute($attribute)
     {
         $members = [];
+
         $dns = $this->getAttribute($attribute);
 
         if (is_array($dns)) {
@@ -59,21 +59,23 @@ class Group extends Entry
      * Checks Attributes for range limited memberlist
      * @return array
      */
-    public function loadPaginatedMember(){
-
+    public function loadPaginatedMember()
+    {
         $members = null;
+
         $keys = array_keys($this->attributes);
 
-        foreach($keys as $key)
-        {
-
-            if(strpos($key,'member;range')!==false)
-            {
+        foreach($keys as $key) {
+            if(strpos($key,'member;range')!==false) {
                 $matches = [];
-                $re = '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/';
 
-                preg_match_all($re, $key,$matches);
-                if(count($matches) == 3){
+                preg_match_all(
+                    '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/',
+                    $key,
+                    $matches
+                );
+
+                if(count($matches) == 3) {
                     $to = $matches[2][0];
 
                     $members = $this->newCollection($this->getMembersFromAttribute($key));
@@ -82,9 +84,10 @@ class Group extends Entry
                         break;
 
                     /** @var Group $group */
-                    $group = $this->query->findByDn($this->getDn(),[$this->query->getSchema()->memberRange($to+1,'*')]);
+                    $group = $this->query->findByDn($this->getDn(),[$this->query->getSchema()->memberRange($to + 1, '*')]);
 
                     $members = $members->merge($group->getMembers());
+
                     break;
                 }
 
@@ -92,7 +95,6 @@ class Group extends Entry
         }
 
         return $members === null ? [] : $members;
-
     }
 
     /**

@@ -173,11 +173,11 @@ class Group extends Entry
     }
 
     /**
-     * Checks attributes for range limited member list.
+     * Retrieves members that are contained in a member range.
      *
      * @return array
      */
-    protected function loadPaginatedMembers()
+    protected function getPaginatedMembers()
     {
         $members = [];
 
@@ -217,6 +217,8 @@ class Group extends Entry
             // by doubling the requested from value.
             $to = $from * 2;
 
+            // We'll need to query for the current model again but with
+            // a new range to retrieve the other members.
             $group = $this->query->newInstance()->findByDn(
                 $this->getDn(),
                 [$this->query->getSchema()->memberRange($from, $to)]

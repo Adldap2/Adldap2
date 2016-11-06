@@ -94,12 +94,21 @@ class Group extends Entry
                 return $members;
             }
 
+            $from = $to + 1;
+
+            // We'll determine the member range simply
+            // by doubling the requested from value.
+            $to = $from * 2;
+
             $group = $this->query->newInstance()->findByDn(
                 $this->getDn(),
-                [$this->query->getSchema()->memberRange($to + 1, '*')]
+                [$this->query->getSchema()->memberRange($from, $to)]
             );
 
-            $members = array_merge($members, $group->getMembers()->toArray());
+            $members = array_merge(
+                $members,
+                $group->getMembers()->toArray()
+            );
         }
 
         return $members;

@@ -158,9 +158,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @return \Illuminate\Support\Collection
      */
-    public function newCollection($items)
+    public function newCollection($items = [])
     {
-        return new Collection($items);
+        return new Collection($items = []);
     }
 
     /**

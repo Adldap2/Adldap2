@@ -160,7 +160,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function newCollection($items = [])
     {
-        return new Collection($items = []);
+        return new Collection($items);
     }
 
     /**

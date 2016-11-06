@@ -42,17 +42,15 @@ class Group extends Entry
     {
         $members = [];
 
-        $dns = $this->getAttribute($attribute);
+        $dns = $this->getAttribute($attribute) ?: [];
 
-        if (is_array($dns)) {
-            unset($dns['count']);
+        unset($dns['count']);
 
-            foreach ($dns as $dn) {
-                $member = $this->query->newInstance()->findByDn($dn);
+        foreach ($dns as $dn) {
+            $member = $this->query->newInstance()->findByDn($dn);
 
-                if ($member instanceof Model) {
-                    $members[] = $member;
-                }
+            if ($member instanceof Model) {
+                $members[] = $member;
             }
         }
 
@@ -60,45 +58,46 @@ class Group extends Entry
     }
 
     /**
-     * Checks Attributes for range limited memberlist
+     * Checks attributes for range limited member list.
      *
      * @return array
      */
     public function loadPaginatedMember()
     {
-        $members = null;
+        $members = [];
 
         $keys = array_keys($this->attributes);
 
-        foreach($keys as $key) {
-            if(strpos($key,'member;range') !== false) {
-                $matches = [];
+        $attributes = array_values(array_filter($keys, function ($key) {
+            return strpos($key,'member;range') !== false;
+        }));
 
-                preg_match_all(
-                    '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/',
-                    $key,
-                    $matches
-                );
+        $key = reset($attributes);
 
-                if(count($matches) == 3) {
-                    $to = $matches[2][0];
+        preg_match_all(
+            '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/',
+            $key,
+            $matches
+        );
 
-                    $members = $this->newCollection($this->getMembersFromAttribute($key));
+        if ($key && count($matches) == 3) {
+            $to = $matches[2][0];
 
-                    if($to === '*')
-                        break;
+            $members = $this->getMembersFromAttribute($key);
 
-                    /** @var Group $group */
-                    $group = $this->query->findByDn($this->getDn(),[$this->query->getSchema()->memberRange($to + 1, '*')]);
-
-                    $members = $members->merge($group->getMembers());
-
-                    break;
-                }
+            if($to === '*') {
+                return $members;
             }
+
+            $group = $this->query->findByDn(
+                $this->getDn(),
+                [$this->query->getSchema()->memberRange($to + 1, '*')]
+            );
+
+            $members = array_merge($members, $group->getMembers()->toArray());
         }
 
-        return $members === null ? [] : $members;
+        return $members;
     }
 
     /**

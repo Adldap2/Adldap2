@@ -24,7 +24,7 @@ class Group extends Entry
         $members = $this->getMembersFromAttribute($this->schema->member());
 
         if(count($members) === 0) {
-            $members = $this->loadPaginatedMember();
+            $members = $this->loadPaginatedMembers();
         }
 
         return $this->newCollection($members);
@@ -50,65 +50,6 @@ class Group extends Entry
             if ($member instanceof Model) {
                 $members[] = $member;
             }
-        }
-
-        return $members;
-    }
-
-    /**
-     * Checks attributes for range limited member list.
-     *
-     * @return array
-     */
-    protected function loadPaginatedMember()
-    {
-        $members = [];
-
-        $keys = array_keys($this->attributes);
-
-        // We need to filter out the model attributes so
-        // we only retrieve the member range.
-        $attributes = array_values(array_filter($keys, function ($key) {
-            return strpos($key,'member;range') !== false;
-        }));
-
-        // We'll grab the member range key so we can run a
-        // regex on it to determine the range.
-        $key = reset($attributes);
-
-        preg_match_all(
-            '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/',
-            $key,
-            $matches
-        );
-
-        if ($key && count($matches) == 3) {
-            $to = $matches[2][0];
-
-            $members = $this->getMembersFromAttribute($key);
-
-            // If the query already included all member results (indicated
-            // by the '*'), then we can return here. Otherwise we need
-            // to continue on and retrieve the rest.
-            if($to === '*') {
-                return $members;
-            }
-
-            $from = $to + 1;
-
-            // We'll determine the member range simply
-            // by doubling the requested from value.
-            $to = $from * 2;
-
-            $group = $this->query->newInstance()->findByDn(
-                $this->getDn(),
-                [$this->query->getSchema()->memberRange($from, $to)]
-            );
-
-            $members = array_merge(
-                $members,
-                $group->getMembers()->toArray()
-            );
         }
 
         return $members;
@@ -229,5 +170,64 @@ class Group extends Entry
     public function getGroupType()
     {
         return $this->getFirstAttribute($this->schema->groupType());
+    }
+
+    /**
+     * Checks attributes for range limited member list.
+     *
+     * @return array
+     */
+    protected function loadPaginatedMembers()
+    {
+        $members = [];
+
+        $keys = array_keys($this->attributes);
+
+        // We need to filter out the model attributes so
+        // we only retrieve the member range.
+        $attributes = array_values(array_filter($keys, function ($key) {
+            return strpos($key,'member;range') !== false;
+        }));
+
+        // We'll grab the member range key so we can run a
+        // regex on it to determine the range.
+        $key = reset($attributes);
+
+        preg_match_all(
+            '/member;range\=([0-9]{1,4})-([0-9*]{1,4})/',
+            $key,
+            $matches
+        );
+
+        if ($key && count($matches) == 3) {
+            $to = $matches[2][0];
+
+            $members = $this->getMembersFromAttribute($key);
+
+            // If the query already included all member results (indicated
+            // by the '*'), then we can return here. Otherwise we need
+            // to continue on and retrieve the rest.
+            if($to === '*') {
+                return $members;
+            }
+
+            $from = $to + 1;
+
+            // We'll determine the member range simply
+            // by doubling the requested from value.
+            $to = $from * 2;
+
+            $group = $this->query->newInstance()->findByDn(
+                $this->getDn(),
+                [$this->query->getSchema()->memberRange($from, $to)]
+            );
+
+            $members = array_merge(
+                $members,
+                $group->getMembers()->toArray()
+            );
+        }
+
+        return $members;
     }
 }

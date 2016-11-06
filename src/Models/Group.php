@@ -24,7 +24,7 @@ class Group extends Entry
         $members = $this->getMembersFromAttribute($this->schema->member());
 
         if(count($members) === 0) {
-            $members = $this->loadPaginatedMembers();
+            $members = $this->getPaginatedMembers();
         }
 
         return $this->newCollection($members);

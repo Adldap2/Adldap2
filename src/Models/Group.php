@@ -68,10 +68,14 @@ class Group extends Entry
 
         $keys = array_keys($this->attributes);
 
+        // We need to filter out the model attributes so
+        // we only retrieve the member range.
         $attributes = array_values(array_filter($keys, function ($key) {
             return strpos($key,'member;range') !== false;
         }));
 
+        // We'll grab the member range key so we can run a
+        // regex on it to determine the range.
         $key = reset($attributes);
 
         preg_match_all(
@@ -85,11 +89,14 @@ class Group extends Entry
 
             $members = $this->getMembersFromAttribute($key);
 
+            // If the query already included all member results (indicated
+            // by the '*'), then we can return here. Otherwise we need
+            // to continue on and retrieve the rest.
             if($to === '*') {
                 return $members;
             }
 
-            $group = $this->query->findByDn(
+            $group = $this->query->newInstance()->findByDn(
                 $this->getDn(),
                 [$this->query->getSchema()->memberRange($to + 1, '*')]
             );

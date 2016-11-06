@@ -23,7 +23,7 @@ class Group extends Entry
     {
         $members = $this->getMembersFromAttribute($this->schema->member());
 
-        if(count($members) === 0){
+        if(count($members) === 0) {
             $members = $this->loadPaginatedMember();
         }
 

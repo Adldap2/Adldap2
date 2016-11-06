@@ -214,7 +214,7 @@ class Group extends Entry
             $from = $to + 1;
 
             // We'll determine the member range simply
-            // by doubling the requested from value.
+            // by doubling the selected from value.
             $to = $from * 2;
 
             // We'll need to query for the current model again but with

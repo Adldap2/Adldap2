@@ -44,8 +44,6 @@ class Group extends Entry
 
         $dns = $this->getAttribute($attribute) ?: [];
 
-        unset($dns['count']);
-
         foreach ($dns as $dn) {
             $member = $this->query->newInstance()->findByDn($dn);
 
@@ -62,7 +60,7 @@ class Group extends Entry
      *
      * @return array
      */
-    public function loadPaginatedMember()
+    protected function loadPaginatedMember()
     {
         $members = [];
 

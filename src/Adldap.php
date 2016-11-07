@@ -2,7 +2,6 @@
 
 namespace Adldap;
 
-use Adldap\AdldapException;
 use Adldap\Contracts\AdldapInterface;
 use Adldap\Contracts\Connections\ProviderInterface;
 

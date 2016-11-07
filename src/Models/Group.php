@@ -31,31 +31,6 @@ class Group extends Entry
     }
 
     /**
-     * Retrieves group members by the specified model
-     * attribute using their distinguished name.
-     *
-     * @param $attribute
-     *
-     * @return array
-     */
-    protected function getMembersFromAttribute($attribute)
-    {
-        $members = [];
-
-        $dns = $this->getAttribute($attribute) ?: [];
-
-        foreach ($dns as $dn) {
-            $member = $this->query->newInstance()->findByDn($dn);
-
-            if ($member instanceof Model) {
-                $members[] = $member;
-            }
-        }
-
-        return $members;
-    }
-
-    /**
      * Returns the group's member names only.
      *
      * @return array
@@ -170,6 +145,31 @@ class Group extends Entry
     public function getGroupType()
     {
         return $this->getFirstAttribute($this->schema->groupType());
+    }
+
+    /**
+     * Retrieves group members by the specified model
+     * attribute using their distinguished name.
+     *
+     * @param $attribute
+     *
+     * @return array
+     */
+    protected function getMembersFromAttribute($attribute)
+    {
+        $members = [];
+
+        $dns = $this->getAttribute($attribute) ?: [];
+
+        foreach ($dns as $dn) {
+            $member = $this->query->newInstance()->findByDn($dn);
+
+            if ($member instanceof Model) {
+                $members[] = $member;
+            }
+        }
+
+        return $members;
     }
 
     /**

@@ -33,7 +33,7 @@ class ProviderTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection
-            ->shouldReceive('setOption')->twice()
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
@@ -50,7 +50,7 @@ class ProviderTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection
-            ->shouldReceive('setOption')->twice()
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
@@ -68,7 +68,7 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
@@ -93,7 +93,7 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isBound')->once()->andReturn(true);
 
@@ -122,7 +122,7 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isBound')->once()->andReturn(true);
 
@@ -155,7 +155,7 @@ class ProviderTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true)

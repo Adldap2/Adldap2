@@ -71,7 +71,7 @@ class AdldapTest extends TestCase
         $connection = $this->mock(Ldap::class);
 
         $connection->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOption')->twice()->andReturn(true)
+            ->shouldReceive('setOptions')->once()
             ->shouldReceive('bind')->once()->andReturn(true)
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);

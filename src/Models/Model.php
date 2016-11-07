@@ -274,7 +274,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $model = $this->query->newInstance()->findByDn($this->getDn());
 
-        if ($model instanceof self) {
+        if ($model instanceof Model) {
             $this->setRawAttributes($model->getAttributes());
 
             return true;

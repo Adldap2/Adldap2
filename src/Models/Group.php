@@ -39,15 +39,13 @@ class Group extends Entry
     {
         $members = [];
 
-        $dns = $this->getAttribute($this->schema->member());
+        $dns = $this->getAttribute($this->schema->member()) ?: [];
 
-        if (is_array($dns)) {
-            foreach ($dns as $dn) {
-                $exploded = Utilities::explodeDn($dn);
+        foreach ($dns as $dn) {
+            $exploded = Utilities::explodeDn($dn);
 
-                if (array_key_exists(0, $exploded)) {
-                    $members[] = $exploded[0];
-                }
+            if (array_key_exists(0, $exploded)) {
+                $members[] = $exploded[0];
             }
         }
 

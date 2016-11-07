@@ -216,6 +216,15 @@ interface ConnectionInterface
     public function setOption($option, $value);
 
     /**
+     * Sets options on the current connection.
+     *
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function setOptions(array $options = []);
+
+    /**
      * Set a callback function to do re-binds on referral chasing.
      *
      * @param callable $callback

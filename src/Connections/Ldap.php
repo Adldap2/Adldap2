@@ -180,6 +180,16 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
+    public function setOptions(array $options = [])
+    {
+        foreach ($options as $option => $value) {
+            $this->setOption($option, $value);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setRebindCallback(callable $callback)
     {
         return ldap_set_rebind_proc($this->getConnection(), $callback);

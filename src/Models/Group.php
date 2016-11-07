@@ -71,6 +71,8 @@ class Group extends Entry
      *
      * @param string|Entry $entry
      *
+     * @throws InvalidArgumentException
+     *
      * @return bool
      */
     public function addMember($entry)
@@ -96,6 +98,8 @@ class Group extends Entry
      * Removes an entry from the current group.
      *
      * @param string|Entry $entry
+     *
+     * @throws InvalidArgumentException
      *
      * @return bool
      */
@@ -125,12 +129,10 @@ class Group extends Entry
      */
     public function removeMembers()
     {
-        $this->addModification(new BatchModification(
+        return $this->addModification(new BatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_REMOVE_ALL
-        ));
-
-        return $this->save();
+        ))->save();
     }
 
     /**

@@ -105,6 +105,7 @@ class Provider implements ProviderInterface
      */
     public function setConnection(ConnectionInterface $connection = null)
     {
+        // We'll create a standard connection if one isn't given.
         $this->connection = $connection ?: new Ldap();
 
         // Prepare the connection.
@@ -156,14 +157,6 @@ class Provider implements ProviderInterface
     public function setGuard(GuardInterface $guard)
     {
         $this->guard = $guard;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRootDse()
-    {
-        return $this->search()->getRootDse();
     }
 
     /**

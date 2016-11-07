@@ -91,15 +91,6 @@ interface ProviderInterface
     public function setGuard(GuardInterface $guard);
 
     /**
-     * Returns the root DSE entry on the currently connected server.
-     *
-     * @deprecated since v6.0.9
-     *
-     * @return \Adldap\Models\Entry|bool
-     */
-    public function getRootDse();
-
-    /**
      * Returns a new Model factory instance.
      *
      * @return \Adldap\Models\Factory

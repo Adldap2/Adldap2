@@ -1,9 +1,9 @@
 <?php
 
-namespace Adldap\Contracts\Auth;
+namespace Adldap\Auth;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Contracts\Connections\ConnectionInterface;
 
 interface GuardInterface
 {

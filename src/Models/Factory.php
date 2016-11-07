@@ -4,7 +4,7 @@ namespace Adldap\Models;
 
 use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Schemas\SchemaInterface;
 
 class Factory
 {

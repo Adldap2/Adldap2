@@ -1,10 +1,10 @@
 <?php
 
-namespace Adldap\Contracts\Connections;
+namespace Adldap\Connections;
 
+use Adldap\Auth\GuardInterface;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Contracts\Auth\GuardInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
 
 interface ProviderInterface
 {

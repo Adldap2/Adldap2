@@ -2,8 +2,7 @@
 
 namespace Adldap;
 
-use Adldap\Contracts\AdldapInterface;
-use Adldap\Contracts\Connections\ProviderInterface;
+use Adldap\Connections\ProviderInterface;
 
 class Adldap implements AdldapInterface
 {

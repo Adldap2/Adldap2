@@ -2,11 +2,11 @@
 
 namespace Adldap\Configuration;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\Validators\ArrayValidator;
 use Adldap\Configuration\Validators\StringValidator;
 use Adldap\Configuration\Validators\BooleanValidator;
 use Adldap\Configuration\Validators\IntegerValidator;
-use Adldap\Contracts\Connections\ConnectionInterface;
 
 class DomainConfiguration
 {

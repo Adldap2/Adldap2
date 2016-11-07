@@ -1,8 +1,8 @@
 <?php
 
-namespace Adldap\Contracts;
+namespace Adldap;
 
-use Adldap\Contracts\Connections\ProviderInterface;
+use Adldap\Connections\ProviderInterface;
 
 interface AdldapInterface
 {
@@ -28,7 +28,7 @@ interface AdldapInterface
      *
      * @param string $name
      *
-     * @throws \Adldap\Exceptions\AdldapException
+     * @throws AdldapException
      *
      * @return ProviderInterface
      */
@@ -39,14 +39,14 @@ interface AdldapInterface
      *
      * @param string $name
      *
-     * @throws \Adldap\Exceptions\AdldapException
+     * @throws AdldapException
      */
     public function setDefaultProvider($name);
 
     /**
      * Retrieves the first provider.
      *
-     * @throws \Adldap\Exceptions\AdldapException
+     * @throws AdldapException
      *
      * @return ProviderInterface
      */

@@ -2,8 +2,6 @@
 
 namespace Adldap\Schemas;
 
-use Adldap\Contracts\Schemas\SchemaInterface;
-
 class ActiveDirectory implements SchemaInterface
 {
     /**

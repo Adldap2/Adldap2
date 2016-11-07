@@ -2,9 +2,8 @@
 
 namespace Adldap\Auth;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Contracts\Auth\GuardInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Guard implements GuardInterface
 {

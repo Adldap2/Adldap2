@@ -7,8 +7,8 @@ use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Models\RootDse;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Factory
 {

@@ -5,14 +5,12 @@ namespace Adldap\Connections;
 use InvalidArgumentException;
 use Adldap\Auth\Guard;
 use Adldap\Query\Builder;
+use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Search\Factory as SearchFactory;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Contracts\Auth\GuardInterface;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Contracts\Connections\ProviderInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
 
 class Provider implements ProviderInterface
 {
@@ -211,7 +209,7 @@ class Provider implements ProviderInterface
      * Creates a new model factory.
      *
      * @param \Adldap\Query\Builder                     $builder
-     * @param \Adldap\Contracts\Schemas\SchemaInterface $schema
+     * @param \Adldap\Schemas\SchemaInterface $schema
      *
      * @return \Adldap\Models\Factory
      */

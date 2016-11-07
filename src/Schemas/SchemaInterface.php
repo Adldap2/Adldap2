@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Contracts\Schemas;
+namespace Adldap\Schemas;
 
 interface SchemaInterface
 {

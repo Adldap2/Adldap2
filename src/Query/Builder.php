@@ -13,10 +13,10 @@ use Adldap\Query\Bindings\Where;
 use Adldap\Query\Bindings\Select;
 use Adldap\Query\Bindings\OrWhere;
 use Adldap\Query\Bindings\AbstractBinding;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\ModelNotFoundException;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Builder
 {

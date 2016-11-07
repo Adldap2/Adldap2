@@ -8,9 +8,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Query\Builder;
 use Adldap\AdldapException;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
-use Adldap\Contracts\Schemas\SchemaInterface;
 
 abstract class Model implements ArrayAccess, JsonSerializable
 {

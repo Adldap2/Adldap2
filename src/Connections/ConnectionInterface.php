@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Contracts\Connections;
+namespace Adldap\Connections;
 
 /**
  * The Connection interface used for making connections. Implementing

@@ -7,8 +7,8 @@ use Illuminate\Support\Collection;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
-use Adldap\Contracts\Schemas\SchemaInterface;
-use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Processor
 {

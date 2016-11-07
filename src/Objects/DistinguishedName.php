@@ -4,7 +4,7 @@ namespace Adldap\Objects;
 
 use Adldap\Utilities;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Contracts\Schemas\SchemaInterface;
+use Adldap\Schemas\SchemaInterface;
 
 class DistinguishedName
 {
@@ -277,7 +277,7 @@ class DistinguishedName
     /**
      * Sets the schema for the distinguished name.
      *
-     * @param \Adldap\Contracts\Schemas\SchemaInterface|null $schema
+     * @param SchemaInterface|null $schema
      *
      * @return DistinguishedName
      */

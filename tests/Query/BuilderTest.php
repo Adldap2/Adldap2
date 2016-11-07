@@ -26,7 +26,7 @@ class BuilderTest extends TestCase
 
     protected function newConnectionMock()
     {
-        return $this->mock('Adldap\Contracts\Connections\ConnectionInterface');
+        return $this->mock('Adldap\Connections\ConnectionInterface');
     }
 
     public function test_construct()

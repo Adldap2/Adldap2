@@ -11,7 +11,7 @@ use Adldap\Configuration\DomainConfiguration;
 use Adldap\Auth\BindException;
 use Adldap\Auth\UsernameRequiredException;
 use Adldap\Auth\PasswordRequiredException;
-use Adldap\Contracts\Connections\ConnectionInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class ProviderTest extends TestCase
 {

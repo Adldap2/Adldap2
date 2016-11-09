@@ -205,11 +205,11 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function connect($hostname = [], $port = '389')
+    public function connect($hosts = [], $port = '389')
     {
-        $host = $this->getHostname($hostname, $this->getProtocol());
+        $connections = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
-        return $this->connection = ldap_connect("{$host}:{$port}");
+        return $this->connection = ldap_connect($connections);
     }
 
     /**
@@ -427,15 +427,22 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Returns a compiled hostname compatible with ldap_connect().
+     * Generates an LDAP connection string for each host given.
      *
-     * @param array  $hostname
-     * @param string $protocol
+     * @param string|array  $hosts
+     * @param string        $protocol
+     * @param string        $port
      *
      * @return string
      */
-    protected function getHostname($hostname = [], $protocol = '')
     {
-        return is_array($hostname) ? $protocol.implode(' '.$protocol, $hostname) : $hostname;
+        // Normalize hosts into an array.
+        $hosts = is_array($hosts) ? $hosts : [$hosts];
+
+        $hosts = array_map(function ($host) use ($protocol, $port) {
+            return "{$protocol}{$host}:{$port}";
+        }, $hosts);
+
+        return implode(' ', $hosts);
     }
 }

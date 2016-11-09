@@ -17,4 +17,18 @@ class LdapTest extends TestCase
         $this->assertTrue($ldap->isSupported());
         $this->assertNull($ldap->getConnection());
     }
+
+    public function test_connection_string()
+    {
+        $ldap = $this->mock(Ldap::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $connections = $ldap->getConnectionString([
+            'dc01',
+            'dc02',
+        ], 'ldap://', '389');
+
+        $this->assertEquals('ldap://dc01:389 ldap://dc02:389', $connections);
+    }
 }

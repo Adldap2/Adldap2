@@ -240,9 +240,9 @@ class Provider implements ProviderInterface
     protected function prepareConnection()
     {
         if ($this->configuration->get('use_ssl')) {
-            $this->connection->useSSL();
+            $this->connection->ssl();
         } elseif ($this->configuration->get('use_tls')) {
-            $this->connection->useTLS();
+            $this->connection->tls();
         }
 
         $this->connection->setOptions([

@@ -6,12 +6,12 @@ use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 use Adldap\Search\Factory;
 use Adldap\Connections\Ldap;
-use Adldap\Connections\Provider;
-use Adldap\Configuration\DomainConfiguration;
 use Adldap\Auth\BindException;
+use Adldap\Connections\Provider;
 use Adldap\Auth\UsernameRequiredException;
 use Adldap\Auth\PasswordRequiredException;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 class ProviderTest extends TestCase
 {
@@ -166,6 +166,32 @@ class ProviderTest extends TestCase
         $m = $this->newProvider($connection, $config);
 
         $this->assertTrue($m->auth()->attempt('username', 'password', true));
+    }
+
+    public function test_prepare_connection()
+    {
+        $config = $this->mock(DomainConfiguration::class);
+
+        $config
+            ->shouldReceive('get')->withArgs(['domain_controllers'])->once()->andReturn('')
+            ->shouldReceive('get')->withArgs(['port'])->once()->andReturn('389')
+            ->shouldReceive('get')->withArgs(['use_ssl'])->once()->andReturn(false)
+            ->shouldReceive('get')->withArgs(['use_tls'])->once()->andReturn(false)
+            ->shouldReceive('get')->withArgs(['timeout'])->once()->andReturn(5)
+            ->shouldReceive('get')->withArgs(['follow_referrals'])->andReturn(false);
+
+        $connection = $this->mock(ConnectionInterface::class);
+
+        $connection
+            ->shouldReceive('setOptions')->once()->withArgs([[
+                LDAP_OPT_PROTOCOL_VERSION => 3,
+                LDAP_OPT_NETWORK_TIMEOUT => 5,
+                LDAP_OPT_REFERRALS => false,
+            ]])
+            ->shouldReceive('connect')->once()
+            ->shouldReceive('isBound')->once()->andReturn(false);
+
+        new Provider($config, $connection);
     }
 
     public function test_groups()

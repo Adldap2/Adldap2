@@ -43,12 +43,43 @@ class LdapTest extends TestCase
         $this->assertEquals('ldap://dc01:389', $connection);
     }
 
-    public function test_get_protocol()
+    public function test_get_default_protocol()
     {
         $ldap = new Ldap();
 
-        $ldap->useSSL();
+        $this->assertEquals('ldap://', $ldap->getProtocol());
+    }
+
+    public function test_get_protocol_ssl()
+    {
+        $ldap = new Ldap();
+
+        $ldap->ssl();
 
         $this->assertEquals('ldaps://', $ldap->getProtocol());
+    }
+
+    public function test_can_change_passwords()
+    {
+        $ldap = new Ldap();
+
+        $ldap->ssl();
+
+        $this->assertTrue($ldap->canChangePasswords());
+
+        $ldap->ssl(false);
+
+        $this->assertFalse($ldap->canChangePasswords());
+
+        $ldap->tls();
+
+        $this->assertTrue($ldap->canChangePasswords());
+    }
+
+    public function test_set_options()
+    {
+        $ldap = new Ldap();
+
+        $ldap->setOptions([1 => 'value', 2 => 'value']);
     }
 }

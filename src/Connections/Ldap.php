@@ -421,7 +421,7 @@ class Ldap implements ConnectionInterface
      *
      * @return string
      */
-    protected function getProtocol()
+    public function getProtocol()
     {
         return $this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL;
     }

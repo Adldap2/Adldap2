@@ -18,7 +18,7 @@ class LdapTest extends TestCase
         $this->assertNull($ldap->getConnection());
     }
 
-    public function test_connection_string()
+    public function test_connections_string_with_array()
     {
         $ldap = $this->mock(Ldap::class)
             ->shouldAllowMockingProtectedMethods()
@@ -30,5 +30,25 @@ class LdapTest extends TestCase
         ], 'ldap://', '389');
 
         $this->assertEquals('ldap://dc01:389 ldap://dc02:389', $connections);
+    }
+
+    public function test_connections_string_with_string()
+    {
+        $ldap = $this->mock(Ldap::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $connection = $ldap->getConnectionString('dc01', 'ldap://', '389');
+
+        $this->assertEquals('ldap://dc01:389', $connection);
+    }
+
+    public function test_get_protocol()
+    {
+        $ldap = new Ldap();
+
+        $ldap->useSSL();
+
+        $this->assertEquals('ldaps://', $ldap->getProtocol());
     }
 }

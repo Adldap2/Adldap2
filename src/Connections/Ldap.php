@@ -79,9 +79,9 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function useSSL()
+    public function ssl($enabled = true)
     {
-        $this->useSSL = true;
+        $this->useSSL = $enabled;
 
         return $this;
     }
@@ -89,9 +89,9 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function useTLS()
+    public function tls($enabled = true)
     {
-        $this->useTLS = true;
+        $this->useTLS = $enabled;
 
         return $this;
     }

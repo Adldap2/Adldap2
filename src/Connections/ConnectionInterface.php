@@ -110,18 +110,22 @@ interface ConnectionInterface
     public function isBound();
 
     /**
-     * Sets the current connection to use TLS.
-     *
-     * @return ConnectionInterface
-     */
-    public function useTLS();
-
-    /**
      * Sets the current connection to use SSL.
      *
+     * @param bool $enabled
+     *
      * @return ConnectionInterface
      */
-    public function useSSL();
+    public function ssl($enabled = true);
+
+    /**
+     * Sets the current connection to use TLS.
+     *
+     * @param bool $enabled
+     *
+     * @return ConnectionInterface
+     */
+    public function tls($enabled = true);
 
     /**
      * Get the current connection.

@@ -47,9 +47,9 @@ class Provider implements ProviderInterface
      */
     public function __construct($configuration = [], ConnectionInterface $connection = null, SchemaInterface $schema = null)
     {
-        $this->setConfiguration($configuration);
-        $this->setConnection($connection);
-        $this->setSchema($schema);
+        $this->setConfiguration($configuration)
+            ->setConnection($connection)
+            ->setSchema($schema);
     }
 
     /**
@@ -114,6 +114,8 @@ class Provider implements ProviderInterface
             $this->configuration->get('domain_controllers'),
             $this->configuration->get('port')
         );
+
+        return $this;
     }
 
     /**
@@ -131,6 +133,8 @@ class Provider implements ProviderInterface
         }
 
         $this->configuration = $configuration;
+
+        return $this;
     }
 
     /**
@@ -139,6 +143,8 @@ class Provider implements ProviderInterface
     public function setSchema(SchemaInterface $schema = null)
     {
         $this->schema = $schema ?: new ActiveDirectory();
+
+        return $this;
     }
 
     /**
@@ -155,6 +161,8 @@ class Provider implements ProviderInterface
     public function setGuard(GuardInterface $guard)
     {
         $this->guard = $guard;
+
+        return $this;
     }
 
     /**

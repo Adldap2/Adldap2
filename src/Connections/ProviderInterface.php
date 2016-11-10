@@ -59,6 +59,8 @@ interface ProviderInterface
      * Sets the current connection.
      *
      * @param ConnectionInterface $connection
+     *
+     * @return $this
      */
     public function setConnection(ConnectionInterface $connection = null);
 
@@ -73,6 +75,8 @@ interface ProviderInterface
      * Sets the current LDAP attribute schema.
      *
      * @param SchemaInterface|null $schema
+     *
+     * @return $this
      */
     public function setSchema(SchemaInterface $schema = null);
 
@@ -87,6 +91,8 @@ interface ProviderInterface
      * Sets the current Guard instance.
      *
      * @param GuardInterface $guard
+     *
+     * @return $this
      */
     public function setGuard(GuardInterface $guard);
 

@@ -65,37 +65,20 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConnection()
+    public function setConfiguration($configuration = [])
     {
-        return $this->connection;
-    }
+        if (is_array($configuration)) {
+            // Construct a configuration instance if an array is given.
+            $configuration = new DomainConfiguration($configuration);
+        } elseif (!$configuration instanceof DomainConfiguration) {
+            $class = DomainConfiguration::class;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGuard()
-    {
-        if (!$this->guard instanceof GuardInterface) {
-            $this->setGuard($this->getDefaultGuard($this->connection, $this->configuration));
+            throw new InvalidArgumentException("Configuration must be either an array or instance of $class");
         }
 
-        return $this->guard;
-    }
+        $this->configuration = $configuration;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefaultGuard(ConnectionInterface $connection, DomainConfiguration $configuration)
-    {
-        return new Guard($connection, $configuration);
+        return $this;
     }
 
     /**
@@ -121,18 +104,9 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setConfiguration($configuration = [])
+    public function setSchema(SchemaInterface $schema = null)
     {
-        if (is_array($configuration)) {
-            // Construct a configuration instance if an array is given.
-            $configuration = new DomainConfiguration($configuration);
-        } elseif (!$configuration instanceof DomainConfiguration) {
-            $class = DomainConfiguration::class;
-
-            throw new InvalidArgumentException("Configuration must be either an array or instance of $class");
-        }
-
-        $this->configuration = $configuration;
+        $this->schema = $schema ?: new ActiveDirectory();
 
         return $this;
     }
@@ -140,11 +114,27 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function setGuard(GuardInterface $guard)
     {
-        $this->schema = $schema ?: new ActiveDirectory();
+        $this->guard = $guard;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 
     /**
@@ -158,11 +148,21 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function setGuard(GuardInterface $guard)
+    public function getGuard()
     {
-        $this->guard = $guard;
+        if (!$this->guard instanceof GuardInterface) {
+            $this->setGuard($this->getDefaultGuard($this->connection, $this->configuration));
+        }
 
-        return $this;
+        return $this->guard;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultGuard(ConnectionInterface $connection, DomainConfiguration $configuration)
+    {
+        return new Guard($connection, $configuration);
     }
 
     /**

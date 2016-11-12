@@ -28,7 +28,7 @@ authentication and Active Directory management tools using the Active Record pat
 
 ### Requirements
 
-To use Adldap2, your sever must support:
+To use Adldap2, your server must support:
 
 - PHP 5.5.9 or greater
 - PHP LDAP Extension

@@ -95,3 +95,95 @@ foreach ($group->getMemberNames() as $name) {
 > only parses the distinguished names from the groups `member` attribute. This means that
 > if you have paginated group members, you will need to perform another query yourself
 > to retrieve the rest of the member names (or just call the `getMembers()` method).
+
+## Setting Group Members
+
+To set members that are apart of the group, you can perform this in two ways:
+
+> **Note**: Remember, this will remove **all** pre-existing members, and set the new given members on the group.
+
+```php
+$members = [
+    'cn=John Doe,dc=corp,dc=acme,dc=org',
+    'cn=Jane Doe,dc=corp,dc=acme,dc=org',
+];
+
+$group->setMembers($members);
+
+$group->save();
+```
+
+Or manually:
+
+```php
+$group->member = [
+    'cn=John Doe,dc=corp,dc=acme,dc=org',
+    'cn=Jane Doe,dc=corp,dc=acme,dc=org',
+];
+
+$group->save();
+```
+
+## Adding One Member
+
+To add a single member to a group, use the `addMember()` method:
+
+> **Note**: You do not need to call the `save()` method after adding a
+> member. It's automatically called so you can determine
+> if the member was successfully added.
+
+```php
+// We can provide a model, or just a plain DN of the new member
+$user = $provider->search()->users()->first();
+
+if ($group->addMember($user)) {
+
+    // User was successfully added to the group!
+
+}
+
+// Or
+
+$user = 'cn=John Doe,dc=corp,dc=acme,dc=org';
+
+if ($group->addMember($user)) {
+    //
+}
+```
+
+## Removing One Member
+
+To remove a single member to a group, use the `removeMember()` method:
+
+```php
+// We can provide a model, or just a plain DN of the existing member
+$group = $provider->search()->groups()->first();
+
+$member = $group->getMembers()->first();
+
+if ($group->removeMember($member)) {
+
+    // Member was successfully removed from the group!
+
+}
+
+// Or
+
+$user = 'cn=John Doe,dc=corp,dc=acme,dc=org';
+
+if ($group->removeMember($user)) {
+    //
+}
+```
+
+## Removing All Members
+
+To remove all members, use the `removeMembers()` method:
+
+```php
+if ($group->removeMembers()) {
+
+    // All members were successfully removed!
+
+}
+```

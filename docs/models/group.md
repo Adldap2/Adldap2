@@ -77,3 +77,21 @@ foreach ($group->getMembers() as $member) {
     
 }
 ```
+
+## Getting only a groups member names
+
+To retrieve only the names of the members contained in a group, call the `getMemberNames()` method:
+
+```php
+foreach ($group->getMemberNames() as $name) {
+
+    // Returns 'John Doe' 
+    echo $name;
+
+}
+```
+
+> **Note**: This method does not query your server for each member to retrieve its name. It
+> only parses the distinguished names from the groups `member` attribute. This means that
+> if you have paginated group members, you will need to perform another query yourself
+> to retrieve the rest of the member names (or just call the `getMembers()` method).

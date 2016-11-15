@@ -7,7 +7,7 @@ The following models utilize the trait `HasMemberOf`, which contains methods tha
 
 ## Retrieving the models groups
 
-To get the groups a model is apart of, call the `getGroups()` method:
+To retrieve groups a model is apart of, call the `getGroups()` method:
 
 ```php
 $user = $provider->search()->users()->find('jdoe');
@@ -30,6 +30,29 @@ To recursively retrieve groups of groups that the model is apart of, pass in `tr
 // Now groups of groups will be returned in a single dimensional collection.
 
 $groups = $user->getGroups($recursive = true);
+```
+
+## Retrieving only group names
+
+To retrieve the group names the model is apart of, call the `getGroupNames()` method:
+
+> **Note**: Like the `getGroups()` method, it accepts a `$recursive` argument to retrieve
+> nested group names. Keep in mind, groups that contain the same name will
+> only appear once in the resulting array.
+
+```php
+$names = $user->getGroupNames();
+
+foreach ($names as $name) {
+
+    // Returns 'Accounting'
+    echo $name;
+
+}
+
+// Or:
+
+$names = $user->getGroupNames($recursive = true);
 ```
 
 ## Adding a Group

@@ -130,7 +130,8 @@ class Processor
                 $model = $models[current($map)];
 
                 // Construct and return a new model.
-                return $this->newModel([], $model)->setRawAttributes($attributes);
+                return $this->newModel([], $model)
+                    ->setRawAttributes($attributes);
             }
         }
 

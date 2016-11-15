@@ -7,13 +7,16 @@ use DateTime;
 class RootDse extends Model
 {
     /**
-     * Returns the hosts current time.
+     * Returns the hosts current time in unix timestamp format.
      *
-     * @return string
+     * @return int
      */
     public function getCurrentTime()
     {
-        return $this->getFirstAttribute($this->schema->currentTime());
+        $time = $this->getFirstAttribute($this->schema->currentTime());
+
+        return DateTime::createFromFormat($this->timestampFormat, $time)
+            ->getTimestamp();
     }
 
     /**
@@ -24,19 +27,8 @@ class RootDse extends Model
     public function getCurrentTimeDate()
     {
         return (new DateTime())
-            ->setTimestamp($this->getCurrentTimeTimestamp())
+            ->setTimestamp($this->getCurrentTime())
             ->format($this->dateFormat);
-    }
-
-    /**
-     * Returns the hosts current time in unix timestamp format.
-     *
-     * @return int
-     */
-    public function getCurrentTimeTimestamp()
-    {
-        return DateTime::createFromFormat($this->timestampFormat, $this->getCurrentTime())
-            ->getTimestamp();
     }
 
     /**

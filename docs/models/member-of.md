@@ -5,7 +5,7 @@ The following models utilize the trait `Adldap\Models\Traits\HasMemberOfTrait`, 
 - [Group](docs/group.md)
 - [User](docs/user.md)
 
-## Retrieving the models groups
+## Getting the models groups
 
 To retrieve groups a model is apart of, call the `getGroups()` method:
 
@@ -32,7 +32,7 @@ To recursively retrieve groups of groups that the model is apart of, pass in `tr
 $groups = $user->getGroups($recursive = true);
 ```
 
-## Retrieving only group names
+## Getting only group names
 
 To retrieve the group names the model is apart of, call the `getGroupNames()` method:
 

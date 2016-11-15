@@ -20,6 +20,7 @@ class DomainConfiguration
     protected $options = [
         'domain_controllers' => [],
         'timeout' => 5,
+        'version' => 3,
         'port' => ConnectionInterface::PORT,
         'base_dn' => '',
         'use_ssl' => false,

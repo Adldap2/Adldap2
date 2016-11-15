@@ -257,7 +257,7 @@ class Provider implements ProviderInterface
         }
 
         $this->connection->setOptions([
-            LDAP_OPT_PROTOCOL_VERSION => 3,
+            LDAP_OPT_PROTOCOL_VERSION => $this->configuration->get('version'),
             LDAP_OPT_NETWORK_TIMEOUT => $this->configuration->get('timeout'),
             LDAP_OPT_REFERRALS => $this->configuration->get('follow_referrals')
         ]);

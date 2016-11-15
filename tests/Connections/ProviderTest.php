@@ -177,6 +177,7 @@ class ProviderTest extends TestCase
             ->shouldReceive('get')->withArgs(['port'])->once()->andReturn('389')
             ->shouldReceive('get')->withArgs(['use_ssl'])->once()->andReturn(false)
             ->shouldReceive('get')->withArgs(['use_tls'])->once()->andReturn(false)
+            ->shouldReceive('get')->withArgs(['version'])->once()->andReturn(3)
             ->shouldReceive('get')->withArgs(['timeout'])->once()->andReturn(5)
             ->shouldReceive('get')->withArgs(['follow_referrals'])->andReturn(false);
 

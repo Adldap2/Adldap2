@@ -5,6 +5,13 @@
 Upgrading to `v7` from `v6` is quite painless, but due to the removal of an
 interface and class, a major release tag is required to follow semver.
 
+#### Adldap\Models\User & Adldap\Models\Group
+
+##### -Removed
+
+- The method `getMemberOf()` has been removed in favor of the `getGroups()` method
+- The methdo `getMemberOfNames()` has been removed in favor of the `getGroupNames()` method
+
 #### Adldap\Connections\Manager
 
 ##### - Removed

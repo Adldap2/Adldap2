@@ -68,6 +68,8 @@ trait HasMemberOfTrait
      * are retrieved and then merged with
      * the resulting collection.
      *
+     * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
+     *
      * @param array $fields
      * @param bool  $recursive
      *
@@ -75,9 +77,21 @@ trait HasMemberOfTrait
      */
     public function getGroups($fields = [], $recursive = false)
     {
-        $groups = $this->getMemberOf($fields);
+        $dns = $this->getAttribute($this->getSchema()->memberOf());
 
-        if ($recursive === true) {
+        $dns = is_array($dns) ? $dns : [];
+
+        $query = $this->getQuery()->newInstance();
+
+        $groups = $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
+            return $query->select($fields)->findByDn($dn);
+        })->filter(function ($group) {
+            return $group instanceof Group;
+        });
+
+        if ($recursive) {
+            // If recursive results are requested, we'll ask each group
+            // for their groups, and merge the resulting collection.
             foreach ($groups as $group) {
                 $groups = $groups->merge($group->getGroups($fields, $recursive));
             }
@@ -104,42 +118,6 @@ trait HasMemberOfTrait
         })->toArray();
 
         return array_unique($names);
-    }
-
-    /**
-     * Returns an array of groups the model is a member of.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
-     *
-     * @param array $fields
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getMemberOf($fields = [])
-    {
-        $dns = $this->getAttribute($this->getSchema()->memberOf());
-
-        $dns = is_array($dns) ? $dns : [];
-
-        $query = $this->getQuery()->newInstance();
-
-        return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
-            return $query->select($fields)->findByDn($dn);
-        })->filter(function ($group) {
-            return $group instanceof Group;
-        });
-    }
-
-    /**
-     * Returns the models memberOf names only.
-     *
-     * @return array
-     */
-    public function getMemberOfNames()
-    {
-        return $this->getMemberOf()->map(function (Group $group) {
-            return $group->getCommonName();
-        })->toArray();
     }
 
     /**

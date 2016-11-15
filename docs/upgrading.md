@@ -2,15 +2,29 @@
 
 ## Upgrading to v7 from v6
 
-Upgrading to `v7` from `v6` is quite painless, but due to the removal of an
-interface and class, a major release tag is required to follow semver.
+Due to the changes below, as well as interface and exception namespace
+modifications, a major version is required to follow semver.
+
+### Models
 
 #### Adldap\Models\User & Adldap\Models\Group
 
 ##### -Removed
 
 - The method `getMemberOf()` has been removed in favor of the `getGroups()` method
-- The methdo `getMemberOfNames()` has been removed in favor of the `getGroupNames()` method
+- The method `getMemberOfNames()` has been removed in favor of the `getGroupNames()` method
+
+#### Adldap\Models\RootDse
+
+##### Changed
+
+- The method `getCurrentTime()` now returns unix time instead of the raw time string
+
+##### Removed
+
+- The method `getCurrentTimeTimestamp()` has been removed in favor of the `getCurrentTime()` method
+
+### Connections
 
 #### Adldap\Connections\Manager
 
@@ -22,6 +36,17 @@ interface and class, a major release tag is required to follow semver.
 ##### - Changed
 
 - All of the `Manager` responsibilities are now implemented in the `Adldap\Adldap` class.
+
+### Queries
+
+#### Adldap\Query\Builder
+
+##### - Changed
+
+- When paginating results, an `Adldap\Objects\Paginator` instance will
+now always be returned even if no results are found.
+
+### Adldap instance
 
 #### Adldap\Adldap
 
@@ -48,13 +73,6 @@ $adldap = new Adldap($providers);
 ```
 
 - The method `remove($name)` has been renamed to `removeProvider($name)`
-
-#### Adldap\Query\Builder
-
-##### - Changed
-
-- When paginating results, an `Adldap\Objects\Paginator` instance will
-now always be returned even if no results are found.
 
 ## Upgrading to v6 from v5.2
 

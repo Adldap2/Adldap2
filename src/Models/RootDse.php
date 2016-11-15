@@ -23,7 +23,9 @@ class RootDse extends Model
      */
     public function getCurrentTimeDate()
     {
-        return (new DateTime())->setTimestamp($this->getCurrentTimeTimestamp())->format($this->dateFormat);
+        return (new DateTime())
+            ->setTimestamp($this->getCurrentTimeTimestamp())
+            ->format($this->dateFormat);
     }
 
     /**
@@ -33,7 +35,8 @@ class RootDse extends Model
      */
     public function getCurrentTimeTimestamp()
     {
-        return DateTime::createFromFormat($this->timestampFormat, $this->getCurrentTime())->getTimestamp();
+        return DateTime::createFromFormat($this->timestampFormat, $this->getCurrentTime())
+            ->getTimestamp();
     }
 
     /**

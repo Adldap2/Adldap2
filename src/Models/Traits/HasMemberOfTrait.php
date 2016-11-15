@@ -21,9 +21,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $query = $this->getQuery()->newInstance();
-
-            $group = $query->findByDn($group);
+            $group = $this->getQuery()->newInstance()->findByDn($group);
         }
 
         if ($group instanceof Group) {
@@ -47,9 +45,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $query = $this->getQuery()->newInstance();
-
-            $group = $query->findByDn($group);
+            $group = $this->getQuery()->newInstance()->findByDn($group);
         }
 
         if ($group instanceof Group) {

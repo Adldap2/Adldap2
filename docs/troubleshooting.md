@@ -70,3 +70,7 @@ $rootDse = $provider->search()->getRootDse();
 // The returned string will be your base DN.
 var_dump($rootDse->rootdomainnamingcontext);
 ```
+
+If you're sure your base DN is set correctly, check your configuration and disable `follow_referrals`.
+
+This option is also a candidate for issues such as this.

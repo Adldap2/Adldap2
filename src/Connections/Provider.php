@@ -219,8 +219,8 @@ class Provider implements ProviderInterface
     /**
      * Creates a new model factory.
      *
-     * @param \Adldap\Query\Builder                     $builder
-     * @param \Adldap\Schemas\SchemaInterface $schema
+     * @param Builder         $builder
+     * @param SchemaInterface $schema
      *
      * @return \Adldap\Models\Factory
      */

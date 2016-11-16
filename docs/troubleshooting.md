@@ -61,3 +61,12 @@ $results = $provider->search()
     ->setDn('ou=Office,dc=corp,dc=acme,dc=org')
     ->get();
 ```
+
+To verify your base DN, query for the Root DSE record on your AD server:
+
+```php
+$rootDse = $provider->search()->getRootDse();
+
+// The returned string will be your base DN.
+var_dump($rootDse->rootdomainnamingcontext);
+```

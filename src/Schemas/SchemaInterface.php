@@ -988,6 +988,15 @@ interface SchemaInterface
     public function proxyAddresses();
 
     /**
+     * The DN of the root domain NC for this DC's forest.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/cc223262.aspx
+     *
+     * @return mixed
+     */
+    public function rootDomainNamingContext();
+
+    /**
      * The attribute.
      *
      * @return mixed

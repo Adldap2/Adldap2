@@ -70,4 +70,14 @@ class RootDse extends Model
     {
         return $this->getFirstAttribute($this->schema->serverName());
     }
+
+    /**
+     * Returns the DN of the root domain NC for this DC's forest.
+     *
+     * @return mixed
+     */
+    public function getRootDomainNamingContext()
+    {
+        return $this->getFirstAttribute($this->schema->rootDomainNamingContext());
+    }
 }

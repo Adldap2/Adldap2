@@ -879,6 +879,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function rootDomainNamingContext()
+    {
+        return 'rootdomainnamingcontext';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function schemaNamingContext()
     {
         return 'schemanamingcontext';

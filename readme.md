@@ -18,6 +18,11 @@
  - [Schema](docs/schema.md)
  - [Upgrading](docs/upgrading.md)
  - [Troubleshooting](docs/troubleshooting.md)
+ - Models
+    - [User](docs/models/user.md)
+    - [Group](docs/models/group.md)
+    - [Computer](docs/models/computer.md)
+    - [RootDse](docs/models/root-dse.md)
 
 ## Description
 

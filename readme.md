@@ -8,6 +8,7 @@
 [![License](https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 
 ## Index
+
  - [Quick Start](docs/quick-start.md)
  - [Configuration](docs/configuration.md)
  - [Connecting](docs/connecting.md)

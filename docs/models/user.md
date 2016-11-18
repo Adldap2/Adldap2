@@ -20,8 +20,6 @@ $user->getDepartment();
 
 $user->getFirstName();
 
-$user->getFirstName();
-
 $user->getLastName();
 
 $user->getInfo();

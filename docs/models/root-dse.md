@@ -20,3 +20,14 @@ $context = $rootDse->getSchemaNamingContext();
 // Returns 'cn=Schema,cn=Configuration,dc=corp,dc=acme,dc=org'
 echo $context;
 ```
+
+## Getting the root domain naming context:
+
+To get the Root DSE domain naming context, call the `getRootDomainNamingContext()`:
+
+```php
+$context = $rootDse->getRootDomainNamingContext();
+
+// Returns 'dc=corp,dc=acme,dc=org'
+echo $context;
+```

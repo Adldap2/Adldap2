@@ -76,6 +76,10 @@ $user->getThumbnail();
 
 $user->getThumbnailEncoded();
 
+$user->getJpegPhoto();
+
+$user->getJpegPhotoEncoded();
+
 $user->getManager();
 
 $user->getEmployeeId();

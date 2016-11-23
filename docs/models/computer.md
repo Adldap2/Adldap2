@@ -35,3 +35,13 @@ $computer = $provider->search()->computers()->find('ACME-DESKTOP001');
 // Returns 'ACME-DESKTOP001.corp.acme.org'
 $computer->getDnsHostName();
 ```
+
+## Getting Log off / Log on times
+
+```php
+$computer->getLastLogOff();
+
+$computer->getLastLogon();
+
+$computer->getLastLogonTimestamp();
+```

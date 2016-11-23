@@ -776,7 +776,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users jpeg 
+     * Returns the users jpeg photo.
      *
      * @return null|string
      */

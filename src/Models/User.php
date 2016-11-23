@@ -756,13 +756,35 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users thumbnail photo base 64 encoded.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getThumbnailEncoded()
     {
         $thumb = $this->getThumbnail();
 
         return is_null($thumb) ? $thumb : 'data:image/jpeg;base64,'.base64_encode($thumb);
+    }
+
+    /**
+     * Returns the users jpeg photo.
+     *
+     * @return mixed
+     */
+    public function getJpegPhoto()
+    {
+        return $this->getFirstAttribute($this->schema->jpegPhoto());
+    }
+
+    /**
+     * Returns the users jpeg 
+     *
+     * @return null|string
+     */
+    public function getJpegPhotoEncoded()
+    {
+        $jpeg = $this->getJpegPhoto();
+
+        return is_null($jpeg) ? $jpeg : 'data:image/jpeg;base64,'.base64_encode($jpeg);
     }
 
     /**

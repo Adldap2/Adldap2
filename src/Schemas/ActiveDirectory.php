@@ -327,6 +327,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function jpegPhoto()
+    {
+        return 'jpegphoto';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function lastLogOff()
     {
         return 'lastlogoff';

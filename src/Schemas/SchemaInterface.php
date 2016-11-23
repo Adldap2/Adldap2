@@ -377,6 +377,15 @@ interface SchemaInterface
     public function isCriticalSystemObject();
 
     /**
+     * Used to store one or more images of a person using the JPEG File Interchange Format [JFIF].
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms676813(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function jpegPhoto();
+
+    /**
      * This attribute is not used.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms676822(v=vs.85).aspx

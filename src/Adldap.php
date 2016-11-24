@@ -7,6 +7,7 @@ use Adldap\Connections\Provider;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 class Adldap implements AdldapInterface
 {
@@ -39,7 +40,7 @@ class Adldap implements AdldapInterface
      */
     public function addProvider($name, $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null)
     {
-        if (is_array($provider)) {
+        if (is_array($provider) || $provider instanceof DomainConfiguration) {
             $provider = new Provider($provider, $connection, $schema);
         }
 
@@ -49,7 +50,9 @@ class Adldap implements AdldapInterface
             return $this;
         }
 
-        throw new InvalidArgumentException("You must provide a configuration array or an instance of ProviderInterface.");
+        throw new InvalidArgumentException(
+            "You must provide a configuration array or an instance of Adldap\Connections\ProviderInterface."
+        );
     }
 
     /**

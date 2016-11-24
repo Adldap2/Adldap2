@@ -5,7 +5,8 @@ namespace Adldap\Tests;
 use Adldap\Adldap;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
-use Adldap\AdldapException;
+use Adldap\Configuration\DomainConfiguration;
+use Adldap\Connections\ProviderInterface;
 
 class AdldapTest extends TestCase
 {
@@ -20,6 +21,24 @@ class AdldapTest extends TestCase
 
         $this->assertEquals($providers['first'], $ad->getProvider('first'));
         $this->assertEquals($providers['second'], $ad->getProvider('second'));
+    }
+
+    public function test_add_provider_with_configuration_instance()
+    {
+        $ad = new Adldap();
+
+        $ad->addProvider('first', new DomainConfiguration());
+
+        $this->assertInstanceOf(ProviderInterface::class, $ad->getProvider('first'));
+    }
+
+    public function test_add_provider_with_configuration_array()
+    {
+        $ad = new Adldap();
+
+        $ad->addProvider('first', []);
+
+        $this->assertInstanceOf(ProviderInterface::class, $ad->getProvider('first'));
     }
 
     public function test_get_providers()
@@ -57,15 +76,6 @@ class AdldapTest extends TestCase
         $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
     }
 
-    public function test_invalid_default_provider()
-    {
-        $ad = new Adldap();
-
-        $this->setExpectedException(AdldapException::class);
-
-        $ad->getDefaultProvider();
-    }
-
     public function test_connect()
     {
         $connection = $this->mock(Ldap::class);
@@ -83,5 +93,25 @@ class AdldapTest extends TestCase
         $ad->addProvider('default', $provider);
 
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
+    }
+
+    /**
+     * @expectedException \Adldap\AdldapException
+     */
+    public function test_invalid_default_provider()
+    {
+        $ad = new Adldap();
+
+        $ad->getDefaultProvider();
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_invalid_provider()
+    {
+        $ad = new Adldap();
+
+        $ad->addProvider('first', 'invalid');
     }
 }

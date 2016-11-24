@@ -1,0 +1,2 @@
+# HasMemberOfTrait
+

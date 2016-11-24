@@ -2,7 +2,11 @@
 
 namespace Adldap;
 
+use InvalidArgumentException;
+use Adldap\Connections\Provider;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ProviderInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Adldap implements AdldapInterface
 {
@@ -33,11 +37,19 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function addProvider($name, ProviderInterface $provider)
+    public function addProvider($name, $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null)
     {
-        $this->providers[$name] = $provider;
+        if (is_array($provider)) {
+            $provider = new Provider($provider, $connection, $schema);
+        }
 
-        return $this;
+        if ($provider instanceof ProviderInterface) {
+            $this->providers[$name] = $provider;
+
+            return $this;
+        }
+
+        throw new InvalidArgumentException("You must provide a configuration array or an instance of ProviderInterface.");
     }
 
     /**

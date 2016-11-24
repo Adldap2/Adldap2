@@ -2,19 +2,23 @@
 
 namespace Adldap;
 
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ProviderInterface;
+use Adldap\Connections\ConnectionInterface;
 
 interface AdldapInterface
 {
     /**
      * Add a provider by the specified name.
      *
-     * @param string            $name
-     * @param ProviderInterface $provider
+     * @param string                  $name
+     * @param ProviderInterface|array $provider
+     * @param ConnectionInterface     $connection
+     * @param SchemaInterface         $schema
      *
      * @return AdldapInterface
      */
-    public function addProvider($name, ProviderInterface $provider);
+    public function addProvider($name,  $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null);
 
     /**
      * Returns all of the connection providers.

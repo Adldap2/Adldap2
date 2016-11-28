@@ -23,6 +23,14 @@ class OpenLDAP extends ActiveDirectory
     /**
      * {@inheritdoc}
      */
+    public function objectClassGroup()
+    {
+        return 'groupOfNames';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectGuid()
     {
         return 'entryuuid';

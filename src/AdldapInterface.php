@@ -17,6 +17,8 @@ interface AdldapInterface
      * @param SchemaInterface         $schema
      *
      * @return AdldapInterface
+     *
+     * @throws \InvalidArgumentException
      */
     public function addProvider($name,  $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null);
 

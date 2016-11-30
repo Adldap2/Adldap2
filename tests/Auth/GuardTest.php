@@ -39,6 +39,7 @@ class GuardTest extends TestCase
             ->shouldReceive('get')->withArgs(['account_suffix'])->once()
             ->shouldReceive('get')->withArgs(['admin_username'])->once()
             ->shouldReceive('get')->withArgs(['admin_password'])->once()
+            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()
             ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once();
 
         $ldap = $this->mock(Ldap::class);
@@ -98,7 +99,9 @@ class GuardTest extends TestCase
         $config
             ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
             ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
-            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn('@admin-suffix');
+            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()->andReturn('')
+            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn('@admin-suffix')
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('');
 
         $ldap = $this->mock(Ldap::class);
 
@@ -116,7 +119,9 @@ class GuardTest extends TestCase
         $config
             ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
             ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
+            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()->andReturn(null)
             ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn(null)
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('')
             ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('@account-suffix');
 
         $ldap = $this->mock(Ldap::class);

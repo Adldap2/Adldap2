@@ -68,8 +68,8 @@ class Guard implements GuardInterface
         if ($username) {
             // If the username isn't empty, we'll append the configured
             // account prefix and suffix to bind to the LDAP server.
-            $prefix = is_null($prefix) ? $this->configuration->get('account_prefix') : $prefix;
-            $suffix = is_null($suffix) ? $this->configuration->get('account_suffix') : $suffix;
+            $prefix = $prefix ?: $this->configuration->get('account_prefix');
+            $suffix = $suffix ?: $this->configuration->get('account_suffix');
 
             $username = $prefix.$username.$suffix;
         }
@@ -89,15 +89,13 @@ class Guard implements GuardInterface
         $credentials = [
             $this->configuration->get('admin_username'),
             $this->configuration->get('admin_password'),
+            $this->configuration->get('admin_account_prefix'),
             $this->configuration->get('admin_account_suffix'),
         ];
 
-        list($username, $password, $suffix) = array_pad($credentials, 3, null);
+        list($username, $password, $prefix, $suffix) = array_pad($credentials, 4, null);
 
-        // Use the user account suffix if no administrator account suffix is given.
-        $suffix = $suffix ?: $this->configuration->get('account_suffix');
-
-        $this->bind($username, $password, '', $suffix);
+        $this->bind($username, $password, $prefix, $suffix);
     }
 
     /**

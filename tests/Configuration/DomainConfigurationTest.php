@@ -31,9 +31,10 @@ class DomainConfigurationTest extends TestCase
             'follow_referrals'   => false,
             'admin_username'     => 'username',
             'admin_password'     => 'password',
-            'admin_account_suffix' => 'suffix',
-            'account_suffix' => 'suffix',
+            'admin_account_prefix' => 'admin-prefix',
+            'admin_account_suffix' => 'admin-suffix',
             'account_prefix' => 'prefix',
+            'account_suffix' => 'suffix',
             'use_ssl'            => true,
             'use_tls'            => false,
         ]);
@@ -43,7 +44,8 @@ class DomainConfigurationTest extends TestCase
         $this->assertEquals(['dc1', 'dc2'], $config->get('domain_controllers'));
         $this->assertEquals('username', $config->get('admin_username'));
         $this->assertEquals('password', $config->get('admin_password'));
-        $this->assertEquals('suffix', $config->get('admin_account_suffix'));
+        $this->assertEquals('admin-prefix', $config->get('admin_account_prefix'));
+        $this->assertEquals('admin-suffix', $config->get('admin_account_suffix'));
         $this->assertEquals('suffix', $config->get('account_suffix'));
         $this->assertEquals('prefix', $config->get('account_prefix'));
         $this->assertTrue($config->get('use_ssl'));

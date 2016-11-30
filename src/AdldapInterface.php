@@ -11,8 +11,8 @@ interface AdldapInterface
     /**
      * Add a provider by the specified name.
      *
+     * @param ProviderInterface|array $configuration
      * @param string                  $name
-     * @param ProviderInterface|array $provider
      * @param ConnectionInterface     $connection
      * @param SchemaInterface         $schema
      *
@@ -20,7 +20,7 @@ interface AdldapInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function addProvider($name,  $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null);
+    public function addProvider($configuration = [], $name, ConnectionInterface $connection = null, SchemaInterface $schema = null);
 
     /**
      * Returns all of the connection providers.

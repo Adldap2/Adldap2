@@ -27,7 +27,7 @@ class AdldapTest extends TestCase
     {
         $ad = new Adldap();
 
-        $ad->addProvider('first', new DomainConfiguration());
+        $ad->addProvider(new DomainConfiguration(), 'first');
 
         $this->assertInstanceOf(ProviderInterface::class, $ad->getProvider('first'));
     }
@@ -36,7 +36,7 @@ class AdldapTest extends TestCase
     {
         $ad = new Adldap();
 
-        $ad->addProvider('first', []);
+        $ad->addProvider([], 'first');
 
         $this->assertInstanceOf(ProviderInterface::class, $ad->getProvider('first'));
     }
@@ -61,7 +61,7 @@ class AdldapTest extends TestCase
             'default' => $provider,
         ]);
 
-        $this->assertInstanceOf(get_class($provider), $ad->getProvider('default'));
+        $this->assertEquals($provider, $ad->getProvider('default'));
     }
 
     public function test_get_default_provider()
@@ -70,7 +70,7 @@ class AdldapTest extends TestCase
 
         $provider = new Provider();
 
-        $ad->addProvider('new', $provider)
+        $ad->addProvider($provider, 'new')
             ->setDefaultProvider('new');
 
         $this->assertInstanceOf(Provider::class, $ad->getDefaultProvider());
@@ -90,7 +90,7 @@ class AdldapTest extends TestCase
 
         $provider = new Provider([], $connection);
 
-        $ad->addProvider('default', $provider);
+        $ad->addProvider($provider);
 
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }

@@ -30,22 +30,22 @@ class Adldap implements AdldapInterface
      */
     public function __construct(array $providers = [])
     {
-        foreach ($providers as $name => $provider) {
-            $this->addProvider($name, $provider);
+        foreach ($providers as $name => $configuration) {
+            $this->addProvider($configuration, $name);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addProvider($name, $provider = [], ConnectionInterface $connection = null, SchemaInterface $schema = null)
+    public function addProvider($configuration = [], $name = 'default', ConnectionInterface $connection = null, SchemaInterface $schema = null)
     {
-        if (is_array($provider) || $provider instanceof DomainConfiguration) {
-            $provider = new Provider($provider, $connection, $schema);
+        if (is_array($configuration) || $configuration instanceof DomainConfiguration) {
+            $configuration = new Provider($configuration, $connection, $schema);
         }
 
-        if ($provider instanceof ProviderInterface) {
-            $this->providers[$name] = $provider;
+        if ($configuration instanceof ProviderInterface) {
+            $this->providers[$name] = $configuration;
 
             return $this;
         }

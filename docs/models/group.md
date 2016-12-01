@@ -1,5 +1,8 @@
 # The Group Model
 
+> **Note**: This model contains the trait `HasMemberOfTrait`. For more information, visit the documentation:
+> [HasMemberOfTrait](docs/models/traits/has-member-of.md)
+
 ## Getting a groups members
 
 When you receive a `Group` model instance, it will contain a `member`

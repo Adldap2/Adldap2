@@ -109,7 +109,7 @@ trait HasMemberOfTrait
      */
     public function getGroupNames($recursive = false)
     {
-        $names = $this->getGroups([], $recursive)->map(function (Group $group) {
+        $names = $this->getGroups([$this->getSchema()->commonName()], $recursive)->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
 

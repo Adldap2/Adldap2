@@ -151,6 +151,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function departmentNumber()
+    {
+        return 'departmentnumber';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function description()
     {
         return 'description';
@@ -882,6 +890,14 @@ class ActiveDirectory implements SchemaInterface
     public function proxyAddresses()
     {
         return 'proxyaddresses';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function roomNumber()
+    {
+        return 'roomnumber';
     }
 
     /**

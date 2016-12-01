@@ -101,30 +101,6 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users title.
-     *
-     * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->getFirstAttribute($this->schema->title());
-    }
-
-    /**
-     * Sets the users title.
-     *
-     * @param string $title
-     *
-     * @return User
-     */
-    public function setTitle($title)
-    {
-        return $this->setFirstAttribute($this->schema->title(), $title);
-    }
-
-    /**
      * Returns the users department.
      *
      * https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
@@ -146,6 +122,52 @@ class User extends Entry implements Authenticatable
     public function setDepartment($department)
     {
         return $this->setFirstAttribute($this->schema->department(), $department);
+    }
+
+    /**
+     * Returns the department number.
+     *
+     * @return string
+     */
+    public function getDepartmentNumber()
+    {
+        return $this->getFirstAttribute($this->schema->departmentNumber());
+    }
+
+    /**
+     * Sets the department number.
+     *
+     * @param string $number
+     *
+     * @return User
+     */
+    public function setDepartmentNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->departmentNumber(), $number);
+    }
+
+    /**
+     * Returns the users title.
+     *
+     * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getFirstAttribute($this->schema->title());
+    }
+
+    /**
+     * Sets the users title.
+     *
+     * @param string $title
+     *
+     * @return User
+     */
+    public function setTitle($title)
+    {
+        return $this->setFirstAttribute($this->schema->title(), $title);
     }
 
     /**
@@ -813,7 +835,7 @@ class User extends Entry implements Authenticatable
     /**
      * Return the employee ID.
      *
-     * @return User
+     * @return string
      */
     public function getEmployeeId()
     {
@@ -830,6 +852,50 @@ class User extends Entry implements Authenticatable
     public function setEmployeeId($employeeId)
     {
         return $this->setFirstAttribute($this->schema->employeeId(), $employeeId);
+    }
+
+    /**
+     * Returns the employee number.
+     *
+     * @return string
+     */
+    public function getEmployeeNumber()
+    {
+        return $this->getFirstAttribute($this->schema->employeeNumber());
+    }
+
+    /**
+     * Sets the employee number.
+     *
+     * @param string $number
+     *
+     * @return User
+     */
+    public function setEmployeeNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->employeeNumber(), $number);
+    }
+
+    /**
+     * Returns the room number.
+     *
+     * @return string
+     */
+    public function getRoomNumber()
+    {
+        return $this->getFirstAttribute($this->schema->roomNumber());
+    }
+
+    /**
+     * Sets the room number.
+     *
+     * @param string $number
+     *
+     * @return User
+     */
+    public function setRoomNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->roomNumber(), $number);
     }
 
     /**

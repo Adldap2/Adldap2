@@ -175,6 +175,15 @@ interface SchemaInterface
     public function department();
 
     /**
+     * Identifies a department within an organization.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms675491(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function departmentNumber();
+
+    /**
      * Contains the description to display for an object. This value is restricted
      * as single-valued for backward compatibility in some cases but
      * is allowed to be multi-valued in others.
@@ -995,6 +1004,15 @@ interface SchemaInterface
      * @return string
      */
     public function proxyAddresses();
+
+    /**
+     * The room number of an object.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679615(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function roomNumber();
 
     /**
      * The DN of the root domain NC for this DC's forest.

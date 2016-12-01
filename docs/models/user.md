@@ -1,5 +1,8 @@
 # The User Model
 
+> **Note**: This model contains the trait `HasMemberOfTrait`. For more information, visit the documentation:
+> [HasMemberOfTrait](docs/models/traits/has-member-of.md)
+
 ## List of Available 'Getter' Methods:
 
 There's a ton of available getter methods for the User model. Below is a list for a quick reference.
@@ -83,6 +86,12 @@ $user->getJpegPhotoEncoded();
 $user->getManager();
 
 $user->getEmployeeId();
+
+$user->getEmployeeNumber();
+
+$user->getRoomNumber();
+
+$user->getDepartmentNumber();
 
 $user->getPersonalTitle();
 ```

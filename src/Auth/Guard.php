@@ -86,16 +86,12 @@ class Guard implements GuardInterface
      */
     public function bindAsAdministrator()
     {
-        $credentials = [
+        $this->bind(
             $this->configuration->get('admin_username'),
             $this->configuration->get('admin_password'),
             $this->configuration->get('admin_account_prefix'),
-            $this->configuration->get('admin_account_suffix'),
-        ];
-
-        list($username, $password, $prefix, $suffix) = array_pad($credentials, 4, null);
-
-        $this->bind($username, $password, $prefix, $suffix);
+            $this->configuration->get('admin_account_suffix')
+        );
     }
 
     /**

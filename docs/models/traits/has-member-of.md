@@ -59,6 +59,50 @@ the first parameter to retrieve results recursively.
 $names = $user->getGroupNames($recursive = true);
 ```
 
+## Checking if the Model is apart of a Group
+
+To check if a model is apart of a certain group, use the `inGroup()` method:
+
+```php
+$group = $provider->search()->groups()->find('Office');
+
+if ($user->inGroup($office)) {
+
+    //
+
+}
+```
+
+You can also check for multiple memberships by passing in an array of groups:
+
+```php
+$groups = $provider->search()->groups()->findManyBy('cn', ['Accounting', 'Office']));
+
+if ($user->inGroup($groups->toArray()) {
+    
+    // This user is apart of the 'Accounting' and 'Office' group!
+
+}
+```
+
+> **Note**: Much like the other methods above, you'll need to provide a `$recursive`
+> flag to the `inGroup()` method if you'd like recursive results included.
+
+We can also provide distinguished names instead of Group model instances:
+
+```php
+$dns = [
+    'cn=Accounting,ou=Groups,dc=acme,dc=org',
+    'cn=Office,ou=Groups,dc=acme,dc=org',
+];
+
+if ($user->inGroup($dns, $recursive = true)) {
+    
+    //
+
+}
+```
+
 ## Adding a Group
 
 To add the model to a specific group, call the `addGroup()` method:

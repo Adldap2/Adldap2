@@ -76,7 +76,7 @@ if ($user->inGroup($office)) {
 You can also check for multiple memberships by passing in an array of groups:
 
 ```php
-$groups = $provider->search()->groups()->findManyBy('cn', ['Accounting', 'Office']));
+$groups = $provider->search()->findManyBy('cn', ['Accounting', 'Office']));
 
 if ($user->inGroup($groups->toArray()) {
     

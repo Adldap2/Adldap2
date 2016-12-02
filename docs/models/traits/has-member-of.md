@@ -103,6 +103,21 @@ if ($user->inGroup($dns, $recursive = true)) {
 }
 ```
 
+Or, we can also just provide the name(s) of the group(s).
+
+```php
+$names = [
+    'Accounting',
+    'Office',
+];
+
+if ($user->inGroup($names, $recursive = true)) {
+    
+    //
+
+}
+```
+
 ## Adding a Group
 
 To add the model to a specific group, call the `addGroup()` method:

@@ -4,6 +4,7 @@ namespace Adldap\Models\Traits;
 
 use Adldap\Utilities;
 use Adldap\Models\Group;
+use Illuminate\Support\Collection;
 
 trait HasMemberOfTrait
 {
@@ -127,6 +128,12 @@ trait HasMemberOfTrait
     public function inGroup($group, $recursive = false)
     {
         $memberOf = $this->getGroups([], $recursive);
+
+        if ($group instanceof Collection) {
+            // If we've been given a collection then we'll convert
+            // it to an array to normalize the value.
+            $group = $group->toArray();
+        }
 
         $groups = is_array($group) ? $group : [$group];
 

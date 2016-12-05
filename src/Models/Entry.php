@@ -8,12 +8,12 @@ use Adldap\Utilities;
 class Entry extends Model
 {
     /**
-     * Returns true / false if the current model is writeable
+     * Returns true / false if the current model is writable
      * by checking its instance type integer.
      *
      * @return bool
      */
-    public function isWriteable()
+    public function isWritable()
     {
         return (int) $this->getInstanceType() === 4;
     }

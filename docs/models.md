@@ -288,22 +288,72 @@ if ($user->delete()) {
 }
 ```
 
-## Misc
+## Getters
+
+All models extend from a base model which contain the following 'getter' methods:
+
 
 ```php
+$model->getName();
+
+$model->getAccountName();
+
+$model->getAccountType();
+
+$model->getCreatedAt();
+
+$model->getCreatedAtDate();
+
+$model->getCreatedAtTimestamp();
+
+$model->getUpdatedAt();
+
+$model->getUpdatedAtDate();
+
+$model->getUpdatedAtTimestamp();
+
+$model->getObjectClass();
+
+$model->getObjectCategory();
+
+$model->getObjectCategoryArray();
+
+$model->getObjectCategoryDn();
+
+// Returns the models SID in binary.
+$model->getObjectSid();
+
+// Returns the models GUID in binary.
+$model->getObjectGuid();
+
+// Returns the models SID in a string.
+$model->getConvertedSid();
+
+// Returns the models GUID in a string.
+$model->getConvertedGuid();
+
+$model->getPrimaryGroupId();
+```
+
+## Misc Methods
+
+```php
+// Checking if the model is writable in AD.
+if ($model->isWritable()) {
+    // This model is writable.
+}
+
 // Checking if a model has an attribute.
-if ($user->hasAttribute('cn')) {
-    // This user has a common name.
+if ($model->hasAttribute('cn')) {
+    // This model has a common name.
 }
 
 // Counting the models attributes.
-$count = $user->countAttributes();
+$count = $model->countAttributes();
 
 // Retrieving the models modified attributes.
-$attributes = $user->getDirty();
+$attributes = $model->getDirty();
 
-// Retrieving the users original attributes (before modifications).
-$attributes = $user->getOriginal();
+// Retrieving the models original attributes (before modifications).
+$attributes = $model->getOriginal();
 ```
-
-

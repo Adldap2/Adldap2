@@ -790,6 +790,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes the current entry.
      *
+     * Throws a ModelNotFoundException if the current model does not exist.
+     *
+     * Throws a AdldapException if the model does not have a distinguished name.
+     *
      * @throws ModelNotFoundException
      * @throws AdldapException
      *

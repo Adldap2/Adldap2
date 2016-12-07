@@ -15,15 +15,14 @@
  - [Authenticating](docs/authenticating.md)
  - [Query Builder (Searching)](docs/query-builder.md)
  - [Models](docs/models.md)
- - [Working with DN's](docs/distinguished-names.md)
- - [Schema](docs/schema.md)
- - [Upgrading](docs/upgrading.md)
- - [Troubleshooting](docs/troubleshooting.md)
- - Models
     - [User](docs/models/user.md)
     - [Group](docs/models/group.md)
     - [Computer](docs/models/computer.md)
     - [RootDse](docs/models/root-dse.md)
+ - [Working with DN's](docs/distinguished-names.md)
+ - [Schema](docs/schema.md)
+ - [Upgrading](docs/upgrading.md)
+ - [Troubleshooting](docs/troubleshooting.md)
 
 ## Description
 

@@ -2,7 +2,6 @@
 
 namespace Adldap\Query;
 
-use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Adldap\Utilities;
@@ -1141,14 +1140,14 @@ class Builder
      * @param AbstractBinding $binding
      * @param string          $type
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidBindingType
      *
      * @return Builder
      */
     public function addBinding(AbstractBinding $binding, $type = 'where')
     {
         if (!array_key_exists($type, $this->bindings)) {
-            throw new InvalidArgumentException("Invalid binding type: {$type}.");
+            throw new InvalidBindingType("Invalid binding type: {$type}.");
         }
 
         $this->bindings[$type][] = $binding;
@@ -1206,7 +1205,7 @@ class Builder
      * @param string|null $value
      * @param string      $type
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidBindingType
      *
      * @return Where|OrWhere
      */
@@ -1218,7 +1217,7 @@ class Builder
             case 'or':
                 return new OrWhere($field, $operator, $value);
             default:
-                throw new InvalidArgumentException("Invalid binding type: {$type}.");
+                throw new InvalidBindingType("Invalid binding type: {$type}.");
         }
     }
 

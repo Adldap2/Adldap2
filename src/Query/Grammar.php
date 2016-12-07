@@ -25,20 +25,17 @@ class Grammar
     /**
      * Compiles the Builder instance into an LDAP query string.
      *
-     * @param \Adldap\Query\Builder $builder
+     * @param Builder $builder
      *
      * @return string
      */
     public function compileQuery(Builder $builder)
     {
-        // Retrieve the query 'where' bindings.
-        $wheres = $builder->getWheres();
-
-        // Retrieve the query 'orWhere' bindings.
-        $orWheres = $builder->getOrWheres();
-
-        // Retrieve the query filter bindings.
-        $filters = $builder->getFilters();
+        list($wheres, $orWheres, $filters) = [
+            $builder->getWheres(),
+            $builder->getOrWheres(),
+            $builder->getFilters(),
+        ];
 
         // We'll combine all raw filters together first.
         $query = implode(null, $filters);

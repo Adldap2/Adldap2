@@ -540,15 +540,16 @@ class Builder
     /**
      * Finds a record by its string GUID.
      *
-     * @param string $guid
+     * @param string       $guid
+     * @oaran array|string $columns
      *
      * @return mixed
      */
-    public function findByGuid($guid)
+    public function findByGuid($guid, $columns = [])
     {
         $guid = Utilities::stringGuidToHex($guid);
 
-        return $this->whereRaw([
+        return $this->select($columns)->whereRaw([
             $this->schema->objectGuid() => $guid
         ])->first();
     }

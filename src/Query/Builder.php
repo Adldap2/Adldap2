@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Adldap\Utilities;
@@ -10,8 +11,6 @@ use Adldap\Objects\Paginator;
 use Adldap\Query\Bindings\Filter;
 use Adldap\Query\Bindings\Where;
 use Adldap\Query\Bindings\Select;
-use Adldap\Query\Bindings\OrWhere;
-use Adldap\Query\Bindings\AbstractBinding;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\ModelNotFoundException;
@@ -27,16 +26,28 @@ class Builder
     public $paginated = false;
 
     /**
-     * The query bindings.
+     * The select bindings.
      *
      * @var array
      */
-    protected $bindings = [
-        'select'    => [],
-        'where'     => [],
-        'orWhere'   => [],
-        'filter'    => [],
+    public $selects = [];
+
+    /**
+     * The where bindings.
+     *
+     * @var array
+     */
+    public $wheres = [
+        'and' => [],
+        'or' => [],
     ];
+
+    /**
+     * The filter bindings.
+     *
+     * @var array
+     */
+    public $filters = [];
 
     /**
      * The field to sort search results by.
@@ -578,7 +589,7 @@ class Builder
         $fields = is_array($fields) ? $fields : func_get_args();
 
         foreach ($fields as $field) {
-            $this->addBinding(new Select($field), 'select');
+            $this->selects[] = new Select($field);
         }
 
         return $this;
@@ -596,7 +607,7 @@ class Builder
         $filters = is_array($filters) ? $filters : func_get_args();
 
         foreach ($filters as $filter) {
-            $this->addBinding(new Filter($filter), 'filter');
+            $this->filters[] = new Filter($filter);
         }
 
         return $this;
@@ -609,16 +620,17 @@ class Builder
      * @param string       $operator
      * @param string       $value
      * @param string       $type
+     * @param bool         $raw
      *
      * @return Builder
      */
-    public function where($field, $operator = null, $value = null, $type = 'and')
+    public function where($field, $operator = null, $value = null, $type = 'and', $raw = false)
     {
         if (is_array($field)) {
             // If the column is an array, we will assume it is an array of
             // key-value pairs and can add them each as a where clause.
             foreach ($field as $key => $value) {
-                $this->where($key, Operator::$equals, $value, $type);
+                $this->where($key, Operator::$equals, $value, $type, $raw);
             }
 
             return $this;
@@ -635,14 +647,29 @@ class Builder
             list($value, $operator) = [$operator, '='];
         }
 
-        // We'll construct a new where binding.
-        $binding = $this->newWhereBinding($field, $operator, $value, $type);
+        if (! array_key_exists($type, $this->wheres)) {
+            throw new InvalidArgumentException("Invalid where type: {$type}");
+        }
 
-        // Normalize type.
-        $type = ($type == 'or' ? 'orWhere' : 'where');
+        $this->wheres[$type][] = new Where($field, $operator, $value, $raw);
 
-        // Then add it to the current query builder.
-        return $this->addBinding($binding, $type);
+        return $this;
+    }
+
+    /**
+     * Adds a raw where clause to the current query.
+     *
+     * Values given to this method are not escaped.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereRaw($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'and', $raw = true);
     }
 
     /**
@@ -795,6 +822,22 @@ class Builder
     }
 
     /**
+     * Adds a raw or where clause to the current query.
+     *
+     * Values given to this method are not escaped.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereRaw($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'or', $raw = true);
+    }
+
+    /**
      * Adds an or where has clause to the current query.
      *
      * @param string $field
@@ -940,7 +983,7 @@ class Builder
      */
     public function getSelects()
     {
-        $selects = $this->bindings['select'];
+        $selects = $this->selects;
 
         $schema = $this->schema;
 
@@ -952,46 +995,6 @@ class Builder
         }
 
         return $selects;
-    }
-
-    /**
-     * Returns the filters on the current builder.
-     *
-     * @return array
-     */
-    public function getFilters()
-    {
-        return $this->bindings['filter'];
-    }
-
-    /**
-     * Returns the wheres on the current builder.
-     *
-     * @return array
-     */
-    public function getWheres()
-    {
-        return $this->bindings['where'];
-    }
-
-    /**
-     * Returns the or wheres on the current builder.
-     *
-     * @return array
-     */
-    public function getOrWheres()
-    {
-        return $this->bindings['orWhere'];
-    }
-
-    /**
-     * Returns all of the query builder bindings.
-     *
-     * @return array
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
     }
 
     /**
@@ -1135,41 +1138,6 @@ class Builder
     }
 
     /**
-     * Adds a binding to the current query.
-     *
-     * @param AbstractBinding $binding
-     * @param string          $type
-     *
-     * @throws InvalidBindingType
-     *
-     * @return Builder
-     */
-    public function addBinding(AbstractBinding $binding, $type = 'where')
-    {
-        if (!array_key_exists($type, $this->bindings)) {
-            throw new InvalidBindingType("Invalid binding type: {$type}.");
-        }
-
-        $this->bindings[$type][] = $binding;
-
-        return $this;
-    }
-
-    /**
-     * Clears all query bindings.
-     *
-     * @return Builder
-     */
-    public function clearBindings()
-    {
-        foreach ($this->bindings as $key => $bindings) {
-            $this->bindings[$key] = [];
-        }
-
-        return $this;
-    }
-
-    /**
      * Handle dynamic method calls on the query builder
      * object to be directed to the query processor.
      *
@@ -1185,40 +1153,6 @@ class Builder
         }
 
         return call_user_func_array([$this->newProcessor(), $method], $parameters);
-    }
-
-    /**
-     * Returns a new query Processor instance.
-     *
-     * @return Processor
-     */
-    protected function newProcessor()
-    {
-        return new Processor($this);
-    }
-
-    /**
-     * Constructs a new where binding depending on the specified type.
-     *
-     * @param string      $field
-     * @param string      $operator
-     * @param string|null $value
-     * @param string      $type
-     *
-     * @throws InvalidBindingType
-     *
-     * @return Where|OrWhere
-     */
-    protected function newWhereBinding($field, $operator, $value = null, $type = 'and')
-    {
-        switch (strtolower($type)) {
-            case 'and':
-                return new Where($field, $operator, $value);
-            case 'or':
-                return new OrWhere($field, $operator, $value);
-            default:
-                throw new InvalidBindingType("Invalid binding type: {$type}.");
-        }
     }
 
     /**
@@ -1281,5 +1215,15 @@ class Builder
         $bool = strtolower($connector);
 
         $this->where(Str::snake($segment), '=', $parameters[$index], $bool);
+    }
+
+    /**
+     * Returns a new query Processor instance.
+     *
+     * @return Processor
+     */
+    protected function newProcessor()
+    {
+        return new Processor($this);
     }
 }

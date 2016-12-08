@@ -33,7 +33,7 @@ class User extends Entry implements Authenticatable
      */
     public function getAuthIdentifier()
     {
-        return $this->getSid();
+        return $this->getConvertedSid();
     }
 
     /**
@@ -927,7 +927,7 @@ class User extends Entry implements Authenticatable
      */
     public function getPrimaryGroup()
     {
-        $groupSid = preg_replace('/\d+$/', $this->getPrimaryGroupId(), $this->getSid());
+        $groupSid = preg_replace('/\d+$/', $this->getPrimaryGroupId(), $this->getConvertedSid());
 
         return $this->query->newInstance()->findBySid($groupSid);
     }

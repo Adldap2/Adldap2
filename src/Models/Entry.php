@@ -241,7 +241,7 @@ class Entry extends Model
      *
      * @return string
      */
-    public function getGuid()
+    public function getConvertedGuid()
     {
         return Utilities::binaryGuidToString($this->getFirstAttribute($this->schema->objectGuid()));
     }
@@ -251,7 +251,7 @@ class Entry extends Model
      *
      * @return string
      */
-    public function getSid()
+    public function getConvertedSid()
     {
         return Utilities::binarySidToString($this->getFirstAttribute($this->schema->objectSid()));
     }

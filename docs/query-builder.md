@@ -89,7 +89,7 @@ an exception when it hasn't been found, use the `findByOrFail()` method:
 ```php
 try {
     $record = $search->findByOrFail('samaccountname', 'jdoe');
-} catch (Adldap\Exceptions\ModelNotFoundException $e) {
+} catch (\Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -110,7 +110,7 @@ an exception when it hasn't been found, use the `findByDnOrFail()` method:
 ```php
 try {
     $record = $search->findByDnOrFail('cn=John Doe,dc=corp,dc=org');
-} catch (Adldap\Exceptions\ModelNotFoundException $e) {
+} catch (\Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -146,7 +146,7 @@ To retrieve the first record of a search or throw an exception when one isn't fo
 ```php
 try {
     $record = $search->firstOrFail();
-} catch (Adldap\Exceptions\ModelNotFoundException $e) {
+} catch (\Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```

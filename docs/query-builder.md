@@ -153,6 +153,19 @@ try {
 
 ## Wheres
 
+> **Tips**:
+> Fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
+> they would return the same result.
+> 
+> It's also good to know that all values inserted into a where, or an orWhere method,
+> <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
+>
+>
+>```php
+>// Returns '(cn=\2f\25\70\6f\73\73\69\62\6c\79\2d\68\61\72\6d\66\75\6c\25\5c\5e\5c\2f\2f)'
+>$query = $ad->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
+>```
+
 To perform a where clause on the search object, use the `where()` function:
 
 ```php
@@ -238,17 +251,6 @@ $results = $ad->search()->whereHas('cn')->get();
 ```
 
 This type of filter syntax allows you to clearly see what your searching for.
-
-Remember, fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
-they would return the same result.
-   
-It's also good to know that all values inserted into a where, or an orWhere method,
-<b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
-
-```php
-// Returns '(cn=\2f\25\70\6f\73\73\69\62\6c\79\2d\68\61\72\6d\66\75\6c\25\5c\5e\5c\2f\2f)'
-$query = $ad->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
-```
 
 ##### Where Not Has
 

@@ -67,7 +67,7 @@ found, use the `findOrFail()` method:
 ```php
 try {
     $record = $search->findOrFail('John Doe');
-} catch (Adldap\Exceptions\ModelNotFoundException $e) {
+} catch (\Adldap\Exceptions\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```

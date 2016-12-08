@@ -34,10 +34,11 @@ class Where extends AbstractBinding
      * @param string $field
      * @param string $operator
      * @param string $value
+     * @param bool   $raw
      *
      * @throws InvalidQueryOperatorException
      */
-    public function __construct($field, $operator, $value)
+    public function __construct($field, $operator, $value, $raw = false)
     {
         // We'll escape the field to avoid allowing unsafe characters inside.
         $this->field = Utilities::escape($field, null, 3);
@@ -45,8 +46,8 @@ class Where extends AbstractBinding
         // Validate and retrieve the operator.
         $this->operator = $this->validateOperator($operator);
 
-        // Completely escape the value.
-        $this->value = Utilities::escape($value);
+        // Escape the value unless raw is requested.
+        $this->value = $raw ? $value : Utilities::escape($value);
     }
 
     /**

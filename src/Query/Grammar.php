@@ -32,9 +32,9 @@ class Grammar
     public function compile(Builder $builder)
     {
         list($wheres, $orWheres, $filters) = [
-            $builder->getWheres(),
-            $builder->getOrWheres(),
-            $builder->getFilters(),
+            $builder->wheres['and'],
+            $builder->wheres['or'],
+            $builder->filters,
         ];
 
         // We'll combine all raw filters together first.

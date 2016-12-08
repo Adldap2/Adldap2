@@ -65,7 +65,7 @@ class FactoryTest extends TestCase
         $query = $search->users();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(2, $query->getWheres());
+        $this->assertCount(2, $query->wheres['and']);
         $this->assertEquals('(&(objectclass=\70\65\72\73\6f\6e)(objectcategory=\70\65\72\73\6f\6e))', $query->getQuery());
     }
 
@@ -76,7 +76,7 @@ class FactoryTest extends TestCase
         $query = $search->printers();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\70\72\69\6e\74\71\75\65\75\65)', $query->getQuery());
     }
 
@@ -87,7 +87,7 @@ class FactoryTest extends TestCase
         $query = $search->ous();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\6f\72\67\61\6e\69\7a\61\74\69\6f\6e\61\6c\75\6e\69\74)', $query->getQuery());
     }
 
@@ -98,7 +98,7 @@ class FactoryTest extends TestCase
         $query = $search->groups();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\67\72\6f\75\70)', $query->getQuery());
     }
 
@@ -109,7 +109,7 @@ class FactoryTest extends TestCase
         $query = $search->containers();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\63\6f\6e\74\61\69\6e\65\72)', $query->getQuery());
     }
 
@@ -120,7 +120,7 @@ class FactoryTest extends TestCase
         $query = $search->contacts();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\63\6f\6e\74\61\63\74)', $query->getQuery());
     }
 
@@ -131,7 +131,7 @@ class FactoryTest extends TestCase
         $query = $search->computers();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(1, $query->getWheres());
+        $this->assertCount(1, $query->wheres['and']);
         $this->assertEquals('(objectclass=\63\6f\6d\70\75\74\65\72)', $query->getQuery());
     }
 }

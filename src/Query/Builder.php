@@ -538,6 +538,22 @@ class Builder
     }
 
     /**
+     * Finds a record by its string GUID.
+     *
+     * @param string $guid
+     *
+     * @return mixed
+     */
+    public function findByGuid($guid)
+    {
+        $guid = Utilities::stringGuidToHex($guid);
+
+        return $this->whereRaw([
+            $this->schema->objectGuid() => $guid
+        ])->first();
+    }
+
+    /**
      * Finds a record by its Object SID.
      *
      * @param string       $sid

@@ -246,8 +246,8 @@ It's also good to know that all values inserted into a where, or an orWhere meth
 <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
 
 ```php
-// Returns '(cn=\74\65\73\74\2f\2f\75\6e\2d\65\73\63\61\70\69\6e\67\2f\2f)'
-$query = $ad->search()->where('cn', '=', 'test//un-escaping//')->getQuery();
+// Returns '(cn=\2f\25\70\6f\73\73\69\62\6c\79\2d\68\61\72\6d\66\75\6c\25\5c\5e\5c\2f\2f)'
+$query = $ad->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
 ```
 
 ##### Where Not Has

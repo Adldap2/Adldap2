@@ -29,7 +29,7 @@ class Grammar
      *
      * @return string
      */
-    public function compileQuery(Builder $builder)
+    public function compile(Builder $builder)
     {
         list($wheres, $orWheres, $filters) = [
             $builder->getWheres(),

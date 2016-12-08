@@ -206,7 +206,7 @@ class Builder
      */
     public function getQuery()
     {
-        return $this->grammar->compileQuery($this);
+        return $this->grammar->compile($this);
     }
 
     /**

@@ -49,11 +49,9 @@ If you're trying to find a single record, but not sure what the record might be,
 ```php
 $record = $search->find('John Doe');
 
-if($record)
-{
+if ($record) {
     // Record was found!    
-} else
-{
+} else {
     // Hmm, looks like we couldn't find anything...
 }
 ```

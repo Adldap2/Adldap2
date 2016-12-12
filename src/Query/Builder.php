@@ -68,7 +68,7 @@ class Builder
      *
      * @var int
      */
-    protected $sortByFlags;
+    protected $sortByFlags = SORT_NATURAL + SORT_FLAG_CASE;
 
     /**
      * The distinguished name to perform searches upon.
@@ -1015,8 +1015,7 @@ class Builder
     }
 
     /**
-     * Sorts the LDAP search results by the
-     * specified field and direction.
+     * Sorts the LDAP search results by the specified field and direction.
      *
      * @param string   $field
      * @param string   $direction
@@ -1028,25 +1027,22 @@ class Builder
     {
         $this->sortByField = $field;
 
-        // Lowercase direction for comparisons.
+        // Normalize direction.
         $direction = strtolower($direction);
 
         if ($direction === 'asc' || $direction === 'desc') {
             $this->sortByDirection = $direction;
         }
 
-        if (is_null($flags)) {
-            $flags = SORT_NATURAL + SORT_FLAG_CASE;
+        if ($flags) {
+            $this->sortByFlags = $flags;
         }
-
-        $this->sortByFlags = $flags;
 
         return $this;
     }
 
     /**
-     * Sets the recursive property to tell the search
-     * whether or not to search recursively.
+     * Sets the recursive property to tell the search whether or not to search recursively.
      *
      * @param bool $recursive
      *
@@ -1076,9 +1072,8 @@ class Builder
     }
 
     /**
-     * Sets the recursive property to tell the search
-     * whether or not to return the LDAP results in
-     * their raw format.
+     * Sets the recursive property to tell the search whether or
+     * not to return the LDAP results in their raw format.
      *
      * @param bool $raw
      *

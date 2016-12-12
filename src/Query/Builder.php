@@ -68,7 +68,7 @@ class Builder
      *
      * @var int
      */
-    protected $sortByFlags = SORT_NATURAL + SORT_FLAG_CASE;
+    protected $sortByFlags;
 
     /**
      * The distinguished name to perform searches upon.
@@ -1034,8 +1034,8 @@ class Builder
             $this->sortByDirection = $direction;
         }
 
-        if ($flags) {
-            $this->sortByFlags = $flags;
+        if (is_null($flags)) {
+            $this->sortByFlags = SORT_NATURAL + SORT_FLAG_CASE;
         }
 
         return $this;

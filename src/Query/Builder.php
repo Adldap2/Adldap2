@@ -555,6 +555,27 @@ class Builder
     }
 
     /**
+     * Finds a record by its string GUID.
+     *
+     * Fails upon no records returned.
+     *
+     * @param string       $guid
+     * @param array|string $columns
+     *
+     * @throws ModelNotFoundException
+     *
+     * @return mixed
+     */
+    public function findByGuidOrFail($guid, $columns = [])
+    {
+        $guid = Utilities::stringGuidToHex($guid);
+
+        return $this->select($columns)->whereRaw([
+            $this->schema->objectGuid() => $guid
+        ])->firstOrFail();
+    }
+
+    /**
      * Finds a record by its Object SID.
      *
      * @param string       $sid

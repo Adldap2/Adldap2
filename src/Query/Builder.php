@@ -541,7 +541,7 @@ class Builder
      * Finds a record by its string GUID.
      *
      * @param string       $guid
-     * @oaran array|string $columns
+     * @param array|string $columns
      *
      * @return mixed
      */

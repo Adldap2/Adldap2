@@ -541,7 +541,7 @@ class Builder
      * Finds a record by its string GUID.
      *
      * @param string       $guid
-     * @oaran array|string $columns
+     * @param array|string $columns
      *
      * @return mixed
      */
@@ -552,6 +552,27 @@ class Builder
         return $this->select($columns)->whereRaw([
             $this->schema->objectGuid() => $guid
         ])->first();
+    }
+
+    /**
+     * Finds a record by its string GUID.
+     *
+     * Fails upon no records returned.
+     *
+     * @param string       $guid
+     * @param array|string $columns
+     *
+     * @throws ModelNotFoundException
+     *
+     * @return mixed
+     */
+    public function findByGuidOrFail($guid, $columns = [])
+    {
+        $guid = Utilities::stringGuidToHex($guid);
+
+        return $this->select($columns)->whereRaw([
+            $this->schema->objectGuid() => $guid
+        ])->firstOrFail();
     }
 
     /**

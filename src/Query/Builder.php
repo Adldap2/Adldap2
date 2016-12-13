@@ -543,7 +543,7 @@ class Builder
      * @param string       $guid
      * @param array|string $columns
      *
-     * @return mixed
+     * @return Model
      */
     public function findByGuid($guid, $columns = [])
     {

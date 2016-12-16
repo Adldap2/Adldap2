@@ -8,9 +8,6 @@ use Illuminate\Support\Str;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Objects\Paginator;
-use Adldap\Query\Bindings\Filter;
-use Adldap\Query\Bindings\Where;
-use Adldap\Query\Bindings\Select;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\ModelNotFoundException;
@@ -26,11 +23,11 @@ class Builder
     public $paginated = false;
 
     /**
-     * The select bindings.
+     * The column select bindings.
      *
      * @var array
      */
-    public $selects = [];
+    public $columns = [];
 
     /**
      * The where bindings.
@@ -597,8 +594,7 @@ class Builder
     {
         $schema = $this->schema;
 
-        $result = $this
-            ->setDn(null)
+        $result = $this->setDn(null)
             ->read()
             ->raw()
             ->whereHas($schema->objectClass())
@@ -618,17 +614,13 @@ class Builder
     /**
      * Adds the inserted fields to query on the current LDAP connection.
      *
-     * @param array|string $fields
+     * @param array|string $columns
      *
      * @return Builder
      */
-    public function select($fields = [])
+    public function select($columns = [])
     {
-        $fields = is_array($fields) ? $fields : func_get_args();
-
-        foreach ($fields as $field) {
-            $this->selects[] = new Select($field);
-        }
+        $this->columns = is_array($columns) ? $columns : func_get_args();
 
         return $this;
     }
@@ -645,7 +637,7 @@ class Builder
         $filters = is_array($filters) ? $filters : func_get_args();
 
         foreach ($filters as $filter) {
-            $this->filters[] = new Filter($filter);
+            $this->filters[] = $filter;
         }
 
         return $this;
@@ -657,18 +649,20 @@ class Builder
      * @param string|array $field
      * @param string       $operator
      * @param string       $value
-     * @param string       $type
+     * @param string       $boolean
      * @param bool         $raw
+     *
+     * @throws InvalidArgumentException
      *
      * @return Builder
      */
-    public function where($field, $operator = null, $value = null, $type = 'and', $raw = false)
+    public function where($field, $operator = null, $value = null, $boolean = 'and', $raw = false)
     {
         if (is_array($field)) {
             // If the column is an array, we will assume it is an array of
             // key-value pairs and can add them each as a where clause.
             foreach ($field as $key => $value) {
-                $this->where($key, Operator::$equals, $value, $type, $raw);
+                $this->where($key, Operator::$equals, $value, $boolean, $raw);
             }
 
             return $this;
@@ -678,18 +672,23 @@ class Builder
         // only require two arguments inside the where method.
         $bypass = [Operator::$has, Operator::$notHas];
 
-        // Here we will make some assumptions about the operator. If only 2 values are
-        // passed to the method, we will assume that the operator is an equals sign
-        // and keep going.
+        // Here we will make some assumptions about the operator. If only
+        // 2 values are passed to the method, we will assume that
+        // the operator is an equals sign and keep going.
         if (func_num_args() === 2 && in_array($operator, $bypass) === false) {
             list($value, $operator) = [$operator, '='];
         }
 
-        if (! array_key_exists($type, $this->wheres)) {
-            throw new InvalidArgumentException("Invalid where type: {$type}");
+        if (!in_array($operator, Operator::all())) {
+            throw new InvalidArgumentException("Invalid where operator: {$operator}");
         }
 
-        $this->wheres[$type][] = new Where($field, $operator, $value, $raw);
+        // We'll escape the value if raw isn't requested.
+        $value = $raw ? $value : Utilities::escape($value);
+
+        $field = Utilities::escape($field, null, 3);
+
+        $this->wheres[$boolean][] = compact('field', 'operator', 'value');
 
         return $this;
     }
@@ -1021,15 +1020,13 @@ class Builder
      */
     public function getSelects()
     {
-        $selects = $this->selects;
-
-        $schema = $this->schema;
+        $selects = $this->columns;
 
         if (count($selects) > 0) {
             // Always make sure object category and class are selected. We need these
             // attributes to construct the right model instance for the record.
-            $selects[] = new Select($schema->objectCategory());
-            $selects[] = new Select($schema->objectClass());
+            $selects[] = $this->schema->objectCategory();
+            $selects[] = $this->schema->objectClass();
         }
 
         return $selects;

@@ -2,16 +2,13 @@
 
 namespace Adldap\Tests\Query;
 
+use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Tests\TestCase;
 use Adldap\Objects\Paginator;
-use Adldap\Query\Bindings\Where;
-use Adldap\Query\Bindings\Filter;
-use Adldap\Query\Bindings\Select;
-use Adldap\Query\Bindings\OrWhere;
-use Adldap\Query\Bindings\InvalidQueryOperatorException;
+use Adldap\Connections\ConnectionInterface;
 
 class BuilderTest extends TestCase
 {
@@ -26,7 +23,7 @@ class BuilderTest extends TestCase
 
     protected function newConnectionMock()
     {
-        return $this->mock('Adldap\Connections\ConnectionInterface');
+        return $this->mock(ConnectionInterface::class);
     }
 
     public function test_construct()
@@ -98,9 +95,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['and'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('=', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('=', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_where_with_array()
@@ -114,15 +111,15 @@ class BuilderTest extends TestCase
 
         $whereOne = $b->wheres['and'][0];
 
-        $this->assertEquals('cn', $whereOne->getField());
-        $this->assertEquals('=', $whereOne->getOperator());
-        $this->assertEquals('\74\65\73\74', $whereOne->getValue());
+        $this->assertEquals('cn', $whereOne['field']);
+        $this->assertEquals('=', $whereOne['operator']);
+        $this->assertEquals('\74\65\73\74', $whereOne['value']);
 
         $whereTwo = $b->wheres['and'][1];
 
-        $this->assertEquals('name', $whereTwo->getField());
-        $this->assertEquals('=', $whereTwo->getOperator());
-        $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
+        $this->assertEquals('name', $whereTwo['field']);
+        $this->assertEquals('=', $whereTwo['operator']);
+        $this->assertEquals('\74\65\73\74', $whereTwo['value']);
     }
 
     public function test_where_contains()
@@ -133,9 +130,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['and'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('contains', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('contains', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_where_starts_with()
@@ -146,9 +143,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['and'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('starts_with', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('starts_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_where_ends_with()
@@ -159,9 +156,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['and'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('ends_with', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('ends_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_or_where()
@@ -172,9 +169,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['or'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('=', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('=', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_or_where_with_array()
@@ -188,15 +185,15 @@ class BuilderTest extends TestCase
 
         $whereOne = $b->wheres['or'][0];
 
-        $this->assertEquals('cn', $whereOne->getField());
-        $this->assertEquals('=', $whereOne->getOperator());
-        $this->assertEquals('\74\65\73\74', $whereOne->getValue());
+        $this->assertEquals('cn', $whereOne['field']);
+        $this->assertEquals('=', $whereOne['operator']);
+        $this->assertEquals('\74\65\73\74', $whereOne['value']);
 
         $whereTwo = $b->wheres['or'][1];
 
-        $this->assertEquals('name', $whereTwo->getField());
-        $this->assertEquals('=', $whereTwo->getOperator());
-        $this->assertEquals('\74\65\73\74', $whereTwo->getValue());
+        $this->assertEquals('name', $whereTwo['field']);
+        $this->assertEquals('=', $whereTwo['operator']);
+        $this->assertEquals('\74\65\73\74', $whereTwo['value']);
     }
 
     public function test_or_where_contains()
@@ -207,9 +204,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['or'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('contains', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('contains', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_or_where_starts_with()
@@ -220,9 +217,9 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['or'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('starts_with', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('starts_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_or_where_ends_with()
@@ -233,25 +230,27 @@ class BuilderTest extends TestCase
 
         $where = $b->wheres['or'][0];
 
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('ends_with', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('ends_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function test_where_invalid_operator()
     {
         $b = $this->newBuilder();
 
-        $this->setExpectedException(InvalidQueryOperatorException::class);
-
         $b->where('field', 'invalid', 'value');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function test_or_where_invalid_operator()
     {
         $b = $this->newBuilder();
-
-        $this->setExpectedException(InvalidQueryOperatorException::class);
 
         $b->orWhere('field', 'invalid', 'value');
     }
@@ -438,6 +437,18 @@ class BuilderTest extends TestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
+    public function test_built_or_where_has_multiple()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereHas('one')
+            ->orWhereHas('two');
+
+        $expected = '(|(one=*)(two=*))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
     public function test_built_or_where_not_has()
     {
         $b = $this->newBuilder();
@@ -574,7 +585,7 @@ class BuilderTest extends TestCase
 
         $b->where($field, '=', $value);
 
-        $utils = $this->mock('Adldap\Utilities')->makePartial()->shouldAllowMockingProtectedMethods();
+        $utils = $this->mock(Utilities::class)->makePartial()->shouldAllowMockingProtectedMethods();
 
         $escapedField = $utils->escape($field, null, 3);
 
@@ -592,15 +603,6 @@ class BuilderTest extends TestCase
         $newB = $b->newInstance();
 
         $this->assertEquals('New DN', $newB->getDn());
-    }
-
-    public function test_add_invalid_where_type()
-    {
-        $b = $this->newBuilder();
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $b->where('field', '=', 'value', 'invalid');
     }
 
     public function test_select_args()
@@ -626,9 +628,9 @@ class BuilderTest extends TestCase
         $where = end($wheres);
 
         $this->assertCount(1, $wheres);
-        $this->assertEquals('cn', $where->getField());
-        $this->assertEquals('=', $where->getOperator());
-        $this->assertEquals('\74\65\73\74', $where->getValue());
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('=', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
     public function test_dynamic_and_where()
@@ -644,13 +646,13 @@ class BuilderTest extends TestCase
 
         $this->assertCount(2, $wheres);
 
-        $this->assertEquals('cn', $whereCn->getField());
-        $this->assertEquals('=', $whereCn->getOperator());
-        $this->assertEquals('\63\6e', $whereCn->getValue());
+        $this->assertEquals('cn', $whereCn['field']);
+        $this->assertEquals('=', $whereCn['operator']);
+        $this->assertEquals('\63\6e', $whereCn['value']);
 
-        $this->assertEquals('sn', $whereSn->getField());
-        $this->assertEquals('=', $whereSn->getOperator());
-        $this->assertEquals('\73\6e', $whereSn->getValue());
+        $this->assertEquals('sn', $whereSn['field']);
+        $this->assertEquals('=', $whereSn['operator']);
+        $this->assertEquals('\73\6e', $whereSn['value']);
     }
 
     public function test_dynamic_or_where()
@@ -668,12 +670,12 @@ class BuilderTest extends TestCase
         $this->assertCount(1, $wheres);
         $this->assertCount(1, $orWheres);
 
-        $this->assertEquals('cn', $whereCn->getField());
-        $this->assertEquals('=', $whereCn->getOperator());
-        $this->assertEquals('\63\6e', $whereCn->getValue());
+        $this->assertEquals('cn', $whereCn['field']);
+        $this->assertEquals('=', $whereCn['operator']);
+        $this->assertEquals('\63\6e', $whereCn['value']);
 
-        $this->assertEquals('sn', $orWhereSn->getField());
-        $this->assertEquals('=', $orWhereSn->getOperator());
-        $this->assertEquals('\73\6e', $orWhereSn->getValue());
+        $this->assertEquals('sn', $orWhereSn['field']);
+        $this->assertEquals('=', $orWhereSn['operator']);
+        $this->assertEquals('\73\6e', $orWhereSn['value']);
     }
 }

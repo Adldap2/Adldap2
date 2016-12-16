@@ -2,8 +2,6 @@
 
 namespace Adldap\Query;
 
-use Adldap\Query\Bindings\Where;
-
 class Grammar
 {
     /**
@@ -329,17 +327,17 @@ class Grammar
      * Assembles a single where query based
      * on its operator and returns it.
      *
-     * @param Where $where
+     * @param array $where
      *
      * @return string|null
      */
-    protected function compileWhere(Where $where)
+    protected function compileWhere(array $where)
     {
         // The compile function prefix.
         $prefix = 'compile';
 
         // Get the operator from the where.
-        $operator = $where->getOperator();
+        $operator = $where['operator'];
 
         // Get the name of the operator.
         $name = array_search($operator, Operator::all());
@@ -351,7 +349,7 @@ class Grammar
 
             // Make sure the compile method exists for the operator.
             if (method_exists($this, $method)) {
-                return $this->{$method}($where->getField(), $where->getValue());
+                return $this->{$method}($where['field'], $where['value']);
             }
         }
     }

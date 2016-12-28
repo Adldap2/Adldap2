@@ -490,29 +490,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Sets and returns the models modifications.
+     * Returns the models batch modifications to be processed.
      *
      * @return array
      */
     public function getModifications()
     {
-        foreach ($this->getDirty() as $attribute => $values) {
-            // Make sure values is always an array.
-            $values = (is_array($values) ? $values : [$values]);
-
-            // Create a new modification.
-            $modification = new BatchModification($attribute, null, $values);
-
-            if (array_key_exists($attribute, $this->original)) {
-                // If the attribute we're modifying has an original value, we'll give the
-                // BatchModification object its values to automatically determine
-                // which type of LDAP operation we need to perform.
-                $modification->setOriginal($this->original[$attribute]);
-            }
-
-            // Finally, we'll add the modification to the model.
-            $this->addModification($modification->build());
-        }
+        $this->buildModificationsFromDirty();
 
         return $this->modifications;
     }
@@ -933,6 +917,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
                 // Re-sync attributes.
                 $this->syncRaw();
 
+                // Re-set the models modifications.
+                $this->modifications = [];
+
                 return true;
             }
 
@@ -1123,6 +1110,34 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function rename($rdn)
     {
         return $this->move($rdn);
+    }
+
+    /**
+     * Builds the models modifications from its dirty attributes.
+     *
+     * @return array
+     */
+    protected function buildModificationsFromDirty()
+    {
+        foreach ($this->getDirty() as $attribute => $values) {
+            // Make sure values is always an array.
+            $values = (is_array($values) ? $values : [$values]);
+
+            // Create a new modification.
+            $modification = new BatchModification($attribute, null, $values);
+
+            if (array_key_exists($attribute, $this->original)) {
+                // If the attribute we're modifying has an original value, we'll give the
+                // BatchModification object its values to automatically determine
+                // which type of LDAP operation we need to perform.
+                $modification->setOriginal($this->original[$attribute]);
+            }
+
+            // Finally, we'll add the modification to the model.
+            $this->addModification($modification->build());
+        }
+
+        return $this->modifications;
     }
 
     /**

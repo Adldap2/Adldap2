@@ -6,6 +6,7 @@ use Adldap\Models\Entry;
 use Adldap\Tests\TestCase;
 use Adldap\AdldapException;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Objects\BatchModification;
 
 class EntryTest extends TestCase
 {
@@ -451,7 +452,8 @@ class EntryTest extends TestCase
 
     public function test_get_original()
     {
-        $model = $this->newEntryModel([], $this->newBuilder())->setRawAttributes(['cn' => ['John Doe']]);
+        $model = $this->newEntryModel([], $this->newBuilder())
+            ->setRawAttributes(['cn' => ['John Doe']]);
 
         $model->cn = 'New Common Name';
 
@@ -475,5 +477,32 @@ class EntryTest extends TestCase
         ], $this->newBuilder());
 
         $this->assertEquals('John Doe', $model->getFirstAttribute('cn'));
+    }
+
+    public function test_modifications_are_cleared_on_save()
+    {
+        $connection = $this->newConnectionMock();
+
+        $modification = new BatchModification('cn', 3, ['Jane Doe']);
+
+        $connection->shouldReceive('modifyBatch')->once()->withArgs(['cn=John Doe,dc=acme,dc=org', [$modification->get()]])->andReturn(true);
+        $connection->shouldReceive('read')->once()->andReturn(true);
+        $connection->shouldReceive('getEntries')->once()->andReturn(['cn' => ['Jane Doe']]);
+
+        $builder = $this->newBuilder($connection);
+
+        $model = $this->newEntryModel([], $builder)
+            ->setRawAttributes([
+                'dn' => 'cn=John Doe,dc=acme,dc=org',
+                'cn' => ['John Doe']
+            ]);
+
+        $model->addModification($modification);
+
+        $this->assertCount(1, $model->getModifications());
+
+        $model->save();
+
+        $this->assertCount(0, $model->getModifications());
     }
 }

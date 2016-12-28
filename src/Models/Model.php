@@ -1020,8 +1020,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $this->exists &&
             $this->query->getConnection()->modReplace($this->getDn(), [$attribute => $value])
         ) {
-            // If the models attribute was successfully updated,
-            // we'll re-sync the models attributes.
             $this->syncRaw();
 
             return true;
@@ -1045,8 +1043,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $this->exists &&
             $this->query->getConnection()->modDelete($this->getDn(), [$attribute => []])
         ) {
-            // If the models attribute was successfully deleted, we'll
-            // resynchronize the models raw attributes.
             $this->syncRaw();
 
             return true;

@@ -519,31 +519,31 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Adds a batch modification to the models modifications array.
      *
-     * @param array|BatchModification $modification
+     * @param array|BatchModification $mod
      *
      * @throws InvalidArgumentException
      *
      * @return $this
      */
-    public function addModification($modification = [])
+    public function addModification($mod = [])
     {
-        if ($modification instanceof BatchModification) {
-            $modification = $modification->get();
+        if ($mod instanceof BatchModification) {
+            $mod = $mod->get();
         }
 
-        if (!is_array($modification)) {
+        if (!is_array($mod)) {
             $class = BatchModification::class;
 
             throw new InvalidArgumentException(
-                "The batch modification must be an instance of $class or an array. $modification given."
+                "The batch modification must be an instance of $class or an array. $mod given."
             );
-        } elseif (!Arr::has($modification, ['attrib', 'modtype'])) {
+        } elseif (!array_key_exists('modtype', $mod) || !array_key_exists('attrib', $mod)) {
             throw new InvalidArgumentException(
                 "The batch modification does not include the mandatory 'attrib' and 'modtype' keys."
             );
         }
 
-        $this->modifications[] = $modification;
+        $this->modifications[] = $mod;
 
         return $this;
     }

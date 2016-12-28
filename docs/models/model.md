@@ -279,8 +279,7 @@ var_dump($user->getOriginal()['cn']);
 ```
 
 > **Note**: Keep in mind, when you `save()` a model, the models original
-> attributes will be re-synced. This means the changes you've made to
-> the model will now be the original models attributes.
+> attributes will be re-synchronized to the models new attributes.
 
 ### Setting Attributes
 

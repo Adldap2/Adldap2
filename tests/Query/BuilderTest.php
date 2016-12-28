@@ -93,7 +93,7 @@ class BuilderTest extends TestCase
 
         $b->where('cn', '=', 'test');
 
-        $where = $b->wheres['and'][0];
+        $where = $b->filters['and'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('=', $where['operator']);
@@ -109,13 +109,13 @@ class BuilderTest extends TestCase
             'name'  => 'test',
         ]);
 
-        $whereOne = $b->wheres['and'][0];
+        $whereOne = $b->filters['and'][0];
 
         $this->assertEquals('cn', $whereOne['field']);
         $this->assertEquals('=', $whereOne['operator']);
         $this->assertEquals('\74\65\73\74', $whereOne['value']);
 
-        $whereTwo = $b->wheres['and'][1];
+        $whereTwo = $b->filters['and'][1];
 
         $this->assertEquals('name', $whereTwo['field']);
         $this->assertEquals('=', $whereTwo['operator']);
@@ -128,7 +128,7 @@ class BuilderTest extends TestCase
 
         $b->whereContains('cn', 'test');
 
-        $where = $b->wheres['and'][0];
+        $where = $b->filters['and'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('contains', $where['operator']);
@@ -141,7 +141,7 @@ class BuilderTest extends TestCase
 
         $b->whereStartsWith('cn', 'test');
 
-        $where = $b->wheres['and'][0];
+        $where = $b->filters['and'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('starts_with', $where['operator']);
@@ -154,7 +154,7 @@ class BuilderTest extends TestCase
 
         $b->whereEndsWith('cn', 'test');
 
-        $where = $b->wheres['and'][0];
+        $where = $b->filters['and'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
@@ -167,11 +167,12 @@ class BuilderTest extends TestCase
 
         $b->orWhere('cn', '=', 'test');
 
-        $where = $b->wheres['or'][0];
+        $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('=', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+
     }
 
     public function test_or_where_with_array()
@@ -183,13 +184,13 @@ class BuilderTest extends TestCase
             'name'  => 'test',
         ]);
 
-        $whereOne = $b->wheres['or'][0];
+        $whereOne = $b->filters['or'][0];
 
         $this->assertEquals('cn', $whereOne['field']);
         $this->assertEquals('=', $whereOne['operator']);
         $this->assertEquals('\74\65\73\74', $whereOne['value']);
 
-        $whereTwo = $b->wheres['or'][1];
+        $whereTwo = $b->filters['or'][1];
 
         $this->assertEquals('name', $whereTwo['field']);
         $this->assertEquals('=', $whereTwo['operator']);
@@ -202,7 +203,7 @@ class BuilderTest extends TestCase
 
         $b->orWhereContains('cn', 'test');
 
-        $where = $b->wheres['or'][0];
+        $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('contains', $where['operator']);
@@ -215,7 +216,7 @@ class BuilderTest extends TestCase
 
         $b->orWhereStartsWith('cn', 'test');
 
-        $where = $b->wheres['or'][0];
+        $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('starts_with', $where['operator']);
@@ -228,7 +229,7 @@ class BuilderTest extends TestCase
 
         $b->orWhereEndsWith('cn', 'test');
 
-        $where = $b->wheres['or'][0];
+        $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
@@ -623,11 +624,8 @@ class BuilderTest extends TestCase
 
         $b->whereCn('test');
 
-        $wheres = $b->wheres['and'];
+        $where = $b->filters['and'][0];
 
-        $where = end($wheres);
-
-        $this->assertCount(1, $wheres);
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('=', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
@@ -639,7 +637,7 @@ class BuilderTest extends TestCase
 
         $b->whereCnAndSn('cn', 'sn');
 
-        $wheres = $b->wheres['and'];
+        $wheres = $b->filters['and'];
 
         $whereCn = $wheres[0];
         $whereSn = $wheres[1];
@@ -661,8 +659,8 @@ class BuilderTest extends TestCase
 
         $b->whereCnOrSn('cn', 'sn');
 
-        $wheres = $b->wheres['and'];
-        $orWheres = $b->wheres['or'];
+        $wheres = $b->filters['and'];
+        $orWheres = $b->filters['or'];
 
         $whereCn = end($wheres);
         $orWhereSn = end($orWheres);

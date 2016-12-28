@@ -505,4 +505,39 @@ class EntryTest extends TestCase
 
         $this->assertCount(0, $model->getModifications());
     }
+
+    public function test_adding_modification()
+    {
+        $model = $this->newEntryModel([], $this->newBuilder());
+
+        $mod = ['modtype' => 18, 'attrib' => 'mail'];
+
+        $model->addModification($mod);
+
+        $this->assertEquals($mod, $model->getModifications()[0]);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_adding_invalid_modification()
+    {
+        $model = $this->newEntryModel([], $this->newBuilder());
+
+        $mod = 'test';
+
+        $model->addModification($mod);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_adding_invalid_modification_with_array()
+    {
+        $model = $this->newEntryModel([], $this->newBuilder());
+
+        $mod = ['modtype' => 18];
+
+        $model->addModification($mod);
+    }
 }

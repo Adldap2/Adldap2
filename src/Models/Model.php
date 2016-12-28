@@ -5,6 +5,7 @@ namespace Adldap\Models;
 use DateTime;
 use ArrayAccess;
 use JsonSerializable;
+use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Utilities;
@@ -516,19 +517,33 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Adds a modification to the models modifications array.
+     * Adds a batch modification to the models modifications array.
      *
-     * @param BatchModification $modification
+     * @param array|BatchModification $modification
+     *
+     * @throws InvalidArgumentException
      *
      * @return $this
      */
-    public function addModification(BatchModification $modification)
+    public function addModification($modification = [])
     {
-        $batch = $modification->get();
-
-        if (is_array($batch)) {
-            $this->modifications[] = $batch;
+        if ($modification instanceof BatchModification) {
+            $modification = $modification->get();
         }
+
+        if (!is_array($modification)) {
+            $class = BatchModification::class;
+
+            throw new InvalidArgumentException(
+                "The batch modification must be an instance of $class or an array. $modification given."
+            );
+        } elseif (!Arr::has($modification, ['attrib', 'modtype'])) {
+            throw new InvalidArgumentException(
+                "The batch modification does not include the mandatory 'attrib' and 'modtype' keys."
+            );
+        }
+
+        $this->modifications[] = $modification;
 
         return $this;
     }

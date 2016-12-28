@@ -16,35 +16,29 @@ use Adldap\Connections\ConnectionInterface;
 class Builder
 {
     /**
-     * Determines whether the current query is paginated.
-     *
-     * @var bool
-     */
-    public $paginated = false;
-
-    /**
-     * The column select bindings.
+     * The selected columns to retrieve on the query.
      *
      * @var array
      */
     public $columns = [];
 
     /**
-     * The where bindings.
+     * The query filters.
      *
      * @var array
      */
-    public $wheres = [
+    public $filters = [
         'and' => [],
         'or' => [],
+        'raw' => [],
     ];
 
     /**
-     * The filter bindings.
+     * Determines whether the current query is paginated.
      *
-     * @var array
+     * @var bool
      */
-    public $filters = [];
+    public $paginated = false;
 
     /**
      * The field to sort search results by.
@@ -637,7 +631,7 @@ class Builder
         $filters = is_array($filters) ? $filters : func_get_args();
 
         foreach ($filters as $filter) {
-            $this->filters[] = $filter;
+            $this->filters['raw'][] = $filter;
         }
 
         return $this;
@@ -688,7 +682,7 @@ class Builder
 
         $field = Utilities::escape($field, null, 3);
 
-        $this->wheres[$boolean][] = compact('field', 'operator', 'value');
+        $this->filters[$boolean][] = compact('field', 'operator', 'value');
 
         return $this;
     }
@@ -706,7 +700,7 @@ class Builder
      */
     public function whereRaw($field, $operator = null, $value = null)
     {
-        return $this->where($field, $operator, $value, 'and', $raw = true);
+        return $this->where($field, $operator, $value, 'and', true);
     }
 
     /**
@@ -871,7 +865,7 @@ class Builder
      */
     public function orWhereRaw($field, $operator = null, $value = null)
     {
-        return $this->where($field, $operator, $value, 'or', $raw = true);
+        return $this->where($field, $operator, $value, 'or', true);
     }
 
     /**

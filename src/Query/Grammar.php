@@ -29,33 +29,44 @@ class Grammar
      */
     public function compile(Builder $builder)
     {
-        list($wheres, $orWheres, $filters) = [
-            $builder->wheres['and'],
-            $builder->wheres['or'],
-            $builder->filters,
-        ];
+        $ands = $builder->filters['and'];
+        $ors = $builder->filters['or'];
+        $raws = $builder->filters['raw'];
 
-        // We'll combine all raw filters together first.
-        $query = implode(null, $filters);
+        $query = $this->concatenate($raws);
 
-        // Compile wheres.
-        $query = $this->compileWheres($wheres, $query);
+        $query = $this->compileWheres($ands, $query);
 
-        // Compile or wheres.
-        $query = $this->compileOrWheres($orWheres, $query);
+        $query = $this->compileOrWheres($ors, $query);
 
-        // Count the total amount of filters.
-        $total = count($wheres) + count($filters);
+        $total = count($ands) + count($raws);
 
         // Make sure we wrap the query in an 'and' if using
         // multiple filters. We also need to check if only
         // one where is used with multiple orWheres, that
         // we wrap it in an `and` query.
-        if ($total > 1 || (count($wheres) === 1 && count($orWheres) > 0)) {
+        if ($total > 1 || (count($ands) === 1 && count($ors) > 0)) {
             $query = $this->compileAnd($query);
         }
 
         return $query;
+    }
+
+    /**
+     * Concatenates and filters empty bindings into a single string.
+     *
+     * @param array $bindings
+     *
+     * @return string
+     */
+    public function concatenate($bindings = [])
+    {
+        // Filter out empty query segments.
+        $bindings = array_filter($bindings, function ($value) {
+            return (string) $value !== '';
+        });
+
+        return implode('', $bindings);
     }
 
     /**
@@ -262,7 +273,7 @@ class Grammar
      */
     public function compileAnd($query)
     {
-        return $this->wrap($query, '(&');
+        return $query ? $this->wrap($query, '(&') : '';
     }
 
     /**
@@ -276,7 +287,7 @@ class Grammar
      */
     public function compileOr($query)
     {
-        return $this->wrap($query, '(|');
+        return $query ? $this->wrap($query, '(|') : '';
     }
 
     /**
@@ -287,12 +298,11 @@ class Grammar
      *
      * @return string
      */
-    protected function compileWheres(array $wheres, $query = '')
+    protected function compileWheres(array $wheres = [], $query = '')
     {
         foreach ($wheres as $where) {
             $query .= $this->compileWhere($where);
         }
-
         return $query;
     }
 
@@ -304,20 +314,20 @@ class Grammar
      *
      * @return string
      */
-    protected function compileOrWheres(array $orWheres, $query = '')
+    protected function compileOrWheres(array $orWheres = [], $query = '')
     {
-        $ors = '';
+        $or = '';
 
         foreach ($orWheres as $where) {
-            $ors .= $this->compileWhere($where);
+            $or .= $this->compileWhere($where);
         }
 
         // Make sure we wrap the query in an 'or' if using multiple
         // orWheres. For example (|(QUERY)(ORWHEREQUERY)).
         if (($query && count($orWheres) > 0) || count($orWheres) > 1) {
-            $query .= $this->compileOr($ors);
+            $query .= $this->compileOr($or);
         } else {
-            $query .= $ors;
+            $query .= $or;
         }
 
         return $query;

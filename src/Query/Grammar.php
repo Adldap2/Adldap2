@@ -53,13 +53,13 @@ class Grammar
     }
 
     /**
-     * Concatenates and filters empty bindings into a single string.
+     * Concatenates filters into a single string.
      *
      * @param array $bindings
      *
      * @return string
      */
-    public function concatenate($bindings = [])
+    public function concatenate(array $bindings = [])
     {
         // Filter out empty query segments.
         $bindings = array_filter($bindings, function ($value) {

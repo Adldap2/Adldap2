@@ -4,7 +4,7 @@
     - [Available Make Methods](#available-make-methods)
 - [Saving](#saving)
     - [Creating Manually](#creating-manually)
-    - [Updating Manually](#upating-manually)
+    - [Updating Manually](#updating-manually)
 - [Attributes](#attributes)
     - [Getting Attributes](#getting-attributes)
     - [Using a Getter](#using-a-getter)

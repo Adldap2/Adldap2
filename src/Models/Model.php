@@ -994,8 +994,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function createAttribute($attribute, $value)
     {
-        if ($this->exists) {
-            return $this->query->getConnection()->modAdd($this->getDn(), [$attribute => $value]);
+        if (
+            $this->exists &&
+            $this->query->getConnection()->modAdd($this->getDn(), [$attribute => $value])
+        ) {
+            $this->syncRaw();
+
+            return true;
         }
 
         return false;

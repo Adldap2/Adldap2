@@ -4,7 +4,6 @@ namespace Adldap\Tests\Models;
 
 use Adldap\Models\Entry;
 use Adldap\Tests\TestCase;
-use Adldap\AdldapException;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Objects\BatchModification;
 
@@ -312,11 +311,12 @@ class EntryTest extends TestCase
         $this->assertTrue($entry->save());
     }
 
+    /**
+     * @expectedException \Adldap\AdldapException
+     */
     public function test_delete_failure()
     {
         $entry = $this->newEntryModel([], $this->newBuilder());
-
-        $this->setExpectedException(AdldapException::class);
 
         $entry->delete();
     }

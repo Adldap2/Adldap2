@@ -6,10 +6,7 @@ use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 use Adldap\Search\Factory;
 use Adldap\Connections\Ldap;
-use Adldap\Auth\BindException;
 use Adldap\Connections\Provider;
-use Adldap\Auth\UsernameRequiredException;
-use Adldap\Auth\PasswordRequiredException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
 
@@ -28,6 +25,9 @@ class ProviderTest extends TestCase
         $this->assertInstanceOf(DomainConfiguration::class, $m->getConfiguration());
     }
 
+    /**
+     * @expectedException \Adldap\Auth\UsernameRequiredException
+     */
     public function test_auth_username_failure()
     {
         $connection = $this->newConnectionMock();
@@ -40,11 +40,12 @@ class ProviderTest extends TestCase
 
         $m = $this->newProvider($connection);
 
-        $this->setExpectedException(UsernameRequiredException::class);
-
         $m->auth()->attempt(0000000, 'password');
     }
 
+    /**
+     * @expectedException \Adldap\Auth\PasswordRequiredException
+     */
     public function test_auth_password_failure()
     {
         $connection = $this->newConnectionMock();
@@ -56,8 +57,6 @@ class ProviderTest extends TestCase
             ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection);
-
-        $this->setExpectedException(PasswordRequiredException::class);
 
         $m->auth()->attempt('username', 0000000);
     }
@@ -111,6 +110,9 @@ class ProviderTest extends TestCase
         $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
+    /**
+     * @expectedException \Adldap\Auth\BindException
+     */
     public function test_auth_rebind_failure()
     {
         $config = new DomainConfiguration([
@@ -137,8 +139,6 @@ class ProviderTest extends TestCase
             ->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
-
-        $this->setExpectedException(BindException::class);
 
         $m->connect();
 

@@ -2,7 +2,6 @@
 
 namespace Adldap\tests\Configuration;
 
-use Adldap\Configuration\ConfigurationException;
 use Adldap\Tests\TestCase;
 use Adldap\Configuration\DomainConfiguration;
 
@@ -52,80 +51,91 @@ class DomainConfigurationTest extends TestCase
         $this->assertFalse($config->get('use_tls'));
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_port()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['port' => 'invalid']);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_base_dn()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['base_dn' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_domain_controllers()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['domain_controllers' => 'invalid']);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_admin_username()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['admin_username' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_admin_password()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['admin_password' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_admin_account_suffix()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['admin_account_suffix' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_account_suffix()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['account_suffix' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_account_prefix()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['account_prefix' => ['invalid']]);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_follow_referrals()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['follow_referrals' => 'invalid']);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_use_ssl()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['use_ssl' => 'invalid']);
     }
 
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
     public function test_invalid_use_tls()
     {
-        $this->setExpectedException(ConfigurationException::class);
-
         new DomainConfiguration(['use_tls' => 'invalid']);
     }
 }

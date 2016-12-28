@@ -3,29 +3,28 @@
 namespace Adldap\Tests\Auth;
 
 use Adldap\Auth\Guard;
-use Adldap\Auth\BindException;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
-use Adldap\Auth\UsernameRequiredException;
-use Adldap\Auth\PasswordRequiredException;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
 {
+    /**
+     * @expectedException \Adldap\Auth\UsernameRequiredException
+     */
     public function test_validate_username()
     {
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
-        $this->setExpectedException(UsernameRequiredException::class);
-
         $guard->attempt('', 'password');
     }
 
+    /**
+     * @expectedException \Adldap\Auth\PasswordRequiredException
+     */
     public function test_validate_password()
     {
         $guard = new Guard(new Ldap(), new DomainConfiguration());
-
-        $this->setExpectedException(PasswordRequiredException::class);
 
         $guard->attempt('username', '');
     }
@@ -68,6 +67,9 @@ class GuardTest extends TestCase
         $this->assertNull($guard->bind('username', 'password'));
     }
 
+    /**
+     * @expectedException \Adldap\Auth\BindException
+     */
     public function test_bind_always_throws_exception_on_invalid_credentials()
     {
         $config = $this->mock(DomainConfiguration::class);
@@ -86,8 +88,6 @@ class GuardTest extends TestCase
             ->shouldReceive('errNo')->once()->andReturn(1);
 
         $guard = new Guard($ldap, $config);
-
-        $this->setExpectedException(BindException::class);
 
         $guard->bind('username', 'password');
     }

@@ -356,17 +356,17 @@ class EntryTest extends TestCase
         $this->assertFalse($entry->convertStringToBool('FAlse'));
     }
 
-    public function test_filter_raw_attributes()
+    public function test_recursive_filtering_for_raw_attributes()
     {
         $rawAttributes = [
             'count' => 1,
-            'test'  => [
+            'one'  => [
                 'count' => 1,
-                'test'  => [
+                'two'  => [
                     'count' => 1,
-                    'test'  => [
+                    'three'  => [
                         'count' => 1,
-                        'test'  => [
+                        'four'  => [
                             'count' => 1,
                         ],
                     ],
@@ -375,10 +375,10 @@ class EntryTest extends TestCase
         ];
 
         $expected = [
-            'test' => [
-                'test' => [
-                    'test' => [
-                        'test' => [],
+            'one' => [
+                'two' => [
+                    'three' => [
+                        'four' => [],
                     ],
                 ],
             ],
@@ -487,7 +487,7 @@ class EntryTest extends TestCase
 
         $connection->shouldReceive('modifyBatch')->once()->withArgs(['cn=John Doe,dc=acme,dc=org', [$modification->get()]])->andReturn(true);
         $connection->shouldReceive('read')->once()->andReturn(true);
-        $connection->shouldReceive('getEntries')->once()->andReturn(['cn' => ['Jane Doe']]);
+        $connection->shouldReceive('getEntries')->once();
 
         $builder = $this->newBuilder($connection);
 

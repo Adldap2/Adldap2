@@ -945,13 +945,11 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $modification = new BatchModification(
+        return $this->addModification(new BatchModification(
             $this->schema->unicodePassword(),
             LDAP_MODIFY_BATCH_REPLACE,
             [Utilities::encodePassword($password)]
-        );
-
-        return $this->addModification($modification);
+        ));
     }
 
     /**

@@ -9,8 +9,10 @@ use Adldap\Objects\BatchModification;
 
 class EntryTest extends TestCase
 {
-    protected function newEntryModel($attributes, $builder, $schema = null)
+    protected function newModel(array $attributes = [], $builder = null, $schema = null)
     {
+        $builder = $builder ?: $this->newBuilder();
+
         return new Entry($attributes, $builder, $schema);
     }
 
@@ -21,7 +23,7 @@ class EntryTest extends TestCase
             'samaccountname' => ['Account Name'],
         ];
 
-        $entry = $this->newEntryModel($attributes, $this->newBuilder());
+        $entry = $this->newModel($attributes, $this->newBuilder());
 
         $this->assertEquals($attributes, $entry->getAttributes());
     }
@@ -38,7 +40,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$rawAttributes]);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -58,7 +60,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -71,7 +73,7 @@ class EntryTest extends TestCase
 
     public function test_set_attribute_forces_lowercase_keys()
     {
-        $entry = $this->newEntryModel([], $this->newBuilder());
+        $entry = $this->newModel();
 
         $entry->setAttribute('TEST', 'test');
 
@@ -94,7 +96,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('modReplace')->once()->withArgs(['dc=corp,dc=org', ['cn' => 'John Doe']])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
         $this->assertTrue($entry->updateAttribute('cn', 'John Doe'));
@@ -116,7 +118,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', ['cn' => []]])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -139,7 +141,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('modAdd')->once()->withArgs(['dc=corp,dc=org', ['givenName' => 'John Doe']])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -159,7 +161,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -219,7 +221,7 @@ class EntryTest extends TestCase
 
         $connection->shouldReceive('close')->andReturn(true);
 
-        $entry = $this->newEntryModel($attributes, $this->newBuilder($connection));
+        $entry = $this->newModel($attributes, $this->newBuilder($connection));
 
         $entry->setDn('cn=John Doe,ou=Accounting,dc=corp,dc=org');
 
@@ -242,7 +244,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
@@ -280,7 +282,7 @@ class EntryTest extends TestCase
 
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel($attributes, $this->newBuilder($connection));
+        $entry = $this->newModel($attributes, $this->newBuilder($connection));
 
         $entry->setDn($dn);
 
@@ -304,7 +306,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 
@@ -316,7 +318,7 @@ class EntryTest extends TestCase
      */
     public function test_delete_failure()
     {
-        $entry = $this->newEntryModel([], $this->newBuilder());
+        $entry = $this->newModel();
 
         $entry->delete();
     }
@@ -330,7 +332,7 @@ class EntryTest extends TestCase
         $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
         $connection->shouldReceive('close')->once()->andReturn(true);
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
 
@@ -341,7 +343,7 @@ class EntryTest extends TestCase
     {
         $date = '20150519034950.0Z';
 
-        $model = $this->newEntryModel([], $this->newBuilder())->setRawAttributes([
+        $model = $this->newModel()->setRawAttributes([
             'whencreated' => [$date],
             'whenchanged' => [$date],
         ]);
@@ -401,7 +403,7 @@ class EntryTest extends TestCase
             ],
         ];
 
-        $entry = $this->newEntryModel([], $this->newBuilder());
+        $entry = $this->newModel();
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -428,7 +430,7 @@ class EntryTest extends TestCase
             ->shouldReceive('read')->once()
             ->shouldReceive('getEntries')->once();
 
-        $entry = $this->newEntryModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -460,7 +462,7 @@ class EntryTest extends TestCase
 
         $builder->setDn('DC=corp,DC=local');
 
-        $entry = $this->newEntryModel([], $builder);
+        $entry = $this->newModel([], $builder);
 
         $entry->setCommonName('John Doe');
 
@@ -469,7 +471,7 @@ class EntryTest extends TestCase
 
     public function test_get_original()
     {
-        $model = $this->newEntryModel([], $this->newBuilder())
+        $model = $this->newModel()
             ->setRawAttributes(['cn' => ['John Doe']]);
 
         $model->cn = 'New Common Name';
@@ -480,7 +482,7 @@ class EntryTest extends TestCase
 
     public function test_set_first_attribute()
     {
-        $model = $this->newEntryModel([], $this->newBuilder());
+        $model = $this->newModel();
 
         $model->setFirstAttribute('cn', 'John Doe');
 
@@ -489,9 +491,9 @@ class EntryTest extends TestCase
 
     public function test_get_first_attribute()
     {
-        $model = $this->newEntryModel([
+        $model = $this->newModel([
             'cn' => 'John Doe',
-        ], $this->newBuilder());
+        ]);
 
         $this->assertEquals('John Doe', $model->getFirstAttribute('cn'));
     }
@@ -508,7 +510,7 @@ class EntryTest extends TestCase
 
         $builder = $this->newBuilder($connection);
 
-        $model = $this->newEntryModel([], $builder)
+        $model = $this->newModel([], $builder)
             ->setRawAttributes([
                 'dn' => 'cn=John Doe,dc=acme,dc=org',
                 'cn' => ['John Doe']
@@ -525,7 +527,7 @@ class EntryTest extends TestCase
 
     public function test_adding_modification()
     {
-        $model = $this->newEntryModel([], $this->newBuilder());
+        $model = $this->newModel();
 
         $mod = ['modtype' => 18, 'attrib' => 'mail'];
 
@@ -539,7 +541,7 @@ class EntryTest extends TestCase
      */
     public function test_adding_invalid_modification()
     {
-        $model = $this->newEntryModel([], $this->newBuilder());
+        $model = $this->newModel();
 
         $mod = 'test';
 
@@ -551,7 +553,7 @@ class EntryTest extends TestCase
      */
     public function test_adding_invalid_modification_with_array()
     {
-        $model = $this->newEntryModel([], $this->newBuilder());
+        $model = $this->newModel();
 
         $mod = ['modtype' => 18];
 

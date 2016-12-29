@@ -49,11 +49,15 @@ class BatchModification
     /**
      * Sets the original value of the attribute before modification.
      *
-     * @param null $original
+     * @param mixed $original
+     *
+     * @return $this
      */
     public function setOriginal($original = null)
     {
         $this->original = $original;
+
+        return $this;
     }
 
     /**
@@ -71,7 +75,7 @@ class BatchModification
      *
      * @param string $attribute
      *
-     * @return BatchModification
+     * @return $this
      */
     public function setAttribute($attribute)
     {
@@ -95,7 +99,7 @@ class BatchModification
      *
      * @param array $values
      *
-     * @return BatchModification
+     * @return $this
      */
     public function setValues(array $values = [])
     {
@@ -124,7 +128,7 @@ class BatchModification
      *
      * @param int $type
      *
-     * @return BatchModification
+     * @return $this
      */
     public function setType($type)
     {
@@ -147,7 +151,7 @@ class BatchModification
      * Builds the type of modification automatically
      * based on the current and original values.
      *
-     * @return BatchModification
+     * @return $this
      */
     public function build()
     {

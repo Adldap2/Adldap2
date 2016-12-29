@@ -454,8 +454,9 @@ If you need to forcefully re-sync a models attributes, use the method `syncRaw()
 $user->syncRaw();
 ```
 
-> **Note**: This will query your AD server for the current model, and re-synchronize it's attributes.
-> This is only recommended if your creating / updating / deleting attributes manually.
+> **Note**: This will query your AD server for the current model, and re-synchronize
+> it's attributes. This is only recommended if your creating / updating / deleting
+> attributes manually through your LDAP connection.
 
 ## Moving / Renaming
 

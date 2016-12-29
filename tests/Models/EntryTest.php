@@ -337,6 +337,23 @@ class EntryTest extends TestCase
         $this->assertTrue($entry->delete());
     }
 
+    public function test_created_and_updated_at()
+    {
+        $date = '20150519034950.0Z';
+
+        $model = $this->newEntryModel([], $this->newBuilder())->setRawAttributes([
+            'whencreated' => [$date],
+            'whenchanged' => [$date],
+        ]);
+
+        $this->assertEquals($date, $model->getCreatedAt());
+        $this->assertEquals($date, $model->getUpdatedAt());
+        $this->assertEquals('2015-05-19 03:49:50', $model->getCreatedAtDate());
+        $this->assertEquals('2015-05-19 03:49:50', $model->getUpdatedAtDate());
+        $this->assertEquals('1432021790', $model->getCreatedAtTimestamp());
+        $this->assertEquals('1432021790', $model->getUpdatedAtTimestamp());
+    }
+
     public function test_convert_string_to_bool()
     {
         $entry = $this->mock('Adldap\Models\Entry')->makePartial();

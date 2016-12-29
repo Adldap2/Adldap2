@@ -943,13 +943,7 @@ class User extends Entry implements Authenticatable
      */
     public function setPassword($password)
     {
-        $connection = $this->query->getConnection();
-
-        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
-            $message = 'SSL or TLS must be configured on your web server and enabled to set passwords.';
-
-            throw new AdldapException($message);
-        }
+        $this->validateSecureConnection();
 
         $modification = new BatchModification(
             $this->schema->unicodePassword(),
@@ -974,13 +968,7 @@ class User extends Entry implements Authenticatable
      */
     public function changePassword($oldPassword, $newPassword, $replaceNotRemove = false)
     {
-        $connection = $this->query->getConnection();
-
-        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
-            $message = 'SSL or TLS must be configured on your web server and enabled to change passwords.';
-
-            throw new AdldapException($message);
-        }
+        $this->validateSecureConnection();
 
         $attribute = $this->schema->unicodePassword();
 
@@ -1016,10 +1004,13 @@ class User extends Entry implements Authenticatable
         // Update the user.
         $result = $this->update();
 
-        if ($result === false && $error = $connection->getExtendedError()) {
+        if (!$result) {
             // If the user failed to update, we'll see if we can
             // figure out why by retrieving the extended error.
-            switch ($code = $connection->getExtendedErrorCode()) {
+            $error = $this->query->getConnection()->getExtendedError();
+            $code = $this->query->getConnection()->getExtendedErrorCode();
+
+            switch ($code) {
                 case '0000052D':
                     throw new UserPasswordPolicyException(
                         "Error: $code. Your new password does not match the password policy."

@@ -14,7 +14,7 @@
  - [Connecting](docs/connecting.md)
  - [Authenticating](docs/authenticating.md)
  - [Query Builder (Searching)](docs/query-builder.md)
- - [Models](docs/models.md)
+ - [Models](docs/models/model.md)
     - [User](docs/models/user.md)
     - [Group](docs/models/group.md)
     - [Computer](docs/models/computer.md)

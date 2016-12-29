@@ -20,7 +20,6 @@
 - [Moving / Renaming](#moving-renaming)
 - [Deleting](#deleting)
 
-    
 ## Creating
 
 Creating LDAP entries manually is always a pain, but Adldap2 makes it effortless. Let's get started.

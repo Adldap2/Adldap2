@@ -17,6 +17,10 @@
     - [Updating Attributes](#updating-attributes)
     - [Removing Attributes](#removing-attributes)
     - [Checking Attributes](#checking-attributes)
+        - [Checking Existence of Attributes](#checking-existence-of-attributes)
+        - [Counting the Models Attributes](#counting-the-models-attributes)
+        - [Checking if a Model is Writable](#checking-if-a-model-is-writable)
+    - [Force Re-Syncing Attributes](#force-re-syncing-a-models-attributes)
 - [Moving / Renaming](#moving-renaming)
 - [Deleting](#deleting)
 

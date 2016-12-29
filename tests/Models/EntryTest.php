@@ -352,8 +352,8 @@ class EntryTest extends TestCase
         $this->assertEquals($date, $model->getUpdatedAt());
         $this->assertEquals('2015-05-19 03:49:50', $model->getCreatedAtDate());
         $this->assertEquals('2015-05-19 03:49:50', $model->getUpdatedAtDate());
-        $this->assertEquals('1432021790', $model->getCreatedAtTimestamp());
-        $this->assertEquals('1432021790', $model->getUpdatedAtTimestamp());
+        $this->assertEquals(1432021790, $model->getCreatedAtTimestamp());
+        $this->assertEquals(1432021790, $model->getUpdatedAtTimestamp());
     }
 
     public function test_convert_string_to_bool()

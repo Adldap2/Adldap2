@@ -2,6 +2,7 @@
 
 namespace Adldap\Models;
 
+use Adldap\Connections\ConnectionException;
 use DateTime;
 use ArrayAccess;
 use JsonSerializable;
@@ -539,7 +540,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
             );
         } elseif (!array_key_exists('modtype', $mod) || !array_key_exists('attrib', $mod)) {
             throw new InvalidArgumentException(
-                "The batch modification does not include the mandatory 'attrib' and 'modtype' keys."
+                "The batch modification array does not include the mandatory 'attrib' or 'modtype' keys."
             );
         }
 
@@ -1054,12 +1055,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes the current entry.
      *
-     * Throws a ModelNotFoundException if the current model does not exist.
+     * Throws a ModelNotFoundException if the current model does
+     * not exist or does not contain a distinguished name.
      *
-     * Throws a AdldapException if the model does not have a distinguished name.
-     *
-     * @throws ModelNotFoundException
-     * @throws AdldapException
+     * @throws ModelDoesNotExistException
      *
      * @return bool
      */
@@ -1067,16 +1066,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $dn = $this->getDn();
 
-        if ($this->exists === false) {
+        if ($this->exists === false || empty($dn)) {
             // Make sure the record exists before we can delete it.
             // Otherwise, we'll throw an exception.
             throw (new ModelDoesNotExistException())->setModel(get_class($this));
-        }
-
-        if (empty($dn)) {
-            // If the record exists but the DN attribute does
-            // not exist, we can't process a delete.
-            throw new AdldapException('Unable to delete. The current model does not have a distinguished name.');
         }
 
         if ($this->query->getConnection()->delete($dn)) {
@@ -1166,6 +1159,24 @@ abstract class Model implements ArrayAccess, JsonSerializable
     protected function normalizeAttributeKey($key)
     {
         return strtolower($key);
+    }
+
+    /**
+     * Validates that the current LDAP connection is secure.
+     *
+     * @throws ConnectionException
+     *
+     * @return void
+     */
+    protected function validateSecureConnection()
+    {
+        $connection = $this->query->getConnection();
+
+        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
+            throw new ConnectionException(
+                "You must be connected to your LDAP server with TLS or SSL to perform this operation."
+            );
+        }
     }
     
     /**

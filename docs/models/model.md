@@ -5,11 +5,21 @@
 - [Saving](#saving)
     - [Creating Manually](#creating-manually)
     - [Updating Manually](#updating-manually)
+- [Checking Existence](#checking-existence)
 - [Attributes](#attributes)
     - [Getting Attributes](#getting-attributes)
     - [Using a Getter](#using-a-getter)
         - [Available Getters](#available-getters-on-all-models)
     - [Getting Dirty Attributes](#getting-dirty-modified-attributes)
+    - [Getting Original Attributes](#getting-original-unmodified-attributes)
+    - [Setting Attributes](#setting-attributes)
+    - [Creating Attributes](#creating-attributes)
+    - [Updating Attributes](#updating-attributes)
+    - [Removing Attributes](#removing-attributes)
+    - [Checking Attributes](#checking-attributes)
+- [Moving / Renaming](#moving-renaming)
+- [Deleting](#deleting)
+
     
 ## Creating
 
@@ -66,7 +76,7 @@ $ou = $provider->make()->ou([
 
 ## Saving
 
-When you have any Adldap model instance, you can call the `save()` method to persist the
+When you have any model instance, you can call the `save()` method to persist the
 changes to your server. This method returns a `boolean`. For example:
 
 ```php
@@ -81,29 +91,11 @@ if ($user->save()) {
 }
 ```
 
-The save method is actually a glorified decision maker on whether or
-not to call the `create()` or `update()` methods on the model.
-
-It merely just checks if the model exists already in your AD server:
-
-```php
-// Adldap\Models\Model.php
-
-public function save()
-{
-    if ($this->exists) {
-        return $this->update();
-    } else {
-        return $this->create();
-    }
-}
-```
-
-How does it know if the model exists in AD? Well, when models are constructed from AD
-search results, the `exists` property on the model is set to `true`.
-
-It's also good to know, that when a model is saved successfully (whether created or updated),
-the models attributes are re-synced from your AD.
+> **Note**: When a model is saved successfully (whether created or updated),
+> the models attributes are re-synced in the background from your AD.
+> 
+> This allows you to perform other operations during the same
+> request that require an existing user.
 
 ### Creating (Manually)
 
@@ -138,6 +130,41 @@ if ($user->update()) {
     // User was updated.
 } else {
     // There was an issue updating this user.
+}
+```
+
+## Checking Existence
+
+If you need to check the existence of a model, use the property `exists`:
+
+How does it know if the model exists in AD? Well, when models are constructed from
+search results, the `exists` property on the model is set to `true`.
+
+```php
+$user = $provider->search()->find('jdoe');
+
+$user->exists; // Returns true.
+
+if ($user->delete()) {
+
+    $user->exists; // Returns false.
+
+}
+```
+
+If a model is created successfully, the `exists` property is set to `true`:
+
+```php
+$user = $provider->make()->user([
+    'cn' => 'John Doe',
+]);
+
+$user->exists; // Returns false.
+
+if ($user->save()) {
+    
+    $user->exists; // Returns true.
+    
 }
 ```
 
@@ -372,6 +399,61 @@ if ($user->deleteAttribute('cn')) {
 }
 ```
 
+### Checking Attributes
+
+#### Checking Existence of Attributes
+
+To see if a model contains an attribute, use the method `hasAttribute()`:
+
+```php
+// Checking if a base attribute exists:
+if ($user->hasAttribute('mail')) {
+
+    // This user contains an email address.
+
+}
+
+// Checking if a sub attribute exists, by key:
+if ($user->hasAttribute('mail', 1)) {
+ 
+    // This user contains a second email address.
+ 
+}
+```
+
+#### Counting the Models Attributes
+
+To retrieve the total number of attributes, use the method `countAttributes()`:
+
+```php
+$count = $user->countAttributes();
+
+var_dump($count); // Returns int
+```
+
+#### Checking if a Model is Writable
+
+To check if the model can be written to, use the method `isWritable()`:
+
+```php
+if ($model->isWritable()) {
+
+    // You can modify this model.
+    
+}
+```
+
+### Force Re-Syncing A Models Attributes
+
+If you need to forcefully re-sync a models attributes, use the method `syncRaw()`:
+
+```php
+$user->syncRaw();
+```
+
+> **Note**: This will query your AD server for the current model, and re-synchronize it's attributes.
+> This is only recommended if your creating / updating / deleting attributes manually.
+
 ## Moving / Renaming
 
 To move a user from one DN or OU to another, use the `move($newRdn, $newParentDn)` method:
@@ -430,60 +512,3 @@ if ($user->delete()) {
     echo $user->exists; // Returns false.
 }
 ```
-
-### Checking Attributes
-
-#### Checking Existence of Attributes
-
-To see if a model contains an attribute, use the method `hasAttribute()`:
-
-```php
-// Checking if a base attribute exists:
-if ($user->hasAttribute('mail')) {
-
-    // This user contains an email address.
-
-}
-
-// Checking if a sub attribute exists, by key:
-if ($user->hasAttribute('mail', 1)) {
- 
-    // This user contains a second email address.
- 
-}
-```
-
-#### Counting the Models Attributes
-
-To retrieve the total number of attributes, use the method `countAttributes()`:
-
-```php
-$count = $user->countAttributes();
-
-var_dump($count); // Returns int
-```
-
-#### Checking if a Model is Writable
-
-To check if the model can be written to, use the method `isWritable()`:
-
-```php
-if ($model->isWritable()) {
-
-    // You can modify this model.
-    
-}
-```
-
-### Force Re-Syncing A Models Attributes
-
-If you need to forcefully re-sync a models attributes, use the method `syncRaw()`:
-
-```php
-$user->syncRaw();
-```
-
-> **Note**: This will query your AD server for the current model, and re-synchronize it's attributes.
-> This is only recommended if your creating / updating / deleting attributes manually.
-
-

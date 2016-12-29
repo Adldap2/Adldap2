@@ -50,7 +50,7 @@ class Factory
      *
      * @param ConnectionInterface $connection
      *
-     * @return Factory
+     * @return $this
      */
     public function setConnection(ConnectionInterface $connection)
     {
@@ -64,7 +64,7 @@ class Factory
      *
      * @param Builder $query
      *
-     * @return Factory
+     * @return $this
      */
     public function setQuery(Builder $query)
     {
@@ -78,7 +78,7 @@ class Factory
      *
      * @param SchemaInterface|null $schema
      *
-     * @return Factory
+     * @return $this
      */
     public function setSchema(SchemaInterface $schema = null)
     {

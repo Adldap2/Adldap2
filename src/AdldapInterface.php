@@ -16,7 +16,7 @@ interface AdldapInterface
      * @param ConnectionInterface     $connection
      * @param SchemaInterface         $schema
      *
-     * @return AdldapInterface
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -63,7 +63,7 @@ interface AdldapInterface
      *
      * @param string $name
      *
-     * @return AdldapInterface
+     * @return $this
      */
     public function removeProvider($name);
 

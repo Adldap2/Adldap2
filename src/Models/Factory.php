@@ -34,7 +34,7 @@ class Factory
      *
      * @param Builder $builder
      *
-     * @return Factory
+     * @return $this
      */
     public function setQuery(Builder $builder)
     {
@@ -48,7 +48,7 @@ class Factory
      *
      * @param SchemaInterface|null $schema
      *
-     * @return Factory
+     * @return $this
      */
     public function setSchema(SchemaInterface $schema = null)
     {

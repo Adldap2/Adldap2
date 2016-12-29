@@ -93,7 +93,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $displayName
      *
-     * @return User
+     * @return $this
      */
     public function setDisplayName($displayName)
     {
@@ -117,7 +117,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $department
      *
-     * @return User
+     * @return $this
      */
     public function setDepartment($department)
     {
@@ -139,7 +139,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $number
      *
-     * @return User
+     * @return $this
      */
     public function setDepartmentNumber($number)
     {
@@ -163,7 +163,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $title
      *
-     * @return User
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -187,7 +187,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $firstName
      *
-     * @return User
+     * @return $this
      */
     public function setFirstName($firstName)
     {
@@ -211,7 +211,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $lastName
      *
-     * @return User
+     * @return $this
      */
     public function setLastName($lastName)
     {
@@ -233,7 +233,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $info
      *
-     * @return User
+     * @return $this
      */
     public function setInfo($info)
     {
@@ -255,7 +255,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $initials
      *
-     * @return User
+     * @return $this
      */
     public function setInitials($initials)
     {
@@ -277,7 +277,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $country
      *
-     * @return User
+     * @return $this
      */
     public function setCountry($country)
     {
@@ -287,7 +287,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users street address.
      *
-     * @return User
+     * @return $this
      */
     public function getStreetAddress()
     {
@@ -299,7 +299,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $address
      *
-     * @return User
+     * @return $this
      */
     public function setStreetAddress($address)
     {
@@ -321,7 +321,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $postalCode
      *
-     * @return User
+     * @return $this
      */
     public function setPostalCode($postalCode)
     {
@@ -343,7 +343,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $deliveryOffice
      *
-     * @return User
+     * @return $this
      */
     public function setPhysicalDeliveryOfficeName($deliveryOffice)
     {
@@ -367,7 +367,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $number
      *
-     * @return User
+     * @return $this
      */
     public function setTelephoneNumber($number)
     {
@@ -389,7 +389,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $locale
      *
-     * @return User
+     * @return $this
      */
     public function setLocale($locale)
     {
@@ -413,7 +413,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $company
      *
-     * @return User
+     * @return $this
      */
     public function setCompany($company)
     {
@@ -440,7 +440,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $email
      *
-     * @return User
+     * @return $this
      */
     public function setEmail($email)
     {
@@ -464,7 +464,7 @@ class User extends Entry implements Authenticatable
      *
      * @param array $emails
      *
-     * @return User
+     * @return $this
      */
     public function setEmails(array $emails = [])
     {
@@ -488,7 +488,7 @@ class User extends Entry implements Authenticatable
      *
      * @param array $otherMailbox
      *
-     * @return User
+     * @return $this
      */
     public function setOtherMailbox($otherMailbox = [])
     {
@@ -536,7 +536,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $userPrincipalName
      *
-     * @return User
+     * @return $this
      */
     public function setUserPrincipalName($userPrincipalName)
     {
@@ -564,7 +564,7 @@ class User extends Entry implements Authenticatable
      *
      * @param array $addresses
      *
-     * @return User
+     * @return $this
      */
     public function setProxyAddresses(array $addresses = [])
     {
@@ -576,7 +576,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $address
      *
-     * @return User
+     * @return $this
      */
     public function addProxyAddress($address)
     {
@@ -604,7 +604,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $path
      *
-     * @return User
+     * @return $this
      */
     public function setScriptPath($path)
     {
@@ -690,7 +690,7 @@ class User extends Entry implements Authenticatable
      *
      * @param int|string|AccountControl $accountControl
      *
-     * @return User
+     * @return $this
      */
     public function setUserAccountControl($accountControl)
     {
@@ -712,7 +712,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $path
      *
-     * @return User
+     * @return $this
      */
     public function setProfilePath($path)
     {
@@ -746,7 +746,7 @@ class User extends Entry implements Authenticatable
      *
      * @param float $expiryTime
      *
-     * @return User
+     * @return $this
      */
     public function setAccountExpiry($expiryTime)
     {
@@ -825,7 +825,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $managerDn
      *
-     * @return User
+     * @return $this
      */
     public function setManager($managerDn)
     {
@@ -847,7 +847,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $employeeId
      *
-     * @return User
+     * @return $this
      */
     public function setEmployeeId($employeeId)
     {
@@ -869,7 +869,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $number
      *
-     * @return User
+     * @return $this
      */
     public function setEmployeeNumber($number)
     {
@@ -891,7 +891,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $number
      *
-     * @return User
+     * @return $this
      */
     public function setRoomNumber($number)
     {
@@ -901,7 +901,7 @@ class User extends Entry implements Authenticatable
     /**
      * Return the personal title.
      *
-     * @return User
+     * @return $this
      */
     public function getPersonalTitle()
     {
@@ -913,7 +913,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $personalTitle
      *
-     * @return User
+     * @return $this
      */
     public function setPersonalTitle($personalTitle)
     {

@@ -222,7 +222,7 @@ class Provider implements ProviderInterface
      * @param Builder         $builder
      * @param SchemaInterface $schema
      *
-     * @return \Adldap\Models\Factory
+     * @return ModelFactory
      */
     protected function newModelFactory(Builder $builder, SchemaInterface $schema)
     {

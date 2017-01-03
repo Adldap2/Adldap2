@@ -226,6 +226,10 @@ The following methods are available on all returned models:
 ```php
 $model->getName();
 
+$model->getCommonName();
+
+$model->getDisplayName();
+
 $model->getAccountName();
 
 $model->getAccountType();

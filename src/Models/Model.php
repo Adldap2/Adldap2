@@ -718,7 +718,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the users display name.
+     * Returns the model's display name.
      *
      * @return string
      */
@@ -728,7 +728,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Sets the users display name.
+     * Sets the model's display name.
      *
      * @param string $displayName
      *

@@ -718,6 +718,28 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the users display name.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->getFirstAttribute($this->schema->displayName());
+    }
+
+    /**
+     * Sets the users display name.
+     *
+     * @param string $displayName
+     *
+     * @return $this
+     */
+    public function setDisplayName($displayName)
+    {
+        return $this->setFirstAttribute($this->schema->displayName(), $displayName);
+    }
+
+    /**
      * Returns the model's samaccountname.
      *
      * https://msdn.microsoft.com/en-us/library/ms679635(v=vs.85).aspx

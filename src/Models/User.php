@@ -79,28 +79,6 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users display name.
-     *
-     * @return string
-     */
-    public function getDisplayName()
-    {
-        return $this->getFirstAttribute($this->schema->displayName());
-    }
-
-    /**
-     * Sets the users display name.
-     *
-     * @param string $displayName
-     *
-     * @return $this
-     */
-    public function setDisplayName($displayName)
-    {
-        return $this->setFirstAttribute($this->schema->displayName(), $displayName);
-    }
-
-    /**
      * Returns the users department.
      *
      * https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx

@@ -248,25 +248,33 @@ $model->getUpdatedAtTimestamp();
 
 $model->getObjectClass();
 
+// Returns the model's root object category string.
 $model->getObjectCategory();
 
+// Returns the model's object category in an array.
 $model->getObjectCategoryArray();
 
+// Returns the model's object category distinguished name.
 $model->getObjectCategoryDn();
 
-// Returns the models SID in binary.
+// Returns the model's SID in binary.
 $model->getObjectSid();
 
-// Returns the models GUID in binary.
+// Returns the model's GUID in binary.
 $model->getObjectGuid();
 
-// Returns the models SID in a string.
+// Returns the model's SID in a string.
 $model->getConvertedSid();
 
-// Returns the models GUID in a string.
+// Returns the model's GUID in a string.
 $model->getConvertedGuid();
 
+// Returns the model's primary group ID.
 $model->getPrimaryGroupId();
+
+$model->getInstanceType();
+
+$model->getMaxPasswordAge();
 ```
 
 For more documentation on specific getters, please take a look at the relevant model documentation.

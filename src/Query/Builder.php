@@ -179,14 +179,18 @@ class Builder
     /**
      * Returns a new Query Builder instance.
      *
+     * @param string $baseDn
+     *
      * @return Builder
      */
-    public function newInstance()
+    public function newInstance($baseDn = null)
     {
         // We'll set the base DN of the new Builder so
         // developers don't need to do this manually.
+        $dn = is_null($baseDn) ? $this->getDn() : $baseDn;
+
         return (new static($this->connection, $this->grammar, $this->schema))
-            ->setDn($this->getDn());
+            ->setDn($dn);
     }
 
     /**

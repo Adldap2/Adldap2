@@ -97,7 +97,7 @@ class Factory
     public function newQuery($baseDn = '')
     {
         return (new Builder($this->connection, $this->newGrammar(), $this->schema))
-            ->setDn($baseDn);
+            ->in($baseDn);
     }
 
     /**

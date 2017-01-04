@@ -256,10 +256,14 @@ class Provider implements ProviderInterface
             $this->connection->tls();
         }
 
-        $this->connection->setOptions([
-            LDAP_OPT_PROTOCOL_VERSION => $this->configuration->get('version'),
-            LDAP_OPT_NETWORK_TIMEOUT => $this->configuration->get('timeout'),
-            LDAP_OPT_REFERRALS => $this->configuration->get('follow_referrals')
-        ]);
+        $options = array_replace(
+            $this->configuration->get('custom_options'),
+            [
+                LDAP_OPT_PROTOCOL_VERSION => $this->configuration->get('version'),
+                LDAP_OPT_NETWORK_TIMEOUT => $this->configuration->get('timeout'),
+                LDAP_OPT_REFERRALS => $this->configuration->get('follow_referrals')
+            ]
+        );
+        $this->connection->setOptions($options);
     }
 }

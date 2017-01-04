@@ -25,6 +25,10 @@ $config = [
     'use_ssl'               => false,
     'use_tls'               => false,
     'timeout'               => 5,
+    'custom_options'        => [
+        // See: http://php.net/ldap_set_option
+        LDAP_OPT_X_TLS_REQUIRE_CERT => LDAP_OPT_X_TLS_HARD
+    ]
 ];
 
 // Create a new Adldap Provider instance.
@@ -124,3 +128,9 @@ securely.
 The timeout option allows you to configure the amount of seconds to wait until your application receives a response from your LDAP server.
 
 The default is 5 seconds.
+
+### Custom options
+
+Arbitrary options can be set for the connection to fine-tune TLS and connection behavior. Please note that `LDAP_OPT_PROTOCOL_VERSION`,
+`LDAP_OPT_NETWORK_TIMEOUT` and `LDAP_OPT_REFERRALS` will be ignored if set. These are set above with the `version`, `timeout` and
+`follow_referrals` keys respectively. Valid options are listed in the [PHP documentation for ldap_set_option](http://php.net/ldap_set_option).

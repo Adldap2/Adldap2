@@ -19,6 +19,7 @@ class DomainConfigurationTest extends TestCase
         $this->assertEmpty($config->get('base_dn'));
         $this->assertFalse($config->get('use_ssl'));
         $this->assertFalse($config->get('use_tls'));
+        $this->assertEquals([], $config->get('custom_options'));
     }
 
     public function test_construct()
@@ -36,6 +37,9 @@ class DomainConfigurationTest extends TestCase
             'account_suffix' => 'suffix',
             'use_ssl'            => true,
             'use_tls'            => false,
+            'custom_options'     => [
+                LDAP_OPT_SIZELIMIT => 1000
+            ]
         ]);
 
         $this->assertEquals(500, $config->get('port'));
@@ -49,6 +53,12 @@ class DomainConfigurationTest extends TestCase
         $this->assertEquals('prefix', $config->get('account_prefix'));
         $this->assertTrue($config->get('use_ssl'));
         $this->assertFalse($config->get('use_tls'));
+        $this->assertEquals(
+            [
+                LDAP_OPT_SIZELIMIT => 1000
+            ],
+            $config->get('custom_options')
+        );
     }
 
     /**
@@ -137,5 +147,13 @@ class DomainConfigurationTest extends TestCase
     public function test_invalid_use_tls()
     {
         new DomainConfiguration(['use_tls' => 'invalid']);
+    }
+
+    /**
+     * @expectedException \Adldap\Configuration\ConfigurationException
+     */
+    public function test_invalid_custom_options()
+    {
+        new DomainConfiguration(['custom_options' => 'invalid']);
     }
 }

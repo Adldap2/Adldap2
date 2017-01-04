@@ -32,6 +32,7 @@ class DomainConfiguration
         'admin_password' => '',
         'admin_account_prefix' => '',
         'admin_account_suffix' => '',
+        'custom_options' => [],
     ];
 
     /**

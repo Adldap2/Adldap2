@@ -179,7 +179,10 @@ class ProviderTest extends TestCase
             ->shouldReceive('get')->withArgs(['use_tls'])->once()->andReturn(false)
             ->shouldReceive('get')->withArgs(['version'])->once()->andReturn(3)
             ->shouldReceive('get')->withArgs(['timeout'])->once()->andReturn(5)
-            ->shouldReceive('get')->withArgs(['follow_referrals'])->andReturn(false);
+            ->shouldReceive('get')->withArgs(['follow_referrals'])->andReturn(false)
+            // Setting LDAP_OPT_PROTOCOL_VERSION to "2" here enforces the documented behavior of honoring the
+            // "version" key over LDAP_OPT_PROTOCOL_VERSION in custom_options.
+            ->shouldReceive('get')->withArgs(['custom_options'])->andReturn([LDAP_OPT_PROTOCOL_VERSION => 2]);
 
         $connection = $this->mock(ConnectionInterface::class);
 

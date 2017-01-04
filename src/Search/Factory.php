@@ -234,29 +234,16 @@ class Factory
      */
     public function getRootDse()
     {
-        $root = $this->query
-            ->newInstance()
-            ->setDn(null)
+        $root = $this->query->newInstance()
+            ->in('')
             ->read(true)
             ->whereHas($this->schema->objectClass())
             ->first();
 
-        if ($root instanceof Model) {
+        if ($root) {
             return (new RootDse([], $this->query))
                 ->setRawAttributes($root->getAttributes());
         }
-    }
-
-    /**
-     * Returns the current configuration naming context of the current domain.
-     *
-     * @return bool|string
-     */
-    public function getConfigurationNamingContext()
-    {
-        $root = $this->getRootDse();
-
-        return $root ? $root->getConfigurationNamingContext() : false;
     }
 
     /**

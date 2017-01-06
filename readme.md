@@ -60,7 +60,7 @@ Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "6.1.*"` 
 
 ```json
 "require": {
-    "adldap2/adldap2": "6.1.*"
+    "adldap2/adldap2": "7.0.*"
 },
 ```
 

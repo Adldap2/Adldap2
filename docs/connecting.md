@@ -1,79 +1,84 @@
 # Connecting
 
-After installation, you'll need to create a couple objects to start running operations on your active directory server.
+- [Setup](#setup)
+- [Dynamically Connecting](#dynamically-connecting)
+- [Setting a Default Connection](#setting-a-default-connection)
+- [Custom Connections](#custom-connections)
+- [Custom Schemas](#custom-schemas)
+
+## Setup
+
+After installation, you'll need to create a couple objects to start running operations on your LDAP server.
 
 First, we'll define our configuration array (outlined [here](configuration.md)):
 
 ```php
-$config = ['...'];
+$config = [
+    'default' => ['...'],
+];
 ```
 
-We'll then create a new Adldap instance:
+We'll then create a new Adldap instance and pass in the configuration array:
 
 ```php
-$ad = new \Adldap\Adldap();
-```
+$ad = new \Adldap\Adldap($config);
 
-Then, we'll create a new Connection Provider, and pass in the configuration in the first parameter:
-
-```php
-$provider = new \Adldap\Connections\Provider($config);
-```
-
-Once we've created a provider, we can add it to an Adldap instance:
-
-```php
-$ad->addProvider('default', $provider);
-```
-
-You can pass in any string to name the provider however you see fit.
-This allows you to manage and connect to multiple AD connections if necessary.
-
-Now, we can try connecting to the provider. We want to wrap the connect method
-in a try / catch block so we can catch connection failures if they happen to occur:
-
-```php
 try {
-    $ad->connect('default');
+    // Connect to the provider you specified in your configuration.
+    $provider = $ad->connect('default');
     
     // Connection was successful.
     
     // We can now perform operations on the connection.
-    $provider->search();
+    $user = $provider->search()->users()->find('jdoe');
 
 } catch (\Adldap\Exceptions\Auth\BindException $e) {
-    die("Can't bind to LDAP server!");
+    die("Can't connect / bind to the LDAP server! Error: $e");
 }
 ```
 
-All together:
+## Dynamically Connecting
+
+If you prefer, you can actually call all provider methods on your default provider through your `Adldap` instance.
+
+For example:
 
 ```php
-$config = ['...'];
-
-$ad = new \Adldap\Adldap();
-
-$provider = new \Adldap\Connections\Provider($config);
-
-$ad->addProvider('default', $provider);
+$ad = new \Adldap\Adldap($config);
 
 try {
-    $ad->connect('default');
-    
-    // Connection was successful.
-    
-    // We can now perform operations on the connection.
-    $provider->search();
-
+    $user = $ad->search()->users()->find('jdoe');
 } catch (\Adldap\Exceptions\Auth\BindException $e) {
-    die("Can't bind to LDAP server!");
+    //
 }
+```
+
+Adldap will automatically connect to your default provider and perform all method calls upon it.
+
+## Setting a default connection
+
+If you name your connection something other than `default`, you'll have to set that as your default connection:
+
+For example:
+
+```php
+$config = [
+    'ad_acme_company' => ['...'],
+];
+
+$ad = new \Adldap\Adldap($config);
+
+$ad->setDefaultProvider('ad_acme_company');
+
+// Adldap will automatically connect to
+// your new default provider.
+$user = $ad->search()->users()->find('jdoe');
 ```
 
 ## Custom Connections
 
 Whenever you don't supply a new provider with an object that's an instance of
-`Adldap\Contracts\Connections\ConnectionInterface`, a default connection is created for you.
+`Adldap\Connections\ConnectionInterface`, a default connection is created for you.
 
 A connection object is a wrapper for PHP's LDAP calls. This allows you to tweak how
 things are passed into these methods if needed.
@@ -105,7 +110,7 @@ $provider = new \Adldap\Connections\Provider($config, $connection);
 
 ## Custom Schemas
 
-Some AD installations differ and you may need to tweak what some attributes are. This is where the schema comes in.
+Some LDAP installations differ and you may need to tweak what some attributes are. This is where the schema comes in.
 
 By default, if no schema is passed into the third parameter of a provider instance, a default schema is created.
 

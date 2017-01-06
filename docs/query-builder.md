@@ -10,6 +10,7 @@
 - [Sorting](#sorting)
 - [Pagination](#paginating)
 - [Scopes](#scopes)
+- [Base DN](#base-dn)
 - [Search Options](#search-options)
 
 The Adldap2 query builder makes building LDAP queries feel effortless. Let's get started.
@@ -163,7 +164,7 @@ try {
 >
 >```php
 >// Returns '(cn=\2f\25\70\6f\73\73\69\62\6c\79\2d\68\61\72\6d\66\75\6c\25\5c\5e\5c\2f\2f)'
->$query = $ad->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
+>$query = $provider->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
 >```
 
 To perform a where clause on the search object, use the `where()` function:
@@ -196,11 +197,11 @@ $search->where($wheres);
 We could also perform a search for all objects beginning with the common name of 'John' using the `starts_with` operator:
 
 ```php
-$results = $ad->search()->where('cn', 'starts_with', 'John')->get();
+$results = $provider->search()->where('cn', 'starts_with', 'John')->get();
 
 // Or use the method whereStartsWith($attribute, $value)
 
-$results = $ad->search()->whereStartsWith('cn', 'John')->get();
+$results = $provider->search()->whereStartsWith('cn', 'John')->get();
 ```
 
 #### Where Ends With
@@ -208,11 +209,11 @@ $results = $ad->search()->whereStartsWith('cn', 'John')->get();
 We can also search for all objects that end with the common name of `Doe` using the `ends_with` operator:
 
 ```php
-$results = $ad->search()->where('cn', 'ends_with', 'Doe')->get();
+$results = $provider->search()->where('cn', 'ends_with', 'Doe')->get();
 
 // Or use the method whereEndsWith($attribute, $value)
 
-$results = $ad->search()->whereEndsWith('cn', 'Doe')->get();
+$results = $provider->search()->whereEndsWith('cn', 'Doe')->get();
 ```
 
 #### Where Contains
@@ -220,11 +221,11 @@ $results = $ad->search()->whereEndsWith('cn', 'Doe')->get();
 We can also search for all objects with a common name that contains `John Doe` using the `contains` operator:
 
 ```php
-$results = $ad->search()->where('cn', 'contains', 'John Doe')->get();
+$results = $provider->search()->where('cn', 'contains', 'John Doe')->get();
 
 // Or use the method whereContains($attribute, $value)
 
-$results = $ad->search()->whereContains('cn', 'John Doe')->get();
+$results = $provider->search()->whereContains('cn', 'John Doe')->get();
 ```
 
 ##### Where Not Contains
@@ -232,11 +233,11 @@ $results = $ad->search()->whereContains('cn', 'John Doe')->get();
 You can use a 'where not contains' to perform the inverse of a 'where contains':
 
 ```php
-$results = $ad->search()->where('cn', 'not_contains', 'John Doe')->get();
+$results = $provider->search()->where('cn', 'not_contains', 'John Doe')->get();
 
 // Or use the method whereNotContains($attribute, $value)
 
-$results = $ad->search()->whereNotContains('cn', 'John Doe');
+$results = $provider->search()->whereNotContains('cn', 'John Doe');
 ```
 
 #### Where Has
@@ -244,10 +245,10 @@ $results = $ad->search()->whereNotContains('cn', 'John Doe');
 Or we can retrieve all objects that have a common name attribute using the wildcard operator (`*`):
 
 ```php
-$results = $ad->search()->where('cn', '*')->get();
+$results = $provider->search()->where('cn', '*')->get();
 
 // Or use the method whereHas($field)
-$results = $ad->search()->whereHas('cn')->get();
+$results = $provider->search()->whereHas('cn')->get();
 ```
 
 This type of filter syntax allows you to clearly see what your searching for.
@@ -257,10 +258,10 @@ This type of filter syntax allows you to clearly see what your searching for.
 You can use a 'where not has' to perform the inverse of a 'where has':
 
 ```php
-$results = $ad->search->where('cn', '!*')->get();
+$results = $provider->search->where('cn', '!*')->get();
 
 // Or use the method whereNotHas($field)
-$results = $ad->search()->whereNotHas($field)->get();
+$results = $provider->search()->whereNotHas($field)->get();
 ```
 
 ## Or Wheres
@@ -437,6 +438,24 @@ $results = $search->contacts()->get();
 $results = $search->computers()->get();
 ```
 
+## Base DN
+
+To set the base DN of your search you can use one of two methods:
+
+```php
+// Using the `in()` method:
+$results = $provider->search()
+    ->in('ou=Accounting,dc=acme,dc=org')
+    ->get();
+    
+// Using the `setDn()` method:
+$results = $provider->search()
+    ->setDn('ou=Accounting,dc=acme,dc=org')
+    ->get();
+```
+
+Either option will return the same results. Use which ever method you prefer to be more readable.
+
 ## Search Options
 
 #### Recursive
@@ -444,7 +463,7 @@ $results = $search->computers()->get();
 By default, all searches performed are recursive. If you'd like to disable recursive search, use the `recursive()` method:
 
 ```php
-$result = $ad->search()->recursive(false)->all();
+$result = $provider->search()->recursive(false)->all();
 ```
     
 This would perform an `ldap_listing()` instead of an `ldap_search()`.
@@ -454,7 +473,7 @@ This would perform an `ldap_listing()` instead of an `ldap_search()`.
 If you'd like to perform a read instead of a listing or a recursive search, use the `read()` method:
 
 ```php
-$result = $ad->search()->read(true)->where('objectClass', '*')->get();
+$result = $provider->search()->read(true)->where('objectClass', '*')->get();
 ```
 
 This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_search()`.
@@ -464,7 +483,7 @@ This would perform an `ldap_read()` instead of an `ldap_listing()` or an `ldap_s
 If you'd like to retrieve the raw LDAP results, use the `raw()` method:
 
 ```php
-$rawResults = $ad->search()->raw()->where('cn', '=', 'John Doe')->get();
+$rawResults = $provider->search()->raw()->where('cn', '=', 'John Doe')->get();
 
 var_dump($rawResults); // Returns an array
 ```
@@ -475,7 +494,7 @@ If you'd like to retrieve the current query to save or run it at another time, u
 on the search instance, then on the query builder itself:
 
 ```php
-$query = $ad->search()->where('cn', '=', 'John Doe')->getQuery();
+$query = $provider->search()->where('cn', '=', 'John Doe')->getQuery();
 
 $filter = $query->getQuery();
 

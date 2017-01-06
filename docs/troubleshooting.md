@@ -52,25 +52,28 @@ Your `base_dn` needs to identical to the base DN on your domain. Even one mistyp
 
 If you also include an `ou` in your base DN (ex. `ou=Accounting,dc=corp,dc=acme,dc=org`), you will only receive results inside the `Accounting` OU.
 
-To change this dynamically, simply set the base DN on your search:
+Once you're connected to your LDAP server, retrieve the Root DSE record.
+
+Here's a full example:
 
 ```php
-// Get all computers located in the `Office` OU.
-$results = $provider->search()
-    ->computers()
-    ->setDn('ou=Office,dc=corp,dc=acme,dc=org')
-    ->get();
+$providers = [
+    'default' => [
+        'base_dn' => '',
+        '...',
+    ]
+];
+
+$ad = new \Adldap\Adldap($providers);
+
+try {
+    $provider = $ad->connect();
+    
+    $root = $provider->search()->getRootDse();
+    
+    // ex. Returns 'dc=corp,dc=acme,dc=org'
+    die($root->getRootDomainNamingContext());
+
+} catch (\Adldap\Auth\BindException $e) {
+}
 ```
-
-To verify your base DN, query for the Root DSE record on your AD server:
-
-```php
-$rootDse = $provider->search()->getRootDse();
-
-// The returned string will be your base DN.
-var_dump($rootDse->rootdomainnamingcontext);
-```
-
-If you're sure your base DN is set correctly, check your configuration and disable `follow_referrals`.
-
-This option is also a candidate for issues such as this.

@@ -118,6 +118,14 @@ class Adldap implements AdldapInterface
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->getDefaultProvider(), $method], $parameters);
+        $provider = $this->getDefaultProvider();
+
+        if (!$provider->getConnection()->isBound()) {
+            // We'll make sure we have a bound connection before
+            // allowing dynamic calls on the provider.
+            $provider->connect();
+        }
+
+        return call_user_func_array([$provider, $method], $parameters);
     }
 }

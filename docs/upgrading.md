@@ -53,10 +53,11 @@ now always be returned even if no results are found.
 ##### - Added
 
 - The method `setDefaultProvider($name)` has been added.
-- The `addProvider()` method signature is now different:
+- The method `getProviders()` has been added.
+- The `addProvider()` method signature has been modified:
 
 ```php
-$ad = new Adldap();
+$ad = new \Adldap\Adldap();
 
 // v6.1
 
@@ -71,6 +72,24 @@ $ad->addProvider($provider, $name = 'default');
 $config = ['...'];
 
 $ad->addProvider($config);
+```
+
+- The `__construct()` method signature has been modified:
+
+```php
+// v6.1, requires a Manager instance or `null`
+$manager = new \Adldap\Connections\Manager();
+
+$ad = new Adldap($manager);
+
+// v7.0, requires an array of provider configurations
+$providers = [
+    'default' => [
+        'domain_controllers' => ['...'],
+    ],
+];
+
+$ad = new Adldap($providers);
 ```
 
 ##### - Removed

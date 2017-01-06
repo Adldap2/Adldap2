@@ -4,11 +4,13 @@
 
 Insert Adldap2 into your `composer.json` file:
 
-```json
-"adldap2/adldap2": "v6.1.*",
+```
+"adldap2/adldap2": "v7.0.*"
 ```
 
 Run `composer update` in the root of your project.
+
+You're all set!
 
 ### Usage
 
@@ -24,7 +26,7 @@ $config = [
   // You can use the host name or the IP address of your controllers.
   'domain_controllers'    => ['ACME-DC01.corp.acme.org', '10.0.20.119'],
   
-  // Your base DN. This is usually your account suffix.
+  // Your base DN.
   'base_dn'               => 'dc=corp,dc=acme,dc=org',
   
   // The account to use for querying / modifying users. This
@@ -33,15 +35,12 @@ $config = [
   'admin_password'        => 'password',
 ];
 
-// Create a new connection provider.
-$provider = new \Adldap\Connections\Provider($config);
-
-// Add the provider to Adldap.
-$ad->addProvider('default', $provider);
+// Add a connection provider to Adldap.
+$ad->addProvider($config);
 
 try {
-    // Connect using the providers alias name.
-    $ad->connect('default');
+    // If a successful connection is made, the provider will be returned.
+    $provider = $ad->connect();
 
     // Perform a query.
     $results = $provider->search()->where('cn', '=', 'John Doe')->get();

@@ -70,10 +70,10 @@ $ad = new \Adldap\Adldap($config);
 
 $ad->setDefaultProvider('ad_acme_company');
 
-// Adldap will automatically connect to
-// your new default provider.
 $user = $ad->search()->users()->find('jdoe');
 ```
+
+Adldap will automatically connect to your new default provider.
 
 ## Custom Connections
 

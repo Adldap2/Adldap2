@@ -224,28 +224,40 @@ $user->getEmails();
 The following methods are available on all returned models:
 
 ```php
+// Returns the model's 'name' attribute.
 $model->getName();
 
+// Returns the model's 'cn' attribute.
 $model->getCommonName();
 
+// Returns the model's 'displayname' attribute.
 $model->getDisplayName();
 
+// Returns the model's 'samaccountname' attriubte.
 $model->getAccountName();
 
+// Returns the model's 'samaccounttype` attribute.
 $model->getAccountType();
 
+// Returns the model's 'whencreated` attribute.
 $model->getCreatedAt();
 
+// Returns the model's 'whencreated` attribute in a MySQL timestamp format.
 $model->getCreatedAtDate();
 
+// Returns the model's 'whencreated' attribute in unix time.
 $model->getCreatedAtTimestamp();
 
+// Returns the model's 'whenchanged` attribute.
 $model->getUpdatedAt();
 
+// Returns the model's 'whenchanged` attribute in a MySQL timestamp format.
 $model->getUpdatedAtDate();
 
+// Returns the model's 'whenchanged` attribute in unix time.
 $model->getUpdatedAtTimestamp();
 
+// Returns the model's 'objectclass' attribute.
 $model->getObjectClass();
 
 // Returns the model's root object category string.
@@ -272,8 +284,10 @@ $model->getConvertedGuid();
 // Returns the model's primary group ID.
 $model->getPrimaryGroupId();
 
+// Returns the model's 'instancetype' attribute.
 $model->getInstanceType();
 
+// Returns the model's 'maxpwdage' attribute.
 $model->getMaxPasswordAge();
 ```
 

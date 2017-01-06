@@ -1,4 +1,4 @@
-# HasMemberOfTrait
+# HasMemberOf Trait
 
 Models that contain this trait, have the ability to be apart of a group.
 

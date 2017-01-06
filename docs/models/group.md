@@ -1,7 +1,7 @@
 # The Group Model
 
-> **Note**: This model contains the trait `HasMemberOfTrait`. For more information, visit the documentation:
-> [HasMemberOfTrait](traits/has-member-of.md)
+> **Note**: This model contains the trait `HasMemberOf`. For more information, visit the documentation:
+> [HasMemberOf](traits/has-member-of.md)
 
 ## Getting a groups members
 

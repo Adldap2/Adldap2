@@ -25,6 +25,8 @@ $config = [
     'use_ssl'               => false,
     'use_tls'               => false,
     'timeout'               => 5,
+    
+    // Custom LDAP Options
     'custom_options'        => [
         // See: http://php.net/ldap_set_option
         LDAP_OPT_X_TLS_REQUIRE_CERT => LDAP_OPT_X_TLS_HARD
@@ -35,32 +37,26 @@ $config = [
 $provider = new \Adldap\Connections\Provider($config);
 ```
 
-## Using an configuration object
+## Using a DomainConfiguration object
 
-You can configure Adldap in an object oriented way by creating a `Configuration` object. Keep in mind, not all of these
-methods are required. This will be discussed below. Here is an example of a Configuration with all possible configuration options.
+If you'd prefer, you can also construct a `DomainConfiguration` object:
 
 ```php
-// Create a new Configuration object.
-$config = new \Adldap\Connections\Configuration();
+// Setting configuration options via construct:
+$config = new \Adldap\Configuration\DomainConfiguration([
+    'domain_controllers' => [
+        'corp-dc1.corp.acme.org',
+        'corp-dc2.corp.acme.org',
+    ],
+]);
 
-// Mandatory Configuration Options
-$config->setDomainControllers(['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org']);
-$config->setBaseDn('dc=corp,dc=acme,dc=org');
-$config->setAdminUsername('admin');
-$config->setAdminPassword('password');
+// Setting configuration options via `set()` method:
+$config->set('domain_controllers', [
+    'corp-dc1.corp.acme.org',
+    'corp-dc2.corp.acme.org',
+]);
 
-// Optional Configuration Options
-$config->setAccountPrefix('ACME-');
-$config->setAccountSuffix('@acme.org');
-$config->setAdminAccountSuffix('@acme.org');
-$config->setPort(389);
-$config->setFollowReferrals(false);
-$config->setUseSSL(false);
-$config->setUseTLS(false);
-$config->setTimeout(5);
 
-// Create a new Adldap Provider instance.
 $provider = new \Adldap\Connections\Provider($config);
 ```
 

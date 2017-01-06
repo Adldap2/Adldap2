@@ -5,12 +5,12 @@ namespace Adldap\Models;
 use InvalidArgumentException;
 use Adldap\Utilities;
 use Adldap\Objects\BatchModification;
-use Adldap\Models\Traits\HasMemberOfTrait;
-use Adldap\Models\Traits\HasDescriptionTrait;
+use Adldap\Models\Traits\HasMemberOf;
+use Adldap\Models\Traits\HasDescription;
 
 class Group extends Entry
 {
-    use HasDescriptionTrait, HasMemberOfTrait;
+    use HasDescription, HasMemberOf;
 
     /**
      * Returns all users apart of the current group.

@@ -6,10 +6,8 @@ use Adldap\Utilities;
 use Adldap\Models\Group;
 use Illuminate\Support\Collection;
 
-trait HasMemberOfTrait
+trait HasMemberOf
 {
-    use ModelTrait;
-
     /**
      * Adds the current model to the specified group.
      *
@@ -22,7 +20,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $group = $this->getQuery()->newInstance()->findByDn($group);
+            $group = $this->query->newInstance()->findByDn($group);
         }
 
         if ($group instanceof Group) {
@@ -46,7 +44,7 @@ trait HasMemberOfTrait
         if (is_string($group)) {
             // If the group is a string, we'll assume the dev is passing
             // in a DN string of the group. We'll try to locate it.
-            $group = $this->getQuery()->newInstance()->findByDn($group);
+            $group = $this->query->newInstance()->findByDn($group);
         }
 
         if ($group instanceof Group) {
@@ -74,11 +72,11 @@ trait HasMemberOfTrait
      */
     public function getGroups($fields = [], $recursive = false)
     {
-        $dns = $this->getAttribute($this->getSchema()->memberOf());
+        $dns = $this->getAttribute($this->schema->memberOf());
 
         $dns = is_array($dns) ? $dns : [];
 
-        $query = $this->getQuery()->newInstance();
+        $query = $this->query->newInstance();
 
         $groups = $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
             return $query->select($fields)->findByDn($dn);
@@ -110,7 +108,7 @@ trait HasMemberOfTrait
      */
     public function getGroupNames($recursive = false)
     {
-        $names = $this->getGroups([$this->getSchema()->commonName()], $recursive)->map(function (Group $group) {
+        $names = $this->getGroups([$this->schema->commonName()], $recursive)->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
 

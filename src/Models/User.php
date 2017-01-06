@@ -7,14 +7,14 @@ use Adldap\Utilities;
 use Adldap\AdldapException;
 use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
-use Adldap\Models\Traits\HasMemberOfTrait;
-use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Models\Traits\HasLastLogonAndLogOffTrait;
+use Adldap\Models\Traits\HasMemberOf;
+use Adldap\Models\Traits\HasDescription;
+use Adldap\Models\Traits\HasLastLogonAndLogOff;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Entry implements Authenticatable
 {
-    use HasDescriptionTrait, HasMemberOfTrait, HasLastLogonAndLogOffTrait;
+    use HasDescription, HasMemberOf, HasLastLogonAndLogOff;
 
     /**
      * Get the name of the unique identifier for the user.

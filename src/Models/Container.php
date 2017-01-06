@@ -2,12 +2,12 @@
 
 namespace Adldap\Models;
 
-use Adldap\Models\Traits\HasDescriptionTrait;
-use Adldap\Models\Traits\HasCriticalSystemObjectTrait;
+use Adldap\Models\Traits\HasDescription;
+use Adldap\Models\Traits\HasCriticalSystemObject;
 
 class Container extends Entry
 {
-    use HasDescriptionTrait, HasCriticalSystemObjectTrait;
+    use HasDescription, HasCriticalSystemObject;
 
     /**
      * Returns the containers system flags integer.

@@ -9,18 +9,18 @@ modifications, a major version is required to follow semver.
 
 #### Adldap\Models\User & Adldap\Models\Group
 
-##### -Removed
+##### - Removed
 
 - The method `getMemberOf()` has been removed in favor of the `getGroups()` method
 - The method `getMemberOfNames()` has been removed in favor of the `getGroupNames()` method
 
 #### Adldap\Models\RootDse
 
-##### Changed
+##### - Changed
 
 - The method `getCurrentTime()` now returns unix time instead of the raw time string
 
-##### Removed
+##### - Removed
 
 - The method `getCurrentTimeTimestamp()` has been removed in favor of the `getCurrentTime()` method
 
@@ -53,6 +53,25 @@ now always be returned even if no results are found.
 ##### - Added
 
 - The method `setDefaultProvider($name)` has been added.
+- The `addProvider()` method signature is now different:
+
+```php
+$ad = new Adldap();
+
+// v6.1
+
+$ad->addProvider($name = 'default', $provider);
+
+// v7.0
+
+// You can insert a `Provider` instance:
+$ad->addProvider($provider, $name = 'default');
+
+// Or, insert a configuration array / object:
+$config = ['...'];
+
+$ad->addProvider($config);
+```
 
 ##### - Removed
 

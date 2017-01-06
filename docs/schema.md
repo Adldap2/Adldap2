@@ -42,8 +42,8 @@ $mySchema = new \App\Schema\MySchema();
 $provider = new \Adldap\Connections\Provider($config, $connection = null, $mySchema);
 
 // Add the provider to your Adldap instance.
-$adldap->addProvider('default', $provider);
+$adldap->addProvider($provider, $name = 'default');
 
 // Connect to your provider.
-$adldap->connect();
+$adldap->connect('default');
 ```

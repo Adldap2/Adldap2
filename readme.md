@@ -56,7 +56,7 @@ If your AD server requires SSL, your server must support the following libraries
 
 ### Installing
 
-Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "6.1.*"` in your `composer.json` file:
+Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "7.0.*"` in your `composer.json` file:
 
 ```json
 "require": {

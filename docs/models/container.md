@@ -1,7 +1,10 @@
 # The Container Model
 
-> **Note**: This model contains the trait `HasDescription` & `HasCriticalSystemObject`. For more information, visit the documentation:
-> [HasDescription](traits/has-description.md), [HasCriticalSystemObject](traits/has-critical-system-object.md),
+> **Note**: This model contains the trait `HasDescription` & `HasCriticalSystemObject`.
+> For more information, visit the documentation:
+> 
+> [HasDescription](traits/has-description.md),
+> [HasCriticalSystemObject](traits/has-critical-system-object.md),
 
 ## List of Available 'Getter' Methods:
 

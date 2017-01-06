@@ -1,7 +1,9 @@
 # The Computer Model
 
 > **Note**: This model contains the traits `HasDescription`, `HasLastLogonAndLogOff` & `HasCriticalSystemObject`.
-> For more information, visit the documentation: [HasDescription](traits/has-description.md),
+> For more information, visit the documentation:
+>
+> [HasDescription](traits/has-description.md),
 > [HasLastLogonAndLogOff](traits/has-last-login-last-logoff.md),
 > [HasCriticalSystemObject](traits/has-critical-system-object.md)
 

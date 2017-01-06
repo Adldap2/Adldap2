@@ -1,5 +1,20 @@
 # Configuration
 
+- [Using an Array](#using-a-configuration-array)
+- [Using DomainConfiguration](#using-a-domainconfiguration-object)
+- [Definitions](#definitions)
+    - [Account Prefix (optional)](#account-prefix-optional)
+    - [Account Suffix (optional)](#account-suffix-optional)
+    - [Admin Account Suffix (optional)](#admin-account-suffix-optional)
+    - [Domain Controllers (required)](#domain-controllers-required)
+    - [Port (optional)](#port-optional)
+    - [Base Distinguished Name (required)](#base-distinguished-name-required)
+    - [Administrator Username & Password (required)](#administrator-username--password-required)
+    - [Follow Referrals (optional)](#follow-referrals-optional)
+    - [SSL & TLS (optional)](#ssl--tls-optional)
+    - [Timeout](#timeout)
+    - [Custom Options](#custom-options)
+
 Configuring Adldap2 is really easy. Let's get started.
 
 ## Using a configuration array
@@ -95,11 +110,11 @@ The port option is used for authenticating and binding to your AD server. The de
 
 Only insert a port if your AD server uses a unique port.
 
-### Base Distinguished Name (optional)
+### Base Distinguished Name (required)
 
 The base distinguished name is the base distinguished name you'd like to perform operations on. An example base DN would be `DC=corp,DC=acme,DC=org`.
 
-If one is not defined, then Adldap will try to find it automatically by querying your server. It's recommended to include it to limit queries executed per request.
+If one is not defined, you will not retrieve any search results.
 
 ### Administrator Username & Password (required)
 
@@ -125,7 +140,7 @@ The timeout option allows you to configure the amount of seconds to wait until y
 
 The default is 5 seconds.
 
-### Custom options
+### Custom Options
 
 Arbitrary options can be set for the connection to fine-tune TLS and connection behavior. Please note that `LDAP_OPT_PROTOCOL_VERSION`,
 `LDAP_OPT_NETWORK_TIMEOUT` and `LDAP_OPT_REFERRALS` will be ignored if set. These are set above with the `version`, `timeout` and

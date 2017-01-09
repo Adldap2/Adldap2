@@ -264,6 +264,7 @@ class Provider implements ProviderInterface
                 LDAP_OPT_REFERRALS => $this->configuration->get('follow_referrals')
             ]
         );
+
         $this->connection->setOptions($options);
     }
 }

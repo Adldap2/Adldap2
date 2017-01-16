@@ -10,21 +10,28 @@ There's a ton of available getter methods for the User model. Below is a list fo
 > **Note**: Don't see a method for an AD attribute? Create an issue and let us know!
 
 ```php
+// Get the users display name.
 $user->getDisplayName();
 
+// Get the users first email address.
 $user->getEmail();
 
-// If the user has multiple email addresses.
+// Get the users email addresses, if they have multiple.
 $user->getEmails();
 
+// Get the users title.
 $user->getTitle();
 
+// Get the users department.
 $user->getDepartment();
 
+// Get the users first name.
 $user->getFirstName();
 
+// Get the users last name.
 $user->getLastName();
 
+// Get the users info.
 $user->getInfo();
 
 $user->getInitials();

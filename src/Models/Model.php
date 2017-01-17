@@ -2,7 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Connections\ConnectionException;
 use DateTime;
 use ArrayAccess;
 use JsonSerializable;
@@ -11,10 +10,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Query\Builder;
-use Adldap\AdldapException;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
+use Adldap\Connections\ConnectionException;
 
 abstract class Model implements ArrayAccess, JsonSerializable
 {
@@ -532,19 +531,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $mod = $mod->get();
         }
 
-        if (!is_array($mod)) {
-            $class = BatchModification::class;
+        if (is_array($mod)) {
+            // Validate that we have the least required
+            // attributes for a batch modification.
+            if (
+                !array_key_exists('modtype', $mod) ||
+                !array_key_exists('attrib', $mod)
+            ) {
+                throw new InvalidArgumentException(
+                    "The batch modification array does not include the mandatory 'attrib' or 'modtype' keys."
+                );
+            }
 
-            throw new InvalidArgumentException(
-                "The batch modification must be an instance of $class or an array. $mod given."
-            );
-        } elseif (!array_key_exists('modtype', $mod) || !array_key_exists('attrib', $mod)) {
-            throw new InvalidArgumentException(
-                "The batch modification array does not include the mandatory 'attrib' or 'modtype' keys."
-            );
+            $this->modifications[] = $mod;
         }
-
-        $this->modifications[] = $mod;
 
         return $this;
     }

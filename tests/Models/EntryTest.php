@@ -536,9 +536,6 @@ class EntryTest extends TestCase
         $this->assertEquals($mod, $model->getModifications()[0]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_adding_invalid_modification()
     {
         $model = $this->newModel();
@@ -546,6 +543,24 @@ class EntryTest extends TestCase
         $mod = 'test';
 
         $model->addModification($mod);
+
+        $this->assertEquals([], $model->getModifications());
+    }
+
+
+    public function test_adding_empty_non_existing_attribute()
+    {
+        $model = $this->newModel();
+
+        $model->exists = true;
+
+        $model->description = '';
+
+        // Since the model exists and a non existent property is set to being
+        // empty, no modification will be generated for the attribute.
+        // Since no modifications are generated, the LDAP connection
+        // isn't called, and will return true by default.
+        $this->assertTrue($model->save());
     }
 
     /**

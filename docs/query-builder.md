@@ -328,7 +328,7 @@ $result = $search
     ->first();
 ```
 
-You can even perform multiple wheres by separating your fields by an `And`:
+You can even perform multiple dynamic wheres by separating your fields by an `And`:
 
 ```php
 // This would perform a search for a user with the

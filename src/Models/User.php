@@ -939,6 +939,8 @@ class User extends Entry implements Authenticatable
      * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
      *                                 errors.
      *
+     * @throws UserPasswordPolicyException
+     * @throws UserPasswordIncorrectException
      * @throws AdldapException
      *
      * @return bool
@@ -951,7 +953,7 @@ class User extends Entry implements Authenticatable
 
         $modifications = [];
 
-        if ($replaceNotRemove === true) {
+        if ($replaceNotRemove) {
             $modifications[] = new BatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REPLACE,
@@ -985,7 +987,7 @@ class User extends Entry implements Authenticatable
             // figure out why by retrieving the extended error.
             $error = $this->query->getConnection()->getExtendedError();
             $code = $this->query->getConnection()->getExtendedErrorCode();
-            
+
             switch ($code) {
                 case '0000052D':
                     throw new UserPasswordPolicyException(

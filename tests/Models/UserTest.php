@@ -51,12 +51,10 @@ class UserTest extends TestCase
     {
         $connection = $this->newConnectionMock();
 
-        $code = '0000052D';
-
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(true);
-        $connection->shouldReceive('modifyBatch')->once()->andReturn(false);
+        $connection->shouldReceive('modifyBatch')->once()->andThrow(new \Exception('Constraint violation'));
         $connection->shouldReceive('getExtendedError')->once()->andReturn('error');
-        $connection->shouldReceive('getExtendedErrorCode')->once()->andReturn($code);
+        $connection->shouldReceive('getExtendedErrorCode')->once()->andReturn('0000052D');
 
         $user = new User([], $this->newBuilder($connection));
 
@@ -70,12 +68,10 @@ class UserTest extends TestCase
     {
         $connection = $this->newConnectionMock();
 
-        $code = '00000056';
-
         $connection->shouldReceive('isUsingSSL')->once()->andReturn(true);
-        $connection->shouldReceive('modifyBatch')->once()->andReturn(false);
+        $connection->shouldReceive('modifyBatch')->once()->andThrow(new \Exception('Constraint violation'));
         $connection->shouldReceive('getExtendedError')->once()->andReturn('error');
-        $connection->shouldReceive('getExtendedErrorCode')->once()->andReturn($code);
+        $connection->shouldReceive('getExtendedErrorCode')->once()->andReturn('00000056');
 
         $user = new User([], $this->newBuilder($connection));
 

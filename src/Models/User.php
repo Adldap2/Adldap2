@@ -3,6 +3,7 @@
 namespace Adldap\Models;
 
 use DateTime;
+use Exception;
 use Adldap\Utilities;
 use Adldap\AdldapException;
 use Adldap\Objects\AccountControl;
@@ -977,15 +978,14 @@ class User extends Entry implements Authenticatable
             $this->addModification($modification);
         }
 
-        // Update the user.
-        $result = $this->update();
-
-        if (!$result) {
+        try {
+            return $this->update();
+        } catch (Exception $e) {
             // If the user failed to update, we'll see if we can
             // figure out why by retrieving the extended error.
             $error = $this->query->getConnection()->getExtendedError();
             $code = $this->query->getConnection()->getExtendedErrorCode();
-
+            
             switch ($code) {
                 case '0000052D':
                     throw new UserPasswordPolicyException(
@@ -999,8 +999,6 @@ class User extends Entry implements Authenticatable
                     throw new AdldapException("Error: $error");
             }
         }
-
-        return $result;
     }
 
     /**

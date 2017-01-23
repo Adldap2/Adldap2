@@ -329,8 +329,8 @@ class Builder
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
             // Run the search.
-            $resource = $this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
-
+            $resource = @$this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
+            
             if ($resource) {
                 $this->connection->controlPagedResultResponse($resource, $cookie);
 

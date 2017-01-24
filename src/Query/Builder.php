@@ -315,7 +315,7 @@ class Builder
      * @param int  $currentPage
      * @param bool $isCritical
      *
-     * @return Paginator|bool
+     * @return Paginator
      */
     public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
     {
@@ -330,7 +330,7 @@ class Builder
 
             // Run the search.
             $resource = @$this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
-            
+
             if ($resource) {
                 $this->connection->controlPagedResultResponse($resource, $cookie);
 

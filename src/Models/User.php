@@ -995,7 +995,7 @@ class User extends Entry implements Authenticatable
                     );
                 case '00000056':
                     throw new UserPasswordIncorrectException(
-                        $message = "Error: $code. Your old password is incorrect."
+                        "Error: $code. Your old password is incorrect."
                     );
                 default:
                     throw new AdldapException("Error: $error");

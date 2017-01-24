@@ -2,7 +2,6 @@
 
 namespace Adldap\Search;
 
-use Adldap\Models\Model;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Models\RootDse;

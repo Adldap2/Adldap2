@@ -456,7 +456,7 @@ class Builder
      */
     public function findManyBy($attribute, array $values = [], $columns = [])
     {
-        $query = $this->newInstance()->select($columns);
+        $query = $this->select($columns);
 
         foreach ($values as $value) {
             $query->orWhere([$attribute => $value]);

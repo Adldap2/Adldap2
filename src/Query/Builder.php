@@ -631,7 +631,11 @@ class Builder
      */
     public function select($columns = [])
     {
-        $this->columns = is_array($columns) ? $columns : func_get_args();
+        $columns = is_array($columns) ? $columns : func_get_args();
+
+        if (!empty($columns)) {
+            $this->columns = is_array($columns) ? $columns : func_get_args();
+        }
 
         return $this;
     }

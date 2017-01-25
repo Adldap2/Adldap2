@@ -676,4 +676,15 @@ class BuilderTest extends TestCase
         $this->assertEquals('=', $orWhereSn['operator']);
         $this->assertEquals('\73\6e', $orWhereSn['value']);
     }
+
+    public function test_selects_are_not_overwritten_with_empty_array()
+    {
+        $b = $this->newBuilder();
+
+        $b->select(['one', 'two']);
+
+        $b->select([]);
+
+        $this->assertEquals(['one', 'two', 'objectcategory', 'objectclass'], $b->getSelects());
+    }
 }

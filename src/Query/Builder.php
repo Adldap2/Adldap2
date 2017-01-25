@@ -456,17 +456,13 @@ class Builder
      */
     public function findManyBy($attribute, array $values = [], $columns = [])
     {
-        $models = [];
+        $query = $this->newInstance()->select($columns);
 
         foreach ($values as $value) {
-            $model = $this->newInstance()->findBy($attribute, $value, $columns);
-
-            if ($model instanceof Model) {
-                $models[] = $model;
-            }
+            $query->orWhere([$attribute => $value]);
         }
 
-        return $this->newCollection($models);
+        return $query->get();
     }
 
     /**

@@ -580,6 +580,23 @@ class Builder
     }
 
     /**
+     * Finds a record by its Object SID.
+     *
+     * Fails upon no records returned.
+     *
+     * @param string       $sid
+     * @param array|string $columns
+     *
+     * @throws ModelNotFoundException
+     *
+     * @return mixed
+     */
+    public function findBySidOrFail($sid, $columns = [])
+    {
+        return $this->findByOrFail($this->schema->objectSid(), $sid, $columns);
+    }
+
+    /**
      * Finds the Base DN of your domain controller.
      *
      * @return string|bool

@@ -38,7 +38,7 @@ class Guard implements GuardInterface
         } catch (BindException $e) {
             // We'll catch the BindException here to return false
             // to allow developers to use a simple if / else
-            // using the authenticate method.
+            // using the attempt method.
             return false;
         }
 

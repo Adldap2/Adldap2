@@ -1,4 +1,4 @@
-- Adldap2 Version: #.#.#
+- Adldap2 Version: #.#
 - PHP Version:
 
 ### Description:

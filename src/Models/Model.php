@@ -933,20 +933,26 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Saves the changes to LDAP and returns the results.
      *
+     * @param array $attributes
+     *
      * @return bool
      */
-    public function save()
+    public function save(array $attributes = [])
     {
-        return $this->exists ? $this->update() : $this->create();
+        return $this->exists ? $this->update($attributes) : $this->create($attributes);
     }
 
     /**
      * Updates the model.
      *
+     * @param array $attributes
+     *
      * @return bool
      */
-    public function update()
+    public function update(array $attributes = [])
     {
+        $this->fill($attributes);
+
         $modifications = $this->getModifications();
 
         if (count($modifications) > 0) {
@@ -974,10 +980,14 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Creates the entry in LDAP.
      *
+     * @param array $attributes
+     *
      * @return bool
      */
-    public function create()
+    public function create(array $attributes = [])
     {
+        $this->fill($attributes);
+
         if (empty($this->getDn())) {
             // If the model doesn't currently have a DN,
             // we'll create a new one automatically.

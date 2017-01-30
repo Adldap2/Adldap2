@@ -292,6 +292,47 @@ class EntryTest extends TestCase
         $this->assertEquals($attributes['givenname'][0], $entry->givenname[0]);
     }
 
+    public function test_save_for_create_with_attributes()
+    {
+        $connection = $this->newConnectionMock();
+
+        $attributes = [
+            'cn'        => ['John Doe'],
+            'givenname' => ['John'],
+            'sn'        => ['Doe'],
+        ];
+
+        $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
+
+        $returnedRaw = [
+            'count' => 1,
+            [
+                'cn'        => ['John Doe'],
+                'givenname' => ['John'],
+                'sn'        => ['Doe'],
+                'dn'        => $dn,
+            ],
+        ];
+
+        $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
+        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $entry = $this->newModel([], $this->newBuilder($connection));
+
+        $entry->setDn($dn);
+
+        $this->assertTrue($entry->save($attributes));
+        $this->assertEquals($attributes['cn'][0], $entry->getCommonName());
+        $this->assertEquals($attributes['sn'][0], $entry->sn[0]);
+        $this->assertEquals($attributes['givenname'][0], $entry->givenname[0]);
+    }
+
     public function test_save_for_update()
     {
         $connection = $this->newConnectionMock();
@@ -311,6 +352,49 @@ class EntryTest extends TestCase
         $entry->setRawAttributes(['dn' => $dn]);
 
         $this->assertTrue($entry->save());
+    }
+
+    public function test_save_for_update_with_attributes()
+    {
+        $connection = $this->newConnectionMock();
+
+        $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
+
+        $returnedRaw = [['dn' => $dn]];
+
+        $attributes = [
+            'cn' => ['John Doe'],
+            'sn' => ['Doe'],
+        ];
+
+        $modifications = [
+            [
+                'attrib' => 'cn',
+                'modtype' => 1,
+                'values' => [
+                    'John Doe',
+                ]
+            ],
+            [
+                'attrib' => 'sn',
+                'modtype' => 1,
+                'values' => [
+                    'Doe',
+                ]
+            ]
+        ];
+
+        $connection->shouldReceive('read')->andReturn($connection);
+        $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
+
+        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, $modifications])->andReturn(true);
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $entry = $this->newModel([], $this->newBuilder($connection));
+
+        $entry->setRawAttributes(['dn' => $dn]);
+
+        $this->assertTrue($entry->save($attributes));
     }
 
     /**

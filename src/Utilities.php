@@ -300,11 +300,7 @@ class Utilities
     {
         preg_match("/S-1-5-21-\d+-\d+\-\d+\-\d+/", $sid, $matches);
 
-        if (count($matches) > 0) {
-            return true;
-        }
-
-        return false;
+        return count($matches) > 0;
     }
 
     /**

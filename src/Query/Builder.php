@@ -860,7 +860,7 @@ class Builder
     }
 
     /**
-     * Adds a member of raw filter to the current query.
+     * Adds a member of filter to the current query.
      *
      * @param string $dn
      *
@@ -1027,6 +1027,18 @@ class Builder
     public function orWhereNotEndsWith($field, $value)
     {
         return $this->orWhere($field, Operator::$notEndsWith, $value);
+    }
+
+    /**
+     * Adds an or where member of filter to the current query.
+     *
+     * @param string $dn
+     *
+     * @return Builder
+     */
+    public function orWhereMemberOf($dn)
+    {
+        return $this->orWhereEquals('memberof:1.2.840.113556.1.4.1941:', $dn);
     }
 
     /**

@@ -161,6 +161,19 @@ class BuilderTest extends TestCase
         $this->assertEquals('\74\65\73\74', $where['value']);
     }
 
+    public function test_where_member_of()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereMemberOf('cn=Accounting,dc=org,dc=acme');
+
+        $where = $b->filters['and'][0];
+
+        $this->assertEquals('memberof:1.2.840.113556.1.4.1941:', $where['field']);
+        $this->assertEquals('=', $where['operator']);
+        $this->assertEquals('\63\6e\3d\41\63\63\6f\75\6e\74\69\6e\67\2c\64\63\3d\6f\72\67\2c\64\63\3d\61\63\6d\65', $where['value']);
+    }
+
     public function test_or_where()
     {
         $b = $this->newBuilder();
@@ -172,7 +185,6 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('=', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
-
     }
 
     public function test_or_where_with_array()
@@ -234,6 +246,20 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+    }
+
+    public function test_or_where_member_of()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereEquals('cn', 'John Doe');
+        $b->orWhereMemberOf('cn=Accounting,dc=org,dc=acme');
+
+        $where = $b->filters['or'][1];
+
+        $this->assertEquals('memberof:1.2.840.113556.1.4.1941:', $where['field']);
+        $this->assertEquals('=', $where['operator']);
+        $this->assertEquals('\63\6e\3d\41\63\63\6f\75\6e\74\69\6e\67\2c\64\63\3d\6f\72\67\2c\64\63\3d\61\63\6d\65', $where['value']);
     }
 
     /**

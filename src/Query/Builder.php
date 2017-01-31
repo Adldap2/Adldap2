@@ -699,9 +699,9 @@ class Builder
         }
 
         // We'll escape the value if raw isn't requested.
-        $value = $raw ? $value : Utilities::escape($value);
+        $value = $raw ? $value : $this->escape($value);
 
-        $field = Utilities::escape($field, null, 3);
+        $field = $this->escape($field, null, 3);
 
         $this->filters[$boolean][] = compact('field', 'operator', 'value');
 
@@ -857,6 +857,18 @@ class Builder
     public function whereDisabled()
     {
         return $this->rawFilter('(UserAccountControl:1.2.840.113556.1.4.803:=2)');
+    }
+
+    /**
+     * Adds a member of raw filter to the current query.
+     *
+     * @param string $dn
+     *
+     * @return Builder
+     */
+    public function whereMemberOf($dn)
+    {
+        return $this->whereEquals('memberof:1.2.840.113556.1.4.1941:', $dn);
     }
 
     /**
@@ -1117,6 +1129,20 @@ class Builder
         $this->raw = (bool) $raw;
 
         return $this;
+    }
+
+    /**
+     * Returns an escaped string for use in an LDAP filter.
+     *
+     * @param string $value
+     * @param string $ignore
+     * @param int    $flags
+     *
+     * @return string
+     */
+    public function escape($value, $ignore = '', $flags = 0)
+    {
+        return Utilities::escape($value, $ignore, $flags);
     }
 
     /**

@@ -62,7 +62,7 @@ try {
     if ($user->save()) {
         // User was saved!
     }
-} catch (\Adldap\Exceptions\Auth\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
 
     // There was an issue binding / connecting to the server.
 

@@ -652,21 +652,25 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's GUID.
      *
-     * @return string
+     * @return string|false
      */
     public function getConvertedGuid()
     {
-        return Utilities::binaryGuidToString($this->getFirstAttribute($this->schema->objectGuid()));
+        $guid = $this->getFirstAttribute($this->schema->objectGuid());
+
+        return $guid ? Utilities::binaryGuidToString($guid) : false;
     }
 
     /**
      * Returns the model's SID.
      *
-     * @return string
+     * @return string|false
      */
     public function getConvertedSid()
     {
-        return Utilities::binarySidToString($this->getFirstAttribute($this->schema->objectSid()));
+        $sid = $this->getFirstAttribute($this->schema->objectSid());
+
+        return $sid ? Utilities::binarySidToString($sid) : false;
     }
 
     /**

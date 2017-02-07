@@ -449,6 +449,50 @@ class BuilderTest extends TestCase
         $this->assertEquals($expected, $b->getQuery());
     }
 
+    public function test_built_where_equals()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereEquals('field', 'value');
+
+        $expected = '(field=\76\61\6c\75\65)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function test_built_where_not_equals()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotEquals('field', 'value');
+
+        $expected = '(!(field=\76\61\6c\75\65))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function test_built_or_where_equals()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereEquals('field', 'value');
+
+        $expected = '(field=\76\61\6c\75\65)';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
+    public function test_built_or_where_not_equals()
+    {
+        $b = $this->newBuilder();
+
+        $b->orWhereNotEquals('field', 'value');
+
+        $expected = '(!(field=\76\61\6c\75\65))';
+
+        $this->assertEquals($expected, $b->getQuery());
+    }
+
     public function test_built_or_where_approximately_equals()
     {
         $b = $this->newBuilder();

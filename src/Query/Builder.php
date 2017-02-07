@@ -738,6 +738,19 @@ class Builder
     }
 
     /**
+     * Adds a where not equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereNotEquals($field, $value)
+    {
+        return $this->where($field, Operator::$doesNotEqual, $value);
+    }
+
+    /**
      * Adds a where approximately equals clause to the current query.
      *
      * @param string $field
@@ -936,6 +949,19 @@ class Builder
     public function orWhereEquals($field, $value)
     {
         return $this->orWhere($field, Operator::$equals, $value);
+    }
+
+    /**
+     * Adds an or where not equals clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function orWhereNotEquals($field, $value)
+    {
+        return $this->orWhere($field, Operator::$doesNotEqual, $value);
     }
 
     /**

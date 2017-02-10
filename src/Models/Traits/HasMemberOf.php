@@ -3,6 +3,7 @@
 namespace Adldap\Models\Traits;
 
 use Adldap\Utilities;
+use Adldap\Models\User;
 use Adldap\Models\Group;
 use Illuminate\Support\Collection;
 
@@ -84,9 +85,10 @@ trait HasMemberOf
             return $group instanceof Group;
         });
 
-        if ($primary = $this->getPrimaryGroup()) {
-            // If the model we're working with contains a primary group,
-            // we'll push it into the resulting collection.
+        // We need to check if we're working with a User model. Only users
+        // contain a primary group. If we are, we'll merge the users
+        // primary group into the resulting collection.
+        if ($this instanceof User && $primary = $this->getPrimaryGroup()) {
             $groups->push($primary);
         }
 

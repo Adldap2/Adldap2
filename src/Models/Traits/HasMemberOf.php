@@ -75,10 +75,13 @@ trait HasMemberOf
     {
         $dns = $this->getAttribute($this->schema->memberOf());
 
+        // Normalize returned distinguished names.
         $dns = is_array($dns) ? $dns : [];
 
+        /** @var \Adldap\Query\Builder $query */
         $query = $this->query->newInstance();
 
+        /** @var Collection $groups */
         $groups = $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
             return $query->select($fields)->findByDn($dn);
         })->filter(function ($group) {

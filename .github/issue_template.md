@@ -1,5 +1,6 @@
 - Adldap2 Version: #.#
-- PHP Version:
+- LDAP Type: <!-- Active Directory or OpenLDAP? -->
+- PHP Version: #.#
 
 ### Description:
 

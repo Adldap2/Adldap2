@@ -84,6 +84,12 @@ trait HasMemberOf
             return $group instanceof Group;
         });
 
+        if ($primary = $this->getPrimaryGroup()) {
+            // If the model we're working with contains a primary group,
+            // we'll push it into the resulting collection.
+            $groups->push($primary);
+        }
+
         if ($recursive) {
             // If recursive results are requested, we'll ask each group
             // for their groups, and merge the resulting collection.

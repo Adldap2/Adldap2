@@ -658,4 +658,15 @@ class EntryTest extends TestCase
 
         $model->addModification($mod);
     }
+
+    public function test_dn_builder_is_set_to_base_when_empty()
+    {
+        $model = $this->newModel();
+
+        $dn = 'dc=base,dc=org';
+
+        $model->getQuery()->setDn($dn);
+
+        $this->assertEquals($dn, $model->getDnBuilder()->get());
+    }
 }

@@ -596,7 +596,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getDnBuilder()
     {
-        return $this->getNewDnBuilder($this->getDistinguishedName());
+        // If we currently don't have a distinguished name, we'll set it to our base.
+        $dn = $this->getDistinguishedName() ?: $this->query->getDn();
+
+        return $this->getNewDnBuilder($dn);
     }
 
     /**
@@ -996,9 +999,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
             // If the model doesn't currently have a DN,
             // we'll create a new one automatically.
             $dn = $this->getDnBuilder();
-
-            // We'll set the base of the DN to the query's base DN.
-            $dn->setBase($this->query->getDn());
 
             // Then we'll add the entry's common name attribute.
             $dn->addCn($this->getCommonName());

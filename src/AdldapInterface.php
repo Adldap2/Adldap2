@@ -70,7 +70,7 @@ interface AdldapInterface
     /**
      * Connects to the specified provider.
      *
-     * If no username and password is given, then providers
+     * If no username and password is given, then the providers
      * configured admin credentials are used.
      *
      * @param string|null $name

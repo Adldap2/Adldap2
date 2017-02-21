@@ -138,7 +138,7 @@ if ($user->update()) {
 
 ## Checking Existence
 
-If you need to check the existence of a model, use the property `exists`:
+If you need to check the existence of a model, use the property `exists`.
 
 How does it know if the model exists in AD? Well, when models are constructed from
 search results, the `exists` property on the model is set to `true`.

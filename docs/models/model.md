@@ -73,7 +73,7 @@ $group = $provider->make()->group([
 
 // Adldap\Models\OrganizationalUnit
 $ou = $provider->make()->ou([
-    'cn' => 'Acme',
+    'name' => 'Acme',
 ]);
 ```
 

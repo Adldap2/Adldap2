@@ -19,6 +19,7 @@
     - [Container](docs/models/container.md)
     - [Entry](docs/models/entry.md)
     - [Group](docs/models/group.md)
+    - [Organizational Unit](docs/models/ou.md)
     - [Printer](docs/models/printer.md)
     - [RootDse](docs/models/root-dse.md)
     - [User](docs/models/user.md)

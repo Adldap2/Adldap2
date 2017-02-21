@@ -5,6 +5,15 @@
 >
 > [HasMemberOf](traits/has-member-of.md)
 
+## Creation
+
+```php
+// Adldap\Models\Group
+$group = $provider->make()->group([
+    'cn' => 'Managers',
+]);
+```
+
 ## Getting a groups members
 
 When you receive a `Group` model instance, it will contain a `member`

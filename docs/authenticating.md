@@ -27,7 +27,8 @@ try {
 
 ## Binding as Authenticated Users
 
-To bind the users to your LDAP connection that you authenticate (which means 'run all LDAP operations under this user'),
+To bind the users to your LDAP connection that you authenticate (which
+means *run all further LDAP operations under this user*),
 pass in `true` into the third parameter:
 
 ```php

@@ -31,8 +31,7 @@ interface GuardInterface
     public function attempt($username, $password, $bindAsUser = false);
 
     /**
-     * Binds to the current connection using the
-     * inserted credentials.
+     * Binds to the current connection using the inserted credentials.
      *
      * @param string $username
      * @param string $password

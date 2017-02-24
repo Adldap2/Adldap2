@@ -691,7 +691,7 @@ class Builder
      *
      * @return Builder
      */
-    public function orFilter($closure)
+    public function orFilter(Closure $closure)
     {
         $query = $this->newInstance()->nested();
 

@@ -91,7 +91,7 @@ class Builder
     protected $raw = false;
 
     /**
-     * Determines whether the current query is already nested.
+     * Determines whether the query is nested.
      *
      * @var bool
      */

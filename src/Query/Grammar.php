@@ -39,14 +39,18 @@ class Grammar
 
         $query = $this->compileOrWheres($ors, $query);
 
-        $total = count($ands) + count($raws);
+        // We need to check if the query is already nested, otherwise
+        // we'll nest it here and return the result.
+        if (!$builder->isNested()) {
+            $total = count($ands) + count($raws);
 
-        // Make sure we wrap the query in an 'and' if using
-        // multiple filters. We also need to check if only
-        // one where is used with multiple orWheres, that
-        // we wrap it in an `and` query.
-        if ($total > 1 || (count($ands) === 1 && count($ors) > 0)) {
-            $query = $this->compileAnd($query);
+            // Make sure we wrap the query in an 'and' if using
+            // multiple filters. We also need to check if only
+            // one where is used with multiple orWheres, that
+            // we wrap it in an `and` query.
+            if ($total > 1 || (count($ands) === 1 && count($ors) > 0)) {
+                $query = $this->compileAnd($query);
+            }
         }
 
         return $query;

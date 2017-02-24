@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use Closure;
 use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -88,6 +89,13 @@ class Builder
      * @var bool
      */
     protected $raw = false;
+
+    /**
+     * Determines whether the current query is already nested.
+     *
+     * @var bool
+     */
+    protected $nested = false;
 
     /**
      * The current connection instance.
@@ -659,6 +667,42 @@ class Builder
     }
 
     /**
+     * Adds a nested 'and' filter to the current query.
+     *
+     * @param Closure $closure
+     *
+     * @return Builder
+     */
+    public function andFilter(Closure $closure)
+    {
+        $query = $this->newInstance()->nested();
+
+        call_user_func($closure, $query);
+
+        $filter = $this->grammar->compileAnd($query->getQuery());
+
+        return $this->rawFilter($filter);
+    }
+
+    /**
+     * Adds a nested 'or' filter to the current query.
+     *
+     * @param Closure $closure
+     *
+     * @return Builder
+     */
+    public function orFilter($closure)
+    {
+        $query = $this->newInstance()->nested();
+
+        call_user_func($closure, $query);
+
+        $filter = $this->grammar->compileOr($query->getQuery());
+
+        return $this->rawFilter($filter);
+    }
+
+    /**
      * Adds a where clause to the current query.
      *
      * @param string|array $field
@@ -1167,6 +1211,31 @@ class Builder
         $this->raw = (bool) $raw;
 
         return $this;
+    }
+
+    /**
+     * Sets the nested property to tell the Grammar instance whether
+     * or not the current query is already nested.
+     *
+     * @param bool $nested
+     *
+     * @return $this
+     */
+    public function nested($nested = true)
+    {
+        $this->nested = (bool) $nested;
+
+        return $this;
+    }
+
+    /**
+     * Returns true / false if the current query is nested.
+     *
+     * @return bool
+     */
+    public function isNested()
+    {
+        return $this->nested === true;
     }
 
     /**

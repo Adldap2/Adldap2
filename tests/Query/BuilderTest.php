@@ -757,4 +757,63 @@ class BuilderTest extends TestCase
 
         $this->assertEquals(['one', 'two', 'objectcategory', 'objectclass'], $b->getSelects());
     }
+
+    public function test_nested_or_filter()
+    {
+        $b = $this->newBuilder();
+
+        $query = $b->orFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->getUnescapedQuery();
+
+        $this->assertEquals('(|(one=one)(two=two))', $query);
+    }
+
+    public function test_nested_and_filter()
+    {
+        $b = $this->newBuilder();
+
+        $query = $b->andFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->getUnescapedQuery();
+
+        $this->assertEquals('(&(one=one)(two=two))', $query);
+    }
+
+    public function test_nested_filters()
+    {
+        $b = $this->newBuilder();
+
+        $query = $b->orFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->andFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->getUnescapedQuery();
+
+        $this->assertEquals('(&(|(one=one)(two=two))(&(one=one)(two=two)))', $query);
+    }
+
+    public function test_nested_builder_is_nested()
+    {
+        $b = $this->newBuilder();
+
+        $b->andFilter(function ($q) use (&$query) {
+            $query = $q;
+        });
+
+        $this->assertTrue($query->isNested());
+        $this->assertFalse($b->isNested());
+    }
 }

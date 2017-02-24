@@ -45,7 +45,7 @@ try {
     // Perform a query.
     $results = $provider->search()->where('cn', '=', 'John Doe')->get();
     
-    // Find a user.
+    // Find a record.
     $user = $provider->search()->find('jdoe');
 
     // Create a new LDAP entry. You can pass in attributes into the make methods.

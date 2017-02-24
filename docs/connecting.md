@@ -48,7 +48,7 @@ $ad = new \Adldap\Adldap($config);
 
 try {
     $user = $ad->search()->users()->find('jdoe');
-} catch (\Adldap\Exceptions\Auth\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
     //
 }
 ```

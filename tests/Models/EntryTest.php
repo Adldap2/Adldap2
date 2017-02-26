@@ -213,7 +213,7 @@ class EntryTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('add')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('read')->withArgs(['cn=John Doe,ou=Accounting,dc=corp,dc=org', '(objectclass=*)', [], false, 0])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -274,7 +274,7 @@ class EntryTest extends TestCase
         ];
 
         $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', [], false, 0])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -315,7 +315,7 @@ class EntryTest extends TestCase
         ];
 
         $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
-        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', []])->andReturn('resource');
+        $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', [], false, 0])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -534,6 +534,8 @@ class EntryTest extends TestCase
             'cn=John Doe,dc=corp,dc=local',
             '(objectclass=*)',
             [],
+            false,
+            0
         ];
 
         $connection->shouldReceive('add')->once()->withArgs($addArgs)->andReturn(true);

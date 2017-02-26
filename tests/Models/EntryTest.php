@@ -535,7 +535,7 @@ class EntryTest extends TestCase
             '(objectclass=*)',
             [],
             false,
-            0
+            1
         ];
 
         $connection->shouldReceive('add')->once()->withArgs($addArgs)->andReturn(true);

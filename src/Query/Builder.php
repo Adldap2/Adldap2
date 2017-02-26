@@ -388,7 +388,7 @@ class Builder
      */
     public function first($columns = [])
     {
-        $results = $this->select($columns)->get();
+        $results = $this->select($columns)->limit(1)->get();
 
         return Arr::get($results, 0);
     }

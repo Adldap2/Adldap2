@@ -35,6 +35,13 @@ class Builder
     ];
 
     /**
+     * The size limit of the query.
+     *
+     * @var int
+     */
+    public $limit = 0;
+
+    /**
      * Determines whether the current query is paginated.
      *
      * @var bool
@@ -290,6 +297,20 @@ class Builder
     }
 
     /**
+     * Sets the size limit of the current query.
+     *
+     * @param int $limit
+     *
+     * @return Builder
+     */
+    public function limit($limit = 0)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
      * Performs the specified query on the current LDAP connection.
      *
      * @param string $query
@@ -304,13 +325,13 @@ class Builder
 
         if ($this->read) {
             // If read is true, we'll perform a read search, retrieving one record
-            $results = $this->connection->read($dn, $query, $selects);
+            $results = $this->connection->read($dn, $query, $selects, false, $this->limit);
         } elseif ($this->recursive) {
             // If recursive is true, we'll perform a recursive search
-            $results = $this->connection->search($dn, $query, $selects);
+            $results = $this->connection->search($dn, $query, $selects, false, $this->limit);
         } else {
             // Read and recursive is false, we'll return a listing
-            $results = $this->connection->listing($dn, $query, $selects);
+            $results = $this->connection->listing($dn, $query, $selects, false, $this->limit);
         }
 
         return $this->newProcessor()->process($results);

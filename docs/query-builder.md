@@ -3,11 +3,12 @@
 ## Index
 
 - [Selects](#selects)
+- [Limit](#limit)
 - [Wheres](#wheres)
 - [Or Wheres](#or-wheres)
 - [Dynamic Wheres](#dynamic-wheres)
-- [Raw Filters](#raw-filters)
 - [Nested Filters](#nested-filters)
+- [Raw Filters](#raw-filters)
 - [Sorting](#sorting)
 - [Pagination](#paginating)
 - [Scopes](#scopes)
@@ -151,6 +152,16 @@ try {
 } catch (\Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
+```
+
+## Limit
+
+To limit the results records returned from your LDAP server and increase the
+speed of your queries, you can use the `limit()` method:
+
+```php
+// This will only return 5 records that contain the name of 'John'.
+$records = $search->where('cn', 'contains', 'John')->limit(5)->get();
 ```
 
 ## Wheres
@@ -343,7 +354,7 @@ By default, the Adldap2 query builder automatically wraps your queries in `and` 
 However, if any further complexity is required, nested filters allow you
 to construct any query fluently and easily.
 
-## andFilter
+#### andFilter
 
 The `andFilter` method accepts a closure which allows you to construct a query inside of an `and` LDAP filter:
 
@@ -351,9 +362,8 @@ The `andFilter` method accepts a closure which allows you to construct a query i
 $query = $provider->search()->newQuery();
 
 $filter = $query->andFilter(function (\Adldap\Query\Builder $q) {
-    $q->where([
-        'givenname' => 'John',
-        'sn' => 'Doe',
+    $q->where('givenname', '=', 'John')
+        ->where('sn', '=', 'Doe');
     ]);
 })->getUnescapedQuery();
 
@@ -362,7 +372,7 @@ echo $query; // Returns '(&(givenname=John)(sn=Doe))'
 
 The above query would return records that contain the first name `John` **and** the last name `Doe`.
 
-## orFilter
+#### orFilter
 
 The `orFilter` method accepts a closure which allows you to construct a query inside of an `or` LDAP filter:
 
@@ -370,16 +380,33 @@ The `orFilter` method accepts a closure which allows you to construct a query in
 $query = $provider->search()->newQuery();
 
 $filter = $query->orFilter(function (\Adldap\Query\Builder $q) {
-    $q->where([
-        'givenname' => 'John',
-        'sn' => 'Doe',
-    ]);
+    $q->where('givenname', '=', 'John')
+        ->where('sn', '=', 'Doe');
 })->getUnescapedQuery();
 
 echo $query; // Returns '(|(givenname=John)(sn=Doe))'
 ```
 
 The above query would return records that contain the first name `John` **or** the last name `Doe`.
+
+#### Complex Nesting
+
+The above methods `andFilter` / `orFilter` can be chained together and nested
+as many times as you'd like for larger complex queries:
+
+```php
+$query = $provider->search()->newQuery();
+
+$filter = $query->orFilter(function (\Adldap\Query\Builder $q) {
+    $q->where('givenname', '=', 'John')
+        ->where('sn', '=', 'Doe');
+})->andFilter(function (\Adldap\Query\Builder $q) {
+    $q->where('department', '=', 'Accounting')
+        ->where('title', '=', 'Manager');
+})->getUnescapedQuery();
+
+echo $query; // Returns '(&(|(givenname=John)(sn=Doe))(&(department=Accounting)(title=Manager)))'
+```
 
 ## Raw Filters
 
@@ -426,7 +453,7 @@ $results = $search->whereHas('cn')->sortBy('cn', 'asc')->paginate(25);
 
 ## Paginating
 
-Paginating your search results will allow you to return more results than your AD cap
+Paginating your search results will allow you to return more results than your LDAP cap
 (usually 1000) and display your results in pages.
 
 To perform this, call the `paginate()` method instead of the `get()` method:

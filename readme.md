@@ -23,7 +23,7 @@
     - [Printer](docs/models/printer.md)
     - [RootDse](docs/models/root-dse.md)
     - [User](docs/models/user.md)
- - [Working with DN's](docs/distinguished-names.md)
+ - [Working with Distinguished Names](docs/distinguished-names.md)
  - [Schema](docs/schema.md)
  - [Upgrading](docs/upgrading.md)
  - [Troubleshooting](docs/troubleshooting.md)

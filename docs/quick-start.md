@@ -23,13 +23,14 @@ $config = [
   // Your account suffix, for example: jdoe@corp.acme.org
   'account_suffix'        => '@corp.acme.org',
   
-  // You can use the host name or the IP address of your controllers.
-  'domain_controllers'    => ['ACME-DC01.corp.acme.org', '10.0.20.119'],
+  // The domain controllers option is an array of your LDAP hosts. You can
+  // use the either the host name or the IP address of your host.
+  'domain_controllers'    => ['ACME-DC01.corp.acme.org', '192.168.1.1'],
   
   // The base distinguished name of your domain.
   'base_dn'               => 'dc=corp,dc=acme,dc=org',
   
-  // The account to use for querying / modifying users. This
+  // The account to use for querying / modifying LDAP records. This
   // does not need to be an actual admin account.
   'admin_username'        => 'admin',
   'admin_password'        => 'password',
@@ -39,26 +40,26 @@ $config = [
 $ad->addProvider($config);
 
 try {
-    // If a successful connection is made, the provider will be returned.
+    // If a successful connection is made to your server, the provider will be returned.
     $provider = $ad->connect();
 
-    // Perform a query.
+    // Performing a query.
     $results = $provider->search()->where('cn', '=', 'John Doe')->get();
     
-    // Find a record.
+    // Finding a record.
     $user = $provider->search()->find('jdoe');
 
-    // Create a new LDAP entry. You can pass in attributes into the make methods.
+    // Creating a new LDAP entry. You can pass in attributes into the make methods.
     $user =  $provider->make()->user([
         'cn'          => 'John Doe',
         'title'       => 'Accountant',
         'description' => 'User Account',
     ]);
 
-    // Set a model's attribute.
+    // Setting a model's attribute.
     $user->cn = 'John Doe';
 
-    // Save the changes to your LDAP server.
+    // Saving the changes to your LDAP server.
     if ($user->save()) {
         // User was saved!
     }

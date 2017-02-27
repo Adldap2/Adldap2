@@ -805,6 +805,25 @@ class BuilderTest extends TestCase
         $this->assertEquals('(&(|(one=one)(two=two))(&(one=one)(two=two)))', $query);
     }
 
+    public function test_nested_filters_with_unested()
+    {
+        $b = $this->newBuilder();
+
+        $query = $b->orFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->andFilter(function ($query) {
+            $query->where([
+                'one' => 'one',
+                'two' => 'two',
+            ]);
+        })->where(['other' => 'value'])->getUnescapedQuery();
+
+        $this->assertEquals('(&(|(one=one)(two=two))(&(one=one)(two=two))(other=value))', $query);
+    }
+
     public function test_nested_builder_is_nested()
     {
         $b = $this->newBuilder();

@@ -7,6 +7,7 @@
 - [Or Wheres](#or-wheres)
 - [Dynamic Wheres](#dynamic-wheres)
 - [Raw Filters](#raw-filters)
+- [Nested Filters](#nested-filters)
 - [Sorting](#sorting)
 - [Pagination](#paginating)
 - [Scopes](#scopes)
@@ -336,6 +337,50 @@ You can even perform multiple dynamic wheres by separating your fields by an `An
 $result = $search->whereGivennameAndSn('John', 'Doe')->first();
 ```
 
+## Nested Filters
+
+By default, the Adldap2 query builder automatically wraps your queries in `and` / `or` filters for you.
+However, if any further complexity is required, nested filters allow you
+to construct any query fluently and easily.
+
+## andFilter
+
+The `andFilter` method accepts a closure which allows you to construct a query inside of an `and` LDAP filter:
+
+```php
+$query = $provider->search()->newQuery();
+
+$filter = $query->andFilter(function (\Adldap\Query\Builder $q) {
+    $q->where([
+        'givenname' => 'John',
+        'sn' => 'Doe',
+    ]);
+})->getUnescapedQuery();
+
+echo $query; // Returns '(&(givenname=John)(sn=Doe))'
+```
+
+The above query would return records that contain the first name `John` **and** the last name `Doe`.
+
+## orFilter
+
+The `orFilter` method accepts a closure which allows you to construct a query inside of an `or` LDAP filter:
+
+```php
+$query = $provider->search()->newQuery();
+
+$filter = $query->orFilter(function (\Adldap\Query\Builder $q) {
+    $q->where([
+        'givenname' => 'John',
+        'sn' => 'Doe',
+    ]);
+})->getUnescapedQuery();
+
+echo $query; // Returns '(|(givenname=John)(sn=Doe))'
+```
+
+The above query would return records that contain the first name `John` **or** the last name `Doe`.
+
 ## Raw Filters
 
 > **Note**: Raw filters are not escaped. Do not accept user input into the raw filter method.
@@ -358,6 +403,10 @@ $results = $search->rawFilter($filters)->get();
 
 // Or use multiple arguments
 $results = $search->rawFilter($filters[0], $filters[1])->get();
+
+
+// Multiple raw filters will be automatically wrapped into an `and` filter:
+
 ```
 
 ## Sorting

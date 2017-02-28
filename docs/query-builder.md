@@ -568,13 +568,18 @@ var_dump($rawResults); // Returns an array
 ## Retrieving the ran query
 
 If you'd like to retrieve the current query to save or run it at another time, use the `getQuery()` method
-on the search instance, then on the query builder itself:
+on the query builder. This will return the escaped filter.
 
 ```php
 $query = $provider->search()->where('cn', '=', 'John Doe')->getQuery();
 
-$filter = $query->getQuery();
-
-echo $filter; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
+echo $query; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
 ```
 
+You can also utilize the `getUnescapedQuery()` method for retrieving the unescaped filter:
+
+```php
+$query = $provider->search()->where('cn', '=', 'John Doe')->getQuery();
+
+echo $query; // Returns '(cn=John Doe)'
+```

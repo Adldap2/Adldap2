@@ -495,8 +495,9 @@ class Builder
     }
 
     /**
-     * Finds a record using ambiguous name resolution. If a record
-     * is not found, an exception is thrown.
+     * Finds a record using ambiguous name resolution.
+     * 
+     * If a record is not found, an exception is thrown.
      *
      * @param string       $anr
      * @param array|string $columns

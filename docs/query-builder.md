@@ -432,7 +432,9 @@ $results = $search->rawFilter($filters[0], $filters[1])->get();
 
 
 // Multiple raw filters will be automatically wrapped into an `and` filter:
+$query = $search->getUnescapedQuery();
 
+echo $query; // Returns (&(samaccountname=jdoe)(surname=Doe))
 ```
 
 ## Sorting

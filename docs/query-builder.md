@@ -364,7 +364,6 @@ $query = $provider->search()->newQuery();
 $filter = $query->andFilter(function (\Adldap\Query\Builder $q) {
     $q->where('givenname', '=', 'John')
         ->where('sn', '=', 'Doe');
-    ]);
 })->getUnescapedQuery();
 
 echo $query; // Returns '(&(givenname=John)(sn=Doe))'

@@ -101,7 +101,10 @@ trait HasMemberOf
             // If recursive results are requested, we'll ask each group
             // for their groups, and merge the resulting collection.
             foreach ($groups as $group) {
-                // Check if the group has previously been checked.
+                // We need to validate that we haven't already queried
+                // for this groups members so we don't allow
+                // infinite recursion in case of circular
+                // group dependencies in LDAP.
                 if (!in_array($group->getDistinguishedName(), $visited)) {
                     $visited[] = $group->getDistinguishedName();
 

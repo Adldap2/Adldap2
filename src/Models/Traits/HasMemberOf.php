@@ -68,11 +68,13 @@ trait HasMemberOf
      *
      * @param array $fields
      * @param bool  $recursive
+     * @param array $visited
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getGroups($fields = [], $recursive = false, $previouslyVisited = [])
+    public function getGroups($fields = [], $recursive = false, array $visited = [])
     {
+        // Get the members of the current group.
         $dns = $this->getAttribute($this->schema->memberOf());
 
         // Normalize returned distinguished names.
@@ -100,15 +102,16 @@ trait HasMemberOf
             // for their groups, and merge the resulting collection.
             foreach ($groups as $group) {
                 // Check if the group has previously been checked.
-                if (!in_array($group->getDistinguishedName(), $previouslyVisited)) {
-                    $previouslyVisited[] = $group->getDistinguishedName();
-                    $newGroups = $group->getGroups($fields, $recursive, $previouslyVisited);
+                if (!in_array($group->getDistinguishedName(), $visited)) {
+                    $visited[] = $group->getDistinguishedName();
 
-                    foreach ($newGroups as $group) {
-                        $previouslyVisited[] = $group->getDistinguishedName();
+                    $members = $group->getGroups($fields, $recursive, $visited);
+
+                    foreach ($members as $member) {
+                        $visited[] = $member->getDistinguishedName();
                     }
 
-                    $groups = $groups->merge($newGroups);
+                    $groups = $groups->merge($members);
                 }
             }
         }

@@ -490,7 +490,7 @@ foreach($paginator as $result)
 
 ## Scopes
 
-Search scopes allow you to easily retrieve common models of a particular 'group'. Here is how you utilize them:
+Search scopes allow you to easily retrieve common models of a particular 'scope'. Here is how you utilize them:
 
 ```php
 // Retrieve all users.

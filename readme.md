@@ -70,6 +70,7 @@ Then run the `composer update` command in the root of your project.
 
 - [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
 - [Kohana](https://github.com/Adldap2/Adldap2-Kohana)
+- [Yii2](https://github.com/edvler/yii2-adldap-module/)
 
 ## Versioning
 

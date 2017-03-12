@@ -70,7 +70,6 @@ $config->set('domain_controllers', [
     'corp-dc2.corp.acme.org',
 ]);
 
-
 $provider = new \Adldap\Connections\Provider($config);
 ```
 

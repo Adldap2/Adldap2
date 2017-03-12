@@ -24,8 +24,7 @@ Here is an example array with all possible configuration options:
 
 ```php
 // Create the configuration array.
-$config = [
-    // Mandatory Configuration Options
+$config = [    // Mandatory Configuration Options
     'domain_controllers'    => ['corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org'],
     'base_dn'               => 'dc=corp,dc=acme,dc=org',
     'admin_username'        => 'admin',

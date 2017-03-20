@@ -103,7 +103,7 @@ class BatchModification
      */
     public function setValues(array $values = [])
     {
-        $this->values = array_map(function($value){
+        $this->values = array_map(function($value) {
             // We need to make sure all values given to a batch modification are
             // strings, otherwise we'll receive an LDAP exception when
             // we try to process the modification.

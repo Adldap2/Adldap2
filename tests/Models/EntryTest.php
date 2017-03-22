@@ -671,4 +671,18 @@ class EntryTest extends TestCase
 
         $this->assertEquals($dn, $model->getDnBuilder()->get());
     }
+
+    public function test_max_password_in_days()
+    {
+        $model = $this->newModel(['maxPwdAge' => -8640000000000]);
+
+        $this->assertEquals(10, $model->getMaxPasswordAgeDays());
+    }
+
+    public function test_max_password_in_days_returns_zero_on_null()
+    {
+        $model = $this->newModel(['maxPwdAge' => null]);
+
+        $this->assertEquals(0, $model->getMaxPasswordAgeDays());
+    }
 }

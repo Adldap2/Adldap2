@@ -927,6 +927,18 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the model's max password age in days.
+     *
+     * @return int
+     */
+    public function getMaxPasswordAgeDays()
+    {
+        $age = $this->getMaxPasswordAge();
+
+        return (int) (abs($age) / 10000000 / 60 / 60 / 24);
+    }
+
+    /**
      * Returns true / false if the current model is writable
      * by checking its instance type integer.
      *

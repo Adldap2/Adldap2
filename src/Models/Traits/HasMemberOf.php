@@ -135,7 +135,9 @@ trait HasMemberOf
      */
     public function getGroupNames($recursive = false)
     {
-        $names = $this->getGroups([$this->schema->commonName()], $recursive)->map(function (Group $group) {
+        $fields = [$this->schema->commonName(), $this->schema->memberOf()];
+
+        $names = $this->getGroups($fields, $recursive)->map(function (Group $group) {
             return $group->getCommonName();
         })->toArray();
 

@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests\Query;
 
+use DateTime;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Query\Builder;
@@ -122,6 +123,30 @@ class BuilderTest extends TestCase
         $this->assertEquals('\74\65\73\74', $whereTwo['value']);
     }
 
+    public function test_where_with_nested_arrays()
+    {
+        $b = $this->newBuilder();
+
+        $b->where([
+            ['cn', '=', 'test'],
+            ['whencreated', '>=', 'test']
+        ]);
+
+        $whereOne = $b->filters['and'][0];
+
+        $this->assertEquals('cn', $whereOne['field']);
+        $this->assertEquals('=', $whereOne['operator']);
+        $this->assertEquals('\74\65\73\74', $whereOne['value']);
+
+        $whereTwo = $b->filters['and'][1];
+
+        $this->assertEquals('whencreated', $whereTwo['field']);
+        $this->assertEquals('>=', $whereTwo['operator']);
+        $this->assertEquals('\74\65\73\74', $whereTwo['value']);
+
+        $this->assertEquals('(&(cn=test)(whencreated>=test))', $b->getUnescapedQuery());
+    }
+
     public function test_where_contains()
     {
         $b = $this->newBuilder();
@@ -159,6 +184,18 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+    }
+
+    public function test_where_between()
+    {
+        $from = (new DateTime('October 1st 2016'))->format('YmdHis.0\Z');
+        $to = (new DateTime('January 1st 2017'))->format('YmdHis.0\Z');
+
+        $b = $this->newBuilder();
+
+        $b->whereBetween('whencreated', [$from, $to]);
+
+        $this->assertEquals('(&(whencreated>=20161001000000.0Z)(whencreated<=20170101000000.0Z))', $b->getUnescapedQuery());
     }
 
     public function test_where_member_of()

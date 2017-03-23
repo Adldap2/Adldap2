@@ -247,7 +247,10 @@ For the example below, we'll retrieve all users who were created between two dat
 $from = (new DateTime('October 1st 2016'))->format('YmdHis.0\Z');
 $to = (new DateTime('January 1st 2017'))->format('YmdHis.0\Z');
 
-$users = $provider->search()->whereBetween('whencreated', [$from, $to])->get();
+$users = $provider->search()
+    ->users()
+    ->whereBetween('whencreated', [$from, $to])
+    ->get();
 ```
 
 #### Where Contains

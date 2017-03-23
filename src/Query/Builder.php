@@ -742,11 +742,7 @@ class Builder
         if (is_array($field)) {
             // If the column is an array, we will assume it is an array of
             // key-value pairs and can add them each as a where clause.
-            foreach ($field as $key => $value) {
-                $this->where($key, Operator::$equals, $value, $boolean, $raw);
-            }
-
-            return $this;
+            return $this->addArrayOfWheres($field, $boolean, $raw);
         }
 
         // We'll bypass the 'has' and 'notHas' operator since they
@@ -877,6 +873,22 @@ class Builder
     public function whereNotContains($field, $value)
     {
         return $this->where($field, Operator::$notContains, $value);
+    }
+
+    /**
+     * Adds a between clause to the current query.
+     *
+     * @param string $field
+     * @param array  $values
+     *
+     * @return Builder
+     */
+    public function whereBetween($field, array $values)
+    {
+        return $this->where([
+            [$field, '>=', $values[0]],
+            [$field, '<=', $values[1]],
+        ]);
     }
 
     /**
@@ -1391,6 +1403,31 @@ class Builder
             // have the proper boolean connector to connect the next where clause found.
             else {
                 $connector = $segment;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds an array of wheres to the current query.
+     *
+     * @param array  $wheres
+     * @param string $boolean
+     * @param bool   $raw
+     *
+     * @return $this
+     */
+    protected function addArrayOfWheres($wheres, $boolean, $raw)
+    {
+        foreach ($wheres as $key => $value) {
+            if (is_numeric($key) && is_array($value)) {
+                // If the key is numeric and the value is an array, we'll
+                // assume we've been given an array with conditionals.
+                $this->where($value[0], $value[1], $value[2]);
+            } else {
+                // Otherwise, we'll assume the array is an equals clause.
+                $this->where($key, Operator::$equals, $value, $boolean, $raw);
             }
         }
 

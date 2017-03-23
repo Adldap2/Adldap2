@@ -193,7 +193,7 @@ We can also perform a 'where equals' without including the operator:
 $search->whereEquals('cn', 'John Doe');
 ```
 
-Or we can supply an array of key - value pairs to quickly add multiple wheres:
+We can also supply an array of key - value pairs to quickly add multiple wheres:
 
 ```php
 $wheres = [
@@ -202,6 +202,15 @@ $wheres = [
 ];
 
 $search->where($wheres);
+```
+
+Or, if you require conditionals, you can quickly add multiple wheres with nested arrays:
+
+```php
+$search->where([
+   ['cn', '=', 'John Doe'],
+   ['manager', '!=', 'Suzy Doe'],
+]);
 ```
 
 #### Where Starts With
@@ -226,6 +235,19 @@ $results = $provider->search()->where('cn', 'ends_with', 'Doe')->get();
 // Or use the method whereEndsWith($attribute, $value)
 
 $results = $provider->search()->whereEndsWith('cn', 'Doe')->get();
+```
+
+#### Where Between
+
+To search for records between two values, use the `whereBetween` method.
+
+For the example below, we'll retrieve all users who were created between two dates:
+
+```php
+$from = (new DateTime('October 1st 2016'))->format('YmdHis.0\Z');
+$to = (new DateTime('January 1st 2017'))->format('YmdHis.0\Z');
+
+$users = $provider->search()->whereBetween('whencreated', [$from, $to])->get();
 ```
 
 #### Where Contains

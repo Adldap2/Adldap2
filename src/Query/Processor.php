@@ -135,7 +135,7 @@ class Processor
             }
         }
 
-        // A default entry model if the object category isn't found.
+        // A default entry model if the object class isn't found.
         return $this->newModel()->setRawAttributes($attributes);
     }
 
@@ -217,7 +217,7 @@ class Processor
         $desc = ($direction === 'desc' ? true : false);
 
         return $this->newCollection($models)->sortBy(function (Model $model) use ($field) {
-            return $model->getAttribute($field, 0);
+            return $model->getFirstAttribute($field);
         }, $flags, $desc);
     }
 }

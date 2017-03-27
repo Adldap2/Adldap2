@@ -74,6 +74,12 @@ trait HasMemberOf
      */
     public function getGroups($fields = [], $recursive = false, array $visited = [])
     {
+        if (!in_array($this->schema->memberOf(), $fields)) {
+            // We want to make sure that we always select the memberof
+            // field in case developers want recursive members.
+            $fields = array_merge($fields, [$this->schema->memberOf()]);
+        }
+
         // Get the members of the current group.
         $dns = $this->getAttribute($this->schema->memberOf());
 

@@ -539,9 +539,7 @@ class EntryTest extends TestCase
         ];
 
         $connection->shouldReceive('add')->once()->withArgs($addArgs)->andReturn(true);
-
         $connection->shouldReceive('read')->once()->withArgs($readArgs)->andReturn(true);
-
         $connection->shouldReceive('getEntries')->once()->andReturn([]);
 
         $builder = $this->newBuilder($connection);

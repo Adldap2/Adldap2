@@ -584,6 +584,23 @@ class EntryTest extends TestCase
         $this->assertEquals('John Doe', $model->getFirstAttribute('cn'));
     }
 
+    public function test_sync_raw()
+    {
+        $connection = $this->newConnectionMock();
+
+        $model = $this->newModel([], $this->newBuilder($connection));
+
+        $dn = 'cn=John Doe,dc=corp,dc=acme';
+
+        $model->setRawAttributes(compact('dn'));
+
+        $connection->shouldReceive('read')->once()->withArgs([$dn, "(objectclass=*)", [], false, 1]);
+        $connection->shouldReceive('getEntries')->once()->andReturn(['count' => 1, ['dn' => 'cn=Jane Doe']]);
+
+        $this->assertTrue($model->syncRaw());
+        $this->assertEquals('cn=Jane Doe', $model->getDn());
+    }
+
     public function test_modifications_are_cleared_on_save()
     {
         $connection = $this->newConnectionMock();

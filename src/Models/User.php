@@ -980,9 +980,9 @@ class User extends Entry implements Authenticatable
             $this->addModification($modification);
         }
 
-        try {
-            return $this->update();
-        } catch (Exception $e) {
+        $result = @$this->update();
+
+        if (!$result) {
             // If the user failed to update, we'll see if we can
             // figure out why by retrieving the extended error.
             $error = $this->query->getConnection()->getExtendedError();
@@ -1001,6 +1001,8 @@ class User extends Entry implements Authenticatable
                     throw new AdldapException("Error: $error");
             }
         }
+
+        return $result;
     }
 
     /**

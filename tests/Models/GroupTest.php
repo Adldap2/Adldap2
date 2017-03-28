@@ -41,6 +41,64 @@ class GroupTest extends TestCase
         $this->assertEquals($expected->getDn(), $members->first()->getDn());
     }
 
+    public function test_get_members_with_range()
+    {
+        $builder = $this->mock(Builder::class);
+
+        $builder
+            ->shouldReceive('getSchema')->zeroOrMoreTimes()->andReturn(new ActiveDirectory())
+            ->shouldReceive('newInstance')->zeroOrMoreTimes()->andReturn($builder);
+
+        $group = $this->newGroupModel([
+            'member;range=0-1' => [
+                'cn=test1,dc=corp,dc=org',
+                'cn=test2,dc=corp,dc=org',
+            ],
+        ], $builder);
+
+        $expectedMembers = [
+            $this->newGroupModel([
+                'cn' => ['test1'],
+                'dn' => 'cn=test1,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test2'],
+                'dn' => 'cn=test2,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test3'],
+                'dn' => 'cn=test3,dc=corp,dc=org'
+            ], $builder),
+            $this->newGroupModel([
+                'cn' => ['test4'],
+                'dn' => 'cn=test4,dc=corp,dc=org'
+            ], $builder)
+        ];
+
+        $expectedGroup = $this->newGroupModel([
+            'member;range=2-*' => [
+                'cn=test3,dc=corp,dc=org',
+                'cn=test4,dc=corp,dc=org',
+            ],
+        ], $builder);
+
+        $builder
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[0])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[1])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedGroup)
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[2])
+            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[3]);
+
+        $members = $group->getMembers();
+
+        $this->assertCount(4, $members);
+
+        $this->assertEquals($expectedMembers[0]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[1]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[2]->getCommonName(), $members->shift()->getCommonName());
+        $this->assertEquals($expectedMembers[3]->getCommonName(), $members->shift()->getCommonName());
+    }
+
     public function test_get_member_names()
     {
         $group = $this->newGroupModel([
@@ -135,62 +193,79 @@ class GroupTest extends TestCase
         $this->assertTrue($group->inGroup([$group1, $group2, 'test3']));
     }
 
-    public function test_get_members_with_range()
+    public function test_set_members()
     {
-        $builder = $this->mock(Builder::class);
+        $group = $this->newGroupModel();
 
-        $builder
-            ->shouldReceive('getSchema')->zeroOrMoreTimes()->andReturn(new ActiveDirectory())
-            ->shouldReceive('newInstance')->zeroOrMoreTimes()->andReturn($builder);
-
-        $group = $this->newGroupModel([
-            'member;range=0-1' => [
-                'cn=test1,dc=corp,dc=org',
-                'cn=test2,dc=corp,dc=org',
-            ],
-        ], $builder);
-
-        $expectedMembers = [
-            $this->newGroupModel([
-                'cn' => ['test1'],
-                'dn' => 'cn=test1,dc=corp,dc=org'
-            ], $builder),
-            $this->newGroupModel([
-                'cn' => ['test2'],
-                'dn' => 'cn=test2,dc=corp,dc=org'
-            ], $builder),
-            $this->newGroupModel([
-                'cn' => ['test3'],
-                'dn' => 'cn=test3,dc=corp,dc=org'
-            ], $builder),
-            $this->newGroupModel([
-                'cn' => ['test4'],
-                'dn' => 'cn=test4,dc=corp,dc=org'
-            ], $builder)
+        $members = [
+            'cn=Jane Doe,dc=acme,dc=org',
+            'cn=John Doe,dc=acme,dc=org',
         ];
 
-        $expectedGroup = $this->newGroupModel([
-            'member;range=2-*' => [
-                'cn=test3,dc=corp,dc=org',
-                'cn=test4,dc=corp,dc=org',
-            ],
-        ], $builder);
+        $group->setMembers($members);
 
-        $builder
-            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[0])
-            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[1])
-            ->shouldReceive('findByDn')->once()->andReturn($expectedGroup)
-            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[2])
-            ->shouldReceive('findByDn')->once()->andReturn($expectedMembers[3]);
+        $this->assertEquals($members, $group->member);
+    }
 
-        $members = $group->getMembers();
+    public function test_add_member()
+    {
+        $group = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'All Groups',
+            'dn' => 'cn=All Groups,dc=acme,dc=org',
+        ]);
 
-        $this->assertCount(4, $members);
+        $member = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'Accounting',
+            'dn' => 'cn=Accounting,dc=acme,dc=org',
+        ]);
 
-        $this->assertEquals($expectedMembers[0]->getCommonName(), $members->shift()->getCommonName());
-        $this->assertEquals($expectedMembers[1]->getCommonName(), $members->shift()->getCommonName());
-        $this->assertEquals($expectedMembers[2]->getCommonName(), $members->shift()->getCommonName());
-        $this->assertEquals($expectedMembers[3]->getCommonName(), $members->shift()->getCommonName());
+        $connection = $group->getQuery()->getConnection();
 
+        $connection->shouldReceive('modifyBatch')->once()->with(
+            'cn=All Groups,dc=acme,dc=org',
+            [
+                [
+                    'attrib' => 'member',
+                    'modtype' => LDAP_MODIFY_BATCH_ADD,
+                    'values' => ['cn=Accounting,dc=acme,dc=org']
+                ]
+            ])->andReturn(true);
+
+        $connection
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+
+        $this->assertTrue($group->addMember($member));
+    }
+
+    public function test_remove_member()
+    {
+        $group = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'All Groups',
+            'dn' => 'cn=All Groups,dc=acme,dc=org',
+        ]);
+
+        $member = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'Accounting',
+            'dn' => 'cn=Accounting,dc=acme,dc=org',
+        ]);
+
+        $connection = $group->getQuery()->getConnection();
+
+        $connection->shouldReceive('modifyBatch')->once()->with(
+            'cn=All Groups,dc=acme,dc=org',
+            [
+                [
+                    'attrib' => 'member',
+                    'modtype' => LDAP_MODIFY_BATCH_REMOVE,
+                    'values' => ['cn=Accounting,dc=acme,dc=org']
+                ]
+            ])->andReturn(true);
+
+        $connection
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+
+        $this->assertTrue($group->removeMember($member));
     }
 }

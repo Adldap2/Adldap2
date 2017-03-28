@@ -6,11 +6,14 @@ use Adldap\Models\Group;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 use Adldap\Schemas\ActiveDirectory;
+use Illuminate\Support\Collection;
 
 class GroupTest extends TestCase
 {
-    protected function newGroupModel($attributes, $builder, $schema = null)
+    protected function newGroupModel(array $attributes = [], $builder = null, $schema = null)
     {
+        $builder = $builder ?: $this->newBuilder();
+
         return new Group($attributes, $builder, $schema);
     }
 
@@ -53,6 +56,35 @@ class GroupTest extends TestCase
             'test2',
             'test3',
         ], $group->getMemberNames());
+    }
+
+    public function test_get_groups()
+    {
+        $builder = $this->mock(Builder::class);
+
+        $dns = [
+            'cn=John Doe,dc=acme,dc=org',
+            'cn=Jane Doe,dc=acme,dc=org'
+        ];
+
+        $builder
+            ->shouldReceive('getSchema')->once()->andReturn(new ActiveDirectory())
+            ->shouldReceive('newInstance')->once()->andReturn($builder)
+            ->shouldReceive('newCollection')->once()->with($dns)->andReturn(new Collection($dns))
+            ->shouldReceive('select')->twice()->with(['field'])->andReturn($builder)
+            ->shouldReceive('findByDn')->with('cn=John Doe,dc=acme,dc=org')->andReturn($this->newGroupModel(['cn' => 'John Doe']))
+            ->shouldReceive('findByDn')->with('cn=Jane Doe,dc=acme,dc=org')->andReturn($this->newGroupModel(['cn' => 'Jane Doe']));
+
+        $group = $this->newGroupModel([], $builder)->setRawAttributes([
+            'memberof' => $dns,
+        ]);
+
+        $groups = $group->getGroups(['field']);
+
+        $this->assertCount(2, $groups);
+        $this->assertInstanceOf(Collection::class, $groups);
+        $this->assertEquals('John Doe', $groups->get(0)->getCommonName());
+        $this->assertEquals('Jane Doe', $groups->get(1)->getCommonName());
     }
 
     public function test_in_group()

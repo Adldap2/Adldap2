@@ -934,6 +934,8 @@ class User extends Entry implements Authenticatable
     /**
      * Change the password of the current user. This must be performed over SSL.
      *
+     * Throws an exception on failure.
+     *
      * @param string $oldPassword      The new password
      * @param string $newPassword      The old password
      * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
@@ -943,7 +945,7 @@ class User extends Entry implements Authenticatable
      * @throws UserPasswordIncorrectException
      * @throws AdldapException
      *
-     * @return bool
+     * @return true
      */
     public function changePassword($oldPassword, $newPassword, $replaceNotRemove = false)
     {
@@ -998,7 +1000,7 @@ class User extends Entry implements Authenticatable
                         "Error: $code. Your old password is incorrect."
                     );
                 default:
-                    throw new AdldapException("Error: $error");
+                    throw new AdldapException($error);
             }
         }
 

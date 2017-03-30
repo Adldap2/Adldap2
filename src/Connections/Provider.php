@@ -173,7 +173,10 @@ class Provider implements ProviderInterface
      */
     public function make()
     {
-        return $this->newModelFactory($this->search()->getQuery(), $this->schema);
+        return $this->newModelFactory(
+            $this->search()->getQuery(),
+            $this->schema
+        );
     }
 
     /**

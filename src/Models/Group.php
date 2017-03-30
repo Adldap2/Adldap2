@@ -224,6 +224,8 @@ class Group extends Entry
                 [$this->query->getSchema()->memberRange($from, $to)]
             );
 
+            // Finally, we'll merge our current members
+            // with the newly returned members.
             $members = array_merge(
                 $members,
                 $group->getMembers()->toArray()

@@ -916,7 +916,7 @@ class User extends Entry implements Authenticatable
      *
      * @param string $password
      *
-     * @throws AdldapException
+     * @throws AdldapException When no SSL or TLS secured connection is present.
      *
      * @return $this
      */
@@ -941,9 +941,9 @@ class User extends Entry implements Authenticatable
      * @param bool   $replaceNotRemove Alternative password change method. Set to true if you're receiving 'CONSTRAINT'
      *                                 errors.
      *
-     * @throws UserPasswordPolicyException
-     * @throws UserPasswordIncorrectException
-     * @throws AdldapException
+     * @throws UserPasswordPolicyException When the new password does not match your password policy.
+     * @throws UserPasswordIncorrectException When the old password is incorrect.
+     * @throws AdldapException When an unknown cause of failure occurs.
      *
      * @return true
      */

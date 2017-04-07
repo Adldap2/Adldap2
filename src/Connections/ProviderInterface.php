@@ -126,7 +126,7 @@ interface ProviderInterface
      * @param string|null $username
      * @param string|null $password
      *
-     * @throws \Adldap\Auth\BindException
+     * @throws \Adldap\Auth\BindException When binding to your LDAP server fails.
      *
      * @return ProviderInterface
      */

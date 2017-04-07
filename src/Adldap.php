@@ -109,7 +109,7 @@ class Adldap implements AdldapInterface
     public function connect($name = null, $username = null, $password = null)
     {
         $provider = $name ? $this->getProvider($name) : $this->getDefaultProvider();
-
+        
         return $provider->connect($username, $password);
     }
 
@@ -122,7 +122,7 @@ class Adldap implements AdldapInterface
 
         if (!$provider->getConnection()->isBound()) {
             // We'll make sure we have a bound connection before
-            // allowing dynamic calls on the provider.
+            // allowing dynamic calls on the default provider.
             $provider->connect();
         }
 

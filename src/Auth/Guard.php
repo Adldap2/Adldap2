@@ -100,8 +100,8 @@ class Guard implements GuardInterface
      * @param string $username
      * @param string $password
      *
-     * @throws PasswordRequiredException
-     * @throws UsernameRequiredException
+     * @throws PasswordRequiredException When the given password is empty.
+     * @throws UsernameRequiredException When the given username is empty.
      */
     protected function validateCredentials($username, $password)
     {

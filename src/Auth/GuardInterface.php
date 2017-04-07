@@ -22,9 +22,9 @@ interface GuardInterface
      * @param string $password   The users AD password.
      * @param bool   $bindAsUser Whether or not to bind as the user.
      *
-     * @throws \Adldap\Auth\BindException
-     * @throws \Adldap\Auth\UsernameRequiredException
-     * @throws \Adldap\Auth\PasswordRequiredException
+     * @throws \Adldap\Auth\BindException When re-binding to your LDAP server fails.
+     * @throws \Adldap\Auth\UsernameRequiredException When username is empty.
+     * @throws \Adldap\Auth\PasswordRequiredException When password is empty.
      *
      * @return bool
      */
@@ -40,7 +40,7 @@ interface GuardInterface
      *
      * @returns void
      *
-     * @throws \Adldap\Auth\BindException
+     * @throws \Adldap\Auth\BindException When binding to your LDAP server fails.
      */
     public function bind($username, $password, $prefix = null, $suffix = null);
 
@@ -48,7 +48,7 @@ interface GuardInterface
      * Binds to the current LDAP server using the
      * configuration administrator credentials.
      *
-     * @throws \Adldap\Auth\BindException
+     * @throws \Adldap\Auth\BindException When binding as your administrator account fails.
      */
     public function bindAsAdministrator();
 }

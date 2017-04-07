@@ -71,7 +71,7 @@ class Group extends Entry
      *
      * @param string|Entry $entry
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException When the given entry is empty or contains no distinguished name.
      *
      * @return bool
      */

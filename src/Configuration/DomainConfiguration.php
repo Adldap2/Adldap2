@@ -69,7 +69,7 @@ class DomainConfiguration
      *
      * @param array $options
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationException When an option value given is an invalid type.
      */
     public function __construct(array $options = [])
     {
@@ -87,7 +87,7 @@ class DomainConfiguration
      * @param string $key
      * @param mixed  $value
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationException When an option value given is an invalid type.
      */
     public function set($key, $value)
     {
@@ -105,7 +105,7 @@ class DomainConfiguration
      *
      * @return mixed
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationException When the option specified does not exist.
      */
     public function get($key)
     {
@@ -139,7 +139,7 @@ class DomainConfiguration
      *
      * @return bool
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationException When an option value given is an invalid type.
      */
     protected function validate($key, $value)
     {

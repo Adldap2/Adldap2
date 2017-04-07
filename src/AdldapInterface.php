@@ -18,7 +18,7 @@ interface AdldapInterface
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException When an invalid type is given as the configuration argument.
      */
     public function addProvider($configuration = [], $name, ConnectionInterface $connection = null, SchemaInterface $schema = null);
 
@@ -34,7 +34,7 @@ interface AdldapInterface
      *
      * @param string $name
      *
-     * @throws AdldapException
+     * @throws AdldapException When the specified provider does not exist.
      *
      * @return ProviderInterface
      */
@@ -45,14 +45,14 @@ interface AdldapInterface
      *
      * @param string $name
      *
-     * @throws AdldapException
+     * @throws AdldapException When the specified provider does not exist.
      */
     public function setDefaultProvider($name);
 
     /**
-     * Retrieves the first provider.
+     * Retrieves the first default provider.
      *
-     * @throws AdldapException
+     * @throws AdldapException When no default provider exists.
      *
      * @return ProviderInterface
      */

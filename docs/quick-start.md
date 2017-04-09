@@ -7,7 +7,7 @@ Adldap2 requires [Composer](https://getcomposer.org/) for installation.
 Once you have composer installed, insert Adldap2 into your `composer.json` file:
 
 ```
-"adldap2/adldap2": "v7.0.*"
+"adldap2/adldap2": "7.0.*"
 ```
 
 Run `composer update` in the root of your project.

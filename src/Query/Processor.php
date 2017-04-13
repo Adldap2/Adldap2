@@ -183,12 +183,13 @@ class Processor
 
     /**
      * Returns the object class model class mapping.
+     * Use a custom mapping over the default mapping.
      *
      * @return array
      */
     public function map()
     {
-        return [
+        return $this->schema->customMap() + [
             $this->schema->objectClassComputer()    => \Adldap\Models\Computer::class,
             $this->schema->objectClassContact()     => \Adldap\Models\Contact::class,
             $this->schema->objectClassPerson()      => \Adldap\Models\User::class,

@@ -72,7 +72,7 @@ trait HasMemberOf
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getGroups($fields = [], $recursive = false, array $visited = [])
+    public function getGroups(array $fields = [], $recursive = false, array $visited = [])
     {
         if (!empty($fields) && !in_array($this->schema->memberOf(), $fields)) {
             // We want to make sure that we always select the memberof

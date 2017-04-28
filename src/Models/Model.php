@@ -1082,16 +1082,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes
      *
-     * Delete many attributes
-     * $attributes = [
-     *      $attribute => $value,
-     *      $attribute => $value,
-     *      $attribute => $value,
-     * ];
+     * Delete many attributes ["memberuid" => "username"]
+     * 
      * Delete attribute, does not depend on the number of values
-     * $attributes = [
-     *      $attribute => [],
-     * ];
+     * ["memberuid" => []]
      *
      * @return bool
      */

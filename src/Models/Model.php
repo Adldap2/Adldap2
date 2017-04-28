@@ -1080,18 +1080,29 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes an attribute on the current entry.
      *
-     * @param array $attribute
+     * @param array $attributes
+     *
+     * Delete many attributes
+     * $attributes = [
+     *      $attribute => $value,
+     *      $attribute => $value,
+     *      $attribute => $value,
+     * ];
+     * Delete attribute, does not depend on the number of values
+     * $attributes = [
+     *      $attribute => [],
+     * ];
      *
      * @return bool
      */
-    public function deleteAttribute($attribute)
+    public function deleteAttribute($attributes)
     {
         // We need to pass in an empty array as the value
         // for the attribute so AD knows to remove it.
         
         if (
             $this->exists &&
-            $this->query->getConnection()->modDelete($this->getDn(), [$attribute])
+            $this->query->getConnection()->modDelete($this->getDn(), $attributes)
         ) {
             $this->syncRaw();
 

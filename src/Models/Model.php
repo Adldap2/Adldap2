@@ -1080,7 +1080,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes an attribute on the current entry.
      *
-     * @param array $attributes
+     * @param string|array $attributes
      *
      * Delete many attributes ["memberuid" => "username"]
      * 
@@ -1093,6 +1093,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         // We need to pass in an empty array as the value
         // for the attribute so AD knows to remove it.
+        if (is_string($attributes)) {
+            $attributes = [$attributes => []];
+        }        
         
         if (
             $this->exists &&

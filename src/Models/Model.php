@@ -1091,8 +1091,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function deleteAttribute($attributes)
     {
-        // We need to pass in an empty array as the value
-        // for the attribute so AD knows to remove it.
+        // If we've been given a string, we'll assume we're removing a
+        // single attribute. Otherwise, we'll assume it's
+        // an array of attributes to remove.
         $attributes = is_string($attributes) ? [$attributes => []] : $attributes;
 
         if (

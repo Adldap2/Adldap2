@@ -105,8 +105,8 @@ class EntryTest extends TestCase
     public function test_delete_attribute()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
+            'cn'                => 'Common Name',
+            'samaccountname'    => 'Account Name',
             'dn'                => 'dc=corp,dc=org',
         ];
 

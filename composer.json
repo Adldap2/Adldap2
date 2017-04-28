@@ -44,5 +44,10 @@
         "psr-4": {
             "Adldap\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.0.x-dev"
+        }
     }
 }

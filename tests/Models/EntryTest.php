@@ -105,8 +105,8 @@ class EntryTest extends TestCase
     public function test_delete_attribute()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
+            'cn'                => 'Common Name',
+            'samaccountname'    => 'Account Name',
             'dn'                => 'dc=corp,dc=org',
         ];
 
@@ -122,7 +122,9 @@ class EntryTest extends TestCase
 
         $entry->setRawAttributes($attributes);
 
-        $this->assertTrue($entry->deleteAttribute(['cn' => []]));
+        $this->assertTrue($entry->deleteAttribute('cn'));
+        
+        $this->assertTrue($entry->deleteAttribute(['samaccountname' => 'Account Name']));
     }
 
     public function test_create_attribute()

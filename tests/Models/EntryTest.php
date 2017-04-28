@@ -122,7 +122,7 @@ class EntryTest extends TestCase
 
         $entry->setRawAttributes($attributes);
 
-        $this->assertTrue($entry->deleteAttribute('cn'));
+        $this->assertTrue($entry->deleteAttribute(['cn' => []]));
     }
 
     public function test_create_attribute()

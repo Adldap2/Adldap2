@@ -9,6 +9,12 @@ use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ConnectionInterface;
 
+/**
+ * Class Factory
+ * @package Adldap\Search
+ *
+ * @mixin Builder
+ */
 class Factory
 {
     /**

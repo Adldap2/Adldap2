@@ -124,7 +124,7 @@ class EntryTest extends TestCase
 
         $this->assertTrue($entry->deleteAttribute('cn'));
         
-        $this->assertTrue($entry->deleteAttribute(['samaccountname' => []]));
+        $this->assertTrue($entry->deleteAttribute(['samaccountname' => 'Account Name']));
     }
 
     public function test_create_attribute()

@@ -1080,7 +1080,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes an attribute on the current entry.
      *
-     * @param string|array $attribute
+     * @param string $attribute
      * @param string|array $value
      *
      * @return bool

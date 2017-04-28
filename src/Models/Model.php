@@ -1093,10 +1093,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         // We need to pass in an empty array as the value
         // for the attribute so AD knows to remove it.
-        if (is_string($attributes)) {
-            $attributes = [$attributes => []];
-        }        
-        
+        $attributes = is_string($attributes) ? [$attributes => []] : $attributes;
+
         if (
             $this->exists &&
             $this->query->getConnection()->modDelete($this->getDn(), $attributes)

@@ -10,7 +10,8 @@ use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ConnectionInterface;
 
 /**
- * Class Factory
+ * Adldap2 Search Factory.
+ *
  * @package Adldap\Search
  *
  * @mixin Builder

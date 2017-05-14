@@ -98,7 +98,7 @@ if ($user->save()) {
 > the models attributes are re-synced in the background from your AD.
 > 
 > This allows you to perform other operations during the same
-> request that require an existing user.
+> request that require an existing model.
 
 ### Creating (Manually)
 

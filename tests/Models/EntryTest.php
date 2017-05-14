@@ -102,7 +102,7 @@ class EntryTest extends TestCase
         $this->assertTrue($entry->updateAttribute('cn', 'John Doe'));
     }
 
-    public function test_delete_attribute()
+    public function test_delete_attribute_with_string()
     {
         $attributes = [
             'cn'                => ['Common Name'],
@@ -123,6 +123,35 @@ class EntryTest extends TestCase
         $entry->setRawAttributes($attributes);
 
         $this->assertTrue($entry->deleteAttribute('cn'));
+    }
+
+    public function test_delete_attribute_with_array()
+    {
+        $attributes = [
+            'cn'                => ['Common Name'],
+            'samaccountname'    => ['Account Name'],
+            'dn'                => 'dc=corp,dc=org',
+        ];
+
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('read')->once()->andReturn($connection);
+        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
+
+        $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', [
+            'cn' => [], 'memberof' => []
+        ]])->andReturn(true);
+
+        $connection->shouldReceive('close')->once()->andReturn(true);
+
+        $entry = $this->newModel([], $this->newBuilder($connection));
+
+        $entry->setRawAttributes($attributes);
+
+        $this->assertTrue($entry->deleteAttribute([
+            'cn' => [],
+            'memberof' => [],
+        ]));
     }
 
     public function test_create_attribute()

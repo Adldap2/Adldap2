@@ -11,7 +11,7 @@ class IntegerValidator extends Validator
      */
     public function validate()
     {
-        if (!is_int($this->value)) {
+        if (!is_numeric($this->value)) {
             throw new ConfigurationException("Option {$this->key} must be an integer.");
         }
 

@@ -1206,4 +1206,11 @@ interface SchemaInterface
      * @return string
      */
     public function versionNumber();
+
+    /**
+     * Custom map of entries to object.
+     *
+     * @return array
+     */
+    public function customMap();
 }

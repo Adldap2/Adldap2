@@ -1075,4 +1075,12 @@ class ActiveDirectory implements SchemaInterface
     {
         return 'versionnumber';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function customMap()
+    {
+        return [];
+    }
 }

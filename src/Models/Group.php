@@ -234,4 +234,26 @@ class Group extends Entry
 
         return $members;
     }
+
+    /**
+     * Returns the groups display name.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->getFirstAttribute($this->schema->displayName());
+    }
+
+    /**
+     * Sets the groups display name.
+     *
+     * @param string $displayName
+     *
+     * @return User
+     */
+    public function setDisplayName($displayName)
+    {
+        return $this->setFirstAttribute($this->schema->displayName(), $displayName);
+    }
 }

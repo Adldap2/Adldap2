@@ -78,6 +78,8 @@ class Builder
 
     /**
      * Determines whether or not to search LDAP recursively.
+     * 
+     * Recursive searching is enabled by default.
      *
      * @var bool
      */

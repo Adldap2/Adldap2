@@ -570,7 +570,9 @@ class Builder
      */
     public function findByGuid($guid, $columns = [])
     {
-        $guid = Utilities::stringGuidToHex($guid);
+        if ($this->schema->objectGuidRequiresConversion()) {
+            $guid = Utilities::stringGuidToHex($guid);
+        }
 
         return $this->select($columns)->whereRaw([
             $this->schema->objectGuid() => $guid
@@ -777,9 +779,9 @@ class Builder
      *
      * Values given to this method are not escaped.
      *
-     * @param string $field
-     * @param string $operator
-     * @param string $value
+     * @param string|array $field
+     * @param string       $operator
+     * @param string       $value
      *
      * @return Builder
      */

@@ -700,6 +700,13 @@ interface SchemaInterface
     public function objectGuid();
 
     /**
+     * Determine whether the object GUID requires conversion.
+     *
+     * @return boolean
+     */
+    public function objectGuidRequiresConversion();
+
+    /**
      * A binary value that specifies the security identifier (SID) of the user.
      *
      * The SID is a unique value used to identify the user as a security principal.

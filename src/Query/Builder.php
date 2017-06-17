@@ -78,8 +78,6 @@ class Builder
 
     /**
      * Determines whether or not to search LDAP recursively.
-     * 
-     * Recursive searching is enabled by default.
      *
      * @var bool
      */
@@ -593,7 +591,9 @@ class Builder
      */
     public function findByGuidOrFail($guid, $columns = [])
     {
-        $guid = Utilities::stringGuidToHex($guid);
+        if ($this->schema->objectGuidRequiresConversion()) {
+            $guid = Utilities::stringGuidToHex($guid);
+        }
 
         return $this->select($columns)->whereRaw([
             $this->schema->objectGuid() => $guid

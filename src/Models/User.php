@@ -3,7 +3,6 @@
 namespace Adldap\Models;
 
 use DateTime;
-use Exception;
 use Adldap\Utilities;
 use Adldap\AdldapException;
 use Adldap\Objects\AccountControl;

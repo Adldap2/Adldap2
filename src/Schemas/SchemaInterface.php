@@ -702,7 +702,7 @@ interface SchemaInterface
     /**
      * Determine whether the object GUID requires conversion.
      *
-     * @return boolean
+     * @return bool
      */
     public function objectGuidRequiresConversion();
 

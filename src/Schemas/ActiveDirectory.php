@@ -447,6 +447,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function memberOfRecursive()
+    {
+        return 'memberof:1.2.840.113556.1.4.1941:';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function messageTrackingEnabled()
     {
         return 'messagetrackingenabled';

@@ -520,13 +520,25 @@ interface SchemaInterface
     public function memberRange($from, $to);
 
     /**
-     * The distinguished name of the groups to which this object belongs.
+     * The distinguished names of the groups to which this object belongs.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
      *
      * @return string
      */
     public function memberOf();
+
+    /**
+     * The distinguished names of the groups to which this object belongs.
+     *
+     * This string contains a rule OID indicating the inclusion of ancestral and child members.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
+     * @See https://msdn.microsoft.com/en-us/library/aa746475(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function memberOfRecursive();
 
     /**
      * @link https://msdn.microsoft.com/en-us/library/ms981934(v=exchg.65).aspx

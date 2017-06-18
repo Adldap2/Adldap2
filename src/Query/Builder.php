@@ -963,7 +963,7 @@ class Builder
      */
     public function whereMemberOf($dn)
     {
-        return $this->whereEquals('memberof:1.2.840.113556.1.4.1941:', $dn);
+        return $this->whereEquals($this->schema->memberOfRecursive(), $dn);
     }
 
     /**
@@ -1146,7 +1146,7 @@ class Builder
      */
     public function orWhereMemberOf($dn)
     {
-        return $this->orWhereEquals('memberof:1.2.840.113556.1.4.1941:', $dn);
+        return $this->orWhereEquals($this->schema->memberOfRecursive(), $dn);
     }
 
     /**

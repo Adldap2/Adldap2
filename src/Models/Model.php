@@ -661,7 +661,11 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $guid = $this->getFirstAttribute($this->schema->objectGuid());
 
-        return $guid ? Utilities::binaryGuidToString($guid) : false;
+        if ($this->schema->objectGuidRequiresConversion()) {
+            $guid = Utilities::binaryGuidToString($guid);
+        }
+
+        return $guid ?: false;
     }
 
     /**
@@ -673,7 +677,11 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $sid = $this->getFirstAttribute($this->schema->objectSid());
 
-        return $sid ? Utilities::binarySidToString($sid) : false;
+        if ($this->schema->objectSidRequiresConversion()) {
+            $sid = Utilities::binarySidToString($sid);
+        }
+
+        return $sid ?: false;
     }
 
     /**

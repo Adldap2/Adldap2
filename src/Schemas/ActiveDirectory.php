@@ -655,6 +655,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function objectSidRequiresConversion()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function operatingSystem()
     {
         return 'operatingsystem';

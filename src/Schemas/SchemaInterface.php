@@ -712,7 +712,7 @@ interface SchemaInterface
     public function objectGuid();
 
     /**
-     * Determine whether the object GUID requires conversion.
+     * Determine whether the object GUID requires conversion from binary.
      *
      * @return bool
      */
@@ -728,6 +728,13 @@ interface SchemaInterface
      * @return string
      */
     public function objectSid();
+
+    /**
+     * Determine whether the object SID requires conversion from binary.
+     *
+     * @return bool
+     */
+    public function objectSidRequiresConversion();
 
     /**
      * The Operating System name, for example, Windows Vista Enterprise.

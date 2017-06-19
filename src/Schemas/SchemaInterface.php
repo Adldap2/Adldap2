@@ -307,7 +307,7 @@ interface SchemaInterface
     public function employeeType();
 
     /**
-     * The AD false bool in string form for conversion.
+     * The LDAP `false` boolean in string form for conversion.
      *
      * @return string
      */
@@ -1156,7 +1156,7 @@ interface SchemaInterface
     public function top();
 
     /**
-     * The AD true bool in string form for conversion.
+     * The LDAP `true` boolean in string form for conversion.
      *
      * @return string
      */

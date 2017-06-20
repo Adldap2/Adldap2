@@ -9,7 +9,7 @@ Once you have composer installed, insert Adldap2 into your `composer.json` file 
 ```
 "require": {
     "adldap2/adldap2": "7.0.*"
-}
+},
 ```
 
 Run `composer update` in the root of your project.

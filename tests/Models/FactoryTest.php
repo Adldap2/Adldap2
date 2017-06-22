@@ -5,6 +5,7 @@ namespace Adldap\Tests\Models;
 use Adldap\Models\User;
 use Adldap\Models\Entry;
 use Adldap\Models\Group;
+use Adldap\Models\Contact;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
 use Adldap\Models\OrganizationalUnit;
@@ -113,7 +114,7 @@ class FactoryTest extends TestCase
             'contact',
         ];
 
-        $this->assertInstanceOf(User::class, $contact);
+        $this->assertInstanceOf(Contact::class, $contact);
         $this->assertEquals(['John Doe'], $contact->getAttribute('cn'));
         $this->assertEquals($class, $contact->getAttribute('objectclass'));
     }

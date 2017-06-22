@@ -548,7 +548,7 @@ interface SchemaInterface
      * This string contains a rule OID indicating the inclusion of ancestral and child members.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
-     * @Link https://msdn.microsoft.com/en-us/library/aa746475(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/aa746475(v=vs.85).aspx
      *
      * @return string
      */

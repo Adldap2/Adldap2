@@ -189,13 +189,13 @@ class Processor
     public function map()
     {
         return [
-            $this->schema->objectClassComputer()    => \Adldap\Models\Computer::class,
-            $this->schema->objectClassContact()     => \Adldap\Models\Contact::class,
-            $this->schema->objectClassPerson()      => \Adldap\Models\User::class,
-            $this->schema->objectClassGroup()       => \Adldap\Models\Group::class,
-            $this->schema->objectClassContainer()   => \Adldap\Models\Container::class,
-            $this->schema->objectClassPrinter()     => \Adldap\Models\Printer::class,
-            $this->schema->objectClassOu()          => \Adldap\Models\OrganizationalUnit::class,
+            $this->schema->objectClassComputer()    => $this->schema->computerModel(),
+            $this->schema->objectClassContact()     => $this->schema->contactModel(),
+            $this->schema->objectClassPerson()      => $this->schema->userModel(),
+            $this->schema->objectClassGroup()       => $this->schema->groupModel(),
+            $this->schema->objectClassContainer()   => $this->schema->containerModel(),
+            $this->schema->objectClassPrinter()     => $this->schema->printerModel(),
+            $this->schema->objectClassOu()          => $this->schema->organizationalUnitModel(),
         ];
     }
 

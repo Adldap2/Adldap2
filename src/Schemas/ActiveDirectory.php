@@ -2,6 +2,15 @@
 
 namespace Adldap\Schemas;
 
+use Adldap\Models\User;
+use Adldap\Models\Entry;
+use Adldap\Models\Group;
+use Adldap\Models\Contact;
+use Adldap\Models\Printer;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
+
 class ActiveDirectory implements SchemaInterface
 {
     /**
@@ -10,14 +19,6 @@ class ActiveDirectory implements SchemaInterface
     public function accountExpires()
     {
         return 'accountexpires';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function neverExpiresDate()
-    {
-        return '9223372036854775807';
     }
 
     /**
@@ -93,6 +94,16 @@ class ActiveDirectory implements SchemaInterface
     }
 
     /**
+     * The class name of the Computer model.
+     *
+     * @return string
+     */
+    public function computerModel()
+    {
+        return Computer::class;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configurationNamingContext()
@@ -106,6 +117,26 @@ class ActiveDirectory implements SchemaInterface
     public function contact()
     {
         return 'contact';
+    }
+
+    /**
+     * The class name of the Contact model.
+     *
+     * @return string
+     */
+    public function contactModel()
+    {
+        return Contact::class;
+    }
+
+    /**
+     * The class name of the Container model.
+     *
+     * @return string
+     */
+    public function containerModel()
+    {
+        return Container::class;
     }
 
     /**
@@ -261,6 +292,16 @@ class ActiveDirectory implements SchemaInterface
     }
 
     /**
+     * The class name of the Entry model.
+     *
+     * @return string
+     */
+    public function entryModel()
+    {
+        return Entry::class;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function false()
@@ -274,6 +315,16 @@ class ActiveDirectory implements SchemaInterface
     public function firstName()
     {
         return 'givenname';
+    }
+
+    /**
+     * The class name of the Group model.
+     *
+     * @return string
+     */
+    public function groupModel()
+    {
+        return Group::class;
     }
 
     /**
@@ -423,22 +474,6 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function member()
-    {
-        return 'member';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function memberRange($from, $to)
-    {
-        return $this->member().";range={$from}-{$to}";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function memberOf()
     {
         return 'memberof';
@@ -450,6 +485,22 @@ class ActiveDirectory implements SchemaInterface
     public function memberOfRecursive()
     {
         return 'memberof:1.2.840.113556.1.4.1941:';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function memberRange($from, $to)
+    {
+        return $this->member() . ";range={$from}-{$to}";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function member()
+    {
+        return 'member';
     }
 
     /**
@@ -474,6 +525,14 @@ class ActiveDirectory implements SchemaInterface
     public function name()
     {
         return 'name';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function neverExpiresDate()
+    {
+        return '9223372036854775807';
     }
 
     /**
@@ -567,22 +626,6 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function objectClassPerson()
-    {
-        return 'person';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function objectClassUser()
-    {
-        return 'user';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function objectClassComputer()
     {
         return 'computer';
@@ -594,6 +637,14 @@ class ActiveDirectory implements SchemaInterface
     public function objectClassContact()
     {
         return 'contact';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassContainer()
+    {
+        return 'container';
     }
 
     /**
@@ -615,9 +666,9 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function objectClassContainer()
+    public function objectClassPerson()
     {
-        return 'container';
+        return 'person';
     }
 
     /**
@@ -626,6 +677,14 @@ class ActiveDirectory implements SchemaInterface
     public function objectClassPrinter()
     {
         return 'printqueue';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassUser()
+    {
+        return 'user';
     }
 
     /**
@@ -687,6 +746,14 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function organizationName()
+    {
+        return 'o';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function organizationalPerson()
     {
         return 'organizationalperson';
@@ -701,19 +768,21 @@ class ActiveDirectory implements SchemaInterface
     }
 
     /**
-     * {@inheritdoc}
+     * The class name of the Organizational Unit model.
+     *
+     * @return string
      */
-    public function organizationalUnitShort()
+    public function organizationalUnitModel()
     {
-        return 'ou';
+        return OrganizationalUnit::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function organizationName()
+    public function organizationalUnitShort()
     {
-        return 'o';
+        return 'ou';
     }
 
     /**
@@ -834,6 +903,16 @@ class ActiveDirectory implements SchemaInterface
     public function printerMemory()
     {
         return 'printmemory';
+    }
+
+    /**
+     * The class name of the Printer model.
+     *
+     * @return string
+     */
+    public function printerModel()
+    {
+        return Printer::class;
     }
 
     /**
@@ -1079,17 +1158,27 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function userPrincipalName()
+    public function userId()
     {
-        return 'userprincipalname';
+        return 'uid';
+    }
+
+    /**
+     * The class name of the User model.
+     *
+     * @return string
+     */
+    public function userModel()
+    {
+        return User::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userId()
+    public function userPrincipalName()
     {
-        return 'uid';
+        return 'userprincipalname';
     }
 
     /**

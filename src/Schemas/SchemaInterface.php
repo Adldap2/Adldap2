@@ -16,13 +16,6 @@ interface SchemaInterface
     public function accountExpires();
 
     /**
-     * Returns a string value indicating that an account does not expire.
-     *
-     * @return string
-     */
-    public function neverExpiresDate();
-
-    /**
      * The logon name used to support clients and servers running earlier versions of the
      * operating system, such as Windows NT 4.0, Windows 95, Windows 98,
      * and LAN Manager. This attribute must be 20 characters or
@@ -110,6 +103,13 @@ interface SchemaInterface
     public function computer();
 
     /**
+     * The class name of the Computer model.
+     *
+     * @return string
+     */
+    public function computerModel();
+
+    /**
      * DN enterprise configuration naming context.
      *
      * @link https://support.microsoft.com/en-us/kb/219005
@@ -126,6 +126,20 @@ interface SchemaInterface
      * @return string
      */
     public function contact();
+
+    /**
+     * The class name of the Contact model.
+     *
+     * @return string
+     */
+    public function contactModel();
+
+    /**
+     * The class name of the Container model.
+     *
+     * @return string
+     */
+    public function containerModel();
 
     /**
      * The entry's country attribute.
@@ -307,6 +321,13 @@ interface SchemaInterface
     public function employeeType();
 
     /**
+     * The class name of the Entry model.
+     *
+     * @return string
+     */
+    public function entryModel();
+
+    /**
      * The LDAP `false` boolean in string form for conversion.
      *
      * @return string
@@ -321,6 +342,13 @@ interface SchemaInterface
      * @return string
      */
     public function firstName();
+
+    /**
+     * The class name of the Group model.
+     *
+     * @return string
+     */
+    public function groupModel();
 
     /**
      * Contains a set of flags that define the type and scope of a group object.
@@ -506,20 +534,6 @@ interface SchemaInterface
     public function member();
 
     /**
-     * The range limited list of users that belong to the group. See range limit in Active Directory
-     * (Range Retrieval of Attribute Values https://msdn.microsoft.com/en-us/library/cc223242.aspx)
-     * Issue #342
-     *
-     * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
-     *
-     * @param string|int $from
-     * @param string|int $to
-     *
-     * @return string
-     */
-    public function memberRange($from, $to);
-
-    /**
      * The distinguished names of the groups to which this object belongs.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
@@ -541,6 +555,20 @@ interface SchemaInterface
     public function memberOfRecursive();
 
     /**
+     * The range limited list of users that belong to the group. See range limit in Active Directory
+     * (Range Retrieval of Attribute Values https://msdn.microsoft.com/en-us/library/cc223242.aspx)
+     * Issue #342
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
+     *
+     * @param string|int $from
+     * @param string|int $to
+     *
+     * @return string
+     */
+    public function memberRange($from, $to);
+
+    /**
      * @link https://msdn.microsoft.com/en-us/library/ms981934(v=exchg.65).aspx
      *
      * @return string
@@ -560,6 +588,13 @@ interface SchemaInterface
      * @return string
      */
     public function name();
+
+    /**
+     * Returns a string value indicating that an account does not expire.
+     *
+     * @return string
+     */
+    public function neverExpiresDate();
 
     /**
      * An object class name used to group objects of this or derived classes.
@@ -643,22 +678,6 @@ interface SchemaInterface
     public function objectClass();
 
     /**
-     * The person object class.
-     *
-     * Represents people who are associated with an organization in some way.
-     *
-     * @return string
-     */
-    public function objectClassPerson();
-
-    /**
-     * The user object class.
-     *
-     * @return string
-     */
-    public function objectClassUser();
-
-    /**
      * The computer object class.
      *
      * @return string
@@ -671,6 +690,13 @@ interface SchemaInterface
      * @return string
      */
     public function objectClassContact();
+
+    /**
+     * The container object class.
+     *
+     * @return string
+     */
+    public function objectClassContainer();
 
     /**
      * The group object class.
@@ -687,11 +713,13 @@ interface SchemaInterface
     public function objectClassOu();
 
     /**
-     * The container object class.
+     * The person object class.
+     *
+     * Represents people who are associated with an organization in some way.
      *
      * @return string
      */
-    public function objectClassContainer();
+    public function objectClassPerson();
 
     /**
      * The printer object class.
@@ -701,6 +729,13 @@ interface SchemaInterface
      * @return string
      */
     public function objectClassPrinter();
+
+    /**
+     * The user object class.
+     *
+     * @return string
+     */
+    public function objectClassUser();
 
     /**
      * The unique identifier for an object.
@@ -764,6 +799,13 @@ interface SchemaInterface
     public function operatingSystemVersion();
 
     /**
+     * The RDN version of organization name for use in distinguished names.
+     *
+     * @return mixed
+     */
+    public function organizationName();
+
+    /**
      * This class is used for objects that contain organizational information about a user,
      * such as the employee number, department, manager, title, office address, and so on.
      *
@@ -783,18 +825,18 @@ interface SchemaInterface
     public function organizationalUnit();
 
     /**
+     * The class name of the Organizational Unit model.
+     *
+     * @return string
+     */
+    public function organizationalUnitModel();
+
+    /**
      * The RDN version of organizational unit for use in distinguished names.
      *
      * @return string
      */
     public function organizationalUnitShort();
-
-    /**
-     * The RDN version of organization name for use in distinguished names.
-     *
-     * @return mixed
-     */
-    public function organizationName();
 
     /**
      * Contains other additional mail addresses in a form such as CCMAIL: JohnDoe.
@@ -937,6 +979,13 @@ interface SchemaInterface
      * @return string
      */
     public function printerMemory();
+
+    /**
+     * The class name of the Printer model.
+     *
+     * @return string
+     */
+    public function printerModel();
 
     /**
      * The display name of an attached printer.
@@ -1208,6 +1257,20 @@ interface SchemaInterface
     public function userAccountControl();
 
     /**
+     * The user ID attribute.
+     *
+     * @return string
+     */
+    public function userId();
+
+    /**
+     * The class name of the User model.
+     *
+     * @return string
+     */
+    public function userModel();
+
+    /**
      * This attribute contains the UPN that is an Internet-style login name for
      * a user based on the Internet standard RFC 822.
      *
@@ -1216,13 +1279,6 @@ interface SchemaInterface
      * @return string
      */
     public function userPrincipalName();
-
-    /**
-     * The user ID attribute.
-     *
-     * @return string
-     */
-    public function userId();
 
     /**
      * A general purpose version number.

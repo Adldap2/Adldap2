@@ -556,6 +556,9 @@ Let's walk through this process.
 
 First we'll create our model we'd like to extend / override:
 
+> **Note**: Your custom model **must** extend from an existing Adldap2 model.
+> This is due to methods and attributes that only exist on these classes.
+
 ```php
 use Adldap\Models\User as Model;
 

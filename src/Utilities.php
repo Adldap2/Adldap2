@@ -173,21 +173,49 @@ class Utilities
     /**
      * Convert a binary SID to a string SID.
      *
-     * @param string $binSid A Binary SID
+     * @author Chad Sikorra
      *
-     * @return string
+     * @link https://github.com/ChadSikorra
+     * @link https://stackoverflow.com/questions/39533560/php-ldap-get-user-sid
+     *
+     * @param string $value The Binary SID
+     *
+     * @return string|null
      */
-    public static function binarySidToString($binSid)
+    public static function binarySidToString($value)
     {
-        $sidHex = unpack('H*hex', $binSid)['hex'];
+        // Revision - 8bit unsigned int (C1)
+        // Count - 8bit unsigned int (C1)
+        // 2 null bytes
+        // ID - 32bit unsigned long, big-endian order
+        $sid = @unpack('C1rev/C1count/x2/N1id', $value);
 
-        $subAuths = unpack('H2/H2/n/N/V*', $binSid);
+        $subAuthorities = [];
 
-        $revLevel = hexdec(substr($sidHex, 0, 2));
+        if (!isset($sid['id']) || !isset($sid['rev'])) {
+            return;
+        }
 
-        $authIdent = hexdec(substr($sidHex, 4, 12));
+        $revisionLevel = $sid['rev'];
 
-        return 'S-'.$revLevel.'-'.$authIdent.'-'.implode('-', $subAuths);
+        $identifierAuthority = $sid['id'];
+
+        $subs = isset($sid['count']) ? $sid['count'] : 0;
+
+        // The sub-authorities depend on the count, so only get as
+        // many as the count, regardless of data beyond it.
+        for ($i = 0; $i < $subs; $i++) {
+            // Each sub-auth is a 32bit unsigned long, little-endian order
+            $subAuthorities[] = unpack(
+                'V1sub',
+                hex2bin(substr(bin2hex($value), 16 + ($i * 8), 8))
+            )['sub'];
+        }
+
+        // Tack on the 'S-' and glue it all together...
+        return 'S-'.$revisionLevel.'-'.$identifierAuthority.implode(
+            preg_filter('/^/', '-', $subAuthorities)
+        );
     }
 
     /**

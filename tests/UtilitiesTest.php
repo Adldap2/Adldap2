@@ -128,13 +128,27 @@ class UtilitiesTest extends TestCase
 
     public function test_is_valid_sid()
     {
-        $sid1 = 'S-1-5-21-3623811015-3361044348-30300820-1013';
-        $sid2 = 'S-1-5-21-362381101-336104434-3030082-101';
-
-        $this->assertTrue(Utilities::isValidSid($sid1));
-        $this->assertTrue(Utilities::isValidSid($sid2));
+        $this->assertTrue(Utilities::isValidSid('S-1-5-21-3623811015-3361044348-30300820-1013'));
+        $this->assertTrue(Utilities::isValidSid('S-1-5-21-362381101-336104434-3030082-101'));
+        $this->assertTrue(Utilities::isValidSid('S-1-5-21-362381101-336104434'));
+        $this->assertTrue(Utilities::isValidSid('S-1-5-21-362381101'));
+        $this->assertTrue(Utilities::isValidSid('S-1-5-21'));
+        $this->assertTrue(Utilities::isValidSid('S-1-5'));
 
         $this->assertFalse(Utilities::isValidSid('Invalid SID'));
+        $this->assertFalse(Utilities::isValidSid('S-1'));
+        $this->assertFalse(Utilities::isValidSid(''));
+    }
+
+    public function test_is_valid_guid()
+    {
+        $this->assertTrue(Utilities::isValidGuid('59e5e143-a50e-41a9-bf2b-badee699a577'));
+        $this->assertTrue(Utilities::isValidGuid('8be90b30-0bbb-4638-b468-7aaeb32c74f9'));
+        $this->assertTrue(Utilities::isValidGuid('17bab266-05ac-4e30-9fad-1c7093e4dd83'));
+
+        $this->assertFalse(Utilities::isValidGuid('Invalid GUID'));
+        $this->assertFalse(Utilities::isValidGuid('17bab266-05ac-4e30-9fad'));
+        $this->assertFalse(Utilities::isValidGuid(''));
     }
 
     public function test_binary_sid_to_string()

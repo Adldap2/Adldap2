@@ -326,9 +326,19 @@ class Utilities
      */
     public static function isValidSid($sid)
     {
-        preg_match("/S-1-5-21-\d+-\d+\-\d+\-\d+/", $sid, $matches);
+        return (bool) preg_match("/^S-\d(-\d{1,10}){1,16}$/i", $sid);
+    }
 
-        return count($matches) > 0;
+    /**
+     * Validates that the inserted string is an object GUID.
+     *
+     * @param string $guid
+     *
+     * @return bool
+     */
+    public static function isValidGuid($guid)
+    {
+        return (bool) preg_match('/^([0-9a-fA-F]){8}(-([0-9a-fA-F]){4}){3}-([0-9a-fA-F]){12}$/', $guid);
     }
 
     /**

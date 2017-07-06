@@ -496,7 +496,7 @@ $newRdn = 'cn=John Doe';
 // New parent distiguished name.
 $newParentDn = 'OU=New Ou,DC=corp,DC=local';
 
-if ($user->move($newRdn, $newParentDn) {
+if ($user->move($newRdn, $newParentDn)) {
     // User was successfully moved to the new OU.
 }
 ```
@@ -510,7 +510,7 @@ $newRdn = 'cn=John Doe';
 // New parent distiguished name.
 $newParentDn = 'OU=New Ou,DC=corp,DC=local';
 
-if ($user->move($newRdn, $newParentDn, $deleteOldRdn = false) {
+if ($user->move($newRdn, $newParentDn, $deleteOldRdn = false)) {
     // User was successfully moved to the new OU,
     // and their old RDN has been left in-tact.
 }

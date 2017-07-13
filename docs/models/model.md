@@ -560,6 +560,8 @@ First we'll create our model we'd like to extend / override:
 > This is due to methods and attributes that only exist on these classes.
 
 ```php
+namespace App\Ldap\Models;
+
 use Adldap\Models\User as Model;
 
 class User extends Model
@@ -574,6 +576,10 @@ class User extends Model
 Now, we'll create our custom schema and return our models class name:
 
 ```php
+namespace App\Ldap\Schemas;
+
+use App\Ldap\Models\User;
+
 class LdapSchema extends ActiveDirectory
 {
     public function userModel()

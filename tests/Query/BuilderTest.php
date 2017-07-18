@@ -158,6 +158,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('contains', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(cn=*test*)');
     }
 
     public function test_where_starts_with()
@@ -171,6 +172,21 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('starts_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(cn=test*)');
+    }
+
+    public function test_where_not_starts_with()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotStartsWith('cn', 'test');
+
+        $where = $b->filters['and'][0];
+
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('not_starts_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(!(cn=test*))');
     }
 
     public function test_where_ends_with()
@@ -184,6 +200,21 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(cn=*test)');
+    }
+
+    public function test_where_not_ends_with()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereNotEndsWith('cn', 'test');
+
+        $where = $b->filters['and'][0];
+
+        $this->assertEquals('cn', $where['field']);
+        $this->assertEquals('not_ends_with', $where['operator']);
+        $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(!(cn=*test))');
     }
 
     public function test_where_between()
@@ -209,6 +240,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('memberof:1.2.840.113556.1.4.1941:', $where['field']);
         $this->assertEquals('=', $where['operator']);
         $this->assertEquals('\63\6e\3d\41\63\63\6f\75\6e\74\69\6e\67\2c\64\63\3d\6f\72\67\2c\64\63\3d\61\63\6d\65', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(memberof:1.2.840.113556.1.4.1941:=cn=Accounting,dc=org,dc=acme)');
     }
 
     public function test_or_where()
@@ -244,45 +276,58 @@ class BuilderTest extends TestCase
         $this->assertEquals('name', $whereTwo['field']);
         $this->assertEquals('=', $whereTwo['operator']);
         $this->assertEquals('\74\65\73\74', $whereTwo['value']);
+
+        $this->assertEquals($b->getUnescapedQuery(), '(|(cn=test)(name=test))');
     }
 
     public function test_or_where_contains()
     {
         $b = $this->newBuilder();
 
-        $b->orWhereContains('cn', 'test');
+        $b
+            ->whereContains('name', 'test')
+            ->orWhereContains('cn', 'test');
 
         $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('contains', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+
+
+        $this->assertEquals($b->getUnescapedQuery(), '(&(name=*test*)(|(cn=*test*)))');
     }
 
     public function test_or_where_starts_with()
     {
         $b = $this->newBuilder();
 
-        $b->orWhereStartsWith('cn', 'test');
+        $b
+            ->whereStartsWith('name', 'test')
+            ->orWhereStartsWith('cn', 'test');
 
         $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('starts_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(&(name=test*)(|(cn=test*)))');
     }
 
     public function test_or_where_ends_with()
     {
         $b = $this->newBuilder();
 
-        $b->orWhereEndsWith('cn', 'test');
+        $b
+            ->whereEndsWith('name', 'test')
+            ->orWhereEndsWith('cn', 'test');
 
         $where = $b->filters['or'][0];
 
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('ends_with', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
+        $this->assertEquals($b->getUnescapedQuery(), '(&(name=*test)(|(cn=*test)))');
     }
 
     public function test_or_where_member_of()
@@ -297,6 +342,10 @@ class BuilderTest extends TestCase
         $this->assertEquals('memberof:1.2.840.113556.1.4.1941:', $where['field']);
         $this->assertEquals('=', $where['operator']);
         $this->assertEquals('\63\6e\3d\41\63\63\6f\75\6e\74\69\6e\67\2c\64\63\3d\6f\72\67\2c\64\63\3d\61\63\6d\65', $where['value']);
+        $this->assertEquals(
+            $b->getUnescapedQuery(),
+            '(|(cn=John Doe)(memberof:1.2.840.113556.1.4.1941:=cn=Accounting,dc=org,dc=acme))'
+        );
     }
 
     /**

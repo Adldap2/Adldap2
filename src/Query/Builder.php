@@ -809,7 +809,7 @@ class Builder
     }
 
     /**
-     * Adds a where equals clause to the current query.
+     * Adds a 'where equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -822,7 +822,7 @@ class Builder
     }
 
     /**
-     * Adds a where not equals clause to the current query.
+     * Adds a 'where not equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -835,7 +835,7 @@ class Builder
     }
 
     /**
-     * Adds a where approximately equals clause to the current query.
+     * Adds a 'where approximately equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -848,7 +848,7 @@ class Builder
     }
 
     /**
-     * Adds a where has clause to the current query.
+     * Adds a 'where has' clause to the current query.
      *
      * @param string $field
      *
@@ -860,7 +860,7 @@ class Builder
     }
 
     /**
-     * Adds a where not has clause to the current query.
+     * Adds a 'where not has' clause to the current query.
      *
      * @param string $field
      *
@@ -872,7 +872,7 @@ class Builder
     }
 
     /**
-     * Adds a where contains clause to the current query.
+     * Adds a 'where contains' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -885,7 +885,7 @@ class Builder
     }
 
     /**
-     * Adds a where contains clause to the current query.
+     * Adds a 'where contains' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -898,7 +898,7 @@ class Builder
     }
 
     /**
-     * Adds a between clause to the current query.
+     * Adds a 'between' clause to the current query.
      *
      * @param string $field
      * @param array  $values
@@ -914,7 +914,7 @@ class Builder
     }
 
     /**
-     * Adds a where starts with clause to the current query.
+     * Adds a 'where starts with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -927,7 +927,7 @@ class Builder
     }
 
     /**
-     * Adds a where *not* starts with clause to the current query.
+     * Adds a 'where *not* starts with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -940,7 +940,7 @@ class Builder
     }
 
     /**
-     * Adds a where ends with clause to the current query.
+     * Adds a 'where ends with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -950,6 +950,19 @@ class Builder
     public function whereEndsWith($field, $value)
     {
         return $this->where($field, Operator::$endsWith, $value);
+    }
+
+    /**
+     * Adds a 'where *not* ends with' clause to the current query.
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return Builder
+     */
+    public function whereNotEndsWith($field, $value)
+    {
+        return $this->where($field, Operator::$notEndsWith, $value);
     }
 
     /**
@@ -973,7 +986,7 @@ class Builder
     }
 
     /**
-     * Adds a member of filter to the current query.
+     * Adds a 'member of' filter to the current query.
      *
      * @param string $dn
      *
@@ -985,7 +998,7 @@ class Builder
     }
 
     /**
-     * Adds an or where clause to the current query.
+     * Adds an 'or where' clause to the current query.
      *
      * @param string      $field
      * @param string|null $operator
@@ -1015,7 +1028,7 @@ class Builder
     }
 
     /**
-     * Adds an or where has clause to the current query.
+     * Adds an 'or where has' clause to the current query.
      *
      * @param string $field
      *
@@ -1027,7 +1040,7 @@ class Builder
     }
 
     /**
-     * Adds a where not has clause to the current query.
+     * Adds a 'where not has' clause to the current query.
      *
      * @param string $field
      *
@@ -1039,7 +1052,7 @@ class Builder
     }
 
     /**
-     * Adds an or where equals clause to the current query.
+     * Adds an 'or where equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1052,7 +1065,7 @@ class Builder
     }
 
     /**
-     * Adds an or where not equals clause to the current query.
+     * Adds an 'or where not equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1065,7 +1078,7 @@ class Builder
     }
 
     /**
-     * Adds a or where approximately equals clause to the current query.
+     * Adds a 'or where approximately equals' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1078,7 +1091,7 @@ class Builder
     }
 
     /**
-     * Adds an or where contains clause to the current query.
+     * Adds an 'or where contains' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1091,7 +1104,7 @@ class Builder
     }
 
     /**
-     * Adds an or where *not* contains clause to the current query.
+     * Adds an 'or where *not* contains' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1104,7 +1117,7 @@ class Builder
     }
 
     /**
-     * Adds an or where starts with clause to the current query.
+     * Adds an 'or where starts with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1117,7 +1130,7 @@ class Builder
     }
 
     /**
-     * Adds an or where *not* starts with clause to the current query.
+     * Adds an 'or where *not* starts with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1130,7 +1143,7 @@ class Builder
     }
 
     /**
-     * Adds an or where ends with clause to the current query.
+     * Adds an 'or where ends with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1143,7 +1156,7 @@ class Builder
     }
 
     /**
-     * Adds an or where *not* ends with clause to the current query.
+     * Adds an 'or where *not* ends with' clause to the current query.
      *
      * @param string $field
      * @param string $value
@@ -1156,7 +1169,7 @@ class Builder
     }
 
     /**
-     * Adds an or where member of filter to the current query.
+     * Adds an 'or where member of' filter to the current query.
      *
      * @param string $dn
      *

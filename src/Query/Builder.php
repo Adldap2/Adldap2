@@ -729,6 +729,24 @@ class Builder
     }
 
     /**
+     * Adds a nested 'not' filter to the current query.
+     *
+     * @param Closure $closure
+     *
+     * @return Builder
+     */
+    public function notFilter(Closure $closure)
+    {
+        $query = $this->newInstance()->nested();
+
+        call_user_func($closure, $query);
+
+        $filter = $this->grammar->compileNot($query->getQuery());
+
+        return $this->rawFilter($filter);
+    }
+
+    /**
      * Adds a where clause to the current query.
      *
      * @param string|array $field

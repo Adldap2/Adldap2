@@ -100,7 +100,7 @@ class Grammar
      */
     public function compileDoesNotEqual($field, $value)
     {
-        return $this->wrap(Operator::$doesNotEqual.$this->compileEquals($field, $value));
+        return $this->compileNot($this->compileEquals($field, $value));
     }
 
     /**
@@ -175,7 +175,7 @@ class Grammar
      */
     public function compileNotStartsWith($field, $value)
     {
-        return $this->wrap(Operator::$doesNotEqual.$this->compileStartsWith($field, $value));
+        return $this->compileNot($this->compileStartsWith($field, $value));
     }
 
     /**
@@ -205,7 +205,7 @@ class Grammar
      */
     public function compileNotEndsWith($field, $value)
     {
-        return $this->wrap(Operator::$doesNotEqual.$this->compileEndsWith($field, $value));
+        return $this->compileNot($this->compileEndsWith($field, $value));
     }
 
     /**
@@ -235,7 +235,7 @@ class Grammar
      */
     public function compileNotContains($field, $value)
     {
-        return $this->wrap(Operator::$doesNotEqual.$this->compileContains($field, $value));
+        return $this->compileNot($this->compileContains($field, $value));
     }
 
     /**
@@ -263,7 +263,7 @@ class Grammar
      */
     public function compileNotHas($field)
     {
-        return $this->wrap(Operator::$doesNotEqual.$this->compileHas($field));
+        return $this->compileNot($this->compileHas($field));
     }
 
     /**
@@ -292,6 +292,18 @@ class Grammar
     public function compileOr($query)
     {
         return $query ? $this->wrap($query, '(|') : '';
+    }
+
+    /**
+     * Wraps the inserted query inside an NOT operator.
+     *
+     * @param string $query
+     *
+     * @return string
+     */
+    public function compileNot($query)
+    {
+        return $query ? $this->wrap($query, '(!') : '';
     }
 
     /**

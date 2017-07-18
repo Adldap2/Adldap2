@@ -413,6 +413,23 @@ echo $query; // Returns '(|(givenname=John)(sn=Doe))'
 
 The above query would return records that contain the first name `John` **or** the last name `Doe`.
 
+#### notFilter
+
+The `notFilter` method accepts a closure which allows you to construct a query inside a `not` LDAP filter:
+
+```php
+$query = $provider->search()->newQuery();
+
+$filter = $query->notFilter(function (\Adldap\Query\Builder $q) {
+    $q->where('givenname', '=', 'John')
+      ->where('sn', '=', 'Doe');
+})->getUnescapedQuery();
+
+echo $query; // Returns '(!(givenname=John)(sn=Doe))'
+```
+
+The above query would return records that **do not** contain the first name `John` **or** the last name `Doe`.
+
 #### Complex Nesting
 
 The above methods `andFilter` / `orFilter` can be chained together and nested

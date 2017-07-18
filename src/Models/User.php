@@ -2,19 +2,23 @@
 
 namespace Adldap\Models;
 
+
 use DateTime;
 use Adldap\Utilities;
 use Adldap\AdldapException;
-use Adldap\Objects\AccountControl;
 use Adldap\Objects\BatchModification;
 use Adldap\Models\Traits\HasMemberOf;
 use Adldap\Models\Traits\HasDescription;
+use Adldap\Models\Traits\HasUserAccountControl;
 use Adldap\Models\Traits\HasLastLogonAndLogOff;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Entry implements Authenticatable
 {
-    use HasDescription, HasMemberOf, HasLastLogonAndLogOff;
+    use HasDescription,
+        HasMemberOf,
+        HasLastLogonAndLogOff,
+        HasUserAccountControl;
 
     /**
      * Get the name of the unique identifier for the user.
@@ -654,28 +658,6 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users user account control integer.
-     *
-     * @return string
-     */
-    public function getUserAccountControl()
-    {
-        return $this->getFirstAttribute($this->schema->userAccountControl());
-    }
-
-    /**
-     * Sets the users account control property.
-     *
-     * @param int|string|AccountControl $accountControl
-     *
-     * @return $this
-     */
-    public function setUserAccountControl($accountControl)
-    {
-        return $this->setAttribute($this->schema->userAccountControl(), (string) $accountControl);
-    }
-
-    /**
      * Returns the users profile file path.
      *
      * @return string
@@ -1004,26 +986,6 @@ class User extends Entry implements Authenticatable
         }
 
         return $result;
-    }
-
-    /**
-     * Returns if the user is disabled.
-     *
-     * @return bool
-     */
-    public function isDisabled()
-    {
-        return ($this->getUserAccountControl() & AccountControl::ACCOUNTDISABLE) === AccountControl::ACCOUNTDISABLE;
-    }
-
-    /**
-     * Returns if the user is enabled.
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->getUserAccountControl() === null ? false : !$this->isDisabled();
     }
 
     /**

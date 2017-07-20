@@ -60,7 +60,7 @@ class Guard implements GuardInterface
     public function bind($username, $password, $prefix = null, $suffix = null)
     {
         // We'll allow binding with a null username and password
-        // if their empty. This will allow us to anonymously
+        // if they're empty. This will allow us to anonymously
         // bind to our servers if needed.
         $username = $username ?: null;
         $password = $password ?: null;

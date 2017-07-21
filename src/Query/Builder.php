@@ -451,13 +451,17 @@ class Builder
     /**
      * Finds a record using ambiguous name resolution.
      *
-     * @param string       $anr
+     * @param string|array $anr
      * @param array|string $columns
      *
      * @return mixed
      */
     public function find($anr, $columns = [])
     {
+        if (is_array($anr)) {
+            return $this->findMany($anr, $columns);
+        }
+
         return $this->findBy($this->schema->anr(), $anr, $columns);
     }
 

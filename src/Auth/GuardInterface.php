@@ -38,9 +38,9 @@ interface GuardInterface
      * @param string $prefix
      * @param string $suffix
      *
-     * @returns void
-     *
      * @throws \Adldap\Auth\BindException When binding to your LDAP server fails.
+     *
+     * @returns void
      */
     public function bind($username, $password, $prefix = null, $suffix = null);
 

@@ -354,6 +354,22 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function homeDrive()
+    {
+        return 'homeDrive';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function homeDirectory()
+    {
+        return 'homeDirectory';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function info()
     {
         return 'info';

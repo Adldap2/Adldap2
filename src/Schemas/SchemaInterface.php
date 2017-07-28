@@ -376,6 +376,24 @@ interface SchemaInterface
     public function homeMdb();
 
     /**
+     * Specifies the drive letter to which to map the UNC path specified by homeDirectory.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676191(v=vs.85).aspx
+     *
+     * @return string|null
+     */
+    public function homeDrive();
+
+    /**
+     * The home directory for the account.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
+     *
+     * @return string|null
+     */
+    public function homeDirectory();
+
+    /**
      * The users extra notable information.
      *
      * @return string

@@ -490,6 +490,30 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Specifies the drive letter to which to map the UNC path specified by homeDirectory.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676191(v=vs.85).aspx
+     *
+     * @return string|null
+     */
+    public function getHomeDrive()
+    {
+        return $this->getFirstAttribute($this->schema->homeDrive());
+    }
+
+    /**
+     * The home directory for the account.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
+     *
+     * @return string|null
+     */
+    public function getHomeDirectory()
+    {
+        return $this->getFirstAttribute($this->schema->homeDirectory());
+    }
+
+    /**
      * Returns the users mail nickname.
      *
      * @return string

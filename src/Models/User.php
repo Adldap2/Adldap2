@@ -496,7 +496,7 @@ class User extends Entry implements Authenticatable
      *
      * @return string|null
      */
-    public function homeDrive()
+    public function getHomeDrive()
     {
         return $this->getFirstAttribute($this->schema->homeDrive());
     }
@@ -508,7 +508,7 @@ class User extends Entry implements Authenticatable
      *
      * @return string|null
      */
-    public function homeDirectory()
+    public function getHomeDirectory()
     {
         return $this->getFirstAttribute($this->schema->homeDirectory());
     }

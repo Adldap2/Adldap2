@@ -380,7 +380,7 @@ interface SchemaInterface
      * 
      * @link https://msdn.microsoft.com/en-us/library/ms676191(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function homeDrive();
 
@@ -389,7 +389,7 @@ interface SchemaInterface
      * 
      * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function homeDirectory();
 

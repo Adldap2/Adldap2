@@ -38,17 +38,31 @@ interface GuardInterface
      * @param string $prefix
      * @param string $suffix
      *
+     * @returns bool
+     */
+    public function bind($username, $password, $prefix = null, $suffix = null);
+
+    /**
+     * Binds to the current connection using the inserted credentials.
+     *
+     * Throws an exception when binding fails.
+     *
+     * @param string $username
+     * @param string $password
+     * @param string $prefix
+     * @param string $suffix
+     *
      * @throws \Adldap\Auth\BindException When binding to your LDAP server fails.
      *
      * @returns void
      */
-    public function bind($username, $password, $prefix = null, $suffix = null);
+    public function bindOrFail($username, $password, $prefix = null, $suffix = null);
 
     /**
      * Binds to the current LDAP server using the
      * configuration administrator credentials.
      *
-     * @throws \Adldap\Auth\BindException When binding as your administrator account fails.
+     * @return bool
      */
     public function bindAsAdministrator();
 }

@@ -74,17 +74,9 @@ class Guard implements GuardInterface
             $username = $prefix.$username.$suffix;
         }
 
-        // We'll mute any exceptions / warnings here.
-        // All we need to know is if binding failed.
-        return @$this->connection->bind($username, $password);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindOrFail($username, $password, $prefix = null, $suffix = null)
-    {
-        if (! $this->bind($username, $password, $prefix, $suffix)) {
+        // We'll mute any exceptions / warnings here. All we need to know
+        // is if binding failed and we'll throw our own exception.
+        if (!@$this->connection->bind($username, $password)) {
             throw new BindException($this->connection->getLastError(), $this->connection->errNo());
         }
     }

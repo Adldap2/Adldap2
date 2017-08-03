@@ -174,8 +174,7 @@ class Provider implements ProviderInterface
     public function make()
     {
         return $this->newModelFactory(
-            $this->search()->getQuery(),
-            $this->schema
+            $this->search()->getQuery()
         );
     }
 
@@ -222,14 +221,13 @@ class Provider implements ProviderInterface
     /**
      * Creates a new model factory.
      *
-     * @param Builder         $builder
-     * @param SchemaInterface $schema
+     * @param Builder $builder
      *
      * @return ModelFactory
      */
-    protected function newModelFactory(Builder $builder, SchemaInterface $schema)
+    protected function newModelFactory(Builder $builder)
     {
-        return new ModelFactory($builder, $schema);
+        return new ModelFactory($builder);
     }
 
     /**

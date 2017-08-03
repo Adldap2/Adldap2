@@ -148,6 +148,17 @@ class BatchModification
     }
 
     /**
+     * Determines if the batch modification
+     * is valid in its current state.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return ! is_null($this->get());
+    }
+
+    /**
      * Builds the type of modification automatically
      * based on the current and original values.
      *
@@ -155,7 +166,10 @@ class BatchModification
      */
     public function build()
     {
-        $filtered = array_diff(array_map('trim', $this->values), ['']);
+        $filtered = array_diff(
+            array_map('trim', $this->values),
+            ['']
+        );
 
         if (is_null($this->original)) {
             // If the original value is null, we'll assume

@@ -666,6 +666,9 @@ class EntryTest extends TestCase
         $this->assertEquals($mod, $model->getModifications()[0]);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function test_adding_invalid_modification()
     {
         $model = $this->newModel();
@@ -674,9 +677,8 @@ class EntryTest extends TestCase
 
         $model->addModification($mod);
 
-        $this->assertEquals([], $model->getModifications());
+        $this->assertEmpty($model->getModifications());
     }
-
 
     public function test_adding_empty_non_existing_attribute()
     {

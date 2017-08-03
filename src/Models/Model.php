@@ -252,7 +252,12 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $val = utf8_encode($val);
         });
 
-        return $attributes;
+        // We'll replace the binary GUID and SID with
+        // their string equivalents for convenience.
+        return array_replace($attributes, [
+            $this->schema->objectGuid() => $this->getConvertedGuid(),
+            $this->schema->objectSid() => $this->getConvertedSid(),
+        ]);
     }
 
     /**

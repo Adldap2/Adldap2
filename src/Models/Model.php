@@ -246,13 +246,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function jsonSerialize()
     {
-        // We need to remove the object SID and GUID from
-        // being serialized as these attributes contain
-        // characters that cannot be serialized.
-        return Arr::except($this->getAttributes(), [
-            $this->schema->objectSid(),
-            $this->schema->objectGuid(),
-        ]);
+        $attributes = $this->getAttributes();
+
+        array_walk_recursive($attributes, function(&$val){
+            $val = utf8_encode($val);
+        });
+
+        return $attributes;
     }
 
     /**

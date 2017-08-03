@@ -35,11 +35,13 @@ class Guard implements GuardInterface
 
         try {
             $this->bind($username, $password);
+
+            $result = true;
         } catch (BindException $e) {
-            // We'll catch the BindException here to return false
-            // to allow developers to use a simple if / else
+            // We'll catch the BindException here to allow
+            // developers to use a simple if / else
             // using the attempt method.
-            return false;
+            $result = false;
         }
 
         // If we're not allowed to bind as the user,
@@ -50,8 +52,7 @@ class Guard implements GuardInterface
             $this->bindAsAdministrator();
         }
 
-        // No bind exceptions, authentication passed.
-        return true;
+        return $result;
     }
 
     /**

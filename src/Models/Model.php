@@ -538,22 +538,27 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $mod = $mod->get();
         }
 
-        if (is_array($mod)) {
-            // Validate that we have the least required
-            // attributes for a batch modification.
-            if (
-                !array_key_exists('modtype', $mod) ||
-                !array_key_exists('attrib', $mod)
-            ) {
-                throw new InvalidArgumentException(
-                    "The batch modification array does not include the mandatory 'attrib' or 'modtype' keys."
-                );
-            }
-
+        if ($this->isValidModification($mod)) {
             $this->modifications[] = $mod;
+
+            return $this;
         }
 
-        return $this;
+        throw new InvalidArgumentException(
+            "The batch modification array does not include the mandatory 'attrib' or 'modtype' keys."
+        );
+    }
+
+    /**
+     * @param string $mod
+     *
+     * @return bool
+     */
+    protected function isValidModification($mod)
+    {
+        return is_array($mod) &&
+            array_key_exists('modtype', $mod) &&
+            array_key_exists('attrib', $mod);
     }
 
     /**
@@ -1213,8 +1218,14 @@ abstract class Model implements ArrayAccess, JsonSerializable
                 $modification->setOriginal($this->original[$attribute]);
             }
 
-            // Finally, we'll add the modification to the model.
-            $this->addModification($modification->build());
+            // Build the modification from its
+            // possible original values.
+            $modification->build();
+
+            if ($modification->isValid()) {
+                // Finally, we'll add the modification to the model.
+                $this->addModification($modification);
+            }
         }
 
         return $this->modifications;

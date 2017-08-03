@@ -5,6 +5,13 @@ namespace Adldap\Objects;
 class BatchModification
 {
     /**
+     * The array keys to be used in batch modifications.
+     */
+    const KEY_ATTRIB = 'attrib';
+    const KEY_MODTYPE = 'modtype';
+    const KEY_VALUES = 'values';
+
+    /**
      * The original value of the attribute before modification.
      *
      * @var null
@@ -208,21 +215,20 @@ class BatchModification
      */
     public function get()
     {
-        $attrib = $this->attribute;
-        $modtype = $this->type;
-        $values = $this->values;
-
-        switch ($modtype) {
+        switch ($this->type) {
             case LDAP_MODIFY_BATCH_REMOVE_ALL:
                 // A values key cannot be provided when
                 // a remove all type is selected.
-                return compact('attrib', 'modtype');
+                return [static::KEY_ATTRIB => $this->attribute, static::KEY_MODTYPE => $this->type];
             case LDAP_MODIFY_BATCH_REMOVE:
-                return compact('attrib', 'modtype', 'values');
+                // Fallthrough.
             case LDAP_MODIFY_BATCH_ADD:
-                return compact('attrib', 'modtype', 'values');
             case LDAP_MODIFY_BATCH_REPLACE:
-                return compact('attrib', 'modtype', 'values');
+                return [
+                    static::KEY_ATTRIB => $this->attribute,
+                    static::KEY_MODTYPE => $this->type,
+                    static::KEY_VALUES => $this->values,
+                ];
             default:
                 // If the modtype isn't recognized, we'll return null.
                 return;

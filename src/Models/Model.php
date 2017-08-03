@@ -557,8 +557,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     protected function isValidModification($mod)
     {
         return is_array($mod) &&
-            array_key_exists('modtype', $mod) &&
-            array_key_exists('attrib', $mod);
+            array_key_exists(BatchModification::KEY_MODTYPE, $mod) &&
+            array_key_exists(BatchModification::KEY_ATTRIB, $mod);
     }
 
     /**

@@ -550,18 +550,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * @param string $mod
-     *
-     * @return bool
-     */
-    protected function isValidModification($mod)
-    {
-        return is_array($mod) &&
-            array_key_exists(BatchModification::KEY_MODTYPE, $mod) &&
-            array_key_exists(BatchModification::KEY_ATTRIB, $mod);
-    }
-
-    /**
      * Returns the model's distinguished name string.
      *
      * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
@@ -1195,6 +1183,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function rename($rdn)
     {
         return $this->move($rdn);
+    }
+
+    /**
+     * Determines if the given modification is valid.
+     *
+     * @param mixed $mod
+     *
+     * @return bool
+     */
+    protected function isValidModification($mod)
+    {
+        return is_array($mod) &&
+            array_key_exists(BatchModification::KEY_MODTYPE, $mod) &&
+            array_key_exists(BatchModification::KEY_ATTRIB, $mod);
     }
 
     /**

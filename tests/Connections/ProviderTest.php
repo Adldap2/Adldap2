@@ -65,16 +65,22 @@ class ProviderTest extends TestCase
     {
         $connection = $this->newConnectionMock();
 
+        // Binding as the user.
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
+
+        // Binding fails, retrieves last error.
+        $connection->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
-            ->shouldReceive('getLastError')->once()->andReturn('error')
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('errNo')->once()->andReturn(1)
-            ->shouldReceive('close')->once()->andReturn(true);
+            ->shouldReceive('errNo')->once()->andReturn(1);
+
+        // Rebinds as the administrator.
+        $connection->shouldReceive('bind')->once()->withArgs([null, null])->andReturn(true);
+
+        // Closes the connection.
+        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection);
 

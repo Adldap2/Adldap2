@@ -80,21 +80,7 @@ trait HasMemberOf
             $fields = array_merge($fields, [$this->schema->memberOf()]);
         }
 
-        // Get the members of the current group.
-        $dns = $this->getAttribute($this->schema->memberOf());
-
-        // Normalize returned distinguished names.
-        $dns = is_array($dns) ? $dns : [];
-
-        /** @var \Adldap\Query\Builder $query */
-        $query = $this->query->newInstance();
-
-        /** @var Collection $groups */
-        $groups = $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
-            return $query->select($fields)->findByDn($dn);
-        })->filter(function ($group) {
-            return $group instanceof Group;
-        });
+        $groups = $this->getGroupsByNames($this->memberOfDns(), $fields);
 
         // We need to check if we're working with a User model. Only users
         // contain a primary group. If we are, we'll merge the users
@@ -175,7 +161,7 @@ trait HasMemberOf
             // model must be apart of, then go through the models
             // actual groups and perform validation.
             $exists = $memberOf->filter(function (Group $parent) use ($group) {
-                return $this->validateGroup($group, $parent);
+                return $this->groupIsParent($group, $parent);
             })->count() !== 0;
 
             if (!$exists) {
@@ -190,6 +176,38 @@ trait HasMemberOf
     }
 
     /**
+     * Retrieves groups by their distinguished name.
+     *
+     * @param array $dns
+     * @param array $fields
+     *
+     * @return Collection
+     */
+    protected function getGroupsByNames(array $dns = [], $fields = [])
+    {
+        $query = $this->query->newInstance();
+
+        return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
+            return $query->select($fields)->findByDn($dn);
+        })->filter(function ($group) {
+            return $group instanceof Group;
+        });
+    }
+
+    /**
+     * Returns the member distinguished names.
+     *
+     * @return array
+     */
+    protected function memberOfDns()
+    {
+        $dns = $this->getAttribute($this->schema->memberOf());
+
+        // Normalize returned distinguished names.
+        return is_array($dns) ? $dns : [];
+    }
+
+    /**
      * Validates if the specified group is the given parent instance.
      *
      * @param Group|string $group
@@ -197,7 +215,7 @@ trait HasMemberOf
      *
      * @return bool
      */
-    protected function validateGroup($group, Group $parent)
+    protected function groupIsParent($group, Group $parent)
     {
         if ($group instanceof Group) {
             // We've been given a group instance, we'll compare their DNs.

@@ -144,4 +144,34 @@ class BatchModificationTest extends TestCase
         $this->assertInternalType('string', $modification->getValues()[1]);
         $this->assertInternalType('string', $modification->getValues()[2]);
     }
+
+    public function test_is_valid()
+    {
+        $mod1 = new BatchModification('attribute', 1);
+        $mod2 = new BatchModification('attribute', 2);
+        $mod3 = new BatchModification('attribute', 3);
+        $mod4 = new BatchModification('attribute', 18);
+
+        $this->assertTrue($mod1->isValid());
+        $this->assertTrue($mod2->isValid());
+        $this->assertTrue($mod3->isValid());
+        $this->assertTrue($mod4->isValid());
+    }
+
+    public function test_is_not_valid()
+    {
+        // Empty modification
+        $mod1 = new BatchModification();
+
+        // Building a modification which only contains an attribute and empty type & value.
+        $mod2 = new BatchModification('attribute');
+        $mod2->build();
+
+        // Modification with invalid mod type
+        $mod3 = new BatchModification('attribute', 20);
+
+        $this->assertFalse($mod1->isValid());
+        $this->assertFalse($mod2->isValid());
+        $this->assertFalse($mod3->isValid());
+    }
 }

@@ -976,7 +976,7 @@ class Builder
      */
     public function whereEnabled()
     {
-        return $this->rawFilter('(!(UserAccountControl:1.2.840.113556.1.4.803:=2))');
+        return $this->rawFilter($this->schema->filterEnabled());
     }
 
     /**
@@ -986,7 +986,7 @@ class Builder
      */
     public function whereDisabled()
     {
-        return $this->rawFilter('(UserAccountControl:1.2.840.113556.1.4.803:=2)');
+        return $this->rawFilter($this->schema->filterDisabled());
     }
 
     /**

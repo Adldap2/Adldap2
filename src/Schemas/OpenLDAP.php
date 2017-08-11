@@ -23,6 +23,30 @@ class OpenLDAP extends ActiveDirectory
     /**
      * {@inheritdoc}
      */
+    public function filterEnabled()
+    {
+        return sprintf('(!(%s=*))', $this->lockoutTime());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterDisabled()
+    {
+        return sprintf('(%s=*)', $this->lockoutTime());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function lockoutTime()
+    {
+        return 'pwdAccountLockedTime';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectCategory()
     {
         return 'objectclass';

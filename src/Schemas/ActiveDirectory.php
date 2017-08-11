@@ -312,6 +312,22 @@ class ActiveDirectory implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function filterEnabled()
+    {
+        return '(!(UserAccountControl:1.2.840.113556.1.4.803:=2))';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterDisabled()
+    {
+        return '(UserAccountControl:1.2.840.113556.1.4.803:=2)';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function firstName()
     {
         return 'givenname';

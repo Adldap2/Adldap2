@@ -335,6 +335,20 @@ interface SchemaInterface
     public function false();
 
     /**
+     * The LDAP filter to query for enabled users.
+     *
+     * @return mixed
+     */
+    public function filterEnabled();
+
+    /**
+     * The LDAP filter to query for disabled users.
+     *
+     * @return mixed
+     */
+    public function filterDisabled();
+
+    /**
      * Contains the given name (first name) of the user.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675719(v=vs.85).aspx

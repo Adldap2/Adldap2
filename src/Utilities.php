@@ -223,7 +223,7 @@ class Utilities
      *
      * @param string $binGuid
      *
-     * @return string
+     * @return string|null
      */
     public static function binaryGuidToString($binGuid)
     {

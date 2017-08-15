@@ -103,8 +103,6 @@ class Guard implements GuardInterface
      */
     protected function applyPrefixAndSuffix($username, $prefix = null, $suffix = null)
     {
-        // If the username isn't empty, we'll append the configured
-        // account prefix and suffix to bind to the LDAP server.
         $prefix = is_null($prefix) ? $this->configuration->get('account_prefix') : $prefix;
         $suffix = is_null($suffix) ? $this->configuration->get('account_suffix') : $suffix;
 

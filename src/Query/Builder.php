@@ -641,15 +641,13 @@ class Builder
      */
     public function findBaseDn()
     {
-        $schema = $this->schema;
-
         $result = $this->setDn(null)
             ->read()
             ->raw()
-            ->whereHas($schema->objectClass())
+            ->whereHas($this->schema->objectClass())
             ->first();
 
-        $key = $schema->defaultNamingContext();
+        $key = $this->schema->defaultNamingContext();
 
         if (is_array($result) && array_key_exists($key, $result)) {
             if (array_key_exists(0, $result[$key])) {

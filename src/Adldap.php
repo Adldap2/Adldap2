@@ -38,14 +38,14 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function addProvider($configuration = [], $name = 'default', ConnectionInterface $connection = null, SchemaInterface $schema = null)
+    public function addProvider($config = [], $name = 'default', ConnectionInterface $connection = null, SchemaInterface $schema = null)
     {
-        if (is_array($configuration) || $configuration instanceof DomainConfiguration) {
-            $configuration = new Provider($configuration, $connection, $schema);
+        if ($this->isValidConfig($config)) {
+            $config = new Provider($config, $connection, $schema);
         }
 
-        if ($configuration instanceof ProviderInterface) {
-            $this->providers[$name] = $configuration;
+        if ($config instanceof ProviderInterface) {
+            $this->providers[$name] = $config;
 
             return $this;
         }
@@ -53,6 +53,18 @@ class Adldap implements AdldapInterface
         throw new InvalidArgumentException(
             "You must provide a configuration array or an instance of Adldap\Connections\ProviderInterface."
         );
+    }
+
+    /**
+     * Determines if the given config is valid.
+     *
+     * @param array|DomainConfiguration $config
+     *
+     * @return bool
+     */
+    protected function isValidConfig($config)
+    {
+        return is_array($config) || $config instanceof DomainConfiguration;
     }
 
     /**

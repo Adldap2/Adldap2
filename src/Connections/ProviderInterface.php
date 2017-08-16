@@ -16,7 +16,7 @@ interface ProviderInterface
       * @param SchemaInterface|null      $schema
       */
     public function __construct($configuration, ConnectionInterface $connection, SchemaInterface $schema = null);
-    
+
     /**
      * Returns the current connection instance.
      *

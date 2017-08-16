@@ -15,15 +15,8 @@ interface ProviderInterface
       * @param ConnectionInterface|null  $connection
       * @param SchemaInterface|null      $schema
       */
-     public function __construct($configuration, ConnectionInterface $connection, SchemaInterface $schema = null);
-
-    /**
-     * Destructor.
-     *
-     * Closes the current LDAP connection if it exists.
-     */
-    public function __destruct();
-
+    public function __construct($configuration, ConnectionInterface $connection, SchemaInterface $schema = null);
+    
     /**
      * Returns the current connection instance.
      *

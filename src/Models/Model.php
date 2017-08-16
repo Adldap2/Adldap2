@@ -10,6 +10,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Query\Builder;
+use Adldap\Models\Attributes\Sid;
+use Adldap\Models\Attributes\Guid;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Objects\BatchModification;
 use Adldap\Objects\DistinguishedName;
@@ -655,33 +657,29 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's GUID.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getConvertedGuid()
     {
-        $guid = $this->getFirstAttribute($this->schema->objectGuid());
-
-        if ($this->schema->objectGuidRequiresConversion()) {
-            $guid = Utilities::binaryGuidToString($guid);
+        try {
+            return (string) new Guid($this->getObjectGuid());
+        } catch (InvalidArgumentException $e) {
+            return;
         }
-
-        return $guid ?: false;
     }
 
     /**
      * Returns the model's SID.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getConvertedSid()
     {
-        $sid = $this->getFirstAttribute($this->schema->objectSid());
-
-        if ($this->schema->objectSidRequiresConversion()) {
-            $sid = Utilities::binarySidToString($sid);
+        try {
+            return (string) new Sid($this->getObjectGuid());
+        } catch (InvalidArgumentException $e) {
+            return;
         }
-
-        return $sid ?: false;
     }
 
     /**

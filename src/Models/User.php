@@ -27,7 +27,7 @@ class User extends Entry implements Authenticatable
      */
     public function getAuthIdentifierName()
     {
-        return $this->schema->objectSid();
+        return $this->schema->objectGuid();
     }
 
     /**
@@ -37,7 +37,7 @@ class User extends Entry implements Authenticatable
      */
     public function getAuthIdentifier()
     {
-        return $this->getConvertedSid();
+        return $this->getConvertedGuid();
     }
 
     /**

@@ -10,6 +10,7 @@
 - Added `isValid()` method to `BatchModification` ([67db6d9](https://github.com/Adldap2/Adldap2/commit/67db6d973b6b5147e4391fac4f6be024e97e2753))
 - Added `KEY_ATTRIB`, `KEY_MODTYPE` & `KEY_VALUES` constants to `BatchModification` ([1f29859](https://github.com/Adldap2/Adldap2/commit/1f2985912df61d7a11e5f196ecbcc1f460383758))
 - Added `lockoutTime()`, `filterEnabled()` and `filterDisabled()` methods to `OpenLDAP` Schema ([96e0e1f](https://github.com/Adldap2/Adldap2/commit/96e0e1fd8298bcfdefb002d71abf4a4fb06b83a6))
+- Added `Guid` and `Sid` attribute classes for converting GUIDs and SIDs to string & binary ([03f7074](https://github.com/Adldap2/Adldap2/commit/03f7074d56af95ad69a17f2f77ee238c708a1841))
 
 ### Changed
 
@@ -20,6 +21,9 @@
 - Account prefix and suffix are now only applied if the given prefix and suffix are null ([#406](https://github.com/Adldap2/Adldap2/issues/406))-([7db8896](https://github.com/Adldap2/Adldap2/commit/7db8896ea69516a258bd07f5d8cea50683bc1da5))
 - GUIDs and SIDs are now converted to their string equivalents upon serialization ([f43d4dc](https://github.com/Adldap2/Adldap2/commit/f43d4dc504b06013b549144f28f1b9d791610b38))
 - Exception is always thrown when a batch modification is invalid ([b45bfef](https://github.com/Adldap2/Adldap2/commit/b45bfeff4c4e3ae9b91e6499ff0c88d675923a03))
+- `Utilities::littleEndian()` static method has been removed ([57360b1](https://github.com/Adldap2/Adldap2/commit/57360b10dcf57ae013a3688cb168e637b58ba587))
+- GUIDs are now used as the authentication identifier for Laravel ([9033159](https://github.com/Adldap2/Adldap2/commit/90331598169de6ec5446917fefb6334fa72e4a47))
+- Removed `__destruct()` from the `ProviderInterface` ([a951f29](https://github.com/Adldap2/Adldap2/commit/a951f29ceefeb47431e2147f1251f1383cdd3bc9))
 
 ## Fixed
 

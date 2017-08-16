@@ -202,14 +202,15 @@ class Utilities
 
         $subs = isset($sid['count']) ? $sid['count'] : 0;
 
+        $sidHex = $subs ? bin2hex($value) : '';
+
         // The sub-authorities depend on the count, so only get as
         // many as the count, regardless of data beyond it.
         for ($i = 0; $i < $subs; $i++) {
+            $data = substr($sidHex, 16 + ($i * 8), 8);
+
             // Each sub-auth is a 32bit unsigned long, little-endian order
-            $subAuthorities[] = unpack(
-                'V1sub',
-                hex2bin(substr(bin2hex($value), 16 + ($i * 8), 8))
-            )['sub'];
+            $subAuthorities[] = unpack('V1sub', hex2bin($data))['sub'];
         }
 
         // Tack on the 'S-' and glue it all together...

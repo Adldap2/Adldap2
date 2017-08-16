@@ -114,4 +114,20 @@ class AdldapTest extends TestCase
 
         $ad->addProvider('first', 'invalid');
     }
+
+    public function test_the_first_provider_is_set_as_default()
+    {
+        $ad = new Adldap([
+            'test1' => [
+                'domain_controllers' => ['test1.dc']
+            ],
+            'test2' => [
+                'domain_controllers' => ['test2.dc']
+            ],
+        ]);
+
+        $provider = $ad->getDefaultProvider();
+
+        $this->assertEquals('test1.dc', $provider->getConfiguration()->get('domain_controllers')[0]);
+    }
 }

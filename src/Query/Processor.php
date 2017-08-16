@@ -109,12 +109,12 @@ class Processor
      */
     public function newLdapEntry(array $attributes = [])
     {
-        $attribute = $this->schema->objectClass();
+        $objectClass = $this->schema->objectClass();
 
-        if (array_key_exists($attribute, $attributes) && array_key_exists(0, $attributes[$attribute])) {
+        if (array_key_exists($objectClass, $attributes) && array_key_exists(0, $attributes[$objectClass])) {
             // Retrieve all of the object classes from the LDAP
             // entry and lowercase them for comparisons.
-            $classes = array_map('strtolower', $attributes[$attribute]);
+            $classes = array_map('strtolower', $attributes[$objectClass]);
 
             // Retrieve the model mapping.
             $models = $this->map();

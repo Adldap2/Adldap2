@@ -254,31 +254,13 @@ class Utilities
      */
     public static function stringGuidToHex($string)
     {
-        $hex = '\\'.substr($string, 6, 2).'\\'.substr($string, 4, 2).'\\'.substr($string, 2, 2).'\\'.substr($string, 0, 2);
-        $hex = $hex .'\\'. substr($string, 11, 2).'\\'.substr($string, 9, 2);
-        $hex = $hex .'\\'. substr($string, 16, 2).'\\'.substr($string, 14, 2);
-        $hex = $hex .'\\'. substr($string, 19, 2).'\\'.substr($string, 21, 2);
-        $hex = $hex .'\\'. substr($string, 24, 2).'\\'. substr($string, 26, 2).'\\'. substr($string, 28, 2).'\\'. substr($string, 30, 2).'\\'. substr($string, 32, 2).'\\'. substr($string, 34, 2);
+        $hex = '\\' . substr($string, 6, 2) . '\\' . substr($string, 4, 2) . '\\' . substr($string, 2, 2) . '\\' . substr($string, 0, 2);
+        $hex = $hex . '\\' . substr($string, 11, 2) . '\\' . substr($string, 9, 2);
+        $hex = $hex . '\\' . substr($string, 16, 2) . '\\' . substr($string, 14, 2);
+        $hex = $hex . '\\' . substr($string, 19, 2) . '\\' . substr($string, 21, 2);
+        $hex = $hex . '\\' . substr($string, 24, 2) . '\\' . substr($string, 26, 2) . '\\' . substr($string, 28, 2) . '\\' . substr($string, 30, 2) . '\\' . substr($string, 32, 2) . '\\' . substr($string, 34, 2);
 
         return $hex;
-    }
-
-    /**
-     * Converts a little-endian hex number to one that hexdec() can convert.
-     *
-     * @param string $hex A hex code
-     *
-     * @return string
-     */
-    public static function littleEndian($hex)
-    {
-        $result = '';
-
-        for ($x = strlen($hex) - 2; $x >= 0; $x = $x - 2) {
-            $result .= substr($hex, $x, 2);
-        }
-
-        return $result;
     }
 
     /**

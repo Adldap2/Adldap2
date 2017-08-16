@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Attributes;
+namespace Adldap\Models\Attributes;
 
 use Adldap\Utilities;
 
@@ -41,6 +41,16 @@ class Sid
         } else {
             throw new \InvalidArgumentException("Invalid Binary / String SID.");
         }
+    }
+
+    /**
+     * Returns the string value of the SID.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getValue();
     }
 
     /**

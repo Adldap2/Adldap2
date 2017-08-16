@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Attributes;
+namespace Adldap\Models\Attributes;
 
 use Adldap\Utilities;
 
@@ -72,6 +72,16 @@ class Guid
         } else {
             throw new \InvalidArgumentException("Invalid Binary / String GUID.");
         }
+    }
+
+    /**
+     * Returns the string value of the GUID.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getValue();
     }
 
     /**

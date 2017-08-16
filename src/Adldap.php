@@ -30,8 +30,12 @@ class Adldap implements AdldapInterface
      */
     public function __construct(array $providers = [])
     {
-        foreach ($providers as $name => $configuration) {
-            $this->addProvider($configuration, $name);
+        foreach ($providers as $name => $config) {
+            $this->addProvider($config, $name);
+        }
+
+        if ($default = key($providers)) {
+            $this->setDefaultProvider($default);
         }
     }
 

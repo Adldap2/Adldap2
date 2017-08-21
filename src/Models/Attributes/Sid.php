@@ -3,6 +3,7 @@
 namespace Adldap\Models\Attributes;
 
 use Adldap\Utilities;
+use InvalidArgumentException;
 
 class Sid
 {
@@ -30,7 +31,7 @@ class Sid
      *
      * @param mixed $value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($value)
     {
@@ -39,7 +40,7 @@ class Sid
         } else if ($value = $this->binarySidToString($value)) {
             $this->value = $value;
         } else {
-            throw new \InvalidArgumentException("Invalid Binary / String SID.");
+            throw new InvalidArgumentException("Invalid Binary / String SID.");
         }
     }
 

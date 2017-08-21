@@ -3,6 +3,7 @@
 namespace Adldap\Models\Attributes;
 
 use Adldap\Utilities;
+use InvalidArgumentException;
 
 class Guid
 {
@@ -61,7 +62,7 @@ class Guid
      *
      * @param mixed $value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($value)
     {
@@ -70,7 +71,7 @@ class Guid
         } else if ($value = $this->binaryGuidToString($value)) {
             $this->value = $value;
         } else {
-            throw new \InvalidArgumentException("Invalid Binary / String GUID.");
+            throw new InvalidArgumentException("Invalid Binary / String GUID.");
         }
     }
 

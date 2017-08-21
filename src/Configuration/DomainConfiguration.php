@@ -4,7 +4,7 @@ namespace Adldap\Configuration;
 
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\Validators\ArrayValidator;
-use Adldap\Configuration\Validators\StringValidator;
+use Adldap\Configuration\Validators\StringOrNullValidator;
 use Adldap\Configuration\Validators\BooleanValidator;
 use Adldap\Configuration\Validators\IntegerValidator;
 
@@ -152,7 +152,7 @@ class DomainConfiguration
         } elseif (is_bool($default)) {
             $validator = new BooleanValidator($key, $value);
         } else {
-            $validator = new StringValidator($key, $value);
+            $validator = new StringOrNullValidator($key, $value);
         }
 
         return $validator->validate();

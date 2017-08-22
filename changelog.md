@@ -11,6 +11,7 @@
 - Added `KEY_ATTRIB`, `KEY_MODTYPE` & `KEY_VALUES` constants to `BatchModification` ([1f29859](https://github.com/Adldap2/Adldap2/commit/1f2985912df61d7a11e5f196ecbcc1f460383758))
 - Added `lockoutTime()`, `filterEnabled()` and `filterDisabled()` methods to `OpenLDAP` Schema ([96e0e1f](https://github.com/Adldap2/Adldap2/commit/96e0e1fd8298bcfdefb002d71abf4a4fb06b83a6))
 - Added `Guid` and `Sid` attribute classes for converting GUIDs and SIDs to string & binary ([03f7074](https://github.com/Adldap2/Adldap2/commit/03f7074d56af95ad69a17f2f77ee238c708a1841))
+- Added `inOu()` method to `Model` to check if a `Model` instance is inside a given OU ([fdc6b17](https://github.com/Adldap2/Adldap2/commit/fdc6b177c630993cb541a72ae4f79d4cb581e459))
 
 ### Changed
 
@@ -24,6 +25,7 @@
 - `Utilities::littleEndian()` static method has been removed ([57360b1](https://github.com/Adldap2/Adldap2/commit/57360b10dcf57ae013a3688cb168e637b58ba587))
 - GUIDs are now used as the authentication identifier for Laravel ([9033159](https://github.com/Adldap2/Adldap2/commit/90331598169de6ec5446917fefb6334fa72e4a47))
 - Removed `__destruct()` from the `ProviderInterface` ([a951f29](https://github.com/Adldap2/Adldap2/commit/a951f29ceefeb47431e2147f1251f1383cdd3bc9))
+- `DistinguishedName` properties are now public ([9d18d7d](https://github.com/Adldap2/Adldap2/commit/9d18d7d96ac9f6c00770572c1c2ae4fe2f49aa06))
 
 ## Fixed
 

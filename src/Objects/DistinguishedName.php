@@ -9,46 +9,46 @@ use Adldap\Schemas\SchemaInterface;
 class DistinguishedName
 {
     /**
-     * The current LDAP schema.
-     *
-     * @var SchemaInterface
-     */
-    protected $schema;
-
-    /**
      * The common names in the DN.
      *
      * @var array
      */
-    protected $commonNames = [];
+    public $commonNames = [];
 
     /**
      * The uid's in the DN.
      *
      * @var array
      */
-    protected $userIds = [];
+    public $userIds = [];
 
     /**
      * The organizational units in the DN.
      *
      * @var array
      */
-    protected $organizationUnits = [];
+    public $organizationUnits = [];
 
     /**
      * The domain components in the DN.
      *
      * @var array
      */
-    protected $domainComponents = [];
+    public $domainComponents = [];
 
     /**
      * The organization names in the DN.
      *
      * @var array
      */
-    protected $organizationNames = [];
+    public $organizationNames = [];
+
+    /**
+     * The current LDAP schema.
+     *
+     * @var SchemaInterface
+     */
+    protected $schema;
 
     /**
      * The RDN attribute types.
@@ -249,14 +249,14 @@ class DistinguishedName
         $base = (string) $base;
 
         // If the base DN isn't null we'll try to explode it.
-        $base = (Utilities::explodeDn($base, false) ?: []);
+        $base = Utilities::explodeDn($base, false) ?: [];
 
         // Remove the count key from the exploded distinguished name.
         unset($base['count']);
 
         foreach ($base as $key => $rdn) {
             // We'll break the RDN into pieces
-            $pieces = (explode('=', $rdn) ?: []);
+            $pieces = explode('=', $rdn) ?: [];
 
             // If there's exactly 2 pieces, then we can work with it.
             if (count($pieces) === 2) {

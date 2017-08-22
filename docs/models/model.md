@@ -546,7 +546,7 @@ if ($user->delete()) {
 
 ## Extending
 
-> **Note**: This feature was introduced in `v7.1.0`.
+> **Note**: This feature was introduced in `v8.0.0`.
 
 To use your own models, you will need to create a new [Schema](../schema.md).
 

@@ -945,6 +945,30 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Determine if the current model is located inside the given OU.
+     *
+     * If a model instance is given, the strict parameter is ignored.
+     *
+     * @param Model|string $ou     The organizational unit to check.
+     * @param bool         $strict Whether the check is case-sensitive.
+     *
+     * @return bool
+     */
+    public function inOu($ou, $strict = false)
+    {
+        if ($ou instanceof Model) {
+            // If we've been given an OU model, we can
+            // just check if the OU's DN is inside
+            // the current models DN.
+            return (bool) strpos($this->getDn(), $ou->getDn());
+        }
+
+        $suffix = $strict ? '' : 'i';
+
+        return (bool) preg_grep("/{$ou}/{$suffix}", $this->getDnBuilder()->organizationUnits);
+    }
+
+    /**
      * Returns true / false if the current model is writable
      * by checking its instance type integer.
      *

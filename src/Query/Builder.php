@@ -670,7 +670,7 @@ class Builder
         $columns = is_array($columns) ? $columns : func_get_args();
 
         if (!empty($columns)) {
-            $this->columns = is_array($columns) ? $columns : func_get_args();
+            $this->columns = $columns;
         }
 
         return $this;

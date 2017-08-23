@@ -80,7 +80,9 @@ found, use the `findOrFail()` method:
 
 ```php
 try {
+
     $record = $search->findOrFail('John Doe');
+    
 } catch (\Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
@@ -102,7 +104,9 @@ an exception when it hasn't been found, use the `findByOrFail()` method:
 
 ```php
 try {
+
     $record = $search->findByOrFail('samaccountname', 'jdoe');
+    
 } catch (\Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
@@ -123,7 +127,9 @@ an exception when it hasn't been found, use the `findByDnOrFail()` method:
 
 ```php
 try {
+
     $record = $search->findByDnOrFail('cn=John Doe,dc=corp,dc=org');
+    
 } catch (\Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
@@ -159,7 +165,9 @@ To retrieve the first record of a search or throw an exception when one isn't fo
 
 ```php
 try {
+
     $record = $search->firstOrFail();
+    
 } catch (\Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
@@ -469,7 +477,6 @@ $results = $search->rawFilter($filters)->get();
 
 // Or use multiple arguments
 $results = $search->rawFilter($filters[0], $filters[1])->get();
-
 
 // Multiple raw filters will be automatically wrapped into an `and` filter:
 $query = $search->getUnescapedQuery();

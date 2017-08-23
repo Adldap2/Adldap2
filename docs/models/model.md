@@ -461,6 +461,26 @@ $count = $user->countAttributes();
 var_dump($count); // Returns int
 ```
 
+#### Checking if a Model is contained in an OU
+
+To check if a model is located inside an OU, use the `inOu()` method:
+
+```php
+if ($model->inOu('User Accounts')) {
+    // This model is inside the 'User Accounts' OU.
+}
+```
+
+You can also use an OU model instance:
+
+```php
+$serviceAccounts = $provider->search()->ous()->find('Service Accounts');
+
+if ($model->inOu($serviceAccounts)) {
+    // This model is inside the 'Service Accounts' OU.
+}
+```
+
 #### Checking if a Model is Writable
 
 To check if the model can be written to, use the method `isWritable()`:

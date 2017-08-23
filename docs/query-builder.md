@@ -15,7 +15,15 @@
 - [Base DN](#base-dn)
 - [Search Options](#search-options)
 
-The Adldap2 query builder makes building LDAP queries feel effortless. Let's get started.
+## Introduction
+
+The Adldap2 query builder makes building LDAP queries feel effortless.
+
+It allows you to generate queries using a fluent and convenient interface.
+
+> **Note:**: The Adldap2 query builder escapes all fields & values
+> given to its `where()` methods. There is no need to clean /
+> escape strings before passing them into the query builder.
 
 ## Opening a Query
 
@@ -32,6 +40,9 @@ $results = $provider->search()->where('cn', '=', 'John Doe')->get();
 ```
 
 ## Selects
+
+> **Note:** Fields are case in-sensitive. For example, you can
+> insert `CN`, `cn` or `cN`, they will return the same result.
 
 #### Selecting attributes
 
@@ -165,19 +176,6 @@ $records = $search->where('cn', 'contains', 'John')->limit(5)->get();
 ```
 
 ## Wheres
-
-> **Tips**:
-> Fields are case insensitive, so it doesn't matter if you use `->where('CN', '*')` or `->where('cn', '*')`,
-> they would return the same result.
-> 
-> It's also good to know that all values inserted into a where, or an orWhere method,
-> <b>are escaped</b> by default into a hex string, so you don't need to worry about escaping them. For example:
->
->
->```php
->// Returns '(cn=\2f\25\70\6f\73\73\69\62\6c\79\2d\68\61\72\6d\66\75\6c\25\5c\5e\5c\2f\2f)'
->$query = $provider->search()->where('cn', '=', '/%possibly-harmful%\^\//')->getQuery();
->```
 
 To perform a where clause on the search object, use the `where()` function:
 

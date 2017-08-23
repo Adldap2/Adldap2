@@ -11,10 +11,10 @@ interface AdldapInterface
     /**
      * Add a provider by the specified name.
      *
-     * @param ProviderInterface|array $configuration
-     * @param string                  $name
-     * @param ConnectionInterface     $connection
-     * @param SchemaInterface         $schema
+     * @param mixed               $configuration
+     * @param string              $name
+     * @param ConnectionInterface $connection
+     * @param SchemaInterface     $schema
      *
      * @return $this
      *

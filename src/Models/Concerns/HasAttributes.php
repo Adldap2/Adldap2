@@ -281,6 +281,18 @@ trait HasAttributes
     }
 
     /**
+     * Returns a normalized attribute key.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function normalizeAttributeKey($key)
+    {
+        return strtolower($key);
+    }
+
+    /**
      * Determine if the new and old values for a given key are numerically equivalent.
      *
      * @param string $key

@@ -984,18 +984,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns a normalized attribute key.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    protected function normalizeAttributeKey($key)
-    {
-        return strtolower($key);
-    }
-
-    /**
      * Validates that the current LDAP connection is secure.
      *
      * @throws ConnectionException

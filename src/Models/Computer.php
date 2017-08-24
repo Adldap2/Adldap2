@@ -2,10 +2,10 @@
 
 namespace Adldap\Models;
 
-use Adldap\Models\Traits\HasDescription;
-use Adldap\Models\Traits\HasUserAccountControl;
-use Adldap\Models\Traits\HasLastLogonAndLogOff;
-use Adldap\Models\Traits\HasCriticalSystemObject;
+use Adldap\Models\Concerns\HasDescription;
+use Adldap\Models\Concerns\HasUserAccountControl;
+use Adldap\Models\Concerns\HasLastLogonAndLogOff;
+use Adldap\Models\Concerns\HasCriticalSystemObject;
 
 class Computer extends Entry
 {

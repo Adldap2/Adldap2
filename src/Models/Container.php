@@ -2,8 +2,8 @@
 
 namespace Adldap\Models;
 
-use Adldap\Models\Traits\HasDescription;
-use Adldap\Models\Traits\HasCriticalSystemObject;
+use Adldap\Models\Concerns\HasDescription;
+use Adldap\Models\Concerns\HasCriticalSystemObject;
 
 class Container extends Entry
 {

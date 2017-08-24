@@ -7,10 +7,10 @@ use DateTime;
 use Adldap\Utilities;
 use Adldap\AdldapException;
 use Adldap\Objects\BatchModification;
-use Adldap\Models\Traits\HasMemberOf;
-use Adldap\Models\Traits\HasDescription;
-use Adldap\Models\Traits\HasUserAccountControl;
-use Adldap\Models\Traits\HasLastLogonAndLogOff;
+use Adldap\Models\Concerns\HasMemberOf;
+use Adldap\Models\Concerns\HasDescription;
+use Adldap\Models\Concerns\HasUserAccountControl;
+use Adldap\Models\Concerns\HasLastLogonAndLogOff;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Entry implements Authenticatable

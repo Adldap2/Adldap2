@@ -26,6 +26,8 @@
 - GUIDs are now used as the authentication identifier for Laravel ([9033159](https://github.com/Adldap2/Adldap2/commit/90331598169de6ec5446917fefb6334fa72e4a47))
 - Removed `__destruct()` from the `ProviderInterface` ([a951f29](https://github.com/Adldap2/Adldap2/commit/a951f29ceefeb47431e2147f1251f1383cdd3bc9))
 - `DistinguishedName` properties are now public ([9d18d7d](https://github.com/Adldap2/Adldap2/commit/9d18d7d96ac9f6c00770572c1c2ae4fe2f49aa06))
+- Model traits are now contained in the `Concerns` namespace ([81759a5](https://github.com/Adldap2/Adldap2/commit/81759a5e3b32cf5c9c4fa9658ddf84a19f0daa9e))
+- Moved attribute methods / properties into `Concerns` trait ([5be9ff4](https://github.com/Adldap2/Adldap2/commit/5be9ff439cc6f3f1cdb6d85e15c94d109747b437))
 
 ## Fixed
 

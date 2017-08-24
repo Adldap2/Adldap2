@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Models\Traits;
+namespace Adldap\Models\Concerns;
 
 trait HasCriticalSystemObject
 {

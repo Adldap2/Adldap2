@@ -6,8 +6,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 [![License](https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
 
-## Description
-
 Working with Active Directory doesn't need to be hard. Adldap2 is a tested PHP package that provides LDAP
 authentication and Active Directory management tools using the Active Record pattern.
 

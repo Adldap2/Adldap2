@@ -25,7 +25,7 @@ It allows you to generate queries using a fluent and convenient interface.
 > given to its `where()` methods. There is no need to clean /
 > escape strings before passing them into the query builder.
 
-## Opening a Query
+## Creating a new Query
 
 To open a search query, call the `search()` method on your provider instance:
 

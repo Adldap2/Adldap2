@@ -27,7 +27,7 @@ It allows you to generate queries using a fluent and convenient interface.
 
 ## Creating a new Query
 
-To open a search query, call the `search()` method on your provider instance:
+To create a new search query, call the `search()` method on your provider instance:
 
 ```php
 $search = $provider->search();

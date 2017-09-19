@@ -16,6 +16,7 @@ No changes.
 - Added `lockoutTime()`, `filterEnabled()` and `filterDisabled()` methods to `OpenLDAP` Schema ([96e0e1f](https://github.com/Adldap2/Adldap2/commit/96e0e1fd8298bcfdefb002d71abf4a4fb06b83a6))
 - Added `Guid` and `Sid` attribute classes for converting GUIDs and SIDs to string & binary ([03f7074](https://github.com/Adldap2/Adldap2/commit/03f7074d56af95ad69a17f2f77ee238c708a1841))
 - Added `inOu()` method to `Model` to check if a `Model` instance is inside a given OU ([fdc6b17](https://github.com/Adldap2/Adldap2/commit/fdc6b177c630993cb541a72ae4f79d4cb581e459))
+- Added `newBatchModification()` method to `Model` ([35b3f70](https://github.com/Adldap2/Adldap2/commit/35b3f70686bc23d72e94ecf5e6c349404b926097))
 
 ### Changed
 
@@ -32,6 +33,10 @@ No changes.
 - `DistinguishedName` properties are now public ([9d18d7d](https://github.com/Adldap2/Adldap2/commit/9d18d7d96ac9f6c00770572c1c2ae4fe2f49aa06))
 - Model traits are now contained in the `Concerns` namespace ([81759a5](https://github.com/Adldap2/Adldap2/commit/81759a5e3b32cf5c9c4fa9658ddf84a19f0daa9e))
 - Moved attribute methods / properties into `Concerns` trait ([5be9ff4](https://github.com/Adldap2/Adldap2/commit/5be9ff439cc6f3f1cdb6d85e15c94d109747b437))
+- Moved `Paginator` into the `Query` namespace ([33f9048](https://github.com/Adldap2/Adldap2/commit/33f9048b77f811a64a3d8d6362589ba8b2348b3a))
+- Moved `AccountControl` into `Models\Attributes` namespace ([58482c4](https://github.com/Adldap2/Adldap2/commit/58482c48fcab16e772953f1384ed86b52bc76e4c))
+- Moved `DistinguishedName` into `Models\Attributes` namespace ([62c84c1](https://github.com/Adldap2/Adldap2/commit/62c84c1e3a1fc63a960c7f5122b3c6e0a5487b4b))
+- Moved `BatchModification` into `Models` namespace ([405bfdc](https://github.com/Adldap2/Adldap2/commit/405bfdca57b4ace6e224bf9c0aae7187cbe67e9d))
 
 ## Fixed
 

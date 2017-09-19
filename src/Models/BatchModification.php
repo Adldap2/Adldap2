@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Models;
 
 class BatchModification
 {
@@ -42,9 +42,9 @@ class BatchModification
     /**
      * Constructor.
      *
-     * @param null|string $attribute
-     * @param null|int    $type
-     * @param array       $values
+     * @param string|null      $attribute
+     * @param string|int|null  $type
+     * @param array            $values
      */
     public function __construct($attribute = null, $type = null, $values = [])
     {

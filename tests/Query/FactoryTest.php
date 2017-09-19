@@ -4,7 +4,7 @@ namespace Adldap\Tests\Classes;
 
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
-use Adldap\Search\Factory;
+use Adldap\Query\Factory;
 use Adldap\Tests\TestCase;
 
 class FactoryTest extends TestCase

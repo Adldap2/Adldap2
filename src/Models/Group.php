@@ -4,7 +4,6 @@ namespace Adldap\Models;
 
 use InvalidArgumentException;
 use Adldap\Utilities;
-use Adldap\Objects\BatchModification;
 use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 

@@ -2,7 +2,6 @@
 
 namespace Adldap\Models;
 
-
 use DateTime;
 use Adldap\Utilities;
 use Adldap\AdldapException;

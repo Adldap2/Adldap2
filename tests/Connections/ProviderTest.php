@@ -3,8 +3,8 @@
 namespace Adldap\Tests\Connections;
 
 use Adldap\Query\Builder;
+use Adldap\Query\Factory;
 use Adldap\Tests\TestCase;
-use Adldap\Search\Factory;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Connections\ConnectionInterface;

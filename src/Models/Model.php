@@ -11,9 +11,8 @@ use Adldap\Utilities;
 use Adldap\Query\Builder;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
+use Adldap\Models\Attributes\DistinguishedName;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Objects\BatchModification;
-use Adldap\Objects\DistinguishedName;
 use Adldap\Models\Concerns\HasAttributes;
 use Adldap\Connections\ConnectionException;
 
@@ -101,6 +100,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function newQuery()
     {
         return $this->query->newInstance();
+    }
+
+    /**
+     * Returns a new batch modification.
+     *
+     * @param string|null     $attribute
+     * @param string|int|null $type
+     * @param array           $values
+     *
+     * @return BatchModification
+     */
+    public function newBatchModification($attribute = null, $type = null, $values = [])
+    {
+        return new BatchModification($attribute, $type, $values);
     }
 
     /**
@@ -961,7 +974,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $values = (is_array($values) ? $values : [$values]);
 
             // Create a new modification.
-            $modification = new BatchModification($attribute, null, $values);
+            $modification = $this->newBatchModification($attribute, null, $values);
 
             if (array_key_exists($attribute, $this->original)) {
                 // If the attribute we're modifying has an original value, we'll give the

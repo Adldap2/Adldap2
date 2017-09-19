@@ -38,7 +38,7 @@ To use Adldap2, your server must support:
 
 - PHP 5.5.9 or greater
 - PHP LDAP Extension
-- An Active Directory Server
+- An LDAP Server
 
 > **Note**: OpenLDAP support is experimental, success may vary.
 
@@ -53,15 +53,16 @@ If your AD server requires SSL, your server must support the following libraries
 
 ### Installing
 
-Adldap2 utilizes composer for installation. Insert `"adldap2/adldap2": "7.0.*"` in your `composer.json` file:
+Adldap2 utilizes composer for installation.
 
-```json
-"require": {
-    "adldap2/adldap2": "7.0.*"
-},
+Run the following command in the root directory of your project:
+
+```
+composer require adldap2/adldap2
 ```
 
-Then run the `composer update` command in the root of your project.
+> **Note**: If you're upgrading from an earlier release, please take a look
+> at the [release notes](https://github.com/Adldap2/Adldap2/releases)
 
 ## Implementations
 

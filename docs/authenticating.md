@@ -1,8 +1,6 @@
 # Authenticating
 
-## Authenticating Users
-
-To authenticate users using your AD server, call the `auth()->attempt()`
+To authenticate users using your LDAP server, call the `auth()->attempt()`
 method on your provider:
 
 ```php
@@ -36,7 +34,9 @@ $username = 'jdoe';
 $password = 'Password123';
 
 if ($provider->auth()->attempt($username, $password, $bindAsUser = true)) {
-    // Credentials were correct. All LDAP operations will be ran under John Doe.
+    // Credentials were correct.
+    
+    // All LDAP operations will be ran under John Doe.
 }
 ```
 

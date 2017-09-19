@@ -28,7 +28,6 @@ authentication and Active Directory management tools using the Active Record pat
     - [User](docs/models/user.md)
  - [Working with Distinguished Names](docs/distinguished-names.md)
  - [Schema](docs/schema.md)
- - [Upgrading](docs/upgrading.md)
  - [Troubleshooting](docs/troubleshooting.md)
 
 ## Installation

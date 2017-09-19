@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Tests\Objects;
+namespace Adldap\Tests\Query;
 
 use Adldap\Tests\TestCase;
 use Adldap\Query\Paginator;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Adldap\Tests\Objects;
+namespace Adldap\Tests\Models\Attributes;
 
 use Adldap\Tests\TestCase;
-use Adldap\Objects\AccountControl;
+use Adldap\Models\Attributes\AccountControl;
 
 class AccountControlTest extends TestCase
 {

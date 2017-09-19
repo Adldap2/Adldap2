@@ -37,6 +37,7 @@ No changes.
 - Moved `AccountControl` into `Models\Attributes` namespace ([58482c4](https://github.com/Adldap2/Adldap2/commit/58482c48fcab16e772953f1384ed86b52bc76e4c))
 - Moved `DistinguishedName` into `Models\Attributes` namespace ([62c84c1](https://github.com/Adldap2/Adldap2/commit/62c84c1e3a1fc63a960c7f5122b3c6e0a5487b4b))
 - Moved `BatchModification` into `Models` namespace ([405bfdc](https://github.com/Adldap2/Adldap2/commit/405bfdca57b4ace6e224bf9c0aae7187cbe67e9d))
+- Moved `Search\Factory` into `Query` namespace ([ae7d029](https://github.com/Adldap2/Adldap2/commit/ae7d029d7ca4c236726c40e24c21b3794b77e7ae))
 
 ## Fixed
 

@@ -8,7 +8,7 @@ use Adldap\Models\Attributes\Sid;
 class SidTest extends TestCase
 {
     /** @test */
-    public function can_be_converted_to_string()
+    public function can_be_converted_from_binary()
     {
         $hex = '010500000000000515000000dcf4dc3b833d2b46828ba62800020000';
 
@@ -21,7 +21,7 @@ class SidTest extends TestCase
     }
 
     /** @test */
-    public function can_be_converted_to_binary()
+    public function can_be_converted_from_string()
     {
         $hex = '010500000000000515000000dcf4dc3b833d2b46828ba62800020000';
         $sid = 'S-1-5-21-1004336348-1177238915-682003330-512';

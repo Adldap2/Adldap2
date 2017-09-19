@@ -2,7 +2,7 @@
 
 namespace Adldap\Models\Concerns;
 
-use Adldap\Objects\AccountControl;
+use Adldap\Models\Attributes\AccountControl;
 
 trait HasUserAccountControl
 {

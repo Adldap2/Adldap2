@@ -1,13 +1,13 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Models\Attributes;
 
 /**
  * The Account Control class.
  *
  * This class is for easily building a user account control value.
  *
- * https://support.microsoft.com/en-us/kb/305144
+ * @link https://support.microsoft.com/en-us/kb/305144
  */
 class AccountControl
 {

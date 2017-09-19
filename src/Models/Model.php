@@ -404,7 +404,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function getConvertedSid()
     {
         try {
-            return (string) new Sid($this->getObjectGuid());
+            return (string) new Sid($this->getObjectSid());
         } catch (InvalidArgumentException $e) {
             return;
         }

@@ -392,12 +392,13 @@ The `andFilter` method accepts a closure which allows you to construct a query i
 ```php
 $query = $provider->search()->newQuery();
 
-$filter = $query->andFilter(function (\Adldap\Query\Builder $q) {
+// Creates the filter: (&(givenname=John)(sn=Doe))
+$results = $query->andFilter(function (\Adldap\Query\Builder $q) {
+
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
-})->getUnescapedQuery();
-
-echo $query; // Returns '(&(givenname=John)(sn=Doe))'
+      
+})->get();
 ```
 
 The above query would return records that contain the first name `John` **and** the last name `Doe`.
@@ -409,12 +410,14 @@ The `orFilter` method accepts a closure which allows you to construct a query in
 ```php
 $query = $provider->search()->newQuery();
 
-$filter = $query->orFilter(function (\Adldap\Query\Builder $q) {
+
+// Creates the filter: (|(givenname=John)(sn=Doe))
+$results = $query->orFilter(function (\Adldap\Query\Builder $q) {
+
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
-})->getUnescapedQuery();
-
-echo $query; // Returns '(|(givenname=John)(sn=Doe))'
+      
+})->get();
 ```
 
 The above query would return records that contain the first name `John` **or** the last name `Doe`.
@@ -426,12 +429,13 @@ The `notFilter` method accepts a closure which allows you to construct a query i
 ```php
 $query = $provider->search()->newQuery();
 
-$filter = $query->notFilter(function (\Adldap\Query\Builder $q) {
+// Creates the filter: (!(givenname=John)(sn=Doe))
+$results = $query->notFilter(function (\Adldap\Query\Builder $q) {
+
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
-})->getUnescapedQuery();
-
-echo $query; // Returns '(!(givenname=John)(sn=Doe))'
+      
+})->get();
 ```
 
 The above query would return records that **do not** contain the first name `John` **or** the last name `Doe`.

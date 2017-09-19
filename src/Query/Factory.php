@@ -1,9 +1,7 @@
 <?php
 
-namespace Adldap\Search;
+namespace Adldap\Query;
 
-use Adldap\Query\Builder;
-use Adldap\Query\Grammar;
 use Adldap\Models\RootDse;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;

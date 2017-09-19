@@ -99,7 +99,7 @@ interface ProviderInterface
     /**
      * Returns a new Search factory instance.
      *
-     * @return \Adldap\Search\Factory
+     * @return \Adldap\Query\Factory
      */
     public function search();
 

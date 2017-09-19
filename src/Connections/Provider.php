@@ -8,7 +8,7 @@ use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Factory as ModelFactory;
-use Adldap\Search\Factory as SearchFactory;
+use Adldap\Query\Factory as SearchFactory;
 use Adldap\Configuration\DomainConfiguration;
 
 class Provider implements ProviderInterface

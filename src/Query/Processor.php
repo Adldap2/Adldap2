@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
-use Adldap\Objects\Paginator;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ConnectionInterface;
 

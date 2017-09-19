@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Adldap\Utilities;
 use Adldap\Models\Model;
-use Adldap\Objects\Paginator;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\ModelNotFoundException;

@@ -7,8 +7,8 @@ use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Query\Paginator;
 use Adldap\Tests\TestCase;
-use Adldap\Objects\Paginator;
 use Adldap\Connections\ConnectionInterface;
 
 class BuilderTest extends TestCase

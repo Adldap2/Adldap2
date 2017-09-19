@@ -3,7 +3,7 @@
 namespace Adldap\Tests\Objects;
 
 use Adldap\Tests\TestCase;
-use Adldap\Objects\Paginator;
+use Adldap\Query\Paginator;
 
 class PaginatorTest extends TestCase
 {

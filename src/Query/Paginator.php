@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Objects;
+namespace Adldap\Query;
 
 use Countable;
 use ArrayIterator;

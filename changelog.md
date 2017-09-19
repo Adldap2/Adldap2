@@ -1,5 +1,9 @@
 # Unreleased
 
+No changes.
+
+## v8.0.0
+
 ### Added
 
 - Added configurable models via the Schema ([caf1750](https://github.com/Adldap2/Adldap2/commit/caf17505f6eac609e028cc7763da468c9c59ca6a))

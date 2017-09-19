@@ -85,13 +85,13 @@ class Group extends Entry
             );
         }
 
-        $this->addModification(new BatchModification(
+        $mod = $this->newBatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_ADD,
             [$entry]
-        ));
+        );
 
-        return $this->save();
+        return $this->addModification($mod)->save();
     }
 
     /**
@@ -113,13 +113,13 @@ class Group extends Entry
             );
         }
 
-        $this->addModification(new BatchModification(
+        $mod = $this->newBatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_REMOVE,
             [$entry]
-        ));
+        );
 
-        return $this->save();
+        return $this->addModification($mod)->save();
     }
 
     /**
@@ -129,10 +129,12 @@ class Group extends Entry
      */
     public function removeMembers()
     {
-        return $this->addModification(new BatchModification(
+        $mod = $this->newBatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_REMOVE_ALL
-        ))->save();
+        );
+
+        return $this->addModification($mod)->save();
     }
 
     /**

@@ -6,7 +6,6 @@ namespace Adldap\Models;
 use DateTime;
 use Adldap\Utilities;
 use Adldap\AdldapException;
-use Adldap\Objects\BatchModification;
 use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 use Adldap\Models\Concerns\HasUserAccountControl;
@@ -929,11 +928,13 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        return $this->addModification(new BatchModification(
+        $mod = $this->newBatchModification(
             $this->schema->unicodePassword(),
             LDAP_MODIFY_BATCH_REPLACE,
             [Utilities::encodePassword($password)]
-        ));
+        );
+
+        return $this->addModification($mod);
     }
 
     /**
@@ -961,21 +962,21 @@ class User extends Entry implements Authenticatable
         $modifications = [];
 
         if ($replaceNotRemove) {
-            $modifications[] = new BatchModification(
+            $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REPLACE,
                 [Utilities::encodePassword($newPassword)]
             );
         } else {
             // Create batch modification for removing the old password.
-            $modifications[] = new BatchModification(
+            $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REMOVE,
                 [Utilities::encodePassword($oldPassword)]
             );
 
             // Create batch modification for adding the new password.
-            $modifications[] = new BatchModification(
+            $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_ADD,
                 [Utilities::encodePassword($newPassword)]

@@ -190,8 +190,6 @@ class Utilities
         // ID - 32bit unsigned long, big-endian order
         $sid = @unpack('C1rev/C1count/x2/N1id', $value);
 
-        $subAuthorities = [];
-
         if (!isset($sid['id']) || !isset($sid['rev'])) {
             return;
         }
@@ -204,13 +202,15 @@ class Utilities
 
         $sidHex = $subs ? bin2hex($value) : '';
 
+        $subAuthorities = [];
+
         // The sub-authorities depend on the count, so only get as
         // many as the count, regardless of data beyond it.
         for ($i = 0; $i < $subs; $i++) {
             $data = substr($sidHex, 16 + ($i * 8), 8);
 
             // Each sub-auth is a 32bit unsigned long, little-endian order
-            $subAuthorities[] = unpack('V1sub', hex2bin($data))['sub'];
+            $subAuthorities[] = @unpack('V1sub', hex2bin($data))['sub'];
         }
 
         // Tack on the 'S-' and glue it all together...

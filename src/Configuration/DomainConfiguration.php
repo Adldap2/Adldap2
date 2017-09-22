@@ -43,10 +43,10 @@ class DomainConfiguration
         'follow_referrals' => false,
 
         // The account prefix to use when authenticating users.
-        'account_prefix' => '',
+        'account_prefix' => null,
 
         // The account suffix to use when authenticating users.
-        'account_suffix' => '',
+        'account_suffix' => null,
 
         // The username to connect to your hosts with.
         'admin_username' => '',
@@ -55,10 +55,10 @@ class DomainConfiguration
         'admin_password' => '',
 
         // The account prefix to use when authenticating your admin account above.
-        'admin_account_prefix' => '',
+        'admin_account_prefix' => null,
 
         // The account prefix to use when authenticating your admin account above.
-        'admin_account_suffix' => '',
+        'admin_account_suffix' => null,
 
         // Custom LDAP options that you'd like to utilize.
         'custom_options' => [],

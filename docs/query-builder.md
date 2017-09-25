@@ -215,7 +215,7 @@ Or, if you require conditionals, you can quickly add multiple wheres with nested
 ```php
 $search->where([
    ['cn', '=', 'John Doe'],
-   ['manager', '!=', 'Suzy Doe'],
+   ['manager', '!', 'Suzy Doe'],
 ]);
 ```
 

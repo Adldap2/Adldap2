@@ -938,4 +938,13 @@ class BuilderTest extends TestCase
         $this->assertTrue($query->isNested());
         $this->assertFalse($b->isNested());
     }
+
+    public function test_does_not_equal_alias()
+    {
+        $b = $this->newBuilder();
+
+        $b->where('field', '!=', 'value');
+
+        $this->assertEquals('(!(field=value))', $b->getUnescapedQuery());
+    }
 }

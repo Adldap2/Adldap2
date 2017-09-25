@@ -104,6 +104,21 @@ class Grammar
     }
 
     /**
+     * Alias for does not equal operator (!=) operator.
+     *
+     * Produces: (!(field=value))
+     *
+     * @param string $field
+     * @param string $value
+     *
+     * @return string
+     */
+    public function compileDoesNotEqualAlias($field, $value)
+    {
+        return $this->compileDoesNotEqual($field, $value);
+    }
+
+    /**
      * Returns a query string for greater than or equals.
      *
      * Produces: (field>=value)
@@ -319,6 +334,7 @@ class Grammar
         foreach ($wheres as $where) {
             $query .= $this->compileWhere($where);
         }
+
         return $query;
     }
 
@@ -359,19 +375,11 @@ class Grammar
      */
     protected function compileWhere(array $where)
     {
-        // The compile function prefix.
-        $prefix = 'compile';
-
-        // Get the operator from the where.
-        $operator = $where['operator'];
-
         // Get the name of the operator.
-        $name = array_search($operator, Operator::all());
-
-        if ($name !== false) {
+        if ($name = array_search($where['operator'], Operator::all())) {
             // If the name was found we'll camel case it
             // to run it through the compile method.
-            $method = $prefix.ucfirst($name);
+            $method = 'compile'.ucfirst($name);
 
             // Make sure the compile method exists for the operator.
             if (method_exists($this, $method)) {

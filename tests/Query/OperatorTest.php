@@ -16,6 +16,7 @@ class OperatorTest extends TestCase
             'notHas'                => '!*',
             'equals'                => '=',
             'doesNotEqual'          => '!',
+            'doesNotEqualAlias'     => '!=',
             'greaterThanOrEquals'   => '>=',
             'lessThanOrEquals'      => '<=',
             'approximatelyEquals'   => '~=',

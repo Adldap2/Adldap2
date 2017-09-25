@@ -786,7 +786,7 @@ class Builder
         // We'll escape the value if raw isn't requested.
         $value = $raw ? $value : $this->escape($value);
 
-        $field = $this->escape($field, null, 3);
+        $field = $this->escape($field, $ignore = null, 3);
 
         $this->filters[$boolean][] = compact('field', 'operator', 'value');
 
@@ -1289,7 +1289,7 @@ class Builder
      *
      * @param bool $nested
      *
-     * @return $this
+     * @return Builder
      */
     public function nested($nested = true)
     {
@@ -1409,7 +1409,7 @@ class Builder
      * @param string $method
      * @param string $parameters
      *
-     * @return $this
+     * @return Builder
      */
     public function dynamicWhere($method, $parameters)
     {
@@ -1452,7 +1452,7 @@ class Builder
      * @param string $boolean
      * @param bool   $raw
      *
-     * @return $this
+     * @return Builder
      */
     protected function addArrayOfWheres($wheres, $boolean, $raw)
     {

@@ -630,7 +630,7 @@ echo $query; // Returns '(cn=\4a\6f\68\6e\20\44\6f\65)'
 You can also utilize the `getUnescapedQuery()` method for retrieving the unescaped filter:
 
 ```php
-$query = $provider->search()->where('cn', '=', 'John Doe')->getQuery();
+$query = $provider->search()->where('cn', '=', 'John Doe')->getUnescapedQuery();
 
 echo $query; // Returns '(cn=John Doe)'
 ```

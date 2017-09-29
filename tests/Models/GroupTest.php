@@ -207,6 +207,72 @@ class GroupTest extends TestCase
         $this->assertEquals($members, $group->member);
     }
 
+    public function test_add_members()
+    {
+        $group = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'All Groups',
+            'dn' => 'cn=All Groups,dc=acme,dc=org',
+        ]);
+
+        $members = [
+            'cn=User1,dc=acme,dc=org',
+            'cn=User2,dc=acme,dc=org',
+        ];
+
+        $connection = $group->getQuery()->getConnection();
+
+        $connection->shouldReceive('modifyBatch')->once()->with(
+            'cn=All Groups,dc=acme,dc=org',
+            [
+                [
+                    'attrib' => 'member',
+                    'modtype' => LDAP_MODIFY_BATCH_ADD,
+                    'values' => $members,
+                ]
+            ])->andReturn(true);
+
+        $connection
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+
+        $this->assertTrue($group->addMembers($members));
+    }
+
+    public function test_add_members_with_models()
+    {
+        $group = $this->newGroupModel()->setRawAttributes([
+            'cn' => 'All Groups',
+            'dn' => 'cn=All Groups,dc=acme,dc=org',
+        ]);
+
+        $members = [
+            $this->newGroupModel()->setRawAttributes(['dn' => 'cn=User1,dc=acme,dc=org']),
+            $this->newGroupModel()->setRawAttributes(['dn' => 'cn=User2,dc=acme,dc=org']),
+        ];
+
+        $dns = array_map(function ($member) {
+            return $member->getDn();
+        }, $members);
+
+        $connection = $group->getQuery()->getConnection();
+
+        $connection->shouldReceive('modifyBatch')->once()->with(
+            'cn=All Groups,dc=acme,dc=org',
+            [
+                [
+                    'attrib' => 'member',
+                    'modtype' => LDAP_MODIFY_BATCH_ADD,
+                    'values' => $dns,
+                ]
+            ])->andReturn(true);
+
+        $connection
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+
+        $this->assertTrue($group->addMembers($members));
+    }
+
     public function test_add_member()
     {
         $group = $this->newGroupModel()->setRawAttributes([

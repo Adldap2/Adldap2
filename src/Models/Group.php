@@ -66,6 +66,30 @@ class Group extends Entry
     }
 
     /**
+     * Adds multiple entries to the current group.
+     *
+     * @param array $members
+     *
+     * @return bool
+     */
+    public function addMembers(array $members)
+    {
+        $members = array_map(function ($member) {
+            return $member instanceof Model
+                ? $member->getDn()
+                : $member;
+        }, $members);
+
+        $mod = $this->newBatchModification(
+            $this->schema->member(),
+            LDAP_MODIFY_BATCH_ADD,
+            $members
+        );
+
+        return $this->addModification($mod)->save();
+    }
+
+    /**
      * Adds an entry to the current group.
      *
      * @param string|Entry $entry

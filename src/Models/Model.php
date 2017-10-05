@@ -807,18 +807,21 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Creates an attribute on the current model.
      *
-     * @param string $attribute
-     * @param mixed  $value
+     * @param string $attribute The attribute to create
+     * @param mixed  $value     The value of the new attribute
+     * @param bool   $sync      Whether to re-sync all attributes
      *
      * @return bool
      */
-    public function createAttribute($attribute, $value)
+    public function createAttribute($attribute, $value, $sync = true)
     {
         if (
             $this->exists &&
             $this->query->getConnection()->modAdd($this->getDn(), [$attribute => $value])
         ) {
-            $this->syncRaw();
+            if ($sync) {
+                $this->syncRaw();
+            }
 
             return true;
         }
@@ -829,18 +832,21 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Updates the specified attribute with the specified value.
      *
-     * @param string $attribute
-     * @param mixed  $value
+     * @param string $attribute The attribute to modify
+     * @param mixed  $value     The new value for the attribute
+     * @param bool   $sync      Whether to re-sync all attributes
      *
      * @return bool
      */
-    public function updateAttribute($attribute, $value)
+    public function updateAttribute($attribute, $value, $sync = true)
     {
         if (
             $this->exists &&
             $this->query->getConnection()->modReplace($this->getDn(), [$attribute => $value])
         ) {
-            $this->syncRaw();
+            if ($sync) {
+                $this->syncRaw();
+            }
 
             return true;
         }
@@ -851,16 +857,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes an attribute on the current entry.
      *
-     * @param string|array $attributes
+     * @param string|array $attributes The attribute(s) to delete
+     * @param bool         $sync       Whether to re-sync all attributes
      *
-     * Delete many attributes ["memberuid" => "username"]
+     * Delete specific values in attributes:
+     *
+     *     ["memberuid" => "username"]
      * 
-     * Delete attribute, does not depend on the number of values
-     * ["memberuid" => []]
+     * Delete an entire attribute:
+     *
+     *     ["memberuid" => []]
      *
      * @return bool
      */
-    public function deleteAttribute($attributes)
+    public function deleteAttribute($attributes, $sync = true)
     {
         // If we've been given a string, we'll assume we're removing a
         // single attribute. Otherwise, we'll assume it's
@@ -871,7 +881,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $this->exists &&
             $this->query->getConnection()->modDelete($this->getDn(), $attributes)
         ) {
-            $this->syncRaw();
+            if ($sync) {
+                $this->syncRaw();
+            }
 
             return true;
         }

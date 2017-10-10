@@ -21,7 +21,7 @@ The Adldap2 query builder makes building LDAP queries feel effortless.
 
 It allows you to generate queries using a fluent and convenient interface.
 
-> **Note:**: The Adldap2 query builder escapes all fields & values
+> **Note:** The Adldap2 query builder escapes all fields & values
 > given to its `where()` methods. There is no need to clean /
 > escape strings before passing them into the query builder.
 

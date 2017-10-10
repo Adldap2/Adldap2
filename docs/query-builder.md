@@ -461,7 +461,7 @@ echo $query; // Returns '(&(|(givenname=John)(sn=Doe))(&(department=Accounting)(
 
 ## Raw Filters
 
-> **Note**: Raw filters are not escaped. Do not accept user input into the raw filter method.
+> **Note**: Raw filters are not escaped. **Do not** accept user input into the raw filter method.
 
 Sometimes you might just want to add a raw filter without using the query builder.
 You can do so by using the `rawFilter()` method:

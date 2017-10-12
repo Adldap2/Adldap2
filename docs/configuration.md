@@ -123,7 +123,7 @@ If one is not defined, you will not retrieve any search results.
 ### Administrator Username & Password (required)
 
 When connecting to your AD server, an administrator username and password is required to be able to query and run operations on your server(s).
-You can use any user account that has these permissions.
+You can use any account that has these permissions.
 
 ### Follow Referrals (optional)
 

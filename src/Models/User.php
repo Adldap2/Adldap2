@@ -789,6 +789,24 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Sets the users thumbnail photo.
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setThumbnail($string)
+    {
+        if (!base64_decode($string, $strict = true)) {
+            // If the string we're given is not base 64 encoded, then
+            // we will encode it before setting it on the user.
+            $string = base64_encode($string);
+        }
+
+        return $this->setAttribute($this->schema->thumbnail(), $string);
+    }
+
+    /**
      * Returns the users jpeg photo.
      *
      * @return mixed

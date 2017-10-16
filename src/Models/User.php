@@ -807,7 +807,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users jpeg photo.
+     * Returns the users JPEG photo.
      *
      * @return mixed
      */
@@ -817,7 +817,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the users jpeg photo.
+     * Returns the users JPEG photo.
      *
      * @return null|string
      */
@@ -826,6 +826,22 @@ class User extends Entry implements Authenticatable
         $jpeg = $this->getJpegPhoto();
 
         return is_null($jpeg) ? $jpeg : 'data:image/jpeg;base64,'.base64_encode($jpeg);
+    }
+
+    /**
+     * Sets the users JPEG photo.
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setJpegPhoto($string)
+    {
+        if (!base64_decode($string, $strict = true)) {
+            $string = base64_encode($string);
+        }
+
+        return $this->setAttribute($this->schema->jpegPhoto(), $string);
     }
 
     /**

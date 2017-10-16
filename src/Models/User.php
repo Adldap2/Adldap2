@@ -761,13 +761,31 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users thumbnail photo base 64 encoded.
      *
+     * Suitable for inserting into an HTML image element.
+     *
      * @return null|string
      */
     public function getThumbnailEncoded()
     {
-        $thumb = $this->getThumbnail();
+        $data = base64_decode($this->getThumbnail());
 
-        return is_null($thumb) ? $thumb : 'data:image/jpeg;base64,'.base64_encode($thumb);
+        if ($data) {
+            // In case we don't have the file info extension enabled,
+            // we'll set the jpeg mime type as default.
+            $mime = 'image/jpeg';
+
+            $image = base64_encode($data);
+
+            if (function_exists('finfo_open')) {
+                $finfo = finfo_open();
+
+                $mime = finfo_buffer($finfo, $data, FILEINFO_MIME_TYPE);
+
+                return "data:$mime;base64,$image";
+            }
+
+            return "data:$mime;base64,$image";
+        }
     }
 
     /**

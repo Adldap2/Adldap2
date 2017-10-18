@@ -448,7 +448,7 @@ as many times as you'd like for larger complex queries:
 ```php
 $query = $provider->search()->newQuery();
 
-$filter = $query->orFilter(function (\Adldap\Query\Builder $q) {
+$query = $query->orFilter(function (\Adldap\Query\Builder $q) {
     $q->where('givenname', '=', 'John')
         ->where('sn', '=', 'Doe');
 })->andFilter(function (\Adldap\Query\Builder $q) {

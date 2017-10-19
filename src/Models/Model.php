@@ -223,15 +223,25 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Synchronizes the models attributes with the server values.
+     * Reload a fresh model instance from the directory.
+     *
+     * @return static|null
+     */
+    public function fresh()
+    {
+        $model = $this->query->newInstance()->findByDn($this->getDn());
+
+        return $model instanceof Model ? $model : null;
+    }
+
+    /**
+     * Synchronizes the current models attributes with the directory values.
      *
      * @return bool
      */
     public function syncRaw()
     {
-        $model = $this->query->newInstance()->findByDn($this->getDn());
-
-        if ($model instanceof Model) {
+        if ($model = $this->fresh()) {
             $this->setRawAttributes($model->getAttributes());
 
             return true;

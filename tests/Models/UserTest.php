@@ -8,6 +8,14 @@ use Adldap\Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    protected function newUserModel(array $attributes = [], $builder = null)
+    {
+        $builder = $builder ?: $this->newBuilder();
+
+        return new User($attributes, $builder);
+    }
+
+
     public function test_set_password()
     {
         $connection = $this->newConnectionMock();
@@ -91,5 +99,27 @@ class UserTest extends TestCase
         $user = new User([], $this->newBuilder($connection));
 
         $user->changePassword('', '');
+    }
+
+    public function test_set_thumbnail_photo_encodes_images()
+    {
+        $png = file_get_contents(__DIR__.'/../stubs/placeholder.png');
+
+        $model = $this->newUserModel();
+
+        $model->setThumbnail($png);
+
+        $this->assertEquals(base64_encode($png), $model->getThumbnail());
+    }
+
+    public function test_set_jpeg_photo_encodes_images()
+    {
+        $jpeg = file_get_contents(__DIR__.'/../stubs/placeholder.jpg');
+
+        $model = $this->newUserModel();
+
+        $model->setJpegPhoto($jpeg);
+
+        $this->assertEquals(base64_encode($jpeg), $model->getJpegPhoto());
     }
 }

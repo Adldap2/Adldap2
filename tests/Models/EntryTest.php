@@ -19,7 +19,7 @@ class EntryTest extends TestCase
     public function test_construct()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
+            'cn' => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -31,8 +31,8 @@ class EntryTest extends TestCase
     public function test_set_raw_attributes()
     {
         $rawAttributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -51,7 +51,7 @@ class EntryTest extends TestCase
     public function test_set_attribute()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
+            'cn' => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -83,9 +83,9 @@ class EntryTest extends TestCase
     public function test_update_attribute()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
-            'dn'                => 'dc=corp,dc=org',
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -105,9 +105,9 @@ class EntryTest extends TestCase
     public function test_delete_attribute_with_string()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
-            'dn'                => 'dc=corp,dc=org',
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -128,9 +128,9 @@ class EntryTest extends TestCase
     public function test_delete_attribute_with_array()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
-            'dn'                => 'dc=corp,dc=org',
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -157,9 +157,9 @@ class EntryTest extends TestCase
     public function test_create_attribute()
     {
         $attributes = [
-            'cn'                => ['Common Name'],
-            'samaccountname'    => ['Account Name'],
-            'dn'                => 'dc=corp,dc=org',
+            'cn' => ['Common Name'],
+            'samaccountname' => ['Account Name'],
+            'dn' => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -180,9 +180,9 @@ class EntryTest extends TestCase
     public function test_modifications()
     {
         $attributes = [
-            'cn'             => ['Common Name'],
+            'cn' => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'name'           => ['Name'],
+            'name' => ['Name'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -225,17 +225,17 @@ class EntryTest extends TestCase
     public function test_create()
     {
         $attributes = [
-            'cn'        => ['John Doe'],
+            'cn' => ['John Doe'],
             'givenname' => ['John'],
-            'sn'        => ['Doe'],
+            'sn' => ['Doe'],
         ];
 
         $returnedRaw = [
             'count' => 1,
             [
-                'cn'        => ['John Doe'],
+                'cn' => ['John Doe'],
                 'givenname' => ['John'],
-                'sn'        => ['Doe'],
+                'sn' => ['Doe'],
             ],
         ];
 
@@ -285,9 +285,9 @@ class EntryTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn'        => ['John Doe'],
+            'cn' => ['John Doe'],
             'givenname' => ['John'],
-            'sn'        => ['Doe'],
+            'sn' => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -295,10 +295,10 @@ class EntryTest extends TestCase
         $returnedRaw = [
             'count' => 1,
             [
-                'cn'        => ['John Doe'],
+                'cn' => ['John Doe'],
                 'givenname' => ['John'],
-                'sn'        => ['Doe'],
-                'dn'        => $dn,
+                'sn' => ['Doe'],
+                'dn' => $dn,
             ],
         ];
 
@@ -326,9 +326,9 @@ class EntryTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn'        => ['John Doe'],
+            'cn' => ['John Doe'],
             'givenname' => ['John'],
-            'sn'        => ['Doe'],
+            'sn' => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -336,10 +336,10 @@ class EntryTest extends TestCase
         $returnedRaw = [
             'count' => 1,
             [
-                'cn'        => ['John Doe'],
+                'cn' => ['John Doe'],
                 'givenname' => ['John'],
-                'sn'        => ['Doe'],
-                'dn'        => $dn,
+                'sn' => ['Doe'],
+                'dn' => $dn,
             ],
         ];
 
@@ -492,13 +492,13 @@ class EntryTest extends TestCase
     {
         $rawAttributes = [
             'count' => 1,
-            'one'  => [
+            'one' => [
                 'count' => 1,
-                'two'  => [
+                'two' => [
                     'count' => 1,
-                    'three'  => [
+                    'three' => [
                         'count' => 1,
-                        'four'  => [
+                        'four' => [
                             'count' => 1,
                         ],
                     ],

@@ -508,6 +508,10 @@ $results = $search->whereHas('cn')->sortBy('cn', 'asc')->paginate(25);
 Paginating your search results will allow you to return more results than your LDAP cap
 (usually 1000) and display your results in pages.
 
+> **Note**: Pagination will retrieve **all** records from your LDAP server.
+> The pagination object is simply a collection that allows you to
+> iterate through the resulting records easily and intuitively.
+
 To perform this, call the `paginate()` method instead of the `get()` method:
 
 ```php

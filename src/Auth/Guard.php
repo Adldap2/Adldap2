@@ -47,8 +47,10 @@ class Guard implements GuardInterface
         // If we're not allowed to bind as the user,
         // we'll rebind as administrator.
         if ($bindAsUser === false) {
-            // We won't catch any BindException here so
-            // developers can catch rebind failures.
+            // We won't catch any BindException here so we can
+            // catch rebind failures. However this shouldn't
+            // occur if our credentials are correct
+            // in the first place.
             $this->bindAsAdministrator();
         }
 

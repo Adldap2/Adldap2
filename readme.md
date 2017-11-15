@@ -62,7 +62,7 @@ composer require adldap2/adldap2
 ```
 
 > **Note**: If you're upgrading from an earlier release, please take a look
-> at the [release notes](https://github.com/Adldap2/Adldap2/releases)
+> at the [release notes](https://github.com/Adldap2/Adldap2/releases).
 
 ## Implementations
 

@@ -83,7 +83,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users department.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
      *
      * @return string
      */
@@ -129,7 +129,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users title.
      *
-     * https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
      *
      * @return string
      */
@@ -153,7 +153,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users first name.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675719(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675719(v=vs.85).aspx
      *
      * @return mixed
      */
@@ -177,7 +177,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users last name.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
      *
      * @return mixed
      */
@@ -333,7 +333,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users telephone number.
      *
-     * https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
      *
      * @return string
      */
@@ -379,7 +379,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users company.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675457(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675457(v=vs.85).aspx
      *
      * @return string
      */
@@ -403,7 +403,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users primary email address.
      *
-     * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
      * @return string
      */
@@ -430,7 +430,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users email addresses.
      *
-     * https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
      * @return array
      */
@@ -454,7 +454,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users other mailbox attribute.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
      *
      * @return array
      */
@@ -478,13 +478,25 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users mailbox store DN.
      *
-     * https://msdn.microsoft.com/en-us/library/aa487565(v=exchg.65).aspx
+     * @link https://msdn.microsoft.com/en-us/library/aa487565(v=exchg.65).aspx
      *
      * @return string
      */
     public function getHomeMdb()
     {
         return $this->getFirstAttribute($this->schema->homeMdb());
+    }
+
+    /**
+     * Sets the users home drive.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676191(v=vs.85).aspx
+     * 
+     * @return $this
+     */
+    public function setHomeDrive($drive)
+    {
+        return $this->setAttribute($this->schema->homeDrive(), $drive);
     }
 
     /**
@@ -497,6 +509,18 @@ class User extends Entry implements Authenticatable
     public function getHomeDrive()
     {
         return $this->getFirstAttribute($this->schema->homeDrive());
+    }
+
+    /**
+     * Sets the users home directory.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
+     * 
+     * @return $this
+     */
+    public function setHomeDirectory($directory)
+    {
+        return $this->setAttribute($this->schema->homeDirectory(), $directory);
     }
 
     /**
@@ -526,7 +550,7 @@ class User extends Entry implements Authenticatable
      *
      * This is usually their email address.
      *
-     * https://msdn.microsoft.com/en-us/library/ms680857(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms680857(v=vs.85).aspx
      *
      * @return string
      */
@@ -550,7 +574,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users proxy addresses.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
      *
      * @return array
      */
@@ -564,7 +588,7 @@ class User extends Entry implements Authenticatable
      *
      * This will remove all proxy addresses on the user and insert the specified addresses.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
      *
      * @param array $addresses
      *
@@ -594,7 +618,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users script path if the user has one.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679656(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679656(v=vs.85).aspx
      *
      * @return string
      */
@@ -724,7 +748,7 @@ class User extends Entry implements Authenticatable
     /**
      * Sets the users account expiry date.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
      *
      * @param float $expiryTime
      *

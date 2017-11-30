@@ -14,7 +14,7 @@ class Group extends Entry
     /**
      * Returns all users apart of the current group.
      *
-     * https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
      *
      * @return \Illuminate\Support\Collection
      */
@@ -163,7 +163,7 @@ class Group extends Entry
     /**
      * Returns the group type integer.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675935(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675935(v=vs.85).aspx
      *
      * @return string
      */

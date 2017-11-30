@@ -264,8 +264,9 @@ class AccountControl
     /**
      * The user cannot change the password. This is a permission on the user's object.
      *
-     * For information about how to programmatically set this permission, visit the following Web site:
-     * http://msdn2.microsoft.com/en-us/library/aa746398.aspx
+     * For information about how to programmatically set this permission, visit the following link:
+     * 
+     * @link http://msdn2.microsoft.com/en-us/library/aa746398.aspx
      *
      * @return AccountControl
      */

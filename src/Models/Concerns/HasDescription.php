@@ -7,7 +7,7 @@ trait HasDescription
     /**
      * Returns the models's description.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675492(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675492(v=vs.85).aspx
      *
      * @return string
      */

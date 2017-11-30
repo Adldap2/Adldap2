@@ -64,7 +64,7 @@ trait HasMemberOf
      * are retrieved and then merged with
      * the resulting collection.
      *
-     * https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx
      *
      * @param array $fields
      * @param bool  $recursive

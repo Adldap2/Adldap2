@@ -305,7 +305,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's distinguished name string.
      *
-     * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
      *
      * @return string|null
      */
@@ -333,7 +333,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * (Alias for getDistinguishedName())
      *
-     * https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx
      *
      * @return string|null
      */
@@ -384,7 +384,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's hex object SID.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679024(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679024(v=vs.85).aspx
      *
      * @return string
      */
@@ -396,7 +396,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's binary object GUID.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx
      *
      * @return string
      */
@@ -436,7 +436,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's common name.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
      *
      * @return string
      */
@@ -460,7 +460,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's name. An AD alias for the CN attribute.
      *
-     * https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
      *
      * @return string
      */
@@ -506,7 +506,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's samaccountname.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679635(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679635(v=vs.85).aspx
      *
      * @return string
      */
@@ -530,7 +530,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's samaccounttype.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679637(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679637(v=vs.85).aspx
      *
      * @return string
      */
@@ -542,7 +542,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's `whenCreated` time.
      *
-     * https://msdn.microsoft.com/en-us/library/ms680924(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms680924(v=vs.85).aspx
      *
      * @return string
      */
@@ -574,7 +574,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's `whenChanged` time.
      *
-     * https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms680921(v=vs.85).aspx
      *
      * @return string
      */
@@ -606,7 +606,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the Container of the current Model.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679012(v=vs.85).aspx
      *
      * @return Container|Entry|bool
      */
@@ -652,7 +652,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's primary group ID.
      *
-     * https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
      *
      * @return string
      */
@@ -664,7 +664,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns the model's instance type.
      *
-     * https://msdn.microsoft.com/en-us/library/ms676204(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms676204(v=vs.85).aspx
      *
      * @return int
      */

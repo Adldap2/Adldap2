@@ -939,6 +939,13 @@ class BuilderTest extends TestCase
         $this->assertFalse($b->isNested());
     }
 
+    public function test_new_nested_instance_is_nested()
+    {
+        $b = $this->newBuilder();
+
+        $this->assertTrue($b->newNestedInstance()->isNested());
+    }
+
     public function test_does_not_equal_alias()
     {
         $b = $this->newBuilder();

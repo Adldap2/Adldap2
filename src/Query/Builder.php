@@ -208,6 +208,24 @@ class Builder
     }
 
     /**
+     * Returns a new nested Query Builder instance.
+     * 
+     * @param Closure|null $closure
+     * 
+     * @return $this
+     */
+    public function newNestedInstance(Closure $closure = null)
+    {
+        $query = $this->newInstance()->nested();
+        
+        if ($closure) {
+            call_user_func($closure, $query);
+        }
+
+        return $query;
+    }
+
+    /**
      * Returns the current query.
      *
      * @return \Illuminate\Support\Collection|array
@@ -323,13 +341,13 @@ class Builder
         $selects = $this->getSelects();
 
         if ($this->read) {
-            // If read is true, we'll perform a read search, retrieving one record
+            // If read is true, we'll perform a read search, retrieving one record.
             $results = $this->connection->read($dn, $query, $selects, false, $this->limit);
         } elseif ($this->recursive) {
-            // If recursive is true, we'll perform a recursive search
+            // If recursive is true, we'll perform a recursive search.
             $results = $this->connection->search($dn, $query, $selects, false, $this->limit);
         } else {
-            // Read and recursive is false, we'll return a listing
+            // Read and recursive is false, we'll return a listing.
             $results = $this->connection->listing($dn, $query, $selects, false, $this->limit);
         }
 
@@ -702,9 +720,7 @@ class Builder
      */
     public function andFilter(Closure $closure)
     {
-        $query = $this->newInstance()->nested();
-
-        call_user_func($closure, $query);
+        $query = $this->newNestedInstance($closure);
 
         $filter = $this->grammar->compileAnd($query->getQuery());
 
@@ -720,9 +736,7 @@ class Builder
      */
     public function orFilter(Closure $closure)
     {
-        $query = $this->newInstance()->nested();
-
-        call_user_func($closure, $query);
+        $query = $this->newNestedInstance($closure);
 
         $filter = $this->grammar->compileOr($query->getQuery());
 
@@ -738,9 +752,7 @@ class Builder
      */
     public function notFilter(Closure $closure)
     {
-        $query = $this->newInstance()->nested();
-
-        call_user_func($closure, $query);
+        $query = $this->newNestedInstance($closure);
 
         $filter = $this->grammar->compileNot($query->getQuery());
 

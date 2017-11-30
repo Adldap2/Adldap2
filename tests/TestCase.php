@@ -5,8 +5,9 @@ namespace Adldap\Tests;
 use Mockery;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends BaseTestCase
 {
     /*
      * Set up the test environment.

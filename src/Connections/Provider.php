@@ -52,7 +52,9 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Close the LDAP connection (if bound) upon destruction.
+     * 
+     * @return void
      */
     public function __destruct()
     {
@@ -70,17 +72,20 @@ class Provider implements ProviderInterface
     public function setConfiguration($configuration = [])
     {
         if (is_array($configuration)) {
-            // Construct a configuration instance if an array is given.
             $configuration = new DomainConfiguration($configuration);
-        } elseif (!$configuration instanceof DomainConfiguration) {
-            $class = DomainConfiguration::class;
-
-            throw new InvalidArgumentException("Configuration must be either an array or instance of $class");
         }
 
-        $this->configuration = $configuration;
+        if ($configuration instanceof DomainConfiguration) {
+            $this->configuration = $configuration;
+            
+            return $this;
+        }
 
-        return $this;
+        $class = DomainConfiguration::class;
+        
+        throw new InvalidArgumentException(
+            "Configuration must be array or instance of $class"
+        );
     }
 
     /**

@@ -201,7 +201,9 @@ class ProviderTest extends TestCase
             ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(false);
 
-        new Provider($config, $connection);
+        $provider = new Provider($config, $connection);
+
+        $this->assertInstanceOf(DomainConfiguration::class, $provider->getConfiguration());
     }
 
     public function test_groups()

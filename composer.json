@@ -1,7 +1,7 @@
 {
     "name": "adldap2/adldap2",
     "type": "library",
-    "description": "A PHP LDAP Package for Active Directory Manipulation.",
+    "description": "A PHP LDAP Package for humans.",
     "keywords": [
         "active directory",
         "directory",

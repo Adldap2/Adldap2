@@ -20,7 +20,7 @@ class Builder
      *
      * @var array
      */
-    public $columns = [];
+    public $columns = ['*'];
 
     /**
      * The query filters.
@@ -1213,9 +1213,11 @@ class Builder
     {
         $selects = $this->columns;
 
-        if (count($selects) > 0) {
-            // Always make sure object category and class are selected. We need these
-            // attributes to construct the right model instance for the record.
+        // If the asterisk is not provided in the selected columns, we need to
+        // ensure we always select the object class and category, as these
+        // are used for constructing models. The asterisk indicates that
+        // we want all attributes returned for LDAP records.
+        if (!in_array('*', $selects)) {
             $selects[] = $this->schema->objectCategory();
             $selects[] = $this->schema->objectClass();
         }

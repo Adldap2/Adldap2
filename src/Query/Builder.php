@@ -333,6 +333,8 @@ class Builder
      * @param string $query
      *
      * @return \Illuminate\Support\Collection|array
+     *
+     * @throws InvalidArgumentException
      */
     public function query($query)
     {

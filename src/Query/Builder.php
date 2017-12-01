@@ -76,18 +76,18 @@ class Builder
     protected $dn;
 
     /**
-     * Determines whether or not to search LDAP recursively.
+     * The default query type.
      *
-     * @var bool
+     * @var string
      */
-    protected $recursive = true;
+    protected $type = 'search';
 
     /**
-     * Determines whether or not to search LDAP on the base scope.
+     * All of the available query types.
      *
-     * @var bool
+     * @var array
      */
-    protected $read = false;
+    protected $types = ['read', 'listing', 'search'];
 
     /**
      * Determines whether or not to return LDAP results in their raw array format.
@@ -336,20 +336,15 @@ class Builder
      */
     public function query($query)
     {
+        if (!in_array($this->type, $this->types)) {
+            throw new InvalidArgumentException("Invalid query type given: {$this->type}.");
+        }
+
         $dn = $this->getDn();
 
         $selects = $this->getSelects();
 
-        if ($this->read) {
-            // If read is true, we'll perform a read search, retrieving one record.
-            $results = $this->connection->read($dn, $query, $selects, false, $this->limit);
-        } elseif ($this->recursive) {
-            // If recursive is true, we'll perform a recursive search.
-            $results = $this->connection->search($dn, $query, $selects, false, $this->limit);
-        } else {
-            // Read and recursive is false, we'll return a listing.
-            $results = $this->connection->listing($dn, $query, $selects, false, $this->limit);
-        }
+        $results = $this->connection->{$this->type}($dn, $query, $selects, false, $this->limit);
 
         return $this->newProcessor()->process($results);
     }
@@ -1253,31 +1248,39 @@ class Builder
     }
 
     /**
-     * Sets the recursive property to tell the search whether or not to search recursively.
+     * Set the query to search on the base distinguished name.
      *
-     * @param bool $recursive
+     * This will result in one record being returned.
      *
      * @return Builder
      */
-    public function recursive($recursive = true)
+    public function read()
     {
-        $this->recursive = (bool) $recursive;
+        $this->type = 'read';
 
         return $this;
     }
 
     /**
-     * Sets the recursive property to tell the search
-     * whether or not to search on the base scope and
-     * return a single entry.
-     *
-     * @param bool $read
+     * Set the query to search one level on the base distinguished name.
      *
      * @return Builder
      */
-    public function read($read = true)
+    public function listing()
     {
-        $this->read = (bool) $read;
+        $this->type = 'listing';
+
+        return $this;
+    }
+
+    /**
+     * Sets the query to search the entire directory on the base distinguished name.
+     *
+     * @return Builder
+     */
+    public function recursive()
+    {
+        $this->type = 'search';
 
         return $this;
     }

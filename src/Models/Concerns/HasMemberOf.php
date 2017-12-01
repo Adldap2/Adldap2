@@ -72,9 +72,9 @@ trait HasMemberOf
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getGroups(array $fields = [], $recursive = false, array $visited = [])
+    public function getGroups(array $fields = ['*'], $recursive = false, array $visited = [])
     {
-        if (!empty($fields) && !in_array($this->schema->memberOf(), $fields)) {
+        if (!in_array($this->schema->memberOf(), $fields)) {
             // We want to make sure that we always select the memberof
             // field in case developers want recursive members.
             $fields = array_merge($fields, [$this->schema->memberOf()]);
@@ -89,21 +89,23 @@ trait HasMemberOf
             $groups->push($primary);
         }
 
+        // If recursive results are requested, we'll ask each group
+        // for their groups, and merge the resulting collection.
         if ($recursive) {
-            // If recursive results are requested, we'll ask each group
-            // for their groups, and merge the resulting collection.
+            /** @var Group $group */
             foreach ($groups as $group) {
                 // We need to validate that we haven't already queried
-                // for this groups members so we don't allow
+                // for this group's members so we don't allow
                 // infinite recursion in case of circular
                 // group dependencies in LDAP.
-                if (!in_array($group->getDistinguishedName(), $visited)) {
-                    $visited[] = $group->getDistinguishedName();
+                if (!in_array($group->getDn(), $visited)) {
+                    $visited[] = $group->getDn();
 
                     $members = $group->getGroups($fields, $recursive, $visited);
 
+                    /** @var Group $member */
                     foreach ($members as $member) {
-                        $visited[] = $member->getDistinguishedName();
+                        $visited[] = $member->getDn();
                     }
 
                     $groups = $groups->merge($members);

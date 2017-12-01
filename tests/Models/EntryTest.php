@@ -562,7 +562,7 @@ class EntryTest extends TestCase
         $readArgs = [
             'cn=John Doe,dc=corp,dc=local',
             '(objectclass=*)',
-            [],
+            ['*'],
             false,
             1
         ];
@@ -621,7 +621,7 @@ class EntryTest extends TestCase
 
         $model->setRawAttributes(compact('dn'));
 
-        $connection->shouldReceive('read')->once()->withArgs([$dn, "(objectclass=*)", [], false, 1]);
+        $connection->shouldReceive('read')->once()->withArgs([$dn, "(objectclass=*)", ['*'], false, 1]);
         $connection->shouldReceive('getEntries')->once()->andReturn(['count' => 1, ['dn' => 'cn=Jane Doe']]);
 
         $this->assertTrue($model->syncRaw());

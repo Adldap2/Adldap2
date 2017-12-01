@@ -692,7 +692,7 @@ class BuilderTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, ''])
-            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn(null)
+            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*']])->andReturn(null)
             ->shouldReceive('controlPagedResult')->once();
 
         $b = $this->newBuilder($connection);
@@ -713,7 +713,7 @@ class BuilderTest extends TestCase
         ];
 
         $connection->shouldReceive('controlPagedResult')->twice()
-            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', []])->andReturn('resource')
+            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*']])->andReturn('resource')
             ->shouldReceive('controlPagedResultResponse')->withArgs(['resource', ''])
             ->shouldReceive('getEntries')->andReturn($rawEntries);
 

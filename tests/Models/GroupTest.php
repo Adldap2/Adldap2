@@ -232,7 +232,7 @@ class GroupTest extends TestCase
             ])->andReturn(true);
 
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
             ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
 
         $this->assertTrue($group->addMembers($members));
@@ -267,7 +267,7 @@ class GroupTest extends TestCase
             ])->andReturn(true);
 
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
             ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
 
         $this->assertTrue($group->addMembers($members));
@@ -298,7 +298,7 @@ class GroupTest extends TestCase
             ])->andReturn(true);
 
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
             ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
 
         $this->assertTrue($group->addMember($member));
@@ -329,7 +329,7 @@ class GroupTest extends TestCase
             ])->andReturn(true);
 
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', [], false, 1)->andReturn(['count' => 1])
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
             ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
 
         $this->assertTrue($group->removeMember($member));

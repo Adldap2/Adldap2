@@ -207,10 +207,14 @@ class Utilities
         // The sub-authorities depend on the count, so only get as
         // many as the count, regardless of data beyond it.
         for ($i = 0; $i < $subs; $i++) {
-            $data = substr($sidHex, 16 + ($i * 8), 8);
+            $data = implode('', array_reverse(
+                str_split(
+                    substr($sidHex, 16 + ($i * 8), 8),
+                    2
+                )
+            ));
 
-            // Each sub-auth is a 32bit unsigned long, little-endian order
-            $subAuthorities[] = @unpack('V1sub', hex2bin($data))['sub'];
+            $subAuthorities[] = hexdec($data);
         }
 
         // Tack on the 'S-' and glue it all together...

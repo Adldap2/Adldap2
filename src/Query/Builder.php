@@ -3,9 +3,9 @@
 namespace Adldap\Query;
 
 use Closure;
-use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Schemas\SchemaInterface;
@@ -81,13 +81,6 @@ class Builder
      * @var string
      */
     protected $type = 'search';
-
-    /**
-     * All of the available query types.
-     *
-     * @var array
-     */
-    protected $types = ['read', 'listing', 'search'];
 
     /**
      * Determines whether or not to return LDAP results in their raw array format.
@@ -333,20 +326,16 @@ class Builder
      * @param string $query
      *
      * @return \Illuminate\Support\Collection|array
-     *
-     * @throws InvalidArgumentException
      */
     public function query($query)
     {
-        if (!in_array($this->type, $this->types)) {
-            throw new InvalidArgumentException("Invalid query type given: {$this->type}.");
-        }
-
-        $dn = $this->getDn();
-
-        $selects = $this->getSelects();
-
-        $results = $this->connection->{$this->type}($dn, $query, $selects, false, $this->limit);
+        $results = $this->connection->{$this->type}(
+            $this->getDn(),
+            $query,
+            $this->getSelects(),
+            $onlyAttributes = false,
+            $this->limit
+        );
 
         return $this->newProcessor()->process($results);
     }

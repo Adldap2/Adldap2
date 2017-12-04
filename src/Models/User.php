@@ -1013,7 +1013,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Change the password of the current user. This must be performed over SSL.
+     * Change the password of the current user. This must be performed over SSL / TLS.
      *
      * Throws an exception on failure.
      *

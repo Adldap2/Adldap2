@@ -16,6 +16,14 @@ use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Concerns\HasAttributes;
 use Adldap\Connections\ConnectionException;
 
+/**
+ * Class Model
+ *
+ * Represents an LDAP record and provides the ability to
+ * modify / retrieve data from the record.
+ *
+ * @package Adldap\Models
+ */
 abstract class Model implements ArrayAccess, JsonSerializable
 {
     use HasAttributes;

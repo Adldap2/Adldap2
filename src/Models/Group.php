@@ -7,6 +7,13 @@ use Adldap\Utilities;
 use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 
+/**
+ * Class Group
+ *
+ * Represents an LDAP group (security / distribution).
+ *
+ * @package Adldap\Models
+ */
 class Group extends Entry
 {
     use HasDescription, HasMemberOf;

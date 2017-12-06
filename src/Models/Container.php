@@ -5,6 +5,13 @@ namespace Adldap\Models;
 use Adldap\Models\Concerns\HasDescription;
 use Adldap\Models\Concerns\HasCriticalSystemObject;
 
+/**
+ * Class Container
+ *
+ * Represents an LDAP container.
+ *
+ * @package Adldap\Models
+ */
 class Container extends Entry
 {
     use HasDescription, HasCriticalSystemObject;

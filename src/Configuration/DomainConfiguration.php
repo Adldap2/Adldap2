@@ -8,6 +8,13 @@ use Adldap\Configuration\Validators\StringOrNullValidator;
 use Adldap\Configuration\Validators\BooleanValidator;
 use Adldap\Configuration\Validators\IntegerValidator;
 
+/**
+ * Class DomainConfiguration
+ *
+ * Contains an array of configuration options for a single LDAP connection.
+ *
+ * @package Adldap\Configuration
+ */
 class DomainConfiguration
 {
     /**

@@ -11,6 +11,15 @@ use Adldap\Models\Factory as ModelFactory;
 use Adldap\Query\Factory as SearchFactory;
 use Adldap\Configuration\DomainConfiguration;
 
+/**
+ * Class Provider
+ *
+ * Contains the LPAP connection and domain configuration to
+ * instantiate factories for retrieving and creating
+ * LDAP records as well as authentication (binding).
+ *
+ * @package Adldap\Connections
+ */
 class Provider implements ProviderInterface
 {
     /**
@@ -226,6 +235,8 @@ class Provider implements ProviderInterface
      * Prepares the connection by setting configured parameters.
      *
      * @return void
+     *
+     * @throws \Adldap\Configuration\ConfigurationException When configuration options requested do not exist
      */
     protected function prepareConnection()
     {

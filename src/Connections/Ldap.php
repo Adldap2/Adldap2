@@ -4,6 +4,13 @@ namespace Adldap\Connections;
 
 use Adldap\AdldapException;
 
+/**
+ * Class Ldap
+ *
+ * A class that abstracts PHP's LDAP functions and stores the bound connection.
+ *
+ * @package Adldap\Connections
+ */
 class Ldap implements ConnectionInterface
 {
     use LdapFunctionSupportTrait;

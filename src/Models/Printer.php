@@ -2,6 +2,13 @@
 
 namespace Adldap\Models;
 
+/**
+ * Class Printer
+ *
+ * Represents an LDAP printer.
+ *
+ * @package Adldap\Models
+ */
 class Printer extends Entry
 {
     /**

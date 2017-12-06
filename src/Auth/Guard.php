@@ -5,6 +5,13 @@ namespace Adldap\Auth;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
 
+/**
+ * Class Guard
+ *
+ * Binds users to the current connection.
+ *
+ * @package Adldap\Auth
+ */
 class Guard implements GuardInterface
 {
     /**
@@ -102,6 +109,9 @@ class Guard implements GuardInterface
      * @param string|null $suffix
      *
      * @return string
+     *
+     * @throws \Adldap\Configuration\ConfigurationException If account_suffix or account_prefix do not
+     *                                                      exist in the providers domain configuration
      */
     protected function applyPrefixAndSuffix($username, $prefix = null, $suffix = null)
     {

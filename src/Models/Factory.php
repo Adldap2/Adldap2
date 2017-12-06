@@ -6,6 +6,13 @@ use Adldap\Query\Builder;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 
+/**
+ * Class Factory
+ *
+ * Constructs and scopes LDAP queries.
+ *
+ * @package Adldap\Models
+ */
 class Factory
 {
     /**

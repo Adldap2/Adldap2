@@ -2,6 +2,14 @@
 
 namespace Adldap\Models;
 
+/**
+ * Class BatchModification
+ *
+ * A utility class to assist in the creation of LDAP
+ * batch modifications and ensure their validity.
+ *
+ * @package Adldap\Models
+ */
 class BatchModification
 {
     /**

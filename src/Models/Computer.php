@@ -7,6 +7,13 @@ use Adldap\Models\Concerns\HasUserAccountControl;
 use Adldap\Models\Concerns\HasLastLogonAndLogOff;
 use Adldap\Models\Concerns\HasCriticalSystemObject;
 
+/**
+ * Class Computer
+ *
+ * Represents an LDAP computer / server.
+ *
+ * @package Adldap\Models
+ */
 class Computer extends Entry
 {
     use HasCriticalSystemObject,

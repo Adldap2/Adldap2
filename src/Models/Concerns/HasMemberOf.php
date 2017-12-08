@@ -80,6 +80,13 @@ trait HasMemberOf
             $fields = array_merge($fields, [$this->schema->memberOf()]);
         }
 
+        if (!in_array($this->schema->commonName(), $fields)) {
+            // We want to make sure that we always select the cn
+            // field in case the groupIsParent() functions checks against
+            // string groupnames using the cn of the parent
+            $fields = array_merge($fields, [$this->schema->commonName()]);  
+        }        
+        
         $groups = $this->getGroupsByNames($this->memberOfDns(), $fields);
 
         // We need to check if we're working with a User model. Only users

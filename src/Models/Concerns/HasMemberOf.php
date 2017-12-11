@@ -148,7 +148,7 @@ trait HasMemberOf
      */
     public function inGroup($group, $recursive = false)
     {
-        $memberOf = $this->getGroups([], $recursive);
+        $memberOf = $this->getGroups(['*'], $recursive);
 
         if ($group instanceof Collection) {
             // If we've been given a collection then we'll convert

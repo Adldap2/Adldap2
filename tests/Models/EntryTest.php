@@ -731,4 +731,105 @@ class EntryTest extends TestCase
 
         $this->assertEquals(0, $model->getMaxPasswordAgeDays());
     }
+
+    public function test_get_dirty_single_value()
+    {
+        $model = $this->newModel(['cn' => 'John Doe']);
+
+        $model->setCommonName('New Name');
+
+        $this->assertEquals(['cn' => ['New Name']], $model->getDirty());
+    }
+
+    public function test_get_dirty_same_value()
+    {
+        $model = $this->newModel(['cn' => 'John Doe']);
+
+        $model->syncOriginal();
+
+        $model->setCommonName('John Doe');
+
+        $this->assertEmpty($model->getDirty());
+
+        $model->setCommonName('John D');
+
+        $this->assertEquals(['cn' => ['John D']], $model->getDirty());
+    }
+
+    public function test_get_dirty_multiple_values()
+    {
+        $attributes = [
+            'proxyaddress' => [
+                'one',
+                'two',
+                'three',
+            ],
+        ];
+
+        $model = $this->newModel($attributes);
+
+        $model->syncOriginal();
+
+        $model->setAttribute('proxyaddresses', [
+            'one',
+        ]);
+
+        $this->assertEquals([
+            'proxyaddresses' => [0 => 'one']
+        ], $model->getDirty());
+    }
+
+    public function test_get_dirty_multiple_values_with_indices_reset_keeps_order()
+    {
+        $attributes = [
+            'proxyaddress' => [
+                'one',
+                'two',
+                'three',
+            ],
+        ];
+
+        $model = $this->newModel($attributes);
+
+        $model->syncOriginal();
+
+        $model->setAttribute('proxyaddresses', [
+            3 => 'three',
+            2 => 'two',
+        ]);
+
+        $this->assertEquals([
+            'proxyaddresses' => [
+                0 => 'three',
+                1 => 'two',
+            ]
+        ], $model->getDirty());
+    }
+
+    public function test_get_dirty_from_null_value()
+    {
+        $model = $this->newModel();
+
+        $this->assertNull($model->getCommonName());
+
+        $model->setCommonName('New Name');
+
+        $this->assertEquals(['cn' => ['New Name']], $model->getDirty());
+    }
+
+    public function test_get_dirty_to_null_value()
+    {
+        $model = $this->newModel(['cn' => 'John Doe']);
+
+        $model->syncOriginal();
+
+        $model->setCommonName(null);
+
+        $this->assertEquals(['cn' => [null]], $model->getDirty());
+
+        $this->assertEquals([0 => [
+            'attrib' => 'cn',
+            'modtype' => 18,
+        ]], $model->getModifications());
+    }
 }

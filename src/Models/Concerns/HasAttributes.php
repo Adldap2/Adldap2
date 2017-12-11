@@ -269,11 +269,10 @@ trait HasAttributes
         $dirty = [];
 
         foreach ($this->attributes as $key => $value) {
-            if (!array_key_exists($key, $this->original)) {
-                $dirty[$key] = $value;
-            } elseif ($value !== $this->original[$key] &&
-                !$this->originalIsNumericallyEquivalent($key)) {
-                $dirty[$key] = $value;
+            if (! $this->originalIsEquivalent($key)) {
+                // We need to set reset the array's indices using array_values due to
+                // LDAP requiring consecutive indices (0, 1, 2 etc.)
+                $dirty[$key] = array_values($value);
             }
         }
 
@@ -293,22 +292,28 @@ trait HasAttributes
     }
 
     /**
-     * Determine if the new and old values for a given key are numerically equivalent.
+     * Determine if the new and old values for a given key are equivalent.
      *
      * @param string $key
      *
      * @return bool
      */
-    protected function originalIsNumericallyEquivalent($key)
+    protected function originalIsEquivalent($key)
     {
+        if (! array_key_exists($key, $this->original)) {
+            return false;
+        }
+
         $current = $this->attributes[$key];
 
         $original = $this->original[$key];
 
+        if ($current === $original) {
+            return true;
+        }
+
         return  is_numeric($current) &&
                 is_numeric($original) &&
-                strcmp((string) $current, (string) $original) === 0 ||
-            count(array_diff($current, $original)) === 0;
+                strcmp((string) $current, (string) $original) === 0;
     }
-
 }

@@ -315,7 +315,7 @@ function performs differently than it would on a database. For example:
 ```php
 $results = $search
             ->where('cn', '=', 'John Doe')
-            ->orWhere('cn' '=', 'Suzy Doe')
+            ->orWhere('cn', '=', 'Suzy Doe')
             ->get();
 ```
     
@@ -328,7 +328,7 @@ To solve the above problem, we would use `orWhere()` for both fields. For exampl
 ```php
 $results = $search
         ->orWhere('cn', '=', 'John Doe')
-        ->orWhere('cn' '=', 'Suzy Doe')
+        ->orWhere('cn', '=', 'Suzy Doe')
         ->get();
 ```
 

@@ -121,10 +121,10 @@ class Builder
      * Constructor.
      *
      * @param ConnectionInterface  $connection
-     * @param Grammar              $grammar
+     * @param Grammar|null         $grammar
      * @param SchemaInterface|null $schema
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar, SchemaInterface $schema = null)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar = null, SchemaInterface $schema = null)
     {
         $this->setConnection($connection)
             ->setGrammar($grammar)
@@ -148,13 +148,13 @@ class Builder
     /**
      * Sets the current filter grammar.
      *
-     * @param Grammar $grammar
+     * @param Grammar|null $grammar
      *
      * @return Builder
      */
-    public function setGrammar(Grammar $grammar)
+    public function setGrammar(Grammar $grammar = null)
     {
-        $this->grammar = $grammar;
+        $this->grammar = $grammar ?: new Grammar();
 
         return $this;
     }

@@ -10,11 +10,11 @@ use Illuminate\Support\Collection;
 
 class GroupTest extends TestCase
 {
-    protected function newGroupModel(array $attributes = [], $builder = null, $schema = null)
+    protected function newGroupModel(array $attributes = [], $builder = null)
     {
         $builder = $builder ?: $this->newBuilder();
 
-        return new Group($attributes, $builder, $schema);
+        return new Group($attributes, $builder);
     }
 
     public function test_get_members()
@@ -179,7 +179,10 @@ class GroupTest extends TestCase
 
         $groups = collect([$group1, $group2, $group3]);
 
-        $group = $this->mock(Group::class, [[], $builder])->makePartial();
+        $group = $this->mock(Group::class, [[], $builder])
+            ->makePartial();
+
+        $group->setSchema(new ActiveDirectory());
 
         $group->shouldReceive('getGroups')->once()->andReturn($groups);
 

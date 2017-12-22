@@ -24,7 +24,7 @@ trait HasMemberOf
             $group = $this->query->newInstance()->findByDn($group);
         }
 
-        if (is_a($group, $this->schema->groupModel())) {
+        if ($group instanceof Group) {
             // If the group is Group model instance, we can
             // add the current models DN to the group.
             return $group->addMember($this->getDn());
@@ -48,7 +48,7 @@ trait HasMemberOf
             $group = $this->query->newInstance()->findByDn($group);
         }
 
-        if (is_a($group, $this->schema->groupModel())) {
+        if ($group instanceof Group) {
             // If the group is Group model instance, we can
             // remove the current models DN from the group.
             return $group->removeMember($this->getDn());
@@ -85,7 +85,7 @@ trait HasMemberOf
         // We need to check if we're working with a User model. Only users
         // contain a primary group. If we are, we'll merge the users
         // primary group into the resulting collection.
-        if (is_a($this, $this->schema->userModel()) && $primary = $this->getPrimaryGroup()) {
+        if ($this instanceof User && $primary = $this->getPrimaryGroup()) {
             $groups->push($primary);
         }
 
@@ -192,7 +192,7 @@ trait HasMemberOf
         return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
             return $query->select($fields)->findByDn($dn);
         })->filter(function ($group) {
-            return is_a($group, $this->schema->groupModel());
+            return $group instanceof Group;
         });
     }
 
@@ -219,7 +219,7 @@ trait HasMemberOf
      */
     protected function groupIsParent($group, Group $parent)
     {
-        if (is_a($group, $this->schema->groupModel())) {
+        if ($group instanceof Group) {
             // We've been given a group instance, we'll compare their DNs.
             return $parent->getDn() === $group->getDn();
         }

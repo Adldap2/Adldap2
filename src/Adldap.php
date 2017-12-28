@@ -62,7 +62,7 @@ class Adldap implements AdldapInterface
     /**
      * Determines if the given config is valid.
      *
-     * @param array|DomainConfiguration $config
+     * @param mixed $config
      *
      * @return bool
      */

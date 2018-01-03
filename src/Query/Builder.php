@@ -539,7 +539,7 @@ class Builder
     {
         return $this
             ->setDn($dn)
-            ->read(true)
+            ->read()
             ->whereHas($this->schema->objectClass())
             ->first($columns);
     }
@@ -560,7 +560,7 @@ class Builder
     {
         return $this
             ->setDn($dn)
-            ->read(true)
+            ->read()
             ->whereHas($this->schema->objectClass())
             ->firstOrFail($columns);
     }

@@ -372,7 +372,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function homeDrive()
     {
-        return 'homeDrive';
+        return 'homedrive';
     }
 
     /**
@@ -380,7 +380,7 @@ class ActiveDirectory implements SchemaInterface
      */
     public function homeDirectory()
     {
-        return 'homeDirectory';
+        return 'homedirectory';
     }
 
     /**

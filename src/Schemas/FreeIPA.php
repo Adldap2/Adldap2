@@ -2,7 +2,7 @@
 
 namespace Adldap\Schemas;
 
-class FreeIPA extends BaseLdap {
+class FreeIPA extends BaseLDAP {
 
     /**
      * {@inheritdoc}

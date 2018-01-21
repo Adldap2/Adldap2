@@ -4,7 +4,7 @@
 namespace Adldap\Schemas;
 
 
-abstract class BaseLdap implements SchemaInterface {
+abstract class BaseLDAP implements SchemaInterface {
 
     /**
      * {@inheritdoc}

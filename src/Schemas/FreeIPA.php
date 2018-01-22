@@ -2,8 +2,8 @@
 
 namespace Adldap\Schemas;
 
-class FreeIPA extends ActiveDirectory
-{
+class FreeIPA extends BaseLDAP {
+
     /**
      * {@inheritdoc}
      */
@@ -26,5 +26,69 @@ class FreeIPA extends ActiveDirectory
     public function objectClassGroup()
     {
         return 'ipausergroup';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function distinguishedNameSubKey()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterEnabled()
+    {
+        return '(!(UserAccountControl:1.2.840.113556.1.4.803:=2))';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterDisabled()
+    {
+        return '(UserAccountControl:1.2.840.113556.1.4.803:=2)';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function lockoutTime()
+    {
+        return 'lockouttime';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassOu()
+    {
+        return 'organizationalunit';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectClassPerson()
+    {
+        return 'person';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectGuid()
+    {
+        return 'objectguid';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function objectGuidRequiresConversion()
+    {
+        return true;
     }
 }

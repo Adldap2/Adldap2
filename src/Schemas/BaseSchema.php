@@ -789,6 +789,14 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function postOfficeBox()
+    {
+        return 'postofficebox';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function primaryGroupId()
     {
         return 'primarygroupid';

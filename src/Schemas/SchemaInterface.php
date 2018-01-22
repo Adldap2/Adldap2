@@ -939,6 +939,15 @@ interface SchemaInterface
     public function postalCode();
 
     /**
+     * The post office box number for this object.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679367(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function postOfficeBox();
+
+    /**
      * Contains the relative identifier (RID) for the primary group of the user.
      *
      * By default, this is the RID for the Domain Users group.

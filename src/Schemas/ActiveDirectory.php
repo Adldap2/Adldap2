@@ -2,8 +2,8 @@
 
 namespace Adldap\Schemas;
 
-class ActiveDirectory extends BaseLDAP {
-
+class ActiveDirectory extends BaseSchema
+{
     /**
      * {@inheritdoc}
      */

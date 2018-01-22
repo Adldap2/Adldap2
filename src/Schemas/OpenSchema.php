@@ -2,8 +2,8 @@
 
 namespace Adldap\Schemas;
 
-class OpenLDAP extends BaseLDAP {
-
+class OpenSchema extends BaseSchema
+{
     /**
      * {@inheritdoc}
      */

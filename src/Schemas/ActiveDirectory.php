@@ -49,7 +49,7 @@ class ActiveDirectory extends BaseSchema
      */
     public function objectClassGroup()
     {
-        return 'computer';
+        return 'group';
     }
 
     /**

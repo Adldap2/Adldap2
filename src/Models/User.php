@@ -316,6 +316,28 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Get the users post office box.
+     *
+     * @return mixed
+     */
+    public function getPostOfficeBox()
+    {
+        return $this->getFirstAttribute($this->schema->postOfficeBox());
+    }
+
+    /**
+     * Sets the users post office box.
+     *
+     * @param string|int $box
+     *
+     * @return $this
+     */
+    public function setPostOfficeBox($box)
+    {
+        return $this->setFirstAttribute($this->schema->postOfficeBox(), $box);
+    }
+
+    /**
      * Returns the users physical delivery office name.
      *
      * @return string

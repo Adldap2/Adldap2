@@ -13,8 +13,10 @@
     ],
     "license": "MIT",
     "support": {
+        "docs": "https://github.com/Adldap2/Adldap2/blob/master/readme.md",
         "issues": "https://github.com/Adldap2/Adldap2/issues",
-        "source": "https://github.com/Adldap2/Adldap2"
+        "source": "https://github.com/Adldap2/Adldap2",
+        "email": "steven_bauman@outlook.com"
     },
     "authors": [
         {

@@ -601,6 +601,36 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Returns an array of workstations the user is assigned to.
+     *
+     * @return array
+     */
+    public function getUserWorkstations()
+    {
+        $workstations = $this->getFirstAttribute($this->schema->userWorkstations());
+
+        return array_filter(explode(',', $workstations));
+    }
+
+    /**
+     * Sets the workstations the user can login to.
+     *
+     * @param string|array $workstations The names of the workstations the user can login to.
+     *                                   Must be an array of names, or a comma separated
+     *                                   list of names.
+     *
+     * @return $this
+     */
+    public function setUserWorkstations($workstations = [])
+    {
+        if (is_array($workstations)) {
+            $workstations = implode(',', $workstations);
+        }
+
+        return $this->setFirstAttribute($this->schema->userWorkstations(), $workstations);
+    }
+
+    /**
      * Returns the users proxy addresses.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx

@@ -122,4 +122,41 @@ class UserTest extends TestCase
 
         $this->assertEquals(base64_encode($jpeg), $model->getJpegPhoto());
     }
+
+    public function test_set_user_workstations_accepts_string_or_array()
+    {
+        $model = $this->newUserModel();
+
+        $model->setUserWorkstations(['ONE','TWO','THREE']);
+
+        $this->assertEquals('ONE,TWO,THREE', $model->getFirstAttribute('userworkstations'));
+
+        $model->setUserWorkstations('ONE,TWO,THREE');
+
+        $this->assertEquals('ONE,TWO,THREE', $model->getFirstAttribute('userworkstations'));
+    }
+
+    public function test_get_user_workstations()
+    {
+        $model = $this->newUserModel([
+            'userworkstations' => 'ONE,TWO,THREE',
+        ]);
+
+        $this->assertEquals(['ONE','TWO','THREE'], $model->getUserWorkstations());
+    }
+
+    public function test_get_user_workstations_always_returns_array_when_empty_or_null()
+    {
+        $model = $this->newUserModel([
+            'userworkstations' => null,
+        ]);
+
+        $this->assertEquals([], $model->getUserWorkstations());
+
+        $model = $this->newUserModel([
+            'userworkstations' => '',
+        ]);
+
+        $this->assertEquals([], $model->getUserWorkstations());
+    }
 }

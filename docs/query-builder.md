@@ -291,6 +291,7 @@ Or we can retrieve all objects that have a common name attribute using the wildc
 $results = $provider->search()->where('cn', '*')->get();
 
 // Or use the method whereHas($field)
+
 $results = $provider->search()->whereHas('cn')->get();
 ```
 
@@ -304,6 +305,7 @@ You can use a 'where not has' to perform the inverse of a 'where has':
 $results = $provider->search->where('cn', '!*')->get();
 
 // Or use the method whereNotHas($field)
+
 $results = $provider->search()->whereNotHas($field)->get();
 ```
 

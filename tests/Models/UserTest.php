@@ -143,6 +143,14 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals(['ONE','TWO','THREE'], $model->getUserWorkstations());
+
+        $model->userworkstations = 'ONE,';
+
+        $this->assertEquals(['ONE'], $model->getUserWorkstations());
+
+        $model->userworkstations = 'ONE,TWO';
+
+        $this->assertEquals(['ONE','TWO'], $model->getUserWorkstations());
     }
 
     public function test_get_user_workstations_always_returns_array_when_empty_or_null()
@@ -153,9 +161,7 @@ class UserTest extends TestCase
 
         $this->assertEquals([], $model->getUserWorkstations());
 
-        $model = $this->newUserModel([
-            'userworkstations' => '',
-        ]);
+        $model->userworkstations = '';
 
         $this->assertEquals([], $model->getUserWorkstations());
     }

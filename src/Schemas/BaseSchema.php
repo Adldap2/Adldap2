@@ -1137,6 +1137,14 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function userWorkstations()
+    {
+        return 'userworkstations';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function versionNumber()
     {
         return 'versionnumber';

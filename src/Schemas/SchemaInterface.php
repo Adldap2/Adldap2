@@ -1322,6 +1322,20 @@ interface SchemaInterface
     public function userPrincipalName();
 
     /**
+     * Contains the NetBIOS or DNS names of the computers running Windows NT Workstation
+     * or Windows 2000 Professional from which the user can log on.
+     *
+     * Each NetBIOS name is separated by a comma.
+     *
+     * Multiple names should be separated by commas.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680868(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function userWorkstations();
+
+    /**
      * A general purpose version number.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms680897(v=vs.85).aspx

@@ -386,7 +386,7 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users facsimile number.
      *
-     * @link https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx
      *
      * @return string
      */

@@ -1041,7 +1041,7 @@ abstract class BaseSchema implements SchemaInterface
      */
     public function facsimile()
     {
-        return 'facsimileTelephoneNumber';
+        return 'facsimiletelephonenumber';
     }
 
     /**

@@ -87,6 +87,10 @@ trait HasAttributes
      */
     public function getAttribute($key, $subKey = null)
     {
+        if (! $key) {
+            return;
+        }
+
         if (is_null($subKey) && $this->hasAttribute($key)) {
             return $this->attributes[$key];
         } elseif ($this->hasAttribute($key, $subKey)) {
@@ -185,8 +189,12 @@ trait HasAttributes
     {
         $this->attributes = $this->filterRawAttributes($attributes);
 
-        if (Arr::has($attributes, 'dn')) {
-            $this->setDn($attributes['dn']);
+        // We'll pull out the distinguished name from our raw attributes
+        // and set it into our attributes array with the full attribute
+        // definition. This allows us to normalize distinguished
+        // names across different LDAP variants.
+        if ($dn = Arr::pull($attributes, 'dn')) {
+            $this->setDistinguishedName($dn);
         }
 
         $this->syncOriginal();
@@ -207,7 +215,7 @@ trait HasAttributes
      *
      * @return array
      */
-    public function filterRawAttributes(array $attributes = [], $keys = ['count'])
+    public function filterRawAttributes(array $attributes = [], $keys = ['count', 'dn'])
     {
         $attributes = Arr::except($attributes, $keys);
 

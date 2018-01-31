@@ -6,6 +6,7 @@ use DateTime;
 use ArrayAccess;
 use JsonSerializable;
 use InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Query\Builder;
@@ -34,13 +35,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @var bool
      */
     public $exists = false;
-
-    /**
-     * The models distinguished name.
-     *
-     * @var string
-     */
-    protected $dn;
 
     /**
      * The current query builder instance.
@@ -319,7 +313,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getDistinguishedName()
     {
-        return $this->dn;
+        return $this->getFirstAttribute($this->schema->distinguishedName());
     }
 
     /**
@@ -331,7 +325,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function setDistinguishedName($dn)
     {
-        $this->dn = (string) $dn;
+        $this->setFirstAttribute($this->schema->distinguishedName(), (string) $dn);
 
         return $this;
     }
@@ -357,7 +351,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getDnBuilder()
     {
-        // If we currently don't have a distinguished name, we'll set it to our base.
+        // If we currently don't have a distinguished name, we'll set
+        // it to our base, otherwise we'll use our query's base DN.
         $dn = $this->getDistinguishedName() ?: $this->query->getDn();
 
         return $this->getNewDnBuilder($dn);
@@ -809,7 +804,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
         }
 
         // Create the entry.
-        $created = $this->query->getConnection()->add($this->getDn(), $this->getAttributes());
+        $created = $this->query->getConnection()->add($this->getDn(), $this->getCreatableAttributes());
 
         if ($created) {
             // If the entry was created we'll re-sync
@@ -976,6 +971,16 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function rename($rdn)
     {
         return $this->move($rdn);
+    }
+
+    /**
+     * Returns the models creatable attributes.
+     *
+     * @return mixed
+     */
+    protected function getCreatableAttributes()
+    {
+        return Arr::except($this->getAttributes(), [$this->schema->distinguishedName()]);
     }
 
     /**

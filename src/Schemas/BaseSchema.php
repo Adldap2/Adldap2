@@ -1039,6 +1039,14 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function facsimile()
+    {
+        return 'facsimileTelephoneNumber';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function thumbnail()
     {
         return 'thumbnailphoto';

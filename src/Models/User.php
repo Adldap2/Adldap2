@@ -384,6 +384,30 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Returns the users facsimile number.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getFacsimileNumber()
+    {
+        return $this->getFirstAttribute($this->schema->facsimile());
+    }
+
+    /**
+     * Sets the users facsimile number.
+     *
+     * @param string $number
+     *
+     * @return $this
+     */
+    public function setFacsimileNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->facsimile(), $number);
+    }
+
+    /**
      * Returns the users locale.
      *
      * @return string

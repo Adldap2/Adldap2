@@ -1225,4 +1225,25 @@ class User extends Entry implements Authenticatable
     {
         return (int) $this->getPasswordLastSet() === 0;
     }
+
+    /**
+     * Enables the option to force the password change at the next logon.
+     * Does not work if the "Password never expires" option is enabled
+     *
+     * @return $this
+     */
+    public function enableOptionForcePasswordChange()
+    {
+        return $this->setFirstAttribute($this->schema->passwordLastSet(), 0);
+    }
+
+    /**
+     * Disables the option to force the password change at the next logon.
+     *
+     * @return $this
+     */
+    public function disableOptionForcePasswordChange()
+    {
+        return $this->setFirstAttribute($this->schema->passwordLastSet(), -1);
+    }
 }

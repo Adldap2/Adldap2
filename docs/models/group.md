@@ -184,6 +184,7 @@ $group->addMembers($members);
 // Or
 
 $user = $provider->search()->users()->first();
+
 if ($group->addMembers($user)) {
     //
 }

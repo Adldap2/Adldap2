@@ -12,6 +12,22 @@
 $group = $provider->make()->group([
     'cn' => 'Managers',
 ]);
+
+// Create group's DN through the DN Builder:
+$group = $provider->make()->group();
+
+$dn = $group->getDnBuilder();
+
+$dn->addOu('Workstation Computers');
+
+$dn->addCn("Managers");
+
+$group->setDn($dn);
+
+// Or set the DN manually:
+$ou->setDn('cn=Managers,ou=Workstation Computers,dc=test,dc=local,dc=com');
+
+$group->save();
 ```
 
 ## Getting a groups members

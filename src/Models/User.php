@@ -1187,7 +1187,9 @@ class User extends Entry implements Authenticatable
 
         $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
 
-        return new DateTime(date($this->dateFormat, $unixTime));
+        $date = date($this->dateFormat, $unixTime);
+
+        return new DateTime($date);
     }
 
     /**

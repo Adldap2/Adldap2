@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests\Models;
 
+use DateTime;
 use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Tests\TestCase;
@@ -164,5 +165,31 @@ class UserTest extends TestCase
         $model->userworkstations = '';
 
         $this->assertEquals([], $model->getUserWorkstations());
+    }
+
+    public function test_expiration_date()
+    {
+        $model = $this->newUserModel([
+            'accountexpires' => '131618268000000000',
+        ]);
+
+        $date = $model->expirationDate();
+
+        $this->assertInstanceOf(DateTime::class, $date);
+        $this->assertEquals(1517353200, $date->getTimestamp());
+        $this->assertTrue($model->isExpired());
+    }
+
+    public function test_expiration_date_with_max_date()
+    {
+        $model = $this->newUserModel([
+            'accountexpires' => '2650467708000000000',
+        ]);
+
+        $date = $model->expirationDate();
+
+        $this->assertInstanceOf(DateTime::class, $date);
+        $this->assertEquals(253402297200, $date->getTimestamp());
+        $this->assertFalse($model->isExpired());
     }
 }

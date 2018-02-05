@@ -832,4 +832,15 @@ class EntryTest extends TestCase
             'modtype' => 18,
         ]], $model->getModifications());
     }
+
+    public function test_models_constructed_with_an_array_dn_is_set_properly()
+    {
+        $model = $this->newModel();
+
+        $dn = 'cn=Jdoe,dc=acme,dc=org';
+
+        $model->setRawAttributes(['dn' => [$dn]]);
+
+        $this->assertEquals($model->getDistinguishedName(), $dn);
+    }
 }

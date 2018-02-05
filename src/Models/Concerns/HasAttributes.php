@@ -181,6 +181,8 @@ trait HasAttributes
     /**
      * Sets the attributes property.
      *
+     * Used when constructing an existing LDAP record.
+     *
      * @param array $attributes
      *
      * @return $this
@@ -193,7 +195,13 @@ trait HasAttributes
         // and set it into our attributes array with the full attribute
         // definition. This allows us to normalize distinguished
         // names across different LDAP variants.
-        if ($dn = Arr::pull($attributes, 'dn')) {
+        if ($dn = Arr::get($attributes, 'dn')) {
+            // In some LDAP variants, the distinguished
+            // name is returned as an array.
+            if (is_array($dn)) {
+                $dn = Arr::first($dn);
+            }
+
             $this->setDistinguishedName($dn);
         }
 

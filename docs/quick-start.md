@@ -10,6 +10,12 @@ Once you have composer installed, run the following command in the root director
 composer require adldap2/adldap2
 ```
 
+Then, if your application doesn't already require Composer's autoload, you will need to do it manually:
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+```
+
 You're all set!
 
 ### Usage

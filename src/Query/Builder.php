@@ -1468,7 +1468,7 @@ class Builder
             if (is_numeric($key) && is_array($value)) {
                 // If the key is numeric and the value is an array, we'll
                 // assume we've been given an array with conditionals.
-                list ($field, $condition) = $value;
+                list($field, $condition) = $value;
 
                 // Since a value is optional for some conditionals, we will
                 // try and retrieve the third parameter from the array,

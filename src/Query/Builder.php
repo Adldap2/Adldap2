@@ -772,7 +772,7 @@ class Builder
 
         // Here we will make some assumptions about the operator. If only
         // 2 values are passed to the method, we will assume that
-        // the operator is an equals sign and keep going.
+        // the operator is 'equals' and keep going.
         if (func_num_args() === 2 && in_array($operator, $bypass) === false) {
             list($value, $operator) = [$operator, '='];
         }
@@ -999,9 +999,9 @@ class Builder
     /**
      * Adds an 'or where' clause to the current query.
      *
-     * @param string      $field
-     * @param string|null $operator
-     * @param string|null $value
+     * @param array|string $field
+     * @param string|null  $operator
+     * @param string|null  $value
      *
      * @return Builder
      */
@@ -1468,9 +1468,16 @@ class Builder
             if (is_numeric($key) && is_array($value)) {
                 // If the key is numeric and the value is an array, we'll
                 // assume we've been given an array with conditionals.
-                $this->where($value[0], $value[1], $value[2]);
+                list ($field, $condition) = $value;
+
+                // Since a value is optional for some conditionals, we will
+                // try and retrieve the third parameter from the array,
+                // but is entirely optional.
+                $value = Arr::get($value, 2);
+
+                $this->where($field, $condition, $value, $boolean);
             } else {
-                // Otherwise, we'll assume the array is an equals clause.
+                // If the value is not an array, we will assume an equals clause.
                 $this->where($key, Operator::$equals, $value, $boolean, $raw);
             }
         }

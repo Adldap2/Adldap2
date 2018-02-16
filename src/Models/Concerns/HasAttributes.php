@@ -286,7 +286,7 @@ trait HasAttributes
 
         foreach ($this->attributes as $key => $value) {
             if (! $this->originalIsEquivalent($key)) {
-                // We need to set reset the array's indices using array_values due to
+                // We need to reset the array's indices using array_values due to
                 // LDAP requiring consecutive indices (0, 1, 2 etc.)
                 $dirty[$key] = array_values($value);
             }

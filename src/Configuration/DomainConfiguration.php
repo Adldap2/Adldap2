@@ -40,6 +40,18 @@ class DomainConfiguration
         // The base distinguished name of your domain.
         'base_dn' => '',
 
+        // The username to connect to your hosts with.
+        'username' => '',
+
+        // The password that is utilized with the above user.
+        'password' => '',
+
+        // The account prefix to use when authenticating users.
+        'account_prefix' => null,
+
+        // The account suffix to use when authenticating users.
+        'account_suffix' => null,
+
         // Whether or not to use SSL when connecting to your hosts.
         'use_ssl' => false,
 
@@ -48,24 +60,6 @@ class DomainConfiguration
 
         // Whether or not follow referrals is enabled when performing LDAP operations.
         'follow_referrals' => false,
-
-        // The account prefix to use when authenticating users.
-        'account_prefix' => null,
-
-        // The account suffix to use when authenticating users.
-        'account_suffix' => null,
-
-        // The username to connect to your hosts with.
-        'admin_username' => '',
-
-        // The password that is utilized with the above user.
-        'admin_password' => '',
-
-        // The account prefix to use when authenticating your admin account above.
-        'admin_account_prefix' => null,
-
-        // The account prefix to use when authenticating your admin account above.
-        'admin_account_suffix' => null,
 
         // Custom LDAP options that you'd like to utilize.
         'custom_options' => [],

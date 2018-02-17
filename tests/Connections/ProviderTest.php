@@ -90,8 +90,8 @@ class ProviderTest extends TestCase
     public function test_auth_passes_with_rebind()
     {
         $config = new DomainConfiguration([
-            'admin_username' => 'test',
-            'admin_password' => 'test',
+            'username' => 'test',
+            'password' => 'test',
         ]);
 
         $connection = $this->newConnectionMock();
@@ -122,8 +122,8 @@ class ProviderTest extends TestCase
     public function test_auth_rebind_failure()
     {
         $config = new DomainConfiguration([
-            'admin_username' => 'test',
-            'admin_password' => 'test',
+            'username' => 'test',
+            'password' => 'test',
         ]);
 
         $connection = $this->newConnectionMock();
@@ -154,8 +154,8 @@ class ProviderTest extends TestCase
     public function test_auth_passes_without_rebind()
     {
         $config = new DomainConfiguration([
-            'admin_username' => 'test',
-            'admin_password' => 'test',
+            'username' => 'test',
+            'password' => 'test',
         ]);
 
         $connection = $this->newConnectionMock();

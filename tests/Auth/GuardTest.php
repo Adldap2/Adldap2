@@ -36,10 +36,8 @@ class GuardTest extends TestCase
         $config
             ->shouldReceive('get')->withArgs(['account_prefix'])->once()
             ->shouldReceive('get')->withArgs(['account_suffix'])->once()
-            ->shouldReceive('get')->withArgs(['admin_username'])->once()
-            ->shouldReceive('get')->withArgs(['admin_password'])->once()
-            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()
-            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once();
+            ->shouldReceive('get')->withArgs(['username'])->once()
+            ->shouldReceive('get')->withArgs(['password'])->once();
 
         $ldap = $this->mock(Ldap::class);
 
@@ -54,13 +52,9 @@ class GuardTest extends TestCase
     {
         $config = $this->mock(DomainConfiguration::class);
 
-        $config
-            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix-')
-            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('-suffix');
-
         $ldap = $this->mock(Ldap::class);
 
-        $ldap->shouldReceive('bind')->once()->withArgs(['prefix-username-suffix', 'password'])->andReturn(true);
+        $ldap->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
 
         $guard = new Guard($ldap, $config);
 
@@ -74,14 +68,10 @@ class GuardTest extends TestCase
     {
         $config = $this->mock(DomainConfiguration::class);
 
-        $config
-            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix-')
-            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('-suffix');
-
         $ldap = $this->mock(Ldap::class);
 
         $ldap
-            ->shouldReceive('bind')->once()->withArgs(['prefix-username-suffix', 'password'])->andReturn(false)
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isUsingTLS')->once()->andReturn(false)
@@ -97,36 +87,12 @@ class GuardTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
-            ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
-            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()->andReturn('')
-            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn('@admin-suffix')
-            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('');
+            ->shouldReceive('get')->withArgs(['username'])->once()->andReturn('admin')
+            ->shouldReceive('get')->withArgs(['password'])->once()->andReturn('password');
 
         $ldap = $this->mock(Ldap::class);
 
-        $ldap->shouldReceive('bind')->once()->withArgs(['admin@admin-suffix', 'password'])->andReturn(true);
-
-        $guard = new Guard($ldap, $config);
-
-        $this->assertNull($guard->bindAsAdministrator());
-    }
-
-    public function test_bind_as_administrator_without_suffix()
-    {
-        $config = $this->mock(DomainConfiguration::class);
-
-        $config
-            ->shouldReceive('get')->withArgs(['admin_username'])->once()->andReturn('admin')
-            ->shouldReceive('get')->withArgs(['admin_password'])->once()->andReturn('password')
-            ->shouldReceive('get')->withArgs(['admin_account_prefix'])->once()->andReturn(null)
-            ->shouldReceive('get')->withArgs(['admin_account_suffix'])->once()->andReturn(null)
-            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('')
-            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('@account-suffix');
-
-        $ldap = $this->mock(Ldap::class);
-
-        $ldap->shouldReceive('bind')->once()->withArgs(['admin@account-suffix', 'password'])->andReturn(true);
+        $ldap->shouldReceive('bind')->once()->withArgs(['admin', 'password'])->andReturn(true);
 
         $guard = new Guard($ldap, $config);
 

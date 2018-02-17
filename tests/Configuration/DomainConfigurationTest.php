@@ -14,25 +14,23 @@ class DomainConfigurationTest extends TestCase
         $this->assertEquals(389, $config->get('port'));
         $this->assertEquals([], $config->get('domain_controllers'));
         $this->assertEquals(0, $config->get('follow_referrals'));
-        $this->assertEmpty($config->get('admin_username'));
-        $this->assertEmpty($config->get('admin_password'));
+        $this->assertEmpty($config->get('username'));
+        $this->assertEmpty($config->get('password'));
         $this->assertEmpty($config->get('base_dn'));
         $this->assertFalse($config->get('use_ssl'));
         $this->assertFalse($config->get('use_tls'));
         $this->assertEquals([], $config->get('custom_options'));
     }
 
-    public function test_construct()
+    public function test_mock_configuration()
     {
         $config = new DomainConfiguration([
             'port'               => 500,
             'base_dn'            => 'dc=corp,dc=org',
             'domain_controllers' => ['dc1', 'dc2'],
             'follow_referrals'   => false,
-            'admin_username'     => 'username',
-            'admin_password'     => 'password',
-            'admin_account_prefix' => 'admin-prefix',
-            'admin_account_suffix' => 'admin-suffix',
+            'username'     => 'username',
+            'password'     => 'password',
             'account_prefix' => 'prefix',
             'account_suffix' => 'suffix',
             'use_ssl'            => true,
@@ -45,10 +43,8 @@ class DomainConfigurationTest extends TestCase
         $this->assertEquals(500, $config->get('port'));
         $this->assertEquals('dc=corp,dc=org', $config->get('base_dn'));
         $this->assertEquals(['dc1', 'dc2'], $config->get('domain_controllers'));
-        $this->assertEquals('username', $config->get('admin_username'));
-        $this->assertEquals('password', $config->get('admin_password'));
-        $this->assertEquals('admin-prefix', $config->get('admin_account_prefix'));
-        $this->assertEquals('admin-suffix', $config->get('admin_account_suffix'));
+        $this->assertEquals('username', $config->get('username'));
+        $this->assertEquals('password', $config->get('password'));
         $this->assertEquals('suffix', $config->get('account_suffix'));
         $this->assertEquals('prefix', $config->get('account_prefix'));
         $this->assertTrue($config->get('use_ssl'));

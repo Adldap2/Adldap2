@@ -792,15 +792,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $this->fill($attributes);
 
         if (empty($this->getDn())) {
-            // If the model doesn't currently have a DN,
-            // we'll create a new one automatically.
-            $dn = $this->getDnBuilder();
-
-            // Then we'll add the entry's common name attribute.
-            $dn->addCn($this->getCommonName());
-
-            // Set the new DN.
-            $this->setDn($dn);
+            // If the model doesn't currently have a distinguished
+            // name set, we'll create one automatically using
+            // the current query builders base DN.
+            $this->setDn($this->getCreatableDn());
         }
 
         // Create the entry.
@@ -971,6 +966,16 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function rename($rdn)
     {
         return $this->move($rdn);
+    }
+
+    /**
+     * Constructs a new distinguished name that is creatable in the directory.
+     *
+     * @return DistinguishedName|string
+     */
+    protected function getCreatableDn()
+    {
+        return $this->getDnBuilder()->addCn($this->getCommonName());
     }
 
     /**

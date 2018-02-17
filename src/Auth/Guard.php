@@ -41,7 +41,10 @@ class Guard implements GuardInterface
         $this->validateCredentials($username, $password);
 
         try {
-            $this->bind($username, $password);
+            $this->bind(
+                $this->applyPrefixAndSuffix($username),
+                $password
+            );
 
             $result = true;
         } catch (BindException $e) {
@@ -67,18 +70,8 @@ class Guard implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function bind($username, $password, $prefix = null, $suffix = null)
+    public function bind($username = null, $password = null)
     {
-        // We'll allow binding with a null username and password
-        // if they're empty. This will allow us to anonymously
-        // bind to our servers if needed.
-        $username = $username ?: null;
-        $password = $password ?: null;
-
-        if ($username) {
-            $username = $this->applyPrefixAndSuffix($username, $prefix, $suffix);
-        }
-
         // We'll mute any exceptions / warnings here. All we need to know
         // is if binding failed and we'll throw our own exception.
         if (!@$this->connection->bind($username, $password)) {
@@ -92,31 +85,25 @@ class Guard implements GuardInterface
     public function bindAsAdministrator()
     {
         $this->bind(
-            $this->configuration->get('admin_username'),
-            $this->configuration->get('admin_password'),
-            $this->configuration->get('admin_account_prefix'),
-            $this->configuration->get('admin_account_suffix')
+            $this->configuration->get('username'),
+            $this->configuration->get('password')
         );
     }
 
     /**
      * Applies the prefix and suffix to the given username.
      *
-     * Applies the configured account prefix and suffix if they are null.
-     *
-     * @param string      $username
-     * @param string|null $prefix
-     * @param string|null $suffix
+     * @param string $username
      *
      * @return string
      *
      * @throws \Adldap\Configuration\ConfigurationException If account_suffix or account_prefix do not
      *                                                      exist in the providers domain configuration
      */
-    protected function applyPrefixAndSuffix($username, $prefix = null, $suffix = null)
+    protected function applyPrefixAndSuffix($username)
     {
-        $prefix = is_null($prefix) ? $this->configuration->get('account_prefix') : $prefix;
-        $suffix = is_null($suffix) ? $this->configuration->get('account_suffix') : $suffix;
+        $prefix = $this->configuration->get('account_prefix');
+        $suffix = $this->configuration->get('account_suffix');
 
         return $prefix.$username.$suffix;
     }

@@ -14,7 +14,6 @@ class LdapTest extends TestCase
         $this->assertFalse($ldap->isUsingTLS());
         $this->assertFalse($ldap->isUsingSSL());
         $this->assertFalse($ldap->isBound());
-        $this->assertTrue($ldap->isSupported());
         $this->assertNull($ldap->getConnection());
     }
 

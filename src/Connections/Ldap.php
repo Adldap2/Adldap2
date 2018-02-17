@@ -13,8 +13,6 @@ use Adldap\AdldapException;
  */
 class Ldap implements ConnectionInterface
 {
-    use LdapFunctionSupportTrait;
-
     /**
      * The active LDAP connection.
      *

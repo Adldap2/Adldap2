@@ -41,42 +41,6 @@ interface ConnectionInterface
 
     /**
      * Returns true / false if the
-     * current connection is supported
-     * on the current PHP install.
-     *
-     * @return bool
-     */
-    public function isSupported();
-
-    /**
-     * Returns true / false if the
-     * current connection supports
-     * SASL for single sign on
-     * capability.
-     *
-     * @return bool
-     */
-    public function isSaslSupported();
-
-    /**
-     * Returns true / false if the
-     * current connection pagination.
-     *
-     * @return bool
-     */
-    public function isPagingSupported();
-
-    /**
-     * Returns true / false if the
-     * current connection supports batch
-     * modification.
-     *
-     * @return bool
-     */
-    public function isBatchSupported();
-
-    /**
-     * Returns true / false if the
      * current connection instance is using
      * SSL.
      *

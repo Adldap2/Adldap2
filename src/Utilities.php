@@ -29,17 +29,6 @@ class Utilities
     }
 
     /**
-     * Returns true / false if the current
-     * PHP install supports escaping values.
-     *
-     * @return bool
-     */
-    public static function isEscapingSupported()
-    {
-        return function_exists('ldap_escape');
-    }
-
-    /**
      * Returns an escaped string for use in an LDAP filter.
      *
      * @param string $value
@@ -50,107 +39,7 @@ class Utilities
      */
     public static function escape($value, $ignore = '', $flags = 0)
     {
-        if (!static::isEscapingSupported()) {
-            return static::escapeManual($value, $ignore, $flags);
-        }
-
         return ldap_escape($value, $ignore, $flags);
-    }
-
-    /**
-     * Escapes the inserted value for LDAP.
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param int    $flags
-     *
-     * @return string
-     */
-    protected static function escapeManual($value, $ignore = '', $flags = 0)
-    {
-        // If a flag was supplied, we'll send the value off
-        // to be escaped using the PHP flag values
-        // and return the result.
-        if ($flags) {
-            return static::escapeManualWithFlags($value, $ignore, $flags);
-        }
-
-        // Convert ignore string into an array.
-        $ignores = static::ignoreStrToArray($ignore);
-
-        // Convert the value to a hex string.
-        $hex = bin2hex($value);
-
-        // Separate the string, with the hex length of 2, and
-        // place a backslash on the end of each section.
-        $value = chunk_split($hex, 2, '\\');
-
-        // We'll append a backslash at the front of the string
-        // and remove the ending backslash of the string.
-        $value = '\\'.substr($value, 0, -1);
-
-        // Go through each character to ignore.
-        foreach ($ignores as $charToIgnore) {
-            // Convert the character to ignore to a hex.
-            $hexed = bin2hex($charToIgnore);
-
-            // Replace the hexed variant with the original character.
-            $value = str_replace('\\'.$hexed, $charToIgnore, $value);
-        }
-
-        // Finally we can return the escaped value.
-        return $value;
-    }
-
-    /**
-     * Escapes the inserted value with flags. Supplying either 1
-     * or 2 into the flags parameter will escape only certain values.
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param int    $flags
-     *
-     * @return string
-     */
-    protected static function escapeManualWithFlags($value, $ignore = '', $flags = 0)
-    {
-        // Convert ignore string into an array
-        $ignores = static::ignoreStrToArray($ignore);
-
-        // The escape characters for search filters
-        $escapeFilter = ['\\', '*', '(', ')'];
-
-        // The escape characters for distinguished names
-        $escapeDn = ['\\', ',', '=', '+', '<', '>', ';', '"', '#'];
-
-        switch ($flags) {
-            case 1:
-                // Int 1 equals to LDAP_ESCAPE_FILTER
-                $escapes = $escapeFilter;
-                break;
-            case 2:
-                // Int 2 equals to LDAP_ESCAPE_DN
-                $escapes = $escapeDn;
-                break;
-            case 3:
-                // If both LDAP_ESCAPE_FILTER and LDAP_ESCAPE_DN are used
-                $escapes = array_unique(array_merge($escapeDn, $escapeFilter));
-                break;
-            default:
-                // We've been given an invalid flag, we'll escape everything to be safe.
-                return static::escapeManual($value, $ignore);
-        }
-
-        foreach ($escapes as $escape) {
-            // Make sure the escaped value isn't being ignored.
-            if (!in_array($escape, $ignores)) {
-                $hexed = static::escape($escape);
-
-                $value = str_replace($escape, $hexed, $value);
-            }
-        }
-
-        return $value;
     }
 
     /**

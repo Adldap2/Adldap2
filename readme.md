@@ -1,6 +1,4 @@
-<p align="center">
-<h1>Adldap2</h1>
-</p>
+<h1 align="center">Adldap2</h1>
 
 <p align="center">
 <a href="https://travis-ci.org/Adldap2/Adldap2"><img src="https://img.shields.io/travis/Adldap2/Adldap2.svg?style=flat-square"/></a>
@@ -12,8 +10,10 @@
 
 <p align="center">
 Working with LDAP doesn't need to be hard.
+</p>
 
-Adldap2 is a tested PHP package that provides LDAP authentication and directory management tools using the Active Record pattern.
+<p align="center">
+Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the Active Record pattern.
 </p>
 
 ## Index

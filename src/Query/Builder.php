@@ -405,7 +405,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return Model
+     * @return Model|array
      */
     public function firstOrFail($columns = [])
     {
@@ -426,7 +426,7 @@ class Builder
      * @param string       $value
      * @param array|string $columns
      *
-     * @return mixed
+     * @return Model|array|null
      */
     public function findBy($attribute, $value, $columns = [])
     {
@@ -444,7 +444,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return mixed
+     * @return Model|array
      */
     public function findByOrFail($attribute, $value, $columns = [])
     {
@@ -457,7 +457,7 @@ class Builder
      * @param string|array $anr
      * @param array|string $columns
      *
-     * @return mixed
+     * @return Model|array|null
      */
     public function find($anr, $columns = [])
     {
@@ -474,7 +474,7 @@ class Builder
      * @param array $anrs
      * @param array $columns
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection|array
      */
     public function findMany(array $anrs = [], $columns = [])
     {
@@ -488,7 +488,7 @@ class Builder
      * @param array  $values
      * @param array  $columns
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection|array
      */
     public function findManyBy($attribute, array $values = [], $columns = [])
     {
@@ -511,7 +511,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return mixed
+     * @return Model|array
      */
     public function findOrFail($anr, $columns = [])
     {
@@ -554,7 +554,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return Model
+     * @return Model|array
      */
     public function findByDnOrFail($dn, $columns = [])
     {
@@ -571,7 +571,7 @@ class Builder
      * @param string       $guid
      * @param array|string $columns
      *
-     * @return Model
+     * @return Model|array|null
      */
     public function findByGuid($guid, $columns = [])
     {
@@ -594,7 +594,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return mixed
+     * @return Model|array
      */
     public function findByGuidOrFail($guid, $columns = [])
     {
@@ -613,7 +613,7 @@ class Builder
      * @param string       $sid
      * @param array|string $columns
      *
-     * @return mixed
+     * @return Model|array|null
      */
     public function findBySid($sid, $columns = [])
     {
@@ -630,7 +630,7 @@ class Builder
      *
      * @throws ModelNotFoundException
      *
-     * @return mixed
+     * @return Model|array
      */
     public function findBySidOrFail($sid, $columns = [])
     {

@@ -240,7 +240,7 @@ class Factory
     {
         $root = $this->query->newInstance()
             ->in('')
-            ->read(true)
+            ->read()
             ->whereHas($this->schema->objectClass())
             ->first();
 

@@ -3,3 +3,10 @@ filter:
         - examples/*
         - tests/*
         - src/Schemas/*
+build:
+    nodes:
+        analysis:
+            project_setup:
+                override: true
+            tests:
+                override: [php-scrutinizer-run]

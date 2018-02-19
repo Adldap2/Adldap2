@@ -1,4 +1,4 @@
-# Schema
+# Schemas (OpenLDAP, FreeIPA etc.)
 
 In Adldap2, a Schema class has been implemented. This means that if your
 active directory schema differs is some way for specific attributes,

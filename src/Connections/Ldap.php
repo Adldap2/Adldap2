@@ -336,13 +336,7 @@ class Ldap implements ConnectionInterface
      */
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '')
     {
-        if ($this->isPagingSupported()) {
-            return ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
-        }
-
-        throw new AdldapException(
-            'LDAP Pagination is not supported on your current PHP installation.'
-        );
+        return ldap_control_paged_result($this->getConnection(), $pageSize, $isCritical, $cookie);
     }
 
     /**
@@ -350,13 +344,7 @@ class Ldap implements ConnectionInterface
      */
     public function controlPagedResultResponse($result, &$cookie)
     {
-        if ($this->isPagingSupported()) {
-            return ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
-        }
-
-        throw new AdldapException(
-            'LDAP Pagination is not supported on your current PHP installation.'
-        );
+        return ldap_control_paged_result_response($this->getConnection(), $result, $cookie);
     }
 
     /**

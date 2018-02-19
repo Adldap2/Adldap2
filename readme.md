@@ -1,15 +1,16 @@
 <p align="center">
-# Adldap2
+<h1>Adldap2</h1>
 </p>
 
 <p align="center">
-[![Build Status](https://img.shields.io/travis/Adldap2/Adldap2.svg?style=flat-square)](https://travis-ci.org/Adldap2/Adldap2)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/adLDAP2/adLDAP2/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/adLDAP2/adLDAP2/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
-[![Latest Stable Version](https://img.shields.io/packagist/v/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
-[![License](https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square)](https://packagist.org/packages/adldap2/adldap2)
+<a href="https://travis-ci.org/Adldap2/Adldap2"><img src="https://img.shields.io/travis/Adldap2/Adldap2.svg?style=flat-square"/></a>
+<a href="https://scrutinizer-ci.com/g/Adldap2/Adldap2/?branch=master"><img src="https://img.shields.io/scrutinizer/g/adLDAP2/adLDAP2/master.svg?style=flat-square"/></a>
+<a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/dt/adldap2/adldap2.svg?style=flat-square"/></a>
+<a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/v/adldap2/adldap2.svg?style=flat-square"/></a>
+<a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square"/></a>
+</p>
 
-
+<p align="center">
 Working with LDAP doesn't need to be hard.
 
 Adldap2 is a tested PHP package that provides LDAP authentication and directory management tools using the Active Record pattern.

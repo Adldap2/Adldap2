@@ -7,8 +7,8 @@ use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Models\Factory as ModelFactory;
 use Adldap\Query\Factory as SearchFactory;
+use Adldap\Models\Factory as ModelFactory;
 use Adldap\Configuration\DomainConfiguration;
 
 /**

@@ -597,7 +597,7 @@ Either option will return the same results. Use which ever method you prefer to 
 By default, all searches performed are recursive. If you'd like to disable recursive search, use the `recursive()` method:
 
 ```php
-$result = $provider->search()->recursive(false)->all();
+$result = $provider->search()->listing()->get();
 ```
     
 This would perform an `ldap_listing()` instead of an `ldap_search()`.

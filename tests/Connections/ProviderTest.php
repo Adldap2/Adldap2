@@ -181,6 +181,7 @@ class ProviderTest extends TestCase
         $config
             ->shouldReceive('get')->withArgs(['domain_controllers'])->once()->andReturn('')
             ->shouldReceive('get')->withArgs(['port'])->once()->andReturn('389')
+            ->shouldReceive('get')->withArgs(['schema'])->once()->andReturn('Adldap\Schemas\ActiveDirectory')
             ->shouldReceive('get')->withArgs(['use_ssl'])->once()->andReturn(false)
             ->shouldReceive('get')->withArgs(['use_tls'])->once()->andReturn(false)
             ->shouldReceive('get')->withArgs(['version'])->once()->andReturn(3)

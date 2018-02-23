@@ -53,11 +53,10 @@ class Provider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($configuration = [], ConnectionInterface $connection = null, SchemaInterface $schema = null)
+    public function __construct($configuration = [], ConnectionInterface $connection = null)
     {
         $this->setConfiguration($configuration)
-            ->setConnection($connection)
-            ->setSchema($schema);
+            ->setConnection($connection);
     }
 
     /**
@@ -86,6 +85,11 @@ class Provider implements ProviderInterface
 
         if ($configuration instanceof DomainConfiguration) {
             $this->configuration = $configuration;
+
+            $schema = $configuration->get('schema');
+
+            // We'll update our schema here when our configuration is set.
+            $this->setSchema(new $schema);
             
             return $this;
         }

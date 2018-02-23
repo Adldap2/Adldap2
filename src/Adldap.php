@@ -42,10 +42,10 @@ class Adldap implements AdldapInterface
     /**
      * {@inheritdoc}
      */
-    public function addProvider($config = [], $name = 'default', ConnectionInterface $connection = null, SchemaInterface $schema = null)
+    public function addProvider($config = [], $name = 'default', ConnectionInterface $connection = null)
     {
         if ($this->isValidConfig($config)) {
-            $config = new Provider($config, $connection, $schema);
+            $config = new Provider($config, $connection);
         }
 
         if ($config instanceof ProviderInterface) {

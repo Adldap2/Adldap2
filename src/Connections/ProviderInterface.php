@@ -13,9 +13,8 @@ interface ProviderInterface
       *
       * @param DomainConfiguration|array $configuration
       * @param ConnectionInterface|null  $connection
-      * @param SchemaInterface|null      $schema
       */
-    public function __construct($configuration, ConnectionInterface $connection, SchemaInterface $schema = null);
+    public function __construct($configuration, ConnectionInterface $connection);
 
     /**
      * Returns the current connection instance.

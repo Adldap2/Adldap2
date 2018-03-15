@@ -70,8 +70,12 @@ if ($record) {
 }
 ```
 
-> **Note**: Using the `find()` method will search for LDAP records using ANR (ambiguous name resolution).
-> For a more fine-tuned search, use the `findBy()` method below.
+> **Note**: Using the `find()` method will search for LDAP records using ANR
+> (ambiguous name resolution). This may not return records you're expecting
+> if the attributes of other records are similar. For example, if there
+> is a user named `jdoe123` and you search for a user named `jdoe12`,
+> the `jdoe123` record may be returned. For a more fine-tuned
+> search, use the `findBy()` method below.
 
 ##### Finding a specific record (or failing)
 

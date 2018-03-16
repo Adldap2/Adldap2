@@ -180,8 +180,7 @@ class Group extends Entry
     }
 
     /**
-     * Retrieves group members by the specified model
-     * attribute using their distinguished name.
+     * Retrieves group members by the specified model attribute.
      *
      * @param $attribute
      *

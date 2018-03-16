@@ -393,6 +393,9 @@ class Builder
     {
         $results = $this->select($columns)->limit(1)->get();
 
+        // Since results may be returned inside an array if `raw()`
+        // is specified, then we'll use our array helper
+        // to retrieve the first result.
         return Arr::get($results, 0);
     }
 

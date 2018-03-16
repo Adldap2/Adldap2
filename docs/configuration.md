@@ -138,6 +138,8 @@ If you need to be able to change user passwords on your server, then an SSL *or*
 are allowed on unsecured protocols. These options are definitely recommended if you have the ability to connect to your server
 securely.
 
+> **Note**: TLS is recommended over SSL, as SSL is now labelled as a depreciated mechanism for securely running LDAP operations.
+
 ### Timeout
 
 The timeout option allows you to configure the amount of seconds to wait until your application receives a response from your LDAP server.

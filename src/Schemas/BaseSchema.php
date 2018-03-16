@@ -467,6 +467,22 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function member()
+    {
+        return 'member';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function memberIdentifier()
+    {
+        return 'distinguishedname';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function memberOf()
     {
         return 'memberof';
@@ -486,14 +502,6 @@ abstract class BaseSchema implements SchemaInterface
     public function memberRange($from, $to)
     {
         return $this->member() . ";range={$from}-{$to}";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function member()
-    {
-        return 'member';
     }
 
     /**

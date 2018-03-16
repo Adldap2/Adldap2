@@ -566,6 +566,20 @@ interface SchemaInterface
     public function member();
 
     /**
+     * The identifier of records that belong to a group.
+     *
+     * For example, in ActiveDirectory, the 'member' attribute on
+     * a group record contains a list of distinguished names,
+     * so `distinguishedname` would be the identifier.
+     *
+     * In other environments such as Sun Directory
+     * Server, this identifier would be `uid`.
+     *
+     * @return string
+     */
+    public function memberIdentifier();
+
+    /**
      * The distinguished names of the groups to which this object belongs.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677099(v=vs.85).aspx

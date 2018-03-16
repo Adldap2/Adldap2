@@ -191,11 +191,26 @@ class Group extends Entry
     {
         $members = [];
 
-        $dns = $this->getAttribute($attribute) ?: [];
+        $entries = $this->getAttribute($attribute) ?: [];
 
-        foreach ($dns as $dn) {
-            $member = $this->query->newInstance()->findByDn($dn);
+        $query = $this->query->newInstance();
 
+        // Retrieving the member identifier to allow
+        // compatibility with LDAP variants.
+        $identifier = $this->schema->memberIdentifier();
+
+        foreach ($entries as $entry) {
+            // If our identifier is a distinguished name, then we need to
+            // use an alternate query method, as we can't locate records
+            // by distinguished names using an LDAP filter.
+            if ($identifier == 'dn' || $identifier == 'distinguishedname') {
+                $member = $query->findByDn($entry);
+            } else {
+                $member = $query->findBy($identifier, $entry);
+            }
+
+            // We'll double check that we've received a model from
+            // our query before adding it into our results.
             if ($member instanceof Model) {
                 $members[] = $member;
             }

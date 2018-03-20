@@ -540,11 +540,11 @@ class Builder
      */
     public function findByDn($dn, $columns = [])
     {
-        return $this
-            ->setDn($dn)
-            ->read()
-            ->whereHas($this->schema->objectClass())
-            ->first($columns);
+        try {
+            return $this->findByDnOrFail($dn, $columns);
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
     }
 
     /**
@@ -561,11 +561,19 @@ class Builder
      */
     public function findByDnOrFail($dn, $columns = [])
     {
-        return $this
-            ->setDn($dn)
+        // Since we're setting our base DN to be able to retrieve a model
+        // by its distinguished name, we need to set it back to
+        // our configured base so it is not overwritten.
+        $base = $this->getDn();
+
+        $model = $this->setDn($dn)
             ->read()
             ->whereHas($this->schema->objectClass())
             ->firstOrFail($columns);
+
+        $this->in($base);
+
+        return $model;
     }
 
     /**

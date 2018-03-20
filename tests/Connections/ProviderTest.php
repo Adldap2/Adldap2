@@ -12,9 +12,9 @@ use Adldap\Configuration\DomainConfiguration;
 
 class ProviderTest extends TestCase
 {
-    protected function newProvider($connection, $configuration = [], $schema = null)
+    protected function newProvider($connection, $configuration = [])
     {
-        return new Provider($configuration, $connection, $schema);
+        return new Provider($configuration, $connection);
     }
 
     public function test_construct()
@@ -179,7 +179,7 @@ class ProviderTest extends TestCase
         $config = $this->mock(DomainConfiguration::class);
 
         $config
-            ->shouldReceive('get')->withArgs(['domain_controllers'])->once()->andReturn('')
+            ->shouldReceive('get')->withArgs(['hosts'])->once()->andReturn('')
             ->shouldReceive('get')->withArgs(['port'])->once()->andReturn('389')
             ->shouldReceive('get')->withArgs(['schema'])->once()->andReturn('Adldap\Schemas\ActiveDirectory')
             ->shouldReceive('get')->withArgs(['use_ssl'])->once()->andReturn(false)

@@ -114,7 +114,7 @@ class Provider implements ProviderInterface
 
         // Instantiate the LDAP connection.
         $this->connection->connect(
-            $this->configuration->get('domain_controllers'),
+            $this->configuration->get('hosts'),
             $this->configuration->get('port')
         );
 

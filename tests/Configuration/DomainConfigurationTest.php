@@ -12,7 +12,7 @@ class DomainConfigurationTest extends TestCase
         $config = new DomainConfiguration();
 
         $this->assertEquals(389, $config->get('port'));
-        $this->assertEquals([], $config->get('domain_controllers'));
+        $this->assertEquals([], $config->get('hosts'));
         $this->assertEquals(0, $config->get('follow_referrals'));
         $this->assertEmpty($config->get('username'));
         $this->assertEmpty($config->get('password'));
@@ -27,7 +27,7 @@ class DomainConfigurationTest extends TestCase
         $config = new DomainConfiguration([
             'port'               => 500,
             'base_dn'            => 'dc=corp,dc=org',
-            'domain_controllers' => ['dc1', 'dc2'],
+            'hosts' => ['dc1', 'dc2'],
             'follow_referrals'   => false,
             'username'     => 'username',
             'password'     => 'password',
@@ -42,7 +42,7 @@ class DomainConfigurationTest extends TestCase
 
         $this->assertEquals(500, $config->get('port'));
         $this->assertEquals('dc=corp,dc=org', $config->get('base_dn'));
-        $this->assertEquals(['dc1', 'dc2'], $config->get('domain_controllers'));
+        $this->assertEquals(['dc1', 'dc2'], $config->get('hosts'));
         $this->assertEquals('username', $config->get('username'));
         $this->assertEquals('password', $config->get('password'));
         $this->assertEquals('suffix', $config->get('account_suffix'));
@@ -78,7 +78,7 @@ class DomainConfigurationTest extends TestCase
      */
     public function test_invalid_domain_controllers()
     {
-        new DomainConfiguration(['domain_controllers' => 'invalid']);
+        new DomainConfiguration(['hosts' => 'invalid']);
     }
 
     /**

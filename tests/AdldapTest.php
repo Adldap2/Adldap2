@@ -119,15 +119,15 @@ class AdldapTest extends TestCase
     {
         $ad = new Adldap([
             'test1' => [
-                'domain_controllers' => ['test1.dc']
+                'hosts' => ['test1.dc']
             ],
             'test2' => [
-                'domain_controllers' => ['test2.dc']
+                'hosts' => ['test2.dc']
             ],
         ]);
 
         $provider = $ad->getDefaultProvider();
 
-        $this->assertEquals('test1.dc', $provider->getConfiguration()->get('domain_controllers')[0]);
+        $this->assertEquals('test1.dc', $provider->getConfiguration()->get('hosts')[0]);
     }
 }

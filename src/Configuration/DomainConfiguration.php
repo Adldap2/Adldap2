@@ -23,7 +23,7 @@ class DomainConfiguration
      */
     protected $options = [
         // An array of LDAP hosts.
-        'domain_controllers' => [],
+        'hosts' => [],
 
         // The global LDAP operation timeout limit in seconds.
         'timeout' => 5,

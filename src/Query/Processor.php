@@ -150,7 +150,7 @@ class Processor
     {
         $model = (class_exists($model) ? $model : Entry::class);
 
-        return new $model($attributes, $this->builder);
+        return new $model($attributes, $this->builder->newInstance());
     }
 
     /**

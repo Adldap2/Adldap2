@@ -20,10 +20,10 @@ class FactoryTest extends TestCase
 
     public function test_construct_defaults()
     {
-        $search = $this->newSearchFactory();
+        $query = $this->newSearchFactory()->newQuery();
 
-        $this->assertEquals('', $search->getQuery()->getQuery());
-        $this->assertInstanceOf(Builder::class, $search->getQuery());
+        $this->assertEquals('', $query->getQuery());
+        $this->assertInstanceOf(Builder::class, $query);
     }
 
     public function test_get_and_set_dn()
@@ -42,20 +42,13 @@ class FactoryTest extends TestCase
         $search = $this->newSearchFactory($this->newConnectionMock());
 
         $new = $search->newQuery();
-        $newWithDn = $search->newQuery('testing');
+        $newWithDn = $search->newQuery()->in('testing');
 
         $this->assertInstanceOf(Builder::class, $new);
-        $this->assertEquals('', $new->getDn());
+        $this->assertEquals('dc=corp,dc=org', $new->getDn());
 
         $this->assertInstanceOf(Builder::class, $newWithDn);
         $this->assertEquals('testing', $newWithDn->getDn());
-    }
-
-    public function test_new_grammar()
-    {
-        $search = $this->newSearchFactory();
-
-        $this->assertInstanceOf(Grammar::class, $search->newGrammar());
     }
 
     public function test_user_scope()

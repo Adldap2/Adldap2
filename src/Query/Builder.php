@@ -429,11 +429,15 @@ class Builder
      * @param string       $value
      * @param array|string $columns
      *
-     * @return Model|array|null
+     * @return Model|array|false
      */
     public function findBy($attribute, $value, $columns = [])
     {
-        return $this->whereEquals($attribute, $value)->first($columns);
+        try {
+            return $this->findByOrFail($attribute, $value, $columns);
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
     }
 
     /**
@@ -582,17 +586,15 @@ class Builder
      * @param string       $guid
      * @param array|string $columns
      *
-     * @return Model|array|null
+     * @return Model|array|false
      */
     public function findByGuid($guid, $columns = [])
     {
-        if ($this->schema->objectGuidRequiresConversion()) {
-            $guid = Utilities::stringGuidToHex($guid);
+        try {
+            return $this->findByGuidOrFail($guid, $columns);
+        } catch (ModelNotFoundException $e) {
+            return false;
         }
-
-        return $this->select($columns)->whereRaw([
-            $this->schema->objectGuid() => $guid
-        ])->first();
     }
 
     /**
@@ -624,11 +626,15 @@ class Builder
      * @param string       $sid
      * @param array|string $columns
      *
-     * @return Model|array|null
+     * @return Model|array|false
      */
     public function findBySid($sid, $columns = [])
     {
-        return $this->findBy($this->schema->objectSid(), $sid, $columns);
+        try {
+            return $this->findBySidOrFail($sid, $columns);
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
     }
 
     /**

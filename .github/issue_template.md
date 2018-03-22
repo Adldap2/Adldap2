@@ -1,8 +1,8 @@
 - Adldap2 Version: #.#
-- LDAP Type: <!-- Active Directory / OpenLDAP / FreeIPA? -->
+- LDAP Type: <!-- Active Directory / OpenLDAP / FreeIPA / Sun Directory Server? -->
 - PHP Version: #.#
 
-<!-- ISSUES WITHOUT THE ABOVE INFORMATION WILL BE CLOSED! -->
+<!-- **ISSUES WITHOUT THE ABOVE INFORMATION WILL BE CLOSED!** -->
 
 ### Description:
 

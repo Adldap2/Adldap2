@@ -5,6 +5,8 @@ namespace Adldap\Tests\Models;
 use DateTime;
 use Adldap\Utilities;
 use Adldap\Models\User;
+use Adldap\Models\Entry;
+use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 
 class UserTest extends TestCase
@@ -191,5 +193,64 @@ class UserTest extends TestCase
         $this->assertInstanceOf(DateTime::class, $date);
         $this->assertEquals(253402297200, $date->getTimestamp());
         $this->assertFalse($model->isExpired());
+    }
+
+    public function test_password_is_expired_with_zero_value()
+    {
+        $model = $this->newUserModel(['pwdlastset' => '0']);
+
+        $this->assertTrue($model->passwordExpired());
+    }
+
+    public function test_password_is_expired_with_max_age()
+    {
+        $sixtyOneDaysAgo = (new DateTime('61 days ago'))->getTimestamp();
+
+        $pwdLastSet = Utilities::convertUnixTimeToWindowsTime($sixtyOneDaysAgo);
+
+        $user = $this->newUserModel(['pwdlastset' => $pwdLastSet]);
+
+        $builder = $this->mock(Builder::class);
+
+        $rootDomainObject = $this->mock(Entry::class);
+
+        // 60 Day expiry time.
+        $rootDomainObject->shouldReceive('getMaxPasswordAge')->once()->andReturn('-51840000000000');
+
+        $builder
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('select')->once()->with('maxpwdage')->andReturnSelf()
+            ->shouldReceive('whereHas')->once()->with('objectclass')->andReturnSelf()
+            ->shouldReceive('first')->once()->andReturn($rootDomainObject);
+
+        $user->setQuery($builder);
+
+        $this->assertTrue($user->passwordExpired());
+    }
+
+    public function test_password_is_not_expired_with_max_age()
+    {
+        $fiftyNineDaysAgo = (new DateTime('59 days ago'))->getTimestamp();
+
+        $pwdLastSet = Utilities::convertUnixTimeToWindowsTime($fiftyNineDaysAgo);
+
+        $user = $this->newUserModel(['pwdlastset' => $pwdLastSet]);
+
+        $builder = $this->mock(Builder::class);
+
+        $rootDomainObject = $this->mock(Entry::class);
+
+        // 60 Day expiry time.
+        $rootDomainObject->shouldReceive('getMaxPasswordAge')->once()->andReturn('-51840000000000');
+
+        $builder
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('select')->once()->with('maxpwdage')->andReturnSelf()
+            ->shouldReceive('whereHas')->once()->with('objectclass')->andReturnSelf()
+            ->shouldReceive('first')->once()->andReturn($rootDomainObject);
+
+        $user->setQuery($builder);
+
+        $this->assertFalse($user->passwordExpired());
     }
 }

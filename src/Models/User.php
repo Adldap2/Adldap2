@@ -1258,7 +1258,7 @@ class User extends Entry implements Authenticatable
 
         // We'll check if we're using the ActiveDirectory schema to retrieve
         // the max password age, as this is an AD-only feature.
-        if ($this->query->getSchema() instanceof ActiveDirectory) {
+        if ($this->schema instanceof ActiveDirectory) {
             $query = $this->query->newInstance();
 
             // We need to get the root domain object to be able to

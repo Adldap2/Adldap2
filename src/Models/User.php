@@ -5,6 +5,7 @@ namespace Adldap\Models;
 use DateTime;
 use Adldap\Utilities;
 use Adldap\AdldapException;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 use Adldap\Models\Concerns\HasUserAccountControl;
@@ -1247,6 +1248,38 @@ class User extends Entry implements Authenticatable
      */
     public function passwordExpired()
     {
-        return (int) $this->getPasswordLastSet() === 0;
+        $lastSet = (int) $this->getPasswordLastSet();
+
+        if ($lastSet === 0) {
+            // If the users last set time is zero, the password has
+            // been manually expired by an administrator.
+            return true;
+        }
+
+        // We'll check if we're using the ActiveDirectory schema to retrieve
+        // the max password age, as this is an AD-only feature.
+        if ($this->query->getSchema() instanceof ActiveDirectory) {
+            $query = $this->query->newInstance();
+
+            // We need to get the root domain object to be able to
+            // retrieve the max password age on the domain.
+            $rootDomainObject = $query->select($this->schema->maxPasswordAge())
+                ->whereHas($this->schema->objectClass())
+                ->first();
+
+            // Get the users password expiry in Windows time.
+            $passwordExpiry = bcsub($lastSet, $rootDomainObject->getMaxPasswordAge());
+
+            // Convert the Windows time to unix.
+            $passwordExpiryTime = Utilities::convertWindowsTimeToUnixTime($passwordExpiry);
+
+            $expiresAt = (new DateTime())->setTimestamp($passwordExpiryTime);
+
+            // If our current time is greater than the users password
+            // expiry time, the users password has expired.
+            return (new DateTime())->getTimestamp() >= $expiresAt->getTimestamp();
+        }
+
+        return false;
     }
 }

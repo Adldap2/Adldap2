@@ -509,6 +509,10 @@ You can also sort paginated results:
 $results = $search->whereHas('cn')->sortBy('cn', 'asc')->paginate(25);
 ```
 
+> **Note**: Sorting occurs *after* results are returned. This is due
+> to PHP not having the functionality of sorting records on
+> the server side before they are returned.
+
 ## Paginating
 
 Paginating your search results will allow you to return more results than your LDAP cap

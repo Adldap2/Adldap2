@@ -875,7 +875,11 @@ class User extends Entry implements Authenticatable
      */
     public function getThumbnailEncoded()
     {
-        $data = base64_decode($this->getThumbnail());
+        $data = $this->getThumbnail();
+        
+        if (base64_decode($data, TRUE)) {
+            $data = base64_decode($data);
+        }
 
         if ($data) {
             // In case we don't have the file info extension enabled,

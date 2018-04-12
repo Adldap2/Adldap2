@@ -875,13 +875,7 @@ class User extends Entry implements Authenticatable
      */
     public function getThumbnailEncoded()
     {
-        $data = $this->getThumbnail();
-        
-        if (base64_decode($data, TRUE)) {
-            $data = base64_decode($data);
-        }
-
-        if ($data) {
+        if ($data = base64_decode($this->getThumbnail(), $strict = true)) {
             // In case we don't have the file info extension enabled,
             // we'll set the jpeg mime type as default.
             $mime = 'image/jpeg';

@@ -350,7 +350,7 @@ trait HasAttributes
     }
 
     /**
-     * Converts encoding of the given data to the given encoding type.
+     * Converts encoding of the given data to the current encoding format.
      *
      * @param string|array $data
      *

@@ -23,6 +23,13 @@ trait HasAttributes
     protected $timestampFormat = 'YmdHis.0Z';
 
     /**
+     * The encoding to use when setting / getting attributes.
+     *
+     * @var string
+     */
+    protected $encoding = 'UTF-8';
+
+    /**
      * The models attributes.
      *
      * @var array
@@ -91,11 +98,15 @@ trait HasAttributes
             return;
         }
 
+        $value = null;
+
         if (is_null($subKey) && $this->hasAttribute($key)) {
-            return $this->attributes[$key];
+            $value = $this->attributes[$key];
         } elseif ($this->hasAttribute($key, $subKey)) {
-            return $this->attributes[$key][$subKey];
+            $value = $this->attributes[$key][$subKey];
         }
+
+        return $this->canEncode($value) ? $this->encode($value) : $value;
     }
 
     /**
@@ -147,6 +158,11 @@ trait HasAttributes
      */
     public function setAttribute($key, $value, $subKey = null)
     {
+        if ($this->canEncode($value)) {
+            // If we're able to encode the value, we'll do so here.
+            $value = $this->encode($value);
+        }
+
         // Normalize key.
         $key = $this->normalizeAttributeKey($key);
 
@@ -293,6 +309,62 @@ trait HasAttributes
         }
 
         return $dirty;
+    }
+
+    /**
+     * Returns the encoding format being used.
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Sets the encoding to use.
+     *
+     * @param string $encoding The encoding format to use (ex. 'ISO-8859-1').
+     *
+     * @return $this
+     */
+    public function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;
+
+        return $this;
+    }
+
+    /**
+     * Determines if the given data can be encoded.
+     *
+     * @param mixed $data
+     *
+     * @return bool
+     */
+    protected function canEncode($data)
+    {
+        return is_string($data) || is_array($data) ?
+            mb_check_encoding($data, $this->getEncoding()) :
+            false;
+    }
+
+    /**
+     * Converts encoding of the given data to the given encoding type.
+     *
+     * @param string|array $data
+     *
+     * @return string|null
+     */
+    protected function encode($data)
+    {
+        if (is_array($data)) {
+            array_walk_recursive($data, [$this, 'encode']);
+
+            return $data;
+        }
+
+        return mb_convert_encoding($data, $this->getEncoding());
     }
 
     /**

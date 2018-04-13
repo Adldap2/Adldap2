@@ -106,7 +106,7 @@ trait HasAttributes
             $value = $this->attributes[$key][$subKey];
         }
 
-        return $this->canEncode($value) ? $this->encode($value) : $value;
+        return $this->encode($value);
     }
 
     /**
@@ -158,10 +158,8 @@ trait HasAttributes
      */
     public function setAttribute($key, $value, $subKey = null)
     {
-        if ($this->canEncode($value)) {
-            // If we're able to encode the value, we'll do so here.
-            $value = $this->encode($value);
-        }
+        // If we're able to encode the value, we'll do so here.
+        $value = $this->encode($value);
 
         // Normalize key.
         $key = $this->normalizeAttributeKey($key);
@@ -336,6 +334,32 @@ trait HasAttributes
     }
 
     /**
+     * Converts encoding of the given data to the current encoding format.
+     *
+     * @param string|array $data
+     *
+     * @return mixed
+     */
+    protected function encode($data)
+    {
+        if (! extension_loaded('mbstring')) {
+            // If the mbstring extension isn't enabled,
+            // we'll just return the data here.
+            return $data;
+        }
+
+        if (is_array($data)) {
+            array_walk_recursive($data, [$this, 'encode']);
+
+            return $data;
+        } else {
+            return $this->canEncode($data) ?
+                mb_convert_encoding($data, $this->getEncoding()) :
+                $data;
+        }
+    }
+
+    /**
      * Determines if the given data can be encoded.
      *
      * @param mixed $data
@@ -344,27 +368,7 @@ trait HasAttributes
      */
     protected function canEncode($data)
     {
-        return is_string($data) || is_array($data) ?
-            mb_check_encoding($data, $this->getEncoding()) :
-            false;
-    }
-
-    /**
-     * Converts encoding of the given data to the current encoding format.
-     *
-     * @param string|array $data
-     *
-     * @return string|null
-     */
-    protected function encode($data)
-    {
-        if (is_array($data)) {
-            array_walk_recursive($data, [$this, 'encode']);
-
-            return $data;
-        }
-
-        return mb_convert_encoding($data, $this->getEncoding());
+        return is_string($data) ? mb_check_encoding($data, $this->getEncoding()) : false;
     }
 
     /**

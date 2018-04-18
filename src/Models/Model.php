@@ -212,7 +212,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $attributes = $this->getAttributes();
 
-        array_walk_recursive($attributes, function(&$val){
+        array_walk_recursive($attributes, function(&$val) {
             $val = utf8_encode($val);
         });
 

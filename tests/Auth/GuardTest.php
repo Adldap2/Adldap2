@@ -98,4 +98,23 @@ class GuardTest extends TestCase
 
         $this->assertNull($guard->bindAsAdministrator());
     }
+
+    public function test_prefix_and_suffix_are_being_used_in_attempt()
+    {
+        $config = $this->mock(DomainConfiguration::class);
+
+        $config
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix.')
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('.suffix')
+            ->shouldReceive('get')->withArgs(['username'])->once()
+            ->shouldReceive('get')->withArgs(['password'])->once();
+
+        $ldap = $this->mock(Ldap::class);
+
+        $ldap->shouldReceive('bind')->once()->withArgs(['prefix.username.suffix', 'password'])->andReturn(true);
+
+        $guard = new Guard($ldap, $config);
+
+        $this->assertTrue($guard->attempt('username', 'password', $bindAsUser = true));
+    }
 }

@@ -213,7 +213,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $attributes = $this->getAttributes();
 
         array_walk_recursive($attributes, function(&$val) {
-            $val = utf8_encode($val);
+            if(!mb_detect_encoding($val, 'UTF-8', $strict = true) ) {
+                $val = utf8_encode($val);
+            }
         });
 
         // We'll replace the binary GUID and SID with

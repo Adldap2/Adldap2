@@ -212,8 +212,20 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $attributes = $this->getAttributes();
 
-        array_walk_recursive($attributes, function(&$val) {
-            if(!mb_detect_encoding($val, 'UTF-8', $strict = true) ) {
+        $canDetect = extension_loaded('mbstring');
+
+        array_walk_recursive($attributes, function(&$val) use ($canDetect) {
+            if ($canDetect) {
+                // If we're able to detect the attribute
+                // encoding, we'll encode only the
+                // attributes that need to be.
+                if (! mb_detect_encoding($val, 'UTF-8', $strict = true)) {
+                    $val = utf8_encode($val);
+                }
+            } else {
+                // If the mbstring extension is not loaded, we'll
+                // encode all attributes to make sure
+                // they are encoded properly.
                 $val = utf8_encode($val);
             }
         });

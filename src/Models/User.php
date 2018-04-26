@@ -1062,6 +1062,28 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Return the user parameters.
+     *
+     * @return $this
+     */
+    public function getUserParameters()
+    {
+        return new \Adldap\Models\Attributes\TSPropertyArray($this->getFirstAttribute('userparameters'));
+    }
+
+    /**
+     * Sets the user parameters.
+     *
+     * @param \Adldap\Models\Attributes\TSPropertyArray $userParameters
+     *
+     * @return $this
+     */
+    public function setUserParameters($userParameters)
+    {
+        return $this->setFirstAttribute('userparameters', $userParameters->toBinary());
+    }
+
+    /**
      * Retrieves the primary group of the current user.
      *
      * @return Model|bool

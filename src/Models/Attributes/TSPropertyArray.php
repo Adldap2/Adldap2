@@ -73,9 +73,7 @@ class TSPropertyArray
             $tsPropertyArray = $tsPropertyArray ?: self::DEFAULTS;
             foreach ($tsPropertyArray as $key => $value) {
                 $tsProperty = new TSProperty();
-                $tsProperty->setName($key);
-                $tsProperty->setValue($value);
-                $this->tsProperty[$key] = $tsProperty;
+                $this->tsProperty[$key] = $tsProperty->setName($key)->setValue($value);
             }
         } else {
             $this->decodeUserParameters($tsPropertyArray);

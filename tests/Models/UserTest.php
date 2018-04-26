@@ -253,4 +253,62 @@ class UserTest extends TestCase
 
         $this->assertFalse($user->passwordExpired());
     }
+
+    public function test_get_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $this->assertInstanceOf(\Adldap\Models\Attributes\TSPropertyArray::class, $parameters);
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertFalse($parameters->has('PropertyDoesNotExist'));
+        $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory'));
+    }
+
+    public function test_set_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->set('CtxInitialProgram', 'C:\\path\\otherbin.exe');
+
+        $model->setUserParameters($parameters);
+
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_set_inexistant_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->set('CtxWFHomeDir', '/home/');
+    }
+
+    public function test_add_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->add((new \Adldap\Models\Attributes\TSProperty())->setName('CtxInitialProgram')->setValue('C:\\path\\otherbin.exe'));
+
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
+    }
 }

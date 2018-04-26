@@ -94,6 +94,7 @@ class TSProperty
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -114,6 +115,7 @@ class TSProperty
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     /**

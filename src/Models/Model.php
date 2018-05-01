@@ -12,6 +12,7 @@ use Adldap\Utilities;
 use Adldap\Query\Builder;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
+use Adldap\Models\Attributes\MbString;
 use Adldap\Models\Attributes\DistinguishedName;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Concerns\HasAttributes;
@@ -212,14 +213,12 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $attributes = $this->getAttributes();
 
-        $canDetect = extension_loaded('mbstring');
-
-        array_walk_recursive($attributes, function(&$val) use ($canDetect) {
-            if ($canDetect) {
+        array_walk_recursive($attributes, function(&$val) {
+            if (MbString::isLoaded()) {
                 // If we're able to detect the attribute
                 // encoding, we'll encode only the
                 // attributes that need to be.
-                if (! mb_detect_encoding($val, 'UTF-8', $strict = true)) {
+                if (! MbString::isUtf8($val)) {
                     $val = utf8_encode($val);
                 }
             } else {

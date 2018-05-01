@@ -2,7 +2,7 @@
 
 namespace Adldap\Models\Attributes;
 
-class MbString
+class MBString
 {
     /**
      * Get the integer value of a specific character.

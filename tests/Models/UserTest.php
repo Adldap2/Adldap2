@@ -20,7 +20,6 @@ class UserTest extends TestCase
         return new User($attributes, $builder);
     }
 
-
     public function test_set_password()
     {
         $connection = $this->newConnectionMock();
@@ -270,7 +269,7 @@ class UserTest extends TestCase
         $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory'));
     }
 
-    public function test_set_userparameters()
+    public function test_set_user_parameters()
     {
         $model = $this->newUserModel([
             'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
@@ -289,7 +288,7 @@ class UserTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function test_set_inexistant_userparameters()
+    public function test_set_non_existant_user_parameters()
     {
         $model = $this->newUserModel([
             'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
@@ -300,7 +299,7 @@ class UserTest extends TestCase
         $parameters->set('CtxWFHomeDir', '/home/');
     }
 
-    public function test_add_userparameters()
+    public function test_add_user_parameters()
     {
         $model = $this->newUserModel([
             'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()

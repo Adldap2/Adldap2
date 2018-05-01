@@ -2,18 +2,20 @@
 
 namespace Adldap\Models\Attributes;
 
-class MBString
+class MbString
 {
     /**
      * Get the integer value of a specific character.
      *
      * @param $string
+     *
      * @return int
      */
     public static function ord($string)
     {
-        if (self::isMbstringLoaded()) {
+        if (self::isLoaded()) {
             $result = unpack('N', mb_convert_encoding($string, 'UCS-4BE', 'UTF-8'));
+
             if (is_array($result) === true) {
                 return $result[1];
             }
@@ -26,11 +28,12 @@ class MBString
      * Get the character for a specific integer value.
      *
      * @param $int
+     *
      * @return string
      */
     public static function chr($int)
     {
-        if (self::isMbstringLoaded()) {
+        if (self::isLoaded()) {
             return mb_convert_encoding(pack('n', $int), 'UTF-8', 'UTF-16BE');
         }
 
@@ -41,6 +44,7 @@ class MBString
      * Split a string into its individual characters and return it as an array.
      *
      * @param string $value
+     *
      * @return string[]
      */
     public static function str_split($value)
@@ -49,11 +53,27 @@ class MBString
     }
 
     /**
-     * Simple check for the mbstring extension.
+     * Detects if the given string is UTF 8.
+     *
+     * @param $string
+     *
+     * @return string|false
+     */
+    public static function isUtf8($string)
+    {
+        if (self::isLoaded()) {
+            return mb_detect_encoding($string, 'UTF-8', $strict = true);
+        }
+
+        return $string;
+    }
+
+    /**
+     * Checks if the mbstring extension is enabled in PHP.
      *
      * @return bool
      */
-    protected static function isMbstringLoaded()
+    public static function isLoaded()
     {
         return extension_loaded('mbstring');
     }

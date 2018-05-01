@@ -10,6 +10,7 @@ use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 use Adldap\Models\Concerns\HasUserAccountControl;
 use Adldap\Models\Concerns\HasLastLogonAndLogOff;
+use Adldap\Models\Attributes\TSPropertyArray;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
@@ -1064,21 +1065,21 @@ class User extends Entry implements Authenticatable
     /**
      * Return the user parameters.
      *
-     * @return $this
+     * @return TSPropertyArray
      */
     public function getUserParameters()
     {
-        return new \Adldap\Models\Attributes\TSPropertyArray($this->getFirstAttribute('userparameters'));
+        return new TSPropertyArray($this->getFirstAttribute('userparameters'));
     }
 
     /**
      * Sets the user parameters.
      *
-     * @param \Adldap\Models\Attributes\TSPropertyArray $userParameters
+     * @param TSPropertyArray $userParameters
      *
      * @return $this
      */
-    public function setUserParameters($userParameters)
+    public function setUserParameters(TSPropertyArray $userParameters)
     {
         return $this->setFirstAttribute('userparameters', $userParameters->toBinary());
     }

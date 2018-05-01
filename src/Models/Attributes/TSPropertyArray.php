@@ -71,8 +71,10 @@ class TSPropertyArray
 
         if (is_null($tsPropertyArray) || is_array($tsPropertyArray)) {
             $tsPropertyArray = $tsPropertyArray ?: self::DEFAULTS;
+
             foreach ($tsPropertyArray as $key => $value) {
                 $tsProperty = new TSProperty();
+
                 $this->tsProperty[$key] = $tsProperty->setName($key)->setValue($value);
             }
         } else {
@@ -84,6 +86,7 @@ class TSPropertyArray
      * Check if a specific TSProperty exists by its property name.
      *
      * @param string $propName
+     *
      * @return bool
      */
     public function has($propName)
@@ -95,6 +98,7 @@ class TSPropertyArray
      * Get a TSProperty object by its property name (ie. CtxWFProfilePath).
      *
      * @param string $propName
+     *
      * @return TSProperty
      */
     public function get($propName)
@@ -144,6 +148,7 @@ class TSPropertyArray
     public function set($propName, $propValue)
     {
         $this->validateProp($propName);
+
         $this->getTsPropObj($propName)->setValue($propValue);
 
         return $this;
@@ -158,8 +163,10 @@ class TSPropertyArray
     {
         $binary = $this->preBinary;
 
-        $binary .= hex2bin(str_pad(dechex(MBString::ord($this->signature)), 2, 0, STR_PAD_LEFT));
+        $binary .= hex2bin(str_pad(dechex(MbString::ord($this->signature)), 2, 0, STR_PAD_LEFT));
+
         $binary .= hex2bin(str_pad(dechex(count($this->tsProperty)), 2, 0, STR_PAD_LEFT));
+
         foreach ($this->tsProperty as $tsProperty) {
             $binary .= $tsProperty->toBinary();
         }
@@ -194,6 +201,8 @@ class TSPropertyArray
     }
 
     /**
+     * Validates that the given property name exists.
+     *
      * @param string $propName
      */
     protected function validateProp($propName)
@@ -205,6 +214,7 @@ class TSPropertyArray
 
     /**
      * @param string $propName
+     *
      * @return TSProperty
      */
     protected function getTsPropObj($propName)
@@ -216,7 +226,8 @@ class TSPropertyArray
      * Get an associative array with all of the userParameters property names and values.
      *
      * @param string $userParameters
-     * @return array
+     *
+     * @return void
      */
     protected function decodeUserParameters($userParameters)
     {
@@ -225,7 +236,7 @@ class TSPropertyArray
         // Save the 96-byte array of reserved data, so as to not ruin anything that may be stored there.
         $this->preBinary = hex2bin(substr($userParameters, 0, 96));
         // The signature is a 2-byte unicode character at the front
-        $this->signature = MBString::chr(hexdec(substr($userParameters, 96, 2)));
+        $this->signature = MbString::chr(hexdec(substr($userParameters, 96, 2)));
         // This asserts the validity of the tsPropertyArray data. For some reason 'P' means valid...
         if ($this->signature != self::VALID_SIGNATURE) {
             throw new \InvalidArgumentException('Invalid TSPropertyArray data');
@@ -257,8 +268,11 @@ class TSPropertyArray
         for ($i = 0; $i < $tsPropCount; $i++) {
             // Prop length = name length + value length + type length + the space for the length data.
             $propLength = hexdec(substr($tsPropertyArray, $length, 2)) + (hexdec(substr($tsPropertyArray, $length + 2, 2)) * 3) + 6;
+
             $tsProperty = new TSProperty(hex2bin(substr($tsPropertyArray, $length, $propLength)));
+
             $this->tsProperty[$tsProperty->getName()] = $tsProperty;
+
             $length += $propLength;
         }
 

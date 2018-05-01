@@ -90,10 +90,13 @@ class TSProperty
      * Set the name for the TSProperty.
      *
      * @param string $name
+     *
+     * @return TSProperty
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -111,6 +114,8 @@ class TSProperty
      * Set the value for the TSProperty.
      *
      * @param string|int $value
+     *
+     * @return TSProperty
      */
     public function setValue($value)
     {
@@ -129,14 +134,17 @@ class TSProperty
     }
 
     /**
-     * Convert the TSProperty name/value back to its binary representation for the userParameters blob.
+     * Convert the TSProperty name/value back to its binary
+     * representation for the userParameters blob.
      *
      * @return string
      */
     public function toBinary()
     {
         $name = bin2hex($this->name);
+
         $binValue = $this->getEncodedValueForProp($this->name, $this->value);
+
         $valueLen = strlen(bin2hex($binValue)) / 3;
 
         $binary = hex2bin(
@@ -157,6 +165,7 @@ class TSProperty
     protected function decode($tsProperty)
     {
         $nameLength = hexdec(substr($tsProperty, 0, 2));
+
         # 1 data byte is 3 encoded bytes
         $valueLength = hexdec(substr($tsProperty, 2, 2)) * 3;
 
@@ -168,17 +177,19 @@ class TSProperty
     /**
      * Based on the property name/value in question, get its encoded form.
      *
-     * @param string $propName
+     * @param string     $propName
      * @param string|int $propValue
+     *
      * @return string
      */
     protected function getEncodedValueForProp($propName, $propValue)
     {
         if (in_array($propName, $this->propTypes['string'])) {
-            # Simple strings are null terminated. Unsure if this is needed or simply a product of how ADUC does stuff?
+            // Simple strings are null terminated. Unsure if this is
+            // needed or simply a product of how ADUC does stuff?
             $value = $this->encodePropValue($propValue."\0", true);
         } elseif (in_array($propName, $this->propTypes['time'])) {
-            # Needs to be in microseconds (assuming it is in minute format)...
+            // Needs to be in microseconds (assuming it is in minute format)...
             $value = $this->encodePropValue($propValue * self::TIME_CONVERSION);
         } else {
             $value = $this->encodePropValue($propValue);
@@ -192,15 +203,18 @@ class TSProperty
      *
      * @param string $propName
      * @param string $propValue
+     *
      * @return string|int
      */
     protected function getDecodedValueForProp($propName, $propValue)
     {
         if (in_array($propName, $this->propTypes['string'])) {
-            // Strip away null terminators. I think this should be desired, otherwise it just ends in confusion.
+            // Strip away null terminators. I think this should
+            // be desired, otherwise it just ends in confusion.
             $value = str_replace("\0", '', $this->decodePropValue($propValue, true));
         } elseif (in_array($propName, $this->propTypes['time'])) {
-            // Convert from microseconds to minutes (how ADUC displays it anyway, and seems the most practical).
+            // Convert from microseconds to minutes (how ADUC displays
+            // it anyway, and seems the most practical).
             $value = hexdec($this->decodePropValue($propValue)) / self::TIME_CONVERSION;
         } elseif (in_array($propName, $this->propTypes['int'])) {
             $value = hexdec($this->decodePropValue($propValue));
@@ -212,11 +226,12 @@ class TSProperty
     }
 
     /**
-     * Decode the property by inspecting the nibbles of each blob, checking the control, and adding up the results into
-     * a final value.
+     * Decode the property by inspecting the nibbles of each blob, checking
+     * the control, and adding up the results into a final value.
      *
      * @param string $hex
-     * @param bool $string Whether or not this is simple string data.
+     * @param bool   $string Whether or not this is simple string data.
+     *
      * @return string
      */
     protected function decodePropValue($hex, $string = false)
@@ -226,13 +241,16 @@ class TSProperty
 
         foreach ($blobs as $blob) {
             $bin = decbin(hexdec($blob));
+
             $controlY = substr($bin, 4, 6);
             $nibbleY = substr($bin, 10, 4);
             $controlX = substr($bin, 14, 6);
             $nibbleX = substr($bin, 20, 4);
+
             $byte = $this->nibbleControl($nibbleX, $controlX).$this->nibbleControl($nibbleY, $controlY);
+
             if ($string) {
-                $decodePropValue .= MBString::chr(bindec($byte));
+                $decodePropValue .= MbString::chr(bindec($byte));
             } else {
                 $decodePropValue = $this->dec2hex(bindec($byte)).$decodePropValue;
             }
@@ -245,19 +263,22 @@ class TSProperty
      * Get the encoded property value as a binary blob.
      *
      * @param string $value
-     * @param bool $string
+     * @param bool   $string
+     *
      * @return string
      */
     protected function encodePropValue($value, $string = false)
     {
-        // An int must be properly padded. (then split and reversed). For a string, we just split the chars. This seems
-        // to be the easiest way to handle UTF-8 characters instead of trying to work with their hex values.
-        $chars = $string ? MBString::str_split($value) : array_reverse(str_split($this->dec2hex($value, 8), 2));
+        // An int must be properly padded. (then split and reversed).
+        // For a string, we just split the chars. This seems
+        // to be the easiest way to handle UTF-8 characters
+        // instead of trying to work with their hex values.
+        $chars = $string ? MbString::str_split($value) : array_reverse(str_split($this->dec2hex($value, 8), 2));
 
         $encoded = '';
         foreach ($chars as $char) {
             // Get the bits for the char. Using this method to ensure it is fully padded.
-            $bits = sprintf('%08b', $string ? MBString::ord($char) : hexdec($char));
+            $bits = sprintf('%08b', $string ? MbString::ord($char) : hexdec($char));
             $nibbleX = substr($bits, 0, 4);
             $nibbleY = substr($bits, 4, 4);
 
@@ -277,11 +298,13 @@ class TSProperty
     }
 
     /**
-     * PHP's pack() function has no 'b' or 'B' template. This is a workaround that turns a literal bit-string into a
+     * PHP's pack() function has no 'b' or 'B' template. This is
+     * a workaround that turns a literal bit-string into a
      * packed byte-string with 8 bits per byte.
      *
      * @param string $bits
-     * @param bool $len
+     * @param bool   $len
+     *
      * @return string
      */
     protected function packBitString($bits, $len)
@@ -308,7 +331,8 @@ class TSProperty
      */
     protected function nibbleControl($nibble, $control)
     {
-        // This control stays constant for the low/high nibbles, so it doesn't matter which we compare to
+        // This control stays constant for the low/high nibbles,
+        // so it doesn't matter which we compare to
         if ($control == self::NIBBLE_CONTROL['X'][1]) {
             $dec = bindec($nibble);
             $dec += 9;
@@ -348,6 +372,7 @@ class TSProperty
      *
      * @param int $int
      * @param int $padLength The hex string must be padded to this length (with zeros).
+     *
      * @return string
      */
     protected function dec2hex($int, $padLength = 2)

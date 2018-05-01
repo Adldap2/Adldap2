@@ -8,6 +8,8 @@ use Adldap\Models\User;
 use Adldap\Models\Entry;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Attributes\TSProperty;
+use Adldap\Models\Attributes\TSPropertyArray;
 
 class UserTest extends TestCase
 {
@@ -257,12 +259,12 @@ class UserTest extends TestCase
     public function test_get_userparameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
         ]);
 
         $parameters = $model->getUserParameters();
 
-        $this->assertInstanceOf(\Adldap\Models\Attributes\TSPropertyArray::class, $parameters);
+        $this->assertInstanceOf(TSPropertyArray::class, $parameters);
         $this->assertTrue($parameters->has('CtxInitialProgram'));
         $this->assertFalse($parameters->has('PropertyDoesNotExist'));
         $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory'));
@@ -271,7 +273,7 @@ class UserTest extends TestCase
     public function test_set_userparameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
         ]);
 
         $parameters = $model->getUserParameters();
@@ -290,7 +292,7 @@ class UserTest extends TestCase
     public function test_set_inexistant_userparameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
         ]);
 
         $parameters = $model->getUserParameters();
@@ -301,12 +303,12 @@ class UserTest extends TestCase
     public function test_add_userparameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
         ]);
 
         $parameters = $model->getUserParameters();
 
-        $parameters->add((new \Adldap\Models\Attributes\TSProperty())->setName('CtxInitialProgram')->setValue('C:\\path\\otherbin.exe'));
+        $parameters->add((new TSProperty())->setName('CtxInitialProgram')->setValue('C:\\path\\otherbin.exe'));
 
         $this->assertTrue($parameters->has('CtxInitialProgram'));
         $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));

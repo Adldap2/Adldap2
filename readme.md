@@ -16,6 +16,8 @@ Working with LDAP doesn't need to be hard.
 Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the Active Record pattern.
 </p>
 
+---
+
 ## Index
 
  - [Quick Start](docs/quick-start.md)

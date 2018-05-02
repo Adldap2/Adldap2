@@ -283,13 +283,13 @@ class Builder
     /**
      * Sets the DN to perform searches upon.
      *
-     * @param string|null $dn
+     * @param string|Model|null $dn
      *
      * @return Builder
      */
     public function setDn($dn = null)
     {
-        $this->dn = (string) $dn;
+        $this->dn = $dn instanceof Model ? $dn->getDn() : $dn;
 
         return $this;
     }
@@ -297,11 +297,11 @@ class Builder
     /**
      * Alias for setting the base DN of the query.
      *
-     * @param string $dn
+     * @param string|Model|null $dn
      *
      * @return Builder
      */
-    public function in($dn)
+    public function in($dn = null)
     {
         return $this->setDn($dn);
     }

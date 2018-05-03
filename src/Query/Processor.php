@@ -116,7 +116,7 @@ class Processor
             $classes = array_map('strtolower', $attributes[$objectClass]);
 
             // Retrieve the model mapping.
-            $models = $this->map();
+            $models = $this->schema->objectClassModelMap();
 
             // Retrieve the object class mappings (with strtolower keys).
             $mappings = array_map('strtolower', array_keys($models));
@@ -178,24 +178,6 @@ class Processor
     public function newCollection(array $items = [])
     {
         return new Collection($items);
-    }
-
-    /**
-     * Returns the object class model class mapping.
-     *
-     * @return array
-     */
-    public function map()
-    {
-        return [
-            $this->schema->objectClassComputer()    => $this->schema->computerModel(),
-            $this->schema->objectClassContact()     => $this->schema->contactModel(),
-            $this->schema->objectClassPerson()      => $this->schema->userModel(),
-            $this->schema->objectClassGroup()       => $this->schema->groupModel(),
-            $this->schema->objectClassContainer()   => $this->schema->containerModel(),
-            $this->schema->objectClassPrinter()     => $this->schema->printerModel(),
-            $this->schema->objectClassOu()          => $this->schema->organizationalUnitModel(),
-        ];
     }
 
     /**

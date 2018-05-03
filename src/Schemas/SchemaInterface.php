@@ -784,6 +784,13 @@ interface SchemaInterface
     public function objectClassUser();
 
     /**
+     * The object class model map.
+     *
+     * @return array
+     */
+    public function objectClassModelMap();
+
+    /**
      * The unique identifier for an object.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx

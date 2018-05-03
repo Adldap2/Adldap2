@@ -659,6 +659,22 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function objectClassModelMap()
+    {
+        return [
+            $this->objectClassComputer()    => $this->computerModel(),
+            $this->objectClassContact()     => $this->contactModel(),
+            $this->objectClassPerson()      => $this->userModel(),
+            $this->objectClassGroup()       => $this->groupModel(),
+            $this->objectClassContainer()   => $this->containerModel(),
+            $this->objectClassPrinter()     => $this->printerModel(),
+            $this->objectClassOu()          => $this->organizationalUnitModel(),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectSid()
     {
         return 'objectsid';

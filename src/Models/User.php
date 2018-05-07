@@ -1109,13 +1109,27 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $mod = $this->newBatchModification(
-            $this->schema->unicodePassword(),
-            LDAP_MODIFY_BATCH_REPLACE,
-            [Utilities::encodePassword($password)]
-        );
+        $encodedPassword = Utilities::encodePassword($password);
 
-        return $this->addModification($mod);
+        if ($this->exists) {
+            // If the record exists, we need to add a batch replace
+            // modification, otherwise we'll receive a "type or
+            // value" exists exception from our LDAP server.
+            return $this->addModification(
+                $this->newBatchModification(
+                    $this->schema->unicodePassword(),
+                    LDAP_MODIFY_BATCH_REPLACE,
+                    [$encodedPassword]
+                )
+            );
+        } else {
+            // Otherwise, we are creating a new record
+            // and we can set the attribute normally.
+            return $this->setFirstAttribute(
+                $this->schema->unicodePassword(),
+                $encodedPassword
+            );
+        }
     }
 
     /**

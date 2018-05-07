@@ -20,7 +20,7 @@ class UserTest extends TestCase
         return new User($attributes, $builder);
     }
 
-    public function test_set_password()
+    public function test_set_password_on_new_user()
     {
         $connection = $this->newConnectionMock();
 
@@ -28,13 +28,41 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $user->setPassword('');
+        $password = 'password';
+
+        $user->setPassword($password);
+
+        $expected = [
+            [
+                'attrib'    => 'unicodepwd',
+                'modtype'   => 1,
+                'values'    => [Utilities::encodePassword($password)],
+            ],
+        ];
+
+        $this->assertEquals($expected, $user->getModifications());
+    }
+
+    public function test_set_password_on_existing_user()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(true);
+
+        $user = new User([], $this->newBuilder($connection));
+
+        // Force existing user.
+        $user->exists = true;
+
+        $password = 'password';
+
+        $user->setPassword($password);
 
         $expected = [
             [
                 'attrib'    => 'unicodepwd',
                 'modtype'   => 3,
-                'values'    => [Utilities::encodePassword('')],
+                'values'    => [Utilities::encodePassword($password)],
             ],
         ];
 

@@ -1099,22 +1099,28 @@ class User extends Entry implements Authenticatable
      * Sets the password on the current user.
      *
      * @param string $password
+     * @param bool $useAttribute
      *
      * @throws AdldapException When no SSL or TLS secured connection is present.
      *
      * @return $this
      */
-    public function setPassword($password)
+    public function setPassword($password,$useAttribute = false)
     {
         $this->validateSecureConnection();
+		
+		if($useAttribute) {
+            return $this->setFirstAttribute($this->schema->unicodePassword(), Utilities::encodePassword($password));
+        }
+	    else {
+            $mod = $this->newBatchModification(
+                $this->schema->unicodePassword(),
+                LDAP_MODIFY_BATCH_REPLACE,
+                [Utilities::encodePassword($password)]
+            );
 
-        $mod = $this->newBatchModification(
-            $this->schema->unicodePassword(),
-            LDAP_MODIFY_BATCH_REPLACE,
-            [Utilities::encodePassword($password)]
-        );
-
-        return $this->addModification($mod);
+            return $this->addModification($mod);
+        }            
     }
 
     /**

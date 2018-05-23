@@ -123,8 +123,9 @@ class Factory
     public function users()
     {
         return $this->where([
-            $this->schema->objectClass()    => $this->schema->objectClassPerson(),
-            $this->schema->objectCategory() => $this->schema->objectCategoryPerson(),
+            [$this->schema->objectClass(), Operator::$equals, $this->schema->objectClassUser()],
+            [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()],
+            [$this->schema->objectClass(), Operator::$doesNotEqual, $this->schema->objectClassContact()],
         ]);
     }
 

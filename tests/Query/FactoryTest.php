@@ -58,8 +58,8 @@ class FactoryTest extends TestCase
         $query = $search->users();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertCount(2, $query->filters['and']);
-        $this->assertEquals('(&(objectclass=\70\65\72\73\6f\6e)(objectcategory=\70\65\72\73\6f\6e))', $query->getQuery());
+        $this->assertCount(3, $query->filters['and']);
+        $this->assertEquals('(&(objectclass=\75\73\65\72)(objectcategory=\70\65\72\73\6f\6e)(!(objectclass=\63\6f\6e\74\61\63\74)))', $query->getQuery());
     }
 
     public function test_printer_scope()

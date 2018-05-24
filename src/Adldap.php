@@ -4,7 +4,6 @@ namespace Adldap;
 
 use InvalidArgumentException;
 use Adldap\Connections\Provider;
-use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;

@@ -1,5 +1,8 @@
-# Models
+# Creating / Updating
 
+## Contents
+
+- [Introduction](#introduction)
 - [Creating](#creating)
     - [Available Make Methods](#available-make-methods)
 - [Saving](#saving)
@@ -24,6 +27,10 @@
 - [Moving / Renaming](#moving--renaming)
 - [Deleting](#deleting)
 - [Extending (Custom Models)](#extending)
+
+## Introduction
+
+Adldap2 implements the ActiveRecord pattern. This means that each LDAP record is represented as it's own model.
 
 ## Creating
 

@@ -20,58 +20,20 @@ Adldap2 is a PHP package that provides LDAP authentication and directory managem
 
 ## Index
 
- - [Quick Start](docs/quick-start.md)
- - [Configuration](docs/configuration.md)
- - [Connecting](docs/connecting.md)
- - [Authenticating](docs/authenticating.md)
- - [Query Builder (Searching)](docs/query-builder.md)
- - [Models](docs/models/model.md)
-    - [Computer](docs/models/computer.md)
-    - [Contact](docs/models/contact.md)
-    - [Container](docs/models/container.md)
-    - [Entry](docs/models/entry.md)
-    - [Group](docs/models/group.md)
-    - [Organizational Unit](docs/models/ou.md)
-    - [Printer](docs/models/printer.md)
-    - [RootDse](docs/models/root-dse.md)
-    - [User](docs/models/user.md)
- - [Working with Distinguished Names](docs/distinguished-names.md)
- - [Schema](docs/schema.md)
- - [Troubleshooting](docs/troubleshooting.md)
-
-## Installation
-
-### Requirements
-
-To use Adldap2, your server must support:
-
-- PHP 5.5.9 or greater
-- PHP LDAP Extension
-- An LDAP Server
-
-> **Note**: OpenLDAP support is experimental, success may vary.
-
-### Optional Requirements
-
-> **Note: Adldap makes use of `ldap_modify_batch()` for executing modifications to LDAP records**. Your server
-must be on **PHP >= 5.5.10 || >= 5.6.0** to make modifications.
-
-If your AD server requires SSL, your server must support the following libraries:
-
-- PHP SSL Libraries (http://php.net/openssl)
-
-### Installing
-
-Adldap2 utilizes composer for installation.
-
-Run the following command in the root directory of your project:
-
-```
-composer require adldap2/adldap2
-```
-
-> **Note**: If you're upgrading from an earlier release, please take a look
-> at the [release notes](https://github.com/Adldap2/Adldap2/releases).
+- [Introduction](docs/introduction.md)
+- [Installation](docs/installation.md)
+- [Setup](docs/setup.md)
+- [Searching](docs/searching.md)
+- [Creating / Updating](docs/models/model.md)
+  - [Computer](docs/models/computer.md)
+  - [Contact](docs/models/contact.md)
+  - [Container](docs/models/container.md)
+  - [Entry](docs/models/entry.md)
+  - [Group](docs/models/group.md)
+  - [Organizational Unit](docs/models/ou.md)
+  - [Printer](docs/models/printer.md)
+  - [RootDse](docs/models/root-dse.md)
+  - [User](docs/models/user.md)
 
 ## Implementations
 

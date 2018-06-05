@@ -22,7 +22,7 @@ Much of the API was constructed with Ruby's ActiveRecord and Laravel's Eloquent 
 
 ## Why should you use Adldap2?
 
-Working with LDAP in PHP can be a messy endeavor, especially when using multiple connections, creating and managing entities, performing moves, resetting passwords, and performing ACL modifications to user accounts.
+Working with LDAP in PHP can be a messy and confusing endeavor, especially when using multiple connections, creating and managing entities, performing moves, resetting passwords, and performing ACL modifications to user accounts.
 
 Wrapper classes for LDAP are usually always created in PHP applications.
 

@@ -5,7 +5,7 @@
 - [Configuration](#configuration)
 - [Getting Started](#getting-started)
 - [Connecting](#connecting)
-- [Working With LDAP Server Variants](#ldap-server-variants)
+- [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers)
 
 ## Configuration
 
@@ -329,7 +329,7 @@ Now that you've learned the basics of configuration and
 getting yourself connected, continue on to learn
 [how to search your LDAP directory](searching.md).
 
-## LDAP Server Variants
+## Using Other LDAP Servers (OpenLDAP / FreeIPA / etc.)
 
 Alternate LDAP server variants such as OpenLDAP or FreeIPA contain
 some different attribute names than ActiveDirectory.
@@ -337,12 +337,11 @@ some different attribute names than ActiveDirectory.
 The Adldap2 schema offers an attribute map for each available LDAP attribute, and
 is completely configurable and customizable.
 
-If you're using an alternate LDAP server variant such as OpenLDAP or FreeIPA, you will
-need to change the default schema inside your configuration array. If you do not,
+If you're using an alternate LDAP server variant such as OpenLDAP or FreeIPA, you **must** change the default schema inside your configuration array. If you do not,
 you won't receive the correct model instances for results, and you won't be
 able to utilize some standard methods available on these models.
 
-By default, Adldap2 is configured to be used with Microsoft ActiveDirectory.
+By default, Adldap2 is configured to be used with **Microsoft ActiveDirectory**.
 
 When creating your configuration array, set your schema using the `schema` key:
 
@@ -369,3 +368,5 @@ $config->set('schema', \Adldap\Schemas\OpenLDAP::class);
 
 $ad->addProvider($config);
 ```
+
+Once you've set the schema of your connection provider, you can use the same API interacting with different LDAP servers.

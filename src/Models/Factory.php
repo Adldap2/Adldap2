@@ -94,7 +94,7 @@ class Factory
                 $this->schema->top(),
                 $this->schema->person(),
                 $this->schema->organizationalPerson(),
-                $this->schema->user(),
+                $this->schema->objectClassUser(),
             ]);
     }
 

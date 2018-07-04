@@ -48,6 +48,10 @@ if ($provider->auth()->attempt($username, $password, $bindAsUser = true)) {
 > operations are ran under your configured administrator account unless
 > otherwise specified.
 
+**Remember**, due to PHP's stateless nature, you will need to perform this on every request if you would like to run LDAP operations under different users.
+
+This means you'll likely need to securely cache the users credentials for the duration of their session in some manor as Adldap2 does not do this for you.
+
 ## Manually Binding as Administrator
 
 To manually bind as your configured administrator, use the `bindAsAdministrator()` method:

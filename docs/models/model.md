@@ -30,7 +30,8 @@
 
 ## Introduction
 
-Adldap2 implements the ActiveRecord pattern. This means that each LDAP record is represented as it's own model.
+Adldap2 implements the ActiveRecord pattern. This means that each LDAP
+record in your directory is represented as it's own model.
 
 ## Creating
 

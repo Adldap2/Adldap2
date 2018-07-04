@@ -28,12 +28,14 @@ Adldap2 is a PHP package that provides LDAP authentication and directory managem
   - [Computer](docs/models/computer.md)
   - [Contact](docs/models/contact.md)
   - [Container](docs/models/container.md)
-  - [Entry](docs/models/entry.md)
+  - [Entry (Base Model)](docs/models/entry.md)
   - [Group](docs/models/group.md)
   - [Organizational Unit](docs/models/ou.md)
   - [Printer](docs/models/printer.md)
   - [RootDse](docs/models/root-dse.md)
   - [User](docs/models/user.md)
+- [Working With Distiguished Names](docs/distinguished-names.md)
+- [Troubleshooting](docs/troubleshooting.md)
 
 ## Implementations
 

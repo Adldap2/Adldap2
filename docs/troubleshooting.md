@@ -75,5 +75,6 @@ try {
     die($root->getRootDomainNamingContext());
 
 } catch (\Adldap\Auth\BindException $e) {
+    //
 }
 ```

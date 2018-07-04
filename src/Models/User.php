@@ -997,6 +997,28 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Returns the employee type.
+     *
+     * @return string|null
+     */
+    public function getEmployeeType()
+    {
+        return $this->getFirstAttribute($this->schema->employeeType());
+    }
+
+    /**
+     * Sets the employee type.
+     *
+     * @param string $type
+     *
+     * @return $this
+     */
+    public function setEmployeeType($type)
+    {
+        return $this->setFirstAttribute($this->schema->employeeType(), $type);
+    }
+
+    /**
      * Returns the employee number.
      *
      * @return string

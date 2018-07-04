@@ -575,7 +575,8 @@ class Builder
             ->whereHas($this->schema->objectClass())
             ->firstOrFail($columns);
 
-        $this->in($base);
+        // Reset the models query builder.
+        $model->setQuery($this->in($base));
 
         return $model;
     }

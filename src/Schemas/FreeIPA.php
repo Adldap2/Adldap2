@@ -81,7 +81,7 @@ class FreeIPA extends BaseSchema
      */
     public function objectGuid()
     {
-        return 'objectguid';
+        return 'ipauniqueid';
     }
 
     /**

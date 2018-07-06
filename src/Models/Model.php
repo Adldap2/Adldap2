@@ -1064,7 +1064,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
     
     /**
-     * Converts the inserted string boolean to a PHP boolean.
+     * Converts the inserted string boolean to a native PHP boolean.
      *
      * @param string $bool
      *

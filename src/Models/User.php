@@ -789,6 +789,16 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Clears the accounts lockout time, unlocking the account.
+     *
+     * @return $this
+     */
+    public function setClearLockoutTime()
+    {
+        return $this->setFirstAttribute($this->schema->lockoutTime(), 0);
+    }
+
+    /**
      * Returns the users profile file path.
      *
      * @return string
@@ -832,6 +842,8 @@ class User extends Entry implements Authenticatable
 
     /**
      * Sets the users account expiry date.
+     *
+     * If no expiry time is given, the account is set to never expire.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
      *

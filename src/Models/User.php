@@ -593,11 +593,53 @@ class User extends Entry implements Authenticatable
     /**
      * Returns the users mail nickname.
      *
-     * @return string
+     * @return string|null
      */
     public function getMailNickname()
     {
         return $this->getFirstAttribute($this->schema->emailNickname());
+    }
+
+    /**
+     * Returns the distinguished name of the user who is assigned to manage this object.
+     *
+     * @return string|null
+     */
+    public function getManagedBy()
+    {
+        return $this->getFirstAttribute($this->schema->managedBy());
+    }
+
+    /**
+     * Returns the user model of the user who is assigned to manage this object.
+     *
+     * Returns false otherwise.
+     *
+     * @return User|bool
+     */
+    public function getManagedByUser()
+    {
+        if ($dn = $this->getManagedBy()) {
+            return $this->query->newInstance()->findByDn($dn);
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets the user who is assigned to managed this object.
+     *
+     * @param Model|string $dn
+     *
+     * @return $this
+     */
+    public function setManagedBy($dn)
+    {
+        if ($dn instanceof Model) {
+            $dn = $dn->getDn();
+        }
+
+        return $this->setFirstAttribute($this->schema->managedBy(), $dn);
     }
 
     /**

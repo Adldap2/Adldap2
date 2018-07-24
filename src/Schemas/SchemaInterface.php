@@ -544,6 +544,15 @@ interface SchemaInterface
     public function manager();
 
     /**
+     * The distinguished name of the user that is assigned to manage this object.
+     *
+     * @link https://docs.microsoft.com/en-us/windows/desktop/adschema/a-managedby
+     *
+     * @return string
+     */
+    public function managedBy();
+
+    /**
      * The maximum amount of time, in 100-nanosecond intervals, a password is valid.
      *
      * This value is stored as a large integer that represents the number of

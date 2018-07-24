@@ -459,6 +459,14 @@ abstract class BaseSchema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function managedBy()
+    {
+        return 'managedBy';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function maxPasswordAge()
     {
         return 'maxpwdage';

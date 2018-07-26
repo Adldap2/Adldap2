@@ -62,22 +62,30 @@ class TSProperty
     ];
 
     /**
-     * @var string The property name.
+     * The property name.
+     *
+     * @var string
      */
     protected $name;
 
     /**
-     * @var string|int The property value.
+     * The property value.
+     *
+     * @var string|int
      */
     protected $value;
 
     /**
-     * @var int The property value type.
+     * The property value type.
+     *
+     * @var int
      */
     protected $valueType = 1;
 
     /**
-     * @param string|null $value Pass binary TSProperty data to construct its object representation.
+     * Pass binary TSProperty data to construct its object representation.
+     *
+     * @param string|null $value
      */
     public function __construct($value = null)
     {
@@ -237,6 +245,7 @@ class TSProperty
     protected function decodePropValue($hex, $string = false)
     {
         $decodePropValue = '';
+
         $blobs = str_split($hex, 6);
 
         foreach ($blobs as $blob) {
@@ -276,6 +285,7 @@ class TSProperty
         $chars = $string ? MbString::str_split($value) : array_reverse(str_split($this->dec2hex($value, 8), 2));
 
         $encoded = '';
+
         foreach ($chars as $char) {
             // Get the bits for the char. Using this method to ensure it is fully padded.
             $bits = sprintf('%08b', $string ? MbString::ord($char) : hexdec($char));
@@ -284,6 +294,7 @@ class TSProperty
 
             // Construct the value with the header, high nibble, then low nibble.
             $value = self::NIBBLE_HEADER;
+
             foreach (['Y' => $nibbleY, 'X' => $nibbleX] as $nibbleType => $nibble) {
                 $value .= $this->getNibbleWithControl($nibbleType, $nibble);
             }
@@ -327,6 +338,7 @@ class TSProperty
      *
      * @param string $nibble
      * @param string $control
+     *
      * @return string
      */
     protected function nibbleControl($nibble, $control)
@@ -350,7 +362,8 @@ class TSProperty
      * must be subtracted by 9 before the final value is constructed.
      *
      * @param string $nibbleType Either X or Y
-     * @param $nibble
+     * @param string $nibble
+     *
      * @return string
      */
     protected function getNibbleWithControl($nibbleType, $nibble)

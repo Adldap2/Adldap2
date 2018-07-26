@@ -2,6 +2,8 @@
 
 namespace Adldap\Models\Attributes;
 
+use InvalidArgumentException;
+
 class TSPropertyArray
 {
     /**
@@ -10,7 +12,9 @@ class TSPropertyArray
     const VALID_SIGNATURE = 'P';
 
     /**
-     * @var array The default values for the TSPropertyArray structure.
+     * The default values for the TSPropertyArray structure.
+     *
+     * @var array
      */
     const DEFAULTS = [
         'CtxCfgPresent' => 2953518677,
@@ -125,6 +129,7 @@ class TSPropertyArray
      * Remove a TSProperty by its property name (ie. CtxMinEncryptionLevel).
      *
      * @param string $propName
+     *
      * @return $this
      */
     public function remove($propName)
@@ -142,7 +147,8 @@ class TSPropertyArray
      * Set the value for a specific TSProperty by its name.
      *
      * @param string $propName
-     * @param mixed $propValue
+     * @param mixed  $propValue
+     *
      * @return $this
      */
     public function set($propName, $propValue)
@@ -208,7 +214,7 @@ class TSPropertyArray
     protected function validateProp($propName)
     {
         if (!$this->has($propName)) {
-            throw new \InvalidArgumentException(sprintf('TSProperty for "%s" does not exist.', $propName));
+            throw new InvalidArgumentException(sprintf('TSProperty for "%s" does not exist.', $propName));
         }
     }
 
@@ -254,11 +260,14 @@ class TSPropertyArray
     }
 
     /**
-     * Given the start of TSPropertyArray hex data, and the count for the number of TSProperty structures in contains,
-     * parse and split out the individual TSProperty structures. Return the full length of the TSPropertyArray data.
+     * Given the start of TSPropertyArray hex data, and the count for the number
+     * of TSProperty structures in contains, parse and split out the
+     * individual TSProperty structures. Return the full length
+     * of the TSPropertyArray data.
      *
      * @param string $tsPropertyArray
-     * @param int $tsPropCount
+     * @param int    $tsPropCount
+     *
      * @return int The length of the data in the TSPropertyArray
      */
     protected function addTSPropData($tsPropertyArray, $tsPropCount)

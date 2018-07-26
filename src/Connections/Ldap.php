@@ -2,7 +2,6 @@
 
 namespace Adldap\Connections;
 
-use Adldap\AdldapError;
 use Adldap\AdldapException;
 
 /**
@@ -171,22 +170,19 @@ class Ldap implements ConnectionInterface
      */
     public function getDetailedError()
     {
-        $diagMessage = '';
-        $errorNumber = ldap_errno($this->getConnection());
+        // If the returned error number is zero, the last LDAP operation
+        // succeeded. We won't return a detailed error.
+        if ($errorNumber = $this->errNo()) {
+            $message = '';
 
-        // if we have a returned value of 0, there was nothing but success!
-        // http://php.net/manual/en/function.ldap-errno.php
-        if ($errorNumber == 0) {
-            return false;
+            if (defined('LDAP_OPT_DIAGNOSTIC_MESSAGE')) {
+                $message = ldap_get_option($this->getConnection(), LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            }
+
+            return new DetailedError($errorNumber, $this->err2Str($errorNumber), $message);
         }
 
-        $errorString = ldap_err2str($errorNumber);
-
-        if (defined('LDAP_OPT_DIAGNOSTIC_MESSAGE')) {
-            $diagMessage = ldap_get_option($this->getConnection(), LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
-        }
-
-        return new AdldapError($errorNumber, $errorString, $diagMessage);
+        return false;
     }
 
     /**

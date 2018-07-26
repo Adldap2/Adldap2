@@ -1,6 +1,7 @@
 <?php
 
 namespace Adldap\Connections;
+use Adldap\AdldapError;
 
 /**
  * The Connection interface used for making connections. Implementing
@@ -162,6 +163,15 @@ interface ConnectionInterface
      * @return string
      */
     public function getLastError();
+
+    /**
+     * Return detailed information about an error
+     * Returns false when there was a successful last request.
+     * Returns AdldapError when there was an error, with detailed information.
+     *
+     * @return bool|AdldapError
+     */
+    public function getDetailedError();
 
     /**
      * Get all binary values from the specified result entry.

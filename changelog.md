@@ -45,3 +45,7 @@
 - Determine if a users thumbnail is already base64 encoded before encoding - [313290c](https://github.com/Adldap2/Adldap2/commit/313290cf617d04a4f91d10695edf82562f65a7fc), [0a0fda4](https://github.com/Adldap2/Adldap2/commit/0a0fda482f956bd28329580f2907b2b533a2548a) - Thanks to @phanos
 - Fixed `users()` scope returning Contacts instead of just Users - [c5e4b5c](https://github.com/Adldap2/Adldap2/commit/c5e4b5c4007bcd2b43f2c723b145bf1e8e681e9b) - [#517](https://github.com/Adldap2/Adldap2/issues/517)
 - Fixed `Schemas\BaseSchema::objectClassUser()` method not being used when constructing new `Models\User`'s - [41954d8](https://github.com/Adldap2/Adldap2/commit/41954d8bb6d12765148e0e5fca83c0cb304d6552) - [#523](https://github.com/Adldap2/Adldap2/issues/523)
+
+# Released
+
+For previous version change logs, please view the [GitHub Releases](https://github.com/Adldap2/Adldap2/releases) page.

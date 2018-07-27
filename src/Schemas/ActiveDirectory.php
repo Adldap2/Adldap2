@@ -2,7 +2,7 @@
 
 namespace Adldap\Schemas;
 
-class ActiveDirectory extends BaseSchema
+class ActiveDirectory extends Schema
 {
     /**
      * {@inheritdoc}

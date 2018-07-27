@@ -2,7 +2,7 @@
 
 namespace Adldap\Schemas;
 
-class FreeIPA extends BaseSchema
+class FreeIPA extends Schema
 {
     /**
      * {@inheritdoc}

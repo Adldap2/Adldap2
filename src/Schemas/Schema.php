@@ -11,7 +11,7 @@ use Adldap\Models\Computer;
 use Adldap\Models\Container;
 use Adldap\Models\OrganizationalUnit;
 
-abstract class BaseSchema implements SchemaInterface
+abstract class Schema implements SchemaInterface
 {
     /**
      * {@inheritdoc}

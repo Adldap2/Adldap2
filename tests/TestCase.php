@@ -61,7 +61,19 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Returns a new connection mock.
+     * Returns a mocked builder instance.
+     *
+     * @param null $connection
+     *
+     * @return Mockery\MockInterface
+     */
+    protected function newBuilderMock($connection = null)
+    {
+        return $this->mock($this->newBuilder($connection));
+    }
+
+    /**
+     * Returns a mocked connection instance.
      *
      * @return Mockery\MockInterface
      */

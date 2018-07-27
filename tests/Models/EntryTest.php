@@ -843,4 +843,33 @@ class EntryTest extends TestCase
 
         $this->assertEquals($model->getDistinguishedName(), $dn);
     }
+
+    public function test_get_managed_by_user_queries_for_user()
+    {
+        $dn = 'cn=Jdoe,dc=acme,dc=org';
+
+        $managedByUser = $this->newModel(compact('dn'));
+
+        $b = $this->newBuilderMock();
+
+        $b->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('findByDn')->once()->with($dn)->andReturn($managedByUser);
+
+        $model = $this->newModel(['managedby' => $dn], $b);
+
+        $this->assertEquals($managedByUser, $model->getManagedByUser());
+    }
+
+    public function test_set_managed_by_accepts_model_instance()
+    {
+        $model = $this->newModel();
+
+        $dn = 'cn=Jdoe,dc=acme,dc=org';
+
+        $managedByUser = $this->newModel(compact('dn'));
+
+        $model->setManagedBy($managedByUser);
+
+        $this->assertEquals($dn, $model->getManagedBy());
+    }
 }

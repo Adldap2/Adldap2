@@ -130,7 +130,7 @@ This option is just for convenience.
 
 It is usually not needed (if utilizing the account suffix), however the functionality is
 in place if you would like to only allow certain users with the specified prefix
-to login, or add a domain so you're users do not have to specify one.
+to login, or add a domain so your users do not have to specify one.
 
 ##### Account Suffix
 
@@ -290,7 +290,7 @@ $provider = $ad->connect($connectionName, $username, $password);
 
 ### Dynamically Connecting
 
-If you're like me and like chainable API's in PHP, then dynamically connecting is a nice option to have.
+If you're like me and like chainable (fluent) API's in PHP, then dynamically connecting is a nice option to have.
 
 To dynamically connect, simply call any connection provider method on your `Adldap` instance.
 
@@ -337,8 +337,7 @@ some different attribute names than ActiveDirectory.
 The Adldap2 schema offers an attribute map for each available LDAP attribute, and
 is completely configurable and customizable.
 
-If you're using an alternate LDAP server variant such as OpenLDAP or FreeIPA, you **must** change the default schema inside your configuration array. If you do not,
-you won't receive the correct model instances for results, and you won't be
+If you're using an alternate LDAP server variant such as OpenLDAP or FreeIPA, you **must** change the default schema inside your configuration array. If you do not, you won't receive the correct model instances for results, and you won't be
 able to utilize some standard methods available on these models.
 
 By default, Adldap2 is configured to be used with **Microsoft ActiveDirectory**.

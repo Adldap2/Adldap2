@@ -669,3 +669,5 @@ $query = $provider->search()->where('cn', '=', 'John Doe')->getUnescapedQuery();
 
 echo $query; // Returns '(cn=John Doe)'
 ```
+
+Now that you know how to search your directory, lets move onto [creating / modifying LDAP records](models/model.md).

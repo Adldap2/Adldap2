@@ -461,7 +461,7 @@ abstract class Schema implements SchemaInterface
      */
     public function managedBy()
     {
-        return 'managedBy';
+        return 'managedby';
     }
 
     /**

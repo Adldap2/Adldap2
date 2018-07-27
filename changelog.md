@@ -33,5 +33,4 @@
 - Added `Schemas\BaseSchema::managedBy()` - [5ffd423](https://github.com/Adldap2/Adldap2/commit/5ffd4232cd547e97fda8ce0643a8d0d9f85d1665)
 - Added `Models\User::getManagedBy()` and `setManagedBy()` methods - [2c29144](https://github.com/Adldap2/Adldap2/commit/2c29144ab8ba5b54e20ea2eab672116301549e10), [64825a9](https://github.com/Adldap2/Adldap2/commit/64825a94404eb9a9201c8d58b02d5dbba0860187)
 - Added `Connections\DetailedError` class for retrieving detailed error information - [6261a30](https://github.com/Adldap2/Adldap2/commit/6261a30de200ff5dbcd30f9a845d25af5eebdd0a) - [#565](https://github.com/Adldap2/Adldap2/pull/565) - Thanks to @datatim
-
-
+- Renamed `Schemas\BaseSchema` to `Schemas\Schema` to follow naming convention - [b07493e](https://github.com/Adldap2/Adldap2/commit/b07493e666885c1aed4f5069f63943117f6ce504)

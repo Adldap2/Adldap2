@@ -5,6 +5,7 @@
 - [Configuration](#configuration)
 - [Getting Started](#getting-started)
 - [Connecting](#connecting)
+- [Authenticating / Binding Users](#authenticating)
 - [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers-openldap--freeipa--etc)
 
 ## Configuration
@@ -311,6 +312,49 @@ try {
 }
 ```
 
+### Anonymously Binding
+
+If you'd like to anonymously bind, set your `username` and `password` configuration to `null`:
+
+```php
+$ad = new Adldap();
+
+$config = [
+    'username' => null,
+    'password' => null,
+];
+
+$ad->addProvider($config);
+
+try {
+    $provider = $ad->connect();
+    
+    // ...
+} catch (BindException $e) {
+    // Failed.
+}
+```
+
+Or, manually bind your provider and don't pass in a `username` or `password` parameter:
+
+```php
+$config = [
+    'hosts' => ['...'],
+];
+
+$ad->addProvider($config);
+
+$provider = $ad->getDefaultProvider();
+
+try {
+    $provider->auth()->bind();
+    
+    // Successfully bound.
+} catch (BindException $e) {
+    // Failed.
+}
+```
+
 ### Setting a Default Connection
 
 Setting a default LDAP connection is used for dynamically connecting.
@@ -321,6 +365,39 @@ To set your default connection, call the `setDefaultProvider($name)` method:
 $ad->setDefaultProvider('my-connection');
 
 $computers = $ad->search()->computers()->get();
+```
+
+## Authenticating
+
+If you're looking to authenticate (bind) users using your LDAP connection, call
+the `auth()->attempt()` method on your provider instance:
+
+```php
+$username = 'jdoe';
+$password = 'Password@1';
+
+try {
+    if ($provider->auth()->attempt($username, $password)) {
+        // Passed.
+    } else {
+        // Failed.
+    }
+} catch (\Adldap\Auth\UsernameRequiredException $e) {
+    // The user didn't supply a username.
+} catch (\Adldap\Auth\PasswordRequiredException $e) {
+    // The user didn't supply a password.
+}
+```
+
+If you'd like all LDAP operations during the same request to be ran under the
+authenticated user, pass in `true` into the last paramter:
+
+```php
+if ($provider->auth()->attempt($username, $password, $bindAsUser = true)) {
+    // Passed.
+} else {
+    // Failed.
+}
 ```
 
 ---

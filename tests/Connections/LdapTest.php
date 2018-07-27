@@ -83,4 +83,13 @@ class LdapTest extends TestCase
 
         $ldap->setOptions([1 => 'value', 2 => 'value']);
     }
+
+    public function test_get_detailed_error_returns_false_when_error_number_is_zero()
+    {
+        $ldap = $this->mock(Ldap::class)->makePartial();
+
+        $ldap->shouldReceive('errNo')->once()->andReturn(0);
+
+        $this->assertFalse($ldap->getDetailedError());
+    }
 }

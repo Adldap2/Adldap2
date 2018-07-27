@@ -42,6 +42,62 @@ Adldap2 is a PHP package that provides LDAP authentication and directory managem
 - [Laravel](https://github.com/Adldap2/Adldap2-Laravel)
 - [Kohana](https://github.com/Adldap2/Adldap2-Kohana)
 
+## Quick Start
+
+```php
+// Construct new Adldap instance.
+$ad = new \Adldap\Adldap();
+
+// Create a configuration array.
+$config = [  
+  // An array of your LDAP hosts. You can use the either
+  // the host name or the IP address of your host.
+  'hosts'    => ['ACME-DC01.corp.acme.org', '192.168.1.1'],
+  
+  // The base distinguished name of your domain to perform searches upon.
+  'base_dn'  => 'dc=corp,dc=acme,dc=org',
+  
+  // The account to use for querying / modifying LDAP records. This
+  // does not need to be an admin account. This can also
+  // be a full distinguished name of the user account.
+  'username' => 'admin@corp.acme.org',
+  'password' => 'password',
+];
+
+// Add a connection provider to Adldap.
+$ad->addProvider($config);
+
+try {
+    // If a successful connection is made to your server, the provider will be returned.
+    $provider = $ad->connect();
+
+    // Performing a query.
+    $results = $provider->search()->where('cn', '=', 'John Doe')->get();
+    
+    // Finding a record.
+    $user = $provider->search()->find('jdoe');
+
+    // Creating a new LDAP entry. You can pass in attributes into the make methods.
+    $user =  $provider->make()->user([
+        'cn'          => 'John Doe',
+        'title'       => 'Accountant',
+        'description' => 'User Account',
+    ]);
+
+    // Setting a model's attribute.
+    $user->cn = 'John Doe';
+
+    // Saving the changes to your LDAP server.
+    if ($user->save()) {
+        // User was saved!
+    }
+} catch (\Adldap\Auth\BindException $e) {
+
+    // There was an issue binding / connecting to the server.
+
+}
+```
+
 ## Versioning
 
 Adldap2 is versioned under the [Semantic Versioning](http://semver.org/) guidelines as much as possible.

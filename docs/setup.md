@@ -5,7 +5,7 @@
 - [Configuration](#configuration)
 - [Getting Started](#getting-started)
 - [Connecting](#connecting)
-- [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers)
+- [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers-openldap--freeipa--etc)
 
 ## Configuration
 
@@ -370,3 +370,5 @@ $ad->addProvider($config);
 ```
 
 Once you've set the schema of your connection provider, you can use the same API interacting with different LDAP servers.
+
+Continue onto the [searching](searching.md) documentation to learn how to begin querying your LDAP server(s).

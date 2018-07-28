@@ -30,10 +30,10 @@
 - Added `Adldap\Models\User::getUserParamters()` and `setUserParameters()` [977b312](https://github.com/Adldap2/Adldap2/commit/977b3120f22cfc6e4b550d2e085505d2f75ade4f) - Thanks to @eltharin
 - Added `Adldap\Models\Attributes\MbString` utility class for quickly detecting encoding - [977b312](https://github.com/Adldap2/Adldap2/commit/977b3120f22cfc6e4b550d2e085505d2f75ade4f), [3c588f1](https://github.com/Adldap2/Adldap2/commit/3c588f111b05f5aa0e3927c97be198d2d712cc60) - Thanks to @eltharin
 - Models can now be passed directly into `Query\Factory::setDn()` and `in()` methods - [c1f9c25](https://github.com/Adldap2/Adldap2/commit/c1f9c25b251aa900c266aaa90280f8f30d4631c3)
-- Added `objectClassModelMap()` into the `Schemas\BaseSchema` for ability to insert new models - [beae260](https://github.com/Adldap2/Adldap2/commit/beae26096aabf13cf649a5261434c6a6414924dd) - [#518](https://github.com/Adldap2/Adldap2/issues/518)
+- Added `objectClassModelMap()` into the `Schemas\Schema` for ability to insert new models - [beae260](https://github.com/Adldap2/Adldap2/commit/beae26096aabf13cf649a5261434c6a6414924dd) - [#518](https://github.com/Adldap2/Adldap2/issues/518)
 - Added `Models\User::getEmployeeType()` and `setEmployeeType()` - [fdad5d0](https://github.com/Adldap2/Adldap2/commit/fdad5d0adb32552d77a4e08410a07f0a18be12e8) - [#524](https://github.com/Adldap2/Adldap2/issues/524)
 - Added `Models\User::setClearLockoutTime()` for unlocking ActiveDirectory accounts - [10bde32](https://github.com/Adldap2/Adldap2/commit/10bde32bb2bea34e0a20dae17b2727db9ca70c5e) - [#558](https://github.com/Adldap2/Adldap2/issues/558)
-- Added `Schemas\BaseSchema::managedBy()` - [5ffd423](https://github.com/Adldap2/Adldap2/commit/5ffd4232cd547e97fda8ce0643a8d0d9f85d1665)
+- Added `Schemas\Schema::managedBy()` - [5ffd423](https://github.com/Adldap2/Adldap2/commit/5ffd4232cd547e97fda8ce0643a8d0d9f85d1665)
 - Added `Models\User::getManagedBy()`, `getManagedByUser()` and `setManagedBy()` methods - [2c29144](https://github.com/Adldap2/Adldap2/commit/2c29144ab8ba5b54e20ea2eab672116301549e10), [64825a9](https://github.com/Adldap2/Adldap2/commit/64825a94404eb9a9201c8d58b02d5dbba0860187)
 - Added `Connections\DetailedError` class for retrieving detailed error information - [6261a30](https://github.com/Adldap2/Adldap2/commit/6261a30de200ff5dbcd30f9a845d25af5eebdd0a) - [#565](https://github.com/Adldap2/Adldap2/pull/565) - Thanks to @datatim
 
@@ -44,7 +44,7 @@
 - Properly determine if a users password has expired when using `ActiveDirectory` - [3d065fb](https://github.com/Adldap2/Adldap2/commit/3d065fb94807f4cbbd70d5af7853de13f847c0ea) - [#530](https://github.com/Adldap2/Adldap2/issues/530)
 - Determine if a users thumbnail is already base64 encoded before encoding - [313290c](https://github.com/Adldap2/Adldap2/commit/313290cf617d04a4f91d10695edf82562f65a7fc), [0a0fda4](https://github.com/Adldap2/Adldap2/commit/0a0fda482f956bd28329580f2907b2b533a2548a) - Thanks to @phanos
 - Fixed `users()` scope returning Contacts instead of just Users - [c5e4b5c](https://github.com/Adldap2/Adldap2/commit/c5e4b5c4007bcd2b43f2c723b145bf1e8e681e9b) - [#517](https://github.com/Adldap2/Adldap2/issues/517)
-- Fixed `Schemas\BaseSchema::objectClassUser()` method not being used when constructing new `Models\User`'s - [41954d8](https://github.com/Adldap2/Adldap2/commit/41954d8bb6d12765148e0e5fca83c0cb304d6552) - [#523](https://github.com/Adldap2/Adldap2/issues/523)
+- Fixed `Schemas\Schema::objectClassUser()` method not being used when constructing new `Models\User`'s - [41954d8](https://github.com/Adldap2/Adldap2/commit/41954d8bb6d12765148e0e5fca83c0cb304d6552) - [#523](https://github.com/Adldap2/Adldap2/issues/523)
 
 # Released
 

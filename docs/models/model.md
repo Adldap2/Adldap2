@@ -617,16 +617,21 @@ class LdapSchema extends ActiveDirectory
 }
 ```
 
-Finally, when we create a provider, we need to insert our Schema into the constructor:
+Finally, when we create a provider, we need to insert our Schema into the configuration:
 
 ```php
-use Adldap\Connections\Provider;
+$config = [
+    'hosts' => ['...'],
+    
+    'username' => 'admin',
+    'password' => 'P@ssword',
+    
+    'schema' => \MyApp\LdapSchema::class,
+];
 
-$schema = new LdapSchema();
+$ad = new Adldap($config);
 
-$provider = new Provider($config, $connection = null, $schema);
-
-$provider->connect();
+$provider = $ad->connect();
 
 // If `jdoe` exists, your custom model will be returned.
 $user = $provider->search()->users()->find('jdoe');

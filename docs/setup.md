@@ -450,32 +450,36 @@ Once you've set the schema of your connection provider, you can use the same API
 
 Continue onto the [searching](searching.md) documentation to learn how to begin querying your LDAP server(s).
 
-
-
 ## Raw Ldapconnection
 
 ### Introduction
 
-If you want to connect to the ldap server without models (old fashion way), and want to get back the data in a raw format
-You can easily do that. If you call the `getConnection()` function of the `Adldap`, then you get the connetion class of the selected (or default) provider. The default connection class is  called `Ldap` (`src/Connections/Ldap.php`).
+If you want to connect to your LDAP server without utilizing Adldap's models (old fashion way), and want to get back the data in a raw format you can easily do so.
 
-If you look inside there are a loads of ldap functions, what contains the original php functions.
+If you call `getConnection()` on your connected provider instance, you can perform all LDAP functions on a container class that encapsulates all of PHP's LDAP methods.
 
-So how can you run that methods?
+You can view all methods avaialble by browsing the LDAP class [here](https://github.com/Adldap2/Adldap2/blob/master/src/Connections/Ldap.php).
 
-Here it is:
+Now for some examples:
 
 ### Examples
 
 ```php
+$ad = new Adldap();
 
-$rawconneter = Adldap::getConnection();
-$result = $rawconnecter->search($basedn, "cn=appletree", $returningfields);
+$config = ['...'];
 
-$result = $rawconnecter->add($dn, $entry);
+$ad->addProvider($config);
 
-$result = $rawconnecter->delete($dn);
+$provider = $ad->connect();
+
+$rawConnection = $provider->getConnection();
+
+$result = $rawConnection->search($basedn = 'dc=corp,dc=acme,dc=org', $filter = "cn=johndoe", $selectedAttributes = ['cn', 'department']);
+
+$result = $rawConnection->add($dn, $entry);
+
+$result = $rawConnection->delete($dn);
 
 // .. etc
-
 ```

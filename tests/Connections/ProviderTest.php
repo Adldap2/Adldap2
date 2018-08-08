@@ -3,7 +3,8 @@
 namespace Adldap\Tests\Connections;
 
 use Adldap\Query\Builder;
-use Adldap\Query\Factory;
+use Adldap\Query\Factory as SearchFactory;
+use Adldap\Models\Factory as ModelFactory;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
@@ -249,13 +250,6 @@ class ProviderTest extends TestCase
         $this->assertInstanceOf(Builder::class, $m->search()->contacts());
     }
 
-    public function test()
-    {
-        $m = $this->newProvider(new Ldap());
-
-        $this->assertInstanceOf(Builder::class, $m->search()->contacts());
-    }
-
     public function test_printers()
     {
         $m = $this->newProvider(new Ldap());
@@ -267,6 +261,13 @@ class ProviderTest extends TestCase
     {
         $m = $this->newProvider(new Ldap());
 
-        $this->assertInstanceOf(Factory::class, $m->search());
+        $this->assertInstanceOf(SearchFactory::class, $m->search());
+    }
+
+    public function test_make()
+    {
+        $m = $this->newProvider(new Ldap());
+
+        $this->assertInstanceOf(ModelFactory::class, $m->make());
     }
 }

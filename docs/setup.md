@@ -475,10 +475,26 @@ $provider = $ad->connect();
 
 $rawConnection = $provider->getConnection();
 
+// Performing a raw search.
 $result = $rawConnection->search($basedn = 'dc=corp,dc=acme,dc=org', $filter = "cn=johndoe", $selectedAttributes = ['cn', 'department']);
 
+$dn = "cn=John Smith,ou=Wizards,dc=example,dc=com";
+
+// Adding a new LDAP record.
 $result = $rawConnection->add($dn, $entry);
 
+// Batch modifying an LDAP record.
+$modifs = [
+    [
+        "attrib"  => "telephoneNumber",
+        "modtype" => LDAP_MODIFY_BATCH_ADD,
+        "values"  => ["+1 555 555 1717"],
+    ],
+];
+
+$result = $rawConnection->modifyBatch($dn, $modifs);
+
+// Deleting an LDAP record.
 $result = $rawConnection->delete($dn);
 
 // .. etc

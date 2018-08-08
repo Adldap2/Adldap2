@@ -7,6 +7,7 @@
 - [Connecting](#connecting)
 - [Authenticating / Binding Users](#authenticating)
 - [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers-openldap--freeipa--etc)
+- [Raw Connection](#Raw-Ldapconnection)
 
 ## Configuration
 
@@ -56,7 +57,7 @@ $config = [
     'base_dn'          => 'dc=corp,dc=acme,dc=org',
     'username'         => 'admin',
     'password'         => 'password',
-    
+
     // Optional Configuration Options
     'schema'           => \Adldap\Schemas\ActiveDirectory::class,
     'account_prefix'   => 'ACME-',
@@ -67,7 +68,7 @@ $config = [
     'use_tls'          => false,
     'version'          => 3,
     'timeout'          => 5,
-    
+
     // Custom LDAP Options
     'custom_options'        => [
         // See: http://php.net/ldap_set_option
@@ -328,7 +329,7 @@ $ad->addProvider($config);
 
 try {
     $provider = $ad->connect();
-    
+
     // ...
 } catch (BindException $e) {
     // Failed.
@@ -348,7 +349,7 @@ $provider = $ad->getDefaultProvider();
 
 try {
     $provider->auth()->bind();
-    
+
     // Successfully bound.
 } catch (BindException $e) {
     // Failed.
@@ -448,3 +449,33 @@ $ad->addProvider($config);
 Once you've set the schema of your connection provider, you can use the same API interacting with different LDAP servers.
 
 Continue onto the [searching](searching.md) documentation to learn how to begin querying your LDAP server(s).
+
+
+
+## Raw Ldapconnection
+
+### Introduction
+
+If you want to connect to the ldap server without models (old fashion way), and want to get back the data in a raw format
+You can easily do that. If you call the `getConnection()` function of the `Adldap`, then you get the connetion class of the selected (or default) provider. The default connection class is  called `Ldap` (`src/Connections/Ldap.php`).
+
+If you look inside there are a loads of ldap functions, what contains the original php functions.
+
+So how can you run that methods?
+
+Here it is:
+
+### Examples
+
+```php
+
+$rawconneter = Adldap::getConnection();
+$result = $rawconnecter->search($basedn, "cn=appletree", $returningfields);
+
+$result = $rawconnecter->add($dn, $entry);
+
+$result = $rawconnecter->delete($dn);
+
+// .. etc
+
+```

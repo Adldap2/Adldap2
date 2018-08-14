@@ -7,7 +7,7 @@
 - [Connecting](#connecting)
 - [Authenticating / Binding Users](#authenticating)
 - [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers-openldap--freeipa--etc)
-- [Raw Connection](#Raw-Ldapconnection)
+- [Raw Operations](#Raw-Operations)
 
 ## Configuration
 
@@ -450,7 +450,7 @@ Once you've set the schema of your connection provider, you can use the same API
 
 Continue onto the [searching](searching.md) documentation to learn how to begin querying your LDAP server(s).
 
-## Raw Ldapconnection
+## Raw Operations
 
 ### Introduction
 

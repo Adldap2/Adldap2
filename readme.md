@@ -50,7 +50,7 @@ $ad = new \Adldap\Adldap();
 
 // Create a configuration array.
 $config = [  
-  // An array of your LDAP hosts. You can use the either
+  // An array of your LDAP hosts. You can use either
   // the host name or the IP address of your host.
   'hosts'    => ['ACME-DC01.corp.acme.org', '192.168.1.1'],
 

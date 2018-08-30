@@ -2,10 +2,10 @@
 
 namespace Adldap\Tests;
 
-use Adldap\Connections\ConnectionInterface;
 use Mockery;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
+use Adldap\Connections\ConnectionInterface;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase

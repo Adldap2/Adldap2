@@ -13,20 +13,6 @@ use Adldap\Connections\ConnectionInterface;
 
 class BuilderTest extends TestCase
 {
-    protected function newBuilder($connection = null)
-    {
-        if (is_null($connection)) {
-            $connection = $this->newConnectionMock();
-        }
-
-        return new Builder($connection, new Grammar());
-    }
-
-    protected function newConnectionMock()
-    {
-        return $this->mock(ConnectionInterface::class);
-    }
-
     public function test_construct()
     {
         $b = $this->newBuilder();

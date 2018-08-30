@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use InvalidArgumentException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Models\Entry;
@@ -144,11 +145,17 @@ class Processor
      * @param array       $attributes
      * @param string|null $model
      *
+     * @throws InvalidArgumentException
+     *
      * @return mixed|Entry
      */
     public function newModel($attributes = [], $model = null)
     {
-        $model = (class_exists($model) ? $model : Entry::class);
+        $model = (class_exists($model) ? $model : $this->schema->entryModel());
+
+        if (!is_subclass_of($model, $base = Model::class)) {
+            throw new InvalidArgumentException("The given model class '{$model}' must extend the base model class '{$base}'");
+        }
 
         return new $model($attributes, $this->builder->newInstance());
     }

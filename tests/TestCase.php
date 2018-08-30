@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests;
 
+use Adldap\Connections\ConnectionInterface;
 use Mockery;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
@@ -79,6 +80,6 @@ class TestCase extends BaseTestCase
      */
     protected function newConnectionMock()
     {
-        return $this->mock('Adldap\Connections\ConnectionInterface');
+        return $this->mock(ConnectionInterface::class);
     }
 }

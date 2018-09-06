@@ -202,15 +202,15 @@ class Builder
 
     /**
      * Returns a new nested Query Builder instance.
-     * 
+     *
      * @param Closure|null $closure
-     * 
+     *
      * @return $this
      */
     public function newNestedInstance(Closure $closure = null)
     {
         $query = $this->newInstance()->nested();
-        
+
         if ($closure) {
             call_user_func($closure, $query);
         }
@@ -510,7 +510,7 @@ class Builder
 
     /**
      * Finds a record using ambiguous name resolution.
-     * 
+     *
      * If a record is not found, an exception is thrown.
      *
      * @param string       $anr
@@ -1412,8 +1412,7 @@ class Builder
     }
 
     /**
-     * Handle dynamic method calls on the query builder
-     * object to be directed to the query processor.
+     * Handle dynamic method calls on the query builder object to be directed to the query processor.
      *
      * @param string $method
      * @param array  $parameters
@@ -1422,7 +1421,9 @@ class Builder
      */
     public function __call($method, $parameters)
     {
-        if (Str::startsWith($method, 'where')) {
+        // We'll check if the beginning of the method being called contains
+        // 'where'. If so, we'll assume it's a dynamic 'where' clause.
+        if (substr($method, 0, 5) === 'where') {
             return $this->dynamicWhere($method, $parameters);
         }
 
@@ -1515,12 +1516,11 @@ class Builder
      */
     protected function addDynamic($segment, $connector, $parameters, $index)
     {
-        // Once we have parsed out the columns and formatted the boolean operators we
-        // are ready to add it to this query as a where clause just like any other
-        // clause on the query. Then we'll increment the parameter index values.
+        // We'll format the 'where' boolean and field here to avoid casing issues.
         $bool = strtolower($connector);
+        $field = strtolower($segment);
 
-        $this->where(Str::snake($segment), '=', $parameters[$index], $bool);
+        $this->where($field, '=', $parameters[$index], $bool);
     }
 
     /**

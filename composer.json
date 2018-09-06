@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "illuminate/support": "~5.0",
+        "tightenco/collect": "~5.0",
         "ext-ldap": "*"
     },
     "require-dev": {

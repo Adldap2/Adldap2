@@ -10,6 +10,7 @@ use Adldap\Models\Printer;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
 use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\ForeignSecurityPrincipal;
 
 abstract class Schema implements SchemaInterface
 {
@@ -667,16 +668,25 @@ abstract class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function objectClassForeignSecurityPrincipal()
+    {
+        return 'foreignsecurityprincipal';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectClassModelMap()
     {
         return [
-            $this->objectClassComputer()    => $this->computerModel(),
-            $this->objectClassContact()     => $this->contactModel(),
-            $this->objectClassPerson()      => $this->userModel(),
-            $this->objectClassGroup()       => $this->groupModel(),
-            $this->objectClassContainer()   => $this->containerModel(),
-            $this->objectClassPrinter()     => $this->printerModel(),
-            $this->objectClassOu()          => $this->organizationalUnitModel(),
+            $this->objectClassComputer()                    => $this->computerModel(),
+            $this->objectClassContact()                     => $this->contactModel(),
+            $this->objectClassPerson()                      => $this->userModel(),
+            $this->objectClassGroup()                       => $this->groupModel(),
+            $this->objectClassContainer()                   => $this->containerModel(),
+            $this->objectClassPrinter()                     => $this->printerModel(),
+            $this->objectClassOu()                          => $this->organizationalUnitModel(),
+            $this->objectClassForeignSecurityPrincipal()    => $this->foreignSecurityPrincipalModel()
         ];
     }
 
@@ -1188,5 +1198,15 @@ abstract class Schema implements SchemaInterface
     public function versionNumber()
     {
         return 'versionnumber';
+    }
+
+    /**
+     * The class name of the foreignSecurityPrincipal model.
+     *
+     * @return string
+     */
+    public function foreignSecurityPrincipalModel()
+    {
+        return ForeignSecurityPrincipal::class;
     }
 }

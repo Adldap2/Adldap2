@@ -70,7 +70,7 @@ $config = [
     'timeout'          => 5,
 
     // Custom LDAP Options
-    'custom_options'        => [
+    'custom_options'   => [
         // See: http://php.net/ldap_set_option
         LDAP_OPT_X_TLS_REQUIRE_CERT => LDAP_OPT_X_TLS_HARD
     ]

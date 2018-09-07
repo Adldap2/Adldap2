@@ -79,6 +79,14 @@ class OpenLDAP extends Schema
     /**
      * {@inheritdoc}
      */
+    public function objectClassUser()
+    {
+        return 'inetorgperson';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectGuid()
     {
         return 'entryuuid';

@@ -32,7 +32,7 @@ class DomainConfiguration
         'version' => 3,
 
         // The port to use for connecting to your hosts.
-        'port' => ConnectionInterface::PORT,
+        'port' => null,
 
         // The schema to use for your LDAP connection.
         'schema' => ActiveDirectory::class,
@@ -76,6 +76,14 @@ class DomainConfiguration
     {
         foreach ($options as $key => $value) {
             $this->set($key, $value);
+        }
+
+        if($this->options['port'] === null) {
+            if($this->options['use_ssl'] || $this->options['use_tls']){
+                $this->options['port'] = ConnectionInterface::PORT_SSL;
+            }else{
+                $this->options['port'] = ConnectionInterface::PORT;
+            }
         }
     }
 

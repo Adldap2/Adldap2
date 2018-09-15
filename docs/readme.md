@@ -35,6 +35,14 @@ Adldap2 allows you to easily manage the above problems without reinventing the w
 
 ## Quick Start
 
+Install the package via `composer`:
+
+```
+composer require adldap2/adldap2
+```
+
+Use Adldap2:
+
 ```php
 // Construct new Adldap instance.
 $ad = new \Adldap\Adldap();

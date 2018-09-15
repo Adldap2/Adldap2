@@ -3,11 +3,11 @@
 > **Note**: This model contains the traits `HasDescription`, `HasLastLogonAndLogOff` & `HasCriticalSystemObject`.
 > For more information, visit the documentation:
 >
-> [HasDescription](traits/has-description.md),
-> [HasLastLogonAndLogOff](traits/has-last-login-last-logoff.md),
-> [HasCriticalSystemObject](traits/has-critical-system-object.md)
+> [HasDescription](/models/traits/has-description.md),
+> [HasLastLogonAndLogOff](/models/traits/has-last-login-last-logoff.md),
+> [HasCriticalSystemObject](/models/traits/has-critical-system-object.md)
 
-## List of Available 'Getter' Methods:
+## Methods
 
 ```php
 $computer = $provider->search()->computers()->find('ACME-EXCHANGE');

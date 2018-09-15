@@ -1,11 +1,11 @@
 # The User Model
 
 > **Note**: This model contains the trait `HasMemberOf`. For more information, visit the documentation:
-> [HasMemberOfTrait](traits/has-member-of.md)
+> [HasMemberOfTrait](/models/traits/has-member-of.md)
 
-## List of Available 'Getter' Methods:
+## Methods
 
-There's a ton of available getter methods for the User model. Below is a list for a quick reference.
+There's a ton of available methods for the User model. Below is a list for a quick reference.
 
 > **Note**: Don't see a method for an AD attribute? Create an issue and let us know!
 

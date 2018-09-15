@@ -1,22 +1,5 @@
 # Searching
 
-## Contents
-
-- [Creating a Query](#creating-a-new-query)
-- [Selects](#selects)
-- [Executing Searches](#executing-searches)
-- [Limit](#limit)
-- [Wheres](#wheres)
-- [Or Wheres](#or-wheres)
-- [Dynamic Wheres](#dynamic-wheres)
-- [Nested Filters](#nested-filters)
-- [Raw Filters](#raw-filters)
-- [Sorting](#sorting)
-- [Pagination](#paginating)
-- [Scopes](#scopes)
-- [Base DN](#base-dn)
-- [Search Options](#search-options)
-
 ## Introduction
 
 Using the Adldap2 query builder makes building LDAP queries feel effortless.

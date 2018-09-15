@@ -3,7 +3,7 @@
 > **Note**: This model contains the trait `HasMemberOf`.
 > For more information, visit the documentation:
 >
-> [HasMemberOf](traits/has-member-of.md)
+> [HasMemberOf](/models/traits/has-member-of.md)
 
 ## Creation
 

@@ -21,7 +21,7 @@ $context = $rootDse->getSchemaNamingContext();
 echo $context;
 ```
 
-## Getting the root domain naming context:
+## Getting the root domain naming context
 
 To get the Root DSE domain naming context, call the `getRootDomainNamingContext()`:
 

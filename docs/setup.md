@@ -1,14 +1,5 @@
 # Setup
 
-## Contents
-
-- [Configuration](#configuration)
-- [Getting Started](#getting-started)
-- [Connecting](#connecting)
-- [Authenticating / Binding Users](#authenticating)
-- [Using Other LDAP Servers (OpenLDAP / FreeIPA)](#using-other-ldap-servers-openldap--freeipa--etc)
-- [Raw Operations](#Raw-Operations)
-
 ## Configuration
 
 To configure your LDAP connections, you can use two methods:

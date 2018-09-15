@@ -3,8 +3,8 @@
 > **Note**: This model contains the trait `HasDescription` & `HasCriticalSystemObject`.
 > For more information, visit the documentation:
 > 
-> [HasDescription](traits/has-description.md),
-> [HasCriticalSystemObject](traits/has-critical-system-object.md),
+> [HasDescription](/models/traits/has-description.md),
+> [HasCriticalSystemObject](/models/traits/has-critical-system-object.md),
 
 ## Creation
 
@@ -15,7 +15,7 @@ $container = $provider->make()->container([
 ]);
 ```
 
-## List of Available 'Getter' Methods:
+## Methods
 
 The `Container` model contains only one unique method.
 

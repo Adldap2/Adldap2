@@ -1,33 +1,5 @@
 # Creating / Updating
 
-## Contents
-
-- [Introduction](#introduction)
-- [Creating](#creating)
-    - [Available Make Methods](#available-make-methods)
-- [Saving](#saving)
-    - [Creating Manually](#creating-manually)
-    - [Updating Manually](#updating-manually)
-- [Checking Existence](#checking-existence)
-- [Attributes](#attributes)
-    - [Getting Attributes](#getting-attributes)
-    - [Using a Getter](#using-a-getter)
-        - [Available Getters](#available-getters-on-all-models)
-    - [Getting Dirty Attributes](#getting-dirty-modified-attributes)
-    - [Getting Original Attributes](#getting-original-unmodified-attributes)
-    - [Setting Attributes](#setting-attributes)
-    - [Creating Attributes](#creating-attributes)
-    - [Updating Attributes](#updating-attributes)
-    - [Removing Attributes](#removing-attributes)
-    - [Checking Attributes](#checking-attributes)
-        - [Checking Existence of Attributes](#checking-existence-of-attributes)
-        - [Counting the Models Attributes](#counting-the-models-attributes)
-        - [Checking if a Model is Writable](#checking-if-a-model-is-writable)
-    - [Force Re-Syncing Attributes](#force-re-syncing-a-models-attributes)
-- [Moving / Renaming](#moving--renaming)
-- [Deleting](#deleting)
-- [Extending (Custom Models)](#extending)
-
 ## Introduction
 
 Adldap2 implements the ActiveRecord pattern. This means that each LDAP
@@ -228,7 +200,7 @@ Or to retrieve all of a users email addresses, use the method `getEmails()`:
 $user->getEmails();
 ```
 
-##### Available Getters on All Models
+##### Other Methods
 
 The following methods are available on all returned models:
 

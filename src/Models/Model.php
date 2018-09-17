@@ -791,7 +791,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Saves the changes to LDAP and returns the results.
      *
-     * @param array $attributes
+     * @param array $attributes The attributes to update or create for the current entry.
      *
      * @return bool
      */
@@ -803,7 +803,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Updates the model.
      *
-     * @param array $attributes
+     * @param array $attributes The attributes to update for the current entry.
      *
      * @return bool
      */
@@ -838,7 +838,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Creates the entry in LDAP.
      *
-     * @param array $attributes
+     * @param array $attributes The attributes for the new entry.
      *
      * @return bool
      */
@@ -988,9 +988,9 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Moves the current model to a new RDN and new parent.
      *
-     * @param string      $rdn
-     * @param string|null $newParentDn
-     * @param bool|true   $deleteOldRdn
+     * @param string      $rdn          The models new relative distinguished name. Example: "cn=JohnDoe"
+     * @param string|null $newParentDn  The models new parent distinguished name (if moving). Leave this null if you are only renaming. Example: "ou=MovedUsers,dc=acme,dc=org"
+     * @param bool|true   $deleteOldRdn Whether to delete the old models relative distinguished name onced renamed / moved.
      *
      * @return bool
      */
@@ -1014,7 +1014,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Alias for the move method.
      *
-     * @param string $rdn
+     * @param string $rdn The models new relative distinguished name. Example: "cn=JohnDoe"
      *
      * @return bool
      */

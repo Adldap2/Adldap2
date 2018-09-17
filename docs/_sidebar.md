@@ -8,6 +8,8 @@
 
   * [Searching](searching.md)
   * [Creating & Updating](models/model.md)
+  * [Working With Distiguished Names](distinguished-names.md)
+  * [Troubleshooting](troubleshooting.md)
 
 * Models
 
@@ -20,6 +22,3 @@
   * [Printer](models/printer.md)
   * [RootDse](models/root-dse.md)
   * [User](models/user.md)
-
-* [Working With Distiguished Names](distinguished-names.md)
-* [Troubleshooting](troubleshooting.md)

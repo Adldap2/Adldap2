@@ -131,22 +131,11 @@ To get the results from a search, simply call the `get()` method:
 $results = $search->select(['cn', 'samaccountname'])->get();
 ```
 
-> **Note**: Executed searches via the `all()` or `get()` method will
-> return them inside an `Illuminate\Support\Collection` instance (a glorified array),
-> with allows you to utilize [some extremely handy methods](https://laravel.com/docs/collections).
+> **Note**: Executed searches via the `get()` method will return them inside an
+> `Illuminate\Support\Collection` instance (a glorified array), with allows
+> you to utilize [some extremely handy methods](https://laravel.com/docs/collections).
 >
 > Executed searches via the `first()` method will return **a model instance only**.
-
-##### Retrieving all LDAP records
-
-To get all records from your LDAP server, call the `all()` method:
-
-> **Note**: If your directory has more than 1000 models, you may not receive them all.
-> You will need to `paginate()` your query otherwise. More on this below.
-
-```php
-$results = $search->all();
-```
 
 ##### Retrieving the first record
 

@@ -3,9 +3,8 @@
 namespace Adldap\Query;
 
 use Closure;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Schemas\SchemaInterface;
@@ -461,31 +460,67 @@ class Builder
     /**
      * Finds a record using ambiguous name resolution.
      *
-     * @param string|array $anr
+     * @param string|array $value
      * @param array|string $columns
      *
      * @return Model|array|null
      */
-    public function find($anr, $columns = [])
+    public function find($value, $columns = [])
     {
-        if (is_array($anr)) {
-            return $this->findMany($anr, $columns);
+        if (is_array($value)) {
+            return $this->findMany($value, $columns);
         }
 
-        return $this->findBy($this->schema->anr(), $anr, $columns);
+        return $this->findbyAnr($value, $columns);
+    }
+
+    /**
+     * Locates a record by ANR (if using ActiveDirectory).
+     *
+     * Otherwise, it performs a search by querying common attributes
+     * for the given anr value and returns the first result.
+     *
+     * @param string $value
+     * @param array  $columns
+     *
+     * @return Model|array|false|null
+     */
+    protected function findByAnr($value, $columns = [])
+    {
+        // If we're not using ActiveDirectory, we can't use ANR. We'll make our own query.
+        if (! is_a($this->schema, ActiveDirectory::class)) {
+            // We'll construct an 'or' filter for different name attributes that exist in every directory.
+            return $this->orFilter(function (Builder $query) use ($value) {
+                $locateBy = [
+                    $this->schema->name(),
+                    $this->schema->email(),
+                    $this->schema->lastName(),
+                    $this->schema->firstName(),
+                    $this->schema->commonName(),
+                    $this->schema->displayName(),
+                ];
+
+                foreach ($locateBy as $attribute) {
+                    $query->whereEquals($attribute, $value);
+                }
+            })->first($columns);
+        }
+
+        // We're using ActiveDirectory. We can use ANR.
+        return $this->findBy($this->schema->anr(), $value, $columns);
     }
 
     /**
      * Finds multiple records using ambiguous name resolution.
      *
-     * @param array $anrs
+     * @param array $values
      * @param array $columns
      *
      * @return \Illuminate\Support\Collection|array
      */
-    public function findMany(array $anrs = [], $columns = [])
+    public function findMany(array $values = [], $columns = [])
     {
-        return $this->findManyBy($this->schema->anr(), $anrs, $columns);
+        return $this->findManyBy($this->schema->anr(), $values, $columns);
     }
 
     /**
@@ -513,16 +548,16 @@ class Builder
      *
      * If a record is not found, an exception is thrown.
      *
-     * @param string       $anr
+     * @param string       $value
      * @param array|string $columns
      *
      * @throws ModelNotFoundException
      *
      * @return Model|array
      */
-    public function findOrFail($anr, $columns = [])
+    public function findOrFail($value, $columns = [])
     {
-        $entry = $this->find($anr, $columns);
+        $entry = $this->find($value, $columns);
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.

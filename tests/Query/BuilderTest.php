@@ -5,11 +5,11 @@ namespace Adldap\Tests\Query;
 use DateTime;
 use Adldap\Utilities;
 use Adldap\Models\Model;
-use Adldap\Query\Builder;
-use Adldap\Query\Grammar;
-use Adldap\Query\Paginator;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Paginator;
+use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ConnectionInterface;
+use Illuminate\Support\Collection;
 
 class BuilderTest extends TestCase
 {
@@ -896,5 +896,67 @@ class BuilderTest extends TestCase
         $b->where('field', '!=', 'value');
 
         $this->assertEquals('(!(field=value))', $b->getUnescapedQuery());
+    }
+
+    public function test_find_does_not_use_anr_when_using_other_ldap_distro()
+    {
+        $b = $this->newBuilder();
+
+        $schema = $this->mock(SchemaInterface::class);
+
+        $b->setSchema($schema);
+
+        $schema
+            ->shouldReceive('name')->once()->andReturn('name')
+            ->shouldReceive('email')->once()->andReturn('mail')
+            ->shouldReceive('lastName')->once()->andReturn('sn')
+            ->shouldReceive('firstName')->once()->andReturn('givenname')
+            ->shouldReceive('commonName')->once()->andReturn('cn')
+            ->shouldReceive('displayName')->once()->andReturn('displayname');
+    }
+
+    public function test_find_many_does_not_use_anr_when_using_other_ldap_distro()
+    {
+        $c = $this->mock(ConnectionInterface::class);
+        $s = $this->mock(SchemaInterface::class);
+
+        $b = $this->newBuilder($c);
+
+        $b->setSchema($s);
+
+        $s
+            ->shouldReceive('name')->times(3)->andReturn('name')
+            ->shouldReceive('email')->times(3)->andReturn('mail')
+            ->shouldReceive('lastName')->times(3)->andReturn('sn')
+            ->shouldReceive('firstName')->times(3)->andReturn('givenname')
+            ->shouldReceive('commonName')->times(3)->andReturn('cn')
+            ->shouldReceive('displayName')->times(3)->andReturn('displayname')
+            ->shouldReceive('objectCategory')->once()->andReturn('objectcategory')
+            ->shouldReceive('objectClass')->once()->andReturn('objectclass');
+
+        $expectedOrFilters = [
+            '(|(name=\6a\6f\68\6e)(mail=\6a\6f\68\6e)(sn=\6a\6f\68\6e)(givenname=\6a\6f\68\6e)(cn=\6a\6f\68\6e)(displayname=\6a\6f\68\6e))',
+            '(|(name=\6a\61\6e\65)(mail=\6a\61\6e\65)(sn=\6a\61\6e\65)(givenname=\6a\61\6e\65)(cn=\6a\61\6e\65)(displayname=\6a\61\6e\65))',
+            '(|(name=\73\75\65)(mail=\73\75\65)(sn=\73\75\65)(givenname=\73\75\65)(cn=\73\75\65)(displayname=\73\75\65))'
+        ];
+
+        $expectedFilter = sprintf('(&%s)', implode($expectedOrFilters));
+
+        $select = ['cn', 'sn'];
+
+        $expectedSelect = array_merge($select, [
+            'objectcategory',
+            'objectclass',
+        ]);
+
+        $c
+            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 0)->andReturnSelf()
+            ->shouldReceive('getEntries')->once()->andReturn(null);
+
+        $this->assertInstanceOf(Collection::class, $b->findMany([
+            'john',
+            'jane',
+            'sue',
+        ], $select));
     }
 }

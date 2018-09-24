@@ -471,42 +471,11 @@ class Builder
             return $this->findMany($value, $columns);
         }
 
-        return $this->findbyAnr($value, $columns);
-    }
-
-    /**
-     * Locates a record by ANR (if using ActiveDirectory).
-     *
-     * Otherwise, it performs a search by querying common attributes
-     * for the given anr value and returns the first result.
-     *
-     * @param string $value
-     * @param array  $columns
-     *
-     * @return Model|array|false|null
-     */
-    protected function findByAnr($value, $columns = [])
-    {
         // If we're not using ActiveDirectory, we can't use ANR. We'll make our own query.
         if (! is_a($this->schema, ActiveDirectory::class)) {
-            // We'll construct an 'or' filter for different name attributes that exist in every directory.
-            return $this->orFilter(function (Builder $query) use ($value) {
-                $locateBy = [
-                    $this->schema->name(),
-                    $this->schema->email(),
-                    $this->schema->lastName(),
-                    $this->schema->firstName(),
-                    $this->schema->commonName(),
-                    $this->schema->displayName(),
-                ];
-
-                foreach ($locateBy as $attribute) {
-                    $query->whereEquals($attribute, $value);
-                }
-            })->first($columns);
+            return $this->prepareAnrEquivalentQuery($value)->first($columns);
         }
 
-        // We're using ActiveDirectory. We can use ANR.
         return $this->findBy($this->schema->anr(), $value, $columns);
     }
 
@@ -520,7 +489,44 @@ class Builder
      */
     public function findMany(array $values = [], $columns = [])
     {
-        return $this->findManyBy($this->schema->anr(), $values, $columns);
+        $this->select($columns);
+
+        if (! is_a($this->schema, ActiveDirectory::class)) {
+            $query = $this;
+
+            foreach ($values as $value) {
+                $query->prepareAnrEquivalentQuery($value);
+            }
+
+            return $query->get();
+        }
+
+        return $this->findManyBy($this->schema->anr(), $values);
+    }
+
+    /**
+     * Creates an ANR equivalent query for LDAP distributions that do not support ANR.
+     *
+     * @param string $value
+     *
+     * @return Builder
+     */
+    protected function prepareAnrEquivalentQuery($value)
+    {
+        return $this->orFilter(function (Builder $query) use ($value) {
+            $locateBy = [
+                $this->schema->name(),
+                $this->schema->email(),
+                $this->schema->lastName(),
+                $this->schema->firstName(),
+                $this->schema->commonName(),
+                $this->schema->displayName(),
+            ];
+
+            foreach ($locateBy as $attribute) {
+                $query->whereEquals($attribute, $value);
+            }
+        });
     }
 
     /**

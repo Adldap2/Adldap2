@@ -17,6 +17,16 @@ trait HasUserAccountControl
     }
 
     /**
+     * Returns the users user account control as an AccountControl object.
+     *
+     * @return AccountControl
+     */
+    public function getUserAccountControlObject()
+    {
+        return new AccountControl($this->getUserAccountControl());
+    }
+
+    /**
      * Sets the users account control property.
      *
      * @param int|string|AccountControl $accountControl

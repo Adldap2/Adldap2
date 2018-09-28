@@ -2,6 +2,8 @@
 
 namespace Adldap\Models\Attributes;
 
+use ReflectionClass;
+
 /**
  * The Account Control class.
  *
@@ -102,15 +104,23 @@ class AccountControl
      */
     public function apply($flag)
     {
-        $flags = [];
+        $this->setValues($this->extractFlags($flag));
+    }
 
-        for ($i = 0; $i <= 26; $i++) {
-            if ((int) $flag & (1 << $i)) {
-                array_push($flags, 1 << $i);
-            }
-        }
+    /**
+     * Determine if the current AccountControl object contains the given UAC flag.
+     *
+     * @param int $flag
+     *
+     * @return bool
+     */
+    public function has($flag)
+    {
+        $flags = $this->extractFlags($flag);
 
-        $this->setValues($flags);
+        $flagsUsed = array_intersect($flags, $this->values);
+
+        return in_array($flag, $flagsUsed);
     }
 
     /**
@@ -395,6 +405,16 @@ class AccountControl
     }
 
     /**
+     * Returns an array containing all of the user account control flags.
+     *
+     * @return array
+     */
+    public function getFlags()
+    {
+        return (new ReflectionClass(__CLASS__))->getConstants();
+    }
+
+    /**
      * Applies the inserted value to the values property array.
      *
      * @param int $value
@@ -408,5 +428,27 @@ class AccountControl
         $this->values[$value] = $value;
 
         return $this;
+    }
+
+    /**
+     * Determine the UAC flags in use from the given flag.
+     *
+     * Returns an array containing each flag that is in use.
+     *
+     * @param int $flag
+     *
+     * @return array
+     */
+    protected function extractFlags($flag)
+    {
+        $flags = [];
+
+        for ($i = 0; $i <= 26; $i++) {
+            if ((int) $flag & (1 << $i)) {
+                array_push($flags, 1 << $i);
+            }
+        }
+
+        return $flags;
     }
 }

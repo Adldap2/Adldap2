@@ -256,12 +256,14 @@ class Group extends Entry
             if($to === '*') {
                 return $members;
             }
+            
+            $range = $to - $matches[1][0];
 
             $from = $to + 1;
 
             // We'll determine the member range simply
-            // by doubling the selected from value.
-            $to = $from * 2;
+            // by adding $range to $from.
+            $to = $from + $range;
 
             // We'll need to query for the current model again but with
             // a new range to retrieve the other members.

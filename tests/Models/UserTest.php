@@ -8,6 +8,7 @@ use Adldap\Models\User;
 use Adldap\Models\Entry;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSProperty;
 use Adldap\Models\Attributes\TSPropertyArray;
 
@@ -281,6 +282,30 @@ class UserTest extends TestCase
         $user->setQuery($builder);
 
         $this->assertFalse($user->passwordExpired());
+    }
+
+    public function test_password_is_not_expired_when_uac_flag_is_set()
+    {
+        $model = $this->newUserModel([]);
+
+        $flag = AccountControl::NORMAL_ACCOUNT + AccountControl::DONT_EXPIRE_PASSWORD;
+
+        $model->setUserAccountControl($flag);
+
+        $this->assertFalse($model->passwordExpired());
+    }
+
+    public function test_password_is_not_expired_when_uac_flag_does_not_contain_dont_expire()
+    {
+        $model = $this->newUserModel([]);
+
+        $flag = AccountControl::NORMAL_ACCOUNT + AccountControl::PASSWD_NOTREQD;
+
+        $model->userAccountControl = $flag;
+        $model->pwdlastset = 0;
+
+        $this->assertTrue($model->passwordExpired());
+        $this->assertEquals([AccountControl::PASSWD_NOTREQD, AccountControl::NORMAL_ACCOUNT], $model->getUserAccountControlObject()->getValues());
     }
 
     public function test_get_userparameters()

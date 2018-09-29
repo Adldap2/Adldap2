@@ -10,6 +10,7 @@ use Adldap\Models\Concerns\HasMemberOf;
 use Adldap\Models\Concerns\HasDescription;
 use Adldap\Models\Concerns\HasUserAccountControl;
 use Adldap\Models\Concerns\HasLastLogonAndLogOff;
+use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSPropertyArray;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -1273,6 +1274,9 @@ class User extends Entry implements Authenticatable
     {
         $accountExpiry = $this->getAccountExpiry();
 
+        // If the account expiry is zero or the expiry is equal to
+        // ActiveDirectory's 'never expire' value,
+        // then we'll return null here.
         if ($accountExpiry == 0 || $accountExpiry == $this->getSchema()->neverExpiresDate()) {
             return;
         }
@@ -1293,11 +1297,15 @@ class User extends Entry implements Authenticatable
      */
     public function isExpired(DateTime $date = null)
     {
-        $date = $date ?: new DateTime();
+        // Here we'll determine if the account expires by checking is expiration date.
+        if ($expirationDate = $this->expirationDate()) {
+            $date = $date ?: new DateTime();
 
-        $expirationDate = $this->expirationDate();
+            return $expirationDate <= $date;
+        }
 
-        return $expirationDate ? ($expirationDate <= $date) : false;
+        // The account has no expiry date.
+        return false;
     }
 
     /**
@@ -1317,6 +1325,12 @@ class User extends Entry implements Authenticatable
      */
     public function passwordExpired()
     {
+        // First we'll check the users userAccountControl to see if
+        // it contains the 'password does not expire' flag.
+        if ($this->getUserAccountControlObject()->has(AccountControl::DONT_EXPIRE_PASSWORD)) {
+            return false;
+        }
+
         $lastSet = (int) $this->getPasswordLastSet();
 
         if ($lastSet === 0) {

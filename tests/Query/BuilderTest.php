@@ -900,20 +900,39 @@ class BuilderTest extends TestCase
 
     public function test_find_does_not_use_anr_when_using_other_ldap_distro()
     {
-        $b = $this->newBuilder();
+        $c = $this->mock(ConnectionInterface::class);
+        $s = $this->mock(SchemaInterface::class);
 
-        $schema = $this->mock(SchemaInterface::class);
+        $b = $this->newBuilder($c);
 
-        $b->setSchema($schema);
+        $b->setSchema($s);
 
-        $schema
+        $s
             ->shouldReceive('name')->once()->andReturn('name')
             ->shouldReceive('email')->once()->andReturn('mail')
             ->shouldReceive('lastName')->once()->andReturn('sn')
             ->shouldReceive('firstName')->once()->andReturn('givenname')
             ->shouldReceive('commonName')->once()->andReturn('cn')
-            ->shouldReceive('displayName')->once()->andReturn('displayname');
+            ->shouldReceive('displayName')->once()->andReturn('displayname')
+            ->shouldReceive('objectCategory')->once()->andReturn('objectcategory')
+            ->shouldReceive('objectClass')->once()->andReturn('objectclass');
+
+        $expectedFilter = '(|(name=\6a\64\6f\65)(mail=\6a\64\6f\65)(sn=\6a\64\6f\65)(givenname=\6a\64\6f\65)(cn=\6a\64\6f\65)(displayname=\6a\64\6f\65))';
+
+        $select = ['cn', 'sn'];
+
+        $expectedSelect = array_merge($select, [
+            'objectcategory',
+            'objectclass',
+        ]);
+
+        $c
+            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 1)->andReturnSelf()
+            ->shouldReceive('getEntries')->once()->andReturn(null);
+
+        $this->assertNull($b->find('jdoe', $select));
     }
+
 
     public function test_find_many_does_not_use_anr_when_using_other_ldap_distro()
     {

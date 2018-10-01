@@ -910,6 +910,7 @@ class BuilderTest extends TestCase
         $s
             ->shouldReceive('name')->once()->andReturn('name')
             ->shouldReceive('email')->once()->andReturn('mail')
+            ->shouldReceive('userId')->times(3)->andReturn('uid')
             ->shouldReceive('lastName')->once()->andReturn('sn')
             ->shouldReceive('firstName')->once()->andReturn('givenname')
             ->shouldReceive('commonName')->once()->andReturn('cn')
@@ -917,7 +918,7 @@ class BuilderTest extends TestCase
             ->shouldReceive('objectCategory')->once()->andReturn('objectcategory')
             ->shouldReceive('objectClass')->once()->andReturn('objectclass');
 
-        $expectedFilter = '(|(name=\6a\64\6f\65)(mail=\6a\64\6f\65)(sn=\6a\64\6f\65)(givenname=\6a\64\6f\65)(cn=\6a\64\6f\65)(displayname=\6a\64\6f\65))';
+        $expectedFilter = '(|(name=\6a\64\6f\65)(mail=\6a\64\6f\65)(uid=\6a\64\6f\65)(sn=\6a\64\6f\65)(givenname=\6a\64\6f\65)(cn=\6a\64\6f\65)(displayname=\6a\64\6f\65))';
 
         $select = ['cn', 'sn'];
 
@@ -946,6 +947,7 @@ class BuilderTest extends TestCase
         $s
             ->shouldReceive('name')->times(3)->andReturn('name')
             ->shouldReceive('email')->times(3)->andReturn('mail')
+            ->shouldReceive('userId')->times(3)->andReturn('uid')
             ->shouldReceive('lastName')->times(3)->andReturn('sn')
             ->shouldReceive('firstName')->times(3)->andReturn('givenname')
             ->shouldReceive('commonName')->times(3)->andReturn('cn')
@@ -954,9 +956,9 @@ class BuilderTest extends TestCase
             ->shouldReceive('objectClass')->once()->andReturn('objectclass');
 
         $expectedOrFilters = [
-            '(|(name=\6a\6f\68\6e)(mail=\6a\6f\68\6e)(sn=\6a\6f\68\6e)(givenname=\6a\6f\68\6e)(cn=\6a\6f\68\6e)(displayname=\6a\6f\68\6e))',
-            '(|(name=\6a\61\6e\65)(mail=\6a\61\6e\65)(sn=\6a\61\6e\65)(givenname=\6a\61\6e\65)(cn=\6a\61\6e\65)(displayname=\6a\61\6e\65))',
-            '(|(name=\73\75\65)(mail=\73\75\65)(sn=\73\75\65)(givenname=\73\75\65)(cn=\73\75\65)(displayname=\73\75\65))'
+            '(|(name=\6a\6f\68\6e)(mail=\6a\6f\68\6e)(uid=\6a\6f\68\6e)(sn=\6a\6f\68\6e)(givenname=\6a\6f\68\6e)(cn=\6a\6f\68\6e)(displayname=\6a\6f\68\6e))',
+            '(|(name=\6a\61\6e\65)(mail=\6a\61\6e\65)(uid=\6a\61\6e\65)(sn=\6a\61\6e\65)(givenname=\6a\61\6e\65)(cn=\6a\61\6e\65)(displayname=\6a\61\6e\65))',
+            '(|(name=\73\75\65)(mail=\73\75\65)(uid=\73\75\65)(sn=\73\75\65)(givenname=\73\75\65)(cn=\73\75\65)(displayname=\73\75\65))'
         ];
 
         $expectedFilter = sprintf('(&%s)', implode($expectedOrFilters));

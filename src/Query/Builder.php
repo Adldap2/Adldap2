@@ -517,6 +517,7 @@ class Builder
             $locateBy = [
                 $this->schema->name(),
                 $this->schema->email(),
+                $this->schema->userId(),
                 $this->schema->lastName(),
                 $this->schema->firstName(),
                 $this->schema->commonName(),

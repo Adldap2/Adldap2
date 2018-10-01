@@ -19,7 +19,7 @@ class AccountControlTest extends TestCase
     {
         $ac = new AccountControl();
 
-        $values = array_values($ac->getFlags());
+        $values = array_values($ac->getAllFlags());
 
         $ac
             ->accountIsLocked()

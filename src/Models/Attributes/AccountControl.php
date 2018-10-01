@@ -409,7 +409,7 @@ class AccountControl
      *
      * @return array
      */
-    public function getFlags()
+    public function getAllFlags()
     {
         return (new ReflectionClass(__CLASS__))->getConstants();
     }

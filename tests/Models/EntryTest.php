@@ -872,4 +872,20 @@ class EntryTest extends TestCase
 
         $this->assertEquals($dn, $model->getManagedBy());
     }
+
+    public function test_case_sensitivity_for_setting_and_retrieving_attributes()
+    {
+        $m = $this->newModel([
+            'CN' => 'John Doe',
+            'givenName' => 'Doe, John',
+            'memberOf' => [],
+        ]);
+
+        $this->assertEquals('John Doe', $m->getFirstAttribute('cn'));
+        $this->assertEquals('John Doe', $m->getFirstAttribute('cN'));
+        $this->assertEquals('Doe, John', $m->getFirstAttribute('givenname'));
+        $this->assertEquals('Doe, John', $m->getFirstAttribute('GiVENnAme'));
+        $this->assertEquals([], $m->getAttribute('memberof'));
+        $this->assertEquals([], $m->getAttribute('mEMBEROF'));
+    }
 }

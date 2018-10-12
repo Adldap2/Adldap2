@@ -241,11 +241,22 @@ class DistinguishedName
     /**
      * Returns an array of all components in the distinguished name.
      *
+     * If a component name is given ('cn', 'dc' for example) then
+     * the values of that component will be returned.
+     *
+     * @param string|null $component The component to retrieve values of
+     *
      * @return array
      */
-    public function getComponents()
+    public function getComponents($component = null)
     {
-        return $this->components;
+        if (is_null($component)) {
+            return $this->components;
+        }
+
+        $this->validateComponentExists($component);
+
+        return $this->components[$component];
     }
 
     /**

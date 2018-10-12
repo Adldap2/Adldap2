@@ -1010,7 +1010,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * For example:
      *
-     *      $user->moveInto($ou);
+     *      $user->move($ou);
      *
      * @param string|Model $newParentDn The new parent of the current Model.
      * @param bool         $deleteOldRdn

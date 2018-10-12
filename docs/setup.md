@@ -218,9 +218,9 @@ $ad->addProvider($config, 'connection-one');
 
 **Using a DomainConfiguration object:**
 ```php
-$config = new \Adldap\Configuration\DomainConfiguration(['...']);
-
 $ad = new Adldap();
+
+$config = new \Adldap\Configuration\DomainConfiguration(['...']);
 
 $ad->addProvider($config, 'connection-one');
 ```

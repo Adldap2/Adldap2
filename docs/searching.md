@@ -58,7 +58,13 @@ if ($record) {
 }
 ```
 
-> **Note**: Using the `find()` method will search for LDAP records using ANR (ambiguous name resolution).
+> **Note**: Using the `find()` method will search for LDAP records using ANR
+> (ambiguous name resolution) and return the first result.
+>
+> Since ActiveDirectory is the only LDAP distribution that supports ANR,
+> an equivalent query will be created for other LDAP distributions
+> that are not compatible.
+>
 > For a more fine-tuned search, use the `findBy()` method below.
 
 ##### Finding a record (or failing)

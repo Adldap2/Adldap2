@@ -1040,11 +1040,22 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param string|Model $newParentDn The new parent of the current Model.
      *
+     * @throws \UnexpectedValueException If a model is given and it's DN is empty.
+     *
      * @return bool
      */
     public function moveInto($newParentDn)
     {
-        $rdn = $this->getNewDnBuilder()->addCn($this->getCommonName())->get();
+        // First we'll explode the current models distinguished name and keep their attributes prefixes.
+        $parts = Utilities::explodeDn($this->getDn(), $removeAttrPrefixes = false);
+
+        // If the current model has an empty RDN, we can't move it.
+        if ((int) Arr::first($parts) === 0) {
+            throw new \UnexpectedValueException("Current model does not contain an RDN to move.");
+        }
+
+        // Looks like we have a DN. We'll retrieve the leftmost RDN (the identifier).
+        $rdn = Arr::get($parts, 0);
 
         return $this->move($rdn, $newParentDn);
     }

@@ -265,7 +265,7 @@ try {
     $provider = $ad->connect($connectionName);
 
     // Great, we're connected!
-} catch (\Adldap\Connections\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```
@@ -299,7 +299,7 @@ $ad->addProvider($config = ['...']);
 
 try {
     $users = $ad->search()->users()->get();
-} catch (\Adldap\Connections\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```

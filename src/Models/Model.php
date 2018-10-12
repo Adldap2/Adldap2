@@ -1006,7 +1006,35 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Moves the current model to a new RDN and new parent.
+     * Moves the current model into the given new parent.
+     *
+     * For example:
+     *
+     *      $user->moveInto($ou);
+     *
+     * @param string|Model $newParentDn The new parent of the current Model.
+     * @param bool         $deleteOldRdn
+     *
+     * @return bool
+     */
+    public function move($newParentDn, $deleteOldRdn = true)
+    {
+        // First we'll explode the current models distinguished name and keep their attributes prefixes.
+        $parts = Utilities::explodeDn($this->getDn(), $removeAttrPrefixes = false);
+
+        // If the current model has an empty RDN, we can't move it.
+        if ((int) Arr::first($parts) === 0) {
+            throw new \UnexpectedValueException("Current model does not contain an RDN to move.");
+        }
+
+        // Looks like we have a DN. We'll retrieve the leftmost RDN (the identifier).
+        $rdn = Arr::get($parts, 0);
+
+        return $this->rename($rdn, $newParentDn, $deleteOldRdn);
+    }
+
+    /**
+     * Renames the current model to a new RDN and new parent.
      *
      * @param string      $rdn          The models new relative distinguished name. Example: "cn=JohnDoe"
      * @param string|null $newParentDn  The models new parent distinguished name (if moving). Leave this null if you are only renaming. Example: "ou=MovedUsers,dc=acme,dc=org"
@@ -1014,7 +1042,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @return bool
      */
-    public function move($rdn, $newParentDn = null, $deleteOldRdn = true)
+    public function rename($rdn, $newParentDn, $deleteOldRdn = true)
     {
         $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, (string) $newParentDn, $deleteOldRdn);
 
@@ -1029,47 +1057,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
         }
 
         return false;
-    }
-
-    /**
-     * Moves the current model into the given parent.
-     *
-     * For example:
-     *
-     *      $user->moveInto($ou);
-     *
-     * @param string|Model $newParentDn The new parent of the current Model.
-     *
-     * @throws \UnexpectedValueException If a model is given and it's DN is empty.
-     *
-     * @return bool
-     */
-    public function moveInto($newParentDn)
-    {
-        // First we'll explode the current models distinguished name and keep their attributes prefixes.
-        $parts = Utilities::explodeDn($this->getDn(), $removeAttrPrefixes = false);
-
-        // If the current model has an empty RDN, we can't move it.
-        if ((int) Arr::first($parts) === 0) {
-            throw new \UnexpectedValueException("Current model does not contain an RDN to move.");
-        }
-
-        // Looks like we have a DN. We'll retrieve the leftmost RDN (the identifier).
-        $rdn = Arr::get($parts, 0);
-
-        return $this->move($rdn, $newParentDn);
-    }
-
-    /**
-     * Alias for the move method.
-     *
-     * @param string $rdn The models new relative distinguished name. Example: "cn=JohnDoe"
-     *
-     * @return bool
-     */
-    public function rename($rdn)
-    {
-        return $this->move($rdn);
     }
 
     /**

@@ -523,7 +523,7 @@ class EntryTest extends TestCase
         $this->assertEquals($expected, $entry->getAttributes());
     }
 
-    public function test_move()
+    public function test_rename()
     {
         $rawAttributes = [
             'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',
@@ -547,7 +547,34 @@ class EntryTest extends TestCase
 
         $entry->setRawAttributes($rawAttributes);
 
-        $this->assertTrue($entry->move($args[1], $args[2]));
+        $this->assertTrue($entry->rename($args[1], $args[2]));
+    }
+
+    public function test_move()
+    {
+        $rawAttributes = [
+            'dn' => 'cn=Doe,dc=corp,dc=acme,dc=org',
+        ];
+
+        $connection = $this->newConnectionMock();
+
+        $args = [
+            'cn=Doe,dc=corp,dc=acme,dc=org',
+            'cn=Doe',
+            'ou=Accounts,dc=corp,dc=amce,dc=org',
+            true,
+        ];
+
+        $connection
+            ->shouldReceive('rename')->once()->withArgs($args)->andReturn(true)
+            ->shouldReceive('read')->once()
+            ->shouldReceive('getEntries')->once();
+
+        $entry = $this->newModel([], $this->newBuilder($connection));
+
+        $entry->setRawAttributes($rawAttributes);
+
+        $this->assertTrue($entry->move($args[2]));
     }
 
     public function test_dn_is_constructed_when_none_given_and_create_is_called()

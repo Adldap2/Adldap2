@@ -1006,7 +1006,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function move($rdn, $newParentDn = null, $deleteOldRdn = true)
     {
-        $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
+        $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, (string) $newParentDn, $deleteOldRdn);
 
         if ($moved) {
             // If the model was successfully moved, we'll set its
@@ -1019,6 +1019,24 @@ abstract class Model implements ArrayAccess, JsonSerializable
         }
 
         return false;
+    }
+
+    /**
+     * Moves the current model into the given parent.
+     *
+     * For example:
+     *
+     *      $user->moveInto($ou);
+     *
+     * @param string|Model $newParentDn The new parent of the current Model.
+     *
+     * @return bool
+     */
+    public function moveInto($newParentDn)
+    {
+        $rdn = $this->getNewDnBuilder()->addCn($this->getCommonName())->get();
+
+        return $this->move($rdn, $newParentDn);
     }
 
     /**

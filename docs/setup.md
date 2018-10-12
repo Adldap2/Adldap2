@@ -70,9 +70,9 @@ $config = [
 
 #### Required Options
 
-##### Domain Controllers
+##### Hosts
 
-The domain controllers option is an array of IP addresses or hostnames located
+The hosts option is an array of IP addresses or hostnames located
 on your network that serve Active Directory.
 
 You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).

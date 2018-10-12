@@ -553,28 +553,33 @@ foreach($paginator as $result)
 
 ## Scopes
 
-Search scopes allow you to easily retrieve common models of a particular 'scope'. Here is how you utilize them:
+Search scopes allow you to easily retrieve common models of a particular 'scope'.
+
+Each scope simply applies the required filters to the search object
+that (when executed) will only return the relevant models.
+
+Here is a list of all available scopes:
 
 ```php
-// Retrieve all users.
+// Retrieve all users (Adldap\Models\User).
 $results = $search->users()->get();
 
-// Retrieve all printers.
+// Retrieve all printers (Adldap\Models\Printer).
 $results = $search->printers()->get();
 
-// Retrieve all organizational units.
+// Retrieve all organizational units (Adldap\Models\OrganizationalUnit).
 $results = $search->ous()->get();
 
-// Retrieve all groups.
+// Retrieve all groups (Adldap\Models\Group).
 $results = $search->groups()->get();
 
-// Retrieve all containers.
+// Retrieve all containers (Adldap\Models\Container).
 $results = $search->containers()->get();
 
-// Retrieve all contacts.
+// Retrieve all contacts (Adldap\Models\Contact).
 $results = $search->contacts()->get();
 
-// Retrieve all computers.
+// Retrieve all computers (Adldap\Models\Computer).
 $results = $search->computers()->get();
 ```
 
@@ -584,14 +589,10 @@ To set the base DN of your search you can use one of two methods:
 
 ```php
 // Using the `in()` method:
-$results = $provider->search()
-    ->in('ou=Accounting,dc=acme,dc=org')
-    ->get();
+$results = $provider->search()->in('ou=Accounting,dc=acme,dc=org')->get();
     
 // Using the `setDn()` method:
-$results = $provider->search()
-    ->setDn('ou=Accounting,dc=acme,dc=org')
-    ->get();
+$results = $provider->search()->setDn('ou=Accounting,dc=acme,dc=org')->get();
 ```
 
 Either option will return the same results. Use which ever method you prefer to be more readable.
@@ -607,7 +608,7 @@ If you'd like to disable recursive search and perform a single level search, use
 ```php
 $result = $provider->search()->listing()->get();
 ```
-    
+
 This would perform an `ldap_listing()` instead of an `ldap_search()`.
 
 #### Read

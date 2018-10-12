@@ -1,7 +1,6 @@
 <?php
 
 namespace Adldap\Connections;
-use Adldap\AdldapError;
 
 /**
  * The Connection interface used for making connections. Implementing
@@ -261,6 +260,8 @@ interface ConnectionInterface
      * @param string $username
      * @param string $password
      * @param bool   $sasl
+     *
+     * @throws ConnectionException If connecting over TLS fails.
      *
      * @return bool
      */

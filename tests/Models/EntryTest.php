@@ -888,4 +888,14 @@ class EntryTest extends TestCase
         $this->assertEquals([], $m->getAttribute('memberof'));
         $this->assertEquals([], $m->getAttribute('mEMBEROF'));
     }
+
+    /** @expectedException \UnexpectedValueException */
+    public function test_creating_entry_without_valid_dn_throws_exception()
+    {
+        $b = $this->newBuilder()->in('dc=acme,dc=org');
+
+        $m = $this->newModel([], $b);
+
+        $m->save();
+    }
 }

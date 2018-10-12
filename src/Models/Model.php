@@ -840,6 +840,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes The attributes for the new entry.
      *
+     * @throws \UnexpectedValueException
+     *
      * @return bool
      */
     public function create(array $attributes = [])
@@ -850,7 +852,15 @@ abstract class Model implements ArrayAccess, JsonSerializable
             // If the model doesn't currently have a distinguished
             // name set, we'll create one automatically using
             // the current query builders base DN.
-            $this->setDn($this->getCreatableDn());
+            $dn = $this->getCreatableDn();
+
+            // If the dn we receive is the same as our queries base DN, we need
+            // to throw an exception. The LDAP object must have a valid RDN.
+            if ($dn->get() == $this->query->getDn()) {
+                throw new \UnexpectedValueException("An LDAP object must have a valid RDN to be created. '$dn' given.");
+            }
+
+            $this->setDn($dn);
         }
 
         // Create the entry.

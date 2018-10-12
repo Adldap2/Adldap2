@@ -3,76 +3,30 @@
 namespace Adldap\Models\Attributes;
 
 use Adldap\Utilities;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\SchemaInterface;
 
 class DistinguishedName
 {
     /**
-     * The common names in the DN.
+     * The distinguished name components (in order of assembly).
      *
      * @var array
      */
-    public $commonNames = [];
-
-    /**
-     * The uid's in the DN.
-     *
-     * @var array
-     */
-    public $userIds = [];
-
-    /**
-     * The organizational units in the DN.
-     *
-     * @var array
-     */
-    public $organizationUnits = [];
-
-    /**
-     * The domain components in the DN.
-     *
-     * @var array
-     */
-    public $domainComponents = [];
-
-    /**
-     * The organization names in the DN.
-     *
-     * @var array
-     */
-    public $organizationNames = [];
-
-    /**
-     * The current LDAP schema.
-     *
-     * @var SchemaInterface
-     */
-    protected $schema;
-
-    /**
-     * The RDN attribute types.
-     *
-     * @var array
-     */
-    protected $types = [
-        'o',
-        'dc',
-        'ou',
-        'uid',
-        'cn',
+    protected $components = [
+        'cn' => [],
+        'uid' => [],
+        'ou' => [],
+        'dc' => [],
+        'o' => [],
     ];
 
     /**
      * Constructor.
      *
-     * @param mixed           $baseDn
-     * @param SchemaInterface $schema
+     * @param mixed $baseDn
      */
-    public function __construct($baseDn = null, SchemaInterface $schema = null)
+    public function __construct($baseDn = null)
     {
-        $this->setBase($baseDn)
-            ->setSchema($schema);
+        $this->setBase($baseDn);
     }
 
     /**
@@ -86,13 +40,23 @@ class DistinguishedName
     }
 
     /**
-     * Returns the complete distinguished name.
+     * Returns the complete distinguished name by assembling the RDN components.
      *
      * @return string
      */
     public function get()
     {
-        return $this->assemble();
+        $components = [];
+
+        // We'll go through each component type and assemble its RDN.
+        foreach ($this->components as $component => $values) {
+            array_map(function ($value) use ($component, &$components) {
+                // Assemble the component and escape the value.
+                $components[] = sprintf('%s=%s', $component, Utilities::escape($value, '', 2));
+            }, $values);
+        }
+
+        return implode(',', $components);
     }
 
     /**
@@ -104,7 +68,7 @@ class DistinguishedName
      */
     public function addDc($dc)
     {
-        $this->domainComponents[] = $dc;
+        $this->addComponent('dc', $dc);
 
         return $this;
     }
@@ -118,7 +82,7 @@ class DistinguishedName
      */
     public function removeDc($dc)
     {
-        $this->domainComponents = array_diff($this->domainComponents, [$dc]);
+        $this->removeComponent('dc', $dc);
 
         return $this;
     }
@@ -132,7 +96,7 @@ class DistinguishedName
      */
     public function addO($o)
     {
-        $this->organizationNames[] = $o;
+        $this->addComponent('o', $o);
 
         return $this;
     }
@@ -146,7 +110,7 @@ class DistinguishedName
      */
     public function removeO($o)
     {
-        $this->organizationNames = array_diff($this->organizationNames, [$o]);
+        $this->removeComponent('o', $o);
 
         return $this;
     }
@@ -160,7 +124,7 @@ class DistinguishedName
      */
     public function addUid($uid)
     {
-        $this->userIds[] = $uid;
+        $this->addComponent('uid', $uid);
 
         return $this;
     }
@@ -174,7 +138,7 @@ class DistinguishedName
      */
     public function removeUid($uid)
     {
-        $this->userIds = array_diff($this->userIds, [$uid]);
+        $this->removeComponent('uid', $uid);
 
         return $this;
     }
@@ -188,7 +152,7 @@ class DistinguishedName
      */
     public function addCn($cn)
     {
-        $this->commonNames[] = $cn;
+        $this->addComponent('cn', $cn);
 
         return $this;
     }
@@ -202,7 +166,7 @@ class DistinguishedName
      */
     public function removeCn($cn)
     {
-        $this->commonNames = array_diff($this->commonNames, [$cn]);
+        $this->removeComponent('cn', $cn);
 
         return $this;
     }
@@ -216,7 +180,7 @@ class DistinguishedName
      */
     public function addOu($ou)
     {
-        $this->organizationUnits[] = $ou;
+        $this->addComponent('ou', $ou);
 
         return $this;
     }
@@ -230,7 +194,7 @@ class DistinguishedName
      */
     public function removeOu($ou)
     {
-        $this->organizationUnits = array_diff($this->organizationUnits, [$ou]);
+        $this->removeComponent('ou', $ou);
 
         return $this;
     }
@@ -275,97 +239,63 @@ class DistinguishedName
     }
 
     /**
-     * Sets the schema for the distinguished name.
+     * Returns an array of all components in the distinguished name.
      *
-     * @param SchemaInterface|null $schema
-     *
-     * @return DistinguishedName
+     * @return array
      */
-    public function setSchema(SchemaInterface $schema = null)
+    public function getComponents()
     {
-        $this->schema = $schema ?: new ActiveDirectory();
-
-        return $this;
+        return $this->components;
     }
 
     /**
-     * Assembles all of the RDNs and returns the result.
+     * Adds a component to the distinguished name.
      *
-     * @return string
+     * @param string $component
+     * @param string $value
+     *
+     * @throws \UnexpectedValueException When the given name does not exist.
      */
-    public function assemble()
+    protected function addComponent($component, $value)
     {
-        return implode(',', array_filter([
-            $this->assembleCns(),
-            $this->assembleUids(),
-            $this->assembleOus(),
-            $this->assembleDcs(),
-            $this->assembleOs(),
-        ]));
+        $this->validateComponentExists($component);
+
+        // We need to make sure the value we're given isn't empty before adding it into our components.
+        if (!empty($value)) {
+            $this->components[$component][] = $value;
+        }
     }
 
     /**
-     * Assembles the common names in the distinguished name.
+     * Removes the given value from the given component.
      *
-     * @return string
+     * @param string $component
+     * @param string $value
+     *
+     * @throws \UnexpectedValueException When the given component does not exist.
+     *
+     * @return void
      */
-    public function assembleCns()
+    protected function removeComponent($component, $value)
     {
-        return $this->assembleRdns($this->schema->commonName(), $this->commonNames);
+        $this->validateComponentExists($component);
+
+        $this->components[$component] = array_diff($this->components[$component], [$value]);
     }
 
     /**
-     * Assembles the user ID's in the distinguished name.
+     * Validates that the given component exists in the available components.
      *
-     * @return string
+     * @param string $component The name of the component to validate.
+     *
+     * @throws \UnexpectedValueException When the given component does not exist.
+     *
+     * @return void
      */
-    public function assembleUids()
+    protected function validateComponentExists($component)
     {
-        return $this->assembleRdns($this->schema->userId(), $this->userIds);
-    }
-
-    /**
-     * Assembles the organizational units in the distinguished Name.
-     *
-     * @return string
-     */
-    public function assembleOus()
-    {
-        return $this->assembleRdns($this->schema->organizationalUnitShort(), $this->organizationUnits);
-    }
-
-    /**
-     * Assembles the domain components in the distinguished Name.
-     *
-     * @return string
-     */
-    public function assembleDcs()
-    {
-        return $this->assembleRdns($this->schema->domainComponent(), $this->domainComponents);
-    }
-
-    /**
-     * Assembles the organization names in the distinguished name.
-     *
-     * @return string
-     */
-    public function assembleOs()
-    {
-        return $this->assembleRdns($this->schema->organizationName(), $this->organizationNames);
-    }
-
-    /**
-     * Assembles an RDN with the specified attribute and value.
-     *
-     * @param string $attribute
-     * @param array  $values
-     *
-     * @return string
-     */
-    protected function assembleRdns($attribute, array $values = [])
-    {
-        return implode(',', array_map(function ($value) use ($attribute) {
-            return sprintf('%s=%s', $attribute, Utilities::escape($value, '', 2));
-        }, $values));
+        if (!array_key_exists($component, $this->components)) {
+            throw new \UnexpectedValueException("The RDN component '$component' does not exist.");
+        }
     }
 }

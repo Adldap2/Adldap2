@@ -147,4 +147,63 @@ class DistinguishedNameTest extends TestCase
 
         $this->assertEmpty($dn->get());
     }
+
+    public function test_adding_multiple()
+    {
+        $dn = new DistinguishedName();
+
+        $dn->addCn('test1')->addCn('test2')->addCn('test3')->addCn('test4');
+
+        $this->assertEquals('cn=test1,cn=test2,cn=test3,cn=test4', $dn->get());
+    }
+
+    public function test_set_base()
+    {
+        $dn = new DistinguishedName();
+
+        $base = 'cn=John Doe,ou=Users,dc=acme,dc=org';
+
+        $dn->setBase($base);
+
+        $components = [
+            'cn' => ['John Doe'],
+            'uid' => [],
+            'ou' => ['Users'],
+            'dc' => ['acme', 'org'],
+            'o' => [],
+        ];
+
+        $this->assertEquals($base, $dn->get());
+        $this->assertEquals($components, $dn->getComponents());
+    }
+
+    public function test_set_base_empty_rdns()
+    {
+        $dn = new DistinguishedName('cn=,ou=,dc=,');
+
+        $components = [
+            'cn' => [],
+            'uid' => [],
+            'ou' => [],
+            'dc' => [],
+            'o' => [],
+        ];
+
+        $this->assertEquals('', $dn->get());
+        $this->assertEquals($components, $dn->getComponents());
+    }
+
+    public function test_adds_with_empty_values()
+    {
+        $dn = new DistinguishedName();
+
+        $dn
+            ->addCn('')
+            ->addUid('')
+            ->addOu('')
+            ->addDc('')
+            ->addO(null);
+
+        $this->assertEquals('', $dn->get());
+    }
 }

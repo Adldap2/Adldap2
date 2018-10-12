@@ -1110,9 +1110,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     protected function validateSecureConnection()
     {
-        $connection = $this->query->getConnection();
-
-        if (!$connection->isUsingSSL() && !$connection->isUsingTLS()) {
+        if (!$this->query->getConnection()->canChangePasswords()) {
             throw new ConnectionException(
                 "You must be connected to your LDAP server with TLS or SSL to perform this operation."
             );

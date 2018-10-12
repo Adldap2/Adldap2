@@ -72,6 +72,16 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the models distinguished name when the model is converted to a string.
+     *
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getDn();
+    }
+
+    /**
      * Sets the current query builder.
      *
      * @param Builder $builder

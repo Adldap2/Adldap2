@@ -1350,8 +1350,15 @@ class User extends Entry implements Authenticatable
                 ->whereHas($this->schema->objectClass())
                 ->first();
 
+            $maxPasswordAge = $rootDomainObject->getMaxPasswordAge();
+
+            if (empty ($maxPasswordAge)) {
+                // There is not a max password age set on the LDAP server.
+                return false;
+            }
+
             // Get the users password expiry in Windows time.
-            $passwordExpiry = bcsub($lastSet, $rootDomainObject->getMaxPasswordAge());
+            $passwordExpiry = bcsub($lastSet, $maxPasswordAge);
 
             // Convert the Windows time to unix.
             $passwordExpiryTime = Utilities::convertWindowsTimeToUnixTime($passwordExpiry);

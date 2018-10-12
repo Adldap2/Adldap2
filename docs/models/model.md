@@ -176,6 +176,15 @@ var_dump($user->getAttributes());
     'useraccountcontrol' => [
         0 => 512
     ],
+    'mail' => [
+        0 => 'jdoe@acme.org',
+        1 => 'john-doe@acme.org',
+    ],
+    'memberof' => [
+        0 => 'cn=Accountants,ou=Groups,dc=acme,dc=org',
+        1 => 'cn=Employees,ou=Groups,dc=acme,dc=org',
+        2 => 'cn=Users,ou=Groups,dc=acme,dc=org',
+    ],
 ]
 */
 ```

@@ -58,7 +58,13 @@ if ($record) {
 }
 ```
 
-> **Note**: Using the `find()` method will search for LDAP records using ANR (ambiguous name resolution).
+> **Note**: Using the `find()` method will search for LDAP records using ANR
+> (ambiguous name resolution) and return the first result.
+>
+> Since ActiveDirectory is the only LDAP distribution that supports ANR,
+> an equivalent query will be created for other LDAP distributions
+> that are not compatible.
+>
 > For a more fine-tuned search, use the `findBy()` method below.
 
 ##### Finding a record (or failing)
@@ -504,9 +510,14 @@ $results = $search->whereHas('cn')->sortBy('cn', 'asc')->paginate(25);
 Paginating your search results will allow you to return more results than
 your LDAP cap (usually 1000) and display your results in pages.
 
-> **Note**: Pagination will retrieve **all** records from your LDAP server.
-> The pagination object is simply a collection that allows you to
-> iterate through the resulting records easily and intuitively.
+> **Note**: Calling `paginate()` will retrieve **all** records from your LDAP server for the current query.
+>
+> This **does not** operate the same way pagination occurs in a database. Pagination of
+> an LDAP query simply allows you to return a larger result set than your
+> LDAP servers configured maximum (usually 1000).
+>
+> The pagination object is simply a collection that allows you to iterate
+> through all the resulting records easily and intuitively.
 
 To perform this, call the `paginate()` method instead of the `get()` method:
 
@@ -542,28 +553,33 @@ foreach($paginator as $result)
 
 ## Scopes
 
-Search scopes allow you to easily retrieve common models of a particular 'scope'. Here is how you utilize them:
+Search scopes allow you to easily retrieve common models of a particular 'scope'.
+
+Each scope simply applies the required filters to the search object
+that (when executed) will only return the relevant models.
+
+Here is a list of all available scopes:
 
 ```php
-// Retrieve all users.
+// Retrieve all users (Adldap\Models\User).
 $results = $search->users()->get();
 
-// Retrieve all printers.
+// Retrieve all printers (Adldap\Models\Printer).
 $results = $search->printers()->get();
 
-// Retrieve all organizational units.
+// Retrieve all organizational units (Adldap\Models\OrganizationalUnit).
 $results = $search->ous()->get();
 
-// Retrieve all groups.
+// Retrieve all groups (Adldap\Models\Group).
 $results = $search->groups()->get();
 
-// Retrieve all containers.
+// Retrieve all containers (Adldap\Models\Container).
 $results = $search->containers()->get();
 
-// Retrieve all contacts.
+// Retrieve all contacts (Adldap\Models\Contact).
 $results = $search->contacts()->get();
 
-// Retrieve all computers.
+// Retrieve all computers (Adldap\Models\Computer).
 $results = $search->computers()->get();
 ```
 
@@ -573,14 +589,10 @@ To set the base DN of your search you can use one of two methods:
 
 ```php
 // Using the `in()` method:
-$results = $provider->search()
-    ->in('ou=Accounting,dc=acme,dc=org')
-    ->get();
+$results = $provider->search()->in('ou=Accounting,dc=acme,dc=org')->get();
     
 // Using the `setDn()` method:
-$results = $provider->search()
-    ->setDn('ou=Accounting,dc=acme,dc=org')
-    ->get();
+$results = $provider->search()->setDn('ou=Accounting,dc=acme,dc=org')->get();
 ```
 
 Either option will return the same results. Use which ever method you prefer to be more readable.
@@ -596,7 +608,7 @@ If you'd like to disable recursive search and perform a single level search, use
 ```php
 $result = $provider->search()->listing()->get();
 ```
-    
+
 This would perform an `ldap_listing()` instead of an `ldap_search()`.
 
 #### Read

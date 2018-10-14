@@ -70,9 +70,9 @@ $config = [
 
 #### Required Options
 
-##### Domain Controllers
+##### Hosts
 
-The domain controllers option is an array of IP addresses or hostnames located
+The hosts option is an array of IP addresses or hostnames located
 on your network that serve Active Directory.
 
 You insert as many servers or as little as you'd like depending on your forest (with the minimum of one of course).
@@ -218,9 +218,9 @@ $ad->addProvider($config, 'connection-one');
 
 **Using a DomainConfiguration object:**
 ```php
-$config = new \Adldap\Configuration\DomainConfiguration(['...']);
-
 $ad = new Adldap();
+
+$config = new \Adldap\Configuration\DomainConfiguration(['...']);
 
 $ad->addProvider($config, 'connection-one');
 ```
@@ -265,7 +265,7 @@ try {
     $provider = $ad->connect($connectionName);
 
     // Great, we're connected!
-} catch (\Adldap\Connections\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```
@@ -299,7 +299,7 @@ $ad->addProvider($config = ['...']);
 
 try {
     $users = $ad->search()->users()->get();
-} catch (\Adldap\Connections\BindException $e) {
+} catch (\Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```

@@ -154,8 +154,47 @@ if ($user->save()) {
 
 ## Attributes
 
-Since all models extend from the base class `Adldap\Models\Model`, there are many
-useful methods that you can utilize on every model.
+Due to LDAPs multi-valued nature, all LDAP attributes inside a model have their own array.
+
+For example, a models attributes may contain the following:
+
+```php
+var_dump($user->getAttributes());
+
+// Returns:
+/*
+[
+    'cn' => [
+        0 => 'John Doe',
+    ],
+    'sn' => [
+        0 => 'Doe',
+    ],
+    'givenname' => [
+        0 => 'John'
+    ],
+    'useraccountcontrol' => [
+        0 => 512
+    ],
+    'mail' => [
+        0 => 'jdoe@acme.org',
+        1 => 'john-doe@acme.org',
+    ],
+    'memberof' => [
+        0 => 'cn=Accountants,ou=Groups,dc=acme,dc=org',
+        1 => 'cn=Employees,ou=Groups,dc=acme,dc=org',
+        2 => 'cn=Users,ou=Groups,dc=acme,dc=org',
+    ],
+]
+*/
+```
+
+You can notice in the above dumped array that each attribute contains
+its own array with a value assigned to the first key.
+
+Since all models extend from the base class `Adldap\Models\Model`, there
+are many useful methods that you can use on every model to easily
+retrieve these attributes you're looking for.
 
 ### Getting Attributes
 

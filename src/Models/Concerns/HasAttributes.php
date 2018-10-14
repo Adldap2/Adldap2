@@ -252,6 +252,9 @@ trait HasAttributes
      */
     public function hasAttribute($key, $subKey = null)
     {
+        // Normalize key.
+        $key = $this->normalizeAttributeKey($key);
+        
         if (is_null($subKey)) {
             return Arr::has($this->attributes, $key);
         }

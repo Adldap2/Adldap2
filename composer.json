@@ -28,7 +28,6 @@
     "require": {
         "php": ">=7.0",
         "ext-ldap": "*",
-        "ext-bcmath": "*",
         "tightenco/collect": "~5.0",
         "illuminate/contracts": "~5.0"
     },

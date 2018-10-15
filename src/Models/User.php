@@ -1358,10 +1358,10 @@ class User extends Entry implements Authenticatable
             }
 
             // convert from 100 nanosecond ticks to seconds
-            $maxPasswordAge = $maxPasswordAge / 10000000;
+            $maxPasswordAgeSeconds = $maxPasswordAge / 10000000;
 
-            $lastSet = Utilities::convertWindowsTimeToUnixTime($lastSet);
-            $passwordExpiryTime = $lastSet - $maxPasswordAge;
+            $lastSetUnixEpoch = Utilities::convertWindowsTimeToUnixTime($lastSet);
+            $passwordExpiryTime = $lastSetUnixEpoch - $maxPasswordAgeSeconds;
 
             $expiresAt = (new DateTime())->setTimestamp($passwordExpiryTime);
 

@@ -1352,7 +1352,7 @@ class User extends Entry implements Authenticatable
 
             $maxPasswordAge = $rootDomainObject->getMaxPasswordAge();
 
-            if (empty ($maxPasswordAge)) {
+            if (empty($maxPasswordAge)) {
                 // There is not a max password age set on the LDAP server.
                 return false;
             }

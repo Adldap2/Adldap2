@@ -139,7 +139,7 @@ class Group extends Entry
 
         if (is_null($entry)) {
             throw new InvalidArgumentException(
-                'Cannot add member to group. The members distinguished name cannot be null.'
+                'Cannot remove member to group. The members distinguished name cannot be null.'
             );
         }
 
@@ -256,7 +256,7 @@ class Group extends Entry
             if($to === '*') {
                 return $members;
             }
-            
+
             $range = $to - $matches[1][0];
 
             $from = $to + 1;

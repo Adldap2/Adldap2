@@ -28,7 +28,7 @@ interface AdldapInterface
     public function getProviders();
 
     /**
-     * Retrieves a Provider using it's specified name.
+     * Retrieves a Provider using its specified name.
      *
      * @param string $name
      *

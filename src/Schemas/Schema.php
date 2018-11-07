@@ -1081,6 +1081,22 @@ abstract class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function mobile()
+    {
+        return 'mobile';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function otherMobile()
+    {
+        return 'othermobile';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function facsimile()
     {
         return 'facsimiletelephonenumber';

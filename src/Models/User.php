@@ -387,6 +387,46 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Returns the users primary mobile phone number.
+     * 
+     * @return string
+     */
+    public function getMobileNumber()
+    {
+        return $this->getFirstAttribute($this->schema->mobile());
+    }
+
+    /**
+     * Sets the users primary mobile phone number.
+     * 
+     * @return $this
+     */
+    public function setMobileNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->mobile(), $number);
+    }
+
+    /**
+     * Returns the users secondary (other) mobile phone number.
+     * 
+     * @return string
+     */
+    public function getOtherMobileNumber()
+    {
+        return $this->getFirstAttribute($this->schema->otherMobile());
+    }
+
+    /**
+     * Sets the users  secondary (other) mobile phone number.
+     * 
+     * @return $this
+     */
+    public function setOtherMobileNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->otherMobile(), $number);
+    }
+
+    /**
      * Returns the users facsimile number.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx

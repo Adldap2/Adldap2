@@ -1251,6 +1251,24 @@ interface SchemaInterface
     public function telephone();
 
     /**
+     * The primary mobile phone number.
+     * 
+     * @link https://docs.microsoft.com/en-us/windows/desktop/adschema/a-mobile
+     * 
+     * @return string
+     */
+    public function mobile();
+
+    /**
+     * The secondary mobile phone number.
+     * 
+     * @link https://docs.microsoft.com/en-us/windows/desktop/ADSchema/a-othermobile
+     * 
+     * @return string
+     */
+    public function otherMobile();
+
+    /**
      * The users thumbnail photo path.
      *
      * @return string

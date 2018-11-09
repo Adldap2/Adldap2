@@ -6,5 +6,5 @@ build:
     nodes:
         analysis:
             tests:
-                override
+                override:
                     - command: php-scrutinizer-run

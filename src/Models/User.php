@@ -1004,11 +1004,11 @@ class User extends Entry implements Authenticatable
                 return false;
             }
 
-            // Get the users password expiry in Windows time.
-            $passwordExpiry = bcsub($lastSet, $maxPasswordAge);
+            // convert from 100 nanosecond ticks to seconds
+            $maxPasswordAgeSeconds = $maxPasswordAge / 10000000;
 
-            // Convert the Windows time to unix.
-            $passwordExpiryTime = Utilities::convertWindowsTimeToUnixTime($passwordExpiry);
+            $lastSetUnixEpoch = Utilities::convertWindowsTimeToUnixTime($lastSet);
+            $passwordExpiryTime = $lastSetUnixEpoch - $maxPasswordAgeSeconds;
 
             $expiresAt = (new DateTime())->setTimestamp($passwordExpiryTime);
 

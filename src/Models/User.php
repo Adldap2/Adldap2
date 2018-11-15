@@ -240,6 +240,8 @@ class User extends Entry implements Authenticatable
      *
      * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
      *
+     * @param string $directory
+     *
      * @return $this
      */
     public function setHomeDirectory($directory)

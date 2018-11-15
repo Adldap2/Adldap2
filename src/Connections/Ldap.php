@@ -2,8 +2,6 @@
 
 namespace Adldap\Connections;
 
-use Adldap\AdldapException;
-
 /**
  * Class Ldap
  *

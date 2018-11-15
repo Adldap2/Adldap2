@@ -889,6 +889,15 @@ class BuilderTest extends TestCase
         $this->assertTrue($b->newNestedInstance()->isNested());
     }
 
+    public function test_does_not_equal()
+    {
+        $b = $this->newBuilder();
+
+        $b->where('field', '!', 'value');
+
+        $this->assertEquals('(!(field=value))', $b->getUnescapedQuery());
+    }
+
     public function test_does_not_equal_alias()
     {
         $b = $this->newBuilder();
@@ -896,6 +905,17 @@ class BuilderTest extends TestCase
         $b->where('field', '!=', 'value');
 
         $this->assertEquals('(!(field=value))', $b->getUnescapedQuery());
+    }
+
+    public function test_using_both_equals_and_equals_alias_outputs_same_result()
+    {
+        $b = $this->newBuilder();
+
+        $b
+            ->where('field', '!=', 'value')
+            ->where('other', '!', 'value');
+
+        $this->assertEquals('(&(!(field=value))(!(other=value)))', $b->getUnescapedQuery());
     }
 
     public function test_find_does_not_use_anr_when_using_other_ldap_distro()

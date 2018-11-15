@@ -5,6 +5,28 @@ namespace Adldap\Models\Concerns;
 trait HasUserProperties
 {
     /**
+     * Returns the users country.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->getFirstAttribute($this->schema->country());
+    }
+
+    /**
+     * Sets the users country.
+     *
+     * @param string $country
+     *
+     * @return $this
+     */
+    public function setCountry($country)
+    {
+        return $this->setFirstAttribute($this->schema->country(), $country);
+    }
+
+    /**
      * Returns the users department.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
@@ -29,27 +51,54 @@ trait HasUserProperties
     }
 
     /**
-     * Returns the users title.
+     * Returns the users email address.
      *
-     * @link https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     * @link https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
      * @return string
      */
-    public function getTitle()
+    public function getEmail()
     {
-        return $this->getFirstAttribute($this->schema->title());
+        return $this->getFirstAttribute($this->schema->email());
     }
 
     /**
-     * Sets the users title.
+     * Sets the users email.
      *
-     * @param string $title
+     * Keep in mind this will remove all other
+     * email addresses the user currently has.
+     *
+     * @param string $email
      *
      * @return $this
      */
-    public function setTitle($title)
+    public function setEmail($email)
     {
-        return $this->setFirstAttribute($this->schema->title(), $title);
+        return $this->setFirstAttribute($this->schema->email(), $email);
+    }
+
+    /**
+     * Returns the users facsimile number.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getFacsimileNumber()
+    {
+        return $this->getFirstAttribute($this->schema->facsimile());
+    }
+
+    /**
+     * Sets the users facsimile number.
+     *
+     * @param string $number
+     *
+     * @return $this
+     */
+    public function setFacsimileNumber($number)
+    {
+        return $this->setFirstAttribute($this->schema->facsimile(), $number);
     }
 
     /**
@@ -76,29 +125,6 @@ trait HasUserProperties
     }
 
     /**
-     * Returns the users last name.
-     *
-     * @link https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
-     *
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->getFirstAttribute($this->schema->lastName());
-    }
-    /**
-     * Sets the users last name.
-     *
-     * @param string $lastName
-     *
-     * @return $this
-     */
-    public function setLastName($lastName)
-    {
-        return $this->setFirstAttribute($this->schema->lastName(), $lastName);
-    }
-
-        /**
      * Returns the users initials.
      *
      * @return mixed
@@ -121,47 +147,26 @@ trait HasUserProperties
     }
 
     /**
-     * Returns the users country.
+     * Returns the users last name.
      *
-     * @return string
+     * @link https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
+     *
+     * @return mixed
      */
-    public function getCountry()
+    public function getLastName()
     {
-        return $this->getFirstAttribute($this->schema->country());
+        return $this->getFirstAttribute($this->schema->lastName());
     }
-
     /**
-     * Sets the users country.
+     * Sets the users last name.
      *
-     * @param string $country
-     *
-     * @return $this
-     */
-    public function setCountry($country)
-    {
-        return $this->setFirstAttribute($this->schema->country(), $country);
-    }
-
-        /**
-     * Returns the users street address.
+     * @param string $lastName
      *
      * @return $this
      */
-    public function getStreetAddress()
+    public function setLastName($lastName)
     {
-        return $this->getFirstAttribute($this->schema->streetAddress());
-    }
-
-    /**
-     * Sets the users street address.
-     *
-     * @param string $address
-     *
-     * @return $this
-     */
-    public function setStreetAddress($address)
-    {
-        return $this->setFirstAttribute($this->schema->streetAddress(), $address);
+        return $this->setFirstAttribute($this->schema->lastName(), $lastName);
     }
 
     /**
@@ -206,6 +211,96 @@ trait HasUserProperties
     public function setPostOfficeBox($box)
     {
         return $this->setFirstAttribute($this->schema->postOfficeBox(), $box);
+    }
+
+    /**
+     * Sets the users proxy addresses.
+     *
+     * This will remove all proxy addresses on the user and insert the specified addresses.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     *
+     * @param array $addresses
+     *
+     * @return $this
+     */
+    public function setProxyAddresses(array $addresses = [])
+    {
+        return $this->setAttribute($this->schema->proxyAddresses(), $addresses);
+    }
+
+    /**
+     * Add's a single proxy address to the user.
+     *
+     * @param string $address
+     *
+     * @return $this
+     */
+    public function addProxyAddress($address)
+    {
+        $addresses = $this->getProxyAddresses();
+
+        $addresses[] = $address;
+
+        return $this->setAttribute($this->schema->proxyAddresses(), $addresses);
+    }
+
+    /**
+     * Returns the users proxy addresses.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms679424(v=vs.85).aspx
+     *
+     * @return array
+     */
+    public function getProxyAddresses()
+    {
+        return $this->getAttribute($this->schema->proxyAddresses());
+    }
+
+    /**
+     * Returns the users street address.
+     *
+     * @return $this
+     */
+    public function getStreetAddress()
+    {
+        return $this->getFirstAttribute($this->schema->streetAddress());
+    }
+
+    /**
+     * Sets the users street address.
+     *
+     * @param string $address
+     *
+     * @return $this
+     */
+    public function setStreetAddress($address)
+    {
+        return $this->setFirstAttribute($this->schema->streetAddress(), $address);
+    }
+
+    /**
+     * Returns the users title.
+     *
+     * @link https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getFirstAttribute($this->schema->title());
+    }
+
+    /**
+     * Sets the users title.
+     *
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        return $this->setFirstAttribute($this->schema->title(), $title);
     }
 
     /**
@@ -273,57 +368,6 @@ trait HasUserProperties
     }
 
     /**
-     * Returns the users facsimile number.
-     *
-     * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getFacsimileNumber()
-    {
-        return $this->getFirstAttribute($this->schema->facsimile());
-    }
-
-    /**
-     * Sets the users facsimile number.
-     *
-     * @param string $number
-     *
-     * @return $this
-     */
-    public function setFacsimileNumber($number)
-    {
-        return $this->setFirstAttribute($this->schema->facsimile(), $number);
-    }
-
-    /**
-     * Returns the users email address.
-     *
-     * @link https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->getFirstAttribute($this->schema->email());
-    }
-
-    /**
-     * Sets the users email.
-     *
-     * Keep in mind this will remove all other
-     * email addresses the user currently has.
-     *
-     * @param string $email
-     *
-     * @return $this
-     */
-    public function setEmail($email)
-    {
-        return $this->setFirstAttribute($this->schema->email(), $email);
-    }
-
-    /**
      * Returns the users other mailbox attribute.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679091(v=vs.85).aspx
@@ -367,5 +411,15 @@ trait HasUserProperties
     public function setManager($managerDn)
     {
         return $this->setFirstAttribute($this->schema->manager(), $managerDn);
+    }
+
+    /**
+     * Returns the users mail nickname.
+     *
+     * @return string|null
+     */
+    public function getMailNickname()
+    {
+        return $this->getFirstAttribute($this->schema->emailNickname());
     }
 }

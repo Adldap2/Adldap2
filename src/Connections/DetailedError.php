@@ -36,7 +36,7 @@ class DetailedError
     {
         $this->errorCode = $errorCode;
         $this->errorMessage = $errorMessage;
-        $this->diagnosticMessage;
+        $this->diagnosticMessage = $diagnosticMessage;
     }
 
     /**

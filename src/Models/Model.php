@@ -784,7 +784,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         $suffix = $strict ? '' : 'i';
 
-        return (bool) preg_grep("/{$ou}/{$suffix}", $this->getDnBuilder()->organizationUnits);
+        return (bool) preg_grep("/{$ou}/{$suffix}", $this->getDnBuilder()->getComponents('ou'));
     }
 
     /**

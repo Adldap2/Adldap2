@@ -3,7 +3,6 @@
 namespace Adldap\Tests\Classes;
 
 use Adldap\Query\Builder;
-use Adldap\Query\Grammar;
 use Adldap\Query\Factory;
 use Adldap\Tests\TestCase;
 

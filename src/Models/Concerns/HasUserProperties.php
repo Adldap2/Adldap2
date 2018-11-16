@@ -339,7 +339,9 @@ trait HasUserProperties
 
     /**
      * Sets the users primary mobile phone number.
-     * 
+     *
+     * @param string $number
+     *
      * @return $this
      */
     public function setMobileNumber($number)
@@ -359,7 +361,9 @@ trait HasUserProperties
 
     /**
      * Sets the users  secondary (other) mobile phone number.
-     * 
+     *
+     * @param string $number
+     *
      * @return $this
      */
     public function setOtherMobileNumber($number)

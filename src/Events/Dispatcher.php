@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
  * an extra dependency that would be required.
  *
  * @author Taylor Otwell
+ * @see https://github.com/laravel/framework
  *
  * @package Adldap\Events
  */

@@ -2,6 +2,7 @@
 
 namespace Adldap\Auth;
 
+use Adldap\Events\DispatchesEvents;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
 
@@ -14,6 +15,8 @@ use Adldap\Configuration\DomainConfiguration;
  */
 class Guard implements GuardInterface
 {
+    use DispatchesEvents;
+
     /**
      * @var ConnectionInterface
      */

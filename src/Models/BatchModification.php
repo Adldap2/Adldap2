@@ -231,6 +231,7 @@ class BatchModification
             case LDAP_MODIFY_BATCH_REMOVE:
                 // Fallthrough.
             case LDAP_MODIFY_BATCH_ADD:
+                // Fallthrough.
             case LDAP_MODIFY_BATCH_REPLACE:
                 return [
                     static::KEY_ATTRIB => $this->attribute,

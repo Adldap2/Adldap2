@@ -225,7 +225,7 @@ class ProviderTest extends TestCase
         $query = $m->search()->users();
 
         $this->assertInstanceOf(Builder::class, $query);
-        $this->assertEquals('(&(objectclass=user)(objectcategory=person)(!(objectclass=contact)))', $query->getUnescapedQuery());
+        $this->assertEquals('(&(objectclass=user)(objectcategory=person))', $query->getUnescapedQuery());
     }
 
     public function test_containers()

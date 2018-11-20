@@ -5,6 +5,8 @@ namespace Adldap\Events;
 trait DispatchesEvents
 {
     /**
+     * The event dispatcher instance.
+     *
      * @var DispatcherInterface
      */
     protected static $dispatcher;
@@ -16,6 +18,11 @@ trait DispatchesEvents
      */
     public static function getEventDispatcher()
     {
+        // If no event dispatcher has been set, well instantiate and set one here.
+        if (! isset(static::$dispatcher)) {
+            static::setEventDispatcher(new Dispatcher());
+        }
+
         return static::$dispatcher;
     }
 
@@ -32,7 +39,7 @@ trait DispatchesEvents
     }
 
     /**
-     * Unset the event dispatcher for models.
+     * Unset the event dispatcher instance.
      *
      * @return void
      */

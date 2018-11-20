@@ -2,7 +2,7 @@
 
 namespace Adldap\Auth;
 
-use Adldap\Events\DispatchesEvents;
+use Adldap\Adldap;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
 
@@ -15,8 +15,6 @@ use Adldap\Configuration\DomainConfiguration;
  */
 class Guard implements GuardInterface
 {
-    use DispatchesEvents;
-
     /**
      * @var ConnectionInterface
      */
@@ -50,11 +48,15 @@ class Guard implements GuardInterface
             );
 
             $result = true;
+
+            $this->fireAuthEvent('passed', [$username, $password]);
         } catch (BindException $e) {
             // We'll catch the BindException here to allow
             // developers to use a simple if / else
             // using the attempt method.
             $result = false;
+
+            $this->fireAuthEvent('failed', [$username, $password]);
         }
 
         // If we're not allowed to bind as the user,
@@ -131,5 +133,18 @@ class Guard implements GuardInterface
             // Check for an empty password.
             throw new PasswordRequiredException('A password must be specified.');
         }
+    }
+
+    /**
+     * Fires an authentication event.
+     *
+     * @param string $eventName
+     * @param array  $payload
+     *
+     * @return void
+     */
+    protected function fireAuthEvent($eventName, $payload = [])
+    {
+        Adldap::getEventDispatcher()->fire('auth.'.$eventName, $payload);
     }
 }

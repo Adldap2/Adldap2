@@ -24,7 +24,7 @@ $config = [
 
 ```php
 // Setting options via first argument:
-$config = new \Aldldap\Configuration\DomainConfiguration([
+$config = new Aldldap\Configuration\DomainConfiguration([
     'hosts' => [
         'DC-01.corp.acme.org',
     ],
@@ -50,7 +50,7 @@ $config = [
     'password'         => 'password',
 
     // Optional Configuration Options
-    'schema'           => \Adldap\Schemas\ActiveDirectory::class,
+    'schema'           => Adldap\Schemas\ActiveDirectory::class,
     'account_prefix'   => 'ACME-',
     'account_suffix'   => '@acme.org',
     'port'             => 389,
@@ -207,7 +207,7 @@ There are a couple of ways you can easily add each of your LDAP connections. Let
 ```php
 $config = ['...'];
 
-$ad = new \Adldap\Adldap();
+$ad = new Adldap\Adldap();
 
 $ad->addProvider($config);
 
@@ -218,9 +218,9 @@ $ad->addProvider($config, 'connection-one');
 
 **Using a DomainConfiguration object:**
 ```php
-$ad = new Adldap();
+$ad = new Adldap\Adldap();
 
-$config = new \Adldap\Configuration\DomainConfiguration(['...']);
+$config = new Adldap\Configuration\DomainConfiguration(['...']);
 
 $ad->addProvider($config, 'connection-one');
 ```
@@ -240,7 +240,7 @@ $connections = [
     ],
 ];
 
-$ad = new \Adldap\Adldap($connections);
+$ad = new Adldap\Adldap($connections);
 ```
 
 ## Connecting
@@ -253,7 +253,7 @@ This method will return you a connected **connection provider** when
 successful, and throw an exception when unsuccessful:
 
 ```php
-$ad = new \Adldap\Adldap();
+$ad = new Adldap\Adldap();
 
 $config = ['...'];
 
@@ -265,7 +265,7 @@ try {
     $provider = $ad->connect($connectionName);
 
     // Great, we're connected!
-} catch (\Adldap\Auth\BindException $e) {
+} catch (Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```
@@ -293,13 +293,13 @@ To dynamically connect, simply call any connection provider method on your `Adld
 Here's an example:
 
 ```php
-$ad = new \Adldap\Adldap();
+$ad = new Adldap\Adldap();
 
 $ad->addProvider($config = ['...']);
 
 try {
     $users = $ad->search()->users()->get();
-} catch (\Adldap\Auth\BindException $e) {
+} catch (Adldap\Auth\BindException $e) {
     // Failed to connect.
 }
 ```
@@ -309,7 +309,7 @@ try {
 If you'd like to anonymously bind, set your `username` and `password` configuration to `null`:
 
 ```php
-$ad = new Adldap();
+$ad = new Adldap\Adldap();
 
 $config = [
     'username' => null,
@@ -374,9 +374,9 @@ try {
     } else {
         // Failed.
     }
-} catch (\Adldap\Auth\UsernameRequiredException $e) {
+} catch (Adldap\Auth\UsernameRequiredException $e) {
     // The user didn't supply a username.
-} catch (\Adldap\Auth\PasswordRequiredException $e) {
+} catch (Adldap\Auth\PasswordRequiredException $e) {
     // The user didn't supply a password.
 }
 ```
@@ -416,11 +416,11 @@ When creating your configuration array, set your schema using the `schema` key:
 
 **Using configuration array:**
 ```php
-$ad = new Adldap();
+$ad = new Adldap\Adldap();
 
 $config = [
     '...',
-    'schema' => \Adldap\Schemas\OpenLDAP::class
+    'schema' => Adldap\Schemas\OpenLDAP::class
 ];
 
 $ad->addProvider($config);
@@ -428,11 +428,11 @@ $ad->addProvider($config);
 
 **Using configuration object:**
 ```php
-$ad = new Adldap();
+$ad = new Adldap\Adldap();
 
-$config = new \Adldap\Configuration\DomainConfiguration();
+$config = new Adldap\Configuration\DomainConfiguration();
 
-$config->set('schema', \Adldap\Schemas\OpenLDAP::class);
+$config->set('schema', Adldap\Schemas\OpenLDAP::class);
 
 $ad->addProvider($config);
 ```
@@ -456,7 +456,7 @@ Now for some examples:
 ### Examples
 
 ```php
-$ad = new Adldap();
+$ad = new Adldap\Adldap();
 
 $config = ['...'];
 

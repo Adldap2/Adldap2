@@ -77,7 +77,7 @@ try {
 
     $record = $search->findOrFail('John Doe');
     
-} catch (\Adldap\Models\ModelNotFoundException $e) {
+} catch (Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -101,7 +101,7 @@ try {
 
     $record = $search->findByOrFail('samaccountname', 'jdoe');
     
-} catch (\Adldap\Models\ModelNotFoundException $e) {
+} catch (Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -124,7 +124,7 @@ try {
 
     $record = $search->findByDnOrFail('cn=John Doe,dc=corp,dc=org');
     
-} catch (\Adldap\Models\ModelNotFoundException $e) {
+} catch (Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -164,7 +164,7 @@ try {
 
     $record = $search->firstOrFail();
     
-} catch (\Adldap\Models\ModelNotFoundException $e) {
+} catch (Adldap\Models\ModelNotFoundException $e) {
     // Record wasn't found!
 }
 ```
@@ -391,7 +391,7 @@ The `andFilter` method accepts a closure which allows you to construct a query i
 $query = $provider->search()->newQuery();
 
 // Creates the filter: (&(givenname=John)(sn=Doe))
-$results = $query->andFilter(function (\Adldap\Query\Builder $q) {
+$results = $query->andFilter(function (Adldap\Query\Builder $q) {
 
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
@@ -410,7 +410,7 @@ $query = $provider->search()->newQuery();
 
 
 // Creates the filter: (|(givenname=John)(sn=Doe))
-$results = $query->orFilter(function (\Adldap\Query\Builder $q) {
+$results = $query->orFilter(function (Adldap\Query\Builder $q) {
 
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
@@ -428,7 +428,7 @@ The `notFilter` method accepts a closure which allows you to construct a query i
 $query = $provider->search()->newQuery();
 
 // Creates the filter: (!(givenname=John)(sn=Doe))
-$results = $query->notFilter(function (\Adldap\Query\Builder $q) {
+$results = $query->notFilter(function (Adldap\Query\Builder $q) {
 
     $q->where('givenname', '=', 'John')
       ->where('sn', '=', 'Doe');
@@ -446,12 +446,10 @@ as many times as you'd like for larger complex queries:
 ```php
 $query = $provider->search()->newQuery();
 
-$query = $query->orFilter(function (\Adldap\Query\Builder $q) {
-    $q->where('givenname', '=', 'John')
-        ->where('sn', '=', 'Doe');
-})->andFilter(function (\Adldap\Query\Builder $q) {
-    $q->where('department', '=', 'Accounting')
-        ->where('title', '=', 'Manager');
+$query = $query->orFilter(function (Adldap\Query\Builder $q) {
+    $q->where('givenname', '=', 'John')->where('sn', '=', 'Doe');
+})->andFilter(function (Adldap\Query\Builder $q) {
+    $q->where('department', '=', 'Accounting')->where('title', '=', 'Manager');
 })->getUnescapedQuery();
 
 echo $query; // Returns '(&(|(givenname=John)(sn=Doe))(&(department=Accounting)(title=Manager)))'

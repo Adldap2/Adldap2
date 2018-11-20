@@ -64,7 +64,7 @@ $providers = [
     ]
 ];
 
-$ad = new \Adldap\Adldap($providers);
+$ad = new Adldap\Adldap($providers);
 
 try {
     $provider = $ad->connect();
@@ -74,7 +74,7 @@ try {
     // ex. Returns 'dc=corp,dc=acme,dc=org'
     die($root->getRootDomainNamingContext());
 
-} catch (\Adldap\Auth\BindException $e) {
+} catch (Adldap\Auth\BindException $e) {
     //
 }
 ```

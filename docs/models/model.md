@@ -637,7 +637,7 @@ $config = [
     'username' => 'admin',
     'password' => 'P@ssword',
     
-    'schema' => \MyApp\LdapSchema::class,
+    'schema' => MyApp\LdapSchema::class,
 ];
 
 $ad = new Adldap($config);

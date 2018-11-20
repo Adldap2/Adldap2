@@ -3,7 +3,6 @@
 namespace Adldap\Events;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
  * Class Dispatcher
@@ -283,11 +282,11 @@ class Dispatcher implements DispatcherInterface
     {
         return function ($event, $payload) use ($listener, $wildcard) {
             if ($wildcard) {
-                return call_user_func($this->parseClassCallable($listener), $event, $payload);
+                return call_user_func($this->parseListenerCallback($listener), $event, $payload);
             }
 
             return call_user_func_array(
-                $this->parseClassCallable($listener), $payload
+                $this->parseListenerCallback($listener), $payload
             );
         };
     }
@@ -299,7 +298,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return array
      */
-    protected function parseClassCallable($listener)
+    protected function parseListenerCallback($listener)
     {
         return strpos($listener, '@') !== false ?
             explode('@', $listener, 2) :

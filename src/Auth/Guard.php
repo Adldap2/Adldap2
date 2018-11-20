@@ -4,7 +4,10 @@ namespace Adldap\Auth;
 
 use Adldap\Adldap;
 use Adldap\Events\Auth\Bound;
+use Adldap\Events\Auth\Failed;
+use Adldap\Events\Auth\Passed;
 use Adldap\Events\Auth\Binding;
+use Adldap\Events\Auth\Attempting;
 use Adldap\Events\DispatcherInterface;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
@@ -57,13 +60,16 @@ class Guard implements GuardInterface
     {
         $this->validateCredentials($username, $password);
 
+        $username = $this->applyPrefixAndSuffix($username);
+
+        $this->fireAttemptingEvent($username, $password);
+
         try {
-            $this->bind(
-                $this->applyPrefixAndSuffix($username),
-                $password
-            );
+            $this->bind($username, $password);
 
             $result = true;
+
+            $this->firePassedEvent($username, $password);
         } catch (BindException $e) {
             // We'll catch the BindException here to allow
             // developers to use a simple if / else
@@ -94,6 +100,8 @@ class Guard implements GuardInterface
         // We'll mute any exceptions / warnings here. All we need to know
         // is if binding failed and we'll throw our own exception.
         if (!@$this->connection->bind($username, $password)) {
+            $this->fireFailedEvent($username, $password);
+
             throw new BindException($this->connection->getLastError(), $this->connection->errNo());
         }
 
@@ -174,6 +182,45 @@ class Guard implements GuardInterface
     }
 
     /**
+     * Fire the attempting event.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @return void
+     */
+    protected function fireAttemptingEvent($username, $password)
+    {
+        $this->events->fire(new Attempting($this->connection, $username, $password));
+    }
+
+    /**
+     * Fire the passed event.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @return void
+     */
+    protected function firePassedEvent($username, $password)
+    {
+        $this->events->fire(new Passed($this->connection, $username, $password));
+    }
+
+    /**
+     * Fire the failed event.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @return void
+     */
+    protected function fireFailedEvent($username, $password)
+    {
+        $this->events->fire(new Failed($this->connection, $username, $password));
+    }
+
+    /**
      * Fire the binding event.
      *
      * @param string $username
@@ -187,8 +234,12 @@ class Guard implements GuardInterface
     }
 
     /**
+     * Fire the bound event.
+     *
      * @param string $username
      * @param string $password
+     *
+     * @return void
      */
     protected function fireBoundEvent($username, $password)
     {

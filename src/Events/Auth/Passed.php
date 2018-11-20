@@ -2,7 +2,7 @@
 
 namespace Adldap\Events\Auth;
 
-class Bound extends Event
+class Passed extends Event
 {
     //
 }

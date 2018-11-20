@@ -48,7 +48,7 @@ class Dispatcher implements DispatcherInterface
     public function listen($events, $listener)
     {
         foreach ((array) $events as $event) {
-            if (Str::contains($event, '*')) {
+            if (strpos($event, '*') !== false) {
                 $this->setupWildcardListen($event, $listener);
             } else {
                 $this->listeners[$event][] = $this->makeListener($listener);
@@ -77,24 +77,6 @@ class Dispatcher implements DispatcherInterface
     public function hasListeners($eventName)
     {
         return isset($this->listeners[$eventName]) || isset($this->wildcards[$eventName]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function push($event, $payload = [])
-    {
-        $this->listen($event.'_pushed', function () use ($event, $payload) {
-            $this->dispatch($event, $payload);
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function flush($event)
-    {
-        $this->dispatch($event.'_pushed');
     }
 
     /**
@@ -196,12 +178,53 @@ class Dispatcher implements DispatcherInterface
         $wildcards = [];
 
         foreach ($this->wildcards as $key => $listeners) {
-            if (Str::is($key, $eventName)) {
+            if ($this->wildcardContainsEvent($key, $eventName)) {
                 $wildcards = array_merge($wildcards, $listeners);
             }
         }
 
         return $this->wildcardsCache[$eventName] = $wildcards;
+    }
+
+    /**
+     * Determine if the wildcard matches or contains the given event.
+     *
+     * This function is a direct excerpt from Laravel's Str::is().
+     *
+     * @param string $wildcard
+     * @param string $eventName
+     *
+     * @return bool
+     */
+    protected function wildcardContainsEvent($wildcard, $eventName)
+    {
+        $patterns = Arr::wrap($wildcard);
+
+        if (empty($patterns)) {
+            return false;
+        }
+
+        foreach ($patterns as $pattern) {
+            // If the given event is an exact match we can of course return true right
+            // from the beginning. Otherwise, we will translate asterisks and do an
+            // actual pattern match against the two strings to see if they match.
+            if ($pattern == $eventName) {
+                return true;
+            }
+
+            $pattern = preg_quote($pattern, '#');
+
+            // Asterisks are translated into zero-or-more regular expression wildcards
+            // to make it convenient to check if the strings starts with the given
+            // pattern such as "library/*", making any string check convenient.
+            $pattern = str_replace('\*', '.*', $pattern);
+
+            if (preg_match('#^'.$pattern.'\z#u', $eventName) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -278,7 +301,9 @@ class Dispatcher implements DispatcherInterface
      */
     protected function parseClassCallable($listener)
     {
-        return Str::parseCallback($listener, 'handle');
+        return strpos($listener, '@') !== false ?
+            explode('@', $listener, 2) :
+            [$listener, 'handle'];
     }
 
     /**
@@ -286,22 +311,10 @@ class Dispatcher implements DispatcherInterface
      */
     public function forget($event)
     {
-        if (Str::contains($event, '*')) {
+        if (strpos($event, '*') !== false) {
             unset($this->wildcards[$event]);
         } else {
             unset($this->listeners[$event]);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function forgetPushed()
-    {
-        foreach ($this->listeners as $key => $value) {
-            if (Str::endsWith($key, '_pushed')) {
-                $this->forget($key);
-            }
         }
     }
 }

@@ -24,25 +24,6 @@ interface DispatcherInterface
     public function hasListeners($eventName);
 
     /**
-     * Register an event and payload to be fired later.
-     *
-     * @param string $event
-     * @param array  $payload
-     *
-     * @return void
-     */
-    public function push($event, $payload = []);
-
-    /**
-     * Flush a set of pushed events.
-     *
-     * @param string $event
-     *
-     * @return void
-     */
-    public function flush($event);
-
-    /**
      * Fire an event until the first non-null response is returned.
      *
      * @param string|object $event
@@ -91,11 +72,4 @@ interface DispatcherInterface
      * @return void
      */
     public function forget($event);
-
-    /**
-     * Forget all of the pushed listeners.
-     *
-     * @return void
-     */
-    public function forgetPushed();
 }

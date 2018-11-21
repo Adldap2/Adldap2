@@ -3,6 +3,7 @@
 namespace Adldap\Auth;
 
 use Throwable;
+use Exception;
 use Adldap\Adldap;
 use Adldap\Events\Auth\Bound;
 use Adldap\Events\Auth\Failed;
@@ -99,9 +100,11 @@ class Guard implements GuardInterface
         $this->fireBindingEvent($username, $password);
 
         try {
-            $this->connection->bind($username, $password);
-
-            $this->fireBoundEvent($username, $password);
+            if ($this->connection->bind($username, $password)) {
+                $this->fireBoundEvent($username, $password);
+            } else {
+                throw new Exception();
+            }
         } catch (Throwable $e) {
             $this->fireFailedEvent($username, $password);
 

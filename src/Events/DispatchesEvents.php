@@ -18,7 +18,8 @@ trait DispatchesEvents
      */
     public static function getEventDispatcher()
     {
-        // If no event dispatcher has been set, well instantiate and set one here.
+        // If no event dispatcher has been set, well instantiate and
+        // set one here. This will be our singleton instance.
         if (! isset(static::$dispatcher)) {
             static::setEventDispatcher(new Dispatcher());
         }

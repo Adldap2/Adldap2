@@ -97,7 +97,7 @@ $user->getUserAccountControl();
 // Get the users roaming profile path.
 $user->getProfilePath();
 
-// Get the users legaxy exchange distinguished name.
+// Get the users legacy exchange distinguished name.
 $user->getLegacyExchangeDn();
 
 // Get the users account expiry timestamp.

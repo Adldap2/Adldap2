@@ -5,6 +5,11 @@ namespace Adldap\Tests\Auth;
 use Adldap\Auth\Guard;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
+use Adldap\Events\Dispatcher;
+use Adldap\Events\Auth\Bound;
+use Adldap\Events\Auth\Binding;
+use Adldap\Events\Auth\Passed;
+use Adldap\Events\Auth\Attempting;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
@@ -116,5 +121,99 @@ class GuardTest extends TestCase
         $guard = new Guard($ldap, $config);
 
         $this->assertTrue($guard->attempt('username', 'password', $bindAsUser = true));
+    }
+
+    public function test_binding_events_are_fired_during_bind()
+    {
+        $ldap = $this->mock(Ldap::class);
+
+        $ldap->shouldReceive('bind')->once()->withArgs(['johndoe', 'secret'])->andReturn(true);
+
+        $events = new Dispatcher();
+
+        $firedBinding = false;
+        $firedBound = false;
+
+        $events->listen(Binding::class, function (Binding $event) use (&$firedBinding) {
+            $this->assertEquals($event->username, 'johndoe');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedBinding = true;
+        });
+
+        $events->listen(Bound::class, function (Bound $event) use (&$firedBound) {
+            $this->assertEquals($event->username, 'johndoe');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedBound = true;
+        });
+
+        $guard = new Guard($ldap, new DomainConfiguration([]));
+
+        $guard->setDispatcher($events);
+
+        $guard->bind('johndoe', 'secret');
+
+        $this->assertTrue($firedBinding);
+        $this->assertTrue($firedBound);
+    }
+
+    public function test_auth_events_are_fired_during_attempt()
+    {
+        $config = $this->mock(DomainConfiguration::class);
+
+        $config
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix.')
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('.suffix');
+
+        $ldap = $this->mock(Ldap::class);
+
+        $ldap->shouldReceive('bind')->once()->withArgs(['prefix.johndoe.suffix', 'secret'])->andReturn(true);
+
+        $events = new Dispatcher();
+
+        $firedBinding = false;
+        $firedBound = false;
+        $firedAttempting = false;
+        $firedPassed = false;
+
+        $events->listen(Binding::class, function (Binding $event) use (&$firedBinding) {
+            $this->assertEquals($event->username, 'prefix.johndoe.suffix');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedBinding = true;
+        });
+
+        $events->listen(Bound::class, function (Bound $event) use (&$firedBound) {
+            $this->assertEquals($event->username, 'prefix.johndoe.suffix');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedBound = true;
+        });
+
+        $events->listen(Attempting::class, function (Attempting $event) use (&$firedAttempting) {
+            $this->assertEquals($event->username, 'johndoe');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedAttempting = true;
+        });
+
+        $events->listen(Passed::class, function (Passed $event) use (&$firedPassed) {
+            $this->assertEquals($event->username, 'johndoe');
+            $this->assertEquals($event->password, 'secret');
+
+            $firedPassed = true;
+        });
+
+        $guard = new Guard($ldap, $config);
+
+        $guard->setDispatcher($events);
+
+        $this->assertTrue($guard->attempt('johndoe', 'secret', $bindAsUser = true));
+
+        $this->assertTrue($firedBinding);
+        $this->assertTrue($firedBound);
+        $this->assertTrue($firedAttempting);
+        $this->assertTrue($firedPassed);
     }
 }

@@ -4,7 +4,6 @@ namespace Adldap\Auth;
 
 use Throwable;
 use Exception;
-use Adldap\Adldap;
 use Adldap\Events\Auth\Bound;
 use Adldap\Events\Auth\Failed;
 use Adldap\Events\Auth\Passed;
@@ -51,8 +50,6 @@ class Guard implements GuardInterface
     {
         $this->connection = $connection;
         $this->configuration = $configuration;
-
-        $this->events = Adldap::getEventDispatcher();
     }
 
     /**
@@ -62,12 +59,13 @@ class Guard implements GuardInterface
     {
         $this->validateCredentials($username, $password);
 
-        $username = $this->applyPrefixAndSuffix($username);
-
         $this->fireAttemptingEvent($username, $password);
 
         try {
-            $this->bind($username, $password);
+            $this->bind(
+                $this->applyPrefixAndSuffix($username),
+                $password
+            );
 
             $result = true;
 
@@ -195,7 +193,9 @@ class Guard implements GuardInterface
      */
     protected function fireAttemptingEvent($username, $password)
     {
-        $this->events->fire(new Attempting($this->connection, $username, $password));
+        if (isset($this->events)) {
+            $this->events->fire(new Attempting($this->connection, $username, $password));
+        }
     }
 
     /**
@@ -208,7 +208,9 @@ class Guard implements GuardInterface
      */
     protected function firePassedEvent($username, $password)
     {
-        $this->events->fire(new Passed($this->connection, $username, $password));
+        if (isset($this->events)) {
+            $this->events->fire(new Passed($this->connection, $username, $password));
+        }
     }
 
     /**
@@ -221,7 +223,9 @@ class Guard implements GuardInterface
      */
     protected function fireFailedEvent($username, $password)
     {
-        $this->events->fire(new Failed($this->connection, $username, $password));
+        if (isset($this->events)) {
+            $this->events->fire(new Failed($this->connection, $username, $password));
+        }
     }
 
     /**
@@ -234,7 +238,9 @@ class Guard implements GuardInterface
      */
     protected function fireBindingEvent($username, $password)
     {
-        $this->events->fire(new Binding($this->connection, $username, $password));
+        if (isset($this->events)) {
+            $this->events->fire(new Binding($this->connection, $username, $password));
+        }
     }
 
     /**
@@ -247,6 +253,8 @@ class Guard implements GuardInterface
      */
     protected function fireBoundEvent($username, $password)
     {
-        $this->events->fire(new Bound($this->connection, $username, $password));
+        if (isset($this->events)) {
+            $this->events->fire(new Bound($this->connection, $username, $password));
+        }
     }
 }

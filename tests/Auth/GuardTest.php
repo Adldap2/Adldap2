@@ -6,10 +6,10 @@ use Adldap\Auth\Guard;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Events\Dispatcher;
-use Adldap\Events\Auth\Bound;
-use Adldap\Events\Auth\Binding;
-use Adldap\Events\Auth\Passed;
-use Adldap\Events\Auth\Attempting;
+use Adldap\Auth\Events\Bound;
+use Adldap\Auth\Events\Binding;
+use Adldap\Auth\Events\Passed;
+use Adldap\Auth\Events\Attempting;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase

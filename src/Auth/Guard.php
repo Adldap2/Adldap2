@@ -4,11 +4,11 @@ namespace Adldap\Auth;
 
 use Throwable;
 use Exception;
-use Adldap\Events\Auth\Bound;
-use Adldap\Events\Auth\Failed;
-use Adldap\Events\Auth\Passed;
-use Adldap\Events\Auth\Binding;
-use Adldap\Events\Auth\Attempting;
+use Adldap\Auth\Events\Bound;
+use Adldap\Auth\Events\Failed;
+use Adldap\Auth\Events\Passed;
+use Adldap\Auth\Events\Binding;
+use Adldap\Auth\Events\Attempting;
 use Adldap\Events\DispatcherInterface;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;

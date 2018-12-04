@@ -1,6 +1,6 @@
 <?php
 
-namespace Adldap\Events\Auth;
+namespace Adldap\Auth\Events;
 
 class Failed extends Event
 {

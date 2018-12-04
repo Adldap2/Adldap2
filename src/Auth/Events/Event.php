@@ -1,10 +1,10 @@
 <?php
 
-namespace Adldap\Events\Auth;
+namespace Adldap\Auth\Events;
 
 use Adldap\Connections\ConnectionInterface;
 
-class Event
+abstract class Event
 {
     /**
      * The connection that the username and password is being bound on.

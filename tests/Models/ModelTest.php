@@ -2,12 +2,19 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Models\Entry;
-use Adldap\Models\BatchModification;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Entry;
+use Adldap\Models\Model;
+use Adldap\Models\BatchModification;
+use Adldap\Models\Events\Created;
+use Adldap\Models\Events\Creating;
+use Adldap\Models\Events\Deleted;
+use Adldap\Models\Events\Deleting;
+use Adldap\Models\Events\Updated;
+use Adldap\Models\Events\Updating;
 use Adldap\Schemas\ActiveDirectory;
 
-class EntryTest extends TestCase
+class ModelTest extends TestCase
 {
     protected function newModel(array $attributes = [], $builder = null, $schema = null)
     {
@@ -924,5 +931,116 @@ class EntryTest extends TestCase
         $m = $this->newModel([], $b);
 
         $m->save();
+    }
+
+    public function test_creating_model_fires_events()
+    {
+        $c = $this->newConnectionMock();
+
+        $m = $this->newModel([], $this->newBuilder($c));
+
+        $d = $m::getEventDispatcher();
+
+        $firedCreating = false;
+        $firedCreated = false;
+
+        $d->listen(Creating::class, function (Creating $e) use (&$firedCreating) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+             $firedCreating = true;
+        });
+
+        $d->listen(Created::class, function (Created $e) use (&$firedCreated) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+            $firedCreated = true;
+        });
+
+        $c
+            ->shouldReceive('add')->once()->andReturn(true)
+            ->shouldReceive('read')->once()
+            ->shouldReceive('getEntries')->once();
+
+        $m->save([
+            'dn' => 'cn=jdoe,dc=acme,dc=org',
+        ]);
+
+        $this->assertTrue($firedCreating);
+        $this->assertTrue($firedCreated);
+    }
+
+    public function test_updating_model_fires_events()
+    {
+        $c = $this->newConnectionMock();
+
+        $m = $this->newModel([], $this->newBuilder($c));
+
+        $m->setRawAttributes([
+            'dn' => 'cn=jdoe,dc=acme,dc=org'
+        ]);
+
+        $d = $m::getEventDispatcher();
+
+        $firedUpdating = false;
+        $firedUpdated = false;
+
+        $d->listen(Updating::class, function (Updating $e) use (&$firedUpdating) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+            $firedUpdating = true;
+        });
+
+        $d->listen(Updated::class, function (Updated $e) use (&$firedUpdated) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+            $firedUpdated = true;
+        });
+
+        $c
+            ->shouldReceive('modifyBatch')->once()->andReturn(true)
+            ->shouldReceive('read')->once()
+            ->shouldReceive('getEntries')->once();
+
+        $m->save([
+            'cn' => 'new'
+        ]);
+
+        $this->assertTrue($firedUpdating);
+        $this->assertTrue($firedUpdated);
+    }
+
+    public function test_deleting_model_fires_events()
+    {
+        $c = $this->newConnectionMock();
+
+        $m = $this->newModel([], $this->newBuilder($c));
+
+        $m->setRawAttributes([
+            'dn' => 'cn=jdoe,dc=acme,dc=org'
+        ]);
+
+        $d = $m::getEventDispatcher();
+
+        $firedDeleting = false;
+        $firedDeleted = false;
+
+        $d->listen(Deleting::class, function (Deleting $e) use (&$firedDeleting) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+            $firedDeleting = true;
+        });
+
+        $d->listen(Deleted::class, function (Deleted $e) use (&$firedDeleted) {
+            $this->assertInstanceOf(Model::class, $e->model);
+
+            $firedDeleted = true;
+        });
+
+        $c->shouldReceive('delete')->once()->andReturn(true);
+
+        $m->delete();
+
+        $this->assertTrue($firedDeleting);
+        $this->assertTrue($firedDeleted);
     }
 }

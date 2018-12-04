@@ -6,6 +6,7 @@ use DateTime;
 use ArrayAccess;
 use JsonSerializable;
 use InvalidArgumentException;
+use UnexpectedValueException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Adldap\Utilities;
@@ -861,7 +862,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param array $attributes The attributes for the new entry.
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return bool
      */
@@ -878,7 +879,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
             // If the dn we receive is the same as our queries base DN, we need
             // to throw an exception. The LDAP object must have a valid RDN.
             if ($dn->get() == $this->query->getDn()) {
-                throw new \UnexpectedValueException("An LDAP object must have a valid RDN to be created. '$dn' given.");
+                throw new UnexpectedValueException("An LDAP object must have a valid RDN to be created. '$dn' given.");
             }
 
             $this->setDn($dn);
@@ -1043,7 +1044,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         // If the current model has an empty RDN, we can't move it.
         if ((int) Arr::first($parts) === 0) {
-            throw new \UnexpectedValueException("Current model does not contain an RDN to move.");
+            throw new UnexpectedValueException("Current model does not contain an RDN to move.");
         }
 
         // Looks like we have a DN. We'll retrieve the leftmost RDN (the identifier).

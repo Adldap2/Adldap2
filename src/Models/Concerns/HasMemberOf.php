@@ -19,7 +19,7 @@ trait HasMemberOf
     public function getMemberOf()
     {
         $dns = $this->getAttribute($this->schema->memberOf());
-        
+
         // Normalize returned distinguished names if the attribute is null.
         return is_array($dns) ? $dns : [];
     }
@@ -70,6 +70,24 @@ trait HasMemberOf
         }
 
         return false;
+    }
+
+    /**
+     * Removes the current model from all groups.
+     *
+     * @return array The group distinguished names that were successfully removed
+     */
+    public function removeAllGroups()
+    {
+        $removed = [];
+
+        foreach ($this->getMemberOf() as $group) {
+            if ($this->removeGroup($group)) {
+                $removed[] = $group;
+            }
+        }
+
+        return $removed;
     }
 
     /**

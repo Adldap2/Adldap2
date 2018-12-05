@@ -99,17 +99,17 @@ class Group extends Entry
     /**
      * Adds an entry to the current group.
      *
-     * @param string|Entry $entry
+     * @param string|Entry $member
      *
      * @throws InvalidArgumentException When the given entry is empty or contains no distinguished name.
      *
      * @return bool
      */
-    public function addMember($entry)
+    public function addMember($member)
     {
-        $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
+        $member = ($member instanceof Model ? $member->getDn() : $member);
 
-        if (is_null($entry)) {
+        if (is_null($member)) {
             throw new InvalidArgumentException(
                 'Cannot add member to group. The members distinguished name cannot be null.'
             );
@@ -118,7 +118,7 @@ class Group extends Entry
         $mod = $this->newBatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_ADD,
-            [$entry]
+            [$member]
         );
 
         return $this->addModification($mod)->save();
@@ -127,17 +127,17 @@ class Group extends Entry
     /**
      * Removes an entry from the current group.
      *
-     * @param string|Entry $entry
+     * @param string|Entry $member
      *
      * @throws InvalidArgumentException
      *
      * @return bool
      */
-    public function removeMember($entry)
+    public function removeMember($member)
     {
-        $entry = ($entry instanceof Model ? $entry->getDn() : $entry);
+        $member = ($member instanceof Model ? $member->getDn() : $member);
 
-        if (is_null($entry)) {
+        if (is_null($member)) {
             throw new InvalidArgumentException(
                 'Cannot remove member to group. The members distinguished name cannot be null.'
             );
@@ -146,7 +146,7 @@ class Group extends Entry
         $mod = $this->newBatchModification(
             $this->schema->member(),
             LDAP_MODIFY_BATCH_REMOVE,
-            [$entry]
+            [$member]
         );
 
         return $this->addModification($mod)->save();

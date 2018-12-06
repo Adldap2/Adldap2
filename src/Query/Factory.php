@@ -127,8 +127,9 @@ class Factory
             [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()]
         ];
 
-        // OpenLDAP doesn't like specifying the omission of user objectclasses equal to `contact`.
-        // We'll make sure we're working with ActiveDirectory before adding this filter.
+        // OpenLDAP doesn't like specifying the omission of user objectclasses
+        // equal to `contact`. We'll make sure we're working with
+        // ActiveDirectory before adding this filter.
         if (is_a($this->schema, ActiveDirectory::class)) {
             $wheres[] = [$this->schema->objectClass(), Operator::$doesNotEqual, $this->schema->objectClassContact()];
         }

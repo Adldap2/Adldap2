@@ -365,6 +365,8 @@ class User extends Entry implements Authenticatable
      * Returns the formatted timestamp of the password last set date.
      *
      * @return string|null
+     *
+     * @throws \Exception
      */
     public function getPasswordLastSetDate()
     {
@@ -883,6 +885,8 @@ class User extends Entry implements Authenticatable
      * Return the expiration date of the user account.
      *
      * @return DateTime|null
+     *
+     * @throws \Exception
      */
     public function expirationDate()
     {
@@ -897,9 +901,7 @@ class User extends Entry implements Authenticatable
 
         $unixTime = Utilities::convertWindowsTimeToUnixTime($accountExpiry);
 
-        $date = date($this->dateFormat, $unixTime);
-
-        return new DateTime($date);
+        return (new DateTime())->setTimestamp($unixTime);
     }
 
     /**

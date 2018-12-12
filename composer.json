@@ -35,6 +35,9 @@
         "phpunit/phpunit": "~6.0",
         "mockery/mockery": "~1.0"
     },
+    "suggest": {
+        "ext-fileinfo": "fileinfo is required when retrieving user encoded thumbnails"
+    },
     "archive": {
         "exclude": ["/examples", "/tests"]
     },

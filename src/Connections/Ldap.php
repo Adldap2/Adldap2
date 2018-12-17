@@ -19,6 +19,13 @@ class Ldap implements ConnectionInterface
     protected $connection;
 
     /**
+     * The LDAP host that is currently connected.
+     *
+     * @var string
+     */
+    protected $host;
+
+    /**
      * Stores the bool whether or not
      * the current connection is bound.
      *
@@ -230,9 +237,9 @@ class Ldap implements ConnectionInterface
      */
     public function connect($hosts = [], $port = '389')
     {
-        $connections = $this->getConnectionString($hosts, $this->getProtocol(), $port);
+        $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
-        return $this->connection = ldap_connect($connections);
+        return $this->connection = ldap_connect($this->host);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Adldap\Tests\Models;
 
+use Adldap\Adldap;
 use Adldap\Tests\TestCase;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
@@ -939,7 +940,7 @@ class ModelTest extends TestCase
 
         $m = $this->newModel([], $this->newBuilder($c));
 
-        $d = $m::getEventDispatcher();
+        $d = Adldap::getEventDispatcher();
 
         $firedCreating = false;
         $firedCreated = false;
@@ -979,7 +980,7 @@ class ModelTest extends TestCase
             'dn' => 'cn=jdoe,dc=acme,dc=org'
         ]);
 
-        $d = $m::getEventDispatcher();
+        $d = Adldap::getEventDispatcher();
 
         $firedUpdating = false;
         $firedUpdated = false;
@@ -1019,7 +1020,7 @@ class ModelTest extends TestCase
             'dn' => 'cn=jdoe,dc=acme,dc=org'
         ]);
 
-        $d = $m::getEventDispatcher();
+        $d = Adldap::getEventDispatcher();
 
         $firedDeleting = false;
         $firedDeleted = false;

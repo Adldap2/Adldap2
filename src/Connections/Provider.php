@@ -2,10 +2,10 @@
 
 namespace Adldap\Connections;
 
+use Adldap\Adldap;
 use InvalidArgumentException;
 use Adldap\Auth\Guard;
 use Adldap\Auth\GuardInterface;
-use Adldap\Events\DispatchesEvents;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Query\Factory as SearchFactory;
@@ -23,8 +23,6 @@ use Adldap\Configuration\DomainConfiguration;
  */
 class Provider implements ProviderInterface
 {
-    use DispatchesEvents;
-
     /**
      * The providers connection.
      *
@@ -187,7 +185,7 @@ class Provider implements ProviderInterface
     {
         $guard = new Guard($connection, $configuration);
 
-        $guard->setDispatcher(static::getEventDispatcher());
+        $guard->setDispatcher(Adldap::getEventDispatcher());
 
         return $guard;
     }

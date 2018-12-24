@@ -60,6 +60,8 @@ interface ProviderInterface
      * Sets the current configuration.
      *
      * @param DomainConfiguration|array $configuration
+     *
+     * @throws \Adldap\Configuration\ConfigurationException
      */
     public function setConfiguration($configuration = []);
 

@@ -8,9 +8,18 @@ that are called and execute tasks for that specific event.
 > Broadcasting & Queuing omitted to remove extra dependencies
 > that would be required with implementing those features.
 >
-> If you've utilized Laravel's event system before, this will feel very familiar.
+> If you've utilized Laravel's events before, this will feel very familiar.
 
 ## Registering Listeners
+
+> **Note**: Before we get to registering listeners, it's crucial to know that events throughout
+> Adldap2 are fired irrespective of the current connection or provider in use.
+>
+> This means that when using multiple LDAP connections, the same events will be fired.
+> 
+> This allows you to set listeners on events that occur for all LDAP connections you utilize.
+>
+> If you are required to determine which events are fired from alternate connections, see [below](#determining-the-connection).
 
 To register a listener on an event, first you will need to retrieve the event dispatcher from Adldap2:
 
@@ -67,5 +76,105 @@ class BindingEventHandler
 }
 ```
 
+## Wildcard Event Listeners
+
+You can register listeners using the * as a wildcard parameter to catch multiple events with the same listener.
+
+Wildcard listeners will receive the event name as their first argument, and the entire event data array as their second argument:
+
+```php
+$dispatcher = Adldap::getEventDispatcher();
+
+// Listen for all model events.
+$dispatcher->listen('Adldap\Models\Events\*', function ($eventName, array $data) {
+    echo $eventName; // Returns 'Adldap\Models\Events\Updating'
+    
+    var_dump($data); // Returns [0] => (object) Adldap\Models\Events\Updating;
+});
+
+$user = $provider->search()->users()->find('jdoe');
+
+$user->setTelephoneNumber('555 555-5555');
+
+$user->save();
+```
+
+## Determining the Connection
+
+If you're using multiple LDAP connections and you require the ability to determine which events belong
+to a certain connection, you can do so by verifying the host of the LDAP connection.
+
+Here's an example:
+
+```php
+$dispatcher = Adldap::getEventDispatcher();
+
+$dispatcher->listen(\Adldap\Models\Events\Creating::class, function ($event) {
+    $connection = $event->model->getConnection();
+    
+    $host = $connection->getHost();
+    
+    echo $host; // Displays 'ldap://192.168.1.1:386'
+});
+```
+
+Another example with auth events:
+
+```php
+$dispatcher = Adldap::getEventDispatcher();
+
+$dispatcher->listen(\Adldap\Auth\Events\Binding::class, function ($event) {
+    $connection = $event->connection;
+    
+    $host = $connection->getHost();
+    
+    echo $host; // Displays 'ldap://192.168.1.1:386'
+});
+```
+
 ## List of Events
 
+### Authentication Events
+
+There are several events that are fired during initial and subsequent binds to your configured LDAP server.
+
+```
+// Fired when $provider->auth()->attempt() is called:
+Adldap\Auth\Events\Attempting
+Adldap\Auth\Events\Passed
+Adldap\Auth\Events\Failed
+
+// Fired when the following are called:
+// - $provider->auth()->attempt()
+// - $provider->auth()->bind()
+Adldap\Auth\Events\Binding
+Adldap\Auth\Events\Bound
+```
+
+### Model Events
+
+```
+// Fired when $model->create() is called:
+Adldap\Models\Events\Creating
+Adldap\Models\Events\Created
+
+// Fired when $model->update() is called:
+Adldap\Models\Events\Updating
+Adldap\Models\Events\Updated
+
+// Fired when $model->delete() is called:
+Adldap\Models\Events\Deleting
+Adldap\Models\Events\Deleted
+
+// Fired when $model->save() is called:
+Adldap\Models\Events\Saving
+Adldap\Models\Events\Saved
+
+// - If the model is being created, then the following will also be called:
+Adldap\Models\Events\Creating
+Adldap\Models\Events\Created
+
+// - If the model is being updated, then the following will also be called:
+Adldap\Models\Events\Updating
+Adldap\Models\Events\Updated
+```

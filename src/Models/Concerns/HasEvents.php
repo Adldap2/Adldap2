@@ -11,9 +11,11 @@ trait HasEvents
      * Fires the specified model event.
      *
      * @param Event $event
+     *
+     * @return mixed
      */
     protected function fireModelEvent(Event $event)
     {
-        Adldap::getEventDispatcher()->fire($event);
+        return Adldap::getEventDispatcher()->fire($event);
     }
 }

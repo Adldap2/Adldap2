@@ -40,7 +40,7 @@ interface DispatcherInterface
      * @param mixed         $payload
      * @param bool          $halt
      *
-     * @return array|null
+     * @return mixed
      */
     public function fire($event, $payload = [], $halt = false);
 

@@ -1044,4 +1044,35 @@ class ModelTest extends TestCase
         $this->assertTrue($firedDeleting);
         $this->assertTrue($firedDeleted);
     }
+
+    public function test_model_events_can_be_listened_for_with_wildcard()
+    {
+        $c = $this->newConnectionMock();
+
+        $m = $this->newModel([], $this->newBuilder($c));
+
+        $m->setRawAttributes([
+            'dn' => 'cn=jdoe,dc=acme,dc=org'
+        ]);
+
+        $d = Adldap::getEventDispatcher();
+
+        $firedDeleting = false;
+        $firedDeleted = false;
+
+        $d->listen('Adldap\Models\Events\*', function ($event, $payload) use (&$firedDeleting, &$firedDeleted) {
+            if ($event == 'Adldap\Models\Events\Deleting') {
+                $firedDeleting = true;
+            } else if ($event == 'Adldap\Models\Events\Deleted') {
+                $firedDeleted = true;
+            }
+        });
+
+        $c->shouldReceive('delete')->once()->andReturn(true);
+
+        $m->delete();
+
+        $this->assertTrue($firedDeleting);
+        $this->assertTrue($firedDeleted);
+    }
 }

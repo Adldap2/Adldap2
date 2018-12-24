@@ -12,12 +12,6 @@ use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Query\Builder;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Models\Events\Created;
-use Adldap\Models\Events\Creating;
-use Adldap\Models\Events\Updated;
-use Adldap\Models\Events\Updating;
-use Adldap\Models\Events\Deleted;
-use Adldap\Models\Events\Deleting;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
 use Adldap\Models\Attributes\MbString;
@@ -815,7 +809,15 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function save(array $attributes = [])
     {
-        return $this->exists ? $this->update($attributes) : $this->create($attributes);
+        $this->fireModelEvent(new Events\Saving($this));
+
+        $saved = $this->exists ? $this->update($attributes) : $this->create($attributes);
+
+        if ($saved) {
+            $this->fireModelEvent(new Events\Saved($this));
+        }
+
+        return $saved;
     }
 
     /**
@@ -832,14 +834,14 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $modifications = $this->getModifications();
 
         if (count($modifications) > 0) {
-            $this->fireModelEvent(new Updating($this));
+            $this->fireModelEvent(new Events\Updating($this));
 
             // Push the update.
             if ($this->query->getConnection()->modifyBatch($this->getDn(), $modifications)) {
                 // Re-sync attributes.
                 $this->syncRaw();
 
-                $this->fireModelEvent(new Updated($this));
+                $this->fireModelEvent(new Events\Updated($this));
 
                 // Re-set the models modifications.
                 $this->modifications = [];
@@ -885,7 +887,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
             $this->setDn($dn);
         }
 
-        $this->fireModelEvent(new Creating($this));
+        $this->fireModelEvent(new Events\Creating($this));
 
         // Create the entry.
         $created = $this->query->getConnection()->add($this->getDn(), $this->getCreatableAttributes());
@@ -895,7 +897,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
             // the models attributes from AD.
             $this->syncRaw();
 
-            $this->fireModelEvent(new Created($this));
+            $this->fireModelEvent(new Events\Created($this));
 
             return true;
         }
@@ -1010,14 +1012,14 @@ abstract class Model implements ArrayAccess, JsonSerializable
             throw (new ModelDoesNotExistException())->setModel(get_class($this));
         }
 
-        $this->fireModelEvent(new Deleting($this));
+        $this->fireModelEvent(new Events\Deleting($this));
 
         if ($this->query->getConnection()->delete($dn)) {
             // We'll set the exists property to false on delete
             // so the dev can run create operations.
             $this->exists = false;
 
-            $this->fireModelEvent(new Deleted($this));
+            $this->fireModelEvent(new Events\Deleted($this));
 
             return true;
         }

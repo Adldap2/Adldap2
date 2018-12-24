@@ -445,6 +445,18 @@ class Ldap implements ConnectionInterface
     }
 
     /**
+     * Returns the full LDAP host URL.
+     *
+     * Ex: ldap://192.168.1.1:386
+     *
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
      * Generates an LDAP connection string for each host given.
      *
      * @param string|array  $hosts

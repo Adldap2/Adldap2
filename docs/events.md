@@ -21,26 +21,12 @@ that are called and execute tasks for that specific event.
 >
 > If you are required to determine which events are fired from alternate connections, see [below](#determining-the-connection).
 
-To register a listener on an event, first you will need to retrieve the event dispatcher from Adldap2:
+To register a listener on an event, retrieve the event dispatcher and call the `listen()` method:
 
 ```php
-use Adldap\Adldap;
+$dispatcher = \Adldap\Adldap::getEventDispatcher();
 
-$dispatcher = Adldap::getEventDispatcher();
-```
-
-Once you retrieve the listener, you can listen to specific events via the `listen()` method.
-
-The first argument is the event name you would like to listen for, and the second is
-either a closure or class name that should handle the event:
-
-```php
-use Adldap\Adldap;
-use Adldap\Auth\Events\Binding;
-
-$dispatcher = Adldap::getEventDispatcher();
-
-$dispatcher->listen(Binding::class, function (Binding $event) {
+$dispatcher->listen(\Adldap\Auth\Events\Binding::class, function (Binding $event) {
     // Do something with the Binding event information:
     
     $event->connection; // Adldap\Connections\Ldap instance
@@ -48,6 +34,9 @@ $dispatcher->listen(Binding::class, function (Binding $event) {
     $event->password; // 'super-secret'
 });
 ```
+
+The first argument is the event name you would like to listen for, and the
+second is either a closure or class name that should handle the event:
 
 Using a class:
 

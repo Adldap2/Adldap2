@@ -129,38 +129,27 @@ There are several events that are fired during initial and subsequent binds to y
 
 Here is a list of all events that are fired:
 
-| Event| Description|
+| Event| Description |
 |---|---|
-| Adldap\Auth\Events\Attempting | When any authentication attempt is called via:  ```php $provider->auth()->attempt()```|
-| Adldap\Auth\Events\Passed | When any authentication attempts pass via:  ```php $provider->auth()->attempt()```|
-| Adldap\Auth\Events\Failed | When any authentication attempts fail via:  ```php $provider->auth()->attempt() $provider->auth()->bind()```|
-| Adldap\Auth\Events\Binding | When any LDAP bind attempts occur via:  ```php $provider->auth()->attempt() $provider->auth()->bind()```|
-| Adldap\Auth\Events\Bound | When any LDAP bind attempts are successful via:   ```php $provider->auth()->attempt() $provider->auth()->bind()```|
+| Adldap\Auth\Events\Attempting | When any authentication attempt is called via: `$provider->auth()->attempt()` |
+| Adldap\Auth\Events\Passed | When any authentication attempts pass via: `$provider->auth()->attempt()` |
+| Adldap\Auth\Events\Failed | When any authentication attempts fail via: `$provider->auth()->attempt()` *Or* `$provider->auth()->bind()` |
+| Adldap\Auth\Events\Binding | When any LDAP bind attempts occur via: `$provider->auth()->attempt()` *Or* `$provider->auth()->bind()` |
+| Adldap\Auth\Events\Bound | When any LDAP bind attempts are successful via: `$provider->auth()->attempt()` *Or* `$provider->auth()->bind()` |
 
 ### Model Events
 
-```
-// Fired when $model->create() is called:
-Adldap\Models\Events\Creating
-Adldap\Models\Events\Created
+There are several events that are fired during the creation, updating and deleting of all models.
 
-// Fired when $model->update() is called:
-Adldap\Models\Events\Updating
-Adldap\Models\Events\Updated
+Here is a list of all events that are fired:
 
-// Fired when $model->delete() is called:
-Adldap\Models\Events\Deleting
-Adldap\Models\Events\Deleted
-
-// Fired when $model->save() is called:
-Adldap\Models\Events\Saving
-Adldap\Models\Events\Saved
-
-// - If the model is being created, then the following will also be called:
-Adldap\Models\Events\Creating
-Adldap\Models\Events\Created
-
-// - If the model is being updated, then the following will also be called:
-Adldap\Models\Events\Updating
-Adldap\Models\Events\Updated
-```
+| Event | Description |
+|---|---|
+| Adldap\Models\Events\Saving | When a model is in the process of being saved via: `$model->save()` |
+| Adldap\Models\Events\Saved | When a model has been successfully saved via: `$model->save()` |
+| Adldap\Models\Events\Creating | When a model is being created via: `$model->save()` *Or* `$model->create()` |
+| Adldap\Models\Events\Created | When a model has been successfully created via: `$model->save()` *Or* `$model->create()` |
+| Adldap\Models\Events\Updating | When a model is being updated via: `$model->save()` *Or* `$model->update()` |
+| Adldap\Models\Events\Updated | When a model has been successfully updated via: `$model->save()` *Or* `$model->update()` |
+| Adldap\Models\Events\Deleting | When a model is being deleted via: `$model->delete()` |
+| Adldap\Models\Events\Deleted | When a model has been successfully deleted via: `$model->delete()` |

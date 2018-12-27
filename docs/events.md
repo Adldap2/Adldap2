@@ -127,18 +127,15 @@ $dispatcher->listen(\Adldap\Auth\Events\Binding::class, function ($event) {
 
 There are several events that are fired during initial and subsequent binds to your configured LDAP server.
 
-```
-// Fired when $provider->auth()->attempt() is called:
-Adldap\Auth\Events\Attempting
-Adldap\Auth\Events\Passed
-Adldap\Auth\Events\Failed
+Here is a list of all events that are fired:
 
-// Fired when the following are called:
-// - $provider->auth()->attempt()
-// - $provider->auth()->bind()
-Adldap\Auth\Events\Binding
-Adldap\Auth\Events\Bound
-```
+| Event| Description|
+|---|---|
+| Adldap\Auth\Events\Attempting | When any authentication attempt is called via:  ```php $provider->auth()->attempt()```|
+| Adldap\Auth\Events\Passed | When any authentication attempts pass via:  ```php $provider->auth()->attempt()```|
+| Adldap\Auth\Events\Failed | When any authentication attempts fail via:  ```php $provider->auth()->attempt() $provider->auth()->bind()```|
+| Adldap\Auth\Events\Binding | When any LDAP bind attempts occur via:  ```php $provider->auth()->attempt() $provider->auth()->bind()```|
+| Adldap\Auth\Events\Bound | When any LDAP bind attempts are successful via:   ```php $provider->auth()->attempt() $provider->auth()->bind()```|
 
 ### Model Events
 

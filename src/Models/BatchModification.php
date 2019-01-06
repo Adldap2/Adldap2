@@ -190,9 +190,9 @@ class BatchModification
             // If the original value is null, we'll assume
             // that the attribute doesn't exist yet.
             if (!empty($filtered)) {
-                // If the filtered array is not empty, we'll
-                // assume the developer is looking to
-                // add attributes to the model.
+                // If the filtered array is not empty, we can
+                // assume we're looking to add values
+                // to the current attribute.
                 $this->setType(LDAP_MODIFY_BATCH_ADD);
             }
 
@@ -202,13 +202,13 @@ class BatchModification
         } else {
             if (empty($filtered)) {
                 // If there's an original value and the array is
-                // empty then we can assume the developer is
-                // looking to completely remove all values
-                // of the specified attribute.
+                // empty then we can assume we are looking
+                // to completely remove all values
+                // of the current attribute.
                 $this->setType(LDAP_MODIFY_BATCH_REMOVE_ALL);
             } else {
-                // If the array isn't empty then we can assume the
-                // developer is trying to replace all attributes.
+                // If the array isn't empty then we can assume
+                // we're looking to replace all attributes.
                 $this->setType(LDAP_MODIFY_BATCH_REPLACE);
             }
         }

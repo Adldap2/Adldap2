@@ -1387,7 +1387,7 @@ class Builder
      */
     public function escape($value, $ignore = '', $flags = 0)
     {
-        return Utilities::escape($value, $ignore, $flags);
+        return ldap_escape($value, $ignore, $flags);
     }
 
     /**

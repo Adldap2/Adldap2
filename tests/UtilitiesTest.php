@@ -23,94 +23,11 @@ class UtilitiesTest extends TestCase
         $this->assertEquals($expected, $split);
     }
 
-    public function test_escape_manual()
-    {
-        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
-
-        $mockedUtilities->shouldAllowMockingProtectedMethods();
-
-        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
-
-        $escape = '<>!=,#$%^testing';
-
-        $result = $mockedUtilities->escape($escape);
-
-        $expected = '\3c\3e\21\3d\2c\23\24\25\5e\74\65\73\74\69\6e\67';
-
-        $this->assertEquals($expected, $result);
-    }
-
-    public function test_escape_manual_with_ignore()
-    {
-        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
-
-        $mockedUtilities->shouldAllowMockingProtectedMethods();
-
-        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
-
-        $escape = '**<>!=,#$%^testing';
-
-        $ignore = '*<>!';
-
-        $result = $mockedUtilities->escape($escape, $ignore);
-
-        $expected = '**<>!\3d\2c\23\24\25\5e\74\65\73\74\69\6e\67';
-
-        $this->assertEquals($expected, $result);
-    }
-
-    public function test_escape_manual_with_ignore_and_flag_two()
-    {
-        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
-
-        $mockedUtilities->shouldAllowMockingProtectedMethods();
-
-        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
-
-        $escape = '**<>!=,#$%^testing';
-
-        $ignore = '*';
-
-        // Flag integer 2 means we're escaping a value for a distinguished name.
-        $flag = 2;
-
-        $result = $mockedUtilities->escape($escape, $ignore, $flag);
-
-        $expected = '**\3c\3e!\3d\2c\23$%^testing';
-
-        $this->assertEquals($expected, $result);
-    }
-
-    public function test_escape_manual_with_ignore_and_flag_three()
-    {
-        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
-
-        $mockedUtilities->shouldAllowMockingProtectedMethods();
-
-        $mockedUtilities->shouldReceive('isEscapingSupported')->andReturn(false);
-
-        $escape = '*^&.:foo()-=';
-
-        $ignore = '*';
-
-        $flag = 3;
-
-        $result = $mockedUtilities->escape($escape, $ignore, $flag);
-
-        $expected = '*^&.:foo\28\29-\3d';
-
-        $this->assertEquals($expected, $result);
-    }
-
     public function test_unescape()
     {
-        $unescaped = 'testing';
+        $unescaped = '!@#$%^&*()';
 
-        $mockedUtilities = $this->mock('Adldap\Utilities')->makePartial();
-
-        $mockedUtilities->shouldAllowMockingProtectedMethods();
-
-        $escaped = $mockedUtilities->escape($unescaped);
+        $escaped = ldap_escape($unescaped);
 
         $this->assertEquals($unescaped, Utilities::unescape($escaped));
     }

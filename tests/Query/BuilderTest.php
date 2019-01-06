@@ -685,11 +685,9 @@ class BuilderTest extends TestCase
 
         $b->where($field, '=', $value);
 
-        $utils = $this->mock(Utilities::class)->makePartial()->shouldAllowMockingProtectedMethods();
+        $escapedField = ldap_escape($field, null, 3);
 
-        $escapedField = $utils->escape($field, null, 3);
-
-        $escapedValue = $utils->escape($value);
+        $escapedValue = ldap_escape($value);
 
         $this->assertEquals("($escapedField=$escapedValue)", $b->getQuery());
     }

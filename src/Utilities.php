@@ -29,20 +29,6 @@ class Utilities
     }
 
     /**
-     * Returns an escaped string for use in an LDAP filter.
-     *
-     * @param string $value
-     * @param string $ignore
-     * @param $flags
-     *
-     * @return string
-     */
-    public static function escape($value, $ignore = '', $flags = 0)
-    {
-        return ldap_escape($value, $ignore, $flags);
-    }
-
-    /**
      * Un-escapes a hexadecimal string into
      * its original string representation.
      *
@@ -52,11 +38,9 @@ class Utilities
      */
     public static function unescape($value)
     {
-        $callback = function ($matches) {
+        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', function ($matches) {
             return chr(hexdec($matches[1]));
-        };
-
-        return preg_replace_callback('/\\\([0-9A-Fa-f]{2})/', $callback, $value);
+        }, $value);
     }
 
     /**

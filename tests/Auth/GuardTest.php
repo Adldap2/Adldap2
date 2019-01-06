@@ -216,4 +216,33 @@ class GuardTest extends TestCase
         $this->assertTrue($firedAttempting);
         $this->assertTrue($firedPassed);
     }
+
+    public function test_all_auth_events_can_be_listened_to_with_wildcard()
+    {
+        $config = $this->mock(DomainConfiguration::class);
+
+        $config
+            ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix.')
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('.suffix');
+
+        $ldap = $this->mock(Ldap::class);
+
+        $ldap->shouldReceive('bind')->once()->withArgs(['prefix.johndoe.suffix', 'secret'])->andReturn(true);
+
+        $events = new Dispatcher();
+
+        $totalFired = 0;
+
+        $events->listen('Adldap\Auth\Events\*', function ($eventName) use (&$totalFired) {
+            $totalFired++;
+        });
+
+        $guard = new Guard($ldap, $config);
+
+        $guard->setDispatcher($events);
+
+        $this->assertTrue($guard->attempt('johndoe', 'secret', $bindAsUser = true));
+
+        $this->assertEquals($totalFired, 4);
+    }
 }

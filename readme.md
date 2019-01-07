@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-    Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the Active Record pattern.
+    Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the [Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
 </p>
 
 <h4 align="center">

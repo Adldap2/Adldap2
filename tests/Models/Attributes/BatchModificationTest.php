@@ -75,15 +75,12 @@ class BatchModificationTest extends TestCase
         $this->assertEquals($expected, $modification->get());
     }
 
-    public function test_get_with_invalid_type()
+    /** @expectedException \InvalidArgumentException */
+    public function test_set_type_invalid()
     {
         $modification = new BatchModification();
 
-        $modification->setValues(['test']);
-        $modification->setAttribute('cn');
         $modification->setType(100);
-
-        $this->assertNull($modification->get());
     }
 
     public function test_set_values()
@@ -167,11 +164,7 @@ class BatchModificationTest extends TestCase
         $mod2 = new BatchModification('attribute');
         $mod2->build();
 
-        // Modification with invalid mod type
-        $mod3 = new BatchModification('attribute', 20);
-
         $this->assertFalse($mod1->isValid());
         $this->assertFalse($mod2->isValid());
-        $this->assertFalse($mod3->isValid());
     }
 }

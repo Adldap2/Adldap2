@@ -2,6 +2,8 @@
 
 namespace Adldap\Models;
 
+use InvalidArgumentException;
+
 /**
  * Class BatchModification
  *
@@ -147,6 +149,10 @@ class BatchModification
      */
     public function setType($type)
     {
+        if (!is_null($type) && !$this->isValidType($type)) {
+            throw new InvalidArgumentException("Given batch modification type is invalid.");
+        }
+
         $this->type = $type;
 
         return $this;
@@ -227,7 +233,10 @@ class BatchModification
             case LDAP_MODIFY_BATCH_REMOVE_ALL:
                 // A values key cannot be provided when
                 // a remove all type is selected.
-                return [static::KEY_ATTRIB => $this->attribute, static::KEY_MODTYPE => $this->type];
+                return [
+                    static::KEY_ATTRIB => $this->attribute,
+                    static::KEY_MODTYPE => $this->type
+                ];
             case LDAP_MODIFY_BATCH_REMOVE:
                 // Fallthrough.
             case LDAP_MODIFY_BATCH_ADD:
@@ -242,5 +251,22 @@ class BatchModification
                 // If the modtype isn't recognized, we'll return null.
                 return;
         }
+    }
+
+    /**
+     * Determines if the given modtype is valid.
+     *
+     * @param int $type
+     *
+     * @return bool
+     */
+    protected function isValidType($type)
+    {
+        return in_array($type, [
+            LDAP_MODIFY_BATCH_REMOVE_ALL,
+            LDAP_MODIFY_BATCH_REMOVE,
+            LDAP_MODIFY_BATCH_REPLACE,
+            LDAP_MODIFY_BATCH_ADD,
+        ]);
     }
 }

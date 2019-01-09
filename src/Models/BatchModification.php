@@ -143,11 +143,11 @@ class BatchModification
     /**
      * Sets the type of the modification.
      *
-     * @param int $type
+     * @param int|null $type
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType($type = null)
     {
         if (!is_null($type) && !$this->isValidType($type)) {
             throw new InvalidArgumentException("Given batch modification type is invalid.");

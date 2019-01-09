@@ -55,10 +55,8 @@ This can be easily done with the `getMembers()` method on the group.
 $group = $provider->search()->groups()->first();
 
 foreach ($group->getMembers() as $member) {
-
     // Will be an instance of a Adldap `Model`
     $member->getCommonName();
-
 }
 ```
 
@@ -72,9 +70,7 @@ Think of this example below as what is being called behind the scenes:
 $group = $provider->search()->groups()->first();
 
 foreach ($group->members as $member) {
-
     $model = $provider->search()->findByDn($member);
-
 }
 ```
 
@@ -197,9 +193,7 @@ To add a single member to a group, use the `addMember()` method:
 $user = $provider->search()->users()->first();
 
 if ($group->addMember($user)) {
-
     // User was successfully added to the group!
-
 }
 
 // Or
@@ -247,9 +241,7 @@ $group = $provider->search()->groups()->first();
 $member = $group->getMembers()->first();
 
 if ($group->removeMember($member)) {
-
     // Member was successfully removed from the group!
-
 }
 
 // Or
@@ -267,8 +259,6 @@ To remove all members, use the `removeMembers()` method:
 
 ```php
 if ($group->removeMembers()) {
-
     // All members were successfully removed!
-
 }
 ```

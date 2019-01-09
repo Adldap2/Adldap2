@@ -451,16 +451,12 @@ To see if a model contains an attribute, use the method `hasAttribute()`:
 ```php
 // Checking if a base attribute exists:
 if ($user->hasAttribute('mail')) {
-
     // This user contains an email address.
-
 }
 
 // Checking if a sub attribute exists, by key:
 if ($user->hasAttribute('mail', 1)) {
- 
     // This user contains a second email address.
- 
 }
 ```
 
@@ -500,9 +496,7 @@ To check if the model can be written to, use the method `isWritable()`:
 
 ```php
 if ($model->isWritable()) {
-
     // You can modify this model.
-    
 }
 ```
 

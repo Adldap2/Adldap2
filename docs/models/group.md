@@ -146,10 +146,8 @@ To retrieve only the names of the members contained in a group, call the `getMem
 
 ```php
 foreach ($group->getMemberNames() as $name) {
-
     // Returns 'John Doe' 
     echo $name;
-
 }
 ```
 

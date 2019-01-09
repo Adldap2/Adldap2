@@ -110,7 +110,7 @@ foreach ($group->getMembers() as $member) {
 > **Note**: Groups containing large amounts of users (1000+) will require
 > more memory assigned to PHP. Your mileage will vary.
 
-#### Paginating Large sets of Group Members
+#### Paginating large sets of Group Members
 
 When requesting group members from groups that contain a large amount of members
 (typically over 1000), you may receive PHP memory limit errors due to

@@ -246,8 +246,11 @@ class Group extends Entry
         );
 
         if ($key && count($matches) == 3) {
+            // Retrieve the ending range number.
             $to = $matches[2][0];
 
+            // Retrieve the current groups members from the
+            // current range string (ex. 'member;0-50').
             $members = $this->getMembersFromAttribute($key);
 
             // If the query already included all member results (indicated
@@ -257,12 +260,14 @@ class Group extends Entry
                 return $members;
             }
 
+            // Determine the amount of members we're requesting per query.
             $range = $to - $matches[1][0];
 
+            // Set our starting range to our last end range plus one.
             $from = $to + 1;
 
-            // We'll determine the member range simply
-            // by adding $range to $from.
+            // We'll determine the new end range by adding the
+            // total range to our new starting range.
             $to = $from + $range;
 
             // We'll need to query for the current model again but with

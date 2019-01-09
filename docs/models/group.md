@@ -78,7 +78,7 @@ foreach ($group->members as $member) {
 }
 ```
 
-### Paginating Group members
+### Paginating Group Members
 
 The group you're looking for might contain hundreds / thousands of members.
 
@@ -94,19 +94,51 @@ foreach ($group->members as $member) {
 }
 ```
 
-Now, when we have the group instance, we'll only have the first `500` members inside this group. However, calling the `getMembers()` method will automatically retrieve the rest of the members for you:
+Now, when we have the group instance, we'll only have the first `500` members inside this group.
+However, calling the `getMembers()` method will automatically retrieve the rest of the members for you:
 
 ```php
 $group = $provider->search()->groups()->select('member;range=0-500')->first();
 
 foreach ($group->getMembers() as $member) {
-    
-    // Adldap will automatically retrieve the next 500 records until it's retrieved all records.
-    
+    // Adldap will automatically retrieve the next 500
+    // records until it's retrieved all records.
     $member->getCommonName();
-    
 }
 ```
+
+> **Note**: Groups containing large amounts of users (1000+) will require
+> more memory assigned to PHP. Your mileage will vary.
+
+#### Paginating Large sets of Group Members
+
+When requesting group members from groups that contain a large amount of members
+(typically over 1000), you may receive PHP memory limit errors due to
+the large amount of the objects being created in the request.
+
+To resolve this, you will need to retrieve the members manually. However using
+this route you will only be able to retrieve the members distinguished names.
+
+```php
+$from = 0;
+$to = 500;
+$range = "member;range=$from-$to";
+
+// Retrieve the group.
+$group = $provider->search()->select($range)->raw()->find('Accounting');
+
+// Remove the count from the member array.
+unset($group[$range]['count']);
+
+// The array of group members distinguished names.
+$members = $group[$range];
+
+foreach ($members as $member) {
+    echo $member; // 'cn=John Doe,dc=acme,dc=org'
+}
+```
+
+You can then encapsulate the above example into a recursive function to retrieve the remaining group members.
 
 ## Getting only a groups member names
 

@@ -233,12 +233,6 @@ For example, to retrieve a users email address, use the method `getEmail()`:
 $user->getEmail();
 ```
 
-Or to retrieve all of a users email addresses, use the method `getEmails()`:
-
-```php
-$user->getEmails();
-```
-
 ##### Other Methods
 
 The following methods are available on all returned models:

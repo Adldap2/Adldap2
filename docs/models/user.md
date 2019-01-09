@@ -16,9 +16,6 @@ $user->getDisplayName();
 // Get the users first email address.
 $user->getEmail();
 
-// Get the users email addresses, if they have multiple.
-$user->getEmails();
-
 // Get the users title.
 $user->getTitle();
 

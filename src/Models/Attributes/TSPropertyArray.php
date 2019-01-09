@@ -51,12 +51,16 @@ class TSPropertyArray
     protected $signature = self::VALID_SIGNATURE;
 
     /**
-     * @var string Binary data that occurs before the TSPropertyArray data in userParameters.
+     * Binary data that occurs before the TSPropertyArray data in userParameters.
+     *
+     * @var string
      */
     protected $preBinary = '';
 
     /**
-     * @var string Binary data that occurs after the TSPropertyArray data in userParameters.
+     * Binary data that occurs after the TSPropertyArray data in userParameters.
+     *
+     * @var string
      */
     protected $postBinary = '';
 
@@ -245,7 +249,7 @@ class TSPropertyArray
         $this->signature = MbString::chr(hexdec(substr($userParameters, 96, 2)));
         // This asserts the validity of the tsPropertyArray data. For some reason 'P' means valid...
         if ($this->signature != self::VALID_SIGNATURE) {
-            throw new \InvalidArgumentException('Invalid TSPropertyArray data');
+            throw new InvalidArgumentException('Invalid TSPropertyArray data');
         }
 
         // The property count is a 2-byte unsigned integer indicating the number of elements for the tsPropertyArray

@@ -13,6 +13,7 @@ use Adldap\Models\Events\Deleted;
 use Adldap\Models\Events\Deleting;
 use Adldap\Models\Events\Updated;
 use Adldap\Models\Events\Updating;
+use Adldap\Schemas\OpenLDAP;
 use Adldap\Schemas\ActiveDirectory;
 
 class ModelTest extends TestCase
@@ -1074,5 +1075,16 @@ class ModelTest extends TestCase
 
         $this->assertTrue($firedDeleting);
         $this->assertTrue($firedDeleted);
+    }
+
+    public function test_retrieving_guid_with_other_schema_returns_proper_value()
+    {
+        $m = $this->newModel([
+            'entryuuid' => 'cdc718a0-8c3c-1034-8646-e30b83a2e38d',
+        ]);
+
+        $m->setSchema(new OpenLDAP());
+
+        $this->assertEquals($m->entryuuid[0], $m->getConvertedGuid());
     }
 }

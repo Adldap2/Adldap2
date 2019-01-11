@@ -37,9 +37,9 @@ class EventLogger
     {
         $type = is_a($event, Failed::class) ? 'warning' : 'info';
 
-        $event = get_class($event);
+        $operation = get_class($event);
 
-        $message = "({$event->connection->getHost()}) - Operation: {$event} - Username: {$event->username} - Result: {$event->connection->getLastError()}";
+        $message = "({$event->connection->getHost()}) - Operation: {$operation} - Username: {$event->username} - Result: {$event->connection->getLastError()}";
 
         $this->logger->$type($message);
     }

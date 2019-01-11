@@ -7,23 +7,23 @@ class DetailedError
     /**
      * The error code from ldap_errno.
      *
-     * @var int
+     * @var int|null
      */
-    protected $errorCode = null;
+    protected $errorCode;
 
     /**
      * The error message from ldap_error.
      *
-     * @var string
+     * @var string|null
      */
-    protected $errorMessage = null;
+    protected $errorMessage;
 
     /**
      * The diagnostic message when retrieved after an ldap_error.
      *
-     * @var string
+     * @var string|null
      */
-    protected $diagnosticMessage = null;
+    protected $diagnosticMessage;
 
     /**
      * Constructor.

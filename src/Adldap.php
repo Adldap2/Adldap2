@@ -3,6 +3,7 @@
 namespace Adldap;
 
 use InvalidArgumentException;
+use Adldap\Log\LogsInformation;
 use Adldap\Events\DispatchesEvents;
 use Adldap\Connections\Provider;
 use Adldap\Connections\ProviderInterface;
@@ -11,7 +12,7 @@ use Adldap\Configuration\DomainConfiguration;
 
 class Adldap implements AdldapInterface
 {
-    use DispatchesEvents;
+    use DispatchesEvents, LogsInformation;
 
     /**
      * The default provider name.

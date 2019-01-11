@@ -8,6 +8,7 @@ use Adldap\Models\Factory as ModelFactory;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Connections\DetailedError;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
 
@@ -72,8 +73,11 @@ class ProviderTest extends TestCase
             ->shouldReceive('setOptions')->once()
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false);
 
+        $error = new DetailedError(42, 'Invalid credentials', '80090308: LdapErr: DSID-0C09042A');
+
         // Binding fails, retrieves last error.
         $connection->shouldReceive('getLastError')->once()->andReturn('error')
+            ->shouldReceive('getDetailedError')->once()->andReturn($error)
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('errNo')->once()->andReturn(1);
 
@@ -141,6 +145,7 @@ class ProviderTest extends TestCase
         // Re-binds as the administrator (fails)
         $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('')
+            ->shouldReceive('getDetailedError')->once()->andReturn(new DetailedError(null, null, null))
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('errNo')->once()->andReturn(1)
             ->shouldReceive('close')->once()->andReturn(true);

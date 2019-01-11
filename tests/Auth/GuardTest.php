@@ -5,6 +5,7 @@ namespace Adldap\Tests\Auth;
 use Adldap\Auth\Guard;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
+use Adldap\Connections\DetailedError;
 use Adldap\Events\Dispatcher;
 use Adldap\Auth\Events\Bound;
 use Adldap\Auth\Events\Binding;
@@ -78,6 +79,7 @@ class GuardTest extends TestCase
         $ldap
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('error')
+            ->shouldReceive('getDetailedError')->once()->andReturn(new DetailedError(42, 'Invalid credentials', '80090308: LdapErr: DSID-0C09042A'))
             ->shouldReceive('isUsingSSL')->once()->andReturn(false)
             ->shouldReceive('isUsingTLS')->once()->andReturn(false)
             ->shouldReceive('errNo')->once()->andReturn(1);

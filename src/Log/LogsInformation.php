@@ -9,23 +9,17 @@ trait LogsInformation
     /**
      * The logger instance.
      *
-     * @var LoggerInterface
+     * @var LoggerInterface|null
      */
     protected static $logger;
 
     /**
      * Get the event dispatcher instance.
      *
-     * @return LoggerInterface
+     * @return LoggerInterface|null
      */
     public static function getLogger()
     {
-        // If no logger instance has been set, well instantiate and
-        // set one here. This will be our singleton instance.
-        if (! isset(static::$logger)) {
-            static::setLogger(new NullLogger());
-        }
-
         return static::$logger;
     }
 

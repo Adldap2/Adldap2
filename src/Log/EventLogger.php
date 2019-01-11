@@ -12,7 +12,7 @@ class EventLogger
     /**
      * The logger instance.
      *
-     * @var LoggerInterface
+     * @var LoggerInterface|null
      */
     protected $logger;
 
@@ -21,7 +21,7 @@ class EventLogger
      *
      * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -35,13 +35,15 @@ class EventLogger
      */
     public function auth(AuthEvent $event)
     {
-        $type = is_a($event, Failed::class) ? 'warning' : 'info';
+        if (isset($this->logger)) {
+            $type = is_a($event, Failed::class) ? 'warning' : 'info';
 
-        $operation = get_class($event);
+            $operation = get_class($event);
 
-        $message = "LDAP ({$event->connection->getHost()}) - Operation: {$operation} - Username: {$event->username} - Result: {$event->connection->getLastError()}";
+            $message = "LDAP ({$event->connection->getHost()}) - Operation: {$operation} - Username: {$event->username} - Result: {$event->connection->getLastError()}";
 
-        $this->logger->$type($message);
+            $this->logger->$type($message);
+        }
     }
 
     /**
@@ -53,14 +55,16 @@ class EventLogger
      */
     public function model(ModelEvent $event)
     {
-        $operation = get_class($event);
+        if (isset($this->logger)) {
+            $operation = get_class($event);
 
-        $on = get_class($event->model);
+            $on = get_class($event->model);
 
-        $connection = $event->model->getQuery()->getConnection();
+            $connection = $event->model->getQuery()->getConnection();
 
-        $message = "LDAP ({$connection->getHost()}) - Operation: {$operation} - On: {$on} - Distinguished Name: {$event->model->getDn()}";
+            $message = "LDAP ({$connection->getHost()}) - Operation: {$operation} - On: {$on} - Distinguished Name: {$event->model->getDn()}";
 
-        $this->logger->info($message);
+            $this->logger->info($message);
+        }
     }
 }

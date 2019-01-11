@@ -177,14 +177,10 @@ class Ldap implements ConnectionInterface
     {
         // If the returned error number is zero, the last LDAP operation
         // succeeded. We won't return a detailed error.
-        if ($errorNumber = $this->errNo()) {
-            $message = '';
+        if ($number = $this->errNo()) {
+            ldap_get_option($this->getConnection(), LDAP_OPT_DIAGNOSTIC_MESSAGE, $message);
 
-            if (defined('LDAP_OPT_DIAGNOSTIC_MESSAGE')) {
-                $message = ldap_get_option($this->getConnection(), LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
-            }
-
-            return new DetailedError($errorNumber, $this->err2Str($errorNumber), $message);
+            return new DetailedError($number, $this->err2Str($number), $message);
         }
 
         return false;
@@ -419,9 +415,9 @@ class Ldap implements ConnectionInterface
      */
     public function getDiagnosticMessage()
     {
-        ldap_get_option($this->getConnection(), LDAP_OPT_ERROR_STRING, $diagnosticMessage);
+        ldap_get_option($this->getConnection(), LDAP_OPT_ERROR_STRING, $message);
 
-        return $diagnosticMessage;
+        return $message;
     }
 
     /**

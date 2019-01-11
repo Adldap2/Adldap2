@@ -20,7 +20,7 @@ trait LogsInformation
      */
     public static function getLogger()
     {
-        // If no event dispatcher has been set, well instantiate and
+        // If no logger instance has been set, well instantiate and
         // set one here. This will be our singleton instance.
         if (! isset(static::$logger)) {
             static::setLogger(new NullLogger());

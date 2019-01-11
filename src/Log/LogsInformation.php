@@ -26,7 +26,7 @@ trait LogsInformation
             static::setLogger(new NullLogger());
         }
 
-        return static::$dispatcher;
+        return static::$logger;
     }
 
     /**

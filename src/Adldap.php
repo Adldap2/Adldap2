@@ -3,6 +3,7 @@
 namespace Adldap;
 
 use InvalidArgumentException;
+use Adldap\Log\EventLogger;
 use Adldap\Log\LogsInformation;
 use Adldap\Events\DispatchesEvents;
 use Adldap\Connections\Provider;
@@ -40,6 +41,8 @@ class Adldap implements AdldapInterface
         if ($default = key($providers)) {
             $this->setDefaultProvider($default);
         }
+
+        $this->initEventLogger();
     }
 
     /**
@@ -146,5 +149,25 @@ class Adldap implements AdldapInterface
         }
 
         return call_user_func_array([$provider, $method], $parameters);
+    }
+
+    /**
+     * Initializes the event logger.
+     *
+     * @return void
+     */
+    public function initEventLogger()
+    {
+        $dispatcher = static::getEventDispatcher();
+
+        $logger = new EventLogger(static::getLogger());
+
+        $dispatcher->listen('Adldap\Auth\Events\*', function ($eventName, $events) use ($logger) {
+            $logger->auth($events[0]);
+        });
+
+        $dispatcher->listen('Adldap\Models\Events\*', function ($eventName, $events) use ($logger) {
+            $logger->model($events[0]);
+        });
     }
 }

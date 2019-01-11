@@ -12,18 +12,18 @@ namespace Adldap\Connections;
 class Ldap implements ConnectionInterface
 {
     /**
-     * The active LDAP connection.
-     *
-     * @var resource
-     */
-    protected $connection;
-
-    /**
      * The LDAP host that is currently connected.
      *
      * @var string
      */
     protected $host;
+
+    /**
+     * The active LDAP connection.
+     *
+     * @var resource
+     */
+    protected $connection;
 
     /**
      * Stores the bool whether or not
@@ -104,6 +104,14 @@ class Ldap implements ConnectionInterface
         $this->useTLS = $enabled;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHost()
+    {
+        return $this->host;
     }
 
     /**
@@ -438,18 +446,6 @@ class Ldap implements ConnectionInterface
     public function getProtocol()
     {
         return $this->isUsingSSL() ? $this::PROTOCOL_SSL : $this::PROTOCOL;
-    }
-
-    /**
-     * Returns the full LDAP host URL.
-     *
-     * Ex: ldap://192.168.1.1:386
-     *
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
     }
 
     /**

@@ -86,6 +86,15 @@ interface ConnectionInterface
     public function tls($enabled = true);
 
     /**
+     * Returns the full LDAP host URL.
+     *
+     * Ex: ldap://192.168.1.1:386
+     *
+     * @return string|null
+     */
+    public function getHost();
+
+    /**
      * Get the current connection.
      *
      * @return mixed

@@ -183,7 +183,7 @@ class Ldap implements ConnectionInterface
             return new DetailedError($number, $this->err2Str($number), $message);
         }
 
-        return false;
+        return;
     }
 
     /**

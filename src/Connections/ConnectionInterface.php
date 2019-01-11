@@ -176,7 +176,7 @@ interface ConnectionInterface
      *
      * Returns DetailedError when there was an error.
      *
-     * @return bool|DetailedError
+     * @return DetailedError|null
      */
     public function getDetailedError();
 

@@ -106,7 +106,8 @@ class Guard implements GuardInterface
         } catch (Throwable $e) {
             $this->fireFailedEvent($username, $password);
 
-            throw new BindException($this->connection->getLastError(), $this->connection->errNo());
+            throw (new BindException($this->connection->getLastError(), $this->connection->errNo()))
+                ->setDetailedError($this->connection->getDetailedError());
         }
     }
 

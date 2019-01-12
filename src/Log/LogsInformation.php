@@ -14,7 +14,7 @@ trait LogsInformation
     protected static $logger;
 
     /**
-     * Get the event dispatcher instance.
+     * Get the logger instance.
      *
      * @return LoggerInterface|null
      */

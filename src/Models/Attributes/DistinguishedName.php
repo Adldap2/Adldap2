@@ -224,7 +224,7 @@ class DistinguishedName
 
             // If there's exactly 2 pieces, then we can work with it.
             if (count($pieces) === 2) {
-                $attribute = ucfirst($pieces[0]);
+                $attribute = ucfirst(strtolower($pieces[0]));
 
                 $method = 'add'.$attribute;
 

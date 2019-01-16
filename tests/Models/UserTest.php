@@ -317,7 +317,7 @@ class UserTest extends TestCase
         $this->assertInstanceOf(TSPropertyArray::class, $parameters);
         $this->assertTrue($parameters->has('CtxInitialProgram'));
         $this->assertFalse($parameters->has('PropertyDoesNotExist'));
-        $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory'));
+        $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory')->getValue());
     }
 
     public function test_set_user_parameters()
@@ -333,7 +333,7 @@ class UserTest extends TestCase
         $model->setUserParameters($parameters);
 
         $this->assertTrue($parameters->has('CtxInitialProgram'));
-        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram')->getValue());
     }
 
     /**
@@ -361,6 +361,6 @@ class UserTest extends TestCase
         $parameters->add((new TSProperty())->setName('CtxInitialProgram')->setValue('C:\\path\\otherbin.exe'));
 
         $this->assertTrue($parameters->has('CtxInitialProgram'));
-        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram')->getValue());
     }
 }

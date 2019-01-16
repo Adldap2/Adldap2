@@ -111,7 +111,6 @@ class Operator
      */
     public static function all()
     {
-        return (new ReflectionClass(new static()))
-            ->getStaticProperties();
+        return (new ReflectionClass(new static()))->getStaticProperties();
     }
 }

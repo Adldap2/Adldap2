@@ -272,6 +272,7 @@ class Group extends Entry
 
             // We'll need to query for the current model again but with
             // a new range to retrieve the other members.
+            /** @var Group $group */
             $group = $this->query->newInstance()->findByDn(
                 $this->getDn(),
                 [$this->query->getSchema()->memberRange($from, $to)]

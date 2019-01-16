@@ -483,7 +483,7 @@ class User extends Entry implements Authenticatable
      *
      * Suitable for inserting into an HTML image element.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getThumbnailEncoded()
     {

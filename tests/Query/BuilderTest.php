@@ -916,6 +916,34 @@ class BuilderTest extends TestCase
         $this->assertEquals('(&(!(field=value))(!(other=value)))', $b->getUnescapedQuery());
     }
 
+    public function test_find_by_dn_returns_array_when_raw_result_is_requested()
+    {
+        $c = $this->mock(ConnectionInterface::class);
+        $s = $this->mock(SchemaInterface::class);
+
+        $b = $this->newBuilder($c);
+
+        $b->setSchema($s);
+
+        $dn = 'cn=John Doe,dc=acme,dc=org';
+
+        $rawEntries = [
+            'count' => 1,
+            [
+                'dn' => $dn,
+                'cn' => ['John Doe'],
+            ],
+        ];
+
+        $s->shouldReceive('objectClass')->andReturn('objectclass');
+
+        $c
+            ->shouldReceive('read')->once()->with('cn=John Doe,dc=acme,dc=org', '(objectclass=*)',  [0 => '*'], false, 1)
+            ->shouldReceive('getEntries')->once()->andReturn($rawEntries);
+
+        $this->assertEquals($rawEntries[0], $b->raw()->findByDn($dn));
+    }
+
     public function test_find_does_not_use_anr_when_using_other_ldap_distro()
     {
         $c = $this->mock(ConnectionInterface::class);

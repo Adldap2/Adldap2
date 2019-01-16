@@ -113,7 +113,7 @@ class TSPropertyArray
     {
         $this->validateProp($propName);
 
-        return $this->getTsPropObj($propName)->getValue();
+        return $this->getTsPropObj($propName);
     }
 
     /**

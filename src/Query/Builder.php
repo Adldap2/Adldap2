@@ -1479,7 +1479,7 @@ class Builder
      * Handles dynamic "where" clauses to the query.
      *
      * @param string $method
-     * @param string $parameters
+     * @param array  $parameters
      *
      * @return Builder
      */

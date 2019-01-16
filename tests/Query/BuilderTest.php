@@ -3,7 +3,6 @@
 namespace Adldap\Tests\Query;
 
 use DateTime;
-use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Tests\TestCase;
 use Adldap\Query\Paginator;

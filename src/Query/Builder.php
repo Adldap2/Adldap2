@@ -579,7 +579,7 @@ class Builder
     /**
      * Finds a record by its distinguished name.
      *
-     * @param string|array $dn
+     * @param string       $dn
      * @param array|string $columns
      *
      * @return bool|Model

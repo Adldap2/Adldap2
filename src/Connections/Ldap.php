@@ -457,7 +457,7 @@ class Ldap implements ConnectionInterface
      *
      * @return string
      */
-    protected function getConnectionString($hosts = [], $protocol, $port)
+    protected function getConnectionString($hosts, $protocol, $port)
     {
         // Normalize hosts into an array.
         $hosts = is_array($hosts) ? $hosts : [$hosts];

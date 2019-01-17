@@ -11,21 +11,21 @@ abstract class Event
      *
      * @var ConnectionInterface
      */
-    public $connection;
+    protected $connection;
 
     /**
      * The username that is being used for binding.
      *
      * @var string
      */
-    public $username;
+    protected $username;
 
     /**
      * The password that is being used for binding.
      *
      * @var string
      */
-    public $password;
+    protected $password;
 
     /**
      * Constructor.
@@ -39,5 +39,35 @@ abstract class Event
         $this->connection = $connection;
         $this->username = $username;
         $this->password = $password;
+    }
+
+    /**
+     * Returns the events connection.
+     *
+     * @return ConnectionInterface
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Returns the authentication events username.
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Returns the authentication events password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 }

@@ -137,15 +137,15 @@ class GuardTest extends TestCase
         $firedBound = false;
 
         $events->listen(Binding::class, function (Binding $event) use (&$firedBinding) {
-            $this->assertEquals($event->username, 'johndoe');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'johndoe');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedBinding = true;
         });
 
         $events->listen(Bound::class, function (Bound $event) use (&$firedBound) {
-            $this->assertEquals($event->username, 'johndoe');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'johndoe');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedBound = true;
         });
@@ -180,29 +180,29 @@ class GuardTest extends TestCase
         $firedPassed = false;
 
         $events->listen(Binding::class, function (Binding $event) use (&$firedBinding) {
-            $this->assertEquals($event->username, 'prefix.johndoe.suffix');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'prefix.johndoe.suffix');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedBinding = true;
         });
 
         $events->listen(Bound::class, function (Bound $event) use (&$firedBound) {
-            $this->assertEquals($event->username, 'prefix.johndoe.suffix');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'prefix.johndoe.suffix');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedBound = true;
         });
 
         $events->listen(Attempting::class, function (Attempting $event) use (&$firedAttempting) {
-            $this->assertEquals($event->username, 'johndoe');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'johndoe');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedAttempting = true;
         });
 
         $events->listen(Passed::class, function (Passed $event) use (&$firedPassed) {
-            $this->assertEquals($event->username, 'johndoe');
-            $this->assertEquals($event->password, 'secret');
+            $this->assertEquals($event->getUsername(), 'johndoe');
+            $this->assertEquals($event->getPassword(), 'secret');
 
             $firedPassed = true;
         });

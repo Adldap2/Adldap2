@@ -947,13 +947,13 @@ class ModelTest extends TestCase
         $firedCreated = false;
 
         $d->listen(Creating::class, function (Creating $e) use (&$firedCreating) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
              $firedCreating = true;
         });
 
         $d->listen(Created::class, function (Created $e) use (&$firedCreated) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
             $firedCreated = true;
         });
@@ -987,13 +987,13 @@ class ModelTest extends TestCase
         $firedUpdated = false;
 
         $d->listen(Updating::class, function (Updating $e) use (&$firedUpdating) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
             $firedUpdating = true;
         });
 
         $d->listen(Updated::class, function (Updated $e) use (&$firedUpdated) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
             $firedUpdated = true;
         });
@@ -1027,13 +1027,13 @@ class ModelTest extends TestCase
         $firedDeleted = false;
 
         $d->listen(Deleting::class, function (Deleting $e) use (&$firedDeleting) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
             $firedDeleting = true;
         });
 
         $d->listen(Deleted::class, function (Deleted $e) use (&$firedDeleted) {
-            $this->assertInstanceOf(Model::class, $e->model);
+            $this->assertInstanceOf(Model::class, $e->getModel());
 
             $firedDeleted = true;
         });

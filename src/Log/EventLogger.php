@@ -40,7 +40,10 @@ class EventLogger
 
             $operation = get_class($event);
 
-            $message = "LDAP ({$event->connection->getHost()}) - Operation: {$operation} - Username: {$event->username} - Result: {$event->connection->getLastError()}";
+            $message = "LDAP ({$event->getConnection()->getHost()})"
+                . " - Operation: {$operation}"
+                . " - Username: {$event->getUsername()}"
+                . " - Result: {$event->getConnection()->getLastError()}";
 
             $this->logger->$type($message);
         }
@@ -58,11 +61,16 @@ class EventLogger
         if (isset($this->logger)) {
             $operation = get_class($event);
 
-            $on = get_class($event->model);
+            $model = $event->getModel();
 
-            $connection = $event->model->getQuery()->getConnection();
+            $on = get_class($model);
 
-            $message = "LDAP ({$connection->getHost()}) - Operation: {$operation} - On: {$on} - Distinguished Name: {$event->model->getDn()}";
+            $connection = $model->getQuery()->getConnection();
+
+            $message = "LDAP ({$connection->getHost()})"
+                . " - Operation: {$operation}"
+                . " - On: {$on}"
+                . " - Distinguished Name: {$model->getDn()}";
 
             $this->logger->info($message);
         }

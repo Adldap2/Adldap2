@@ -4,7 +4,7 @@ Adldap2 includes an implementation of PSR's widely supported [Logger](https://gi
 
 By default, all of Adldap2's [events](events.md) will call the logger you have set to utilize.
 
-> **Note**: The included logger does not display or log anything to a file. You must implement your own implementation.
+> **Note**: Adldap2 does not include a file / text logger. You must implement your own.
 
 ## Registering a Logger
 
@@ -29,19 +29,21 @@ $ad->addProvider($config);
 
 Here is a list of events that are logged along with the information included:
 
-| Event | Logged |
+| Authentication Events | Logged |
 |---|---|
 | `Adldap\Auth\Events\Attempting` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
 | `Adldap\Auth\Events\Binding` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
 | `Adldap\Auth\Events\Bound` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
 | `Adldap\Auth\Events\Passed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
 | `Adldap\Auth\Events\Failed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials |
-| | |
-| `Adldap\Models\Events\Saving` | | 
-| `Adldap\Models\Events\Saved` | | 
-| `Adldap\Models\Events\Creating` | | 
-| `Adldap\Models\Events\Created` | | 
-| `Adldap\Models\Events\Updating` | | 
-| `Adldap\Models\Events\Updated` | | 
-| `Adldap\Models\Events\Deleting` | | 
-| `Adldap\Models\Events\Deleted` | | 
+
+| Model Events | Logged |
+|---|---|
+| `Adldap\Models\Events\Saving` | LDAP (ldap://192.168.1.1:389) - Operation: Saving - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Saved` | LDAP (ldap://192.168.1.1:389) - Operation: Saved - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Creating` | LDAP (ldap://192.168.1.1:389) - Operation: Creating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Created` | LDAP (ldap://192.168.1.1:389) - Operation: Created - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Updating` | LDAP (ldap://192.168.1.1:389) - Operation: Updating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Updated` | LDAP (ldap://192.168.1.1:389) - Operation: Updated - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Deleting` | LDAP (ldap://192.168.1.1:389) - Operation: Deleting - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Deleted` | LDAP (ldap://192.168.1.1:389) - Operation: Deleted - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 

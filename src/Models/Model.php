@@ -23,8 +23,8 @@ use Adldap\Connections\ConnectionException;
 /**
  * Class Model
  *
- * Represents an LDAP record and provides the ability to
- * modify / retrieve data from the record.
+ * Represents an LDAP record and provides the ability
+ * to modify / retrieve data from the record.
  *
  * @package Adldap\Models
  */

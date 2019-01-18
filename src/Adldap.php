@@ -160,7 +160,7 @@ class Adldap implements AdldapInterface
     {
         $dispatcher = static::getEventDispatcher();
 
-        $logger = new EventLogger(static::getLogger());
+        $logger = $this->newEventLogger();
 
         $dispatcher->listen('Adldap\Auth\Events\*', function ($eventName, $events) use ($logger) {
             foreach ($events as $event) {
@@ -173,5 +173,15 @@ class Adldap implements AdldapInterface
                 $logger->model($event);
             }
         });
+    }
+
+    /**
+     * Returns a new event logger instance.
+     *
+     * @return EventLogger
+     */
+    protected function newEventLogger()
+    {
+        return new EventLogger(static::getLogger());
     }
 }

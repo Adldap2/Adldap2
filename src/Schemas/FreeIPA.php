@@ -79,6 +79,14 @@ class FreeIPA extends Schema
     /**
      * {@inheritdoc}
      */
+    public function objectClassUser()
+    {
+        return 'organizationalPerson';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function objectGuid()
     {
         return 'objectguid';

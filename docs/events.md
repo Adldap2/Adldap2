@@ -3,7 +3,7 @@
 Adldap2 events provide a method of listening for certain LDAP actions
 that are called and execute tasks for that specific event.
 
-> **Note**: The Adldap2 event dispatcher was actually taken from the
+> **Note**: The Adldap2 event dispatcher was actually derived from the
 > [Laravel Framework](https://github.com/laravel/framework) with
 > Broadcasting & Queuing omitted to remove extra dependencies
 > that would be required with implementing those features.
@@ -77,7 +77,6 @@ $dispatcher = Adldap::getEventDispatcher();
 // Listen for all model events.
 $dispatcher->listen('Adldap\Models\Events\*', function ($eventName, array $data) {
     echo $eventName; // Returns 'Adldap\Models\Events\Updating'
-    
     var_dump($data); // Returns [0] => (object) Adldap\Models\Events\Updating;
 });
 

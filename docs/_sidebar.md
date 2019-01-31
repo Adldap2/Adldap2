@@ -8,6 +8,8 @@
 
   * [Searching](searching.md)
   * [Creating & Updating](models/model.md)
+  * [Events](events.md)
+  * [Logging](logging.md)
   * [Working With Distiguished Names](distinguished-names.md)
   * [Troubleshooting](troubleshooting.md)
 

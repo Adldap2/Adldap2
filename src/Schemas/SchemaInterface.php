@@ -437,6 +437,15 @@ interface SchemaInterface
     public function instanceType();
 
     /**
+     * Specifies the TCP/IP address for the phone. Used by telephony.
+     * 
+     * @link https://msdn.microsoft.com/en-us/library/cc221092.aspx
+     * 
+     * @return string
+     */
+    public function ipPhone();
+
+    /**
      * If TRUE, the object hosting this attribute must be replicated during installation of a new replica.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms676798(v=vs.85).aspx

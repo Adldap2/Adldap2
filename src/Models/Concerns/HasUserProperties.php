@@ -106,7 +106,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675719(v=vs.85).aspx
      *
-     * @return mixed
+     * @return string|null
      */
     public function getFirstName()
     {
@@ -127,7 +127,7 @@ trait HasUserProperties
     /**
      * Returns the users initials.
      *
-     * @return mixed
+     * @return string
      */
     public function getInitials()
     {
@@ -147,11 +147,33 @@ trait HasUserProperties
     }
 
     /**
+     * Returns the users IP Phone.
+     * 
+     * @return string|null
+     */
+    public function getIpPhone()
+    {
+        return $this->getFirstAttribute($this->schema->ipPhone());
+    }
+
+    /**
+     * Sets the users IP phone.
+     *
+     * @param string $ip
+     *
+     * @return $this
+     */
+    public function setIpPhone($ip)
+    {
+        return $this->setFirstAttribute($this->schema->ipPhone(), $ip);
+    }
+
+    /**
      * Returns the users last name.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679872(v=vs.85).aspx
      *
-     * @return mixed
+     * @return string|null
      */
     public function getLastName()
     {
@@ -194,7 +216,7 @@ trait HasUserProperties
     /**
      * Get the users post office box.
      *
-     * @return mixed
+     * @return string|null
      */
     public function getPostOfficeBox()
     {

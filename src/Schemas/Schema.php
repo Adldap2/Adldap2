@@ -380,6 +380,14 @@ abstract class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function ipPhone()
+    {
+        return 'ipphone';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isCriticalSystemObject()
     {
         return 'iscriticalsystemobject';

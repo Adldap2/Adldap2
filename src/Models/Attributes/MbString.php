@@ -47,7 +47,7 @@ class MbString
      *
      * @return string[]
      */
-    public static function str_split($value)
+    public static function split($value)
     {
         return preg_split('/(?<!^)(?!$)/u', $value);
     }

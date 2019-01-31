@@ -283,7 +283,7 @@ class TSProperty
         // For a string, we just split the chars. This seems
         // to be the easiest way to handle UTF-8 characters
         // instead of trying to work with their hex values.
-        $chars = $string ? MbString::str_split($value) : array_reverse(str_split($this->dec2hex($value, 8), 2));
+        $chars = $string ? MbString::split($value) : array_reverse(str_split($this->dec2hex($value, 8), 2));
 
         $encoded = '';
 

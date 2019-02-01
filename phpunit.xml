@@ -8,10 +8,9 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
         >
     <testsuites>
-        <testsuite name="AdLDAP2 Test Suite">
+        <testsuite name="Adldap2 Test Suite">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>

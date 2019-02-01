@@ -24,9 +24,11 @@ that are called and execute tasks for that specific event.
 To register a listener on an event, retrieve the event dispatcher and call the `listen()` method:
 
 ```php
+use Adldap\Auth\Events\Binding;
+
 $dispatcher = \Adldap\Adldap::getEventDispatcher();
 
-$dispatcher->listen(\Adldap\Auth\Events\Binding::class, function (Binding $event) {
+$dispatcher->listen(Binding::class, function (Binding $event) {
     // Do something with the Binding event information:
     
     $event->connection; // Adldap\Connections\Ldap instance
@@ -65,9 +67,28 @@ class BindingEventHandler
 }
 ```
 
+## Model Events
+
+Model events are handled the same way as authentication events.
+
+Simply call the event dispatcher `listen()` method with the model event you are wanting to listen for:
+
+```php
+use Adldap\Models\Events\Saving;
+
+$dispatcher = \Adldap\Adldap::getEventDispatcher();
+
+$dispatcher->listen(Saving::class, function (Saving $event) {
+    // Do something with the Saving event information:
+    
+    // Returns the model instance being saved eg. `Adldap\Models\Entry`
+    $event->getModel();
+});
+```
+
 ## Wildcard Event Listeners
 
-You can register listeners using the * as a wildcard parameter to catch multiple events with the same listener.
+You can register listeners using the `*` as a wildcard parameter to catch multiple events with the same listener.
 
 Wildcard listeners will receive the event name as their first argument, and the entire event data array as their second argument:
 

@@ -18,8 +18,8 @@ interface GuardInterface
     /**
      * Authenticates a user using the specified credentials.
      *
-     * @param string $username   The users AD username.
-     * @param string $password   The users AD password.
+     * @param string $username   The users LDAP username.
+     * @param string $password   The users LDAP password.
      * @param bool   $bindAsUser Whether or not to bind as the user.
      *
      * @throws \Adldap\Auth\BindException When re-binding to your LDAP server fails.

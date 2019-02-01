@@ -7,7 +7,7 @@
 
 There's a ton of available methods for the User model. Below is a list for a quick reference.
 
-> **Note**: Don't see a method for an AD attribute? Create an issue and let us know!
+> **Note**: Don't see a method for an LDAP attribute? Create an issue and let us know!
 
 ```php
 // Get the users display name.

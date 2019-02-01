@@ -75,15 +75,15 @@ if ($user->save()) {
 }
 ```
 
-> **Note**: When a model is saved successfully (whether created or updated),
-> the models attributes are re-synced in the background from your AD.
+> **Note**: When a model is saved successfully (whether created or updated), the
+> models attributes are re-synced in the background from your LDAP server.
 > 
 > This allows you to perform other operations during the same
 > request that require an existing model.
 
 ### Creating (Manually)
 
-If you are sure the model **does not exist** already inside your AD, you can use the `create()` method:
+If you are sure the model **does not exist** already inside your LDAP directory, you can use the `create()` method:
 
 ```php
 $user = $provider->make()->user([
@@ -103,7 +103,7 @@ if ($user->create()) {
 
 ### Updating (Manually)
 
-If you are sure the model **does exist** already inside your AD, you can use the `update()` method:
+If you are sure the model **does exist** already inside your LDAP directory, you can use the `update()` method:
 
 ```php
 $user = $provider->search()->whereEquals('cn', 'John Doe')->firstOrFail();
@@ -121,7 +121,7 @@ if ($user->update()) {
 
 If you need to check the existence of a model, use the property `exists`.
 
-How does it know if the model exists in AD? Well, when models are constructed from
+How does it know if the model exists in your LDAP directory? Well, when models are constructed from
 search results, the `exists` property on the model is set to `true`.
 
 ```php
@@ -508,7 +508,7 @@ If you need to forcefully re-sync a models attributes, use the method `syncRaw()
 $user->syncRaw();
 ```
 
-> **Note**: This will query your AD server for the current model, and re-synchronize
+> **Note**: This will query your LDAP server for the current model, and re-synchronize
 > it's attributes. This is only recommended if your creating / updating / deleting
 > attributes manually through your LDAP connection.
 

@@ -852,7 +852,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Return true / false if AD User is active (enabled & not expired).
+     * Return true / false if LDAP User is active (enabled & not expired).
      *
      * @return bool
      */
@@ -862,7 +862,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Return true / false if the AD User is expired.
+     * Return true / false if the LDAP User is expired.
      *
      * @param DateTime $date Optional date
      *

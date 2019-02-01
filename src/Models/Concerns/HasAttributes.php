@@ -16,7 +16,9 @@ trait HasAttributes
     public $dateFormat = 'Y-m-d H:i:s';
 
     /**
-     * The format that is used to convert AD timestamps to unix timestamps.
+     * The format that is used to convert timestamps to unix timestamps.
+     *
+     * Currently set for compatibility with Active Directory.
      *
      * @var string
      */

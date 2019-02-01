@@ -204,7 +204,7 @@ class BatchModification
 
             // If the filtered array is empty and there is no original
             // value, then we can ignore this attribute since
-            // we can't push null values to AD.
+            // we can't push null values to the server.
         } else {
             if (empty($filtered)) {
                 // If there's an original value and the array is

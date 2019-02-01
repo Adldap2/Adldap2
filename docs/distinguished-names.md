@@ -63,7 +63,7 @@ $dn->setBase($base);
 
 #### Creating a DN From A Model
 
-When you're creating a new AD record, you'll need to create a distinguished name as well. Let's go through an example of
+When you're creating a new LDAP record, you'll need to create a distinguished name as well. Let's go through an example of
 creating a new user.
 
 ```php

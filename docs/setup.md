@@ -91,7 +91,7 @@ If one is not defined, you will not retrieve any search results.
 
 ##### Username & Password
 
-To connect to your AD server, a username and password is required to be able to query and run operations on your server(s).
+To connect to your LDAP server, a username and password is required to be able to query and run operations on your server(s).
 
 You can use any account that has these permissions.
 
@@ -146,11 +146,11 @@ $provider->auth()->attempt($username, $password);
 
 ##### Port
 
-The port option is used for authenticating and binding to your AD server.
+The port option is used for authenticating and binding to your LDAP server.
 
 The default ports are already used for non SSL and SSL connections (389 and 636).
 
-Only insert a port if your AD server uses a unique port.
+Only insert a port if your LDAP server uses a unique port.
 
 ##### Follow Referrals
 

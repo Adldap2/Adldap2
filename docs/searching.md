@@ -332,7 +332,7 @@ $results = $search
         ->get();
 ```
 
-Now, we'll retrieve both John and Suzy's AD records, because the common name can equal either.
+Now, we'll retrieve both John and Suzy's LDAP records, because the common name can equal either.
 
 > **Note**: You can also use all `where` methods as an or where, for example:
 > `orWhereHas()`, `orWhereContains()`, `orWhereStartsWith()`, `orWhereEndsWith()`
@@ -486,8 +486,8 @@ echo $query; // Returns (&(samaccountname=jdoe)(surname=Doe))
 
 ## Sorting
 
-Sorting is really useful when your displaying tabular AD results. You can
-easily perform sorts on any AD attribute by using the `sortBy()` method:
+Sorting is really useful when your displaying tabular LDAP results. You can
+easily perform sorts on any LDAP attribute by using the `sortBy()` method:
 
 ```php
 $results = $search->whereHas('cn')->sortBy('cn', 'asc')->get();
@@ -524,7 +524,7 @@ $recordsPerPage = 50;
 
 $currentPage = $_GET['page'];
 
-// This would retrieve all records from AD inside a new Adldap\Objects\Paginator instance.
+// This would retrieve all records from your LDAP server inside a new Adldap\Objects\Paginator instance.
 $paginator = $search->paginate($recordsPerPage, $currentPage);
 
 // Returns total number of pages, int

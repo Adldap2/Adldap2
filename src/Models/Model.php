@@ -486,7 +486,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns the model's name. An AD alias for the CN attribute.
+     * Returns the model's name. An LDAP alias for the CN attribute.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675449(v=vs.85).aspx
      *
@@ -894,7 +894,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         if ($created) {
             // If the entry was created we'll re-sync
-            // the models attributes from AD.
+            // the models attributes from the server.
             $this->syncRaw();
 
             $this->fireModelEvent(new Events\Created($this));

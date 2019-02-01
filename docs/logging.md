@@ -6,7 +6,7 @@ By default, all of Adldap2's [events](events.md) will call the logger you have s
 
 > **Note**: Adldap2 does not include a file / text logger. You must implement your own.
 
-## Registering a Logger
+## Registering & Enabling a Logger
 
 To register a logger call `Adldap::setLogger()`. The logger must implement the `Psr\Log\LoggerInterface`.
 
@@ -23,6 +23,31 @@ $config = ['...'];
 $ad = new Adldap();
 
 $ad->addProvider($config);
+```
+
+## Disabling Logging
+
+If you need to disable the event logger after a certain set of operations, simply pass in `null` and logging will be disabled:
+
+```php
+use Adldap\Adldap;
+
+Adldap::setLogger($myLogger);
+
+$config = ['...'];
+
+$ad = new Adldap();
+
+$ad->addProvider($config);
+
+try {
+    $ad->connect();
+    
+    // Disable logging anything else.
+    Adldap::setLogger(null);
+} catch (\Adldap\Connections\BindException $e) {
+    //
+}
 ```
 
 ## Logged Information

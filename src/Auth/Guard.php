@@ -98,15 +98,15 @@ class Guard implements GuardInterface
         $this->fireBindingEvent($username, $password);
 
         try {
-            if ($this->connection->bind($username, $password)) {
+            if (@$this->connection->bind($username, $password) === true) {
                 $this->fireBoundEvent($username, $password);
             } else {
-                throw new Exception();
+                throw new Exception($this->connection->getLastError(), $this->connection->errNo());
             }
         } catch (Throwable $e) {
             $this->fireFailedEvent($username, $password);
 
-            throw (new BindException($this->connection->getLastError(), $this->connection->errNo()))
+            throw (new BindException($e->getMessage(), $e->getCode(), $e))
                 ->setDetailedError($this->connection->getDetailedError());
         }
     }

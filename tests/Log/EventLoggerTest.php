@@ -18,7 +18,7 @@ class EventLoggerTest extends TestCase
         $l = $this->mock(LoggerInterface::class);
         $c = $this->mock(ConnectionInterface::class);
 
-        $log = 'LDAP (ldap://192.168.1.1) - Operation: Mockery_4_Adldap_Auth_Events_Event - Username: jdoe@acme.org - Result: Success';
+        $log = 'LDAP (ldap://192.168.1.1) - Operation: Mockery_4_Adldap_Auth_Events_Event - Username: jdoe@acme.org';
 
         $l->shouldReceive('info')->once()->with($log);
 

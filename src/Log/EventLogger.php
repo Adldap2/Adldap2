@@ -36,16 +36,21 @@ class EventLogger
     public function auth(AuthEvent $event)
     {
         if (isset($this->logger)) {
-            $type = is_a($event, Failed::class) ? 'warning' : 'info';
-
             $operation = get_class($event);
 
             $message = "LDAP ({$event->getConnection()->getHost()})"
                 . " - Operation: {$operation}"
-                . " - Username: {$event->getUsername()}"
-                . " - Result: {$event->getConnection()->getLastError()}";
+                . " - Username: {$event->getUsername()}";
 
-            $this->logger->$type($message);
+            $result = null;
+            $type = 'info';
+
+            if (is_a($event, Failed::class)) {
+                $type = 'warning';
+                $result = " - Reason: {$event->getConnection()->getLastError()}";
+            }
+
+            $this->logger->$type($message.$result);
         }
     }
 

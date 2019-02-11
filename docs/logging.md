@@ -56,19 +56,19 @@ Here is a list of events that are logged along with the information included:
 
 | Authentication Events | Logged |
 |---|---|
-| `Adldap\Auth\Events\Attempting` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
-| `Adldap\Auth\Events\Binding` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
-| `Adldap\Auth\Events\Bound` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
-| `Adldap\Auth\Events\Passed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
-| `Adldap\Auth\Events\Failed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials |
+| `Adldap\Auth\Events\Attempting` | `LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org` | 
+| `Adldap\Auth\Events\Binding` |` LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org` | 
+| `Adldap\Auth\Events\Bound` | `LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org` | 
+| `Adldap\Auth\Events\Passed` | `LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org` | 
+| `Adldap\Auth\Events\Failed` | `LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials` |
 
 | Model Events | Logged |
 |---|---|
-| `Adldap\Models\Events\Saving` | LDAP (ldap://192.168.1.1:389) - Operation: Saving - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Saved` | LDAP (ldap://192.168.1.1:389) - Operation: Saved - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Creating` | LDAP (ldap://192.168.1.1:389) - Operation: Creating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Created` | LDAP (ldap://192.168.1.1:389) - Operation: Created - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Updating` | LDAP (ldap://192.168.1.1:389) - Operation: Updating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Updated` | LDAP (ldap://192.168.1.1:389) - Operation: Updated - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Deleting` | LDAP (ldap://192.168.1.1:389) - Operation: Deleting - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
-| `Adldap\Models\Events\Deleted` | LDAP (ldap://192.168.1.1:389) - Operation: Deleted - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org | 
+| `Adldap\Models\Events\Saving` | `LDAP (ldap://192.168.1.1:389) - Operation: Saving - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Saved` | `LDAP (ldap://192.168.1.1:389) - Operation: Saved - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Creating` | `LDAP (ldap://192.168.1.1:389) - Operation: Creating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Created` | `LDAP (ldap://192.168.1.1:389) - Operation: Created - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Updating` | `LDAP (ldap://192.168.1.1:389) - Operation: Updating - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Updated` | `LDAP (ldap://192.168.1.1:389) - Operation: Updated - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Deleting` | `LDAP (ldap://192.168.1.1:389) - Operation: Deleting - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 
+| `Adldap\Models\Events\Deleted` | `LDAP (ldap://192.168.1.1:389) - Operation: Deleted - On: Adldap\Models\User - Distinguished Name: cn=John Doe,dc=acme,dc=org` | 

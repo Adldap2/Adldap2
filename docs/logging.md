@@ -56,10 +56,10 @@ Here is a list of events that are logged along with the information included:
 
 | Authentication Events | Logged |
 |---|---|
-| `Adldap\Auth\Events\Attempting` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
-| `Adldap\Auth\Events\Binding` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
-| `Adldap\Auth\Events\Bound` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
-| `Adldap\Auth\Events\Passed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Success | 
+| `Adldap\Auth\Events\Attempting` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Attempting - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
+| `Adldap\Auth\Events\Binding` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Binding - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
+| `Adldap\Auth\Events\Bound` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Bound - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
+| `Adldap\Auth\Events\Passed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Passed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org | 
 | `Adldap\Auth\Events\Failed` | LDAP (ldap://192.168.1.1:389) - Operation: Adldap\Auth\Events\Failed - Username: CN=Steve Bauman,OU=Users,DC=corp,DC=acme,DC=org - Result: Invalid Credentials |
 
 | Model Events | Logged |

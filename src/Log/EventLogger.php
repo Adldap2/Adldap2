@@ -52,7 +52,7 @@ class EventLogger
                 $type = 'warning';
                 $result = " - Reason: {$connection->getLastError()}";
             }
-
+            
             $this->logger->$type($message.$result);
         }
     }

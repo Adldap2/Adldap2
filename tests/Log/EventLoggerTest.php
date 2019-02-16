@@ -5,6 +5,7 @@ namespace Adldap\Tests\Log;
 use Adldap\Models\User;
 use Adldap\Tests\TestCase;
 use Adldap\Log\EventLogger;
+use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Event as AuthEvent;
 use Adldap\Models\Events\Event as ModelEvent;
 use Adldap\Connections\ConnectionInterface;
@@ -24,12 +25,32 @@ class EventLoggerTest extends TestCase
 
         $c
             ->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1')
-            ->shouldReceive('getName')->once()->andReturn('domain-a')
-            ->shouldReceive('getLastError')->once()->andReturn('Success');
+            ->shouldReceive('getName')->once()->andReturn('domain-a');
 
         $e
             ->shouldReceive('getConnection')->once()->andReturn($c)
             ->shouldReceive('getUsername')->once()->andReturn('jdoe@acme.org');
+
+        $eLogger = new EventLogger($l);
+
+        $this->assertNUll($eLogger->auth($e));
+    }
+
+    public function test_failed_auth_event_reports_result()
+    {
+        $l = $this->mock(LoggerInterface::class);
+        $c = $this->mock(ConnectionInterface::class);
+
+        $e = new Failed($c, 'jdoe@acme.org', 'super-secret');
+
+        $log = 'LDAP (ldap://192.168.1.1) - Connection: domain-a - Operation: Adldap\Auth\Events\Failed - Username: jdoe@acme.org - Reason: Invalid Credentials';
+
+        $l->shouldReceive('warning')->once()->with($log);
+
+        $c
+            ->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1')
+            ->shouldReceive('getName')->once()->andReturn('domain-a')
+            ->shouldReceive('getLastError')->once()->andReturn('Invalid Credentials');
 
         $eLogger = new EventLogger($l);
 

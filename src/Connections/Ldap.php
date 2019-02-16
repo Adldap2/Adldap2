@@ -12,9 +12,16 @@ namespace Adldap\Connections;
 class Ldap implements ConnectionInterface
 {
     /**
+     * The connection name.
+     * 
+     * @var string|null
+     */
+    protected $name;
+
+    /**
      * The LDAP host that is currently connected.
      *
-     * @var string
+     * @var string|null
      */
     protected $host;
 
@@ -53,6 +60,14 @@ class Ldap implements ConnectionInterface
      * @var bool
      */
     protected $useTLS = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($name = null)
+    {
+        $this->name = $name;
+    }
 
     /**
      * {@inheritdoc}
@@ -112,6 +127,14 @@ class Ldap implements ConnectionInterface
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**

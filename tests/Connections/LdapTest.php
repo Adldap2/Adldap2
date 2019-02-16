@@ -58,6 +58,29 @@ class LdapTest extends TestCase
         $this->assertEquals('ldaps://', $ldap->getProtocol());
     }
 
+    public function test_get_host()
+    {
+        $ldap = new Ldap();
+
+        $ldap->connect('192.168.1.1');
+
+        $this->assertEquals('ldap://192.168.1.1:389', $ldap->getHost());
+    }
+
+    public function test_get_host_is_null_without_connecting()
+    {
+        $ldap = new Ldap();
+
+        $this->assertNull($ldap->getHost());
+    }
+
+    public function test_connections_can_be_named()
+    {
+        $ldap = new Ldap('domain-a');
+
+        $this->assertEquals('domain-a', $ldap->getName());
+    }
+
     public function test_can_change_passwords()
     {
         $ldap = new Ldap();

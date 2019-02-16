@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Adldap\Log\EventLogger;
 use Adldap\Log\LogsInformation;
 use Adldap\Events\DispatchesEvents;
+use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Connections\ConnectionInterface;
@@ -51,7 +52,7 @@ class Adldap implements AdldapInterface
     public function addProvider($config, $name = 'default', ConnectionInterface $connection = null)
     {
         if ($this->isValidConfig($config)) {
-            $config = new Provider($config, $connection);
+            $config = new Provider($config, $connection ?? new Ldap($name));
         }
 
         if ($config instanceof ProviderInterface) {

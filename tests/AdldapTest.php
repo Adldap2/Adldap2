@@ -128,6 +128,16 @@ class AdldapTest extends TestCase
 
         $provider = $ad->getDefaultProvider();
 
+        $this->assertEquals('test1', $provider->getConnection()->getName());
         $this->assertEquals('test1.dc', $provider->getConfiguration()->get('hosts')[0]);
+    }
+
+    public function test_adding_providers_sets_connection_name()
+    {
+        $ad = new Adldap();
+
+        $ad->addProvider(new DomainConfiguration(), 'domain-a');
+
+        $this->assertEquals('domain-a', $ad->getProvider('domain-a')->getConnection()->getName());
     }
 }

@@ -18,16 +18,17 @@ class EventLoggerTest extends TestCase
         $l = $this->mock(LoggerInterface::class);
         $c = $this->mock(ConnectionInterface::class);
 
-        $log = 'LDAP (ldap://192.168.1.1) - Operation: Mockery_4_Adldap_Auth_Events_Event - Username: jdoe@acme.org';
+        $log = 'LDAP (ldap://192.168.1.1) - Connection: domain-a - Operation: Mockery_4_Adldap_Auth_Events_Event - Username: jdoe@acme.org';
 
         $l->shouldReceive('info')->once()->with($log);
 
         $c
             ->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1')
+            ->shouldReceive('getName')->once()->andReturn('domain-a')
             ->shouldReceive('getLastError')->once()->andReturn('Success');
 
         $e
-            ->shouldReceive('getConnection')->twice()->andReturn($c)
+            ->shouldReceive('getConnection')->once()->andReturn($c)
             ->shouldReceive('getUsername')->once()->andReturn('jdoe@acme.org');
 
         $eLogger = new EventLogger($l);
@@ -53,11 +54,13 @@ class EventLoggerTest extends TestCase
 
         $me->shouldReceive('getModel')->once()->andReturn($u);
 
-        $log = "LDAP (ldap://192.168.1.1) - Operation: Mockery_6_Adldap_Models_Events_Event - On: Adldap\Models\User - Distinguished Name: $dn";
+        $log = "LDAP (ldap://192.168.1.1) - Connection: domain-a - Operation: Mockery_6_Adldap_Models_Events_Event - On: Adldap\Models\User - Distinguished Name: $dn";
 
         $l->shouldReceive('info')->once()->with($log);
 
-        $c->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1');
+        $c
+            ->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1')
+            ->shouldReceive('getName')->once()->andReturn('domain-a');
 
         $this->assertNUll($eLogger->model($me));
     }

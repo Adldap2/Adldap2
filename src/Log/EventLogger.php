@@ -38,7 +38,10 @@ class EventLogger
         if (isset($this->logger)) {
             $operation = get_class($event);
 
-            $message = "LDAP ({$event->getConnection()->getHost()})"
+            $connection = $event->getConnection();
+
+            $message = "LDAP ({$connection->getHost()})"
+                . " - Connection: {$connection->getName()}"
                 . " - Operation: {$operation}"
                 . " - Username: {$event->getUsername()}";
 
@@ -47,7 +50,7 @@ class EventLogger
 
             if (is_a($event, Failed::class)) {
                 $type = 'warning';
-                $result = " - Reason: {$event->getConnection()->getLastError()}";
+                $result = " - Reason: {$connection->getLastError()}";
             }
 
             $this->logger->$type($message.$result);
@@ -73,6 +76,7 @@ class EventLogger
             $connection = $model->getQuery()->getConnection();
 
             $message = "LDAP ({$connection->getHost()})"
+                . " - Connection: {$connection->getName()}"
                 . " - Operation: {$operation}"
                 . " - On: {$on}"
                 . " - Distinguished Name: {$model->getDn()}";

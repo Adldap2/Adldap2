@@ -33,7 +33,7 @@ class EventLoggerTest extends TestCase
 
         $eLogger = new EventLogger($l);
 
-        $this->assertNUll($eLogger->auth($e));
+        $this->assertNull($eLogger->auth($e));
     }
 
     public function test_failed_auth_event_reports_result()
@@ -54,7 +54,7 @@ class EventLoggerTest extends TestCase
 
         $eLogger = new EventLogger($l);
 
-        $this->assertNUll($eLogger->auth($e));
+        $this->assertNull($eLogger->auth($e));
     }
 
     public function test_model_events_are_logged()
@@ -83,6 +83,6 @@ class EventLoggerTest extends TestCase
             ->shouldReceive('getHost')->once()->andReturn('ldap://192.168.1.1')
             ->shouldReceive('getName')->once()->andReturn('domain-a');
 
-        $this->assertNUll($eLogger->model($me));
+        $this->assertNull($eLogger->model($me));
     }
 }

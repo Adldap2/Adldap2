@@ -2,8 +2,8 @@
 
 ## Introduction
 
-Adldap2 implements the ActiveRecord pattern. This means that each LDAP
-record in your directory is represented as it's own model instance.
+Adldap2 implements the [ActiveRecord](https://en.wikipedia.org/wiki/Active_record_pattern) pattern.
+This means that each LDAP record in your directory is represented as it's own model instance.
 
 ## Creating
 
@@ -21,7 +21,7 @@ Or you can chain all methods if you'd prefer:
 $user = $provider->make()->user();
 ```
 
-### Available Make Methods:
+### Available Make Methods
 
 When calling a make method, all of them accept an `$attributes` parameter
 to fill the model with your specified attributes.
@@ -130,9 +130,7 @@ $user = $provider->search()->find('jdoe');
 $user->exists; // Returns true.
 
 if ($user->delete()) {
-
     $user->exists; // Returns false.
-
 }
 ```
 
@@ -146,9 +144,7 @@ $user = $provider->make()->user([
 $user->exists; // Returns false.
 
 if ($user->save()) {
-    
     $user->exists; // Returns true.
-    
 }
 ```
 

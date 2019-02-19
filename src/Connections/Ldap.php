@@ -33,29 +33,21 @@ class Ldap implements ConnectionInterface
     protected $connection;
 
     /**
-     * Stores the bool whether or not
-     * the current connection is bound.
+     * The bound status of the connection.
      *
      * @var bool
      */
     protected $bound = false;
 
     /**
-     * Stores the bool to tell the connection
-     * whether or not to use SSL.
-     *
-     * To use SSL, your server must support LDAP over SSL.
-     * http://adldap.sourceforge.net/wiki/doku.php?id=ldap_over_ssl
+     * Whether the connection must be bound over SSL.
      *
      * @var bool
      */
     protected $useSSL = false;
 
     /**
-     * Stores the bool to tell the connection
-     * whether or not to use TLS.
-     *
-     * If you wish to use TLS you should ensure that $useSSL is set to false and vice-versa
+     * Whether the connection must be bound over TLS.
      *
      * @var bool
      */

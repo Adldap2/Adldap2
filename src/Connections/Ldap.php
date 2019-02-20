@@ -54,13 +54,6 @@ class Ldap implements ConnectionInterface
     protected $useTLS = false;
     
     /**
-     * If connection has been upgraded to use TLS or not
-     *
-     * @var bool
-     */
-    protected $upgradedToTLS = false;
-
-    /**
      * {@inheritdoc}
      */
     public function __construct($name = null)
@@ -255,16 +248,7 @@ class Ldap implements ConnectionInterface
      */
     public function startTLS()
     {
-        
-        if($this->upgradedToTLS === true) {
-            return true;
-        }
-        
-        $state = ldap_start_tls($this->getConnection());
-        
-        $this->upgradedToTLS = $state;
-        
-        return $state;
+        return ldap_start_tls($this->getConnection());
     }
 
     /**
@@ -272,12 +256,15 @@ class Ldap implements ConnectionInterface
      */
     public function connect($hosts = [], $port = '389')
     {
-        
-        $this->upgradedToTLS = false;
-        
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
+        
+        $this->connection = ldap_connect($this->host);
+        
+        if ($this->isUsingTLS() && $this->startTLS() === false) {
+            throw new ConnectionException("Unable to connect to LDAP server over TLS.");
+        }
 
-        return $this->connection = ldap_connect($this->host);
+        return $this->connection;
     }
 
     /**
@@ -285,8 +272,6 @@ class Ldap implements ConnectionInterface
      */
     public function close()
     {
-        $this->upgradedToTLS = false;
-        
         $connection = $this->getConnection();
 
         return is_resource($connection) ? ldap_close($connection) : false;
@@ -321,10 +306,6 @@ class Ldap implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
-        if ($this->isUsingTLS() && $this->startTLS() === false) {
-            throw new ConnectionException("Unable to connect to LDAP server over TLS.");
-        }
-
         if ($sasl) {
             return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
         }

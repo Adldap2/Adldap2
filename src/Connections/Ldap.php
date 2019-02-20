@@ -273,7 +273,7 @@ class Ldap implements ConnectionInterface
     public function connect($hosts = [], $port = '389')
     {
         
-        $this->upgradeToTLS = false;
+        $this->upgradedToTLS = false;
         
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
@@ -285,7 +285,7 @@ class Ldap implements ConnectionInterface
      */
     public function close()
     {
-        $this->upgradeToTLS = false;
+        $this->upgradedToTLS = false;
         
         $connection = $this->getConnection();
 

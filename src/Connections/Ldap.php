@@ -52,6 +52,13 @@ class Ldap implements ConnectionInterface
      * @var bool
      */
     protected $useTLS = false;
+    
+    /**
+     * If connection has been upgraded to use TLS or not
+     *
+     * @var bool
+     */
+    protected $upgradedToTLS = false;
 
     /**
      * {@inheritdoc}
@@ -248,7 +255,16 @@ class Ldap implements ConnectionInterface
      */
     public function startTLS()
     {
-        return ldap_start_tls($this->getConnection());
+        
+        if($this->upgradedToTLS === true) {
+            return true;
+        }
+        
+        $state = ldap_start_tls($this->getConnection());
+        
+        $this->upgradedToTLS = $state;
+        
+        return $state;
     }
 
     /**
@@ -256,6 +272,9 @@ class Ldap implements ConnectionInterface
      */
     public function connect($hosts = [], $port = '389')
     {
+        
+        $this->upgradeToTLS = false;
+        
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
         return $this->connection = ldap_connect($this->host);
@@ -266,6 +285,8 @@ class Ldap implements ConnectionInterface
      */
     public function close()
     {
+        $this->upgradeToTLS = false;
+        
         $connection = $this->getConnection();
 
         return is_resource($connection) ? ldap_close($connection) : false;

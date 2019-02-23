@@ -1369,6 +1369,13 @@ interface SchemaInterface
     public function userModel();
 
     /**
+     * The object classes that User models must be constructed with.
+     *
+     * @return array
+     */
+    public function userObjectClasses() : array;
+
+    /**
      * This attribute contains the UPN that is an Internet-style login name for
      * a user based on the Internet standard RFC 822.
      *

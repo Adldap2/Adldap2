@@ -33,34 +33,26 @@ class Ldap implements ConnectionInterface
     protected $connection;
 
     /**
-     * Stores the bool whether or not
-     * the current connection is bound.
+     * The bound status of the connection.
      *
      * @var bool
      */
     protected $bound = false;
 
     /**
-     * Stores the bool to tell the connection
-     * whether or not to use SSL.
-     *
-     * To use SSL, your server must support LDAP over SSL.
-     * http://adldap.sourceforge.net/wiki/doku.php?id=ldap_over_ssl
+     * Whether the connection must be bound over SSL.
      *
      * @var bool
      */
     protected $useSSL = false;
 
     /**
-     * Stores the bool to tell the connection
-     * whether or not to use TLS.
-     *
-     * If you wish to use TLS you should ensure that $useSSL is set to false and vice-versa
+     * Whether the connection must be bound over TLS.
      *
      * @var bool
      */
     protected $useTLS = false;
-
+    
     /**
      * {@inheritdoc}
      */
@@ -265,8 +257,14 @@ class Ldap implements ConnectionInterface
     public function connect($hosts = [], $port = '389')
     {
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
+        
+        $this->connection = ldap_connect($this->host);
+        
+        if ($this->isUsingTLS() && $this->startTLS() === false) {
+            throw new ConnectionException("Unable to connect to LDAP server over TLS.");
+        }
 
-        return $this->connection = ldap_connect($this->host);
+        return $this->connection;
     }
 
     /**
@@ -308,10 +306,6 @@ class Ldap implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
-        if ($this->isUsingTLS() && $this->startTLS() === false) {
-            throw new ConnectionException("Unable to connect to LDAP server over TLS.");
-        }
-
         if ($sasl) {
             return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
         }

@@ -371,6 +371,23 @@ $user->fill([
 ]);
 ```
 
+#### Setting Boolean Attributes
+
+When setting boolean attribute values, you cannot use `0` / `1` / `true` / `false` as these
+are simply converted to integer values when saving and your LDAP server will
+likely return an error for doing so on certain attributes.
+
+You will need to use the string versions of the boolean (`'TRUE'` / `'FALSE'`) for the
+boolean attribute to be set properly on your LDAP server.
+
+Here's an example:
+
+```php
+$user->setFirstAttribute('msExchHideFromAddressLists', 'TRUE');
+
+$user->save();
+```
+
 ### Creating Attributes
 
 To create an attribute that does not exist on the model, you can set it like a regular property:

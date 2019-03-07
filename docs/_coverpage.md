@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-<h1 align="center">Adldap2</h1>
+# Adldap2
 
 <p align="center">
     <a href="https://travis-ci.org/Adldap2/Adldap2"><img src="https://img.shields.io/travis/Adldap2/Adldap2.svg?style=flat-square"/></a>
@@ -10,10 +10,8 @@
     <a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square"/></a>
 </p>
 
-<p align="center">
-    Working with LDAP doesn't need to be hard.
-</p>
+> Working with LDAP doesn't need to be hard.
 
-<!-- background color -->
+<!-- background image -->
 
-![color](#f0f0f0)
+![](media/bg.svg)

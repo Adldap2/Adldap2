@@ -1,3 +1,5 @@
+<!-- _sidebar.md -->
+
 * Getting Started
 
   * [Introduction](/)

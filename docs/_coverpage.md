@@ -15,7 +15,3 @@
 <!-- background image -->
 
 ![](media/bg.svg)
-
-<!-- background color -->
-
-![color](#B1FFCA)

@@ -13,5 +13,4 @@
 > Working with LDAP doesn't need to be hard.
 
 <!-- background image -->
-
 ![](media/bg.svg)

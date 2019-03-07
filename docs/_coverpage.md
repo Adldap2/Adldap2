@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-[filename](../readme.md ':include')
+[ReadMe](readme.md ':include')
 
 <!-- background color -->
 

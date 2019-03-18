@@ -312,7 +312,7 @@ class Ldap implements ConnectionInterface
 
         return $this->bound = ldap_bind(
             $this->getConnection(),
-            ldap_escape($username, null, LDAP_ESCAPE_DN),
+            $username,
             html_entity_decode($password)
         );
     }

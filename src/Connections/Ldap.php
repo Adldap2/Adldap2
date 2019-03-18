@@ -13,7 +13,7 @@ class Ldap implements ConnectionInterface
 {
     /**
      * The connection name.
-     * 
+     *
      * @var string|null
      */
     protected $name;
@@ -52,7 +52,7 @@ class Ldap implements ConnectionInterface
      * @var bool
      */
     protected $useTLS = false;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -257,9 +257,9 @@ class Ldap implements ConnectionInterface
     public function connect($hosts = [], $port = '389')
     {
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
-        
+
         $this->connection = ldap_connect($this->host);
-        
+
         if ($this->isUsingTLS() && $this->startTLS() === false) {
             throw new ConnectionException("Unable to connect to LDAP server over TLS.");
         }
@@ -312,7 +312,7 @@ class Ldap implements ConnectionInterface
 
         return $this->bound = ldap_bind(
             $this->getConnection(),
-            ldap_escape($username, null, LDAP_ESCAPE_DN),
+            ldap_escape($username, null, LDAP_ESCAPE_FILTER),
             html_entity_decode($password)
         );
     }

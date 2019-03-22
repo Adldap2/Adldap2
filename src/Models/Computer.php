@@ -2,11 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Models\Concerns\HasDescription;
-use Adldap\Models\Concerns\HasUserAccountControl;
-use Adldap\Models\Concerns\HasLastLogonAndLogOff;
-use Adldap\Models\Concerns\HasCriticalSystemObject;
-
 /**
  * Class Computer
  *
@@ -16,10 +11,11 @@ use Adldap\Models\Concerns\HasCriticalSystemObject;
  */
 class Computer extends Entry
 {
-    use HasCriticalSystemObject,
-        HasDescription,
-        HasLastLogonAndLogOff,
-        HasUserAccountControl;
+    use Concerns\HasMemberOf,
+        Concerns\HasDescription,
+        Concerns\HasLastLogonAndLogOff,
+        Concerns\HasUserAccountControl,
+        Concerns\HasCriticalSystemObject;
 
     /**
      * Returns the computers operating system.

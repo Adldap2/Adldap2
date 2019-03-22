@@ -22,7 +22,7 @@ class Group extends Entry
      *
      * @link https://msdn.microsoft.com/en-us/library/ms677097(v=vs.85).aspx
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Adldap\Query\Collection
      */
     public function getMembers()
     {

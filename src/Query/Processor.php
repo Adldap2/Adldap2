@@ -4,7 +4,6 @@ namespace Adldap\Query;
 
 use InvalidArgumentException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
 use Adldap\Schemas\SchemaInterface;
@@ -44,7 +43,7 @@ class Processor
      *
      * @param resource $results
      *
-     * @return array
+     * @return Collection|array
      */
     public function process($results)
     {
@@ -68,13 +67,19 @@ class Processor
             }
         }
 
-        if (!$this->builder->isPaginated()) {
-            // If the current query isn't paginated,
-            // we'll sort the models array here.
-            $models = $this->processSort($models);
+        // If the query contains paginated results, we'll return them here.
+        if ($this->builder->isPaginated()) {
+            return $models;
         }
 
-        return $models;
+        // If the query is requested to be sorted, we'll perform
+        // that here and return the resulting collection.
+        if ($this->builder->isSorted()) {
+            return $this->processSort($models);
+        }
+
+        // Otherwise, we'll return a regular unsorted collection.
+        return $this->newCollection($models);
     }
 
     /**
@@ -176,7 +181,7 @@ class Processor
     }
 
     /**
-     * Returns a new doctrine array collection instance.
+     * Returns a new collection instance.
      *
      * @param array $items
      *
@@ -204,8 +209,6 @@ class Processor
 
         $desc = ($direction === 'desc' ? true : false);
 
-        return $this->newCollection($models)->sortBy(function (Model $model) use ($field) {
-            return $model->getFirstAttribute($field);
-        }, $flags, $desc);
+        return $this->newCollection($models)->sortBy($field, $flags, $desc);
     }
 }

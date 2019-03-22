@@ -8,9 +8,9 @@ use JsonSerializable;
 use InvalidArgumentException;
 use UnexpectedValueException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Adldap\Utilities;
 use Adldap\Query\Builder;
+use Adldap\Query\Collection;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
@@ -135,7 +135,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param mixed $items
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function newCollection($items = [])
     {

@@ -220,7 +220,7 @@ class Builder
     /**
      * Returns the current query.
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function get()
     {
@@ -324,7 +324,7 @@ class Builder
      *
      * @param string $query
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return \Adldap\Query\Collection|array
      */
     public function query($query)
     {
@@ -485,7 +485,7 @@ class Builder
      * @param array $values
      * @param array $columns
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return \Adldap\Query\Collection|array
      */
     public function findMany(array $values = [], $columns = [])
     {
@@ -537,7 +537,7 @@ class Builder
      * @param array  $values
      * @param array  $columns
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return \Adldap\Query\Collection|array
      */
     public function findManyBy($attribute, array $values = [], $columns = [])
     {

@@ -108,7 +108,7 @@ class Factory
      * connection by performing a search for all entries
      * that contain a common name attribute.
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return \Adldap\Query\Collection|array
      */
     public function get()
     {

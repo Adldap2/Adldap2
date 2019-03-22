@@ -15,7 +15,6 @@ use Adldap\Models\Attributes\Guid;
 use Adldap\Models\Attributes\MbString;
 use Adldap\Models\Attributes\DistinguishedName;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Models\Concerns\HasAttributes;
 use Adldap\Connections\ConnectionException;
 
 /**
@@ -28,7 +27,7 @@ use Adldap\Connections\ConnectionException;
  */
 abstract class Model implements ArrayAccess, JsonSerializable
 {
-    use HasAttributes;
+    use Concerns\HasAttributes;
 
     /**
      * Indicates if the model exists.

@@ -1,8 +1,6 @@
 <?php
 namespace Adldap\Models;
 
-use Adldap\Models\Concerns\HasMemberOf;
-
 /**
  * Class ForeignSecurityPrincipal
  *
@@ -12,5 +10,5 @@ use Adldap\Models\Concerns\HasMemberOf;
  */
 class ForeignSecurityPrincipal extends Entry
 {
-    use HasMemberOf;
+    use Concerns\HasMemberOf;
 }

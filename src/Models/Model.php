@@ -212,8 +212,22 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $attributes = $this->getAttributes();
 
-        array_walk_recursive($attributes, function(&$val){
-            $val = utf8_encode($val);
+        $canDetect = extension_loaded('mbstring');
+
+        array_walk_recursive($attributes, function(&$val) use ($canDetect) {
+            if ($canDetect) {
+                // If we're able to detect the attribute
+                // encoding, we'll encode only the
+                // attributes that need to be.
+                if (! mb_detect_encoding($val, 'UTF-8', $strict = true)) {
+                    $val = utf8_encode($val);
+                }
+            } else {
+                // If the mbstring extension is not loaded, we'll
+                // encode all attributes to make sure
+                // they are encoded properly.
+                $val = utf8_encode($val);
+            }
         });
 
         // We'll replace the binary GUID and SID with
@@ -1050,7 +1064,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
     
     /**
-     * Converts the inserted string boolean to a PHP boolean.
+     * Converts the inserted string boolean to a native PHP boolean.
      *
      * @param string $bool
      *

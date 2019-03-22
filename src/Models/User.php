@@ -875,9 +875,7 @@ class User extends Entry implements Authenticatable
      */
     public function getThumbnailEncoded()
     {
-        $data = base64_decode($this->getThumbnail());
-
-        if ($data) {
+        if ($data = base64_decode($this->getThumbnail(), $strict = true)) {
             // In case we don't have the file info extension enabled,
             // we'll set the jpeg mime type as default.
             $mime = 'image/jpeg';
@@ -1064,6 +1062,28 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Return the user parameters.
+     *
+     * @return $this
+     */
+    public function getUserParameters()
+    {
+        return new \Adldap\Models\Attributes\TSPropertyArray($this->getFirstAttribute('userparameters'));
+    }
+
+    /**
+     * Sets the user parameters.
+     *
+     * @param \Adldap\Models\Attributes\TSPropertyArray $userParameters
+     *
+     * @return $this
+     */
+    public function setUserParameters($userParameters)
+    {
+        return $this->setFirstAttribute('userparameters', $userParameters->toBinary());
+    }
+
+    /**
      * Retrieves the primary group of the current user.
      *
      * @return Model|bool
@@ -1088,13 +1108,27 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $mod = $this->newBatchModification(
-            $this->schema->unicodePassword(),
-            LDAP_MODIFY_BATCH_REPLACE,
-            [Utilities::encodePassword($password)]
-        );
+        $encodedPassword = Utilities::encodePassword($password);
 
-        return $this->addModification($mod);
+        if ($this->exists) {
+            // If the record exists, we need to add a batch replace
+            // modification, otherwise we'll receive a "type or
+            // value" exists exception from our LDAP server.
+            return $this->addModification(
+                $this->newBatchModification(
+                    $this->schema->unicodePassword(),
+                    LDAP_MODIFY_BATCH_REPLACE,
+                    [$encodedPassword]
+                )
+            );
+        } else {
+            // Otherwise, we are creating a new record
+            // and we can set the attribute normally.
+            return $this->setFirstAttribute(
+                $this->schema->unicodePassword(),
+                $encodedPassword
+            );
+        }
     }
 
     /**

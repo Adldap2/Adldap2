@@ -170,6 +170,26 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
+    public function getDetailedError()
+    {
+        // If the returned error number is zero, the last LDAP operation
+        // succeeded. We won't return a detailed error.
+        if ($errorNumber = $this->errNo()) {
+            $message = '';
+
+            if (defined('LDAP_OPT_DIAGNOSTIC_MESSAGE')) {
+                $message = ldap_get_option($this->getConnection(), LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            }
+
+            return new DetailedError($errorNumber, $this->err2Str($errorNumber), $message);
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getValuesLen($entry, $attribute)
     {
         return ldap_get_values_len($this->getConnection(), $entry, $attribute);

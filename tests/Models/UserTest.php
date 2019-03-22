@@ -18,8 +18,8 @@ class UserTest extends TestCase
         return new User($attributes, $builder);
     }
 
+    public function test_set_password_on_new_user()
 
-    public function test_set_password()
     {
         $connection = $this->newConnectionMock();
 
@@ -27,13 +27,41 @@ class UserTest extends TestCase
 
         $user = new User([], $this->newBuilder($connection));
 
-        $user->setPassword('');
+        $password = 'password';
+
+        $user->setPassword($password);
+
+        $expected = [
+            [
+                'attrib'    => 'unicodepwd',
+                'modtype'   => 1,
+                'values'    => [Utilities::encodePassword($password)],
+            ],
+        ];
+
+        $this->assertEquals($expected, $user->getModifications());
+    }
+
+    public function test_set_password_on_existing_user()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('isUsingSSL')->once()->andReturn(true);
+
+        $user = new User([], $this->newBuilder($connection));
+
+        // Force existing user.
+        $user->exists = true;
+
+        $password = 'password';
+
+        $user->setPassword($password);
 
         $expected = [
             [
                 'attrib'    => 'unicodepwd',
                 'modtype'   => 3,
-                'values'    => [Utilities::encodePassword('')],
+                'values'    => [Utilities::encodePassword($password)],
             ],
         ];
 
@@ -252,5 +280,63 @@ class UserTest extends TestCase
         $user->setQuery($builder);
 
         $this->assertFalse($user->passwordExpired());
+    }
+
+    public function test_get_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $this->assertInstanceOf(\Adldap\Models\Attributes\TSPropertyArray::class, $parameters);
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertFalse($parameters->has('PropertyDoesNotExist'));
+        $this->assertEquals('C:\\path\\', $parameters->get('CtxWorkDirectory'));
+    }
+
+    public function test_set_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->set('CtxInitialProgram', 'C:\\path\\otherbin.exe');
+
+        $model->setUserParameters($parameters);
+
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_set_inexistant_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->set('CtxWFHomeDir', '/home/');
+    }
+
+    public function test_add_userparameters()
+    {
+        $model = $this->newUserModel([
+            'userparameters' => (new \Adldap\Models\Attributes\TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+        ]);
+
+        $parameters = $model->getUserParameters();
+
+        $parameters->add((new \Adldap\Models\Attributes\TSProperty())->setName('CtxInitialProgram')->setValue('C:\\path\\otherbin.exe'));
+
+        $this->assertTrue($parameters->has('CtxInitialProgram'));
+        $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram'));
     }
 }

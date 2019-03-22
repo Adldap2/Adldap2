@@ -2,10 +2,8 @@
 
 namespace Adldap\Models;
 
-use InvalidArgumentException;
 use Adldap\Utilities;
-use Adldap\Models\Concerns\HasMemberOf;
-use Adldap\Models\Concerns\HasDescription;
+use InvalidArgumentException;
 
 /**
  * Class Group
@@ -16,7 +14,8 @@ use Adldap\Models\Concerns\HasDescription;
  */
 class Group extends Entry
 {
-    use HasDescription, HasMemberOf;
+    use Concerns\HasMemberOf,
+        Concerns\HasDescription;
 
     /**
      * Returns all users apart of the current group.

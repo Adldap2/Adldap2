@@ -2,8 +2,6 @@
 
 namespace Adldap\Models;
 
-use Adldap\Models\Concerns\HasDescription;
-
 /**
  * Class OrganizationalUnit
  *
@@ -13,7 +11,7 @@ use Adldap\Models\Concerns\HasDescription;
  */
 class OrganizationalUnit extends Entry
 {
-    use HasDescription;
+    use Concerns\HasDescription;
 
     /**
      * Retrieves the organization units OU attribute.

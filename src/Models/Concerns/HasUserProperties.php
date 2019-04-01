@@ -7,7 +7,7 @@ trait HasUserProperties
     /**
      * Returns the users country.
      *
-     * @return string
+     * @return string|null
      */
     public function getCountry()
     {
@@ -31,7 +31,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675490(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getDepartment()
     {
@@ -55,7 +55,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms676855(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getEmail()
     {
@@ -82,7 +82,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675675(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getFacsimileNumber()
     {
@@ -127,7 +127,7 @@ trait HasUserProperties
     /**
      * Returns the users initials.
      *
-     * @return string
+     * @return string|null
      */
     public function getInitials()
     {
@@ -194,7 +194,7 @@ trait HasUserProperties
     /**
      * Returns the users postal code.
      *
-     * @return string
+     * @return string|null
      */
     public function getPostalCode()
     {
@@ -276,13 +276,13 @@ trait HasUserProperties
      */
     public function getProxyAddresses()
     {
-        return $this->getAttribute($this->schema->proxyAddresses());
+        return $this->getAttribute($this->schema->proxyAddresses()) ?? [];
     }
 
     /**
      * Returns the users street address.
      *
-     * @return $this
+     * @return string|null
      */
     public function getStreetAddress()
     {
@@ -306,7 +306,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms680037(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getTitle()
     {
@@ -330,7 +330,7 @@ trait HasUserProperties
      *
      * @link https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx
      *
-     * @return string
+     * @return string|null
      */
     public function getTelephoneNumber()
     {
@@ -352,7 +352,7 @@ trait HasUserProperties
     /**
      * Returns the users primary mobile phone number.
      * 
-     * @return string
+     * @return string|null
      */
     public function getMobileNumber()
     {
@@ -374,7 +374,7 @@ trait HasUserProperties
     /**
      * Returns the users secondary (other) mobile phone number.
      * 
-     * @return string
+     * @return string|null
      */
     public function getOtherMobileNumber()
     {
@@ -420,7 +420,7 @@ trait HasUserProperties
     /**
      * Returns the distinguished name of the user who is the user's manager.
      *
-     * @return string
+     * @return string|null
      */
     public function getManager()
     {

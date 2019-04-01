@@ -362,17 +362,39 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the formatted timestamp of the password last set date.
+     * Returns the bad password time unix timestamp.
+     *
+     * @return float|null
+     */
+    public function getBadPasswordTimestamp()
+    {
+        if ($time = $this->getBadPasswordTime()) {
+            return Utilities::convertWindowsTimeToUnixTime($time);
+        }
+    }
+
+    /**
+     * Returns the formatted timestamp of the bad password date.
      *
      * @return string|null
      *
      * @throws \Exception
      */
-    public function getPasswordLastSetDate()
+    public function getBadPasswordDate()
     {
-        if ($timestamp = $this->getPasswordLastSetTimestamp()) {
+        if ($timestamp = $this->getBadPasswordTimestamp()) {
             return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
         }
+    }
+
+    /**
+     * Returns the time when the users password was set last.
+     *
+     * @return string
+     */
+    public function getPasswordLastSet()
+    {
+        return $this->getFirstAttribute($this->schema->passwordLastSet());
     }
 
     /**
@@ -388,13 +410,17 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Returns the time when the users password was set last.
+     * Returns the formatted timestamp of the password last set date.
      *
-     * @return string
+     * @return string|null
+     *
+     * @throws \Exception
      */
-    public function getPasswordLastSet()
+    public function getPasswordLastSetDate()
     {
-        return $this->getFirstAttribute($this->schema->passwordLastSet());
+        if ($timestamp = $this->getPasswordLastSetTimestamp()) {
+            return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+        }
     }
 
     /**

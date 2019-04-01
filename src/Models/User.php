@@ -434,6 +434,32 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * Returns the users lockout unix timestamp.
+     *
+     * @return float|null
+     */
+    public function getLockoutTimestamp()
+    {
+        if ($time = $this->getLockoutTime()) {
+            return Utilities::convertWindowsTimeToUnixTime($time);
+        }
+    }
+
+    /**
+     * Returns the formatted timestamp of the lockout date.
+     *
+     * @return string|null
+     *
+     * @throws \Exception
+     */
+    public function getLockoutDate()
+    {
+        if ($timestamp = $this->getLockoutTimestamp()) {
+            return (new DateTime())->setTimestamp($timestamp)->format($this->dateFormat);
+        }
+    }
+
+    /**
      * Clears the accounts lockout time, unlocking the account.
      *
      * @return $this

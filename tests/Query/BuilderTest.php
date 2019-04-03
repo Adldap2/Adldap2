@@ -13,11 +13,11 @@ use Illuminate\Support\Collection;
 
 class BuilderTest extends TestCase
 {
-    public function test_construct()
+    public function test_builder_always_has_default_filter()
     {
         $b = $this->newBuilder();
 
-        $this->assertEmpty($b->getQuery());
+        $this->assertEquals('(objectclass=*)', $b->getQuery());
     }
 
     public function test_select_array()

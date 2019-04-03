@@ -236,6 +236,12 @@ class Builder
      */
     public function getQuery()
     {
+        // We need to ensure we have at least one filter, as
+        // no query results will be returned otherwise.
+        if (count(array_filter($this->filters)) === 0) {
+            $this->whereHas($this->schema->objectClass());
+        }
+
         return $this->grammar->compile($this);
     }
 

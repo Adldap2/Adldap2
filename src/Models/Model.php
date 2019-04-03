@@ -1029,12 +1029,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Moves the current model into the given new parent.
      *
-     * For example:
+     * For example: $user->move($ou);
      *
-     *      $user->move($ou);
-     *
-     * @param string|Model $newParentDn The new parent of the current Model.
-     * @param bool         $deleteOldRdn
+     * @param Model|string $newParentDn  The new parent of the current model.
+     * @param bool         $deleteOldRdn Whether to delete the old models relative distinguished name once renamed / moved.
      *
      * @return bool
      */
@@ -1057,15 +1055,19 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Renames the current model to a new RDN and new parent.
      *
-     * @param string      $rdn          The models new relative distinguished name. Example: "cn=JohnDoe"
-     * @param string|null $newParentDn  The models new parent distinguished name (if moving). Leave this null if you are only renaming. Example: "ou=MovedUsers,dc=acme,dc=org"
-     * @param bool|true   $deleteOldRdn Whether to delete the old models relative distinguished name onced renamed / moved.
+     * @param string            $rdn          The models new relative distinguished name. Example: "cn=JohnDoe"
+     * @param Model|string|null $newParentDn  The models new parent distinguished name (if moving). Leave this null if you are only renaming. Example: "ou=MovedUsers,dc=acme,dc=org"
+     * @param bool|true         $deleteOldRdn Whether to delete the old models relative distinguished name once renamed / moved.
      *
      * @return bool
      */
-    public function rename($rdn, $newParentDn, $deleteOldRdn = true)
+    public function rename($rdn, $newParentDn = null, $deleteOldRdn = true)
     {
-        $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, (string) $newParentDn, $deleteOldRdn);
+        if ($newParentDn instanceof Model) {
+            $newParentDn = $newParentDn->getDn();
+        }
+
+        $moved = $this->query->getConnection()->rename($this->getDn(), $rdn, $newParentDn, $deleteOldRdn);
 
         if ($moved) {
             // If the model was successfully moved, we'll set its

@@ -290,7 +290,7 @@ class ProviderTest extends TestCase
         $query = $m->search();
 
         $this->assertInstanceOf(SearchFactory::class, $query);
-        $this->assertEquals('', $query->getUnescapedQuery());
+        $this->assertEquals('(objectclass=*)', $query->getUnescapedQuery());
     }
 
     public function test_make()

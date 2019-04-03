@@ -22,7 +22,7 @@ class FactoryTest extends TestCase
     {
         $query = $this->newSearchFactory()->newQuery();
 
-        $this->assertEquals('', $query->getQuery());
+        $this->assertEquals('(objectclass=*)', $query->getQuery());
         $this->assertInstanceOf(Builder::class, $query);
     }
 

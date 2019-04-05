@@ -2,6 +2,8 @@
 
 namespace Adldap\Auth;
 
+use Throwable;
+use Adldap\Utilities;
 use Adldap\AdldapException;
 use Adldap\Connections\DetailedError;
 
@@ -14,6 +16,18 @@ use Adldap\Connections\DetailedError;
  */
 class BindException extends AdldapException
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        if (Utilities::isUsingSELinux()) {
+            $message .= " | Check SELinux Enforcement settings.";
+        }
+
+        parent::__construct($message, $code, $previous);
+    }
+
     /**
      * The detailed LDAP error.
      *

@@ -158,7 +158,7 @@ class Processor
     {
         $model = (class_exists($model) ? $model : $this->schema->entryModel());
 
-        if (!is_subclass_of($model, $base = Model::class)) {
+        if (! is_subclass_of($model, $base = Model::class)) {
             throw new InvalidArgumentException("The given model class '{$model}' must extend the base model class '{$base}'");
         }
 

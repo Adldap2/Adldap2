@@ -578,7 +578,7 @@ class User extends Entry implements Authenticatable
      */
     public function setThumbnail($data, $encode = true)
     {
-        if ($encode && !base64_decode($data, $strict = true)) {
+        if ($encode && ! base64_decode($data, $strict = true)) {
             // If the string we're given is not base 64 encoded, then
             // we will encode it before setting it on the user.
             $data = base64_encode($data);
@@ -618,7 +618,7 @@ class User extends Entry implements Authenticatable
      */
     public function setJpegPhoto($string)
     {
-        if (!base64_decode($string, $strict = true)) {
+        if (! base64_decode($string, $strict = true)) {
             $string = base64_encode($string);
         }
 
@@ -880,7 +880,7 @@ class User extends Entry implements Authenticatable
 
         $result = @$this->update();
 
-        if (!$result) {
+        if (! $result) {
             // If the user failed to update, we'll see if we can
             // figure out why by retrieving the extended error.
             $error = $this->query->getConnection()->getExtendedError();
@@ -910,7 +910,7 @@ class User extends Entry implements Authenticatable
      */
     public function isActive()
     {
-        return $this->isEnabled() && !$this->isExpired();
+        return $this->isEnabled() && ! $this->isExpired();
     }
 
     /**

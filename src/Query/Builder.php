@@ -374,7 +374,7 @@ class Builder
                 // We'll collect each resource result into the pages array.
                 $pages[] = $resource;
             }
-        } while (!empty($cookie));
+        } while (! empty($cookie));
 
         $paginator = $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
 
@@ -419,7 +419,7 @@ class Builder
     {
         $record = $this->first($columns);
 
-        if (!$record) {
+        if (! $record) {
             throw (new ModelNotFoundException())
                 ->setQuery($this->getUnescapedQuery(), $this->getDn());
         }
@@ -574,7 +574,7 @@ class Builder
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
-        if (!$entry instanceof Model && !is_array($entry)) {
+        if (! $entry instanceof Model && !is_array($entry)) {
             throw (new ModelNotFoundException())
                 ->setQuery($this->getUnescapedQuery(), $this->getDn());
         }
@@ -741,7 +741,7 @@ class Builder
     {
         $columns = is_array($columns) ? $columns : func_get_args();
 
-        if (!empty($columns)) {
+        if (! empty($columns)) {
             $this->columns = $columns;
         }
 
@@ -1307,7 +1307,7 @@ class Builder
         // ensure we always select the object class and category, as these
         // are used for constructing models. The asterisk indicates that
         // we want all attributes returned for LDAP records.
-        if (!in_array('*', $selects)) {
+        if (! in_array('*', $selects)) {
             $selects[] = $this->schema->objectCategory();
             $selects[] = $this->schema->objectClass();
         }

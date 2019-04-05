@@ -107,7 +107,7 @@ trait HasMemberOf
      */
     public function getGroups(array $fields = ['*'], $recursive = false, array $visited = [])
     {
-        if (!in_array($this->schema->memberOf(), $fields)) {
+        if (! in_array($this->schema->memberOf(), $fields)) {
             // We want to make sure that we always select the memberof
             // field in case developers want recursive members.
             $fields = array_merge($fields, [$this->schema->memberOf()]);
@@ -131,7 +131,7 @@ trait HasMemberOf
                 // for this group's members so we don't allow
                 // infinite recursion in case of circular
                 // group dependencies in LDAP.
-                if (!in_array($group->getDn(), $visited)) {
+                if (! in_array($group->getDn(), $visited)) {
                     $visited[] = $group->getDn();
 
                     $members = $group->getGroups($fields, $recursive, $visited);
@@ -199,7 +199,7 @@ trait HasMemberOf
                 return $this->groupIsParent($group, $parent);
             })->count() !== 0;
 
-            if (!$exists) {
+            if (! $exists) {
                 // If the current group isn't at all contained
                 // in the memberOf collection, we'll
                 // return false here.
@@ -249,7 +249,7 @@ trait HasMemberOf
             return $parent->getDn() === $group;
         }
 
-        if (!empty($group)) {
+        if (! empty($group)) {
             // We've been given just a string, we'll
             // compare it to the parents name.
             return $parent->getCommonName() === $group;

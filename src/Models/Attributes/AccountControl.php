@@ -70,7 +70,7 @@ class AccountControl
      */
     public function __construct($flag = null)
     {
-        if (!is_null($flag)) {
+        if (! is_null($flag)) {
             $this->apply($flag);
         }
     }

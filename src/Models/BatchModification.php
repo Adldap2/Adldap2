@@ -149,7 +149,7 @@ class BatchModification
      */
     public function setType($type = null)
     {
-        if (!is_null($type) && !$this->isValidType($type)) {
+        if (! is_null($type) && ! $this->isValidType($type)) {
             throw new InvalidArgumentException("Given batch modification type is invalid.");
         }
 
@@ -195,7 +195,7 @@ class BatchModification
         if (is_null($this->original)) {
             // If the original value is null, we'll assume
             // that the attribute doesn't exist yet.
-            if (!empty($filtered)) {
+            if (! empty($filtered)) {
                 // If the filtered array is not empty, we can
                 // assume we're looking to add values
                 // to the current attribute.

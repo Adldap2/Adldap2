@@ -171,7 +171,7 @@ class Provider implements ProviderInterface
      */
     public function getGuard()
     {
-        if (!$this->guard instanceof GuardInterface) {
+        if (! $this->guard instanceof GuardInterface) {
             $this->setGuard($this->getDefaultGuard($this->connection, $this->configuration));
         }
 

@@ -202,23 +202,6 @@ class Utilities
     }
 
     /**
-     * Determine if the SELinux is being used.
-     *
-     * @return bool
-     */
-    public static function isUsingSELinux()
-    {
-        exec("getenforce", $getenforce, $return);
-
-        if (array_key_exists(0, $getenforce)) {
-            // The first line should return the enablement status of SELinux.
-            return in_array($getenforce[0], ['Disabled', 'Permissive', 'Enforcing']);
-        }
-
-        return false;
-    }
-
-    /**
      * Converts an ignore string into an array.
      *
      * @param string $ignore

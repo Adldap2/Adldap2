@@ -1,5 +1,5 @@
 {
-    "name": "adldap2/adldap2",
+    "name": "boxcarpress/adldap2",
     "type": "library",
     "description": "A PHP LDAP Package for humans.",
     "keywords": [

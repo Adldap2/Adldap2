@@ -4,6 +4,7 @@ namespace Adldap\Auth;
 
 use Throwable;
 use Exception;
+use Adldap\Utilities;
 use Adldap\Auth\Events\Bound;
 use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Passed;
@@ -106,7 +107,13 @@ class Guard implements GuardInterface
         } catch (Throwable $e) {
             $this->fireFailedEvent($username, $password);
 
-            throw (new BindException($e->getMessage(), $e->getCode(), $e))
+            $message = $e->getMessage();
+
+            if (Utilities::isUsingSELinux()) {
+                $message .= " | Check SELinux Enforcement settings.";
+            }
+
+            throw (new BindException($message, $e->getCode(), $e))
                 ->setDetailedError($this->connection->getDetailedError());
         }
     }

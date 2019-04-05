@@ -846,7 +846,7 @@ class Builder
             list($value, $operator) = [$operator, '='];
         }
 
-        if (!in_array($operator, Operator::all())) {
+        if (! in_array($operator, Operator::all())) {
             throw new InvalidArgumentException("Invalid where operator: {$operator}");
         }
 
@@ -855,7 +855,7 @@ class Builder
 
         $field = $this->escape($field, $ignore = null, 3);
 
-        $this->filters[$boolean][] = compact('field', 'operator', 'value');
+        $this->addFilter($boolean, compact('field', 'operator', 'value'));
 
         return $this;
     }
@@ -1249,6 +1249,41 @@ class Builder
     }
 
     /**
+     * Adds a filter onto the current query.
+     *
+     * @param string $type     The type of filter to add.
+     * @param array  $bindings The bindings of the filter.
+     *
+     * @return $this
+     *
+     * @throws InvalidArgumentException
+     */
+    public function addFilter($type, array $bindings)
+    {
+        if (! array_key_exists($type, $this->filters)) {
+            throw new InvalidArgumentException("Invalid filter type: {$type}.");
+        }
+
+        $this->filters[$type][] = $bindings;
+
+        return $this;
+    }
+
+    /**
+     * Clear the query builders filters.
+     *
+     * @return $this
+     */
+    public function clearFilters()
+    {
+        foreach ($this->filters as $type => $filters) {
+            $this->filters[$type] = [];
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns true / false depending if the current object
      * contains selects.
      *
@@ -1376,16 +1411,6 @@ class Builder
     }
 
     /**
-     * Returns true / false if the current query is nested.
-     *
-     * @return bool
-     */
-    public function isNested()
-    {
-        return $this->nested === true;
-    }
-
-    /**
      * Returns an escaped string for use in an LDAP filter.
      *
      * @param string $value
@@ -1427,6 +1452,16 @@ class Builder
     public function getSortByFlags()
     {
         return $this->sortByFlags;
+    }
+
+    /**
+     * Returns true / false if the current query is nested.
+     *
+     * @return bool
+     */
+    public function isNested()
+    {
+        return $this->nested === true;
     }
 
     /**

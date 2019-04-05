@@ -191,13 +191,13 @@ class Group extends Entry
 
         $entries = $this->getAttribute($attribute) ?: [];
 
-        $query = $this->query->newInstance();
-
         // Retrieving the member identifier to allow
         // compatibility with LDAP variants.
         $identifier = $this->schema->memberIdentifier();
 
         foreach ($entries as $entry) {
+	        $query = $this->query->newInstance();
+
             // If our identifier is a distinguished name, then we need to
             // use an alternate query method, as we can't locate records
             // by distinguished names using an LDAP filter.

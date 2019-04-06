@@ -67,6 +67,56 @@ class BuilderTest extends TestCase
         $this->assertTrue($b->hasSelects());
     }
 
+    public function test_add_filter()
+    {
+        $b = $this->newBuilder();
+
+        $b->addFilter('and', [
+            'field' => 'cn',
+            'operator' => '=',
+            'value' => 'John Doe',
+        ]);
+
+        $this->assertEquals('(cn=John Doe)', $b->getQuery());
+        $this->assertEquals('(cn=John Doe)', $b->getUnescapedQuery());
+    }
+
+    public function test_adding_filter_with_invalid_bindings_throws_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        // Missing 'value' key.
+        $this->newBuilder()->addFilter('and', [
+            'field' => 'cn',
+            'operator' => '=',
+        ]);
+    }
+
+    public function test_adding_invalid_filter_type_throws_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->newBuilder()->addFilter('non-existent', [
+            'field' => 'cn',
+            'operator' => '=',
+            'value' => 'John Doe',
+        ]);
+    }
+
+    public function test_clear_filters()
+    {
+        $b = $this->newBuilder();
+
+        $b->addFilter('and', [
+            'field' => 'cn',
+            'operator' => '=',
+            'value' => 'John Doe',
+        ]);
+
+        $this->assertEquals('(cn=John Doe)', $b->getQuery());
+        $this->assertEquals('(objectclass=*)', $b->clearFilters()->getQuery());
+    }
+
     public function test_where()
     {
         $b = $this->newBuilder();

@@ -6,6 +6,7 @@ use Adldap\Models\Group;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\SchemaInterface;
 use Illuminate\Support\Collection;
 
 class GroupTest extends TestCase
@@ -26,13 +27,48 @@ class GroupTest extends TestCase
 
         $builder = $this->mock(Builder::class);
 
+        $members = ['cn=test1,dc=corp,dc=org'];
+
         $builder
             ->shouldReceive('getSchema')->once()->andReturn(new ActiveDirectory())
-            ->shouldReceive('newInstance')->once()->andReturn($builder)
-            ->shouldReceive('findByDn')->once()->andReturn($expected);
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('findByDn')->once()->with($members[0])->andReturn($expected);
 
         $group = $this->newGroupModel([
-            'member' => ['cn=test1,dc=corp,dc=org'],
+            'member' => $members,
+        ], $builder);
+
+        $members = $group->getMembers();
+        $this->assertCount(1, $members);
+        $this->assertEquals($expected->getCommonName(), $members->first()->getCommonName());
+        $this->assertEquals($expected->getDn(), $members->first()->getDn());
+    }
+
+    public function test_get_members_with_alternate_attribute()
+    {
+        $expected = $this->newGroupModel([
+            'cn' => ['test1'],
+            'dn' => 'cn=test1,dc=corp,dc=org'
+        ], $this->newBuilder());
+
+        $builder = $this->mock(Builder::class);
+
+        $schema = $this->mock(SchemaInterface::class);
+
+        $schema
+            ->shouldReceive('member')->once()->andReturn('member')
+            ->shouldReceive('memberIdentifier')->once()->andReturn('uid');
+
+        $members = ['cn=test1,dc=corp,dc=org'];
+
+        $builder
+            ->shouldReceive('getSchema')->once()->andReturn($schema)
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('clearFilters')->once()->andReturnSelf()
+            ->shouldReceive('findBy')->once()->with('uid', $members[0])->andReturn($expected);
+
+        $group = $this->newGroupModel([
+            'member' => $members,
         ], $builder);
 
         $members = $group->getMembers();

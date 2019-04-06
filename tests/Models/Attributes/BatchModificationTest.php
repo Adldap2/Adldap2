@@ -74,10 +74,11 @@ class BatchModificationTest extends TestCase
 
         $this->assertEquals($expected, $modification->get());
     }
-
-    /** @expectedException \InvalidArgumentException */
+    
     public function test_set_type_invalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $modification = new BatchModification();
 
         $modification->setType(100);

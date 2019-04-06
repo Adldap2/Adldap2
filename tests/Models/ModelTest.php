@@ -435,11 +435,10 @@ class ModelTest extends TestCase
         $this->assertTrue($entry->save($attributes));
     }
 
-    /**
-     * @expectedException \Adldap\AdldapException
-     */
     public function test_delete_failure()
     {
+        $this->expectException(\Adldap\AdldapException::class);
+
         $entry = $this->newModel();
 
         $entry->delete();
@@ -702,11 +701,10 @@ class ModelTest extends TestCase
         $this->assertEquals($mod, $model->getModifications()[0]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_adding_invalid_modification()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $model = $this->newModel();
 
         $mod = 'test';
@@ -731,11 +729,10 @@ class ModelTest extends TestCase
         $this->assertTrue($model->save());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_adding_invalid_modification_with_array()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $model = $this->newModel();
 
         $mod = ['modtype' => 18];
@@ -924,10 +921,11 @@ class ModelTest extends TestCase
         $this->assertEquals([], $m->getAttribute('memberof'));
         $this->assertEquals([], $m->getAttribute('mEMBEROF'));
     }
-
-    /** @expectedException \UnexpectedValueException */
+    
     public function test_creating_entry_without_valid_dn_throws_exception()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $b = $this->newBuilder()->in('dc=acme,dc=org');
 
         $m = $this->newModel([], $b);

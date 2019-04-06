@@ -70,11 +70,10 @@ class UserTest extends TestCase
         $this->assertEquals($expected, $user->getModifications());
     }
 
-    /**
-     * @expectedException \Adldap\AdldapException
-     */
     public function test_set_password_without_ssl_or_tls()
     {
+        $this->expectException(\Adldap\AdldapException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('canChangePasswords')->once()->andReturn(false);
@@ -84,11 +83,10 @@ class UserTest extends TestCase
         $user->setPassword('');
     }
 
-    /**
-     * @expectedException \Adldap\Models\UserPasswordPolicyException
-     */
     public function test_change_password_policy_failure()
     {
+        $this->expectException(\Adldap\Models\UserPasswordPolicyException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('canChangePasswords')->once()->andReturn(true);
@@ -101,11 +99,10 @@ class UserTest extends TestCase
         $user->changePassword('', '');
     }
 
-    /**
-     * @expectedException \Adldap\Models\UserPasswordIncorrectException
-     */
     public function test_change_password_wrong_failure()
     {
+        $this->expectException(\Adldap\Models\UserPasswordIncorrectException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('canChangePasswords')->once()->andReturn(true);
@@ -118,11 +115,10 @@ class UserTest extends TestCase
         $user->changePassword('', '');
     }
 
-    /**
-     * @expectedException \Adldap\AdldapException
-     */
     public function test_change_password_without_ssl_or_tls()
     {
+        $this->expectException(\Adldap\AdldapException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection->shouldReceive('canChangePasswords')->once()->andReturn(false);
@@ -336,11 +332,10 @@ class UserTest extends TestCase
         $this->assertEquals('C:\\path\\otherbin.exe', $parameters->get('CtxInitialProgram')->getValue());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_set_non_existant_user_parameters()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $model = $this->newUserModel([
             'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
         ]);

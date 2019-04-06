@@ -27,11 +27,10 @@ class ProviderTest extends TestCase
         $this->assertInstanceOf(DomainConfiguration::class, $m->getConfiguration());
     }
 
-    /**
-     * @expectedException \Adldap\Auth\UsernameRequiredException
-     */
     public function test_auth_username_failure()
     {
+        $this->expectException(\Adldap\Auth\UsernameRequiredException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection
@@ -45,11 +44,10 @@ class ProviderTest extends TestCase
         $m->auth()->attempt(0000000, 'password');
     }
 
-    /**
-     * @expectedException \Adldap\Auth\PasswordRequiredException
-     */
     public function test_auth_password_failure()
     {
+        $this->expectException(\Adldap\Auth\PasswordRequiredException::class);
+
         $connection = $this->newConnectionMock();
 
         $connection
@@ -121,11 +119,10 @@ class ProviderTest extends TestCase
         $this->assertTrue($m->auth()->attempt('username', 'password'));
     }
 
-    /**
-     * @expectedException \Adldap\Auth\BindException
-     */
     public function test_auth_rebind_failure()
     {
+        $this->expectException(\Adldap\Auth\BindException::class);
+
         $config = new DomainConfiguration([
             'username' => 'test',
             'password' => 'test',

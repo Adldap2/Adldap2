@@ -390,21 +390,19 @@ class BuilderTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_where_invalid_operator()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $b = $this->newBuilder();
 
         $b->where('field', 'invalid', 'value');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_or_where_invalid_operator()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $b = $this->newBuilder();
 
         $b->orWhere('field', 'invalid', 'value');

@@ -57,99 +57,87 @@ class DomainConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_port()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['port' => 'invalid']);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_base_dn()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['base_dn' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_domain_controllers()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['hosts' => 'invalid']);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_admin_username()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['admin_username' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_admin_password()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['admin_password' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_admin_account_suffix()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['admin_account_suffix' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_account_suffix()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['account_suffix' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_account_prefix()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['account_prefix' => ['invalid']]);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_follow_referrals()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['follow_referrals' => 'invalid']);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_use_ssl()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['use_ssl' => 'invalid']);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_use_tls()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['use_tls' => 'invalid']);
     }
 
-    /**
-     * @expectedException \Adldap\Configuration\ConfigurationException
-     */
     public function test_invalid_custom_options()
     {
+        $this->expectException(\Adldap\Configuration\ConfigurationException::class);
+
         new DomainConfiguration(['custom_options' => 'invalid']);
     }
 }

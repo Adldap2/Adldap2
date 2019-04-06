@@ -15,21 +15,19 @@ use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
 {
-    /**
-     * @expectedException \Adldap\Auth\UsernameRequiredException
-     */
     public function test_validate_username()
     {
+        $this->expectException(\Adldap\Auth\UsernameRequiredException::class);
+
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
         $guard->attempt('', 'password');
     }
 
-    /**
-     * @expectedException \Adldap\Auth\PasswordRequiredException
-     */
     public function test_validate_password()
     {
+        $this->expectException(\Adldap\Auth\PasswordRequiredException::class);
+
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
         $guard->attempt('username', '');
@@ -66,12 +64,11 @@ class GuardTest extends TestCase
 
         $this->assertNull($guard->bind('username', 'password'));
     }
-
-    /**
-     * @expectedException \Adldap\Auth\BindException
-     */
+    
     public function test_bind_always_throws_exception_on_invalid_credentials()
     {
+        $this->expectException(\Adldap\Auth\BindException::class);
+
         $config = $this->mock(DomainConfiguration::class);
 
         $ldap = $this->mock(Ldap::class);

@@ -95,21 +95,19 @@ class AdldapTest extends TestCase
         $this->assertInstanceOf(Provider::class, $ad->connect('default'));
     }
 
-    /**
-     * @expectedException \Adldap\AdldapException
-     */
     public function test_invalid_default_provider()
     {
+        $this->expectException(\Adldap\AdldapException::class);
+
         $ad = new Adldap();
 
         $ad->getDefaultProvider();
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_invalid_provider()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $ad = new Adldap();
 
         $ad->addProvider('first', 'invalid');

@@ -204,6 +204,8 @@ class Group extends Entry
             if ($identifier == 'dn' || $identifier == 'distinguishedname') {
                 $member = $query->findByDn($entry);
             } else {
+                // We'll ensure we clear our filters when retrieving each member,
+                // so we can continue fetching the next one in line.
                 $member = $query->clearFilters()->findBy($identifier, $entry);
             }
 

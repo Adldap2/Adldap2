@@ -1260,8 +1260,20 @@ class Builder
      */
     public function addFilter($type, array $bindings)
     {
+        // Here we will ensure we have been given a proper filter type.
         if (! array_key_exists($type, $this->filters)) {
             throw new InvalidArgumentException("Invalid filter type: {$type}.");
+        }
+
+        // The required filter key bindings.
+        $required = ['field', 'operator', 'value'];
+
+        // Here we will ensure the proper key bindings are given.
+        if (count(array_intersect_key(array_flip($required), $bindings)) !== count($required)) {
+            // Retrieve the keys that are missing in the bindings array.
+            $missing = implode(', ', array_diff($required, array_flip($bindings)));
+
+            throw new InvalidArgumentException("Invalid filter bindings. Missing: {$missing} keys.");
         }
 
         $this->filters[$type][] = $bindings;

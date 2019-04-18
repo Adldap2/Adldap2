@@ -16,11 +16,15 @@ use Adldap\Schemas\SchemaInterface;
 class Factory
 {
     /**
+     * The LDAP query builder.
+     *
      * @var Builder
      */
     protected $query;
 
     /**
+     * The LDAP schema.
+     *
      * @var SchemaInterface
      */
     protected $schema;
@@ -52,6 +56,8 @@ class Factory
 
     /**
      * Sets the current schema.
+     *
+     * If null is given, a default ActiveDirectory schema is set.
      *
      * @param SchemaInterface|null $schema
      *

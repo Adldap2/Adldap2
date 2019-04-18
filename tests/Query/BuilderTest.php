@@ -540,6 +540,15 @@ class BuilderTest extends TestCase
         $this->assertEquals('(!(field=*value*))', $b->getUnescapedQuery());
     }
 
+    public function test_built_where_in()
+    {
+        $b = $this->newBuilder();
+
+        $b->whereIn('name', ['john', 'mary', 'sue']);
+
+        $this->assertEquals('(|(name=john)(name=mary)(name=sue))', $b->getUnescapedQuery());
+    }
+
     public function test_built_where_approximately_equals()
     {
         $b = $this->newBuilder();

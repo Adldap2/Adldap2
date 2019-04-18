@@ -966,6 +966,23 @@ class Builder
     }
 
     /**
+     * Query for entries that match any of the values provided for the given field.
+     *
+     * @param string $field
+     * @param array  $values
+     *
+     * @return Builder
+     */
+    public function whereIn($field, array $values)
+    {
+        return $this->orFilter(function (Builder $query) use ($field, $values) {
+            foreach ($values as $value) {
+                $query->whereEquals($field, $value);
+            }
+        });
+    }
+
+    /**
      * Adds a 'between' clause to the current query.
      *
      * @param string $field

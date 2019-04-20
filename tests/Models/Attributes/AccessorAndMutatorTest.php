@@ -1,19 +1,60 @@
 <?php
 
 
-namespace Adldap\Tests\Models;
+namespace Adldap\Tests\Models\Attributes;
 
 use Adldap\Models\Entry;
+use Adldap\Models\Group;
+use Adldap\Models\Printer;
+use Adldap\Models\RootDse;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
 use Adldap\Tests\TestCase;
 
-class ModelAccessorMutatorTest extends TestCase
+class AccessorAndMutatorTest extends TestCase
 {
     protected function newEntry(array $attributes = [], $builder = null)
     {
-        $builder = $builder ?: $this->newBuilder();
-
-        return new Entry($attributes, $builder);
+        return new Entry($attributes, $builder ?: $this->newBuilder());
     }
+
+    protected function newComputer(array $attributes = [], $builder = null)
+    {
+        return new Computer($attributes, $builder ?: $this->newBuilder());
+    }
+
+    protected function newContainer(array $attributes = [], $builder = null)
+    {
+        return new Container($attributes, $builder ?: $this->newBuilder());
+    }
+
+    protected function newGroup(array $attributes = [], $builder = null)
+    {
+        return new Group($attributes, $builder ?: $this->newBuilder());
+    }
+
+    protected function newOu(array $attributes = [], $builder = null)
+    {
+        return new OrganizationalUnit($attributes, $builder ?: $this->newBuilder());
+    }
+
+    protected function newPrinter(array $attributes = [], $builder = null)
+    {
+        return new Printer($attributes, $builder ?: $this->newBuilder());
+    }
+
+    protected function newRootDse(array $attributes = [], $builder = null)
+    {
+        return new RootDse($attributes, $builder ?: $this->newBuilder());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Entry Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
 
     public function test_get_distinguished_name()
     {
@@ -314,5 +355,67 @@ class ModelAccessorMutatorTest extends TestCase
 
         $this->assertEquals($max, $m->getMaxPasswordAge());
         $this->assertEquals(60, $m->getMaxPasswordAgeDays());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Computer Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function test_get_operating_system()
+    {
+        $os = 'Windows';
+
+        $c = $this->newComputer(['operatingsystem' => $os]);
+
+        $this->assertEquals($os, $c->getOperatingSystem());
+    }
+
+    public function test_get_operating_system_version()
+    {
+        $v = '10.0';
+
+        $c = $this->newComputer(['operatingsystemversion' => $v]);
+
+        $this->assertEquals($v, $c->getOperatingSystemVersion());
+    }
+
+    public function test_get_operating_system_service_pack()
+    {
+        $p = 'Service Pack 1';
+
+        $c = $this->newComputer(['operatingsystemservicepack' => $p]);
+
+        $this->assertEquals($p, $c->getOperatingSystemServicePack());
+    }
+
+    public function test_get_dns_host_name()
+    {
+        $host = 'COMP-101';
+
+        $c = $this->newComputer(['dnshostname' => $host]);
+
+        $this->assertEquals($host, $c->getDnsHostName());
+    }
+
+    public function test_get_bad_password_time()
+    {
+        $time = 1442315203;
+
+        $c = $this->newComputer(['badpasswordtime' => $time]);
+
+        $this->assertEquals($time, $c->getBadPasswordTime());
+    }
+
+    public function test_get_account_expiry()
+    {
+        // Never expires.
+        $expiry = 9223372036854775807;
+
+        $c = $this->newComputer(['accountexpires' => $expiry]);
+
+        $this->assertEquals($expiry, $c->getAccountExpiry());
     }
 }

@@ -7,8 +7,7 @@ use Adldap\Models\Attributes\Guid;
 
 class GuidTest extends TestCase
 {
-    /** @test */
-    public function can_convert_guid_from_string()
+    public function test_can_convert_guid_from_string()
     {
         $guid = '270db4d0-249d-46a7-9cc5-eb695d9af9ac';
 
@@ -20,8 +19,7 @@ class GuidTest extends TestCase
         );
     }
 
-    /** @test */
-    public function can_convert_guid_from_binary()
+    public function test_can_convert_guid_from_binary()
     {
         $hex = 'd0b40d279d24a7469cc5eb695d9af9ac';
 

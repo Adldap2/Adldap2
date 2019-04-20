@@ -1020,4 +1020,26 @@ class User extends Entry implements Authenticatable
 
         return false;
     }
+
+    /**
+     * Returns an string of users samaccountname.
+     *
+     * @return string
+     */
+    public function getAccountName()
+    {
+        return $this->getAttribute($this->schema->accountName());
+    }
+
+    /**
+     * Sets the userrs samaaccountname.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setDepartmentNumber($name)
+    {
+        return $this->setFirstAttribute($this->schema->accountName(), $number);
+    }
 }

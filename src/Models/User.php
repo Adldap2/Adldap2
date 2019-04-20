@@ -1040,6 +1040,6 @@ class User extends Entry implements Authenticatable
      */
     public function setAccountName($name)
     {
-        return $this->setFirstAttribute($this->schema->accountName(), $number);
+        return $this->setFirstAttribute($this->schema->accountName(), $name);
     }
 }

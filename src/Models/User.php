@@ -1028,7 +1028,7 @@ class User extends Entry implements Authenticatable
      */
     public function getAccountName()
     {
-        return $this->getAttribute($this->schema->accountName());
+        return $this->getFirstAttribute($this->schema->accountName());
     }
 
     /**

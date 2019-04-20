@@ -1038,7 +1038,7 @@ class User extends Entry implements Authenticatable
      *
      * @return $this
      */
-    public function setDepartmentNumber($name)
+    public function setAccountName($name)
     {
         return $this->setFirstAttribute($this->schema->accountName(), $number);
     }

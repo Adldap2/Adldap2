@@ -68,7 +68,7 @@ class Computer extends Entry
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675243(v=vs.85).aspx
      *
-     * @return string
+     * @return int
      */
     public function getBadPasswordTime()
     {
@@ -80,7 +80,7 @@ class Computer extends Entry
      *
      * @link https://msdn.microsoft.com/en-us/library/ms675098(v=vs.85).aspx
      *
-     * @return string
+     * @return int
      */
     public function getAccountExpiry()
     {

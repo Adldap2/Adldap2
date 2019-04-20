@@ -595,7 +595,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function getCreatedAtTimestamp()
     {
-        return DateTime::createFromFormat('YmdHis.0Z', $this->getCreatedAt())->getTimestamp();
+        return DateTime::createFromFormat($this->timestampFormat, $this->getCreatedAt())->getTimestamp();
     }
 
     /**

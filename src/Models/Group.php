@@ -66,9 +66,7 @@ class Group extends Entry
      */
     public function setMembers(array $entries)
     {
-        $this->setAttribute($this->schema->member(), $entries);
-
-        return $this;
+        return $this->setAttribute($this->schema->member(), $entries);
     }
 
     /**

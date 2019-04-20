@@ -1032,7 +1032,7 @@ class User extends Entry implements Authenticatable
     }
 
     /**
-     * Sets the userrs samaaccountname.
+     * Sets the users samaaccountname.
      *
      * @param string $name
      *

@@ -183,30 +183,28 @@ class GroupTest extends TestCase
 
     public function test_in_group()
     {
-        $builder = $this->newBuilder();
-
-        $group1 = $this->newGroupModel([], $builder)->setRawAttributes([
+        $group1 = $this->newGroupModel()->setRawAttributes([
             'cn' => [
                 'test1',
             ],
             'dn' => 'cn=test1,dc=corp,dc=org',
         ]);
 
-        $group2 = $this->newGroupModel([], $builder)->setRawAttributes([
+        $group2 = $this->newGroupModel()->setRawAttributes([
             'cn' => [
                 'test2',
             ],
             'dn' => 'cn=test2,dc=corp,dc=org',
         ]);
 
-        $group3 = $this->newGroupModel([], $builder)->setRawAttributes([
+        $group3 = $this->newGroupModel()->setRawAttributes([
             'cn' => [
                 'test3',
             ],
             'dn' => 'cn=test3,dc=corp,dc=org',
         ]);
 
-        $group4 = $this->newGroupModel([], $builder)->setRawAttributes([
+        $group4 = $this->newGroupModel()->setRawAttributes([
             'cn' => [
                 'test4',
             ],
@@ -215,8 +213,7 @@ class GroupTest extends TestCase
 
         $groups = collect([$group1, $group2, $group3]);
 
-        $group = $this->mock(Group::class, [[], $builder])
-            ->makePartial();
+        $group = $this->mock(Group::class)->makePartial();
 
         $group->setSchema(new ActiveDirectory());
 

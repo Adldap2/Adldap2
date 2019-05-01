@@ -215,9 +215,7 @@ class GroupTest extends TestCase
 
         $group = $this->mock(Group::class)->makePartial();
 
-        $group->setSchema(new ActiveDirectory());
-
-        $group->shouldReceive('getGroups')->once()->andReturn($groups);
+        $group->shouldReceive('getGroups')->andReturn($groups);
 
         $this->assertFalse($group->inGroup('test'));
         $this->assertFalse($group->inGroup($group4));

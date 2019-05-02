@@ -997,11 +997,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * Throws a ModelNotFoundException if the current model does
      * not exist or does not contain a distinguished name.
      *
+     * @param bool $recursive Whether to recursively delete leaf nodes (models that are children).
+     *
      * @throws ModelDoesNotExistException
      *
      * @return bool
      */
-    public function delete()
+    public function delete($recursive = false)
     {
         $dn = $this->getDn();
 
@@ -1013,9 +1015,17 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         $this->fireModelEvent(new Events\Deleting($this));
 
+        if ($recursive) {
+            // If recursive is requested, we'll retrieve all direct leaf nodes
+            // by executing a 'listing' and delete each resulting model.
+            $this->newQuery()->listing()->in($this->getDn())->get()->each(function (Model $model) use ($recursive) {
+                $model->delete($recursive);
+            });
+        }
+
         if ($this->query->getConnection()->delete($dn)) {
-            // We'll set the exists property to false on delete
-            // so the dev can run create operations.
+            // If the deletion was successful, we'll mark the model
+            // as non-existing and fire the deleted event.
             $this->exists = false;
 
             $this->fireModelEvent(new Events\Deleted($this));

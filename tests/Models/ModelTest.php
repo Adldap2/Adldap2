@@ -4,6 +4,8 @@ namespace Adldap\Tests\Models;
 
 use Adldap\Adldap;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Builder;
+use Adldap\Query\Collection;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
 use Adldap\Models\BatchModification;
@@ -22,17 +24,21 @@ class ModelTest extends TestCase
     {
         $builder = $builder ?: $this->newBuilder();
 
-        return new Entry($attributes, $builder, $schema);
+        if ($schema) {
+            $builder->setSchema($schema);
+        }
+
+        return new Entry($attributes, $builder);
     }
 
-    public function test_construct()
+    public function test_construct_with_attributes()
     {
         $attributes = [
             'cn' => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
-        $entry = $this->newModel($attributes, $this->newBuilder());
+        $entry = $this->newModel($attributes);
 
         $this->assertEquals($attributes, $entry->getAttributes());
     }
@@ -435,11 +441,24 @@ class ModelTest extends TestCase
         $this->assertTrue($entry->save($attributes));
     }
 
-    public function test_delete_failure()
+    public function test_delete_fails_when_model_does_not_exist()
     {
         $this->expectException(\Adldap\AdldapException::class);
 
         $entry = $this->newModel();
+
+        $this->assertFalse($entry->exists);
+
+        $entry->delete();
+    }
+
+    public function test_delete_fails_when_model_does_not_have_dn()
+    {
+        $this->expectException(\Adldap\AdldapException::class);
+
+        $entry = $this->newModel()->setRawAttributes(['cn' => 'John Doe']);
+
+        $this->assertTrue($entry->exists);
 
         $entry->delete();
     }
@@ -458,6 +477,41 @@ class ModelTest extends TestCase
         $entry->setRawAttributes(['dn' => $dn]);
 
         $this->assertTrue($entry->delete());
+    }
+
+    public function test_delete_recursive()
+    {
+        $connection = $this->newConnectionMock();
+
+        $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
+
+        $connection
+            ->shouldReceive('listing')->once()
+            ->shouldReceive('getEntries')->once()
+            ->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true)
+            ->shouldReceive('close')->once()->andReturn(true);
+
+        $builder = $this->mock(Builder::class);
+
+        $builder->shouldReceive('getSchema')->once()->andReturn(new ActiveDirectory());
+
+        $entry = $this->newModel([], $builder);
+
+        $childEntry = $this->mock(Model::class);
+
+        $childEntry->shouldReceive('delete')->once()->withArgs([true])->andReturn(true);
+
+        $builder
+            ->shouldReceive('newQuery')->once()->andReturnSelf()
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
+            ->shouldReceive('listing')->once()->andReturnSelf()
+            ->shouldReceive('in')->once()->withArgs([$dn])->andReturnSelf()
+            ->shouldReceive('get')->once()->andReturn(new Collection([$childEntry]))
+            ->shouldReceive('getConnection')->once()->andReturn($connection);
+
+        $entry->setRawAttributes(['dn' => $dn]);
+
+        $this->assertTrue($entry->delete($recursive = true));
     }
 
     public function test_created_and_updated_at()

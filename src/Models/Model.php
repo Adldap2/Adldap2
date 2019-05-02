@@ -994,6 +994,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Deletes the current entry.
      *
+	 * @param bool $recusive
+	 *
      * Throws a ModelNotFoundException if the current model does
      * not exist or does not contain a distinguished name.
      *
@@ -1001,7 +1003,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @return bool
      */
-    public function delete()
+    public function delete($recursive = false)
     {
         $dn = $this->getDn();
 
@@ -1013,7 +1015,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         $this->fireModelEvent(new Events\Deleting($this));
 
-        if ($this->query->getConnection()->delete($dn)) {
+        if ($this->query->getConnection()->delete($dn, $recursive)) {
             // We'll set the exists property to false on delete
             // so the dev can run create operations.
             $this->exists = false;

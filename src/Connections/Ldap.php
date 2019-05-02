@@ -328,8 +328,18 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($dn)
+    public function delete($dn, $recursive = false)
     {
+        if($recursive) {
+            $sr = ldap_list($this->getConnection(),$dn,"ObjectClass=*",array(""));
+            $info = ldap_get_entries($this->getConnection(), $sr);
+            for($i=0; $i<$info['count']; $i++) {
+                $result = $this->delete($info[$i]['dn'], $recursive);
+                if(!$result) {
+                    return($result);
+                }
+            }
+        }
         return ldap_delete($this->getConnection(), $dn);
     }
 

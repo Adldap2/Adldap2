@@ -98,7 +98,7 @@ class FactoryTest extends TestCase
 
         $this->assertInstanceOf(Container::class, $container);
         $this->assertEquals(['Container'], $container->getAttribute('cn'));
-        $this->assertEquals(['organizationalunit'], $container->getAttribute('objectclass'));
+        $this->assertEquals(['container'], $container->getAttribute('objectclass'));
     }
 
     public function test_contact()

@@ -418,4 +418,305 @@ class AccessorAndMutatorTest extends TestCase
 
         $this->assertEquals($expiry, $c->getAccountExpiry());
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Container Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function test_get_system_flags()
+    {
+        $c = $this->newContainer(['systemflags' => 1]);
+
+        $this->assertEquals(1, $c->getSystemFlags());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Group Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function test_get_members()
+    {
+        $members = ['cn=John Doe,dc=corp,dc=acme,dc=org'];
+
+        $u = $this->newEntry(['dn' => $members[0]]);
+
+        $b = $this->mock($this->newBuilder());
+
+        $b
+            ->shouldReceive('newInstance')->andReturnSelf()
+            ->shouldReceive('findByDn')->withArgs([$members[0]])->andReturn($u);
+
+        $g = $this->newGroup(['member' => $members], $b);
+
+        $this->assertEquals($g->newCollection()->push($u), $g->getMembers());
+    }
+
+    public function test_set_members()
+    {
+        $members = ['cn=John Doe,dc=corp,dc=acme,dc=org'];
+
+        $this->assertEquals($members, $this->newGroup()->setMembers($members)->getAttribute('member'));
+    }
+
+    public function test_get_group_type()
+    {
+        $type = 0x00000002;
+
+        $g = $this->newGroup(['grouptype' => $type]);
+
+        $this->assertEquals($type, $g->getGroupType());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Organizational Unit Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function test_get_ou()
+    {
+        $name = 'User Accounts';
+
+        $ou = $this->newOu(['ou' => $name]);
+
+        $this->assertEquals($name, $ou->getOu());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Printer Accessor / Mutator Tests
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    public function test_get_printer_name()
+    {
+        $name = 'Xerox';
+
+        $p = $this->newPrinter(['printername' => $name]);
+
+        $this->assertEquals($name, $p->getPrinterName());
+    }
+
+    public function test_get_printer_share_name()
+    {
+        $name = 'XEROX-ADMIN';
+
+        $p = $this->newPrinter(['printsharename' => $name]);
+
+        $this->assertEquals($name, $p->getPrinterShareName());
+    }
+
+    public function test_get_memory()
+    {
+        $memory = 1000;
+
+        $p = $this->newPrinter(['printmemory' => $memory]);
+
+        $this->assertEquals($memory, $p->getMemory());
+    }
+
+    public function test_get_url()
+    {
+        $url = 'http://192.168.1.10';
+
+        $p = $this->newPrinter(['url' => $url]);
+
+        $this->assertEquals($url, $p->getUrl());
+    }
+
+    public function test_get_location()
+    {
+        $location = 'Main Office';
+
+        $p = $this->newPrinter(['location' => $location]);
+
+        $this->assertEquals($location, $p->getLocation());
+    }
+
+    public function test_get_server_name()
+    {
+        $server = 'PRINT-SERVER';
+
+        $p = $this->newPrinter(['servername' => $server]);
+
+        $this->assertEquals($server, $p->getServerName());
+    }
+
+    public function test_get_color_supported()
+    {
+        $supported = 'TRUE';
+
+        $p = $this->newPrinter(['printcolor' => $supported]);
+
+        $this->assertTrue($p->getColorSupported());
+
+        $supported = 'FALSE';
+
+        $p = $this->newPrinter(['printcolor' => $supported]);
+
+        $this->assertFalse($p->getColorSupported());
+    }
+
+    public function test_get_duplex_supported()
+    {
+        $supported = 'TRUE';
+
+        $p = $this->newPrinter(['printduplexsupported' => $supported]);
+
+        $this->assertTrue($p->getDuplexSupported());
+
+        $supported = 'FALSE';
+
+        $p = $this->newPrinter(['printduplexsupported' => $supported]);
+
+        $this->assertFalse($p->getDuplexSupported());
+    }
+
+    public function test_get_stapling_supported()
+    {
+        $supported = 'TRUE';
+
+        $p = $this->newPrinter(['printstaplingsupported' => $supported]);
+
+        $this->assertTrue($p->getStaplingSupported());
+
+        $supported = 'FALSE';
+
+        $p = $this->newPrinter(['printstaplingsupported' => $supported]);
+
+        $this->assertFalse($p->getStaplingSupported());
+    }
+
+    public function test_get_media_supported()
+    {
+        $supported = [
+            'LEGAL',
+            'A10',
+            'A11',
+        ];
+
+        $p = $this->newPrinter(['printmediasupported' => $supported]);
+
+        $this->assertEquals($supported, $p->getMediaSupported());
+    }
+
+    public function test_get_print_bin_names()
+    {
+        $bins = [
+            'LEGAL',
+            'A10',
+            'A11',
+        ];
+
+        $p = $this->newPrinter(['printbinnames' => $bins]);
+
+        $this->assertEquals($bins, $p->getPrintBinNames());
+    }
+
+    public function test_get_print_max_resolution()
+    {
+        $res = '1024x768';
+
+        $p = $this->newPrinter(['printmaxresolutionsupported' => $res]);
+
+        $this->assertEquals($res, $p->getPrintMaxResolution());
+    }
+
+    public function test_get_print_orientation()
+    {
+        $orientation = 270;
+
+        $p = $this->newPrinter(['printorientationssupported' => $orientation]);
+
+        $this->assertEquals($orientation, $p->getPrintOrientations());
+    }
+
+    public function test_get_driver_name()
+    {
+        $name = 'xerox-driver-64-bit';
+
+        $p = $this->newPrinter(['drivername' => $name]);
+
+        $this->assertEquals($name, $p->getDriverName());
+    }
+
+    public function test_get_driver_version()
+    {
+        $version = '1060.34';
+
+        $p = $this->newPrinter(['driverversion' => $version]);
+
+        $this->assertEquals($version, $p->getDriverVersion());
+    }
+
+    public function test_get_priority()
+    {
+        $priority = '1';
+
+        $p = $this->newPrinter(['priority' => $priority]);
+
+        $this->assertEquals($priority, $p->getPriority());
+    }
+
+    public function test_get_print_start_time()
+    {
+        $time = '60';
+
+        $p = $this->newPrinter(['printstarttime' => $time]);
+
+        $this->assertEquals($time, $p->getPrintStartTime());
+    }
+
+    public function test_get_print_end_time()
+    {
+        $time = '60';
+
+        $p = $this->newPrinter(['printendtime' => $time]);
+
+        $this->assertEquals($time, $p->getPrintEndTime());
+    }
+
+    public function test_get_port_name()
+    {
+        $portName = '10.0.0.1';
+
+        $p = $this->newPrinter(['portname' => $portName]);
+
+        $this->assertEquals($portName, $p->getPortName());
+    }
+
+    public function test_get_version_number()
+    {
+        $version = '4';
+
+        $p = $this->newPrinter(['versionnumber' => $version]);
+
+        $this->assertEquals($version, $p->getVersionNumber());
+    }
+
+    public function test_get_print_rate()
+    {
+        $rate = '36';
+
+        $p = $this->newPrinter(['printrate' => $rate]);
+
+        $this->assertEquals($rate, $p->getPrintRate());
+    }
+
+    public function test_get_print_rate_unit()
+    {
+        $rate = '36';
+
+        $p = $this->newPrinter(['printrateunit' => $rate]);
+
+        $this->assertEquals($rate, $p->getPrintRateUnit());
+    }
 }

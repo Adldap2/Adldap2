@@ -9,7 +9,7 @@ use Adldap\Schemas\SchemaInterface;
 /**
  * Class Factory
  *
- * Constructs and scopes LDAP queries.
+ * Creates new LDAP models.
  *
  * @package Adldap\Models
  */

@@ -147,7 +147,7 @@ class Factory
         $model = $this->schema->containerModel();
 
         return (new $model($attributes, $this->query))
-            ->setAttribute($this->schema->objectClass(), $this->schema->organizationalUnit());
+            ->setAttribute($this->schema->objectClass(), $this->schema->objectClassContainer());
     }
 
     /**

@@ -262,6 +262,18 @@ class User extends Entry implements Authenticatable
     }
 
     /**
+     * The user's main home phone number.
+     *
+     * @link https://docs.microsoft.com/en-us/windows/desktop/ADSchema/a-homephone
+     *
+     * @return string|null
+     */
+    public function getHomePhone()
+    {
+        return $this->getFirstAttribute($this->schema->homePhone());
+    }
+
+    /**
      * Returns the users principal name.
      *
      * This is usually their email address.

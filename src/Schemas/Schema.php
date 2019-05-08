@@ -346,6 +346,14 @@ abstract class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
+    public function homePhone()
+    {
+        return 'homephone';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function info()
     {
         return 'info';

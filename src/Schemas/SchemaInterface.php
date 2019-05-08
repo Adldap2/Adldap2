@@ -393,7 +393,7 @@ interface SchemaInterface
 
     /**
      * Specifies the drive letter to which to map the UNC path specified by homeDirectory.
-     * 
+     *
      * @link https://msdn.microsoft.com/en-us/library/ms676191(v=vs.85).aspx
      *
      * @return string|null
@@ -402,12 +402,21 @@ interface SchemaInterface
 
     /**
      * The home directory for the account.
-     * 
+     *
      * @link https://msdn.microsoft.com/en-us/library/ms676190(v=vs.85).aspx
      *
      * @return string|null
      */
     public function homeDirectory();
+
+    /**
+     * The user's main home phone number.
+     *
+     * @link https://docs.microsoft.com/en-us/windows/desktop/ADSchema/a-homephone
+     *
+     * @return string|null
+     */
+    public function homePhone();
 
     /**
      * The users extra notable information.
@@ -440,9 +449,9 @@ interface SchemaInterface
 
     /**
      * Specifies the TCP/IP address for the phone. Used by telephony.
-     * 
+     *
      * @link https://msdn.microsoft.com/en-us/library/cc221092.aspx
-     * 
+     *
      * @return string
      */
     public function ipPhone();
@@ -1263,18 +1272,18 @@ interface SchemaInterface
 
     /**
      * The primary mobile phone number.
-     * 
+     *
      * @link https://docs.microsoft.com/en-us/windows/desktop/adschema/a-mobile
-     * 
+     *
      * @return string
      */
     public function mobile();
 
     /**
      * The secondary mobile phone number.
-     * 
+     *
      * @link https://docs.microsoft.com/en-us/windows/desktop/ADSchema/a-othermobile
-     * 
+     *
      * @return string
      */
     public function otherMobile();

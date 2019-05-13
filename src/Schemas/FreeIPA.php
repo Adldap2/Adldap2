@@ -75,6 +75,14 @@ class FreeIPA extends Schema
     {
         return 'lockouttime';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function passwordLastSet()
+    {
+        return 'krbLastPwdChange';
+    }
 
     /**
      * {@inheritdoc}

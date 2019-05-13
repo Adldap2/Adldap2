@@ -7,6 +7,14 @@ class FreeIPA extends Schema
     /**
      * {@inheritdoc}
      */
+    public function accountName()
+    {
+        return 'uid';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function distinguishedName()
     {
         return 'dn';
@@ -26,6 +34,14 @@ class FreeIPA extends Schema
     public function objectClassGroup()
     {
         return 'ipausergroup';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function userPrincipalName()
+    {
+        return 'krbCanonicalName';
     }
 
     /**
@@ -89,7 +105,7 @@ class FreeIPA extends Schema
      */
     public function objectGuid()
     {
-        return 'objectguid';
+        return 'ipaUniqueID';
     }
 
     /**
@@ -97,6 +113,6 @@ class FreeIPA extends Schema
      */
     public function objectGuidRequiresConversion()
     {
-        return true;
+        return false;
     }
 }

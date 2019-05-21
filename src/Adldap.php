@@ -31,6 +31,17 @@ class Adldap implements AdldapInterface
     protected $providers = [];
 
     /**
+     * The events to register listeners for during initialization.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Adldap\Auth\Events\*',
+        'Adldap\Query\Events\*',
+        'Adldap\Models\Events\*',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(array $providers = [])
@@ -163,17 +174,14 @@ class Adldap implements AdldapInterface
 
         $logger = $this->newEventLogger();
 
-        $dispatcher->listen('Adldap\Auth\Events\*', function ($eventName, $events) use ($logger) {
-            foreach ($events as $event) {
-                $logger->auth($event);
-            }
-        });
-
-        $dispatcher->listen('Adldap\Models\Events\*', function ($eventName, $events) use ($logger) {
-            foreach ($events as $event) {
-                $logger->model($event);
-            }
-        });
+        // We will go through each of our event wildcards and register their listener.
+        foreach ($this->listen as $event) {
+            $dispatcher->listen($event, function ($eventName, $events) use ($logger) {
+                foreach ($events as $event) {
+                    $logger->log($event);
+                }
+            });
+        }
     }
 
     /**

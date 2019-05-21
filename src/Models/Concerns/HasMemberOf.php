@@ -223,7 +223,7 @@ trait HasMemberOf
         $query = $this->query->newInstance();
 
         return $query->newCollection($dns)->map(function ($dn) use ($query, $fields) {
-            return $query->select($fields)->findByDn($dn);
+            return $query->select($fields)->clearFilters()->findByDn($dn);
         })->filter(function ($group) {
             return $group instanceof Group;
         });

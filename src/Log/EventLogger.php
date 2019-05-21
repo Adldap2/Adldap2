@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Event as AuthEvent;
 use Adldap\Models\Events\Event as ModelEvent;
+use Adldap\Query\Events\QueryExecuted as QueryEvent;
 
 class EventLogger
 {
@@ -24,6 +25,22 @@ class EventLogger
     public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
+    }
+
+    /**
+     * Logs the given event.
+     *
+     * @param mixed $event
+     */
+    public function log($event)
+    {
+        if ($event instanceof AuthEvent) {
+            $this->auth($event);
+        } else if ($event instanceof ModelEvent) {
+            $this->model($event);
+        } else if ($event instanceof QueryEvent) {
+            $this->query($event);
+        }
     }
 
     /**
@@ -80,6 +97,36 @@ class EventLogger
                 . " - Operation: {$operation}"
                 . " - On: {$on}"
                 . " - Distinguished Name: {$model->getDn()}";
+
+            $this->logger->info($message);
+        }
+    }
+
+    /**
+     * Logs a query event.
+     *
+     * @param QueryEvent $event
+     *
+     * @return void
+     */
+    public function query(QueryEvent $event)
+    {
+        if (isset($this->logger)) {
+            $operation = get_class($event);
+
+            $query = $event->getQuery();
+
+            $connection = $query->getConnection();
+
+            $selected = implode(',', $query->getSelects());
+
+            $message = "LDAP ({$connection->getHost()})"
+                . " - Connection: {$connection->getName()}"
+                . " - Operation: {$operation}"
+                . " - Base DN: {$query->getDn()}"
+                . " - Filter: {$query->getUnescapedQuery()}"
+                . " - Selected: ({$selected})"
+                . " - Time Elapsed: {$event->getTime()}";
 
             $this->logger->info($message);
         }

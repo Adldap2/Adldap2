@@ -49,7 +49,7 @@ class QueryExecuted
     }
 
     /**
-     * Returns the base DN.
+     * Returns the base distinguished name that the query was executed upon.
      *
      * @return string
      */
@@ -58,16 +58,31 @@ class QueryExecuted
         return $this->base;
     }
 
+    /**
+     * Returns the LDAP filter that was used for the query.
+     *
+     * @return string
+     */
     public function getQuery()
     {
         return $this->query;
     }
 
+    /**
+     * Returns the attributes that were selected for the query.
+     *
+     * @return array
+     */
     public function getSelects()
     {
         return $this->selects;
     }
 
+    /**
+     * Returns the number of milliseconds it took to execute the query.
+     *
+     * @return float|null
+     */
     public function getTime()
     {
         return $this->time;

@@ -348,13 +348,7 @@ class Builder
         );
 
         // Log the query.
-        $this->logQuery(
-            $this->getDn(),
-            $query,
-            $this->type,
-            $this->getSelects(),
-            $this->getElapsedTime($start)
-        );
+        $this->logQuery($this, $this->type, $this->getElapsedTime($start));
 
         // Process & return the results.
         return $this->newProcessor()->process($results);
@@ -1656,15 +1650,13 @@ class Builder
     /**
      * Logs the given executed query information by firing its query event.
      *
-     * @param string     $base
-     * @param string     $query
+     * @param Builder    $query
      * @param string     $type
-     * @param array      $selects
      * @param null|float $time
      */
-    protected function logQuery($base, $query, $type, $selects = [], $time = null)
+    protected function logQuery($query, $type, $time = null)
     {
-        $args = [$base, $query, $selects, $time];
+        $args = [$query, $time];
 
         switch($type) {
             case 'listing':

@@ -163,9 +163,10 @@ class GroupTest extends TestCase
 
         $builder
             ->shouldReceive('getSchema')->once()->andReturn(new ActiveDirectory())
-            ->shouldReceive('newInstance')->once()->andReturn($builder)
+            ->shouldReceive('newInstance')->once()->andReturnSelf()
             ->shouldReceive('newCollection')->once()->with($dns)->andReturn(new Collection($dns))
-            ->shouldReceive('select')->twice()->with(['field', 'memberof'])->andReturn($builder)
+            ->shouldReceive('select')->twice()->with(['field', 'memberof'])->andReturnSelf()
+            ->shouldReceive('clearFilters')->twice()->withNoArgs()->andReturnSelf()
             ->shouldReceive('findByDn')->with('cn=John Doe,dc=acme,dc=org')->andReturn($this->newGroupModel(['cn' => 'John Doe']))
             ->shouldReceive('findByDn')->with('cn=Jane Doe,dc=acme,dc=org')->andReturn($this->newGroupModel(['cn' => 'Jane Doe']));
 

@@ -5,10 +5,12 @@ namespace Adldap\Query;
 use Closure;
 use InvalidArgumentException;
 use Illuminate\Support\Arr;
+use Adldap\Adldap;
 use Adldap\Utilities;
 use Adldap\Models\Model;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Query\Events\QueryExecuted;
 use Adldap\Models\ModelNotFoundException;
 use Adldap\Connections\ConnectionInterface;
 
@@ -334,6 +336,9 @@ class Builder
      */
     public function query($query)
     {
+        $start = microtime(true);
+
+        // Execute the search.
         $results = $this->connection->{$this->type}(
             $this->getDn(),
             $query,
@@ -342,6 +347,16 @@ class Builder
             $this->limit
         );
 
+        // Log the query.
+        $this->logQuery(
+            $this->getDn(),
+            $query,
+            $this->type,
+            $this->getSelects(),
+            $this->getElapsedTime($start)
+        );
+
+        // Process & return the results.
         return $this->newProcessor()->process($results);
     }
 
@@ -1636,6 +1651,56 @@ class Builder
         $field = strtolower($segment);
 
         $this->where($field, '=', $parameters[$index], $bool);
+    }
+
+    /**
+     * Logs the given executed query information by firing its query event.
+     *
+     * @param string     $base
+     * @param string     $query
+     * @param string     $type
+     * @param array      $selects
+     * @param null|float $time
+     */
+    protected function logQuery($base, $query, $type, $selects = [], $time = null)
+    {
+        $args = [$base, $query, $selects, $time];
+
+        switch($type) {
+            case 'listing':
+                $event = new Events\Listing(...$args);
+                break;
+            case 'read';
+                $event = new Events\Read(...$args);
+                break;
+            default:
+                $event = new Events\Search(...$args);
+                break;
+        }
+
+        $this->fireQueryEvent($event);
+    }
+
+    /**
+     * Fires the given query event.
+     *
+     * @param QueryExecuted $event
+     */
+    protected function fireQueryEvent(QueryExecuted $event)
+    {
+        Adldap::getEventDispatcher()->fire($event);
+    }
+
+    /**
+     * Get the elapsed time since a given starting point.
+     *
+     * @param int $start
+     *
+     * @return float
+     */
+    protected function getElapsedTime($start)
+    {
+        return round((microtime(true) - $start) * 1000, 2);
     }
 
     /**

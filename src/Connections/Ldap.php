@@ -317,7 +317,7 @@ class Ldap implements ConnectionInterface
             return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
         }
 
-        return $this->bound = ldap_bind(
+        return $this->bound = @ldap_bind(
             $this->getConnection(),
             $username,
             html_entity_decode($password)

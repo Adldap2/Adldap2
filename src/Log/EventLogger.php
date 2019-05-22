@@ -2,6 +2,7 @@
 
 namespace Adldap\Log;
 
+use ReflectionClass;
 use Psr\Log\LoggerInterface;
 use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Event as AuthEvent;
@@ -53,13 +54,11 @@ class EventLogger
     public function auth(AuthEvent $event)
     {
         if (isset($this->logger)) {
-            $operation = get_class($event);
-
             $connection = $event->getConnection();
 
             $message = "LDAP ({$connection->getHost()})"
                 . " - Connection: {$connection->getName()}"
-                . " - Operation: {$operation}"
+                . " - Operation: {$this->getOperationName($event)}"
                 . " - Username: {$event->getUsername()}";
 
             $result = null;
@@ -84,8 +83,6 @@ class EventLogger
     public function model(ModelEvent $event)
     {
         if (isset($this->logger)) {
-            $operation = get_class($event);
-
             $model = $event->getModel();
 
             $on = get_class($model);
@@ -94,7 +91,7 @@ class EventLogger
 
             $message = "LDAP ({$connection->getHost()})"
                 . " - Connection: {$connection->getName()}"
-                . " - Operation: {$operation}"
+                . " - Operation: {$this->getOperationName($event)}"
                 . " - On: {$on}"
                 . " - Distinguished Name: {$model->getDn()}";
 
@@ -112,8 +109,6 @@ class EventLogger
     public function query(QueryEvent $event)
     {
         if (isset($this->logger)) {
-            $operation = get_class($event);
-
             $query = $event->getQuery();
 
             $connection = $query->getConnection();
@@ -122,7 +117,7 @@ class EventLogger
 
             $message = "LDAP ({$connection->getHost()})"
                 . " - Connection: {$connection->getName()}"
-                . " - Operation: {$operation}"
+                . " - Operation: {$this->getOperationName($event)}"
                 . " - Base DN: {$query->getDn()}"
                 . " - Filter: {$query->getUnescapedQuery()}"
                 . " - Selected: ({$selected})"
@@ -130,5 +125,17 @@ class EventLogger
 
             $this->logger->info($message);
         }
+    }
+
+    /**
+     * Returns the operational name of the given event.
+     *
+     * @param mixed $event
+     *
+     * @return string
+     */
+    protected function getOperationName($event)
+    {
+        return (new ReflectionClass($event))->getShortName();
     }
 }

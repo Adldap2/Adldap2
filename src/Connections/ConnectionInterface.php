@@ -255,6 +255,8 @@ interface ConnectionInterface
      * @param string|array $hostname
      * @param int          $port
      *
+     * @throws ConnectionException If starting TLS fails.
+     *
      * @return mixed
      */
     public function connect($hostname = [], $port = 389);
@@ -263,6 +265,8 @@ interface ConnectionInterface
      * Starts a connection using TLS.
      *
      * @link http://php.net/manual/en/function.ldap-start-tls.php
+     *
+     * @throws ConnectionException If starting TLS fails.
      *
      * @return mixed
      */
@@ -277,8 +281,6 @@ interface ConnectionInterface
      * @param string $username
      * @param string $password
      * @param bool   $sasl
-     *
-     * @throws ConnectionException If connecting over TLS fails.
      *
      * @return bool
      */

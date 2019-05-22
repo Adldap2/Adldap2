@@ -13,8 +13,6 @@ interface ProviderInterface
      *
      * @param array|DomainConfiguration $configuration
      * @param ConnectionInterface       $connection
-     *
-     * @throws ConnectionException If starting TLS fails.
      */
     public function __construct($configuration, ConnectionInterface $connection);
 
@@ -53,8 +51,6 @@ interface ProviderInterface
      * Sets the current connection.
      *
      * @param ConnectionInterface $connection
-     *
-     * @throws ConnectionException If starting TLS fails.
      *
      * @return $this
      */

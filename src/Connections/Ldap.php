@@ -264,10 +264,6 @@ class Ldap implements ConnectionInterface
         
         $this->connection = ldap_connect($this->host);
 
-        if ($this->isUsingTLS()) {
-            $this->startTLS();
-        }
-
         return $this->connection;
     }
 
@@ -310,6 +306,13 @@ class Ldap implements ConnectionInterface
      */
     public function bind($username, $password, $sasl = false)
     {
+        // Prior to binding, we will upgrade our connectivity to TLS on our current
+        // connection and ensure we are not already bound before upgrading.
+        // This is to prevent subsequent upgrading on several binds.
+        if ($this->isUsingTLS() && ! $this->isBound()) {
+            $this->startTLS();
+        }
+
         if ($sasl) {
             return $this->bound = ldap_sasl_bind($this->getConnection(), null, null, 'GSSAPI');
         }

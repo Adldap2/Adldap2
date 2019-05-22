@@ -89,7 +89,7 @@ class Provider implements ProviderInterface
 
             $schema = $configuration->get('schema');
 
-            // We'll update our schema here when our configuration is set.
+            // We will update our schema here when our configuration is set.
             $this->setSchema(new $schema);
             
             return $this;
@@ -107,7 +107,7 @@ class Provider implements ProviderInterface
      */
     public function setConnection(ConnectionInterface $connection = null)
     {
-        // We'll create a standard connection if one isn't given.
+        // We will create a standard connection if one isn't given.
         $this->connection = $connection ?: new Ldap();
 
         // Prepare the connection.

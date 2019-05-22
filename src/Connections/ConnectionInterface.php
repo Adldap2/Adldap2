@@ -255,8 +255,6 @@ interface ConnectionInterface
      * @param string|array $hostname
      * @param int          $port
      *
-     * @throws ConnectionException If starting TLS fails.
-     *
      * @return mixed
      */
     public function connect($hostname = [], $port = 389);
@@ -281,6 +279,8 @@ interface ConnectionInterface
      * @param string $username
      * @param string $password
      * @param bool   $sasl
+     *
+     * @throws ConnectionException If starting TLS fails.
      *
      * @return bool
      */

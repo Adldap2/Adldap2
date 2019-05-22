@@ -248,7 +248,11 @@ class Ldap implements ConnectionInterface
      */
     public function startTLS()
     {
-        return ldap_start_tls($this->getConnection());
+        try {
+            return ldap_start_tls($this->getConnection());
+        } catch (\ErrorException $e) {
+            throw new ConnectionException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
@@ -259,9 +263,9 @@ class Ldap implements ConnectionInterface
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
         
         $this->connection = ldap_connect($this->host);
-        
-        if ($this->isUsingTLS() && $this->startTLS() === false) {
-            throw new ConnectionException("Unable to connect to LDAP server over TLS.");
+
+        if ($this->isUsingTLS()) {
+            $this->startTLS();
         }
 
         return $this->connection;

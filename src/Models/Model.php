@@ -387,30 +387,33 @@ abstract class Model implements ArrayAccess, JsonSerializable
      *
      * @param bool $removeAttributePrefixes
      *
-     * @return array|false
+     * @return array
      */
     public function getDnComponents($removeAttributePrefixes = true)
     {
-        return Utilities::explodeDn($this->getDn(), $removeAttributePrefixes);
+        if ($components = Utilities::explodeDn($this->getDn(), $removeAttributePrefixes)) {
+            unset($components['count']);
+
+            return $components;
+        }
+
+        return [];
     }
 
     /**
      * Returns the distinguished name that the model is a leaf of.
      *
-     * @return string|null
+     * @return string
      */
     public function getDnRoot()
     {
         $components = $this->getDnComponents(false);
 
-        if (array_key_exists('count', $components) && $components['count'] > 1) {
-            unset($components['count']);
-            array_shift($components);
+        // Shift off the beginning of the array;
+        // This contains the models RDN.
+        array_shift($components);
 
-            return implode(',', $components);
-        }
-
-        return;
+        return implode(',', $components);
     }
 
     /**

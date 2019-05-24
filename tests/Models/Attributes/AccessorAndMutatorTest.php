@@ -66,6 +66,42 @@ class AccessorAndMutatorTest extends TestCase
         $this->assertEquals($dn, $m->getDistinguishedName());
     }
 
+    public function test_get_dn_components()
+    {
+        $dn = 'cn=jdoe,dc=acme,dc=org';
+
+        $m = $this->newEntry(['dn' => $dn]);
+
+        $this->assertEquals([
+            'jdoe',
+            'acme',
+            'org',
+        ], $m->getDnComponents());
+
+        $this->assertEquals([
+            'cn=jdoe',
+            'dc=acme',
+            'dc=org',
+        ], $m->getDnComponents(false));
+
+        $m->setDn('invalid');
+
+        $this->assertEquals([], $m->getDnComponents());
+    }
+
+    public function get_dn_root()
+    {
+        $dn = 'cn=jdoe,dc=acme,dc=org';
+
+        $m = $this->newEntry(['dn' => $dn]);
+
+        $this->assertEquals('dc=acme,dc=org', $m->getDnRoot());
+
+        $m->setDn('invalid');
+
+        $this->assertEmpty($m->getDnRoot());
+    }
+
     public function test_set_distinguished_name()
     {
         $dn = 'cn=jdoe,dc=acme,dc=org';

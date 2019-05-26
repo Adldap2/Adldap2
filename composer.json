@@ -28,6 +28,7 @@
     "require": {
         "php": ">=7.0",
         "ext-ldap": "*",
+        "ext-json": "*",
         "psr/log": "~1.0",
         "tightenco/collect": "~5.0",
         "illuminate/contracts": "~5.0"

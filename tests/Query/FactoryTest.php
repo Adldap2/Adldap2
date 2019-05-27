@@ -4,8 +4,8 @@ namespace Adldap\Tests\Classes;
 
 use Adldap\Query\Builder;
 use Adldap\Query\Factory;
-use Adldap\Tests\TestCase;
 use Adldap\Schemas\OpenLDAP;
+use Adldap\Tests\TestCase;
 
 class FactoryTest extends TestCase
 {

@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Connections;
 
-use Adldap\Query\Builder;
-use Adldap\Query\Factory as SearchFactory;
-use Adldap\Models\Factory as ModelFactory;
-use Adldap\Tests\TestCase;
+use Adldap\Configuration\DomainConfiguration;
+use Adldap\Connections\ConnectionInterface;
+use Adldap\Connections\DetailedError;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
-use Adldap\Connections\DetailedError;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Configuration\DomainConfiguration;
+use Adldap\Models\Factory as ModelFactory;
+use Adldap\Query\Builder;
+use Adldap\Query\Factory as SearchFactory;
+use Adldap\Tests\TestCase;
 
 class ProviderTest extends TestCase
 {
@@ -199,8 +199,8 @@ class ProviderTest extends TestCase
         $connection
             ->shouldReceive('setOptions')->once()->withArgs([[
                 LDAP_OPT_PROTOCOL_VERSION => 3,
-                LDAP_OPT_NETWORK_TIMEOUT => 5,
-                LDAP_OPT_REFERRALS => false,
+                LDAP_OPT_NETWORK_TIMEOUT  => 5,
+                LDAP_OPT_REFERRALS        => false,
             ]])
             ->shouldReceive('connect')->once()
             ->shouldReceive('isBound')->once()->andReturn(false);

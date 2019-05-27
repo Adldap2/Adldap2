@@ -3,20 +3,20 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Adldap;
-use Adldap\Tests\TestCase;
-use Adldap\Query\Builder;
-use Adldap\Query\Collection;
-use Adldap\Models\Entry;
-use Adldap\Models\Model;
 use Adldap\Models\BatchModification;
+use Adldap\Models\Entry;
 use Adldap\Models\Events\Created;
 use Adldap\Models\Events\Creating;
 use Adldap\Models\Events\Deleted;
 use Adldap\Models\Events\Deleting;
 use Adldap\Models\Events\Updated;
 use Adldap\Models\Events\Updating;
-use Adldap\Schemas\OpenLDAP;
+use Adldap\Models\Model;
+use Adldap\Query\Builder;
+use Adldap\Query\Collection;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\OpenLDAP;
+use Adldap\Tests\TestCase;
 
 class ModelTest extends TestCase
 {
@@ -34,7 +34,7 @@ class ModelTest extends TestCase
     public function test_construct_with_attributes()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -46,7 +46,7 @@ class ModelTest extends TestCase
     public function test_set_raw_attributes()
     {
         $rawAttributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -66,7 +66,7 @@ class ModelTest extends TestCase
     public function test_set_attribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
         ];
 
@@ -98,9 +98,9 @@ class ModelTest extends TestCase
     public function test_update_attribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -120,9 +120,9 @@ class ModelTest extends TestCase
     public function test_delete_attribute_with_string()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -143,9 +143,9 @@ class ModelTest extends TestCase
     public function test_delete_attribute_with_array()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -154,7 +154,7 @@ class ModelTest extends TestCase
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', [
-            'cn' => [], 'memberof' => []
+            'cn' => [], 'memberof' => [],
         ]])->andReturn(true);
 
         $connection->shouldReceive('close')->once()->andReturn(true);
@@ -164,7 +164,7 @@ class ModelTest extends TestCase
         $entry->setRawAttributes($attributes);
 
         $this->assertTrue($entry->deleteAttribute([
-            'cn' => [],
+            'cn'       => [],
             'memberof' => [],
         ]));
     }
@@ -172,9 +172,9 @@ class ModelTest extends TestCase
     public function test_create_attribute()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'dn' => 'dc=corp,dc=org',
+            'dn'             => 'dc=corp,dc=org',
         ];
 
         $connection = $this->newConnectionMock();
@@ -195,9 +195,9 @@ class ModelTest extends TestCase
     public function test_modifications()
     {
         $attributes = [
-            'cn' => ['Common Name'],
+            'cn'             => ['Common Name'],
             'samaccountname' => ['Account Name'],
-            'name' => ['Name'],
+            'name'           => ['Name'],
         ];
 
         $connection = $this->newConnectionMock();
@@ -240,17 +240,17 @@ class ModelTest extends TestCase
     public function test_create()
     {
         $attributes = [
-            'cn' => ['John Doe'],
+            'cn'        => ['John Doe'],
             'givenname' => ['John'],
-            'sn' => ['Doe'],
+            'sn'        => ['Doe'],
         ];
 
         $returnedRaw = [
             'count' => 1,
             [
-                'cn' => ['John Doe'],
+                'cn'        => ['John Doe'],
                 'givenname' => ['John'],
-                'sn' => ['Doe'],
+                'sn'        => ['Doe'],
             ],
         ];
 
@@ -300,9 +300,9 @@ class ModelTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn' => ['John Doe'],
+            'cn'        => ['John Doe'],
             'givenname' => ['John'],
-            'sn' => ['Doe'],
+            'sn'        => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -310,10 +310,10 @@ class ModelTest extends TestCase
         $returnedRaw = [
             'count' => 1,
             [
-                'cn' => ['John Doe'],
+                'cn'        => ['John Doe'],
                 'givenname' => ['John'],
-                'sn' => ['Doe'],
-                'dn' => $dn,
+                'sn'        => ['Doe'],
+                'dn'        => $dn,
             ],
         ];
 
@@ -341,9 +341,9 @@ class ModelTest extends TestCase
         $connection = $this->newConnectionMock();
 
         $attributes = [
-            'cn' => ['John Doe'],
+            'cn'        => ['John Doe'],
             'givenname' => ['John'],
-            'sn' => ['Doe'],
+            'sn'        => ['Doe'],
         ];
 
         $dn = 'cn=John Doe,ou=Accounting,dc=corp,dc=org';
@@ -351,10 +351,10 @@ class ModelTest extends TestCase
         $returnedRaw = [
             'count' => 1,
             [
-                'cn' => ['John Doe'],
+                'cn'        => ['John Doe'],
                 'givenname' => ['John'],
-                'sn' => ['Doe'],
-                'dn' => $dn,
+                'sn'        => ['Doe'],
+                'dn'        => $dn,
             ],
         ];
 
@@ -413,19 +413,19 @@ class ModelTest extends TestCase
 
         $modifications = [
             [
-                'attrib' => 'cn',
+                'attrib'  => 'cn',
                 'modtype' => 1,
-                'values' => [
+                'values'  => [
                     'John Doe',
-                ]
+                ],
             ],
             [
-                'attrib' => 'sn',
+                'attrib'  => 'sn',
                 'modtype' => 1,
-                'values' => [
+                'values'  => [
                     'Doe',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $connection->shouldReceive('read')->andReturn($connection);
@@ -554,13 +554,13 @@ class ModelTest extends TestCase
     {
         $rawAttributes = [
             'count' => 1,
-            'one' => [
+            'one'   => [
                 'count' => 1,
-                'two' => [
+                'two'   => [
                     'count' => 1,
                     'three' => [
                         'count' => 1,
-                        'four' => [
+                        'four'  => [
                             'count' => 1,
                         ],
                     ],
@@ -653,7 +653,7 @@ class ModelTest extends TestCase
             '(objectclass=*)',
             ['*'],
             false,
-            1
+            1,
         ];
 
         $connection->shouldReceive('add')->once()->withArgs($addArgs)->andReturn(true);
@@ -710,7 +710,7 @@ class ModelTest extends TestCase
 
         $model->setRawAttributes(compact('dn'));
 
-        $connection->shouldReceive('read')->once()->withArgs([$dn, "(objectclass=*)", ['*'], false, 1]);
+        $connection->shouldReceive('read')->once()->withArgs([$dn, '(objectclass=*)', ['*'], false, 1]);
         $connection->shouldReceive('getEntries')->once()->andReturn(['count' => 1, ['dn' => 'cn=Jane Doe']]);
 
         $this->assertTrue($model->syncRaw());
@@ -732,7 +732,7 @@ class ModelTest extends TestCase
         $model = $this->newModel([], $builder)
             ->setRawAttributes([
                 'dn' => 'cn=John Doe,dc=acme,dc=org',
-                'cn' => ['John Doe']
+                'cn' => ['John Doe'],
             ]);
 
         $model->addModification($modification);
@@ -862,7 +862,7 @@ class ModelTest extends TestCase
         ]);
 
         $this->assertEquals([
-            'proxyaddresses' => [0 => 'one']
+            'proxyaddresses' => [0 => 'one'],
         ], $model->getDirty());
     }
 
@@ -889,7 +889,7 @@ class ModelTest extends TestCase
             'proxyaddresses' => [
                 0 => 'three',
                 1 => 'two',
-            ]
+            ],
         ], $model->getDirty());
     }
 
@@ -915,7 +915,7 @@ class ModelTest extends TestCase
         $this->assertEquals(['cn' => [null]], $model->getDirty());
 
         $this->assertEquals([0 => [
-            'attrib' => 'cn',
+            'attrib'  => 'cn',
             'modtype' => 18,
         ]], $model->getModifications());
     }
@@ -963,9 +963,9 @@ class ModelTest extends TestCase
     public function test_case_sensitivity_for_setting_and_retrieving_attributes()
     {
         $m = $this->newModel([
-            'CN' => 'John Doe',
+            'CN'        => 'John Doe',
             'givenName' => 'Doe, John',
-            'memberOf' => [],
+            'memberOf'  => [],
         ]);
 
         $this->assertEquals('John Doe', $m->getFirstAttribute('cn'));
@@ -975,7 +975,7 @@ class ModelTest extends TestCase
         $this->assertEquals([], $m->getAttribute('memberof'));
         $this->assertEquals([], $m->getAttribute('mEMBEROF'));
     }
-    
+
     public function test_creating_entry_without_valid_dn_throws_exception()
     {
         $this->expectException(\UnexpectedValueException::class);
@@ -1001,7 +1001,7 @@ class ModelTest extends TestCase
         $d->listen(Creating::class, function (Creating $e) use (&$firedCreating) {
             $this->assertInstanceOf(Model::class, $e->getModel());
 
-             $firedCreating = true;
+            $firedCreating = true;
         });
 
         $d->listen(Created::class, function (Created $e) use (&$firedCreated) {
@@ -1030,7 +1030,7 @@ class ModelTest extends TestCase
         $m = $this->newModel([], $this->newBuilder($c));
 
         $m->setRawAttributes([
-            'dn' => 'cn=jdoe,dc=acme,dc=org'
+            'dn' => 'cn=jdoe,dc=acme,dc=org',
         ]);
 
         $d = Adldap::getEventDispatcher();
@@ -1056,7 +1056,7 @@ class ModelTest extends TestCase
             ->shouldReceive('getEntries')->once();
 
         $m->save([
-            'cn' => 'new'
+            'cn' => 'new',
         ]);
 
         $this->assertTrue($firedUpdating);
@@ -1070,7 +1070,7 @@ class ModelTest extends TestCase
         $m = $this->newModel([], $this->newBuilder($c));
 
         $m->setRawAttributes([
-            'dn' => 'cn=jdoe,dc=acme,dc=org'
+            'dn' => 'cn=jdoe,dc=acme,dc=org',
         ]);
 
         $d = Adldap::getEventDispatcher();
@@ -1105,7 +1105,7 @@ class ModelTest extends TestCase
         $m = $this->newModel([], $this->newBuilder($c));
 
         $m->setRawAttributes([
-            'dn' => 'cn=jdoe,dc=acme,dc=org'
+            'dn' => 'cn=jdoe,dc=acme,dc=org',
         ]);
 
         $d = Adldap::getEventDispatcher();
@@ -1116,7 +1116,7 @@ class ModelTest extends TestCase
         $d->listen('Adldap\Models\Events\*', function ($event, $payload) use (&$firedDeleting, &$firedDeleted) {
             if ($event == 'Adldap\Models\Events\Deleting') {
                 $firedDeleting = true;
-            } else if ($event == 'Adldap\Models\Events\Deleted') {
+            } elseif ($event == 'Adldap\Models\Events\Deleted') {
                 $firedDeleted = true;
             }
         });

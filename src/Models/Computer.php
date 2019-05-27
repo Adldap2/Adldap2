@@ -3,11 +3,9 @@
 namespace Adldap\Models;
 
 /**
- * Class Computer
+ * Class Computer.
  *
  * Represents an LDAP computer / server.
- *
- * @package Adldap\Models
  */
 class Computer extends Entry
 {

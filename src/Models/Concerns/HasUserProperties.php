@@ -112,6 +112,7 @@ trait HasUserProperties
     {
         return $this->getFirstAttribute($this->schema->firstName());
     }
+
     /**
      * Sets the users first name.
      *
@@ -148,7 +149,7 @@ trait HasUserProperties
 
     /**
      * Returns the users IP Phone.
-     * 
+     *
      * @return string|null
      */
     public function getIpPhone()
@@ -179,6 +180,7 @@ trait HasUserProperties
     {
         return $this->getFirstAttribute($this->schema->lastName());
     }
+
     /**
      * Sets the users last name.
      *
@@ -351,7 +353,7 @@ trait HasUserProperties
 
     /**
      * Returns the users primary mobile phone number.
-     * 
+     *
      * @return string|null
      */
     public function getMobileNumber()
@@ -373,7 +375,7 @@ trait HasUserProperties
 
     /**
      * Returns the users secondary (other) mobile phone number.
-     * 
+     *
      * @return string|null
      */
     public function getOtherMobileNumber()

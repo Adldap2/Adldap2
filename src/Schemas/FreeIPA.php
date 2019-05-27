@@ -11,7 +11,7 @@ class FreeIPA extends Schema
     {
         return 'uid';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -35,7 +35,7 @@ class FreeIPA extends Schema
     {
         return 'ipausergroup';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -75,7 +75,7 @@ class FreeIPA extends Schema
     {
         return 'lockouttime';
     }
-    
+
     /**
      * {@inheritdoc}
      */

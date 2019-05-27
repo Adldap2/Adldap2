@@ -2,12 +2,12 @@
 
 namespace Adldap\Log;
 
-use ReflectionClass;
-use Psr\Log\LoggerInterface;
-use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Event as AuthEvent;
+use Adldap\Auth\Events\Failed;
 use Adldap\Models\Events\Event as ModelEvent;
 use Adldap\Query\Events\QueryExecuted as QueryEvent;
+use Psr\Log\LoggerInterface;
+use ReflectionClass;
 
 class EventLogger
 {
@@ -37,9 +37,9 @@ class EventLogger
     {
         if ($event instanceof AuthEvent) {
             $this->auth($event);
-        } else if ($event instanceof ModelEvent) {
+        } elseif ($event instanceof ModelEvent) {
             $this->model($event);
-        } else if ($event instanceof QueryEvent) {
+        } elseif ($event instanceof QueryEvent) {
             $this->query($event);
         }
     }
@@ -57,9 +57,9 @@ class EventLogger
             $connection = $event->getConnection();
 
             $message = "LDAP ({$connection->getHost()})"
-                . " - Connection: {$connection->getName()}"
-                . " - Operation: {$this->getOperationName($event)}"
-                . " - Username: {$event->getUsername()}";
+                ." - Connection: {$connection->getName()}"
+                ." - Operation: {$this->getOperationName($event)}"
+                ." - Username: {$event->getUsername()}";
 
             $result = null;
             $type = 'info';
@@ -68,7 +68,7 @@ class EventLogger
                 $type = 'warning';
                 $result = " - Reason: {$connection->getLastError()}";
             }
-            
+
             $this->logger->$type($message.$result);
         }
     }
@@ -90,10 +90,10 @@ class EventLogger
             $connection = $model->getQuery()->getConnection();
 
             $message = "LDAP ({$connection->getHost()})"
-                . " - Connection: {$connection->getName()}"
-                . " - Operation: {$this->getOperationName($event)}"
-                . " - On: {$on}"
-                . " - Distinguished Name: {$model->getDn()}";
+                ." - Connection: {$connection->getName()}"
+                ." - Operation: {$this->getOperationName($event)}"
+                ." - On: {$on}"
+                ." - Distinguished Name: {$model->getDn()}";
 
             $this->logger->info($message);
         }
@@ -116,12 +116,12 @@ class EventLogger
             $selected = implode(',', $query->getSelects());
 
             $message = "LDAP ({$connection->getHost()})"
-                . " - Connection: {$connection->getName()}"
-                . " - Operation: {$this->getOperationName($event)}"
-                . " - Base DN: {$query->getDn()}"
-                . " - Filter: {$query->getUnescapedQuery()}"
-                . " - Selected: ({$selected})"
-                . " - Time Elapsed: {$event->getTime()}";
+                ." - Connection: {$connection->getName()}"
+                ." - Operation: {$this->getOperationName($event)}"
+                ." - Base DN: {$query->getDn()}"
+                ." - Filter: {$query->getUnescapedQuery()}"
+                ." - Selected: ({$selected})"
+                ." - Time Elapsed: {$event->getTime()}";
 
             $this->logger->info($message);
         }

@@ -4,9 +4,9 @@ namespace Adldap\tests\Models;
 
 use Adldap\Models\Group;
 use Adldap\Query\Builder;
-use Adldap\Tests\TestCase;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
+use Adldap\Tests\TestCase;
 use Illuminate\Support\Collection;
 
 class GroupTest extends TestCase
@@ -22,7 +22,7 @@ class GroupTest extends TestCase
     {
         $expected = $this->newGroupModel([
             'cn' => ['test1'],
-            'dn' => 'cn=test1,dc=corp,dc=org'
+            'dn' => 'cn=test1,dc=corp,dc=org',
         ], $this->newBuilder());
 
         $builder = $this->mock(Builder::class);
@@ -48,7 +48,7 @@ class GroupTest extends TestCase
     {
         $expected = $this->newGroupModel([
             'cn' => ['test1'],
-            'dn' => 'cn=test1,dc=corp,dc=org'
+            'dn' => 'cn=test1,dc=corp,dc=org',
         ], $this->newBuilder());
 
         $builder = $this->mock(Builder::class);
@@ -95,20 +95,20 @@ class GroupTest extends TestCase
         $expectedMembers = [
             $this->newGroupModel([
                 'cn' => ['test1'],
-                'dn' => 'cn=test1,dc=corp,dc=org'
+                'dn' => 'cn=test1,dc=corp,dc=org',
             ], $builder),
             $this->newGroupModel([
                 'cn' => ['test2'],
-                'dn' => 'cn=test2,dc=corp,dc=org'
+                'dn' => 'cn=test2,dc=corp,dc=org',
             ], $builder),
             $this->newGroupModel([
                 'cn' => ['test3'],
-                'dn' => 'cn=test3,dc=corp,dc=org'
+                'dn' => 'cn=test3,dc=corp,dc=org',
             ], $builder),
             $this->newGroupModel([
                 'cn' => ['test4'],
-                'dn' => 'cn=test4,dc=corp,dc=org'
-            ], $builder)
+                'dn' => 'cn=test4,dc=corp,dc=org',
+            ], $builder),
         ];
 
         $expectedGroup = $this->newGroupModel([
@@ -142,7 +142,7 @@ class GroupTest extends TestCase
                 'cn=test1,dc=corp,dc=org',
                 'cn=test2,dc=corp,dc=org',
                 'cn=test3,dc=corp,dc=org',
-            ]
+            ],
         ], $this->newBuilder());
 
         $this->assertEquals([
@@ -158,7 +158,7 @@ class GroupTest extends TestCase
 
         $dns = [
             'cn=John Doe,dc=acme,dc=org',
-            'cn=Jane Doe,dc=acme,dc=org'
+            'cn=Jane Doe,dc=acme,dc=org',
         ];
 
         $builder
@@ -260,10 +260,10 @@ class GroupTest extends TestCase
             'cn=All Groups,dc=acme,dc=org',
             [
                 [
-                    'attrib' => 'member',
+                    'attrib'  => 'member',
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
-                    'values' => $members,
-                ]
+                    'values'  => $members,
+                ],
             ])->andReturn(true);
 
         $connection
@@ -295,10 +295,10 @@ class GroupTest extends TestCase
             'cn=All Groups,dc=acme,dc=org',
             [
                 [
-                    'attrib' => 'member',
+                    'attrib'  => 'member',
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
-                    'values' => $dns,
-                ]
+                    'values'  => $dns,
+                ],
             ])->andReturn(true);
 
         $connection
@@ -326,10 +326,10 @@ class GroupTest extends TestCase
             'cn=All Groups,dc=acme,dc=org',
             [
                 [
-                    'attrib' => 'member',
+                    'attrib'  => 'member',
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
-                    'values' => ['cn=Accounting,dc=acme,dc=org']
-                ]
+                    'values'  => ['cn=Accounting,dc=acme,dc=org'],
+                ],
             ])->andReturn(true);
 
         $connection
@@ -357,10 +357,10 @@ class GroupTest extends TestCase
             'cn=All Groups,dc=acme,dc=org',
             [
                 [
-                    'attrib' => 'member',
+                    'attrib'  => 'member',
                     'modtype' => LDAP_MODIFY_BATCH_REMOVE,
-                    'values' => ['cn=Accounting,dc=acme,dc=org']
-                ]
+                    'values'  => ['cn=Accounting,dc=acme,dc=org'],
+                ],
             ])->andReturn(true);
 
         $connection

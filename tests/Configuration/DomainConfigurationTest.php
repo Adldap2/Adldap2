@@ -2,8 +2,8 @@
 
 namespace Adldap\tests\Configuration;
 
-use Adldap\Tests\TestCase;
 use Adldap\Configuration\DomainConfiguration;
+use Adldap\Tests\TestCase;
 
 class DomainConfigurationTest extends TestCase
 {
@@ -27,17 +27,17 @@ class DomainConfigurationTest extends TestCase
         $config = new DomainConfiguration([
             'port'               => 500,
             'base_dn'            => 'dc=corp,dc=org',
-            'hosts' => ['dc1', 'dc2'],
+            'hosts'              => ['dc1', 'dc2'],
             'follow_referrals'   => false,
-            'username'     => 'username',
-            'password'     => 'password',
-            'account_prefix' => 'prefix',
-            'account_suffix' => 'suffix',
+            'username'           => 'username',
+            'password'           => 'password',
+            'account_prefix'     => 'prefix',
+            'account_suffix'     => 'suffix',
             'use_ssl'            => true,
             'use_tls'            => false,
             'custom_options'     => [
-                LDAP_OPT_SIZELIMIT => 1000
-            ]
+                LDAP_OPT_SIZELIMIT => 1000,
+            ],
         ]);
 
         $this->assertEquals(500, $config->get('port'));
@@ -51,7 +51,7 @@ class DomainConfigurationTest extends TestCase
         $this->assertFalse($config->get('use_tls'));
         $this->assertEquals(
             [
-                LDAP_OPT_SIZELIMIT => 1000
+                LDAP_OPT_SIZELIMIT => 1000,
             ],
             $config->get('custom_options')
         );

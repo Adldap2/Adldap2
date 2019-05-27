@@ -3,8 +3,8 @@
 namespace Adldap\Connections;
 
 use Adldap\Auth\GuardInterface;
-use Adldap\Schemas\SchemaInterface;
 use Adldap\Configuration\DomainConfiguration;
+use Adldap\Schemas\SchemaInterface;
 
 interface ProviderInterface
 {

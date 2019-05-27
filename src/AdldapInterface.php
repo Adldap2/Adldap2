@@ -2,8 +2,8 @@
 
 namespace Adldap;
 
-use Adldap\Connections\ProviderInterface;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Connections\ProviderInterface;
 
 interface AdldapInterface
 {
@@ -14,9 +14,9 @@ interface AdldapInterface
      * @param string              $name
      * @param ConnectionInterface $connection
      *
-     * @return $this
-     *
      * @throws \InvalidArgumentException When an invalid type is given as the configuration argument.
+     *
+     * @return $this
      */
     public function addProvider($configuration, $name, ConnectionInterface $connection = null);
 

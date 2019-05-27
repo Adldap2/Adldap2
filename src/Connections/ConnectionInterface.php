@@ -41,7 +41,7 @@ interface ConnectionInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param string|null $name The connection name.
      */
     public function __construct($name = null);
@@ -103,7 +103,7 @@ interface ConnectionInterface
 
     /**
      * Returns the connections name.
-     * 
+     *
      * @return string|null
      */
     public function getName();
@@ -321,9 +321,9 @@ interface ConnectionInterface
      * @param string $dn
      * @param $filter
      * @param array $fields
-     * @param bool   $onlyAttributes
-     * @param int    $size
-     * @param int    $time
+     * @param bool  $onlyAttributes
+     * @param int   $size
+     * @param int   $time
      *
      * @return mixed
      */
@@ -408,7 +408,7 @@ interface ConnectionInterface
 
     /**
      * Add attribute values to current attributes.
-     * 
+     *
      * @link http://php.net/manual/en/function.ldap-mod-add.php
      *
      * @param string $dn

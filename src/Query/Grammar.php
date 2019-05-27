@@ -41,7 +41,7 @@ class Grammar
 
         // We need to check if the query is already nested, otherwise
         // we'll nest it here and return the result.
-        if (! $builder->isNested()) {
+        if (!$builder->isNested()) {
             $total = count($ands) + count($raws);
 
             // Make sure we wrap the query in an 'and' if using

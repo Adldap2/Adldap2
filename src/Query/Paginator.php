@@ -2,8 +2,8 @@
 
 namespace Adldap\Query;
 
-use Countable;
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
 
 class Paginator implements Countable, IteratorAggregate

@@ -24,14 +24,17 @@ use Adldap\Schemas\SchemaInterface;
  */
 class Factory
 {
+    /**
+     * The model scope map.
+     */
     const MODEL_SCOPES = [
-        Computer::class           => 'computers',
-        Contact::class            => 'contacts',
-        Container::class          => 'containers',
-        Group::class              => 'groups',
-        OrganizationalUnit::class => 'ous',
-        Printer::class            => 'printers',
         User::class               => 'users',
+        Group::class              => 'groups',
+        Printer::class            => 'printers',
+        Contact::class            => 'contacts',
+        Computer::class           => 'computers',
+        Container::class          => 'containers',
+        OrganizationalUnit::class => 'ous',
     ];
 
     /**

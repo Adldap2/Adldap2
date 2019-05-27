@@ -26,7 +26,7 @@ class UserTest extends TestCase
     public function test_get_scoped_query_builder_on_static_call()
     {
         $providers = [
-            'first' => new Provider(),
+            'first'  => new Provider(),
             'second' => new Provider(),
         ];
 

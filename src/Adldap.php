@@ -138,7 +138,7 @@ class Adldap implements AdldapInterface
         try {
             return $this->providerContainer->getDefault();
         } catch (ProviderContainerException $exception) {
-            throw new AdldapException("No default connection provider exist.");
+            throw new AdldapException('No default connection provider exist.');
         }
     }
 

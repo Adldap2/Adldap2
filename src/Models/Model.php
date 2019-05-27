@@ -109,8 +109,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     protected static function mapToScope()
     {
-        if (! array_key_exists(get_called_class(), Factory::MODEL_SCOPES)) {
-            throw new InvalidArgumentException(get_called_class() . ' not a scopable model.');
+        if (!array_key_exists(get_called_class(), Factory::MODEL_SCOPES)) {
+            throw new InvalidArgumentException(get_called_class().' not a scopable model.');
         }
 
         return Factory::MODEL_SCOPES[get_called_class()];

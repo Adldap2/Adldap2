@@ -93,13 +93,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * Returns a scoped instance of builder with the given provider. If no provider name
      * is given then it will attempt to get the default provider.
      *
-     * @param null $provider_name
+     * @param null $providerName
      *
      * @return Builder
      */
-    public static function query($provider_name = null)
+    public static function query($providerName = null)
     {
-        return call_user_func_array([static::factory($provider_name), static::mapToScope()], []);
+        return call_user_func_array([static::factory($providerName), static::mapToScope()], []);
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     protected static function mapToScope()
     {
         if (!array_key_exists(get_called_class(), Factory::MODEL_SCOPES)) {
-            throw new InvalidArgumentException(get_called_class().' not a scopable model.');
+            throw new InvalidArgumentException(get_called_class().' is not a scopeable model.');
         }
 
         return Factory::MODEL_SCOPES[get_called_class()];
@@ -119,13 +119,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns a Factory with the given Provider or the default Provider if none specified.
      *
-     * @param string|null $provider_name
+     * @param string|null $providerName
      *
      * @return Factory
      */
-    protected static function factory($provider_name = null)
+    protected static function factory($providerName = null)
     {
-        return  ProviderContainer::getInstance()->get($provider_name)->search();
+        return ProviderContainer::getInstance()->get($providerName)->search();
     }
 
     /**

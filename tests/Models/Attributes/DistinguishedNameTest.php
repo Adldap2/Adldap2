@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Models\Attributes;
 
-use Adldap\Tests\TestCase;
 use Adldap\Models\Attributes\DistinguishedName;
+use Adldap\Tests\TestCase;
 
 class DistinguishedNameTest extends TestCase
 {
@@ -166,11 +166,11 @@ class DistinguishedNameTest extends TestCase
         $dn->setBase($base);
 
         $components = [
-            'cn' => ['John Doe'],
+            'cn'  => ['John Doe'],
             'uid' => [],
-            'ou' => ['Users'],
-            'dc' => ['acme', 'org'],
-            'o' => [],
+            'ou'  => ['Users'],
+            'dc'  => ['acme', 'org'],
+            'o'   => [],
         ];
 
         $this->assertEquals($base, $dn->get());
@@ -182,11 +182,11 @@ class DistinguishedNameTest extends TestCase
         $dn = new DistinguishedName('cn=,ou=,dc=,');
 
         $components = [
-            'cn' => [],
+            'cn'  => [],
             'uid' => [],
-            'ou' => [],
-            'dc' => [],
-            'o' => [],
+            'ou'  => [],
+            'dc'  => [],
+            'o'   => [],
         ];
 
         $this->assertEquals('', $dn->get());

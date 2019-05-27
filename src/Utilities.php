@@ -63,7 +63,7 @@ class Utilities
         // ID - 32bit unsigned long, big-endian order
         $sid = @unpack('C1rev/C1count/x2/N1id', $value);
 
-        if (! isset($sid['id']) || ! isset($sid['rev'])) {
+        if (!isset($sid['id']) || !isset($sid['rev'])) {
             return;
         }
 
@@ -131,11 +131,11 @@ class Utilities
      */
     public static function stringGuidToHex($string)
     {
-        $hex = '\\' . substr($string, 6, 2) . '\\' . substr($string, 4, 2) . '\\' . substr($string, 2, 2) . '\\' . substr($string, 0, 2);
-        $hex = $hex . '\\' . substr($string, 11, 2) . '\\' . substr($string, 9, 2);
-        $hex = $hex . '\\' . substr($string, 16, 2) . '\\' . substr($string, 14, 2);
-        $hex = $hex . '\\' . substr($string, 19, 2) . '\\' . substr($string, 21, 2);
-        $hex = $hex . '\\' . substr($string, 24, 2) . '\\' . substr($string, 26, 2) . '\\' . substr($string, 28, 2) . '\\' . substr($string, 30, 2) . '\\' . substr($string, 32, 2) . '\\' . substr($string, 34, 2);
+        $hex = '\\'.substr($string, 6, 2).'\\'.substr($string, 4, 2).'\\'.substr($string, 2, 2).'\\'.substr($string, 0, 2);
+        $hex = $hex.'\\'.substr($string, 11, 2).'\\'.substr($string, 9, 2);
+        $hex = $hex.'\\'.substr($string, 16, 2).'\\'.substr($string, 14, 2);
+        $hex = $hex.'\\'.substr($string, 19, 2).'\\'.substr($string, 21, 2);
+        $hex = $hex.'\\'.substr($string, 24, 2).'\\'.substr($string, 26, 2).'\\'.substr($string, 28, 2).'\\'.substr($string, 30, 2).'\\'.substr($string, 32, 2).'\\'.substr($string, 34, 2);
 
         return $hex;
     }

@@ -2,15 +2,15 @@
 
 namespace Adldap;
 
-use InvalidArgumentException;
-use Adldap\Log\EventLogger;
-use Adldap\Log\LogsInformation;
-use Adldap\Events\DispatchesEvents;
+use Adldap\Configuration\DomainConfiguration;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Connections\ProviderInterface;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Configuration\DomainConfiguration;
+use Adldap\Events\DispatchesEvents;
+use Adldap\Log\EventLogger;
+use Adldap\Log\LogsInformation;
+use InvalidArgumentException;
 
 class Adldap implements AdldapInterface
 {
@@ -143,7 +143,7 @@ class Adldap implements AdldapInterface
     public function connect($name = null, $username = null, $password = null)
     {
         $provider = $name ? $this->getProvider($name) : $this->getDefaultProvider();
-        
+
         return $provider->connect($username, $password);
     }
 
@@ -154,7 +154,7 @@ class Adldap implements AdldapInterface
     {
         $provider = $this->getDefaultProvider();
 
-        if (! $provider->getConnection()->isBound()) {
+        if (!$provider->getConnection()->isBound()) {
             // We'll make sure we have a bound connection before
             // allowing dynamic calls on the default provider.
             $provider->connect();

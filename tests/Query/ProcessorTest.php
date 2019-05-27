@@ -3,9 +3,9 @@
 namespace Adldap\Tests\Query;
 
 use Adldap\Models\Entry;
-use Adldap\Tests\TestCase;
 use Adldap\Query\Processor;
 use Adldap\Schemas\SchemaInterface;
+use Adldap\Tests\TestCase;
 
 class ProcessorTest extends TestCase
 {

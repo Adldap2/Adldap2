@@ -1,15 +1,14 @@
 <?php
 
-
 namespace Adldap\Tests\Models\Attributes;
 
-use Adldap\Models\Entry;
-use Adldap\Models\Group;
-use Adldap\Models\Printer;
-use Adldap\Models\RootDse;
 use Adldap\Models\Computer;
 use Adldap\Models\Container;
+use Adldap\Models\Entry;
+use Adldap\Models\Group;
 use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\Printer;
+use Adldap\Models\RootDse;
 use Adldap\Tests\TestCase;
 
 class AccessorAndMutatorTest extends TestCase
@@ -317,12 +316,12 @@ class AccessorAndMutatorTest extends TestCase
 
         $this->assertEquals([
             'count' => 6,
-            0 => 'Person',
-            1 => 'Schema',
-            2 => 'Configuration',
-            3 => 'corp',
-            4 => 'acme',
-            5 => 'org',
+            0       => 'Person',
+            1       => 'Schema',
+            2       => 'Configuration',
+            3       => 'corp',
+            4       => 'acme',
+            5       => 'org',
         ], $m->getObjectCategoryArray());
     }
 

@@ -12,11 +12,11 @@ class DistinguishedName
      * @var array
      */
     protected $components = [
-        'cn' => [],
+        'cn'  => [],
         'uid' => [],
-        'ou' => [],
-        'dc' => [],
-        'o' => [],
+        'ou'  => [],
+        'dc'  => [],
+        'o'   => [],
     ];
 
     /**
@@ -272,7 +272,7 @@ class DistinguishedName
         $this->validateComponentExists($component);
 
         // We need to make sure the value we're given isn't empty before adding it into our components.
-        if (! empty($value)) {
+        if (!empty($value)) {
             $this->components[$component][] = $value;
         }
     }
@@ -305,7 +305,7 @@ class DistinguishedName
      */
     protected function validateComponentExists($component)
     {
-        if (! array_key_exists($component, $this->components)) {
+        if (!array_key_exists($component, $this->components)) {
             throw new \UnexpectedValueException("The RDN component '$component' does not exist.");
         }
     }

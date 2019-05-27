@@ -2,29 +2,27 @@
 
 namespace Adldap\Models;
 
-use DateTime;
-use ArrayAccess;
-use JsonSerializable;
-use InvalidArgumentException;
-use UnexpectedValueException;
-use Illuminate\Support\Arr;
-use Adldap\Utilities;
+use Adldap\Connections\ConnectionException;
+use Adldap\Models\Attributes\DistinguishedName;
+use Adldap\Models\Attributes\Guid;
+use Adldap\Models\Attributes\MbString;
+use Adldap\Models\Attributes\Sid;
 use Adldap\Query\Builder;
 use Adldap\Query\Collection;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Models\Attributes\Sid;
-use Adldap\Models\Attributes\Guid;
-use Adldap\Models\Attributes\MbString;
-use Adldap\Models\Attributes\DistinguishedName;
-use Adldap\Connections\ConnectionException;
+use Adldap\Utilities;
+use ArrayAccess;
+use DateTime;
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
+use JsonSerializable;
+use UnexpectedValueException;
 
 /**
- * Class Model
+ * Class Model.
  *
  * Represents an LDAP record and provides the ability
  * to modify / retrieve data from the record.
- *
- * @package Adldap\Models
  */
 abstract class Model implements ArrayAccess, JsonSerializable
 {
@@ -65,7 +63,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @param array   $attributes
      * @param Builder $builder
      */
-    public function __construct(array $attributes = [], Builder $builder)
+    public function __construct(array $attributes, Builder $builder)
     {
         $this->setQuery($builder)
             ->setSchema($builder->getSchema())
@@ -224,12 +222,12 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $attributes = $this->getAttributes();
 
-        array_walk_recursive($attributes, function(&$val) {
+        array_walk_recursive($attributes, function (&$val) {
             if (MbString::isLoaded()) {
                 // If we're able to detect the attribute
                 // encoding, we'll encode only the
                 // attributes that need to be.
-                if (! MbString::isUtf8($val)) {
+                if (!MbString::isUtf8($val)) {
                     $val = utf8_encode($val);
                 }
             } else {
@@ -244,7 +242,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
         // their string equivalents for convenience.
         return array_replace($attributes, [
             $this->schema->objectGuid() => $this->getConvertedGuid(),
-            $this->schema->objectSid() => $this->getConvertedSid(),
+            $this->schema->objectSid()  => $this->getConvertedSid(),
         ]);
     }
 
@@ -257,7 +255,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         $model = $this->query->newInstance()->findByDn($this->getDn());
 
-        return $model instanceof Model ? $model : null;
+        return $model instanceof self ? $model : null;
     }
 
     /**
@@ -769,7 +767,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function setManagedBy($dn)
     {
-        if ($dn instanceof Model) {
+        if ($dn instanceof self) {
             $dn = $dn->getDn();
         }
 
@@ -810,7 +808,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function inOu($ou, $strict = false)
     {
-        if ($ou instanceof Model) {
+        if ($ou instanceof self) {
             // If we've been given an OU model, we can
             // just check if the OU's DN is inside
             // the current models DN.
@@ -997,7 +995,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * Delete specific values in attributes:
      *
      *     ["memberuid" => "username"]
-     * 
+     *
      * Delete an entire attribute:
      *
      *     ["memberuid" => []]
@@ -1087,7 +1085,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         // If the current model has an empty RDN, we can't move it.
         if ((int) Arr::first($parts) === 0) {
-            throw new UnexpectedValueException("Current model does not contain an RDN to move.");
+            throw new UnexpectedValueException('Current model does not contain an RDN to move.');
         }
 
         // Looks like we have a DN. We'll retrieve the leftmost RDN (the identifier).
@@ -1107,7 +1105,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public function rename($rdn, $newParentDn = null, $deleteOldRdn = true)
     {
-        if ($newParentDn instanceof Model) {
+        if ($newParentDn instanceof self) {
             $newParentDn = $newParentDn->getDn();
         }
 
@@ -1203,13 +1201,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     protected function validateSecureConnection()
     {
-        if (! $this->query->getConnection()->canChangePasswords()) {
+        if (!$this->query->getConnection()->canChangePasswords()) {
             throw new ConnectionException(
-                "You must be connected to your LDAP server with TLS or SSL to perform this operation."
+                'You must be connected to your LDAP server with TLS or SSL to perform this operation.'
             );
         }
     }
-    
+
     /**
      * Converts the inserted string boolean to a PHP boolean.
      *

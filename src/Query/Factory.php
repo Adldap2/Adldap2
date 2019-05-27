@@ -2,17 +2,16 @@
 
 namespace Adldap\Query;
 
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Models\RootDse;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Connections\ConnectionInterface;
 
 /**
  * Adldap2 Search Factory.
  *
  * Constructs new LDAP queries.
  *
- * @package Adldap\Search
  *
  * @mixin Builder
  */
@@ -41,8 +40,8 @@ class Factory
      * Constructor.
      *
      * @param ConnectionInterface  $connection The connection to use when constructing a new query.
-     * @param SchemaInterface|null $schema The schema to use for the query and models located.
-     * @param string               $baseDn The base DN to use for all searches.
+     * @param SchemaInterface|null $schema     The schema to use for the query and models located.
+     * @param string               $baseDn     The base DN to use for all searches.
      */
     public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {
@@ -124,7 +123,7 @@ class Factory
     {
         $wheres = [
             [$this->schema->objectClass(), Operator::$equals, $this->schema->objectClassUser()],
-            [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()]
+            [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()],
         ];
 
         // OpenLDAP doesn't like specifying the omission of user objectclasses

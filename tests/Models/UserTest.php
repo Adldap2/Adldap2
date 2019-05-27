@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Models;
 
-use DateTime;
-use Adldap\Utilities;
-use Adldap\Models\User;
-use Adldap\Models\Entry;
-use Adldap\Query\Builder;
-use Adldap\Tests\TestCase;
 use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSProperty;
 use Adldap\Models\Attributes\TSPropertyArray;
+use Adldap\Models\Entry;
+use Adldap\Models\User;
+use Adldap\Query\Builder;
+use Adldap\Tests\TestCase;
+use Adldap\Utilities;
+use DateTime;
 
 class UserTest extends TestCase
 {
@@ -154,7 +154,7 @@ class UserTest extends TestCase
     {
         $model = $this->newUserModel();
 
-        $model->setUserWorkstations(['ONE','TWO','THREE']);
+        $model->setUserWorkstations(['ONE', 'TWO', 'THREE']);
 
         $this->assertEquals('ONE,TWO,THREE', $model->getFirstAttribute('userworkstations'));
 
@@ -169,7 +169,7 @@ class UserTest extends TestCase
             'userworkstations' => 'ONE,TWO,THREE',
         ]);
 
-        $this->assertEquals(['ONE','TWO','THREE'], $model->getUserWorkstations());
+        $this->assertEquals(['ONE', 'TWO', 'THREE'], $model->getUserWorkstations());
 
         $model->userworkstations = 'ONE,';
 
@@ -177,7 +177,7 @@ class UserTest extends TestCase
 
         $model->userworkstations = 'ONE,TWO';
 
-        $this->assertEquals(['ONE','TWO'], $model->getUserWorkstations());
+        $this->assertEquals(['ONE', 'TWO'], $model->getUserWorkstations());
     }
 
     public function test_get_user_workstations_always_returns_array_when_empty_or_null()
@@ -305,7 +305,7 @@ class UserTest extends TestCase
     public function test_get_userparameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe', 'CtxWorkDirectory'=>'C:\\path\\']))->toBinary(),
         ]);
 
         $parameters = $model->getUserParameters();
@@ -319,7 +319,7 @@ class UserTest extends TestCase
     public function test_set_user_parameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe', 'CtxWorkDirectory'=>'C:\\path\\']))->toBinary(),
         ]);
 
         $parameters = $model->getUserParameters();
@@ -337,7 +337,7 @@ class UserTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $model = $this->newUserModel([
-            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe', 'CtxWorkDirectory'=>'C:\\path\\']))->toBinary(),
         ]);
 
         $parameters = $model->getUserParameters();
@@ -348,7 +348,7 @@ class UserTest extends TestCase
     public function test_add_user_parameters()
     {
         $model = $this->newUserModel([
-            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe','CtxWorkDirectory'=>'C:\\path\\']))->toBinary()
+            'userparameters' => (new TSPropertyArray(['CtxInitialProgram'=>'C:\\path\\bin.exe', 'CtxWorkDirectory'=>'C:\\path\\']))->toBinary(),
         ]);
 
         $parameters = $model->getUserParameters();

@@ -11,7 +11,7 @@ class OpenLDAP extends Schema
     {
         return 'uid';
     }
-    
+
     /**
      * {@inheritdoc}
      */

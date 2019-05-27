@@ -2,12 +2,12 @@
 
 namespace Adldap\Tests\Query;
 
-use DateTime;
+use Adldap\Connections\ConnectionInterface;
 use Adldap\Models\Model;
-use Adldap\Tests\TestCase;
 use Adldap\Query\Paginator;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Tests\TestCase;
+use DateTime;
 use Illuminate\Support\Collection;
 
 class BuilderTest extends TestCase
@@ -72,9 +72,9 @@ class BuilderTest extends TestCase
         $b = $this->newBuilder();
 
         $b->addFilter('and', [
-            'field' => 'cn',
+            'field'    => 'cn',
             'operator' => '=',
-            'value' => 'John Doe',
+            'value'    => 'John Doe',
         ]);
 
         $this->assertEquals('(cn=John Doe)', $b->getQuery());
@@ -87,7 +87,7 @@ class BuilderTest extends TestCase
 
         // Missing 'value' key.
         $this->newBuilder()->addFilter('and', [
-            'field' => 'cn',
+            'field'    => 'cn',
             'operator' => '=',
         ]);
     }
@@ -97,9 +97,9 @@ class BuilderTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->newBuilder()->addFilter('non-existent', [
-            'field' => 'cn',
+            'field'    => 'cn',
             'operator' => '=',
-            'value' => 'John Doe',
+            'value'    => 'John Doe',
         ]);
     }
 
@@ -108,9 +108,9 @@ class BuilderTest extends TestCase
         $b = $this->newBuilder();
 
         $b->addFilter('and', [
-            'field' => 'cn',
+            'field'    => 'cn',
             'operator' => '=',
-            'value' => 'John Doe',
+            'value'    => 'John Doe',
         ]);
 
         $this->assertEquals('(cn=John Doe)', $b->getQuery());
@@ -158,7 +158,7 @@ class BuilderTest extends TestCase
 
         $b->where([
             ['cn', '=', 'test'],
-            ['whencreated', '>=', 'test']
+            ['whencreated', '>=', 'test'],
         ]);
 
         $whereOne = $b->filters['and'][0];
@@ -335,7 +335,6 @@ class BuilderTest extends TestCase
         $this->assertEquals('cn', $where['field']);
         $this->assertEquals('contains', $where['operator']);
         $this->assertEquals('\74\65\73\74', $where['value']);
-
 
         $this->assertEquals('(&(name=*test*)(|(cn=*test*)))', $b->getUnescapedQuery());
     }
@@ -874,7 +873,7 @@ class BuilderTest extends TestCase
         $b = $this->newBuilder();
 
         $query = $b->notFilter(function ($query) {
-             $query->where([
+            $query->where([
                  'one' => 'one',
                  'two' => 'two',
              ]);
@@ -914,11 +913,11 @@ class BuilderTest extends TestCase
         })->andFilter(function ($query) {
             $query->where([
                 'three' => 'three',
-                'four' => 'four',
+                'four'  => 'four',
             ]);
         })->where([
             'five' => 'five',
-            'six' => 'six',
+            'six'  => 'six',
         ])->getUnescapedQuery();
 
         $this->assertEquals('(&(|(one=one)(two=two))(&(three=three)(four=four))(five=five)(six=six))', $query);
@@ -994,7 +993,7 @@ class BuilderTest extends TestCase
         $s->shouldReceive('objectClass')->andReturn('objectclass');
 
         $c
-            ->shouldReceive('read')->once()->with('cn=John Doe,dc=acme,dc=org', '(objectclass=*)',  [0 => '*'], false, 1)
+            ->shouldReceive('read')->once()->with('cn=John Doe,dc=acme,dc=org', '(objectclass=*)', [0 => '*'], false, 1)
             ->shouldReceive('getEntries')->once()->andReturn($rawEntries);
 
         $this->assertEquals($rawEntries[0], $b->raw()->findByDn($dn));
@@ -1036,7 +1035,6 @@ class BuilderTest extends TestCase
         $this->assertNull($b->find('jdoe', $select));
     }
 
-
     public function test_find_many_does_not_use_anr_when_using_other_ldap_distro()
     {
         $c = $this->mock(ConnectionInterface::class);
@@ -1060,7 +1058,7 @@ class BuilderTest extends TestCase
         $expectedOrFilters = [
             '(|(name=\6a\6f\68\6e)(mail=\6a\6f\68\6e)(uid=\6a\6f\68\6e)(sn=\6a\6f\68\6e)(givenname=\6a\6f\68\6e)(cn=\6a\6f\68\6e)(displayname=\6a\6f\68\6e))',
             '(|(name=\6a\61\6e\65)(mail=\6a\61\6e\65)(uid=\6a\61\6e\65)(sn=\6a\61\6e\65)(givenname=\6a\61\6e\65)(cn=\6a\61\6e\65)(displayname=\6a\61\6e\65))',
-            '(|(name=\73\75\65)(mail=\73\75\65)(uid=\73\75\65)(sn=\73\75\65)(givenname=\73\75\65)(cn=\73\75\65)(displayname=\73\75\65))'
+            '(|(name=\73\75\65)(mail=\73\75\65)(uid=\73\75\65)(sn=\73\75\65)(givenname=\73\75\65)(cn=\73\75\65)(displayname=\73\75\65))',
         ];
 
         $expectedFilter = sprintf('(&%s)', implode($expectedOrFilters));

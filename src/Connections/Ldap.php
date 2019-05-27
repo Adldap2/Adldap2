@@ -3,17 +3,15 @@
 namespace Adldap\Connections;
 
 /**
- * Class Ldap
+ * Class Ldap.
  *
  * A class that abstracts PHP's LDAP functions and stores the bound connection.
- *
- * @package Adldap\Connections
  */
 class Ldap implements ConnectionInterface
 {
     /**
      * The connection name.
-     * 
+     *
      * @var string|null
      */
     protected $name;
@@ -52,7 +50,7 @@ class Ldap implements ConnectionInterface
      * @var bool
      */
     protected $useTLS = false;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -205,8 +203,6 @@ class Ldap implements ConnectionInterface
 
             return new DetailedError($number, $this->err2Str($number), $message);
         }
-
-        return;
     }
 
     /**
@@ -261,7 +257,7 @@ class Ldap implements ConnectionInterface
     public function connect($hosts = [], $port = '389')
     {
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
-        
+
         return $this->connection = ldap_connect($this->host);
     }
 
@@ -307,7 +303,7 @@ class Ldap implements ConnectionInterface
         // Prior to binding, we will upgrade our connectivity to TLS on our current
         // connection and ensure we are not already bound before upgrading.
         // This is to prevent subsequent upgrading on several binds.
-        if ($this->isUsingTLS() && ! $this->isBound()) {
+        if ($this->isUsingTLS() && !$this->isBound()) {
             $this->startTLS();
         }
 
@@ -477,9 +473,9 @@ class Ldap implements ConnectionInterface
     /**
      * Generates an LDAP connection string for each host given.
      *
-     * @param string|array  $hosts
-     * @param string        $protocol
-     * @param string        $port
+     * @param string|array $hosts
+     * @param string       $protocol
+     * @param string       $port
      *
      * @return string
      */

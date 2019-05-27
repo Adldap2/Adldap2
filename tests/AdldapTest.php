@@ -3,9 +3,9 @@
 namespace Adldap\Tests;
 
 use Adldap\Adldap;
+use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
-use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\ProviderInterface;
 
 class AdldapTest extends TestCase
@@ -13,7 +13,7 @@ class AdldapTest extends TestCase
     public function test_construct()
     {
         $providers = [
-            'first' => new Provider(),
+            'first'  => new Provider(),
             'second' => new Provider(),
         ];
 
@@ -44,7 +44,7 @@ class AdldapTest extends TestCase
     public function test_get_providers()
     {
         $providers = [
-            'first' => new Provider(),
+            'first'  => new Provider(),
             'second' => new Provider(),
         ];
 
@@ -117,10 +117,10 @@ class AdldapTest extends TestCase
     {
         $ad = new Adldap([
             'test1' => [
-                'hosts' => ['test1.dc']
+                'hosts' => ['test1.dc'],
             ],
             'test2' => [
-                'hosts' => ['test2.dc']
+                'hosts' => ['test2.dc'],
             ],
         ]);
 

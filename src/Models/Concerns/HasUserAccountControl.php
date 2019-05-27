@@ -55,6 +55,6 @@ trait HasUserAccountControl
      */
     public function isEnabled()
     {
-        return $this->getUserAccountControl() === null ? false : ! $this->isDisabled();
+        return $this->getUserAccountControl() === null ? false : !$this->isDisabled();
     }
 }

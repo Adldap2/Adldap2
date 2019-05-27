@@ -2,17 +2,17 @@
 
 namespace Adldap\Query;
 
-use Closure;
-use InvalidArgumentException;
-use Illuminate\Support\Arr;
 use Adldap\Adldap;
-use Adldap\Utilities;
-use Adldap\Models\Model;
-use Adldap\Schemas\SchemaInterface;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Query\Events\QueryExecuted;
-use Adldap\Models\ModelNotFoundException;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Models\Model;
+use Adldap\Models\ModelNotFoundException;
+use Adldap\Query\Events\QueryExecuted;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Utilities;
+use Closure;
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 class Builder
 {
@@ -30,7 +30,7 @@ class Builder
      */
     public $filters = [
         'and' => [],
-        'or' => [],
+        'or'  => [],
         'raw' => [],
     ];
 
@@ -383,7 +383,7 @@ class Builder
                 // We'll collect each resource result into the pages array.
                 $pages[] = $resource;
             }
-        } while (! empty($cookie));
+        } while (!empty($cookie));
 
         $paginator = $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
 
@@ -428,7 +428,7 @@ class Builder
     {
         $record = $this->first($columns);
 
-        if (! $record) {
+        if (!$record) {
             throw (new ModelNotFoundException())
                 ->setQuery($this->getUnescapedQuery(), $this->getDn());
         }
@@ -487,7 +487,7 @@ class Builder
         }
 
         // If we're not using ActiveDirectory, we can't use ANR. We'll make our own query.
-        if (! is_a($this->schema, ActiveDirectory::class)) {
+        if (!is_a($this->schema, ActiveDirectory::class)) {
             return $this->prepareAnrEquivalentQuery($value)->first($columns);
         }
 
@@ -506,7 +506,7 @@ class Builder
     {
         $this->select($columns);
 
-        if (! is_a($this->schema, ActiveDirectory::class)) {
+        if (!is_a($this->schema, ActiveDirectory::class)) {
             $query = $this;
 
             foreach ($values as $value) {
@@ -583,7 +583,7 @@ class Builder
 
         // Make sure we check if the result is an entry or an array before
         // we throw an exception in case the user wants raw results.
-        if (! $entry instanceof Model && !is_array($entry)) {
+        if (!$entry instanceof Model && !is_array($entry)) {
             throw (new ModelNotFoundException())
                 ->setQuery($this->getUnescapedQuery(), $this->getDn());
         }
@@ -677,7 +677,7 @@ class Builder
         }
 
         return $this->select($columns)->whereRaw([
-            $this->schema->objectGuid() => $guid
+            $this->schema->objectGuid() => $guid,
         ])->firstOrFail();
     }
 
@@ -750,7 +750,7 @@ class Builder
     {
         $columns = is_array($columns) ? $columns : func_get_args();
 
-        if (! empty($columns)) {
+        if (!empty($columns)) {
             $this->columns = $columns;
         }
 
@@ -855,7 +855,7 @@ class Builder
             list($value, $operator) = [$operator, '='];
         }
 
-        if (! in_array($operator, Operator::all())) {
+        if (!in_array($operator, Operator::all())) {
             throw new InvalidArgumentException("Invalid where operator: {$operator}");
         }
 
@@ -1280,14 +1280,14 @@ class Builder
      * @param string $type     The type of filter to add.
      * @param array  $bindings The bindings of the filter.
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function addFilter($type, array $bindings)
     {
         // Here we will ensure we have been given a proper filter type.
-        if (! array_key_exists($type, $this->filters)) {
+        if (!array_key_exists($type, $this->filters)) {
             throw new InvalidArgumentException("Invalid filter type: {$type}.");
         }
 
@@ -1345,7 +1345,7 @@ class Builder
         // ensure we always select the object class and category, as these
         // are used for constructing models. The asterisk indicates that
         // we want all attributes returned for LDAP records.
-        if (! in_array('*', $selects)) {
+        if (!in_array('*', $selects)) {
             $selects[] = $this->schema->objectCategory();
             $selects[] = $this->schema->objectClass();
         }
@@ -1658,11 +1658,11 @@ class Builder
     {
         $args = [$query, $time];
 
-        switch($type) {
+        switch ($type) {
             case 'listing':
                 $event = new Events\Listing(...$args);
                 break;
-            case 'read';
+            case 'read':
                 $event = new Events\Read(...$args);
                 break;
             default:

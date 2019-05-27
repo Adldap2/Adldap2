@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Log;
 
-use Psr\Log\LoggerInterface;
-use Adldap\Tests\TestCase;
-use Adldap\Log\EventLogger;
-use Adldap\Models\User;
-use Adldap\Models\Events\Creating;
-use Adldap\Query\Events\Search;
-use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Binding;
+use Adldap\Auth\Events\Failed;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Log\EventLogger;
+use Adldap\Models\Events\Creating;
+use Adldap\Models\User;
+use Adldap\Query\Events\Search;
+use Adldap\Tests\TestCase;
+use Psr\Log\LoggerInterface;
 
 class EventLoggerTest extends TestCase
 {
@@ -24,10 +24,10 @@ class EventLoggerTest extends TestCase
 
         $logger = $this->mock(LoggerInterface::class);
 
-        $log = "LDAP (ldap://192.168.1.1)"
-            ." - Connection: domain-a"
-            ." - Operation: Binding"
-            ." - Username: jdoe@acme.org";
+        $log = 'LDAP (ldap://192.168.1.1)'
+            .' - Connection: domain-a'
+            .' - Operation: Binding'
+            .' - Username: jdoe@acme.org';
 
         $logger->shouldReceive('info')->once()->with($log);
 
@@ -47,11 +47,11 @@ class EventLoggerTest extends TestCase
 
         $logger = $this->mock(LoggerInterface::class);
 
-        $log = "LDAP (ldap://192.168.1.1)"
-            ." - Connection: domain-a"
-            ." - Operation: Failed"
-            ." - Username: jdoe@acme.org"
-            ." - Reason: Invalid Credentials";
+        $log = 'LDAP (ldap://192.168.1.1)'
+            .' - Connection: domain-a'
+            .' - Operation: Failed'
+            .' - Username: jdoe@acme.org'
+            .' - Reason: Invalid Credentials';
 
         $logger->shouldReceive('warning')->once()->with($log);
 
@@ -72,9 +72,9 @@ class EventLoggerTest extends TestCase
 
         $dn = 'cn=John Doe,dc=corp,dc=acme,dc=org';
 
-        $log = "LDAP (ldap://192.168.1.1)"
-            ." - Connection: domain-a"
-            ." - Operation: Creating"
+        $log = 'LDAP (ldap://192.168.1.1)'
+            .' - Connection: domain-a'
+            .' - Operation: Creating'
             ." - On: Adldap\Models\User"
             ." - Distinguished Name: $dn";
 
@@ -99,13 +99,13 @@ class EventLoggerTest extends TestCase
 
         $logger = $this->mock(LoggerInterface::class);
 
-        $log = "LDAP (ldap://192.168.1.1)"
-            ." - Connection: domain-a"
-            ." - Operation: Search"
-            ." - Base DN: "
-            ." - Filter: (objectclass=*)"
-            ." - Selected: (*)"
-            ." - Time Elapsed: 10";
+        $log = 'LDAP (ldap://192.168.1.1)'
+            .' - Connection: domain-a'
+            .' - Operation: Search'
+            .' - Base DN: '
+            .' - Filter: (objectclass=*)'
+            .' - Selected: (*)'
+            .' - Time Elapsed: 10';
 
         $logger->shouldReceive('info')->once()->with($log);
 

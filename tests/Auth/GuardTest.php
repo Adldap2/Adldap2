@@ -2,16 +2,16 @@
 
 namespace Adldap\Tests\Auth;
 
-use Adldap\Auth\Guard;
-use Adldap\Tests\TestCase;
-use Adldap\Connections\Ldap;
-use Adldap\Connections\DetailedError;
-use Adldap\Events\Dispatcher;
-use Adldap\Auth\Events\Bound;
-use Adldap\Auth\Events\Binding;
-use Adldap\Auth\Events\Passed;
 use Adldap\Auth\Events\Attempting;
+use Adldap\Auth\Events\Binding;
+use Adldap\Auth\Events\Bound;
+use Adldap\Auth\Events\Passed;
+use Adldap\Auth\Guard;
 use Adldap\Configuration\DomainConfiguration;
+use Adldap\Connections\DetailedError;
+use Adldap\Connections\Ldap;
+use Adldap\Events\Dispatcher;
+use Adldap\Tests\TestCase;
 
 class GuardTest extends TestCase
 {
@@ -64,7 +64,7 @@ class GuardTest extends TestCase
 
         $this->assertNull($guard->bind('username', 'password'));
     }
-    
+
     public function test_bind_always_throws_exception_on_invalid_credentials()
     {
         $this->expectException(\Adldap\Auth\BindException::class);

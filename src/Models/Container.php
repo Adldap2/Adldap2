@@ -3,11 +3,9 @@
 namespace Adldap\Models;
 
 /**
- * Class Container
+ * Class Container.
  *
  * Represents an LDAP container.
- *
- * @package Adldap\Models
  */
 class Container extends Entry
 {

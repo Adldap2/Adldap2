@@ -2,17 +2,16 @@
 
 namespace Adldap\Tests\Events;
 
-use Exception;
-use Adldap\Tests\TestCase;
 use Adldap\Events\Dispatcher;
+use Adldap\Tests\TestCase;
+use Exception;
 
 /**
- * Class DispatcherTest
+ * Class DispatcherTest.
  *
  * @author Taylor Otwell
- * @see https://github.com/laravel/framework
  *
- * @package Adldap\Tests\Events
+ * @see https://github.com/laravel/framework
  */
 class DispatcherTest extends TestCase
 {
@@ -39,6 +38,7 @@ class DispatcherTest extends TestCase
 
         $d->listen('foo', function ($foo) {
             $this->assertTrue(true);
+
             return 'here';
         });
 
@@ -186,7 +186,7 @@ class DispatcherTest extends TestCase
             $_SERVER['__event.test'] = 'baz';
         });
 
-        $d->fire(new ExampleEvent);
+        $d->fire(new ExampleEvent());
 
         $this->assertSame('baz', $_SERVER['__event.test']);
     }
@@ -201,7 +201,7 @@ class DispatcherTest extends TestCase
             $_SERVER['__event.test'] = 'bar';
         });
 
-        $d->fire(new AnotherEvent);
+        $d->fire(new AnotherEvent());
 
         $this->assertSame('bar', $_SERVER['__event.test']);
     }
@@ -220,7 +220,7 @@ class DispatcherTest extends TestCase
             $_SERVER['__event.test2'] = 'baar';
         });
 
-        $d->fire(new AnotherEvent);
+        $d->fire(new AnotherEvent());
 
         $this->assertSame('fooo', $_SERVER['__event.test1']);
         $this->assertSame('baar', $_SERVER['__event.test2']);

@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Models\Attributes;
 
-use Adldap\Tests\TestCase;
 use Adldap\Models\Attributes\Sid;
+use Adldap\Tests\TestCase;
 
 class SidTest extends TestCase
 {

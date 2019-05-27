@@ -3,7 +3,14 @@
 namespace Adldap\Query;
 
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Models\Computer;
+use Adldap\Models\Contact;
+use Adldap\Models\Container;
+use Adldap\Models\Group;
+use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\Printer;
 use Adldap\Models\RootDse;
+use Adldap\Models\User;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 
@@ -17,6 +24,16 @@ use Adldap\Schemas\SchemaInterface;
  */
 class Factory
 {
+    const MODEL_SCOPES = [
+        Computer::class => 'computers',
+        Contact::class => 'contacts',
+        Container::class => 'containers',
+        Group::class => 'groups',
+        OrganizationalUnit::class => 'ous',
+        Printer::class => 'printers',
+        User::class => 'users',
+    ];
+
     /**
      * @var ConnectionInterface
      */

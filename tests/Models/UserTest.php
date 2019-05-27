@@ -2,6 +2,8 @@
 
 namespace Adldap\Tests\Models;
 
+use Adldap\Adldap;
+use Adldap\Connections\Provider;
 use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSProperty;
 use Adldap\Models\Attributes\TSPropertyArray;
@@ -19,6 +21,24 @@ class UserTest extends TestCase
         $builder = $builder ?: $this->newBuilder();
 
         return new User($attributes, $builder);
+    }
+
+    public function test_get_scoped_query_builder_on_static_call()
+    {
+        $providers = [
+            'first' => new Provider(),
+            'second' => new Provider(),
+        ];
+
+        new Adldap($providers);
+
+        $this->assertInstanceOf(Builder::class, User::where(''));
+
+        $query = User::query();
+
+        $this->assertInstanceOf(Builder::class, $query);
+        $this->assertCount(3, $query->filters['and']);
+        $this->assertEquals('(&(objectclass=\75\73\65\72)(objectcategory=\70\65\72\73\6f\6e)(!(objectclass=\63\6f\6e\74\61\63\74)))', $query->getQuery());
     }
 
     public function test_set_password_on_new_user()

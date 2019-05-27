@@ -6,6 +6,8 @@ use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Connections\ProviderContainer;
+use Adldap\Connections\ProviderContainerException;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Events\DispatchesEvents;
 use Adldap\Log\EventLogger;
@@ -15,6 +17,13 @@ use InvalidArgumentException;
 class Adldap implements AdldapInterface
 {
     use DispatchesEvents, LogsInformation;
+
+    /**
+     * The ProviderContainer instance.
+     *
+     * @var ProviderContainer
+     */
+    protected $providerContainer;
 
     /**
      * The default provider name.
@@ -46,6 +55,8 @@ class Adldap implements AdldapInterface
      */
     public function __construct(array $providers = [])
     {
+        $this->providerContainer = ProviderContainer::getNewInstance();
+
         foreach ($providers as $name => $config) {
             $this->addProvider($config, $name);
         }
@@ -67,7 +78,7 @@ class Adldap implements AdldapInterface
         }
 
         if ($config instanceof ProviderInterface) {
-            $this->providers[$name] = $config;
+            $this->providerContainer->add($config, $name);
 
             return $this;
         }
@@ -94,7 +105,7 @@ class Adldap implements AdldapInterface
      */
     public function getProviders()
     {
-        return $this->providers;
+        return $this->providerContainer->all();
     }
 
     /**
@@ -102,11 +113,11 @@ class Adldap implements AdldapInterface
      */
     public function getProvider($name)
     {
-        if (array_key_exists($name, $this->providers)) {
-            return $this->providers[$name];
+        try {
+            return $this->providerContainer->get($name);
+        } catch (ProviderContainerException $exception) {
+            throw new AdldapException("The connection provider '$name' does not exist.");
         }
-
-        throw new AdldapException("The connection provider '$name' does not exist.");
     }
 
     /**
@@ -114,9 +125,9 @@ class Adldap implements AdldapInterface
      */
     public function setDefaultProvider($name = 'default')
     {
-        if ($this->getProvider($name) instanceof ProviderInterface) {
-            $this->default = $name;
-        }
+        $this->providerContainer->setDefault($name);
+
+        return $this;
     }
 
     /**
@@ -124,7 +135,11 @@ class Adldap implements AdldapInterface
      */
     public function getDefaultProvider()
     {
-        return $this->getProvider($this->default);
+        try {
+            return $this->providerContainer->getDefault();
+        } catch (ProviderContainerException $exception) {
+            throw new AdldapException("No default connection provider exist.");
+        }
     }
 
     /**
@@ -132,7 +147,7 @@ class Adldap implements AdldapInterface
      */
     public function removeProvider($name)
     {
-        unset($this->providers[$name]);
+        $this->providerContainer->remove($name);
 
         return $this;
     }

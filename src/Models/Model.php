@@ -3,12 +3,14 @@
 namespace Adldap\Models;
 
 use Adldap\Connections\ConnectionException;
+use Adldap\Connections\ProviderContainer;
 use Adldap\Models\Attributes\DistinguishedName;
 use Adldap\Models\Attributes\Guid;
 use Adldap\Models\Attributes\MbString;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Query\Builder;
 use Adldap\Query\Collection;
+use Adldap\Query\Factory;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Utilities;
 use ArrayAccess;
@@ -23,6 +25,8 @@ use UnexpectedValueException;
  *
  * Represents an LDAP record and provides the ability
  * to modify / retrieve data from the record.
+ *
+ * @mixin Builder
  */
 abstract class Model implements ArrayAccess, JsonSerializable
 {
@@ -63,11 +67,65 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @param array   $attributes
      * @param Builder $builder
      */
-    public function __construct(array $attributes, Builder $builder)
+    public function __construct(array $attributes = [], Builder $builder = null)
     {
+        $builder = $builder ?? static::factory()->newQuery();
+
         $this->setQuery($builder)
             ->setSchema($builder->getSchema())
             ->fill($attributes);
+    }
+
+    /**
+     * Returns a scoped Builder instance based on the current model.
+     *
+     * @param $method
+     * @param $arguments
+     *
+     * @return Builder
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        return static::query();
+    }
+
+    /**
+     * Returns a scoped instance of builder with the given provider. If no provider name
+     * is given then it will attempt to get the default provider.
+     *
+     * @param null $provider_name
+     *
+     * @return Builder
+     */
+    public static function query($provider_name = null)
+    {
+        return call_user_func_array([static::factory($provider_name), static::mapToScope()], []);
+    }
+
+    /**
+     * Returns method name on Factory related to the current model's scope.
+     *
+     * @return string
+     */
+    protected static function mapToScope()
+    {
+        if (! array_key_exists(get_called_class(), Factory::MODEL_SCOPES)) {
+            throw new InvalidArgumentException(get_called_class() . ' not a scopable model.');
+        }
+
+        return Factory::MODEL_SCOPES[get_called_class()];
+    }
+
+    /**
+     * Returns a Factory with the given Provider or the default Provider if none specified.
+     *
+     * @param string|null $provider_name
+     *
+     * @return Factory
+     */
+    protected static function factory($provider_name = null)
+    {
+        return  ProviderContainer::getInstance()->get($provider_name)->search();
     }
 
     /**

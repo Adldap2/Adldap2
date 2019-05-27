@@ -7,7 +7,7 @@ class ProviderContainer
     /**
      * Current instance of ProviderContainer.
      *
-     * @var ProviderContainer $instance
+     * @var ProviderContainer
      */
     private static $instance;
 
@@ -36,7 +36,7 @@ class ProviderContainer
     }
 
     /**
-     * Set and get a new instance of ProviderContainer
+     * Set and get a new instance of ProviderContainer.
      *
      * @return ProviderContainer
      */
@@ -49,7 +49,7 @@ class ProviderContainer
      * A new a Provider into the container.
      *
      * @param ProviderInterface $provider
-     * @param string $name
+     * @param string            $name
      *
      * @return $this
      */
@@ -91,9 +91,9 @@ class ProviderContainer
      *
      * @param string|null $name
      *
-     * @return mixed
-     *
      * @throws ProviderContainerException If the given provider does not exist.
+     *
+     * @return mixed
      */
     public function get(string $name = null)
     {
@@ -129,7 +129,7 @@ class ProviderContainer
     }
 
     /**
-     * Set the default provider name;
+     * Set the default provider name;.
      *
      * @param string $name
      *

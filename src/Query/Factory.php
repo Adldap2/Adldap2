@@ -25,13 +25,13 @@ use Adldap\Schemas\SchemaInterface;
 class Factory
 {
     const MODEL_SCOPES = [
-        Computer::class => 'computers',
-        Contact::class => 'contacts',
-        Container::class => 'containers',
-        Group::class => 'groups',
+        Computer::class           => 'computers',
+        Contact::class            => 'contacts',
+        Container::class          => 'containers',
+        Group::class              => 'groups',
         OrganizationalUnit::class => 'ous',
-        Printer::class => 'printers',
-        User::class => 'users',
+        Printer::class            => 'printers',
+        User::class               => 'users',
     ];
 
     /**

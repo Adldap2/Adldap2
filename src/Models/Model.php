@@ -86,7 +86,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public static function __callStatic($method, $arguments)
     {
-        return static::query();
+        return static::query()->{$method}(... $arguments);
     }
 
     /**

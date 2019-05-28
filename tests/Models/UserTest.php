@@ -23,22 +23,28 @@ class UserTest extends TestCase
         return new User($attributes, $builder);
     }
 
-    public function test_get_scoped_query_builder_on_static_call()
+    public function test_get_scoped_query_builder_on_static_call_query()
     {
-        $providers = [
-            'first'  => new Provider(),
-            'second' => new Provider(),
-        ];
-
-        new Adldap($providers);
-
-        $this->assertInstanceOf(Builder::class, User::where(''));
+        new Adldap(['default'  => new Provider()]);
 
         $query = User::query();
 
         $this->assertInstanceOf(Builder::class, $query);
         $this->assertCount(3, $query->filters['and']);
         $this->assertEquals('(&(objectclass=\75\73\65\72)(objectcategory=\70\65\72\73\6f\6e)(!(objectclass=\63\6f\6e\74\61\63\74)))', $query->getQuery());
+    }
+
+    public function test_it_passes_the_method_call_and_arguments_to_the_scoped_query_builder()
+    {
+        new Adldap(['default'  => new Provider()]);
+
+        $query = User::where('cn', '=', 'test');
+
+        $this->assertInstanceOf(Builder::class, $query);
+        $this->assertCount(4, $where = $query->filters['and']);
+        $this->assertEquals('cn', $where[3]['field']);
+        $this->assertEquals('=', $where[3]['operator']);
+        $this->assertEquals('\74\65\73\74', $where[3]['value']);
     }
 
     public function test_set_password_on_new_user()

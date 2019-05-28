@@ -2,8 +2,8 @@
 
 namespace Adldap\tests\Configuration;
 
-use Adldap\Configuration\DomainConfiguration;
 use Adldap\Tests\TestCase;
+use Adldap\Configuration\DomainConfiguration;
 
 class DomainConfigurationTest extends TestCase
 {

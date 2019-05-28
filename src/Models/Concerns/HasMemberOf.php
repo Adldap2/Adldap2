@@ -2,10 +2,10 @@
 
 namespace Adldap\Models\Concerns;
 
-use Adldap\Models\Group;
-use Adldap\Models\User;
-use Adldap\Query\Collection;
 use Adldap\Utilities;
+use Adldap\Models\User;
+use Adldap\Models\Group;
+use Adldap\Query\Collection;
 
 trait HasMemberOf
 {

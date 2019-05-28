@@ -2,16 +2,16 @@
 
 namespace Adldap\Auth;
 
-use Adldap\Auth\Events\Attempting;
-use Adldap\Auth\Events\Binding;
+use Exception;
+use Throwable;
 use Adldap\Auth\Events\Bound;
 use Adldap\Auth\Events\Failed;
 use Adldap\Auth\Events\Passed;
-use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\ConnectionInterface;
+use Adldap\Auth\Events\Binding;
+use Adldap\Auth\Events\Attempting;
 use Adldap\Events\DispatcherInterface;
-use Exception;
-use Throwable;
+use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 /**
  * Class Guard.

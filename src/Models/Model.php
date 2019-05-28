@@ -2,23 +2,23 @@
 
 namespace Adldap\Models;
 
-use Adldap\Connections\ConnectionException;
-use Adldap\Connections\ProviderContainer;
-use Adldap\Models\Attributes\DistinguishedName;
-use Adldap\Models\Attributes\Guid;
-use Adldap\Models\Attributes\MbString;
-use Adldap\Models\Attributes\Sid;
-use Adldap\Query\Builder;
-use Adldap\Query\Collection;
-use Adldap\Query\Factory;
-use Adldap\Schemas\SchemaInterface;
-use Adldap\Utilities;
-use ArrayAccess;
 use DateTime;
-use Illuminate\Support\Arr;
-use InvalidArgumentException;
+use ArrayAccess;
+use Adldap\Utilities;
 use JsonSerializable;
+use Adldap\Query\Builder;
+use Adldap\Query\Factory;
+use Illuminate\Support\Arr;
+use Adldap\Query\Collection;
+use InvalidArgumentException;
 use UnexpectedValueException;
+use Adldap\Models\Attributes\Sid;
+use Adldap\Models\Attributes\Guid;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Models\Attributes\MbString;
+use Adldap\Connections\ProviderContainer;
+use Adldap\Connections\ConnectionException;
+use Adldap\Models\Attributes\DistinguishedName;
 
 /**
  * Class Model.

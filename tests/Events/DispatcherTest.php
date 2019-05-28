@@ -2,9 +2,9 @@
 
 namespace Adldap\Tests\Events;
 
-use Adldap\Events\Dispatcher;
-use Adldap\Tests\TestCase;
 use Exception;
+use Adldap\Tests\TestCase;
+use Adldap\Events\Dispatcher;
 
 /**
  * Class DispatcherTest.

@@ -2,17 +2,17 @@
 
 namespace Adldap\Tests\Models;
 
+use DateTime;
 use Adldap\Adldap;
-use Adldap\Connections\Provider;
-use Adldap\Models\Attributes\AccountControl;
-use Adldap\Models\Attributes\TSProperty;
-use Adldap\Models\Attributes\TSPropertyArray;
-use Adldap\Models\Entry;
+use Adldap\Utilities;
 use Adldap\Models\User;
+use Adldap\Models\Entry;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
-use Adldap\Utilities;
-use DateTime;
+use Adldap\Connections\Provider;
+use Adldap\Models\Attributes\TSProperty;
+use Adldap\Models\Attributes\AccountControl;
+use Adldap\Models\Attributes\TSPropertyArray;
 
 class UserTest extends TestCase
 {

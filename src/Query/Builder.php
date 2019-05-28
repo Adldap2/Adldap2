@@ -2,17 +2,17 @@
 
 namespace Adldap\Query;
 
-use Adldap\Adldap;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Models\Model;
-use Adldap\Models\ModelNotFoundException;
-use Adldap\Query\Events\QueryExecuted;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\SchemaInterface;
-use Adldap\Utilities;
 use Closure;
+use Adldap\Adldap;
+use Adldap\Utilities;
+use Adldap\Models\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Query\Events\QueryExecuted;
+use Adldap\Models\ModelNotFoundException;
+use Adldap\Connections\ConnectionInterface;
 
 class Builder
 {

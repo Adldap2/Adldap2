@@ -3,20 +3,20 @@
 namespace Adldap\Tests\Models;
 
 use Adldap\Adldap;
-use Adldap\Models\BatchModification;
 use Adldap\Models\Entry;
-use Adldap\Models\Events\Created;
-use Adldap\Models\Events\Creating;
-use Adldap\Models\Events\Deleted;
-use Adldap\Models\Events\Deleting;
-use Adldap\Models\Events\Updated;
-use Adldap\Models\Events\Updating;
 use Adldap\Models\Model;
 use Adldap\Query\Builder;
-use Adldap\Query\Collection;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\OpenLDAP;
 use Adldap\Tests\TestCase;
+use Adldap\Query\Collection;
+use Adldap\Schemas\OpenLDAP;
+use Adldap\Models\Events\Created;
+use Adldap\Models\Events\Deleted;
+use Adldap\Models\Events\Updated;
+use Adldap\Models\Events\Creating;
+use Adldap\Models\Events\Deleting;
+use Adldap\Models\Events\Updating;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Models\BatchModification;
 
 class ModelTest extends TestCase
 {

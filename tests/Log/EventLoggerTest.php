@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Log;
 
-use Adldap\Auth\Events\Binding;
-use Adldap\Auth\Events\Failed;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Log\EventLogger;
-use Adldap\Models\Events\Creating;
 use Adldap\Models\User;
-use Adldap\Query\Events\Search;
 use Adldap\Tests\TestCase;
+use Adldap\Log\EventLogger;
 use Psr\Log\LoggerInterface;
+use Adldap\Auth\Events\Failed;
+use Adldap\Auth\Events\Binding;
+use Adldap\Query\Events\Search;
+use Adldap\Models\Events\Creating;
+use Adldap\Connections\ConnectionInterface;
 
 class EventLoggerTest extends TestCase
 {

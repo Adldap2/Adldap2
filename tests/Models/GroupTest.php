@@ -4,10 +4,10 @@ namespace Adldap\tests\Models;
 
 use Adldap\Models\Group;
 use Adldap\Query\Builder;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\SchemaInterface;
 use Adldap\Tests\TestCase;
 use Illuminate\Support\Collection;
+use Adldap\Schemas\ActiveDirectory;
+use Adldap\Schemas\SchemaInterface;
 
 class GroupTest extends TestCase
 {

@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Connections;
 
-use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Connections\DetailedError;
+use Adldap\Query\Builder;
+use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
+use Adldap\Connections\DetailedError;
 use Adldap\Models\Factory as ModelFactory;
-use Adldap\Query\Builder;
 use Adldap\Query\Factory as SearchFactory;
-use Adldap\Tests\TestCase;
+use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 class ProviderTest extends TestCase
 {

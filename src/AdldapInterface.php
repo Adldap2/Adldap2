@@ -2,8 +2,8 @@
 
 namespace Adldap;
 
-use Adldap\Connections\ConnectionInterface;
 use Adldap\Connections\ProviderInterface;
+use Adldap\Connections\ConnectionInterface;
 
 interface AdldapInterface
 {

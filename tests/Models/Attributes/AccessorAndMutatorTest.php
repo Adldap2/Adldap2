@@ -2,14 +2,14 @@
 
 namespace Adldap\Tests\Models\Attributes;
 
-use Adldap\Models\Computer;
-use Adldap\Models\Container;
 use Adldap\Models\Entry;
 use Adldap\Models\Group;
-use Adldap\Models\OrganizationalUnit;
 use Adldap\Models\Printer;
 use Adldap\Models\RootDse;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
 
 class AccessorAndMutatorTest extends TestCase
 {

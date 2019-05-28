@@ -2,12 +2,12 @@
 
 namespace Adldap\Query;
 
-use Adldap\Connections\ConnectionInterface;
 use Adldap\Models\Entry;
 use Adldap\Models\Model;
-use Adldap\Schemas\SchemaInterface;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class Processor
 {

@@ -2,15 +2,15 @@
 
 namespace Adldap\Tests\Models;
 
-use Adldap\Models\Computer;
-use Adldap\Models\Contact;
-use Adldap\Models\Container;
-use Adldap\Models\Entry;
-use Adldap\Models\Factory as ModelFactory;
-use Adldap\Models\Group;
-use Adldap\Models\OrganizationalUnit;
 use Adldap\Models\User;
+use Adldap\Models\Entry;
+use Adldap\Models\Group;
+use Adldap\Models\Contact;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\Factory as ModelFactory;
 
 class FactoryTest extends TestCase
 {

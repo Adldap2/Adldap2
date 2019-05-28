@@ -2,12 +2,12 @@
 
 namespace Adldap\Models;
 
+use DateTime;
+use Adldap\Utilities;
 use Adldap\AdldapException;
+use Adldap\Schemas\ActiveDirectory;
 use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSPropertyArray;
-use Adldap\Schemas\ActiveDirectory;
-use Adldap\Utilities;
-use DateTime;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**

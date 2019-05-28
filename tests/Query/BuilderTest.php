@@ -2,13 +2,13 @@
 
 namespace Adldap\Tests\Query;
 
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Models\Model;
-use Adldap\Query\Paginator;
-use Adldap\Schemas\SchemaInterface;
-use Adldap\Tests\TestCase;
 use DateTime;
+use Adldap\Models\Model;
+use Adldap\Tests\TestCase;
+use Adldap\Query\Paginator;
 use Illuminate\Support\Collection;
+use Adldap\Schemas\SchemaInterface;
+use Adldap\Connections\ConnectionInterface;
 
 class BuilderTest extends TestCase
 {

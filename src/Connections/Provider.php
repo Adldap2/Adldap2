@@ -4,13 +4,13 @@ namespace Adldap\Connections;
 
 use Adldap\Adldap;
 use Adldap\Auth\Guard;
+use InvalidArgumentException;
 use Adldap\Auth\GuardInterface;
-use Adldap\Configuration\DomainConfiguration;
-use Adldap\Models\Factory as ModelFactory;
-use Adldap\Query\Factory as SearchFactory;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
-use InvalidArgumentException;
+use Adldap\Models\Factory as ModelFactory;
+use Adldap\Query\Factory as SearchFactory;
+use Adldap\Configuration\DomainConfiguration;
 
 /**
  * Class Provider.

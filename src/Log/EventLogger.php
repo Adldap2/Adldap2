@@ -2,12 +2,12 @@
 
 namespace Adldap\Log;
 
-use Adldap\Auth\Events\Event as AuthEvent;
+use ReflectionClass;
+use Psr\Log\LoggerInterface;
 use Adldap\Auth\Events\Failed;
+use Adldap\Auth\Events\Event as AuthEvent;
 use Adldap\Models\Events\Event as ModelEvent;
 use Adldap\Query\Events\QueryExecuted as QueryEvent;
-use Psr\Log\LoggerInterface;
-use ReflectionClass;
 
 class EventLogger
 {

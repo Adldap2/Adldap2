@@ -2,8 +2,8 @@
 
 namespace Adldap\Configuration;
 
-use Adldap\Connections\ConnectionInterface;
 use Adldap\Schemas\ActiveDirectory;
+use Adldap\Connections\ConnectionInterface;
 
 /**
  * Class DomainConfiguration.

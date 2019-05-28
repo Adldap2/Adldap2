@@ -2,17 +2,17 @@
 
 namespace Adldap\Query;
 
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Models\Computer;
-use Adldap\Models\Contact;
-use Adldap\Models\Container;
+use Adldap\Models\User;
 use Adldap\Models\Group;
-use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\Contact;
 use Adldap\Models\Printer;
 use Adldap\Models\RootDse;
-use Adldap\Models\User;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
+use Adldap\Models\OrganizationalUnit;
+use Adldap\Connections\ConnectionInterface;
 
 /**
  * Adldap2 Search Factory.

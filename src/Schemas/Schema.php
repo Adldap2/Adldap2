@@ -2,15 +2,15 @@
 
 namespace Adldap\Schemas;
 
-use Adldap\Models\Computer;
-use Adldap\Models\Contact;
-use Adldap\Models\Container;
-use Adldap\Models\Entry;
-use Adldap\Models\ForeignSecurityPrincipal;
-use Adldap\Models\Group;
-use Adldap\Models\OrganizationalUnit;
-use Adldap\Models\Printer;
 use Adldap\Models\User;
+use Adldap\Models\Entry;
+use Adldap\Models\Group;
+use Adldap\Models\Contact;
+use Adldap\Models\Printer;
+use Adldap\Models\Computer;
+use Adldap\Models\Container;
+use Adldap\Models\OrganizationalUnit;
+use Adldap\Models\ForeignSecurityPrincipal;
 
 abstract class Schema implements SchemaInterface
 {

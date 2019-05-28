@@ -3,10 +3,10 @@
 namespace Adldap\Tests;
 
 use Adldap\Adldap;
-use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\Ldap;
 use Adldap\Connections\Provider;
 use Adldap\Connections\ProviderInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 class AdldapTest extends TestCase
 {

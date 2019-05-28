@@ -2,8 +2,8 @@
 
 namespace Adldap\Auth;
 
-use Adldap\Configuration\DomainConfiguration;
 use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
 
 interface GuardInterface
 {

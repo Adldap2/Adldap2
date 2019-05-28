@@ -2,8 +2,8 @@
 
 namespace Adldap\Tests\Models\Attributes;
 
-use Adldap\Models\Attributes\DistinguishedName;
 use Adldap\Tests\TestCase;
+use Adldap\Models\Attributes\DistinguishedName;
 
 class DistinguishedNameTest extends TestCase
 {

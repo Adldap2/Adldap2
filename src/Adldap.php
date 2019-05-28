@@ -2,17 +2,17 @@
 
 namespace Adldap;
 
-use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\ConnectionInterface;
-use Adldap\Connections\Ldap;
-use Adldap\Connections\Provider;
-use Adldap\Connections\ProviderContainer;
-use Adldap\Connections\ProviderContainerException;
-use Adldap\Connections\ProviderInterface;
-use Adldap\Events\DispatchesEvents;
 use Adldap\Log\EventLogger;
-use Adldap\Log\LogsInformation;
+use Adldap\Connections\Ldap;
 use InvalidArgumentException;
+use Adldap\Log\LogsInformation;
+use Adldap\Connections\Provider;
+use Adldap\Events\DispatchesEvents;
+use Adldap\Connections\ProviderContainer;
+use Adldap\Connections\ProviderInterface;
+use Adldap\Connections\ConnectionInterface;
+use Adldap\Configuration\DomainConfiguration;
+use Adldap\Connections\ProviderContainerException;
 
 class Adldap implements AdldapInterface
 {

@@ -26,20 +26,6 @@ class Adldap implements AdldapInterface
     protected $container;
 
     /**
-     * The default provider name.
-     *
-     * @var string
-     */
-    protected $default = 'default';
-
-    /**
-     * The connection providers.
-     *
-     * @var array
-     */
-    protected $providers = [];
-
-    /**
      * The events to register listeners for during initialization.
      *
      * @var array
@@ -115,8 +101,8 @@ class Adldap implements AdldapInterface
     {
         try {
             return $this->container->get($name);
-        } catch (ProviderContainerException $exception) {
-            throw new AdldapException("The connection provider '$name' does not exist.");
+        } catch (ProviderContainerException $e) {
+            throw new AdldapException($e->getMessage());
         }
     }
 
@@ -137,8 +123,8 @@ class Adldap implements AdldapInterface
     {
         try {
             return $this->container->getDefault();
-        } catch (ProviderContainerException $exception) {
-            throw new AdldapException('No default connection provider exist.');
+        } catch (ProviderContainerException $e) {
+            throw new AdldapException($e->getMessage());
         }
     }
 

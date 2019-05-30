@@ -30,6 +30,8 @@ class Cache
      * @param string $key
      *
      * @return mixed
+     * 
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function get($key)
     {
@@ -49,7 +51,7 @@ class Cache
      */
     public function put($key, $value, $ttl = null)
     {
-        $this->store->set($key, $value, $ttl);
+        return $this->store->set($key, $value, $ttl);
     }
 
     /**
@@ -81,11 +83,13 @@ class Cache
      *
      * @param string $key
      *
+     * @return bool
+     *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function delete($key)
     {
-        $this->store->delete($key);
+        return $this->store->delete($key);
     }
 }

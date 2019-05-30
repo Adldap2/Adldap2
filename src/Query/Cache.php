@@ -2,6 +2,7 @@
 
 namespace Adldap\Query;
 
+use Closure;
 use Psr\SimpleCache\CacheInterface;
 
 class Cache
@@ -56,13 +57,13 @@ class Cache
      *
      * @param string $key
      * @param \DateTimeInterface|\DateInterval|int|null $ttl
-     * @param \Closure $callback
+     * @param Closure $callback
      *
      * @return mixed
      *
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function remember($key, $ttl, \Closure $callback)
+    public function remember($key, $ttl, Closure $callback)
     {
         $value = $this->get($key);
 

@@ -456,7 +456,7 @@ interface ConnectionInterface
     public function controlPagedResult($pageSize = 1000, $isCritical = false, $cookie = '');
 
     /**
-     * Retrieve a paginated result response.
+     * Retrieve the LDAP pagination cookie.
      *
      * @link http://php.net/manual/en/function.ldap-control-paged-result-response.php
      *

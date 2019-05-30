@@ -29,9 +29,9 @@ class Cache
      *
      * @param string $key
      *
-     * @return mixed
-     * 
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     *
+     * @return mixed
      */
     public function get($key)
     {
@@ -83,10 +83,10 @@ class Cache
      *
      * @param string $key
      *
-     * @return bool
-     *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     *
+     * @return bool
      */
     public function delete($key)
     {

@@ -91,9 +91,9 @@ class Container
      *
      * @param string|null $name
      *
-     * @return mixed
      * @throws ContainerException If the given provider does not exist.
      *
+     * @return mixed
      */
     public function get(string $name = null)
     {

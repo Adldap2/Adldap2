@@ -66,9 +66,9 @@ class Factory
     /**
      * Constructor.
      *
-     * @param ConnectionInterface       $connection The connection to use when constructing a new query.
-     * @param SchemaInterface|null      $schema     The schema to use for the query and models located.
-     * @param string                    $baseDn     The base DN to use for all searches.
+     * @param ConnectionInterface  $connection The connection to use when constructing a new query.
+     * @param SchemaInterface|null $schema     The schema to use for the query and models located.
+     * @param string               $baseDn     The base DN to use for all searches.
      */
     public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {

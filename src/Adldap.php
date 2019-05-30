@@ -7,12 +7,12 @@ use Adldap\Connections\Ldap;
 use InvalidArgumentException;
 use Adldap\Log\LogsInformation;
 use Adldap\Connections\Provider;
-use Adldap\Events\DispatchesEvents;
 use Adldap\Connections\Container;
+use Adldap\Events\DispatchesEvents;
 use Adldap\Connections\ProviderInterface;
+use Adldap\Connections\ContainerException;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\ContainerException;
 
 class Adldap implements AdldapInterface
 {

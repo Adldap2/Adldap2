@@ -16,7 +16,7 @@ use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Attributes\MbString;
-use Adldap\Connections\ProviderContainer;
+use Adldap\Connections\Container;
 use Adldap\Connections\ConnectionException;
 use Adldap\Models\Attributes\DistinguishedName;
 
@@ -125,7 +125,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     protected static function factory($providerName = null)
     {
-        return ProviderContainer::getInstance()->get($providerName)->search();
+        return Container::getInstance()->get($providerName)->search();
     }
 
     /**

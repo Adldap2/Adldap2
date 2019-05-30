@@ -8,11 +8,11 @@ use InvalidArgumentException;
 use Adldap\Log\LogsInformation;
 use Adldap\Connections\Provider;
 use Adldap\Events\DispatchesEvents;
-use Adldap\Connections\ProviderContainer;
+use Adldap\Connections\Container;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Connections\ConnectionInterface;
 use Adldap\Configuration\DomainConfiguration;
-use Adldap\Connections\ProviderContainerException;
+use Adldap\Connections\ContainerException;
 
 class Adldap implements AdldapInterface
 {
@@ -21,7 +21,7 @@ class Adldap implements AdldapInterface
     /**
      * The ProviderContainer instance.
      *
-     * @var ProviderContainer
+     * @var Container
      */
     protected $container;
 
@@ -41,7 +41,7 @@ class Adldap implements AdldapInterface
      */
     public function __construct(array $providers = [])
     {
-        $this->container = ProviderContainer::getNewInstance();
+        $this->container = Container::getNewInstance();
 
         foreach ($providers as $name => $config) {
             $this->addProvider($config, $name);
@@ -101,7 +101,7 @@ class Adldap implements AdldapInterface
     {
         try {
             return $this->container->get($name);
-        } catch (ProviderContainerException $e) {
+        } catch (ContainerException $e) {
             throw new AdldapException($e->getMessage());
         }
     }
@@ -123,7 +123,7 @@ class Adldap implements AdldapInterface
     {
         try {
             return $this->container->getDefault();
-        } catch (ProviderContainerException $e) {
+        } catch (ContainerException $e) {
             throw new AdldapException($e->getMessage());
         }
     }

@@ -2,12 +2,12 @@
 
 namespace Adldap\Connections;
 
-class ProviderContainer
+class Container
 {
     /**
      * Current instance of ProviderContainer.
      *
-     * @var ProviderContainer
+     * @var Container
      */
     private static $instance;
 
@@ -28,7 +28,7 @@ class ProviderContainer
     /**
      * Get or set the current instance of ProviderContainer.
      *
-     * @return ProviderContainer
+     * @return Container
      */
     public static function getInstance()
     {
@@ -38,7 +38,7 @@ class ProviderContainer
     /**
      * Set and get a new instance of ProviderContainer.
      *
-     * @return ProviderContainer
+     * @return Container
      */
     public static function getNewInstance()
     {
@@ -91,9 +91,9 @@ class ProviderContainer
      *
      * @param string|null $name
      *
-     * @throws ProviderContainerException If the given provider does not exist.
-     *
      * @return mixed
+     * @throws ContainerException If the given provider does not exist.
+     *
      */
     public function get(string $name = null)
     {
@@ -103,7 +103,7 @@ class ProviderContainer
             return $this->providers[$name];
         }
 
-        throw new ProviderContainerException("The connection provider '$name' does not exist.");
+        throw new ContainerException("The connection provider '$name' does not exist.");
     }
 
     /**

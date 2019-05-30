@@ -4,6 +4,7 @@ namespace Adldap\Connections;
 
 use Adldap\Adldap;
 use Adldap\Auth\Guard;
+use Adldap\Query\Cache;
 use InvalidArgumentException;
 use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
@@ -11,6 +12,7 @@ use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Query\Factory as SearchFactory;
 use Adldap\Configuration\DomainConfiguration;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class Provider.
@@ -48,6 +50,13 @@ class Provider implements ProviderInterface
      * @var GuardInterface
      */
     protected $guard;
+
+    /**
+     * The providers cache instance.
+     *
+     * @var Cache|null
+     */
+    protected $cache;
 
     /**
      * {@inheritdoc}
@@ -141,6 +150,20 @@ class Provider implements ProviderInterface
     }
 
     /**
+     * Sets the cache store.
+     *
+     * @param CacheInterface $store
+     *
+     * @return $this
+     */
+    public function setCache(CacheInterface $store)
+    {
+        $this->cache = new Cache($store);
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getConfiguration()
@@ -203,11 +226,17 @@ class Provider implements ProviderInterface
      */
     public function search()
     {
-        return new SearchFactory(
+        $factory = new SearchFactory(
             $this->connection,
             $this->schema,
             $this->configuration->get('base_dn')
         );
+
+        if ($this->cache) {
+            $factory->setCache($this->cache);
+        }
+
+        return $factory;
     }
 
     /**

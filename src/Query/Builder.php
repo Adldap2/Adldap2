@@ -98,6 +98,27 @@ class Builder
     protected $nested = false;
 
     /**
+     * Determines whether the query should be cached.
+     *
+     * @var bool
+     */
+    protected $caching = false;
+
+    /**
+     * How long the query should be cached until.
+     *
+     * @var \DateTimeInterface|null
+     */
+    protected $cacheUntil = null;
+
+    /**
+     * Determines whether the query cache must be flushed.
+     *
+     * @var bool
+     */
+    protected $flushCache = false;
+
+    /**
      * The current connection instance.
      *
      * @var ConnectionInterface
@@ -117,6 +138,13 @@ class Builder
      * @var SchemaInterface
      */
     protected $schema;
+
+    /**
+     * The current cache instance.
+     *
+     * @var Cache|null
+     */
+    protected $cache;
 
     /**
      * Constructor.
@@ -182,6 +210,18 @@ class Builder
     public function getSchema()
     {
         return $this->schema;
+    }
+
+    /**
+     * Sets the cache to store query results.
+     *
+     * @param Cache|null $cache
+     */
+    public function setCache(Cache $cache = null)
+    {
+        $this->cache = $cache;
+
+        return $this;
     }
 
     /**
@@ -338,14 +378,17 @@ class Builder
     {
         $start = microtime(true);
 
-        // Execute the search.
-        $results = $this->connection->{$this->type}(
-            $this->getDn(),
-            $query,
-            $this->getSelects(),
-            $onlyAttributes = false,
-            $this->limit
-        );
+        // If caching is enabled and we have a cache instance available,
+        // we will try to retrieve the cached results instead.
+        if ($this->caching && $this->cache) {
+            $key = $this->getCacheKey($query);
+
+            $results = $this->getCachedResponse($key, function () use ($query) {
+                return $this->parse($this->run($query));
+            });
+        } else {
+            $results = $this->parse($this->run($query));
+        }
 
         // Log the query.
         $this->logQuery($this, $this->type, $this->getElapsedTime($start));
@@ -367,6 +410,75 @@ class Builder
     {
         $this->paginated = true;
 
+        $start = microtime(true);
+
+        $query = $this->getQuery();
+
+        // If caching is enabled and we have a cache instance available,
+        // we will try to retrieve the cached results instead.
+        if ($this->caching && $this->cache) {
+            $key = $this->getCacheKey($query);
+
+            $pages = $this->getCachedResponse($key, function () use ($query, $perPage, $isCritical) {
+                return $this->runPaginate($query, $perPage, $isCritical);
+            });
+        } else {
+            $pages = $this->runPaginate($query, $perPage, $isCritical);
+        }
+
+        // Log the query.
+        $this->logQuery($this, 'paginate', $this->getElapsedTime($start));
+
+        // Process & return the results.
+        return $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
+    }
+
+    /**
+     * Returns the cached response or caches and executes the callback.
+     *
+     * @param string $key
+     * @param Closure $callback
+     *
+     * @return mixed
+     */
+    protected function getCachedResponse($key, Closure $callback)
+    {
+        if ($this->flushCache) {
+            $this->cache->delete($key);
+        }
+
+        return $this->cache->remember($key, $this->cacheUntil, $callback);
+    }
+
+    /**
+     * Runs the query operation with the given filter.
+     *
+     * @param string $filter
+     *
+     * @return resource
+     */
+    protected function run($filter)
+    {
+        return $this->connection->{$this->type}(
+            $this->getDn(),
+            $filter,
+            $this->getSelects(),
+            $onlyAttributes = false,
+            $this->limit
+        );
+    }
+
+    /**
+     * Runs the paginate operation with the given filter.
+     *
+     * @param string $filter
+     * @param int    $perPage
+     * @param bool   $isCritical
+     *
+     * @return array
+     */
+    protected function runPaginate($filter, $perPage, $isCritical)
+    {
         $pages = [];
 
         $cookie = '';
@@ -375,17 +487,16 @@ class Builder
             $this->connection->controlPagedResult($perPage, $isCritical, $cookie);
 
             // Run the search.
-            $resource = @$this->connection->search($this->getDn(), $this->getQuery(), $this->getSelects());
+            $resource = $this->run($filter);
 
             if ($resource) {
+                // If we have been given a valid resource, we will retrieve the next
+                // pagination cookie to send for our next pagination request.
                 $this->connection->controlPagedResultResponse($resource, $cookie);
 
-                // We'll collect each resource result into the pages array.
-                $pages[] = $resource;
+                $pages[] = $this->parse($resource);
             }
         } while (!empty($cookie));
-
-        $paginator = $this->newProcessor()->processPaginated($pages, $perPage, $currentPage);
 
         // Reset paged result on the current connection. We won't pass in the current $perPage
         // parameter since we want to reset the page size to the default '1000'. Sending '0'
@@ -393,7 +504,41 @@ class Builder
         // even though that is supposed to be the correct usage.
         $this->connection->controlPagedResult();
 
-        return $paginator;
+        return $pages;
+    }
+
+    /**
+     * Parses the given LDAP resource by retrieving its entries.
+     *
+     * @param resource $resource
+     *
+     * @return array
+     */
+    protected function parse($resource)
+    {
+        // Normalize entries. Get entries returns false on failure.
+        // We'll always want an array in this situation.
+        return $this->connection->getEntries($resource) ?: [];
+    }
+
+    /**
+     * Returns the cache key.
+     *
+     * @param string $query
+     *
+     * @return string
+     */
+    protected function getCacheKey($query)
+    {
+        $key = $this->connection->getHost()
+            .$this->type
+            .$this->getDn()
+            .$query
+            .implode('', $this->getSelects())
+            .$this->limit
+            .$this->paginated;
+
+        return md5($key);
     }
 
     /**
@@ -1419,8 +1564,7 @@ class Builder
     }
 
     /**
-     * Sets the recursive property to tell the search whether or
-     * not to return the LDAP results in their raw format.
+     * Whether to return the LDAP results in their raw format.
      *
      * @param bool $raw
      *
@@ -1434,8 +1578,7 @@ class Builder
     }
 
     /**
-     * Sets the nested property to tell the Grammar instance whether
-     * or not the current query is already nested.
+     * Whether the current query is nested.
      *
      * @param bool $nested
      *
@@ -1444,6 +1587,25 @@ class Builder
     public function nested($nested = true)
     {
         $this->nested = (bool) $nested;
+
+        return $this;
+    }
+
+    /**
+     * Enables caching on the current query until the given date.
+     *
+     * If flushing is enabled, the query cache will be flushed and then re-cached.
+     *
+     * @param \DateTimeInterface $until When to expire the query cache.
+     * @param bool               $flush Whether to force-flush the query cache.
+     *
+     * @return $this
+     */
+    public function cache(\DateTimeInterface $until = null, $flush = false)
+    {
+        $this->caching = true;
+        $this->cacheUntil = $until;
+        $this->flushCache = $flush;
 
         return $this;
     }
@@ -1664,6 +1826,9 @@ class Builder
                 break;
             case 'read':
                 $event = new Events\Read(...$args);
+                break;
+            case 'paginate':
+                $event = new Events\Paginate(...$args);
                 break;
             default:
                 $event = new Events\Search(...$args);

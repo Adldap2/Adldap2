@@ -57,11 +57,18 @@ class Factory
     protected $base;
 
     /**
+     * The query cache.
+     *
+     * @var Cache
+     */
+    protected $cache;
+
+    /**
      * Constructor.
      *
-     * @param ConnectionInterface  $connection The connection to use when constructing a new query.
-     * @param SchemaInterface|null $schema     The schema to use for the query and models located.
-     * @param string               $baseDn     The base DN to use for all searches.
+     * @param ConnectionInterface       $connection The connection to use when constructing a new query.
+     * @param SchemaInterface|null      $schema     The schema to use for the query and models located.
+     * @param string                    $baseDn     The base DN to use for all searches.
      */
     public function __construct(ConnectionInterface $connection, SchemaInterface $schema = null, $baseDn = '')
     {
@@ -108,6 +115,20 @@ class Factory
     public function setBaseDn($base = '')
     {
         $this->base = $base;
+
+        return $this;
+    }
+
+    /**
+     * Sets the cache for storing query results.
+     *
+     * @param Cache $cache
+     *
+     * @return $this
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
 
         return $this;
     }
@@ -275,6 +296,10 @@ class Factory
      */
     protected function newBuilder()
     {
-        return new Builder($this->connection, $this->newGrammar(), $this->schema);
+        $builder = new Builder($this->connection, $this->newGrammar(), $this->schema);
+
+        $builder->setCache($this->cache);
+
+        return $builder;
     }
 }

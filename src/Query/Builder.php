@@ -436,7 +436,7 @@ class Builder
     /**
      * Returns the cached response or caches and executes the callback.
      *
-     * @param string $key
+     * @param string  $key
      * @param Closure $callback
      *
      * @return mixed

@@ -9,10 +9,10 @@ use InvalidArgumentException;
 use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
+use Psr\SimpleCache\CacheInterface;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Query\Factory as SearchFactory;
 use Adldap\Configuration\DomainConfiguration;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class Provider.

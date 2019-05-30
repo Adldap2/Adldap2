@@ -12,11 +12,11 @@ use Illuminate\Support\Arr;
 use Adldap\Query\Collection;
 use InvalidArgumentException;
 use UnexpectedValueException;
+use Adldap\Connections\Container;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Models\Attributes\MbString;
-use Adldap\Connections\Container;
 use Adldap\Connections\ConnectionException;
 use Adldap\Models\Attributes\DistinguishedName;
 
@@ -86,7 +86,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
      */
     public static function __callStatic($method, $arguments)
     {
-        return static::query()->{$method}(... $arguments);
+        return static::query()->{$method}(...$arguments);
     }
 
     /**

@@ -470,8 +470,6 @@ interface ConnectionInterface
     /**
      * Frees up the memory allocated internally to store the result.
      *
-     * All result memory will be automatically freed when the script terminates.
-     *
      * @link https://www.php.net/manual/en/function.ldap-free-result.php
      *
      * @param resource $result

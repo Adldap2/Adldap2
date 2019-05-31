@@ -468,6 +468,19 @@ interface ConnectionInterface
     public function controlPagedResultResponse($result, &$cookie);
 
     /**
+     * Frees up the memory allocated internally to store the result.
+     *
+     * All result memory will be automatically freed when the script terminates.
+     *
+     * @link https://www.php.net/manual/en/function.ldap-free-result.php
+     *
+     * @param resource $result
+     *
+     * @return bool
+     */
+    public function freeResult($result);
+
+    /**
      * Returns the error number of the last command
      * executed on the current connection.
      *

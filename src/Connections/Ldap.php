@@ -401,6 +401,14 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
+    public function freeResult($result)
+    {
+        return ldap_free_result($result);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function errNo()
     {
         return ldap_errno($this->getConnection());

@@ -518,7 +518,14 @@ class Builder
     {
         // Normalize entries. Get entries returns false on failure.
         // We'll always want an array in this situation.
-        return $this->connection->getEntries($resource) ?: [];
+        $entries = $this->connection->getEntries($resource) ?: [];
+
+        // Free up memory.
+        if (is_resource($resource)) {
+            $this->connection->freeResult($resource);
+        }
+
+        return $entries;
     }
 
     /**

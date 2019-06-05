@@ -19,7 +19,7 @@ class Adldap implements AdldapInterface
     use DispatchesEvents, LogsInformation;
 
     /**
-     * The ProviderContainer instance.
+     * The Provider Container instance.
      *
      * @var Container
      */

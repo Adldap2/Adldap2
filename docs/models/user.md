@@ -37,7 +37,7 @@ $ac = $user->getUserAccountControlObject();
 $ac->accountIsNormal();
 
 // Set the account control on the user and save it.
-$user->setUserAccountControl($ac)
+$user->setUserAccountControl($ac);
 
 // Save the user.
 $user->save();

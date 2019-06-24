@@ -1109,7 +1109,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
         if ($recursive) {
             // If recursive is requested, we'll retrieve all direct leaf nodes
             // by executing a 'listing' and delete each resulting model.
-            $this->newQuery()->listing()->in($this->getDn())->get()->each(function (Model $model) use ($recursive) {
+            $this->newQuery()->listing()->in($this->getDn())->get()->each(function (self $model) use ($recursive) {
                 $model->delete($recursive);
             });
         }

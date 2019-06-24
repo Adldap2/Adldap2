@@ -687,7 +687,7 @@ class Builder
      */
     protected function prepareAnrEquivalentQuery($value)
     {
-        return $this->orFilter(function (Builder $query) use ($value) {
+        return $this->orFilter(function (self $query) use ($value) {
             $locateBy = [
                 $this->schema->name(),
                 $this->schema->email(),
@@ -1143,7 +1143,7 @@ class Builder
      */
     public function whereIn($field, array $values)
     {
-        return $this->orFilter(function (Builder $query) use ($field, $values) {
+        return $this->orFilter(function (self $query) use ($field, $values) {
             foreach ($values as $value) {
                 $query->whereEquals($field, $value);
             }

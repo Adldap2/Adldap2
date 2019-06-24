@@ -378,16 +378,20 @@ class Builder
     {
         $start = microtime(true);
 
+        // Here we will create the execution callback. This allows us
+        // to only execute an LDAP request if caching is disabled
+        // or if no cache of the given query exists yet.
+        $callback = function () use ($query) {
+            return $this->parse($this->run($query));
+        };
+
         // If caching is enabled and we have a cache instance available,
         // we will try to retrieve the cached results instead.
+        // Otherwise, we will simply execute the callback.
         if ($this->caching && $this->cache) {
-            $key = $this->getCacheKey($query);
-
-            $results = $this->getCachedResponse($key, function () use ($query) {
-                return $this->parse($this->run($query));
-            });
+            $results = $this->getCachedResponse($this->getCacheKey($query), $callback);
         } else {
-            $results = $this->parse($this->run($query));
+            $results = $callback();
         }
 
         // Log the query.
@@ -414,16 +418,19 @@ class Builder
 
         $query = $this->getQuery();
 
+        // Here we will create the pagination callback. This allows us
+        // to only execute an LDAP request if caching is disabled
+        // or if no cache of the given query exists yet.
+        $callback = function () use ($query, $perPage, $isCritical) {
+            return $this->runPaginate($query, $perPage, $isCritical);
+        };
+
         // If caching is enabled and we have a cache instance available,
         // we will try to retrieve the cached results instead.
         if ($this->caching && $this->cache) {
-            $key = $this->getCacheKey($query);
-
-            $pages = $this->getCachedResponse($key, function () use ($query, $perPage, $isCritical) {
-                return $this->runPaginate($query, $perPage, $isCritical);
-            });
+            $pages = $this->getCachedResponse($this->getCacheKey($query), $callback);
         } else {
-            $pages = $this->runPaginate($query, $perPage, $isCritical);
+            $pages = $callback();
         }
 
         // Log the query.
@@ -434,7 +441,7 @@ class Builder
     }
 
     /**
-     * Returns the cached response or caches and executes the callback.
+     * Get the cached response or execute and cache the callback value.
      *
      * @param string  $key
      * @param Closure $callback

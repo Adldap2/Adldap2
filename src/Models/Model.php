@@ -90,16 +90,17 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Returns a scoped instance of builder with the given provider. If no provider name
-     * is given then it will attempt to get the default provider.
+     * Returns a scoped instance of builder with the given provider.
      *
-     * @param null $providerName
+     * If no provider name is given then the default provider will be used.
+     *
+     * @param string|null $provider The connection provider to use.
      *
      * @return Builder
      */
-    public static function query($providerName = null)
+    public static function query($provider = null)
     {
-        return call_user_func_array([static::factory($providerName), static::mapToScope()], []);
+        return call_user_func_array([static::factory($provider), static::mapToScope()], []);
     }
 
     /**
@@ -119,13 +120,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Returns a Factory with the given Provider or the default Provider if none specified.
      *
-     * @param string|null $providerName
+     * @param string|null $provider The connection provider to use.
      *
      * @return Factory
      */
-    protected static function factory($providerName = null)
+    protected static function factory($provider = null)
     {
-        return Container::getInstance()->get($providerName)->search();
+        return Container::getInstance()->get($provider)->search();
     }
 
     /**

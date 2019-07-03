@@ -254,7 +254,7 @@ class Ldap implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function connect($hosts = [], $port = '389')
+    public function connect($hosts = [], $port = 389)
     {
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
@@ -489,6 +489,12 @@ class Ldap implements ConnectionInterface
      */
     protected function getConnectionString($hosts, $protocol, $port)
     {
+        // If we are using SSL and using the default port, we
+        // will override it to use the default SSL port.
+        if ($this->isUsingSSL() && $port == 389) {
+            $port = self::PORT_SSL;
+        }
+
         // Normalize hosts into an array.
         $hosts = is_array($hosts) ? $hosts : [$hosts];
 

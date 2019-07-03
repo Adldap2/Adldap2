@@ -7,7 +7,7 @@ use Adldap\Connections\Ldap;
 
 class LdapTest extends TestCase
 {
-    public function test_construct_defaults()
+    public function test_ldap_connection_defaults()
     {
         $ldap = new Ldap();
 
@@ -17,7 +17,18 @@ class LdapTest extends TestCase
         $this->assertNull($ldap->getConnection());
     }
 
-    public function test_connections_string_with_array()
+    public function test_connections_string_with_one_server()
+    {
+        $ldap = $this->mock(Ldap::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
+
+        $connection = $ldap->getConnectionString('dc01', 'ldap://', '389');
+
+        $this->assertEquals('ldap://dc01:389', $connection);
+    }
+
+    public function test_connection_string_with_multiple_servers()
     {
         $ldap = $this->mock(Ldap::class)
             ->shouldAllowMockingProtectedMethods()
@@ -31,15 +42,17 @@ class LdapTest extends TestCase
         $this->assertEquals('ldap://dc01:389 ldap://dc02:389', $connections);
     }
 
-    public function test_connections_string_with_string()
+    public function test_connection_string_uses_ssl_port_when_default_port_is_set()
     {
         $ldap = $this->mock(Ldap::class)
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
+        $ldap->ssl();
+
         $connection = $ldap->getConnectionString('dc01', 'ldap://', '389');
 
-        $this->assertEquals('ldap://dc01:389', $connection);
+        $this->assertEquals('ldap://dc01:636', $connection);
     }
 
     public function test_get_default_protocol()
@@ -49,7 +62,7 @@ class LdapTest extends TestCase
         $this->assertEquals('ldap://', $ldap->getProtocol());
     }
 
-    public function test_get_protocol_ssl()
+    public function test_ldap_ssl_protocol_is_used_when_ssl_is_enabled()
     {
         $ldap = new Ldap();
 
@@ -58,7 +71,7 @@ class LdapTest extends TestCase
         $this->assertEquals('ldaps://', $ldap->getProtocol());
     }
 
-    public function test_get_host()
+    public function test_get_host_returns_full_connection_string()
     {
         $ldap = new Ldap();
 

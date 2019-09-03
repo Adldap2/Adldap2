@@ -7,12 +7,10 @@ use ArrayAccess;
 use Adldap\Utilities;
 use JsonSerializable;
 use Adldap\Query\Builder;
-use Adldap\Query\Factory;
 use Illuminate\Support\Arr;
 use Adldap\Query\Collection;
 use InvalidArgumentException;
 use UnexpectedValueException;
-use Adldap\Connections\Container;
 use Adldap\Models\Attributes\Sid;
 use Adldap\Models\Attributes\Guid;
 use Adldap\Schemas\SchemaInterface;
@@ -25,8 +23,6 @@ use Adldap\Models\Attributes\DistinguishedName;
  *
  * Represents an LDAP record and provides the ability
  * to modify / retrieve data from the record.
- *
- * @mixin Builder
  */
 abstract class Model implements ArrayAccess, JsonSerializable
 {
@@ -67,66 +63,11 @@ abstract class Model implements ArrayAccess, JsonSerializable
      * @param array   $attributes
      * @param Builder $builder
      */
-    public function __construct(array $attributes = [], Builder $builder = null)
+    public function __construct(array $attributes = [], Builder $builder)
     {
-        $builder = $builder ?? static::factory()->newQuery();
-
         $this->setQuery($builder)
             ->setSchema($builder->getSchema())
             ->fill($attributes);
-    }
-
-    /**
-     * Returns a scoped Builder instance based on the current model.
-     *
-     * @param $method
-     * @param $arguments
-     *
-     * @return Builder
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        return static::query()->{$method}(...$arguments);
-    }
-
-    /**
-     * Returns a scoped instance of builder with the given provider.
-     *
-     * If no provider name is given then the default provider will be used.
-     *
-     * @param string|null $provider The connection provider to use.
-     *
-     * @return Builder
-     */
-    public static function query($provider = null)
-    {
-        return call_user_func_array([static::factory($provider), static::mapToScope()], []);
-    }
-
-    /**
-     * Returns method name on Factory related to the current model's scope.
-     *
-     * @return string
-     */
-    protected static function mapToScope()
-    {
-        if (!array_key_exists(get_called_class(), Factory::MODEL_SCOPES)) {
-            throw new InvalidArgumentException(get_called_class().' is not a scopeable model.');
-        }
-
-        return Factory::MODEL_SCOPES[get_called_class()];
-    }
-
-    /**
-     * Returns a Factory with the given Provider or the default Provider if none specified.
-     *
-     * @param string|null $provider The connection provider to use.
-     *
-     * @return Factory
-     */
-    protected static function factory($provider = null)
-    {
-        return Container::getInstance()->get($provider)->search();
     }
 
     /**
@@ -152,7 +93,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
         return $this;
     }
-
     /**
      * Returns the current query builder.
      *

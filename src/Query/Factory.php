@@ -2,16 +2,9 @@
 
 namespace Adldap\Query;
 
-use Adldap\Models\User;
-use Adldap\Models\Group;
-use Adldap\Models\Contact;
-use Adldap\Models\Printer;
 use Adldap\Models\RootDse;
-use Adldap\Models\Computer;
-use Adldap\Models\Container;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
-use Adldap\Models\OrganizationalUnit;
 use Adldap\Connections\ConnectionInterface;
 
 /**
@@ -24,19 +17,6 @@ use Adldap\Connections\ConnectionInterface;
  */
 class Factory
 {
-    /**
-     * The model scope map.
-     */
-    const MODEL_SCOPES = [
-        User::class               => 'users',
-        Group::class              => 'groups',
-        Printer::class            => 'printers',
-        Contact::class            => 'contacts',
-        Computer::class           => 'computers',
-        Container::class          => 'containers',
-        OrganizationalUnit::class => 'ous',
-    ];
-
     /**
      * @var ConnectionInterface
      */

@@ -9,7 +9,6 @@ use Adldap\Models\User;
 use Adldap\Models\Entry;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
-use Adldap\Connections\Provider;
 use Adldap\Models\Attributes\TSProperty;
 use Adldap\Models\Attributes\AccountControl;
 use Adldap\Models\Attributes\TSPropertyArray;

@@ -151,6 +151,23 @@ class Utilities
     {
         return iconv('UTF-8', 'UTF-16LE', '"'.$password.'"');
     }
+    
+    /**
+     * Salt and hash a password to make its SSHA OpenLDAP version
+     *
+     * @param string $password The password to create
+     *
+     * @return string
+     */
+    public static function makeSSHAPassword($password)
+    {
+        // Generate SSHA hash
+        mt_srand((double)microtime()*1000000);
+        $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+        $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
+        return $hash;
+    }
+
 
     /**
      * Round a Windows timestamp down to seconds and remove

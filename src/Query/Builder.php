@@ -410,7 +410,7 @@ class Builder
      *
      * @return Paginator
      */
-    public function paginate($perPage = 50, $currentPage = 0, $isCritical = true)
+    public function paginate($perPage = 1000, $currentPage = 0, $isCritical = true)
     {
         $this->paginated = true;
 

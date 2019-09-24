@@ -84,6 +84,9 @@ class ModelTest extends TestCase
 
         $this->assertEquals('New Common Name', $entry->getCommonName());
         $this->assertEquals(['New Account Name'], $entry->samaccountname);
+        $this->assertFalse(empty($entry->cn));
+        $this->assertTrue(empty($entry->other));
+        $this->assertFalse(isset($entry->invalid));
     }
 
     public function test_set_attribute_forces_lowercase_keys()

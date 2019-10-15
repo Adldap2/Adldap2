@@ -609,7 +609,7 @@ class Builder
         try {
             return $this->findByOrFail($attribute, $value, $columns);
         } catch (ModelNotFoundException $e) {
-            return null;
+            return;
         }
     }
 
@@ -763,7 +763,7 @@ class Builder
         try {
             return $this->findByDnOrFail($dn, $columns);
         } catch (ModelNotFoundException $e) {
-            return null;
+            return;
         }
     }
 
@@ -813,7 +813,7 @@ class Builder
         try {
             return $this->findByGuidOrFail($guid, $columns);
         } catch (ModelNotFoundException $e) {
-            return null;
+            return;
         }
     }
 
@@ -853,7 +853,7 @@ class Builder
         try {
             return $this->findBySidOrFail($sid, $columns);
         } catch (ModelNotFoundException $e) {
-            return null;
+            return;
         }
     }
 

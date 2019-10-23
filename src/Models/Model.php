@@ -597,8 +597,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         return $this->setFirstAttribute($this->schema->accountName(), $accountName);
     }
-    
-    
+
     /**
      * Returns the model's userPrincipalName.
      *
@@ -622,7 +621,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
     {
         return $this->setFirstAttribute($this->schema->userPrincipalName(), $upn);
     }
-
 
     /**
      * Returns the model's samaccounttype.

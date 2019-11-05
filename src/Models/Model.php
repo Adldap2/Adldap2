@@ -1150,7 +1150,12 @@ abstract class Model implements ArrayAccess, JsonSerializable
         if ($moved) {
             // If the model was successfully moved, we'll set its
             // new DN so we can sync it's attributes properly.
-            $this->setDn("{$rdn},{$newParentDn}");
+            if (! empty($newParentDn)) {
+                $this->setDn("{$rdn},{$newParentDn}");
+            }
+            else {
+                $this->setDn($rdn.substr($this->getDn(), strpos($this->getDn(), ',')));
+            }
 
             $this->syncRaw();
 

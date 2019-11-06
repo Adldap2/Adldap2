@@ -76,8 +76,7 @@ class AccountControl
     }
 
     /**
-     * Returns the account control integer as a string
-     * when the object is casted as a string.
+     * Get the value when casted to string.
      *
      * @return string
      */
@@ -87,8 +86,7 @@ class AccountControl
     }
 
     /**
-     * Returns the account control integer when
-     * the object is casted as an integer.
+     * Get the value when casted to int.
      *
      * @return int
      */
@@ -98,7 +96,37 @@ class AccountControl
     }
 
     /**
-     * Applies the specified flag.
+     * Add the value to the account control values.
+     *
+     * @param int $value
+     *
+     * @return AccountControl
+     */
+    public function add($value)
+    {
+        // Use the value as a key so if the same value
+        // is used, it will always be overwritten
+        $this->values[$value] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Remove the value from the account control.
+     *
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function remove($value)
+    {
+        unset($this->values[$value]);
+
+        return $this;
+    }
+
+    /**
+     * Extract and apply the flag.
      *
      * @param int $flag
      */
@@ -369,7 +397,7 @@ class AccountControl
     }
 
     /**
-     * Returns the complete account control value.
+     * Get the account control value.
      *
      * @return int
      */
@@ -379,7 +407,7 @@ class AccountControl
     }
 
     /**
-     * Returns the account control's values.
+     * Get the account control flag values.
      *
      * @return array
      */
@@ -389,7 +417,7 @@ class AccountControl
     }
 
     /**
-     * Sets the account control values.
+     * Set the account control values.
      *
      * @param array $flags
      */
@@ -399,7 +427,7 @@ class AccountControl
     }
 
     /**
-     * Returns an array containing all of the allowed user account control flags.
+     * Get all possible account control flags.
      *
      * @return array
      */
@@ -426,21 +454,5 @@ class AccountControl
         }
 
         return $flags;
-    }
-
-    /**
-     * Applies the inserted value to the values property array.
-     *
-     * @param int $value
-     *
-     * @return AccountControl
-     */
-    protected function add($value)
-    {
-        // Use the value as a key so if the same value
-        // is used, it will always be overwritten
-        $this->values[$value] = $value;
-
-        return $this;
     }
 }

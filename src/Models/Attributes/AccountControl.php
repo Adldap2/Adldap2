@@ -375,13 +375,7 @@ class AccountControl
      */
     public function getValue()
     {
-        $total = 0;
-
-        foreach ($this->values as $value) {
-            $total = $total + $value;
-        }
-
-        return $total;
+        return array_sum($this->values);
     }
 
     /**

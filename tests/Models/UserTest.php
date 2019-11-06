@@ -3,7 +3,6 @@
 namespace Adldap\Tests\Models;
 
 use DateTime;
-use Adldap\Adldap;
 use Adldap\Utilities;
 use Adldap\Models\User;
 use Adldap\Models\Entry;

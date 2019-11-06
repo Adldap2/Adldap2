@@ -93,4 +93,30 @@ class AccountControlTest extends TestCase
         $this->assertFalse($ac->has(AccountControl::NORMAL_ACCOUNT));
         $this->assertFalse($ac->has(AccountControl::PASSWD_NOTREQD));
     }
+
+    public function test_values_are_overwritten()
+    {
+        $ac = new AccountControl();
+
+        $ac->accountIsNormal()
+            ->accountIsNormal()
+            ->accountIsNormal();
+
+        $this->assertEquals(AccountControl::NORMAL_ACCOUNT, $ac->getValue());
+    }
+
+    public function test_values_can_be_removed()
+    {
+        $ac = new AccountControl();
+
+        $ac->accountIsNormal()->accountIsDisabled();
+
+        $values = $ac->getValues();
+
+        unset($values[AccountControl::ACCOUNTDISABLE]);
+
+        $ac->setValues($values);
+
+        $this->assertEquals(AccountControl::NORMAL_ACCOUNT, $ac->getValue());
+    }
 }

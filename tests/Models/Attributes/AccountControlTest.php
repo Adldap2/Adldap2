@@ -154,7 +154,7 @@ class AccountControlTest extends TestCase
         $ac->accountIsNormal();
 
         $this->assertEquals([
-            AccountControl::ACCOUNTDISABLE => AccountControl::ACCOUNTDISABLE,
+            AccountControl::ACCOUNTDISABLE  => AccountControl::ACCOUNTDISABLE,
             AccountControl::NORMAL_ACCOUNT  => AccountControl::NORMAL_ACCOUNT,
         ], $ac->getValues());
     }

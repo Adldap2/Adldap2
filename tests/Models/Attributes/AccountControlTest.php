@@ -147,4 +147,15 @@ class AccountControlTest extends TestCase
         $ac->remove(AccountControl::NORMAL_ACCOUNT);
         $this->assertEquals(0, $ac->getValue());
     }
+
+    public function test_extracted_flags_are_properly_set()
+    {
+        $ac = new AccountControl(AccountControl::ACCOUNTDISABLE + AccountControl::NORMAL_ACCOUNT);
+        $ac->accountIsNormal();
+
+        $this->assertEquals([
+            AccountControl::ACCOUNTDISABLE => AccountControl::ACCOUNTDISABLE,
+            AccountControl::NORMAL_ACCOUNT  => AccountControl::NORMAL_ACCOUNT,
+        ], $ac->getValues());
+    }
 }

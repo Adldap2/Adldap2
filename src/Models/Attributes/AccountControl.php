@@ -449,7 +449,7 @@ class AccountControl
 
         for ($i = 0; $i <= 26; $i++) {
             if ((int) $flag & (1 << $i)) {
-                array_push($flags, 1 << $i);
+                $flags[1 << $i] = 1 << $i;
             }
         }
 

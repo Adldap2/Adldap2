@@ -599,6 +599,30 @@ abstract class Model implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Returns the model's userPrincipalName.
+     *
+     * @link https://docs.microsoft.com/en-us/windows/win32/adschema/a-userprincipalname
+     *
+     * @return string
+     */
+    public function getUserPrincipalName()
+    {
+        return $this->getFirstAttribute($this->schema->userPrincipalName());
+    }
+
+    /**
+     * Sets the model's userPrincipalName.
+     *
+     * @param string $upn
+     *
+     * @return Model
+     */
+    public function setUserPrincipalName($upn)
+    {
+        return $this->setFirstAttribute($this->schema->userPrincipalName(), $upn);
+    }
+
+    /**
      * Returns the model's samaccounttype.
      *
      * @link https://msdn.microsoft.com/en-us/library/ms679637(v=vs.85).aspx

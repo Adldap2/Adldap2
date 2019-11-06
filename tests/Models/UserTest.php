@@ -299,7 +299,10 @@ class UserTest extends TestCase
         $model->pwdlastset = 0;
 
         $this->assertTrue($model->passwordExpired());
-        $this->assertEquals([AccountControl::PASSWD_NOTREQD, AccountControl::NORMAL_ACCOUNT], $model->getUserAccountControlObject()->getValues());
+        $this->assertEquals([
+            AccountControl::PASSWD_NOTREQD => AccountControl::PASSWD_NOTREQD,
+            AccountControl::NORMAL_ACCOUNT => AccountControl::NORMAL_ACCOUNT
+        ], $model->getUserAccountControlObject()->getValues());
     }
 
     public function test_get_userparameters()

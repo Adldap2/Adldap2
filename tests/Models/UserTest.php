@@ -301,7 +301,7 @@ class UserTest extends TestCase
         $this->assertTrue($model->passwordExpired());
         $this->assertEquals([
             AccountControl::PASSWD_NOTREQD => AccountControl::PASSWD_NOTREQD,
-            AccountControl::NORMAL_ACCOUNT => AccountControl::NORMAL_ACCOUNT
+            AccountControl::NORMAL_ACCOUNT => AccountControl::NORMAL_ACCOUNT,
         ], $model->getUserAccountControlObject()->getValues());
     }
 

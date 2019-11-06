@@ -73,8 +73,8 @@ class AccountControlTest extends TestCase
         $ac = new AccountControl($flag);
 
         $this->assertEquals([
-            2 => 2,
-            8 => 8,
+            2   => 2,
+            8   => 8,
             512 => 512,
         ], $ac->getValues());
         $this->assertEquals($flag, $ac->getValue());

@@ -23,6 +23,31 @@ class User extends Entry implements Authenticatable
         Concerns\HasLastLogonAndLogOff,
         Concerns\HasUserAccountControl;
 
+    /** @var callable|null */
+    private static $passwordStrategy;
+
+    /**
+     * Password will be processed using given callback before saving.
+     *
+     * @param callable $strategy
+     */
+    public static function usePasswordStrategy(callable $strategy)
+    {
+        self::$passwordStrategy = $strategy;
+    }
+
+    /**
+     * Will return user set password strategy or default one.
+     *
+     * @return callable
+     */
+    public static function getPasswordStrategy(): callable
+    {
+        return self::$passwordStrategy ?? function ($password) {
+            return Utilities::encodePassword($password);
+        };
+    }
+
     /**
      * Get the name of the unique identifier for the user.
      *
@@ -788,7 +813,7 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $encodedPassword = Utilities::encodePassword($password);
+        $encodedPassword = call_user_func(self::getPasswordStrategy(), $password);
 
         if ($this->exists) {
             // If the record exists, we need to add a batch replace
@@ -861,21 +886,21 @@ class User extends Entry implements Authenticatable
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REPLACE,
-                [Utilities::encodePassword($newPassword)]
+                [call_user_func(self::getPasswordStrategy(), $newPassword)]
             );
         } else {
             // Create batch modification for removing the old password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REMOVE,
-                [Utilities::encodePassword($oldPassword)]
+                [call_user_func(self::getPasswordStrategy(), $oldPassword)]
             );
 
             // Create batch modification for adding the new password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_ADD,
-                [Utilities::encodePassword($newPassword)]
+                [call_user_func(self::getPasswordStrategy(), $newPassword)]
             );
         }
 

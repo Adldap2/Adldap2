@@ -44,6 +44,33 @@ class UserTest extends TestCase
         $this->assertEquals($expected, $user->getModifications());
     }
 
+    public function test_set_password_on_new_user_with_different_password_strategy()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->shouldReceive('canChangePasswords')->once()->andReturn(true);
+
+        $user = new User([], $this->newBuilder($connection));
+        $rand = mt_rand();
+        User::usePasswordStrategy(function ($password) use ($rand) {
+            return $rand.$password;
+        });
+
+        $password = 'password';
+
+        $user->setPassword($password);
+
+        $expected = [
+            [
+                'attrib'  => 'unicodepwd',
+                'modtype' => 1,
+                'values'  => [$rand.$password],
+            ],
+        ];
+
+        $this->assertEquals($expected, $user->getModifications());
+    }
+
     public function test_set_password_on_existing_user()
     {
         $connection = $this->newConnectionMock();

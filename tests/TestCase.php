@@ -3,6 +3,8 @@
 namespace Adldap\Tests;
 
 use Mockery;
+use Adldap\Utilities;
+use Adldap\Models\User;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Connections\ConnectionInterface;
@@ -31,6 +33,13 @@ class TestCase extends BaseTestCase
         if (!array_key_exists('KRB5CCNAME', $_SERVER)) {
             $_SERVER['KRB5CCNAME'] = 'true';
         }
+    }
+
+    protected function tearDown()
+    {
+        User::usePasswordStrategy(function ($password) {
+            return Utilities::encodePassword($password);
+        });
     }
 
     /**

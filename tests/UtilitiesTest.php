@@ -43,6 +43,16 @@ class UtilitiesTest extends TestCase
         $this->assertEquals($expected, bin2hex($encoded));
     }
 
+    public function test_make_ssha_password()
+    {
+        $password = 'password';
+
+        $encoded = Utilities::makeSSHAPassword($password);
+
+        $this->assertStringStartsWith('{SSHA}', $encoded);
+        $this->assertGreaterThan(6, strlen($encoded));
+    }
+
     public function test_is_valid_sid()
     {
         $this->assertTrue(Utilities::isValidSid('S-1-5-21-3623811015-3361044348-30300820-1013'));

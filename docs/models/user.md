@@ -166,6 +166,9 @@ $user->getEmployeeId();
 // Get the users employee number.
 $user->getEmployeeNumber();
 
+// Get the users employee type
+$user->getEmployeeType();
+
 // Get the users room number.
 $user->getRoomNumber();
 

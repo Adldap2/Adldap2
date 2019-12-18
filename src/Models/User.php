@@ -33,7 +33,7 @@ class User extends Entry implements Authenticatable
      */
     public static function usePasswordStrategy(callable $strategy)
     {
-        self::$passwordStrategy = $strategy;
+        static::$passwordStrategy = $strategy;
     }
 
     /**
@@ -43,7 +43,7 @@ class User extends Entry implements Authenticatable
      */
     public static function getPasswordStrategy(): callable
     {
-        return self::$passwordStrategy ?? function ($password) {
+        return static::$passwordStrategy ?? function ($password) {
             return Utilities::encodePassword($password);
         };
     }
@@ -813,7 +813,7 @@ class User extends Entry implements Authenticatable
     {
         $this->validateSecureConnection();
 
-        $encodedPassword = call_user_func(self::getPasswordStrategy(), $password);
+        $encodedPassword = call_user_func(static::getPasswordStrategy(), $password);
 
         if ($this->exists) {
             // If the record exists, we need to add a batch replace
@@ -886,21 +886,21 @@ class User extends Entry implements Authenticatable
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REPLACE,
-                [call_user_func(self::getPasswordStrategy(), $newPassword)]
+                [call_user_func(static::getPasswordStrategy(), $newPassword)]
             );
         } else {
             // Create batch modification for removing the old password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_REMOVE,
-                [call_user_func(self::getPasswordStrategy(), $oldPassword)]
+                [call_user_func(static::getPasswordStrategy(), $oldPassword)]
             );
 
             // Create batch modification for adding the new password.
             $modifications[] = $this->newBatchModification(
                 $attribute,
                 LDAP_MODIFY_BATCH_ADD,
-                [call_user_func(self::getPasswordStrategy(), $newPassword)]
+                [call_user_func(static::getPasswordStrategy(), $newPassword)]
             );
         }
 

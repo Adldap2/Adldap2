@@ -258,6 +258,9 @@ class Ldap implements ConnectionInterface
     {
         $this->host = $this->getConnectionString($hosts, $this->getProtocol(), $port);
 
+        // Reset the bound status if reinitializing the connection.
+        $this->bound = false;
+
         return $this->connection = ldap_connect($this->host);
     }
 

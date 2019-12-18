@@ -128,4 +128,19 @@ class LdapTest extends TestCase
 
         $this->assertNull($ldap->getDetailedError());
     }
+
+    public function test_closing_connection_sets_bound_to_false()
+    {
+        $ldap = new ConnectedLdapStub();
+        $this->assertTrue($ldap->isBound());
+
+        $ldap->close();
+
+        $this->assertFalse($ldap->isBound());
+    }
+}
+
+class ConnectedLdapStub extends Ldap
+{
+    protected $bound = true;
 }

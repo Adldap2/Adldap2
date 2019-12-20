@@ -3,11 +3,11 @@
 namespace Adldap\Models;
 
 /**
- * Class Organization.
+ * Class OrganizationalUnit.
  *
  * Represents an LDAP organizational unit.
  */
-class Organization extends Entry
+class OrganizationalUnit extends Entry
 {
     use Concerns\HasDescription;
 

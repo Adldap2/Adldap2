@@ -1,12 +1,12 @@
-# The Organizational Model
+# The Organization Model
 
-The Organizational model extends from the base `Adldap\Models\Model` class and contains
+The Organization model extends from the base `Adldap\Models\Model` class and contains
 no specific methods / attributes that are limited to it.
 
 ## Creation
 
 ```php
-// Adldap\Models\Organizational
+// Adldap\Models\Organization
 $org = $provider->make()->organization([
     'o' => 'Some Company',
 ]);

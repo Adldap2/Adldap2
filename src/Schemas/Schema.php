@@ -1194,7 +1194,7 @@ abstract class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function userObjectClasses() : array
+    public function userObjectClasses(): array
     {
         return [
             $this->top(),

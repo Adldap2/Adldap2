@@ -11,8 +11,14 @@
 </p>
 
 <p align="center">
-    Working with LDAP doesn't need to be hard.
+<strong>Looking for something even easier to use for LDAP integration in your PHP applications? Check out <a href="https://github.com/DirectoryTree/LdapRecord">LdapRecord</a></strong>!
 </p>
+
+<p align="center">
+From the developer of Adldap2 - LdapRecord is a rebuild of Adldap2 with an easier API and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
+</p>
+
+<hr/>
 
 <p align="center">
     Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the <a href="https://en.wikipedia.org/wiki/Active_record_pattern">Active Record pattern</a>.

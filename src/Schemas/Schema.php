@@ -785,7 +785,6 @@ abstract class Schema implements SchemaInterface
         return OrganizationalUnit::class;
     }
 
-
     /**
      * {@inheritdoc}
      */

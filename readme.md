@@ -18,6 +18,10 @@
 From the developer of Adldap2 - LdapRecord is a rebuild of Adldap2 with an easier API and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
 </p>
 
+<p align="center">
+    Adldap2 will continue to be supported with bug & security fixes - but will not receive feature updates.
+</p>
+
 <hr/>
 
 <p align="center">

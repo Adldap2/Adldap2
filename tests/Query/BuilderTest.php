@@ -874,9 +874,9 @@ class BuilderTest extends TestCase
 
         $query = $b->notFilter(function ($query) {
             $query->where([
-                 'one' => 'one',
-                 'two' => 'two',
-             ]);
+                'one' => 'one',
+                'two' => 'two',
+            ]);
         })->getUnescapedQuery();
 
         $this->assertEquals('(!(one=one)(two=two))', $query);

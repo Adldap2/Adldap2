@@ -14,7 +14,7 @@
 <strong>Looking for something even easier to use for LDAP integration in your PHP applications?
 </br>
 <h3 align="center">
-Check out <a href="https://ldaprecord.com">LdapRecord</a></strong>!
+Check out <a href="https://ldaprecord.com" target="_blank" title="LdapRecord Documentation Website">LdapRecord</a></strong>!
 </h3>
 </p>
 

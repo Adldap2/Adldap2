@@ -11,11 +11,15 @@
 </p>
 
 <p align="center">
-<strong>Looking for something even easier to use for LDAP integration in your PHP applications? Check out <a href="https://github.com/DirectoryTree/LdapRecord">LdapRecord</a></strong>!
+<strong>Looking for something even easier to use for LDAP integration in your PHP applications?
+</br>
+<h3 align="center">
+Check out <a href="https://ldaprecord.com">LdapRecord</a></strong>!
+</h3>
 </p>
 
 <p align="center">
-From the developer of Adldap2 - LdapRecord is a rebuild of Adldap2 with an easier API and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
+From the developer of Adldap2 - LdapRecord is a rebuild of Adldap2 with an easier API, better documenation, and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
 </p>
 
 <p align="center">

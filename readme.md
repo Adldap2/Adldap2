@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-<strong>Looking for something even easier to use for LDAP integration in your PHP applications?
+<strong>:wave: Hey there! Looking for something even easier to use for LDAP integration in your PHP applications?
 </br>
 <h3 align="center">
 Check out <a href="https://ldaprecord.com" target="_blank" title="LdapRecord Documentation Website">LdapRecord</a></strong>!
@@ -19,7 +19,7 @@ Check out <a href="https://ldaprecord.com" target="_blank" title="LdapRecord Doc
 </p>
 
 <p align="center">
-From the developer of Adldap2 - LdapRecord is a rebuild of Adldap2 with an easier API, better documentation, and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
+LdapRecord is a rebuild of Adldap2 with an easier API, better documentation, and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
 </p>
 
 <p align="center">

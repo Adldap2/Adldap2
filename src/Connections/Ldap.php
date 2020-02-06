@@ -286,7 +286,7 @@ class Ldap implements ConnectionInterface
 
         $result = ldap_search($this->connection, $dn, $filter, $fields, $onlyAttributes, $size, $time);
 
-        if($result === false) {
+        if ($result === false) {
             throw new SearchException(ldap_error($this->connection), ldap_errno($this->connection));
         }
 
@@ -310,9 +310,9 @@ class Ldap implements ConnectionInterface
     }
 
     /**
-     * Only used with G-Suite LDAP provider as they only use certificates
+     * Only used with G-Suite LDAP provider as they only use certificates.
      */
-    public function fakeBind() 
+    public function fakeBind()
     {
 
         // Prior to binding, we will upgrade our connectivity to TLS on our current
@@ -324,7 +324,7 @@ class Ldap implements ConnectionInterface
 
         $this->bound = true;
     }
-    
+
     /**
      * {@inheritdoc}
      */

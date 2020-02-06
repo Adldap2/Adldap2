@@ -283,7 +283,6 @@ class Ldap implements ConnectionInterface
      */
     public function search($dn, $filter, array $fields, $onlyAttributes = false, $size = 0, $time = 0)
     {
-
         $result = ldap_search($this->connection, $dn, $filter, $fields, $onlyAttributes, $size, $time);
 
         if ($result === false) {

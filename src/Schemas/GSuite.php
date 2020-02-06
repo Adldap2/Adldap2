@@ -131,7 +131,7 @@ class GSuite extends Schema
     {
         return 'uidnumber';
     }
-    
+
     /**
      * {@inheritdoc}
      */

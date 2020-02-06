@@ -5,10 +5,10 @@ namespace Adldap\Connections;
 use Adldap\Adldap;
 use Adldap\Auth\Guard;
 use Adldap\Query\Cache;
+use Adldap\Schemas\GSuite;
 use InvalidArgumentException;
 use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
-use Adldap\Schemas\GSuite;
 use Adldap\Schemas\SchemaInterface;
 use Psr\SimpleCache\CacheInterface;
 use Adldap\Models\Factory as ModelFactory;
@@ -255,7 +255,7 @@ class Provider implements ProviderInterface
     {
 
         // G-Suite only uses certificate authentication
-        if(is_a($this->schema, GSuite::class)) {
+        if (is_a($this->schema, GSuite::class)) {
             $this->connection->fakeBind();
 
             return $this;

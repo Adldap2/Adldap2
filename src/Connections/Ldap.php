@@ -283,7 +283,14 @@ class Ldap implements ConnectionInterface
      */
     public function search($dn, $filter, array $fields, $onlyAttributes = false, $size = 0, $time = 0)
     {
-        return ldap_search($this->connection, $dn, $filter, $fields, $onlyAttributes, $size, $time);
+
+        $result = ldap_search($this->connection, $dn, $filter, $fields, $onlyAttributes, $size, $time);
+
+        if($result === false) {
+            throw new SearchException(ldap_error($this->connection), ldap_errno($this->connection));
+        }
+
+        return $result;
     }
 
     /**
@@ -302,6 +309,22 @@ class Ldap implements ConnectionInterface
         return ldap_read($this->connection, $dn, $filter, $fields, $onlyAttributes, $size, $time);
     }
 
+    /**
+     * Only used with G-Suite LDAP provider as they only use certificates
+     */
+    public function fakeBind() 
+    {
+
+        // Prior to binding, we will upgrade our connectivity to TLS on our current
+        // connection and ensure we are not already bound before upgrading.
+        // This is to prevent subsequent upgrading on several binds.
+        if ($this->isUsingTLS() && !$this->isBound()) {
+            $this->startTLS();
+        }
+
+        $this->bound = true;
+    }
+    
     /**
      * {@inheritdoc}
      */

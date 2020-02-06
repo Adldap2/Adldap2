@@ -441,6 +441,66 @@ Once you've set the schema of your connection provider, you can use the same API
 
 Continue onto the [searching](searching.md) documentation to learn how to begin querying your LDAP server(s).
 
+## Using G-Suite Secure LDAP Service
+
+G-Suite LDAP service only uses client certificates and no username + password, make sure yo match base_dn with your domian.
+
+```php
+$ad = new \Adldap\Adldap();
+
+// Create a configuration array.
+$config = [  
+    'hosts'    => ['ldap.google.com'],
+    'base_dn'  => 'dc=your-domain,dc=com',
+    'use_tls' => true,
+    'version' => 3,
+    'schema' => Adldap\Schemas\GSuite::class,
+    'custom_options' => [
+        LDAP_OPT_X_TLS_CERTFILE => 'Google_2023_02_05_35779.crt',
+        LDAP_OPT_X_TLS_KEYFILE => 'Google_2023_02_05_35779.key', 
+    ]
+];
+
+$ad->addProvider($config);
+
+try {
+    $provider = $ad->connect();
+    
+    $results = $provider->search()->ous()->get();
+    
+    echo 'OUs:'."\r\n";
+    echo '==============='."\r\n";
+    foreach($results as $ou) {
+        echo $ou->getDn()."\r\n";
+    }
+    
+    echo "\r\n";
+    
+    $results = $provider->search()->users()->get();
+    
+    echo 'Users:'."\r\n";
+    echo '==============='."\r\n";
+    foreach($results as $user) {
+        
+        echo $user->getAccountName()."\r\n";
+    }
+    
+    echo "\r\n";
+    
+    $results = $provider->search()->groups()->get();
+    
+    echo 'Groups:'."\r\n";
+    echo '==============='."\r\n";
+    foreach($results as $group) {
+        echo $group->getCommonName().' | '.$group->getDisplayName()."\r\n";
+    }
+
+} catch (\Adldap\Auth\BindException $e) {
+
+    echo 'Error: '.$e->getMessage()."\r\n";
+}
+```
+
 ## Raw Operations
 
 ### Introduction

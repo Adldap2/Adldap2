@@ -3,6 +3,7 @@
 namespace Adldap\Query;
 
 use Adldap\Models\RootDse;
+use Adldap\Schemas\GSuite;
 use Adldap\Schemas\ActiveDirectory;
 use Adldap\Schemas\SchemaInterface;
 use Adldap\Connections\ConnectionInterface;
@@ -144,8 +145,12 @@ class Factory
     {
         $wheres = [
             [$this->schema->objectClass(), Operator::$equals, $this->schema->objectClassUser()],
-            [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()],
         ];
+
+        // G-Suite does not have the objectCategory property
+        if (!is_a($this->schema, GSuite::class)) {
+            $wheres[] = [$this->schema->objectCategory(), Operator::$equals, $this->schema->objectCategoryPerson()];
+        }
 
         // OpenLDAP doesn't like specifying the omission of user objectclasses
         // equal to `contact`. We'll make sure we're working with

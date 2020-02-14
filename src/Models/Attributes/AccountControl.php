@@ -180,6 +180,16 @@ class AccountControl
     {
         return $this->add(static::ACCOUNTDISABLE);
     }
+    
+    /**
+     * The user account is enabled.
+     *
+     * @return AccountControl
+     */
+    public function accountIsNotDisabled()
+    {
+        return $this->remove(static::ACCOUNTDISABLE);
+    }
 
     /**
      * This is an account for users whose primary account is in another domain.

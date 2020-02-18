@@ -1,4 +1,18 @@
-<!-- readme.md -->
+<p align="center">
+<strong>:wave: Hey there! Looking for something even easier to use for LDAP integration in your PHP applications?</strong>
+</br>
+<h3 align="center">
+ 🎉 Introducing <a href="https://github.com/DirectoryTree/LdapRecord" target="_blank" title="LdapRecord GitHub Repository">LdapRecord</a> 🎉
+</h3>
+</p>
+
+<p align="center">
+    <strong>
+        <a href="https://ldaprecord.com">LdapRecord</a> is the successor to Adldap2 - and comes with a ton of new features.
+    </strong> </br> Adldap2 will continue to be supported with bug fixes, but will not receive new features.
+</p>
+
+<hr/>
 
 <h1 align="center">Adldap2</h1>
 
@@ -9,24 +23,6 @@
     <a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/v/adldap2/adldap2.svg?style=flat-square"/></a>
     <a href="https://packagist.org/packages/adldap2/adldap2"><img src="https://img.shields.io/packagist/l/adldap2/adldap2.svg?style=flat-square"/></a>
 </p>
-
-<p align="center">
-<strong>:wave: Hey there! Looking for something even easier to use for LDAP integration in your PHP applications?
-</br>
-<h3 align="center">
-Check out <a href="https://ldaprecord.com" target="_blank" title="LdapRecord Documentation Website">LdapRecord</a></strong>!
-</h3>
-</p>
-
-<p align="center">
-LdapRecord is a rebuild of Adldap2 with an easier API, better documentation, and more features to help you integrate LDAP into your awesome PHP applications with no hair-pulling necessary.
-</p>
-
-<p align="center">
-    Adldap2 will continue to be supported with bug & security fixes - but will not receive feature updates.
-</p>
-
-<hr/>
 
 <p align="center">
     Adldap2 is a PHP package that provides LDAP authentication and directory management tools using the <a href="https://en.wikipedia.org/wiki/Active_record_pattern">Active Record pattern</a>.

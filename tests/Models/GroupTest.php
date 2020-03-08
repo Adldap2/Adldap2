@@ -264,7 +264,8 @@ class GroupTest extends TestCase
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
                     'values'  => $members,
                 ],
-            ])->andReturn(true);
+            ]
+        )->andReturn(true);
 
         $connection
             ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
@@ -299,7 +300,8 @@ class GroupTest extends TestCase
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
                     'values'  => $dns,
                 ],
-            ])->andReturn(true);
+            ]
+        )->andReturn(true);
 
         $connection
             ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
@@ -330,7 +332,8 @@ class GroupTest extends TestCase
                     'modtype' => LDAP_MODIFY_BATCH_ADD,
                     'values'  => ['cn=Accounting,dc=acme,dc=org'],
                 ],
-            ])->andReturn(true);
+            ]
+        )->andReturn(true);
 
         $connection
             ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
@@ -361,7 +364,8 @@ class GroupTest extends TestCase
                     'modtype' => LDAP_MODIFY_BATCH_REMOVE,
                     'values'  => ['cn=Accounting,dc=acme,dc=org'],
                 ],
-            ])->andReturn(true);
+            ]
+        )->andReturn(true);
 
         $connection
             ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])

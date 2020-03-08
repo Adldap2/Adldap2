@@ -5,7 +5,6 @@ namespace Adldap\Connections;
 use Adldap\Adldap;
 use Adldap\Auth\Guard;
 use Adldap\Query\Cache;
-use Adldap\Schemas\GSuite;
 use InvalidArgumentException;
 use Adldap\Auth\GuardInterface;
 use Adldap\Schemas\ActiveDirectory;
@@ -18,7 +17,7 @@ use Adldap\Configuration\DomainConfiguration;
 /**
  * Class Provider.
  *
- * Contains the LPAP connection and domain configuration to
+ * Contains the LDAP connection and domain configuration to
  * instantiate factories for retrieving and creating
  * LDAP records as well as authentication (binding).
  */
@@ -253,14 +252,6 @@ class Provider implements ProviderInterface
      */
     public function connect($username = null, $password = null)
     {
-
-        // G-Suite only uses certificate authentication
-        if (is_a($this->schema, GSuite::class)) {
-            $this->connection->fakeBind();
-
-            return $this;
-        }
-
         // Get the default guard instance.
         $guard = $this->getGuard();
 

@@ -117,14 +117,14 @@ class Provider implements ProviderInterface
         // We will create a standard connection if one isn't given.
         $this->connection = $connection ?: new Ldap();
 
-        // Prepare the connection.
-        $this->prepareConnection();
-
         // Instantiate the LDAP connection.
         $this->connection->connect(
             $this->configuration->get('hosts'),
             $this->configuration->get('port')
         );
+
+        // Prepare the connection.
+        $this->prepareConnection();
 
         return $this;
     }

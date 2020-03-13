@@ -24,7 +24,7 @@ $config = [
 
 ```php
 // Setting options via first argument:
-$config = new Aldldap\Configuration\DomainConfiguration([
+$config = new Adldap\Configuration\DomainConfiguration([
     'hosts' => [
         'DC-01.corp.acme.org',
     ],

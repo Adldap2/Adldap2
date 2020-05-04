@@ -685,9 +685,11 @@ class BuilderTest extends TestCase
         $this->assertEquals('(UserAccountControl:1.2.840.113556.1.4.803:=2)', $b->getQuery());
     }
 
-    public function test_paginate_with_no_results()
+    public function test_deprecated_paginate_with_no_results()
     {
         $connection = $this->newConnectionMock();
+
+        $connection->allows()->supportsServerControlsInMethods()->andReturns(false);
 
         $connection->shouldReceive('controlPagedResult')->once()->withArgs([50, true, ''])
             ->shouldReceive('search')->once()->withArgs([null, '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn(null)
@@ -698,9 +700,11 @@ class BuilderTest extends TestCase
         $this->assertInstanceOf(Paginator::class, $b->where('field', '=', 'value')->paginate(50));
     }
 
-    public function test_paginate_with_results()
+    public function test_deprecated_paginate_with_results()
     {
         $connection = $this->newConnectionMock();
+
+        $connection->allows()->supportsServerControlsInMethods()->andReturns(false);
 
         $rawEntries = [
             'count' => 1,
@@ -714,6 +718,67 @@ class BuilderTest extends TestCase
             ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn('resource')
             ->shouldReceive('controlPagedResultResponse')->withArgs(['resource', ''])
             ->shouldReceive('getEntries')->andReturn($rawEntries);
+
+        $b = $this->newBuilder($connection);
+
+        $paginator = $b->where('field', '=', 'value')->paginate(50);
+
+        $this->assertInstanceOf(Paginator::class, $paginator);
+        $this->assertEquals(1, $paginator->getPages());
+        $this->assertEquals(1, $paginator->count());
+
+        foreach ($paginator as $model) {
+            $this->assertInstanceOf(Model::class, $model);
+            $this->assertEquals($rawEntries[0]['dn'], $model->getDn());
+            $this->assertEquals($rawEntries[0]['cn'][0], $model->getCommonName());
+        }
+    }
+
+    public function test_compatible_paginate_with_no_results()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->allows()->supportsServerControlsInMethods()->andReturns(true);
+        $connection->shouldReceive('controlPagedResult')->never();
+        $connection->shouldReceive('controlPagedResultResponse')->never();
+
+        $controls = ['1.2.840.113556.1.4.319' => ['oid' => '1.2.840.113556.1.4.319', 'isCritical' => true, 'value' => ['size' => 50, 'cookie' => '']]];
+        $connection->shouldReceive('setOption')->once()->withArgs([18, $controls]);
+
+        $connection->shouldReceive('search')->once()->withArgs([null, '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn(null);
+        $connection->shouldReceive('parseResult')->never();
+
+        $connection->shouldReceive('setOption')->once()->withArgs([18, []]);
+
+        $b = $this->newBuilder($connection);
+
+        $this->assertInstanceOf(Paginator::class, $b->where('field', '=', 'value')->paginate(50));
+    }
+
+    public function test_compatible_paginate_with_results()
+    {
+        $connection = $this->newConnectionMock();
+
+        $connection->allows()->supportsServerControlsInMethods()->andReturns(true);
+        $connection->shouldReceive('controlPagedResult')->never();
+        $connection->shouldReceive('controlPagedResultResponse')->never();
+
+        $rawEntries = [
+            'count' => 1,
+            [
+                'dn' => 'cn=Test,dc=corp,dc=acme,dc=org',
+                'cn' => ['Test'],
+            ],
+        ];
+
+        $controls = ['1.2.840.113556.1.4.319' => ['oid' => '1.2.840.113556.1.4.319', 'isCritical' => true, 'value' => ['size' => 50, 'cookie' => '']]];
+        $connection->shouldReceive('setOption')->once()->withArgs([18, $controls]);
+
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn('resource');
+        $connection->shouldReceive('parseResult')->once()->withArgs(['resource', null, null, null, null, $controls]);
+        $connection->shouldReceive('getEntries')->andReturn($rawEntries);
+
+        $connection->shouldReceive('setOption')->once()->withArgs([18, []]);
 
         $b = $this->newBuilder($connection);
 

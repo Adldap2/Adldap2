@@ -12,8 +12,8 @@ use Adldap\Auth\Events\Passed;
 use Adldap\Auth\Events\Binding;
 use Adldap\Auth\Events\Attempting;
 use Adldap\Connections\DetailedError;
-use Adldap\Auth\UsernameRequiredException;
 use Adldap\Auth\PasswordRequiredException;
+use Adldap\Auth\UsernameRequiredException;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase

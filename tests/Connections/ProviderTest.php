@@ -38,9 +38,7 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('connect')->once()
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('close')->once()->andReturn(true);
+            ->shouldReceive('connect')->once();
 
         $m = $this->newProvider($connection);
 
@@ -55,9 +53,7 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('connect')->once()
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('close')->once()->andReturn(true);
+            ->shouldReceive('connect')->once();
 
         $m = $this->newProvider($connection);
 
@@ -79,14 +75,10 @@ class ProviderTest extends TestCase
         // Binding fails, retrieves last error.
         $connection->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('getDetailedError')->once()->andReturn($error)
-            ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('errNo')->once()->andReturn(1);
 
         // Rebinds as the administrator.
         $connection->shouldReceive('bind')->once()->withArgs([null, null])->andReturn(true);
-
-        // Closes the connection.
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $m = $this->newProvider($connection);
 
@@ -108,10 +100,7 @@ class ProviderTest extends TestCase
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
 
         // Re-binds as the administrator
-        $connection
-            ->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(true)
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 
@@ -137,12 +126,11 @@ class ProviderTest extends TestCase
         $connection->shouldReceive('bind')->withArgs(['username', 'password']);
 
         // Re-binds as the administrator (fails)
-        $connection->shouldReceive('bind')->withArgs(['test', 'test'])->andReturn(false)
+        $connection
+            ->shouldReceive('bind')->withArgs(['test', 'test'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('')
             ->shouldReceive('getDetailedError')->once()->andReturn(new DetailedError(null, null, null))
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('errNo')->once()->andReturn(1)
-            ->shouldReceive('close')->once()->andReturn(true);
+            ->shouldReceive('errNo')->once()->andReturn(1);
 
         $m = $this->newProvider($connection, $config);
 
@@ -160,11 +148,10 @@ class ProviderTest extends TestCase
 
         $connection = $this->newConnectionMock();
 
-        $connection->shouldReceive('connect')->once()->andReturn(true)
+        $connection
+            ->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true)
-            ->shouldReceive('isBound')->once()->andReturn(true)
-            ->shouldReceive('close')->once()->andReturn(true);
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
 
         $m = $this->newProvider($connection, $config);
 
@@ -196,8 +183,7 @@ class ProviderTest extends TestCase
                 LDAP_OPT_NETWORK_TIMEOUT  => 5,
                 LDAP_OPT_REFERRALS        => false,
             ]])
-            ->shouldReceive('connect')->once()
-            ->shouldReceive('isBound')->once()->andReturn(false);
+            ->shouldReceive('connect')->once();
 
         $provider = new Provider($config, $connection);
 

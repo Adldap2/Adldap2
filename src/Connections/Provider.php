@@ -68,15 +68,13 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * Close the LDAP connection (if bound) upon destruction.
+     * Does nothing. Implemented in order to remain backwards compatible.
      *
-     * @return void
+     * @deprecated since v10.3.0
      */
     public function __destruct()
     {
-        if ($this->connection && $this->connection->isBound()) {
-            $this->connection->close();
-        }
+        //
     }
 
     /**

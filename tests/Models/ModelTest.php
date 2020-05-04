@@ -261,10 +261,10 @@ class ModelTest extends TestCase
         $attributes = ['dn' => $dn];
 
         $modification = [
-            'attrib' => 'company',
+            'attrib'  => 'company',
             'modtype' => 1,
-            'values' => [
-                0 => 'foo'
+            'values'  => [
+                0 => 'foo',
             ],
         ];
 
@@ -364,10 +364,10 @@ class ModelTest extends TestCase
         $returnedRaw = [['dn' => $dn]];
 
         $modification = [
-            'attrib' => 'company',
+            'attrib'  => 'company',
             'modtype' => 1,
-            'values' => [
-                0 => 'foo'
+            'values'  => [
+                0 => 'foo',
             ],
         ];
 

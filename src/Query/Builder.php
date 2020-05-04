@@ -546,10 +546,10 @@ class Builder
         // Setup our paged results control.
         $controls = [
             LDAP_CONTROL_PAGEDRESULTS => [
-                'oid' => LDAP_CONTROL_PAGEDRESULTS,
+                'oid'        => LDAP_CONTROL_PAGEDRESULTS,
                 'isCritical' => $isCritical,
-                'value' => [
-                    'size' => $perPage,
+                'value'      => [
+                    'size'   => $perPage,
                     'cookie' => '',
                 ],
             ],

@@ -41,7 +41,6 @@ class TestCase extends MockeryTestCase
 
     protected function tearDown()
     {
-        Mockery::getConfiguration()->disableReflectionCache();
         User::usePasswordStrategy(function ($password) {
             return Utilities::encodePassword($password);
         });

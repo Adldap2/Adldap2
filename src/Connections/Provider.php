@@ -74,10 +74,7 @@ class Provider implements ProviderInterface
      */
     public function __destruct()
     {
-        if (
-            $this->connection instanceof ConnectionInterface &&
-            $this->connection->isBound()
-        ) {
+        if ($this->connection && $this->connection->isBound()) {
             $this->connection->close();
         }
     }

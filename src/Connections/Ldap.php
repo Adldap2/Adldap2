@@ -318,9 +318,9 @@ class Ldap implements ConnectionInterface
      */
     public function parseResult($result, &$errorCode, &$dn, &$errorMessage, &$referrals, &$serverControls = [])
     {
-		return $this->supportsServerControlsInMethods() && !empty($serverControls) ?
-			ldap_parse_result($this->connection, $result, $errorCode, $dn, $errorMessage, $referrals, $serverControls) :
-			ldap_parse_result($this->connection, $result, $errorCode, $dn, $errorMessage, $referrals);
+        return $this->supportsServerControlsInMethods() && !empty($serverControls) ?
+            ldap_parse_result($this->connection, $result, $errorCode, $dn, $errorMessage, $referrals, $serverControls) :
+            ldap_parse_result($this->connection, $result, $errorCode, $dn, $errorMessage, $referrals);
     }
 
     /**

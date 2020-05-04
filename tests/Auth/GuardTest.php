@@ -7,17 +7,20 @@ use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
 use Adldap\Auth\Events\Bound;
 use Adldap\Events\Dispatcher;
+use Adldap\Auth\BindException;
 use Adldap\Auth\Events\Passed;
 use Adldap\Auth\Events\Binding;
 use Adldap\Auth\Events\Attempting;
 use Adldap\Connections\DetailedError;
+use Adldap\Auth\UsernameRequiredException;
+use Adldap\Auth\PasswordRequiredException;
 use Adldap\Configuration\DomainConfiguration;
 
 class GuardTest extends TestCase
 {
     public function test_validate_username()
     {
-        $this->expectException(\Adldap\Auth\UsernameRequiredException::class);
+        $this->expectException(UsernameRequiredException::class);
 
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
@@ -26,7 +29,7 @@ class GuardTest extends TestCase
 
     public function test_validate_password()
     {
-        $this->expectException(\Adldap\Auth\PasswordRequiredException::class);
+        $this->expectException(PasswordRequiredException::class);
 
         $guard = new Guard(new Ldap(), new DomainConfiguration());
 
@@ -67,7 +70,7 @@ class GuardTest extends TestCase
 
     public function test_bind_always_throws_exception_on_invalid_credentials()
     {
-        $this->expectException(\Adldap\Auth\BindException::class);
+        $this->expectException(BindException::class);
 
         $config = $this->mock(DomainConfiguration::class);
 
@@ -77,8 +80,6 @@ class GuardTest extends TestCase
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('error')
             ->shouldReceive('getDetailedError')->once()->andReturn(new DetailedError(42, 'Invalid credentials', '80090308: LdapErr: DSID-0C09042A'))
-            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
-            ->shouldReceive('isUsingTLS')->once()->andReturn(false)
             ->shouldReceive('errNo')->once()->andReturn(1);
 
         $guard = new Guard($ldap, $config);
@@ -109,9 +110,7 @@ class GuardTest extends TestCase
 
         $config
             ->shouldReceive('get')->withArgs(['account_prefix'])->once()->andReturn('prefix.')
-            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('.suffix')
-            ->shouldReceive('get')->withArgs(['username'])->once()
-            ->shouldReceive('get')->withArgs(['password'])->once();
+            ->shouldReceive('get')->withArgs(['account_suffix'])->once()->andReturn('.suffix');
 
         $ldap = $this->mock(Ldap::class);
 

@@ -8,15 +8,19 @@ use Adldap\Models\User;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Connections\ConnectionInterface;
-use PHPUnit\Framework\TestCase as BaseTestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class TestCase extends BaseTestCase
+class TestCase extends MockeryTestCase
 {
     /*
      * Set up the test environment.
      */
-    public function setUp()
+    protected function setUp()
     {
+        if (!defined('LDAP_CONTROL_PAGEDRESULTS')) {
+            define('LDAP_CONTROL_PAGEDRESULTS', '1.2.840.113556.1.4.319');
+        }
+
         // Set constants for testing without LDAP support
         if (!defined('LDAP_OPT_PROTOCOL_VERSION')) {
             define('LDAP_OPT_PROTOCOL_VERSION', 3);
@@ -37,9 +41,12 @@ class TestCase extends BaseTestCase
 
     protected function tearDown()
     {
+        Mockery::getConfiguration()->disableReflectionCache();
         User::usePasswordStrategy(function ($password) {
             return Utilities::encodePassword($password);
         });
+
+        parent::tearDown();
     }
 
     /**

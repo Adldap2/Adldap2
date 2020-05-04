@@ -5,8 +5,11 @@ namespace Adldap\Tests\Connections;
 use Adldap\Query\Builder;
 use Adldap\Tests\TestCase;
 use Adldap\Connections\Ldap;
+use Adldap\Auth\BindException;
 use Adldap\Connections\Provider;
 use Adldap\Connections\DetailedError;
+use Adldap\Auth\UsernameRequiredException;
+use Adldap\Auth\PasswordRequiredException;
 use Adldap\Models\Factory as ModelFactory;
 use Adldap\Query\Factory as SearchFactory;
 use Adldap\Connections\ConnectionInterface;
@@ -29,7 +32,7 @@ class ProviderTest extends TestCase
 
     public function test_auth_username_failure()
     {
-        $this->expectException(\Adldap\Auth\UsernameRequiredException::class);
+        $this->expectException(UsernameRequiredException::class);
 
         $connection = $this->newConnectionMock();
 
@@ -46,7 +49,7 @@ class ProviderTest extends TestCase
 
     public function test_auth_password_failure()
     {
-        $this->expectException(\Adldap\Auth\PasswordRequiredException::class);
+        $this->expectException(PasswordRequiredException::class);
 
         $connection = $this->newConnectionMock();
 
@@ -102,11 +105,7 @@ class ProviderTest extends TestCase
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
-            ->shouldReceive('isBound')->once()->andReturn(true);
-
-        // Authenticates as the user
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
+            ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true);
 
         // Re-binds as the administrator
         $connection
@@ -121,7 +120,7 @@ class ProviderTest extends TestCase
 
     public function test_auth_rebind_failure()
     {
-        $this->expectException(\Adldap\Auth\BindException::class);
+        $this->expectException(BindException::class);
 
         $config = new DomainConfiguration([
             'username' => 'test',
@@ -132,15 +131,13 @@ class ProviderTest extends TestCase
 
         $connection
             ->shouldReceive('connect')->once()->andReturn(true)
-            ->shouldReceive('setOptions')->once()
-            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
-            ->shouldReceive('isBound')->once()->andReturn(true);
+            ->shouldReceive('setOptions')->once();
 
         // Authenticates as the user
-        $connection->shouldReceive('bind')->once()->withArgs(['username', 'password']);
+        $connection->shouldReceive('bind')->withArgs(['username', 'password']);
 
         // Re-binds as the administrator (fails)
-        $connection->shouldReceive('bind')->once()->withArgs(['test', 'test'])->andReturn(false)
+        $connection->shouldReceive('bind')->withArgs(['test', 'test'])->andReturn(false)
             ->shouldReceive('getLastError')->once()->andReturn('')
             ->shouldReceive('getDetailedError')->once()->andReturn(new DetailedError(null, null, null))
             ->shouldReceive('isBound')->once()->andReturn(true)
@@ -165,10 +162,7 @@ class ProviderTest extends TestCase
 
         $connection->shouldReceive('connect')->once()->andReturn(true)
             ->shouldReceive('setOptions')->once()
-            ->shouldReceive('isUsingSSL')->once()->andReturn(false)
-            ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('bind')->once()->withArgs(['username', 'password'])->andReturn(true)
-            ->shouldReceive('getLastError')->once()->andReturn('')
             ->shouldReceive('isBound')->once()->andReturn(true)
             ->shouldReceive('close')->once()->andReturn(true);
 

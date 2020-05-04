@@ -50,12 +50,7 @@ class ModelTest extends TestCase
             'samaccountname' => ['Account Name'],
         ];
 
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('read')->once()->andReturn($connection);
-        $connection->shouldReceive('getEntries')->once()->andReturn([$rawAttributes]);
-
-        $entry = $this->newModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder());
 
         $entry->setRawAttributes($rawAttributes);
 
@@ -70,12 +65,7 @@ class ModelTest extends TestCase
             'samaccountname' => ['Account Name'],
         ];
 
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('read')->once()->andReturn($connection);
-        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
-
-        $entry = $this->newModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder());
 
         $entry->setRawAttributes($attributes);
 
@@ -112,7 +102,6 @@ class ModelTest extends TestCase
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
 
         $connection->shouldReceive('modReplace')->once()->withArgs(['dc=corp,dc=org', ['cn' => 'John Doe']])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -129,12 +118,9 @@ class ModelTest extends TestCase
         ];
 
         $connection = $this->newConnectionMock();
-
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
-
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', ['cn' => []]])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -152,15 +138,11 @@ class ModelTest extends TestCase
         ];
 
         $connection = $this->newConnectionMock();
-
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
-
         $connection->shouldReceive('modDelete')->once()->withArgs(['dc=corp,dc=org', [
             'cn' => [], 'memberof' => [],
         ]])->andReturn(true);
-
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -184,9 +166,7 @@ class ModelTest extends TestCase
 
         $connection->shouldReceive('read')->once()->andReturn($connection);
         $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
-
         $connection->shouldReceive('modAdd')->once()->withArgs(['dc=corp,dc=org', ['givenName' => 'John Doe']])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -203,12 +183,7 @@ class ModelTest extends TestCase
             'name'           => ['Name'],
         ];
 
-        $connection = $this->newConnectionMock();
-
-        $connection->shouldReceive('read')->once()->andReturn($connection);
-        $connection->shouldReceive('getEntries')->once()->andReturn([$attributes]);
-
-        $entry = $this->newModel([], $this->newBuilder($connection));
+        $entry = $this->newModel([], $this->newBuilder());
 
         $entry->setRawAttributes($attributes);
 
@@ -285,17 +260,23 @@ class ModelTest extends TestCase
 
         $attributes = ['dn' => $dn];
 
+        $modification = [
+            'attrib' => 'company',
+            'modtype' => 1,
+            'values' => [
+                0 => 'foo'
+            ],
+        ];
+
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($attributes);
-
-        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, [$modification]])->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes($attributes);
 
-        $this->assertTrue($entry->update());
+        $this->assertTrue($entry->update(['company' => 'foo']));
     }
 
     public function test_save_for_create()
@@ -323,11 +304,8 @@ class ModelTest extends TestCase
         $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
         $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', [], false, 0])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel($attributes, $this->newBuilder($connection));
 
@@ -364,11 +342,8 @@ class ModelTest extends TestCase
         $connection->shouldReceive('add')->withArgs([$dn, $attributes])->andReturn(true);
         $connection->shouldReceive('read')->withArgs([$dn, '(objectclass=*)', [], false, 0])->andReturn('resource');
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -388,15 +363,23 @@ class ModelTest extends TestCase
 
         $returnedRaw = [['dn' => $dn]];
 
+        $modification = [
+            'attrib' => 'company',
+            'modtype' => 1,
+            'values' => [
+                0 => 'foo'
+            ],
+        ];
+
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
-        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, []])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, [$modification]])->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
         $entry->setRawAttributes(['dn' => $dn]);
+
+        $entry->company = 'foo';
 
         $this->assertTrue($entry->save());
     }
@@ -433,9 +416,7 @@ class ModelTest extends TestCase
 
         $connection->shouldReceive('read')->andReturn($connection);
         $connection->shouldReceive('getEntries')->andReturn($returnedRaw);
-
         $connection->shouldReceive('modifyBatch')->once()->withArgs([$dn, $modifications])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -473,7 +454,6 @@ class ModelTest extends TestCase
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
         $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
-        $connection->shouldReceive('close')->once()->andReturn(true);
 
         $entry = $this->newModel([], $this->newBuilder($connection));
 
@@ -488,24 +468,17 @@ class ModelTest extends TestCase
 
         $dn = 'cn=Testing,ou=Accounting,dc=corp,dc=org';
 
-        $connection
-            ->shouldReceive('listing')->once()
-            ->shouldReceive('getEntries')->once()
-            ->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true)
-            ->shouldReceive('close')->once()->andReturn(true);
+        $connection->shouldReceive('delete')->once()->withArgs([$dn])->andReturn(true);
 
         $builder = $this->mock(Builder::class);
-
         $builder->shouldReceive('getSchema')->once()->andReturn(new ActiveDirectory());
 
         $entry = $this->newModel([], $builder);
 
         $childEntry = $this->mock(Model::class);
-
         $childEntry->shouldReceive('delete')->once()->withArgs([true])->andReturn(true);
 
         $builder
-            ->shouldReceive('newQuery')->once()->andReturnSelf()
             ->shouldReceive('newInstance')->once()->andReturnSelf()
             ->shouldReceive('listing')->once()->andReturnSelf()
             ->shouldReceive('in')->once()->withArgs([$dn])->andReturnSelf()

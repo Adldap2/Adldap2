@@ -11,17 +11,13 @@ class ProcessorTest extends TestCase
 {
     public function test_default_schema_entry_model_is_used_when_default_models_are_created()
     {
-        $b = $this->newBuilder();
+        $query = $this->newBuilder();
 
-        $s = $this->mock(SchemaInterface::class);
+        $schema = $this->mock(SchemaInterface::class);
+        $schema->shouldReceive('entryModel')->once()->andReturn(Entry::class);
 
-        $s->shouldReceive('objectClass')->once()->andReturn('objectClass')
-            ->shouldReceive('entryModel')->once()->andReturn(Entry::class);
+        $query->setSchema($schema);
 
-        $b->setSchema($s);
-
-        $p = new Processor($b);
-
-        $this->assertInstanceOf(Entry::class, $p->newModel());
+        $this->assertInstanceOf(Entry::class, (new Processor($query))->newModel());
     }
 }

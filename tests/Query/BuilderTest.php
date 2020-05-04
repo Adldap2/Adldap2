@@ -1076,7 +1076,7 @@ class BuilderTest extends TestCase
         $s
             ->shouldReceive('name')->once()->andReturn('name')
             ->shouldReceive('email')->once()->andReturn('mail')
-            ->shouldReceive('userId')->times(3)->andReturn('uid')
+            ->shouldReceive('userId')->once()->andReturn('uid')
             ->shouldReceive('lastName')->once()->andReturn('sn')
             ->shouldReceive('firstName')->once()->andReturn('givenname')
             ->shouldReceive('commonName')->once()->andReturn('cn')

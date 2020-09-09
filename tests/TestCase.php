@@ -15,7 +15,7 @@ class TestCase extends MockeryTestCase
     /*
      * Set up the test environment.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (!defined('LDAP_CONTROL_PAGEDRESULTS')) {
             define('LDAP_CONTROL_PAGEDRESULTS', '1.2.840.113556.1.4.319');
@@ -39,7 +39,7 @@ class TestCase extends MockeryTestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         User::usePasswordStrategy(function ($password) {
             return Utilities::encodePassword($password);

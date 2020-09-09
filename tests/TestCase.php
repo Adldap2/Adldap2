@@ -15,7 +15,7 @@ class TestCase extends MockeryTestCase
     /*
      * Set up the test environment.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         if (!defined('LDAP_CONTROL_PAGEDRESULTS')) {
             define('LDAP_CONTROL_PAGEDRESULTS', '1.2.840.113556.1.4.319');

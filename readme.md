@@ -9,7 +9,7 @@
 <p align="center">
     <strong>
         <a href="https://ldaprecord.com">LdapRecord</a> is the successor to Adldap2 - and comes with a ton of new features.
-    </strong> </br> Adldap2 will continue to be supported with bug fixes, but will not receive new features.
+    </strong> </br> Adldap2 will continue to be supported with bug fixes, <i><u>but will not receive new features.</u></i>
 </p>
 
 <p align="center">

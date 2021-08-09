@@ -593,17 +593,13 @@ class Builder
      */
     protected function parse($resource)
     {
-        // Normalize entries. Get entries returns false on failure.
-        // We'll always want an array in this situation.
-        if ($resource === false) {
-             $entries = []; 
-        } else { 
-            $entries = $this->connection->getEntries($resource); 
-        }
-
-        // Free up memory.
         if (is_resource($resource)) {
+            $entries = $this->connection->getEntries($resource);
+            
+            // Free up memory.
             $this->connection->freeResult($resource);
+        } else {
+            $entries = [];
         }
 
         return $entries;

@@ -45,3 +45,12 @@
 - **Fluent query builder.** Building LDAP queries has never been so easy. Find the records you're looking for in a couple lines or less with a fluent interface.
 
 - **Supercharged Active Record.** Create and modify LDAP records with ease. All LDAP records are individual models. Simply modify the attributes on the model and save it to persist the changes to your LDAP server.
+
+
+--- 
+
+<h3 align="center">Security Vulnerabilities</h3>
+
+<p align="center">If you discover a security vulnerability within Adldap2, please send an e-mail to Steve Bauman via <a href="mailto:steven_bauman@outlook.com">steven_bauman@outlook.com</a>.</p>
+
+<p align="center">All security vulnerabilities will be promptly addressed.</p>

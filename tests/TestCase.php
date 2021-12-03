@@ -51,8 +51,24 @@ class TestCase extends \PHPUnit\Framework\TestCase
         });
 
         parent::tearDown();
+    }
 
+    /**
+     * @return void
+     */
+    protected function assertPostConditions()
+    {
         $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
+
+        if (method_exists($this, "markAsRisky")) {
+            foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
+                if (!$e->dismissed()) {
+                    $this->markAsRisky();
+                }
+            }
+        }
+
+        Mockery::close();
     }
 
     /**

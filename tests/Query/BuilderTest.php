@@ -714,10 +714,12 @@ class BuilderTest extends TestCase
             ],
         ];
 
+        $result = $this->newResult();
         $connection->shouldReceive('controlPagedResult')->twice()
-            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn('resource')
-            ->shouldReceive('controlPagedResultResponse')->withArgs(['resource', ''])
-            ->shouldReceive('getEntries')->andReturn($rawEntries);
+            ->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn($result)
+            ->shouldReceive('controlPagedResultResponse')->withArgs([$result, ''])
+            ->shouldReceive('getEntries')->with($result)->andReturn($rawEntries)
+            ->shouldReceive('freeResult')->with($result);
 
         $b = $this->newBuilder($connection);
 
@@ -774,9 +776,11 @@ class BuilderTest extends TestCase
         $controls = ['1.2.840.113556.1.4.319' => ['oid' => '1.2.840.113556.1.4.319', 'isCritical' => true, 'value' => ['size' => 50, 'cookie' => '']]];
         $connection->shouldReceive('setOption')->once()->withArgs([18, $controls]);
 
-        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn('resource');
-        $connection->shouldReceive('parseResult')->once()->withArgs(['resource', null, null, null, null, $controls]);
-        $connection->shouldReceive('getEntries')->andReturn($rawEntries);
+        $result = $this->newResult();
+        $connection->shouldReceive('search')->once()->withArgs(['', '(field=\76\61\6c\75\65)', ['*'], false, 0])->andReturn($result);
+        $connection->shouldReceive('parseResult')->once()->withArgs([$result, null, null, null, null, $controls]);
+        $connection->shouldReceive('getEntries')->with($result)->andReturn($rawEntries);
+        $connection->shouldReceive('freeResult')->with($result);
 
         $connection->shouldReceive('setOption')->once()->withArgs([18, []]);
 
@@ -1057,9 +1061,11 @@ class BuilderTest extends TestCase
 
         $s->shouldReceive('objectClass')->andReturn('objectclass');
 
+        $result = $this->newResult();
         $c
-            ->shouldReceive('read')->once()->with('cn=John Doe,dc=acme,dc=org', '(objectclass=*)', [0 => '*'], false, 1)
-            ->shouldReceive('getEntries')->once()->andReturn($rawEntries);
+            ->shouldReceive('read')->once()->with('cn=John Doe,dc=acme,dc=org', '(objectclass=*)', [0 => '*'], false, 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn($rawEntries)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertEquals($rawEntries[0], $b->raw()->findByDn($dn));
     }
@@ -1093,9 +1099,11 @@ class BuilderTest extends TestCase
             'objectclass',
         ]);
 
+        $result = $this->newResult();
         $c
-            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 1)->andReturnSelf()
-            ->shouldReceive('getEntries')->once()->andReturn(null);
+            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn(null)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertNull($b->find('jdoe', $select));
     }
@@ -1135,9 +1143,11 @@ class BuilderTest extends TestCase
             'objectclass',
         ]);
 
+        $result = $this->newResult();
         $c
-            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 0)->andReturnSelf()
-            ->shouldReceive('getEntries')->once()->andReturn(null);
+            ->shouldReceive('search')->once()->with(null, $expectedFilter, $expectedSelect, $attrsOnly = false, $total = 0)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn(null)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertInstanceOf(Collection::class, $b->findMany([
             'john',

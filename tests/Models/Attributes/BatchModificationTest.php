@@ -138,9 +138,9 @@ class BatchModificationTest extends TestCase
             (new DistinguishedName('test')),
         ]);
 
-        $this->assertInternalType('string', $modification->getValues()[0]);
-        $this->assertInternalType('string', $modification->getValues()[1]);
-        $this->assertInternalType('string', $modification->getValues()[2]);
+        $this->assertIsString($modification->getValues()[0]);
+        $this->assertIsString($modification->getValues()[1]);
+        $this->assertIsString($modification->getValues()[2]);
     }
 
     public function test_is_valid()

@@ -12,7 +12,7 @@ class AccountControlTest extends TestCase
         $ac = new AccountControl();
 
         $this->assertEquals(0, $ac->getValue());
-        $this->assertInternalType('int', $ac->getValue());
+        $this->assertIsInt($ac->getValue());
     }
 
     public function test_all_options_are_applied_correctly()
@@ -54,7 +54,7 @@ class AccountControlTest extends TestCase
 
         $this->assertEquals(0, $ac->__toInt());
         $this->assertEquals(0, (int) $ac->getValue());
-        $this->assertInternalType('int', $ac->__toInt());
+        $this->assertIsInt($ac->__toInt());
     }
 
     public function test_can_be_casted_to_string()
@@ -63,7 +63,7 @@ class AccountControlTest extends TestCase
 
         $this->assertEquals('0', (string) $ac);
         $this->assertEquals('0', $ac->__toString());
-        $this->assertInternalType('string', $ac->__toString());
+        $this->assertIsString($ac->__toString());
     }
 
     public function test_multiple_flags_can_be_applied()

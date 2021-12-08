@@ -267,9 +267,11 @@ class GroupTest extends TestCase
             ]
         )->andReturn(true);
 
+        $result = $this->newResult();
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
-            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn($group)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertTrue($group->addMembers($members));
     }
@@ -303,9 +305,11 @@ class GroupTest extends TestCase
             ]
         )->andReturn(true);
 
+        $result = $this->newResult();
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
-            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn($group)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertTrue($group->addMembers($members));
     }
@@ -335,9 +339,11 @@ class GroupTest extends TestCase
             ]
         )->andReturn(true);
 
+        $result = $this->newResult();
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
-            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn($group)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertTrue($group->addMember($member));
     }
@@ -367,9 +373,11 @@ class GroupTest extends TestCase
             ]
         )->andReturn(true);
 
+        $result = $this->newResult();
         $connection
-            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn(['count' => 1])
-            ->shouldReceive('getEntries')->once()->with(['count' => 1])->andReturn($group);
+            ->shouldReceive('read')->once()->with($group->getDn(), '(objectclass=*)', ['*'], false, 1)->andReturn($result)
+            ->shouldReceive('getEntries')->once()->with($result)->andReturn($group)
+            ->shouldReceive('freeResult')->once()->with($result);
 
         $this->assertTrue($group->removeMember($member));
     }

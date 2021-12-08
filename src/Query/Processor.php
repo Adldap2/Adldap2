@@ -54,7 +54,7 @@ class Processor
 
         $models = [];
 
-        if (array_key_exists('count', $entries)) {
+	if (is_array($entries) && array_key_exists('count', $entries)) {
             for ($i = 0; $i < $entries['count']; $i++) {
                 // We'll go through each entry and construct a new
                 // model instance with the raw LDAP attributes.

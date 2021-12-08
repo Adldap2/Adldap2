@@ -8,14 +8,16 @@ use Adldap\Models\User;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Connections\ConnectionInterface;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use LDAP\Result;
 
-class TestCase extends MockeryTestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /*
      * Set up the test environment.
+     *
+     * @return void
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         if (!defined('LDAP_CONTROL_PAGEDRESULTS')) {
             define('LDAP_CONTROL_PAGEDRESULTS', '1.2.840.113556.1.4.319');
@@ -39,13 +41,34 @@ class TestCase extends MockeryTestCase
         }
     }
 
-    protected function tearDown(): void
+    /**
+     * @return void
+     */
+    protected function tearDown()
     {
         User::usePasswordStrategy(function ($password) {
             return Utilities::encodePassword($password);
         });
 
         parent::tearDown();
+    }
+
+    /**
+     * @return void
+     */
+    protected function assertPostConditions()
+    {
+        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
+
+        if (method_exists($this, "markAsRisky")) {
+            foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
+                if (!$e->dismissed()) {
+                    $this->markAsRisky();
+                }
+            }
+        }
+
+        Mockery::close();
     }
 
     /**
@@ -96,5 +119,14 @@ class TestCase extends MockeryTestCase
     protected function newConnectionMock()
     {
         return $this->mock(ConnectionInterface::class);
+    }
+
+    /**
+     * Returns a mocked LDAP result.
+     * @return Result
+     */
+    protected function newResult()
+    {
+        return $this->mock(Result::class);
     }
 }

@@ -809,7 +809,7 @@ class BuilderTest extends TestCase
 
         $b->where($field, '=', $value);
 
-        $escapedField = ldap_escape($field, null, 3);
+        $escapedField = ldap_escape($field, '', 3);
 
         $escapedValue = ldap_escape($value);
 

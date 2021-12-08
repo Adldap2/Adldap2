@@ -8,7 +8,6 @@ use Adldap\Models\User;
 use Adldap\Query\Builder;
 use Adldap\Query\Grammar;
 use Adldap\Connections\ConnectionInterface;
-use LDAP\Result;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -122,11 +121,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Returns a mocked LDAP result.
-     * @return Result
+     * Returns a faked LDAP Result resource.
+     *
+     * @return resource
      */
     protected function newResult()
     {
-        return $this->mock(Result::class);
+        // cheap way of creating a PHP resource
+        return stream_context_create();
     }
 }

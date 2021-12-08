@@ -1092,7 +1092,7 @@ class Builder
         // We'll escape the value if raw isn't requested.
         $value = $raw ? $value : $this->escape($value);
 
-        $field = $this->escape($field, $ignore = null, 3);
+        $field = $this->escape($field, $ignore = '', 3);
 
         $this->addFilter($boolean, compact('field', 'operator', 'value'));
 
@@ -1706,7 +1706,7 @@ class Builder
      */
     public function escape($value, $ignore = '', $flags = 0)
     {
-        return ldap_escape($value, $ignore, $flags);
+        return ldap_escape((string) $value, $ignore, $flags);
     }
 
     /**

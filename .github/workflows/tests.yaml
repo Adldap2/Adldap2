@@ -21,7 +21,6 @@ on:
 jobs:
   test:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental == true }}
 
     strategy:
       matrix:
@@ -32,10 +31,7 @@ jobs:
           - "7.3"
           - "7.4"
           - "8.0"
-
-        include:
-          - php-version: "8.1"
-            experimental: true
+          - "8.1"
 
     name: PHP ${{ matrix.php-version }} tests
 

@@ -31,8 +31,8 @@
         "ext-json": "*",
         "psr/log": "~1.0",
         "psr/simple-cache": "~1.0",
-        "tightenco/collect": "~5.0|~6.0|~7.0|~8.0",
-        "illuminate/contracts": "~5.0|~6.0|~7.0|~8.0"
+        "tightenco/collect": "~5.0|~6.0|~7.0|~8.0|~9.0",
+        "illuminate/contracts": "~5.0|~6.0|~7.0|~8.0|~9.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "~5.2|~6.0",

@@ -57,7 +57,7 @@ class Utilities
      */
     public static function binarySidToString($value)
     {
-        if ($value === '') {
+        if (empty($value)) {
             return;
         }
 

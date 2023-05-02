@@ -13,6 +13,10 @@ trait HasUserAccountControl
      */
     public function getUserAccountControl()
     {
+        if ( is_a($this->getSchema(), "Adldap\Schemas\FreeIPA") ) {
+            return filter_var( $this->getFirstAttribute($this->schema->userAccountControl()), FILTER_VALIDATE_BOOLEAN ) ? AccountControl::ACCOUNTDISABLE : false;
+        }
+        
         return $this->getFirstAttribute($this->schema->userAccountControl());
     }
 

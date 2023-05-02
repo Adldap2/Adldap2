@@ -57,7 +57,7 @@ class FreeIPA extends Schema
      */
     public function filterEnabled()
     {
-        return '(!(UserAccountControl:1.2.840.113556.1.4.803:=2))';
+        return '(!(nsaccountlock=TRUE))';
     }
 
     /**
@@ -65,7 +65,7 @@ class FreeIPA extends Schema
      */
     public function filterDisabled()
     {
-        return '(UserAccountControl:1.2.840.113556.1.4.803:=2)';
+        return '(nsaccountlock=TRUE)';
     }
 
     /**

@@ -123,4 +123,12 @@ class FreeIPA extends Schema
     {
         return false;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function userAccountControl()
+    {
+        return 'nsaccountlock';
+    }
 }

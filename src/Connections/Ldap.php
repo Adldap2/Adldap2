@@ -26,7 +26,7 @@ class Ldap implements ConnectionInterface
     /**
      * The active LDAP connection.
      *
-     * @var resource
+     * @var resource|\LDAP\Connection
      */
     protected $connection;
 
@@ -271,7 +271,7 @@ class Ldap implements ConnectionInterface
     {
         $connection = $this->connection;
 
-        $result = is_resource($connection) ? ldap_close($connection) : false;
+        $result = (is_resource($connection) || $connection instanceof \LDAP\Connection) ? ldap_close($connection) : false;
 
         $this->bound = false;
 
